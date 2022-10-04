@@ -1,0 +1,901 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Count="7" Active="Win32">
+      <Item1 Name="Win64">
+        <MacroValues Count="1">
+          <Macro4 Name="LCLWidgetType" Value="win32"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="C:\Users\Administrator\golcl\liblcl"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\win32;3rd-party\ATFlatControls\atflatcontrols"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <RelocatableUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="win64"/>
+            <Optimizations>
+              <OptimizationLevel Value="4"/>
+            </Optimizations>
+            <SmallerCode Value="True"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dUSED_BY_LAZLOGGER_DUMMY"/>
+            <OtherDefines Count="1">
+              <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
+            </OtherDefines>
+          </Other>
+        </CompilerOptions>
+      </Item1>
+      <Item2 Name="Linux64">
+        <MacroValues Count="1">
+          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="\home\sxm\golcl\liblcl"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\gtk2;3rd-party\ATFlatControls\atflatcontrols"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <DebugInfoType Value="dsDwarf3"/>
+            </Debugging>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dRMLCLTRUNK"/>
+            <OtherDefines Count="1">
+              <Define0 Value="RMLCLTRUNK"/>
+            </OtherDefines>
+          </Other>
+        </CompilerOptions>
+      </Item2>
+      <Item3 Name="Linux32">
+        <MacroValues Count="1">
+          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="..\bin\liblcl"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\gtk2;3rd-party\ATFlatControls\atflatcontrols"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <RelocatableUnit Value="True"/>
+            <TargetCPU Value="i386"/>
+            <TargetOS Value="linux"/>
+            <Optimizations>
+              <OptimizationLevel Value="4"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dRMLCLTRUNK"/>
+            <OtherDefines Count="1">
+              <Define0 Value="RMLCLTRUNK"/>
+            </OtherDefines>
+          </Other>
+        </CompilerOptions>
+      </Item3>
+      <Item4 Name="LinuxARM">
+        <MacroValues Count="1">
+          <Macro8 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="..\bin\liblcl"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\gtk2;3rd-party\ATFlatControls\atflatcontrols"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <RelocatableUnit Value="True"/>
+            <TargetCPU Value="arm"/>
+            <TargetOS Value="linux"/>
+            <Optimizations>
+              <OptimizationLevel Value="4"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+        </CompilerOptions>
+      </Item4>
+      <Item5 Name="MacOS64(cocoa)">
+        <MacroValues Count="1">
+          <Macro2 Name="LCLWidgetType" Value="cocoa"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="\Users\zhangli\golcl\liblcl"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\cocoa;3rd-party\ATFlatControls\atflatcontrols"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <RelocatableUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="darwin"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <ExecuteAfter>
+              <Command Value="install_name_tool -id &quot;@loader_path\liblcl.dylib&quot; &quot;\Users\zhangli\golcl\liblcl.dylib&quot;"/>
+              <CompileReasons Compile="False" Run="False"/>
+            </ExecuteAfter>
+          </Other>
+        </CompilerOptions>
+      </Item5>
+      <Item6 Name="Debug">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="C:\Users\Administrator\golcl\liblcl"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\win32;3rd-party\ATFlatControls\atflatcontrols"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+              <IncludeAssertionCode Value="True"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <RelocatableUnit Value="True"/>
+            <Checks>
+              <IOChecks Value="True"/>
+              <RangeChecks Value="True"/>
+              <OverflowChecks Value="True"/>
+              <StackChecks Value="True"/>
+            </Checks>
+            <VerifyObjMethodCallValidity Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="win64"/>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <DebugInfoType Value="dsDwarf3"/>
+              <UseHeaptrc Value="True"/>
+              <TrashVariables Value="True"/>
+              <UseExternalDbgSyms Value="True"/>
+            </Debugging>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dUSED_BY_LAZLOGGER_DUMMY"/>
+            <OtherDefines Count="1">
+              <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
+            </OtherDefines>
+          </Other>
+        </CompilerOptions>
+      </Item6>
+      <Item7 Name="Release">
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="C:\Users\Administrator\golcl\liblcl"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\win32;3rd-party\ATFlatControls\atflatcontrols"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <Parsing>
+            <SyntaxOptions>
+              <SyntaxMode Value="Delphi"/>
+            </SyntaxOptions>
+          </Parsing>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <RelocatableUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="win64"/>
+            <Optimizations>
+              <OptimizationLevel Value="3"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dUSED_BY_LAZLOGGER_DUMMY"/>
+            <OtherDefines Count="1">
+              <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
+            </OtherDefines>
+          </Other>
+        </CompilerOptions>
+      </Item7>
+      <SessionEnabledMatrixOptions Count="5">
+        <Item1 Mode="Win64" Option="028265915746"/>
+        <Item2 Mode="Linux64" Option="316477307003"/>
+        <Item3 Mode="Linux32" Option="316477307003"/>
+        <Item4 Mode="LinuxARM" Option="471587070140"/>
+        <Item5 Mode="MacOS64(cocoa)" Option="558457850193"/>
+      </SessionEnabledMatrixOptions>
+    </BuildModes>
+    <Units Count="81">
+      <Unit0>
+        <Filename Value="liblcl.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos Y="44"/>
+        <UsageCount Value="201"/>
+        <Loaded Value="True"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uEventCallback.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="74"/>
+        <CursorPos X="60" Y="95"/>
+        <UsageCount Value="201"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="ulinklabel.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uLinkLabel"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="12"/>
+        <CursorPos X="3" Y="28"/>
+        <UsageCount Value="200"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="ImageButton.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="132"/>
+        <CursorPos X="17" Y="89"/>
+        <UsageCount Value="200"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="ucomponents.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uComponents"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="12"/>
+        <CursorPos X="3" Y="27"/>
+        <UsageCount Value="201"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="ugoform.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGoForm"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2"/>
+        <CursorPos X="49" Y="32"/>
+        <UsageCount Value="201"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="uMiniWebview.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="25" Y="12"/>
+        <UsageCount Value="200"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="ucontrolpatchs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uControlPatchs"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="55"/>
+        <CursorPos X="40" Y="55"/>
+        <UsageCount Value="200"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="umacospatchs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uMacOSPatchs"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="13"/>
+        <CursorPos X="40" Y="28"/>
+        <UsageCount Value="210"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="ulinuxpatchs.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uLinuxPatchs"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="32" Y="27"/>
+        <UsageCount Value="209"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="xbutton.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="xButton"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="9"/>
+        <CursorPos X="3" Y="27"/>
+        <UsageCount Value="208"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="urichedit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uRichEdit"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="30" Y="17"/>
+        <UsageCount Value="203"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="uFormDesignerFile.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="324"/>
+        <CursorPos X="38" Y="355"/>
+        <UsageCount Value="201"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="uexport1.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uExport1"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="200"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="uexport2.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uExport2"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="200"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="UseAll.inc"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="33" Y="52"/>
+        <UsageCount Value="201"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="uexceptionhandle.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uExceptionHandle"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="13"/>
+        <UsageCount Value="206"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="ugauge.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uGauge"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="5" Y="16"/>
+        <UsageCount Value="203"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="uexport3.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uExport3"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="58" Y="52"/>
+        <UsageCount Value="202"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="uexport4.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="202"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="uCEF_LCL_Event.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="88"/>
+        <CursorPos X="3" Y="52"/>
+        <UsageCount Value="202"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="uCEF_LCL_V8ObjectAccessor.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="5"/>
+        <CursorPos X="16" Y="18"/>
+        <UsageCount Value="201"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="uCEF_LCL_IPC.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="64"/>
+        <CursorPos X="20" Y="94"/>
+        <UsageCount Value="201"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="uCEF_LCL_Process_Message.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="21"/>
+        <UsageCount Value="201"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="uCEF_LCL_DictionaryValue.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="68"/>
+        <CursorPos X="15" Y="58"/>
+        <UsageCount Value="220"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="ucef_lcl_uidemos.pas"/>
+        <UnitName Value="uCEF_LCL_UIDemos"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="14" Y="23"/>
+        <UsageCount Value="188"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="CEFApplication.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="25"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="CEFEntity.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="6"/>
+        <CursorPos X="17" Y="35"/>
+        <UsageCount Value="25"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="CEFWindow.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="2"/>
+        <UsageCount Value="26"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="CEFChromium.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="18" Y="8"/>
+        <UsageCount Value="25"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="CEFLCLChromium.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="4"/>
+        <UsageCount Value="28"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="CEF_LCL_Chromium.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="22"/>
+        <UsageCount Value="29"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="uCEF_LCL_V8Handler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="94"/>
+        <CursorPos X="74" Y="119"/>
+        <UsageCount Value="27"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="CEF_LCL_Chromium.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="363"/>
+        <CursorPos X="37" Y="877"/>
+        <UsageCount Value="28"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="CEF_LCL_Application.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="94"/>
+        <CursorPos X="5" Y="138"/>
+        <UsageCount Value="100"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="CEF_Events_Declaration.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="17" Y="22"/>
+        <UsageCount Value="83"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="CEF_Events_Implement.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="19"/>
+        <UsageCount Value="100"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="uCEF_LCL_Chromium.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="204"/>
+        <CursorPos X="48" Y="215"/>
+        <UsageCount Value="100"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="uCEF_LCL_Entity.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="7" Y="12"/>
+        <UsageCount Value="100"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="uCEF_LCL_Application.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="188"/>
+        <CursorPos X="5" Y="198"/>
+        <UsageCount Value="101"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="CEF_LCL_V8ValueRef.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="16"/>
+        <CursorPos X="15" Y="59"/>
+        <UsageCount Value="20"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="uCEF_LCL_V8CommonAccessor.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="37"/>
+        <CursorPos X="10" Y="52"/>
+        <UsageCount Value="9"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="CEF_LCL_IPC.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="10"/>
+        <CursorPos X="5" Y="15"/>
+        <UsageCount Value="43"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="uCEF_LCL_V8EventEmitHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="42"/>
+        <CursorPos X="5" Y="50"/>
+        <UsageCount Value="75"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="CEF_LCL_Callback_Register.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="13"/>
+        <CursorPos X="55" Y="54"/>
+        <UsageCount Value="38"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-103.0.9\CEF4Delphi\source\uCEFInterfaces.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1638"/>
+        <CursorPos X="29" Y="1649"/>
+        <UsageCount Value="15"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-103.0.9\CEF4Delphi\source\uCEFTypes.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="279"/>
+        <CursorPos X="3" Y="329"/>
+        <UsageCount Value="3"/>
+      </Unit46>
+      <Unit47>
+        <Filename Value="CEF_LCL_Chromium_Event.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="60"/>
+        <CursorPos X="65" Y="94"/>
+        <UsageCount Value="86"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="5" Y="23"/>
+        <UsageCount Value="101"/>
+      </Unit48>
+      <Unit49>
+        <Filename Value="CEF_LCL_Component.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="23" Y="24"/>
+        <UsageCount Value="66"/>
+      </Unit49>
+      <Unit50>
+        <Filename Value="CEF_LCL_CefFrame.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="197"/>
+        <CursorPos X="31" Y="217"/>
+        <UsageCount Value="93"/>
+      </Unit50>
+      <Unit51>
+        <Filename Value="CEF_LCL_CefBrowser.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="17"/>
+        <UsageCount Value="101"/>
+      </Unit51>
+      <Unit52>
+        <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-103.0.9\CEF4Delphi\source\uCEFChromium.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="52"/>
+        <CursorPos X="17" Y="76"/>
+        <UsageCount Value="17"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="CEF_LCL_Window.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="136"/>
+        <CursorPos X="6" Y="148"/>
+        <UsageCount Value="3"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="C:\lazarus32\fpc\3.2.2\source\rtl\inc\typshrdh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="93"/>
+        <CursorPos X="3" Y="101"/>
+        <UsageCount Value="7"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="7"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="ExtDecl.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="21" Y="16"/>
+        <UsageCount Value="29"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="C:\lazarus32\fpc\3.2.2\source\rtl\objpas\types.pp"/>
+        <UnitName Value="Types"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="61"/>
+        <CursorPos X="3" Y="91"/>
+        <UsageCount Value="7"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-103.0.9\CEF4Delphi\source\uCEFLinkedWindowParent.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="24"/>
+        <CursorPos X="28" Y="38"/>
+        <UsageCount Value="7"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="uCEF_LCL_V8WindowMoveDragHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2"/>
+        <CursorPos Y="39"/>
+        <UsageCount Value="3"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-103.0.9\CEF4Delphi\source\uCEFApplicationCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="509"/>
+        <CursorPos X="16" Y="539"/>
+        <UsageCount Value="2"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="uCEF_LCL_IPCWindowMoveDrag.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="53"/>
+        <CursorPos X="10" Y="75"/>
+        <UsageCount Value="16"/>
+      </Unit61>
+      <Unit62>
+        <Filename Value="LazarusDef.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="672"/>
+        <CursorPos Y="696"/>
+        <UsageCount Value="7"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="C:\lazarus32\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="398"/>
+        <CursorPos X="3" Y="429"/>
+        <UsageCount Value="3"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="uCEF_LCL_ConsoleWrite.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="5" Y="22"/>
+        <UsageCount Value="39"/>
+      </Unit64>
+      <Unit65>
+        <Filename Value="uCEF_LCL_V8Accessor.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="15"/>
+        <CursorPos X="113" Y="46"/>
+        <UsageCount Value="4"/>
+      </Unit65>
+      <Unit66>
+        <Filename Value="uCEF_LCL_V8FuncHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="14" Y="28"/>
+        <UsageCount Value="6"/>
+      </Unit66>
+      <Unit67>
+        <Filename Value="uCEF_LCL_V8ObjectHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="38"/>
+        <CursorPos X="71" Y="65"/>
+        <UsageCount Value="6"/>
+      </Unit67>
+      <Unit68>
+        <Filename Value="uCEF_LCL_V8CommonHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="112" Y="88"/>
+        <UsageCount Value="14"/>
+      </Unit68>
+      <Unit69>
+        <Filename Value="uCEF_LCL_ContextCreatedJSInject.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="12" Y="22"/>
+        <UsageCount Value="2"/>
+      </Unit69>
+      <Unit70>
+        <Filename Value="C:\lazarus32\lcl\forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1845"/>
+        <CursorPos X="3" Y="1876"/>
+        <UsageCount Value="2"/>
+      </Unit70>
+      <Unit71>
+        <Filename Value="uCEF_LCL_V8ValueRef.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="18"/>
+        <CursorPos X="5" Y="49"/>
+        <UsageCount Value="15"/>
+      </Unit71>
+      <Unit72>
+        <Filename Value="CEF_LCL_ContextMenu.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="88"/>
+        <CursorPos X="5" Y="92"/>
+        <UsageCount Value="15"/>
+      </Unit72>
+      <Unit73>
+        <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-105.3.39\CEF4Delphi-master\source\uCEFInterfaces.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1332"/>
+        <CursorPos X="23" Y="1363"/>
+        <UsageCount Value="19"/>
+      </Unit73>
+      <Unit74>
+        <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-105.3.39\CEF4Delphi-master\source\uCEFChromiumCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="51"/>
+        <CursorPos X="3" Y="76"/>
+        <UsageCount Value="46"/>
+      </Unit74>
+      <Unit75>
+        <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-105.3.39\CEF4Delphi-master\source\uCEFChromium.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="35"/>
+        <CursorPos X="3" Y="66"/>
+        <UsageCount Value="46"/>
+      </Unit75>
+      <Unit76>
+        <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-105.3.39\CEF4Delphi-master\source\uCEFApplicationCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="548"/>
+        <CursorPos X="18" Y="582"/>
+        <UsageCount Value="15"/>
+      </Unit76>
+      <Unit77>
+        <Filename Value="C:\lazarus32\fpc\3.2.2\source\packages\rtl-generics\src\generics.collections.pas"/>
+        <UnitName Value="Generics.Collections"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="272"/>
+        <CursorPos X="14" Y="301"/>
+        <UsageCount Value="4"/>
+      </Unit77>
+      <Unit78>
+        <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-105.3.39\CEF4Delphi-master\source\uCEFTypes.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="272"/>
+        <CursorPos X="3" Y="303"/>
+        <UsageCount Value="5"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-105.3.39\CEF4Delphi-master\source\uCEFApplication.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="86"/>
+        <CursorPos X="3" Y="117"/>
+        <UsageCount Value="5"/>
+      </Unit79>
+      <Unit80>
+        <Filename Value="C:\lazarus32\fpc\3.2.2\source\rtl\objpas\sysutils\sysunih.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="10" Y="44"/>
+        <UsageCount Value="7"/>
+      </Unit80>
+    </Units>
+    <OtherDefines Count="1">
+      <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
+    </OtherDefines>
+    <JumpHistory HistoryIndex="-1"/>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode="default"/>
+    </RunParams>
+    <HistoryLists Count="1">
+      <List0 Name="LaunchingApplication" Type="File" Count="1">
+        <Item1 Value="C:\WINDOWS\system32\cmd.exe /C ${TargetCmdLine}"/>
+      </List0>
+    </HistoryLists>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="MyLCL_CustomHint.inc"/>
+        <Line Value="39"/>
+      </Item>
+    </BreakPoints>
+  </Debugging>
+</CONFIG>
