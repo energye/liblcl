@@ -1,7 +1,3 @@
-
-* 中文   
-* [English](README.en-US.md)   
-
 ----
 # liblcl
 
