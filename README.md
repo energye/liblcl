@@ -10,18 +10,10 @@
 
 ----
 
-* 已支持语言： 
+* 已支持语言和框架： 
 
-  * go: https://github.com/energye/golcl
-  * go: https://github.com/energye/energy
-
-* 完成度较高的语言：
-
-  * nim（Beta）: https://github.com/energye/golcl
-
-#### 其他   
-
-*所有导出的函数都为标准的c方式。* 在Windows上采用`__stdcall`约定，其它平台采用`__cdecl`约定。
+  * go: [golcl](https://github.com/energye/golcl)
+  * go: [energy](https://github.com/energye/energy)
 
 ----
 
@@ -30,8 +22,6 @@
 在所有平台上都默认使用`utf-8`编码。
 
 ----
-
-##### 使用结构化异常处理的函数
 
 ### 授权
 
