@@ -94,33 +94,24 @@ begin
           Move(tempArr[0], tempStringValue[1], tempDataLen);
           dictValue.SetString(tempKeyName, StrToUStr(tempStringValue));
           SetLength(tempStringValue, 0);
-          //ConsoleLn('UnPackage-For-Key: ' + tempKeyName + '  StringValue: ' + string(params.GetString(tempKeyName)) + '  vType: ' + IntToStr(vType) +
-          //  '  tempDataLen: ' + IntToStr(tempDataLen));
         end;
         4://integer
         begin
           tempIntegerValue := ByteToInteger(tempArr);
           dictValue.SetInt(tempKeyName, tempIntegerValue);
-          //ConsoleLn('UnPackage-For-Key: ' + tempKeyName + '  IntegerValue: ' + IntToStr(params.GetInt(tempKeyName)) + '  vType: ' + IntToStr(vType) +
-          //  '  tempDataLen: ' + IntToStr(tempDataLen));
         end;
         13://double
         begin
           Move(tempArr[0], tempDoubleValue, tempDataLen);
           dictValue.SetDouble(tempKeyName, tempDoubleValue);
-          //ConsoleLn('UnPackage-For-Key: ' + tempKeyName + '  DoubleValue: ' + FloatToStr(params.GetDouble(tempKeyName)) + '  vType: ' +
-          //  IntToStr(vType) + '  tempDataLen: ' + IntToStr(tempDataLen));
         end;
         14://boolean
         begin
           tempBooleanValue := tempArr[0] = 1;
           dictValue.SetBool(tempKeyName, tempBooleanValue);
-          //ConsoleLn('UnPackage-For-Key: ' + tempKeyName + '  DoubleValue: ' + BoolToStr(params.GetBool(tempKeyName)) + '  vType: ' + IntToStr(vType) +
-          //  '  tempDataLen: ' + IntToStr(tempDataLen));
         end;
         23://dictValueList
         begin
-          //ConsoleLn('UnPackage-For-Key: ' + tempKeyName + '  ------DictValue------ vType: ' + IntToStr(vType) + '  tempDataLen: ' + IntToStr(tempDataLen));
           tempDictValueList := TDictValueList.Create;
           tempDictValueList.UnPackage(tempArr);
           dictValue.SetDictionary(tempKeyName, tempDictValueList.GetDictValue());
@@ -136,7 +127,6 @@ begin
   finally
     SetLength(tempArr, 0);
   end;
-  //ConsoleLn('  DataArrayLen: ' + IntToStr(Length(DataArray)));
 end;
 
 function TDictValueList.GetDictValue(): ICefDictionaryValue;

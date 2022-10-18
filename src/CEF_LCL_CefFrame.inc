@@ -150,7 +150,6 @@ var
   frame: ICefFrame;
 begin
   handleExceptionBegin
-  //ConsoleLn('CEFFrame_IsValid browserId: '+IntToStr(browserId)+'  FrameId: '+IntToStr(FrameId^));
   frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
   if frame <> nil then
   begin
@@ -167,7 +166,6 @@ var
   frame: ICefFrame;
 begin
   handleExceptionBegin
-  //ConsoleLn('CEFFrame_IsMain: ' + IntToStr(browserId) + '  FrameId: ' +IntToStr(FrameId^));
   frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
   if frame <> nil then
   begin
@@ -215,7 +213,6 @@ begin
     Result := -3; //消息名为空
     exit;
   end;
-  //ConsoleLn('SendProcessMessage BrowserId: '+ IntToStr(browserId) + '  FrameId: ' + IntToStr(FrameId^) + '  Name: ' + Name +'  targetProcess: ' + IntToStr(targetProcess) + '  ItemLength: '+ IntToStr(ItemLength));
   if (TCefProcessId(targetProcess) <> PID_BROWSER) and (TCefProcessId(targetProcess) <> PID_RENDERER) then
   begin
     Result := -2; //消息目标进程不正确

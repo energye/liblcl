@@ -593,7 +593,6 @@ initialization
   if CommonInstance = nil then
   begin
     CommonInstance := CommonObject.Create;
-    ConsoleLn('CEF-LCL-initialization');
   end;
 
 end.

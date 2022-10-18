@@ -141,7 +141,6 @@ begin
     //chromiumBrowser^.Frames := TBrowserFrames.Create;
     TMainChromiumBrowsers.AddOrSetData(Browser.Identifier, chromiumBrowser);
   end;
-  //ConsoleLn('TMainChromiumBrowserClass.PutBrowser 数量:' + IntToStr(TMainChromiumBrowsers.Count) + '  browserId: ' + IntToStr(Browser.Identifier));
   Result := chromiumBrowser;
 end;
 
@@ -222,7 +221,6 @@ begin
   end;
 
   TMainChromiumBrowsers.Remove(BrowserId);
-  //ConsoleLn('TMainChromiumBrowsers.Remove 数量:' + IntToStr(TMainChromiumBrowsers.Count) + '  browserId: ' + IntToStr(BrowserId));
 end;
 
 {TMainChromiumBrowserClass end}

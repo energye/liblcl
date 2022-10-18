@@ -58,8 +58,6 @@ begin
       //WinWidth := GoForm.Width;
       //WinHeight := GoForm.Height;
     end;
-    //ConsoleLn('Name: ' + Name + ' browserId: ' + IntToStr(browserId) + ' x: ' + IntToStr(DX) + ' y: ' + IntToStr(DY) + ' WinTop: ' + IntToStr(WinTop) + ' WinLeft: ' + IntToStr(WinLeft)
-    //+ ' WinWidth: ' + IntToStr(WinWidth) + ' WinHeight: ' + IntToStr(WinHeight));
   end
   else if Name = MoveDragMove then
   begin
@@ -73,11 +71,9 @@ begin
       WinTop := mey;
       Application.QueueAsyncCall(@Move, 0);
     end;
-    //ConsoleLn('Name: ' + Name + ' browserId: ' + IntToStr(browserId) + ' MX: ' + IntToStr(MX) + ' MY: ' + IntToStr(MY) + ' WinTop: ' + IntToStr(WinTop) + ' WinLeft: ' + IntToStr(WinLeft) + ' mex: ' + IntToStr(mex) + ' mey: ' + IntToStr(mey));
   end
   else if Name = MoveDragUp then
   begin
-    //ConsoleLn('Name: ' + Name + ' browserId: ' + IntToStr(browserId));
     browserId := 0;
   end
   else

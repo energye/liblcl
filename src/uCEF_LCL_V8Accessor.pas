@@ -41,13 +41,11 @@ begin
     //变量类型 0:string 1:int 2:double 3:bool 4:null 5:undefined 6:obje
     TCEFWindowBindClass.SendEvent(Name, [event_get, @RetValue.PVType, @RetValue.PStringValue, @RetValue.PIntValue, @RetValue.DoubleValue,
       @RetValue.PBooleanValue, @RetValue.PException]);
-    //ConsoleLn('GetFieldValue PVType: ' + IntToStr(integer(RetValue.PVType)) + '  RetValue: '+ PCharToUstr(PChar(RetValue.PStringValue)));
     Result := RetValue;
     exit;
   except
     on E: Exception do
     begin
-      //ConsoleLn('Get Exception: ' + string(E.ToString));
     end;
   end;
 end;

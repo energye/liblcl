@@ -26,8 +26,6 @@ begin
   end;
   argc := MacOSXCommandCount;
   argv := PPAnsiChar(@myArgv[0]);
-
-  //ConsoleLn('MacOSXCommandCount: '+IntToStr(MacOSXCommandCount) + '  SetMacOSXCommandLine: '+ MyArgsStr);
   {$endif}
   handleExceptionEnd
 end;
@@ -49,13 +47,6 @@ var
     i: integer;
 begin
   handleExceptionBegin
-  //Logger.Channels.Add(TFileChannel.Create('/Users/zhangli/go/src/swt-lazarus/demo17-dll-load/info.log'));
-  //Logger.Channels.Add(TIPCChannel.Create);
-  //ConsoleLn('CEFApplication_Create-ParamCount: ' + IntToStr(ParamCount));
-  //for i:=0 to ParamCount do
-  //begin
-  //    ConsoleLn('CEFApplication_Create-Param: ' + ParamStr(i));
-  //end;
   {$IFDEF DARWIN}
     AddCrDelegate;
   {$ENDIF}
@@ -72,7 +63,6 @@ begin
   {$ELSE}
     GlobalCEFApp.MultiThreadedMessageLoop  := True;
   {$ENDIF}
-  //ConsoleLn('Config^.FrameworkDirPath: '+string(Config.FrameworkDirPath));
   //cef chromium 参数配置
   //string
   FrameworkDirPath := PCharToUStr(Config^.FrameworkDirPath);
@@ -130,23 +120,7 @@ begin
   GlobalCEFApp.DisableComponentUpdate := True;//禁用扩展组件更新
   GlobalCEFApp.EnablePrintPreview := True;
   //GlobalCEFApp.SitePerProcess := True;
-  //on event
-  //GlobalCEFApp.OnContextCreated := GlobalCEFAppEvent_OnContextCreated;
-  //GlobalCEFApp.OnWebKitInitialized := GlobalCEFAppEvent_OnWebKitInitialized;
-  //GlobalCEFApp.OnProcessMessageReceived := GlobalCEFAppEvent_OnProcessMessageReceived;
-  //GlobalCEFApp.OnBrowserDestroyed := GlobalCEFAppEvent_OnBrowserDestroyed;
-  //GlobalCEFApp.OnBeforeChildProcessLaunch := GlobalCEFAppEvent_OnBeforeChildProcessLaunch;
-  //GlobalCEFApp.OnLoadStart := GlobalCEFAppEvent_OnRenderLoadStart;
-  //GlobalCEFApp.OnLoadEnd := GlobalCEFAppEvent_OnRenderLoadEnd;
-  //GlobalCEFApp.OnLoadError := GlobalCEFAppEvent_OnRenderLoadError;
-  //GlobalCEFApp.OnLoadingStateChange := GlobalCEFAppEvent_OnRenderLoadingStateChange;
 
-  //ConsoleLn('Create App Success end');
-  ConsoleLn('CEFApplication_Create FrameworkDirPath: '+string(Config^.FrameworkDirPath)+'  ResourcesDirPath: '+string(ResourcesDirPath)+
-  '  MainBundlePath: '+ string(MainBundlePath) +
-  '  EnableGPU: ' + BoolToStr(boolean(Config^.EnableGPU))+
-  '  ParamStr(0): '+ParamStr(0)
-  );
   Result := GlobalCEFApp;
   handleExceptionEnd
 end;
@@ -164,16 +138,9 @@ end;
 function CEFStartMainProcess(): integer; extdecl;
 var
   ret : boolean;
-  //i: integer;
 begin
   handleExceptionBegin
-  //ConsoleLn('StartMainProcess-ParamCount: ' + IntToStr(ParamCount));
-  //for i:=0 to ParamCount do
-  //begin
-  //    ConsoleLn('StartMainProcess-Param: ' + ParamStr(i));
-  //end;
   ret := GlobalCEFApp.StartMainProcess;
-  //ConsoleLn('StartMainProcess-ret: ' + BoolToStr(ret));
   if ret then
   begin
     {$ifdef Linux}
@@ -229,11 +196,9 @@ var
   pException: ICefV8Exception;
 begin
   try
-    ConsoleLn('CEFApplication_ExecuteJS 1: ' + string(jsCode));
   except
     on E: Exception do
     begin
-      ConsoleLn('CEFApplication_ExecuteJS: ' + E.ToString);
     end;
   end;
 end;
@@ -243,14 +208,12 @@ begin
   if CommonInstance = nil then
   begin
     CommonInstance := CommonObject.Create;
-    ConsoleLn('CEFApplication_GetCommonInstancen');
   end;
   Result := CommonInstance;
 end;
 
 procedure CEFApplication_QueueAsyncCall(EventId: PtrInt); extdecl;
 begin
-  //ConsoleLn('CEFApplication_QueueAsyncCall EveentId: ' + IntToStr(EventId));
   Application.QueueAsyncCall(TCEFApplicationClass.ApplicationQueueAsyncCall, EventId);
 end;
 

@@ -195,7 +195,6 @@ function CEFWindow_HandleAllocated(AObj: TCEFWindowParent): boolean ; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.HandleAllocated;
-  //ConsoleLn('CEFWindow_HandleAllocated: '+BoolToStr(Result));
   handleExceptionEnd
 end;
 

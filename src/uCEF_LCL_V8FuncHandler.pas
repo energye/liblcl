@@ -161,7 +161,6 @@ begin
         break;
       end;
     end;
-    ConsoleLn('TV8FuncHandler.Execute: ' + booltostr(res) + '  FullName:' + FieldBindInfo^.FullName);
     if res then//参数没有问题
     begin
       //发送调用函数事件

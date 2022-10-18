@@ -121,8 +121,6 @@ begin
     //SetLength(dataBytes, dataByteLen);
     SetLength(iData, ItemLen);
     len := ItemLen;
-    //Move(DataArray[0], dataBytes[0], dataByteLen);
-    //ConsoleLn('111 DataLen: ' + IntToStr(DataLen) + ' DataByteLen: ' + IntToStr(dataByteLen));
     //[4 0 0 0 4 0 1 4 106 0 0 0 0 15 230 157 168 231 186 162 229 178 169 230 181 139 232 175 149]
     while (i < dataByteLen) do
     begin
@@ -155,7 +153,6 @@ begin
       SetLength(tempArr, 0);
       Inc(idx);
       i := high;
-      //ConsoleLn('item: ' + IntToStr(idx) + '  vType: ' + IntToStr(integer(iData[idx].VType)) + '  dataLen: ' + IntToStr(iData[idx].DataLen));
     end;
   finally
     SetLength(tempArr, 0);

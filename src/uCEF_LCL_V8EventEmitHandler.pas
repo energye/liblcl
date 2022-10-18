@@ -51,7 +51,6 @@ begin
 
   //参数长度 最多3个，固定顺序: 参数1 字段名, 参数2 入参， 参数3 回调函数
   argumentsLen := length(arguments);
-  //ConsoleLn('IPC Emit Execute Name:', Name);
   if (Name = IPCExecuteName) and (argumentsLen >= 1) and arguments[0].IsString then
   begin
     // = 1 个参数只调用，没有入参和回调函数

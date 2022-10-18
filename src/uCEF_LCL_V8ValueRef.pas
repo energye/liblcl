@@ -150,16 +150,13 @@ end;
 
 class procedure TObjectValueBindInfoClass.Clear();
 begin
-  ConsoleLn('TObjectValueBindInfoClass.Clear Count: ' + IntToStr(Size));
   TCefObjects.Clear;
-  ConsoleLn('TObjectValueBindInfoClass.Clear Count: ' + IntToStr(Size));
 end;
 
 class destructor TObjectValueBindInfoClass.Destroy;
 begin
   TCefObjects.Clear;
   TCefObjects.Free;
-  ConsoleLn('TObjectValueBindInfoClass.Destroy');
 end;
 
 class procedure TObjectValueBindInfoClass.AddCefObject(CefObject: PRCefObject);
@@ -208,16 +205,13 @@ end;
 
 class procedure TCommonValueBindInfoClass.Clear();
 begin
-  ConsoleLn('TCommonValueBindInfoClass.Clear Count: ' + IntToStr(Size));
   TCommonValueBindInfos.Clear;
-  ConsoleLn('TCommonValueBindInfoClass.Clear Count: ' + IntToStr(Size));
 end;
 
 class destructor TCommonValueBindInfoClass.Destroy;
 begin
   TCommonValueBindInfos.Clear;
   TCommonValueBindInfos.Free;
-  ConsoleLn('TCommonValueBindInfoClass.Destroy');
 end;
 
 

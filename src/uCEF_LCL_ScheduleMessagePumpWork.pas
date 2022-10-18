@@ -23,7 +23,6 @@ procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS: int64);
 begin
   if (GlobalCEFWorkScheduler <> nil) then
   begin
-    //ConsoleLn('OnScheduleMessagePumpWork aDelayMS: ' + IntToStr(aDelayMS) + '  time: ' +FloatToStr(now));
     GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
   end;
 end;

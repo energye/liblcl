@@ -34,7 +34,6 @@ end;
 procedure CEFChromium_SetMultiBrowserMode(AObj:TChromium; AValue: Boolean); extdecl;
 begin
   handleExceptionBegin
-  //ConsoleLn('CEFChromium_SetMultiBrowserMode: ' + BoolToStr(AValue));
   AObj.MultiBrowserMode := AValue;
   handleExceptionEnd
 end;
@@ -190,7 +189,6 @@ begin
   begin
      itemCallback.Cancel;
   end;
-  //ConsoleLn('下载取消：'+BoolToStr(itemCallback <> nil)+'  browserId: '+IntToStr(borwserId)+'  DownId: '+IntToStr(DownId));
   handleExceptionEnd
 end;
 
@@ -354,12 +352,6 @@ begin
     priority := TCefCookiePriority(Integer(CefCookie.priority));
     aSetImmediately := Boolean(PBoolean(CefCookie.aSetImmediately));
     aID := Integer(CefCookie.aID);
-    //ConsoleLn('  url: '+string(url)+'  name: '+string(name)+'  value: '+string(value)+'  domain: '+string(domain)+'  path: '+string(path)+
-    //'  secure: '+BoolToStr(secure) + '  httponly: '+BoolToStr(httponly) + '  hasExpires: '+BoolToStr(hasExpires) +
-    //'  creation: '+FloatToStr(creation)+'  lastAccess: '+FloatToStr(lastAccess)+'  expires: '+FloatToStr(expires) +  '  sameSite: '+IntToStr(integer(sameSite)) +
-    //'  priority: '+IntToStr(priority) +
-    //'  aSetImmediately: '+BoolToStr(aSetImmediately) +
-    //'  Id: '+IntToStr(aID)) ;
     Chromium.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, sameSite, priority, aSetImmediately, aID);
   finally
     CefCookie := nil;
@@ -403,9 +395,6 @@ begin
   MaxConnectionsPerProxy := Integer(proxy.MaxConnectionsPerProxy);
   CustomHeaderName := PCharToUStr(proxy.CustomHeaderName);
   CustomHeaderValue := PCharToUStr(proxy.CustomHeaderValue);
-  //ConsoleLn('ProxyType: '+ IntToStr(ProxyType) + '  ProxyScheme:' +IntToStr(ProxyScheme) + '  ProxyServer:' +string(ProxyServer)+ '  ProxyPort:' +IntToStr(ProxyPort)+ '  ProxyUsername:' + string(ProxyUsername)+
-  //'  ProxyPassword:'+string(ProxyPassword)+ '  ProxyScriptURL:'+string(ProxyScriptURL)+ '  ProxyByPassList:'+string(ProxyByPassList)+ '  MaxConnectionsPerProxy:'  +IntToStr(MaxConnectionsPerProxy)+
-  //'  CustomHeaderName:'+string(CustomHeaderName)+ '  CustomHeaderValue:'+string(CustomHeaderValue) );
   Chromium.ProxyType              := ProxyType;
   Chromium.ProxyScheme            := TCefProxyScheme(ProxyScheme);
   Chromium.ProxyServer            := ProxyServer;
@@ -485,7 +474,6 @@ end;
 procedure CEF_AddGoForm(BrowserId: Integer; GoForm: TGoForm); extdecl;
 begin
   handleExceptionBegin
-  ConsoleLn('CEF_AddGoForm BrowserId: '+ IntToStr(BrowserId));
   TBrowserWindowClass.Add(BrowserId, GoForm);
   handleExceptionEnd
 end;
@@ -493,7 +481,6 @@ end;
 procedure CEF_RemoveGoForm(BrowserId: Integer); extdecl;
 begin
   handleExceptionBegin
-  ConsoleLn('CEF_RemoveGoForm BrowserId: '+ IntToStr(BrowserId));
   TBrowserWindowClass.Remove(BrowserId);
   handleExceptionEnd
 end;

@@ -45,11 +45,9 @@ var
   Callback: PRGlobalCallback;
   argumentsLen: integer;
 begin
-  //ConsoleLn('IPC on Execute Name: ' + Name);
   argumentsLen := length(arguments);
   if (argumentsLen = 2) and (arguments[0].IsString) and (arguments[1].IsFunction) then
   begin
-    //ConsoleLn('  On Name: ' + arguments[0].GetStringValue);
     Callback := new(PRGlobalCallback);
     Callback^.GlobalCallbackFunc := arguments[1];
     Callback^.GlobalCallbackContext := TCefv8ContextRef.Current;

@@ -23,7 +23,6 @@ class procedure TEventClass.ChromiumEvent_OnBeforeBrowse(Sender: TObject; const 
 var
   cefFrame: PRCEFFrame;
 begin
-  ConsoleLn('OnBeforeBrowser Id: '+IntToStr(browser.Identifier));
   cefFrame := new(PRCEFFrame);
   cefFrame^.Name := PChar(string(frame.Name));
   cefFrame^.Url := PChar(string(frame.Url));
@@ -36,7 +35,6 @@ end;
 //关闭之前-事件
 class procedure TEventClass.ChromiumEvent_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
-  //ConsoleLn('OnBeforeClose: '+IntToStr(browser.Identifier));
   TMainChromiumBrowserClass.RemoveBrowser(browser.Identifier);
   SendEvent(Sender, @TEventClass.ChromiumEvent_OnBeforeClose, [Sender, browser.Identifier]);
 end;
@@ -44,7 +42,6 @@ end;
 //关闭-事件
 class procedure TEventClass.ChromiumEvent_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
 begin
-  ConsoleLn('OnClose: '+IntToStr(browser.Identifier));
   SendEvent(Sender, @TEventClass.ChromiumEvent_OnClose, [Sender, browser.Identifier, @aAction]);
   if not SingleProcess then
   begin
@@ -137,11 +134,6 @@ end;
 class procedure TEventClass.ChromiumEvent_KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out Result: boolean);
 begin
-  //ConsoleLn('kind: '+IntToStr(integer(event^.kind))+'  modifiers: '+IntToStr(integer(event^.modifiers))+'  windows_key_code: '+IntToStr(event^.windows_key_code)+
-  //'  native_key_code: '+IntToStr(event^.native_key_code)+'  is_system_key: '+IntToStr(event^.is_system_key)+
-  //'  character: '+string(WideCharToString(PWideChar(@event^.character))) +
-  //'  unmodified_character: '+string(WideCharToString(PWideChar(@event^.unmodified_character))) +
-  //'  focus_on_editable_field: '+IntToStr(event^.focus_on_editable_field));
   SendEvent(Sender, @TEventClass.ChromiumEvent_KeyEvent, [Sender, browser.Identifier, event, @Result]);
 end;
 
@@ -228,7 +220,6 @@ begin
   downItem^.MimeType := PChar(string(downloadItem.MimeType));
   downItem^.IsValid := @isValid;
   downItem^.State := PInteger(-1);
-  //ConsoleLn('OnBeforeDownload- startTime: '+FloatToStr(startTime) + '  dndTime: '+FloatToStr(dndTime));
   SendEvent(Sender, @TEventClass.ChromiumEvent_OnBeforeDownload, [Sender, browser.Identifier, downItem, PChar(string(suggestedName)), callback]);
   downItem := nil;
 end;
@@ -304,9 +295,7 @@ var
   beforePopupInfo: PRBeforePopupInfo;
   //windowHandlePtr: PTCefWindowHandle;
 begin
-  ConsoleLn('ChromiumEvent_OnBeforePopup BrowserId: ' + IntToStr(browser.Identifier) + '  MainThreadId: '+ IntToStr(NativeInt(MainThreadId))+ '  CurrentThreadId: '+ IntToStr(NativeInt(TThread.CurrentThread.ThreadID)));
   try
-    //ConsoleLn('ChromiumEvent_OnBeforePopup ExStyle: ' + IntToStr(windowInfo.ex_style));
     //frame
     cefFrame := new(PRCEFFrame);
     cefFrame^.Name := PChar(string(frame.Name));
@@ -460,9 +449,6 @@ begin
   cookie^.aSetImmediately := @aResult;
   cookie^.aDeleteCookie := @aDeleteCookie;
   cookie^.Result := @aResult;
-  //ConsoleLn('date time: '+FloatToStr(creation)+'   '+FloatToStr(lastAccess)+'   '+FloatToStr(expires) + '  Id: '+IntToStr(aID) + '  Count: '+IntToStr(count) +
-  //                  '  total: '+IntToStr(total)+ '   same_site: '+IntToStr(integer(same_site))+ '  priority:'+IntToStr(priority) +
-  //                  '  secure: '+BoolToStr(secure) + '  httponly: '+BoolToStr(httponly) + '  hasExpires: '+BoolToStr(hasExpires)) ;
   SendEvent(Sender, @TEventClass.ChromiumEvent_OnCookiesVisited, [Sender, cookie]);
   cookie := nil;
 end;
@@ -497,8 +483,6 @@ begin
   rCefRequest^.TransitionType := PCardinal(request.TransitionType);
   identifier := request.Identifier;
   rCefRequest^.Identifier := @identifier;
-  //ConsoleLn('ResourceType:  '+IntToStr(integer(request.ResourceType)) +
-  //   '  TransitionType:  '+IntToStr(integer(request.TransitionType))+'  Identifier: '+ IntToStr(request.Identifier));
 
   SendEvent(Sender, @TEventClass.ChromiumEvent_OnBeforeResourceLoad, [Sender, browser.Identifier, cefFrame, rCefRequest, callback, @Result]);
 
@@ -585,7 +569,6 @@ begin
   rCefResponse^.URL := PChar(string(response.Url));
 
   SendEvent(Sender, @TEventClass.ChromiumEvent_OnResourceRedirect, [Sender, browser.Identifier, cefFrame, rCefRequest, rCefResponse, @pNewUrl]);
-  //ConsoleLn('OnResourceRedirect newUrl: '+ string(pNewUrl));
   newUrl := PCharToUStr(pNewUrl);
   FreePRCEFFrame(cefFrame);
   rCefRequest := nil;
@@ -627,7 +610,6 @@ begin
   rCefResponse^.Charset := PChar(string(response.Charset));
   rCefResponse^.Error := pinteger(integer(response.Error));;
   rCefResponse^.URL := PChar(string(response.Url));
-  //ConsoleLn('OnResourceLoadComplete: '+ IntToStr(integer(status)) + '  receivedContentLength: '+ IntToStr(receivedContentLength));
   SendEvent(Sender, @TEventClass.ChromiumEvent_OnResourceLoadComplete, [Sender, browser.Identifier, cefFrame, rCefRequest, rCefResponse, @integer(status), @receivedContentLength]);
   FreePRCEFFrame(cefFrame);
   rCefRequest := nil;
@@ -639,11 +621,9 @@ class procedure TEventClass.ChromiumEvent_OnFrameAttached(Sender: TObject; const
 var
   cefFrame: PRCEFFrame;
 begin
-  //ConsoleLn('OnFrameAttached');
   cefFrame := new(PRCEFFrame);
   if (frame <> nil) then
   begin
-    //ConsoleLn('OnFrameAttached BrowseId: ' + IntToStr(browser.Identifier) + '  Name :' + string(frame.Name)+' Url: '+ string(frame.Url)+' frameId: '+ IntToStr(frame.Identifier) + '  reattached: '+BoolToSTr(reattached));
     cefFrame^.Name := PChar(string(frame.Name));
     cefFrame^.Url := PChar(string(frame.Url));
     cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
@@ -670,7 +650,6 @@ begin
   cefFrame^.Identifier := frameId;
   cefFrame^.Name := frameName;
   cefFrame^.Url := frameUrl;
-  //ConsoleLn('ChromiumEvent_OnFrameCreated frameId: ' + string(frameId) + ' frameName: ' + frameName + ' frameUrl: ' + frameUrl);
   if Assigned(cefFrame) then
   begin
     SendEvent(Sender, @TEventClass.ChromiumEvent_OnFrameCreated, [Sender, browser.Identifier, cefFrame]);
@@ -686,7 +665,6 @@ class procedure TEventClass.ChromiumEvent_OnFrameDetached(Sender: TObject; const
 var
   cefFrame: PRCEFFrame;
 begin
-  //ConsoleLn('OnFrameDetached');
   cefFrame := new(PRCEFFrame);
   if (frame <> nil) then
   begin
@@ -709,12 +687,10 @@ var
   oldCefFrame: PRCEFFrame;
   newCefFrame: PRCEFFrame;
 begin
-  //ConsoleLn('OnMainFrameChanged');
   oldCefFrame := new(PRCEFFrame);
   newCefFrame := new(PRCEFFrame);
   if (old_frame <> nil) then
   begin
-    //ConsoleLn('OnMainFrameChanged oldFrameId: '+IntToStr(old_frame.Identifier));
     oldCefFrame^.Name := PChar(string(old_frame.Name));
     oldCefFrame^.Url := PChar(string(old_frame.Url));
     oldCefFrame^.Identifier := PChar(IntToStr(old_frame.Identifier));
@@ -727,7 +703,6 @@ begin
   end;
   if (new_frame <> nil) then
   begin
-    //ConsoleLn('OnMainFrameChanged newFrameId: '+IntToStr(new_frame.Identifier));
     newCefFrame^.Name := PChar(string(new_frame.Name));
     newCefFrame^.Url := PChar(string(new_frame.Url));
     newCefFrame^.Identifier := PChar(IntToStr(new_frame.Identifier));
@@ -747,13 +722,11 @@ end;
 {==window begin==}
 class procedure TEventClass.CEFWindowEvent_OnEnter(Sender: TObject);
 begin
-  ConsoleLn('CEFWindowEvent_OnEnter');
   SendEvent(Sender, @TEventClass.CEFWindowEvent_OnEnter, [Sender]);
 end;
 
 class procedure TEventClass.CEFWindowEvent_OnExit(Sender: TObject);
 begin
-  ConsoleLn('CEFWindowEvent_OnExit');
   SendEvent(Sender, @TEventClass.CEFWindowEvent_OnExit, [Sender]);
 end;
 

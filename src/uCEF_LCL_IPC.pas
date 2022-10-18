@@ -143,7 +143,6 @@ begin
   IPCEventParam.ParamType := ParamType;
   IPCEventParam.FrameId := PChar(IntToStr(frame.Identifier));
   IPCEventParam.ValueTypeArrLen := ArgsArrayLength;
-  //ConsoleLn('browser ' + StrToUStr('进程接收消息') + ' message-size: ' + IntToStr(message.GetArgumentList.GetSize) + '  frameId: ' + IntToStr(frame.Identifier) + '  bIdx: ' + IntToStr(bIdx) + ' fullName:' + string(FullName));
   try
     SetLength(argsArray, IPCEventParam.ValueTypeArrLen + bIdx);
     if IPCEventParam.ValueTypeArrLen > 0 then
@@ -211,8 +210,6 @@ begin
       outMessage.ArgumentList.SetInt(2, integer(ret^.BindType));//bindType
       outMessage.ArgumentList.SetInt(3, integer(ret^.ValueType));//vType
 
-      //ConsoleLn('result: ' + IntToStr(integer(ret^.ValueType)) + ' ValueLength: ' + IntToStr(integer(ret^.ValueLength)) + ' BindType: ' +
-      //  IntToStr(integer(ret^.BindType)) + ' Exception: ' + IntToStr(integer(ret^.Exception)));
       if integer(ret^.Exception) = 0 then
       begin
         case integer(ret^.ValueType) of
@@ -275,8 +272,6 @@ var
   idx, itemLength: integer;
 begin
   try
-    //ConsoleLn('Render_GoEmitJS frame.IsValid: ' + BoolToStr(frame.IsValid));
-
     binarySize := message.ArgumentList.GetInt(0);
     itemLength := message.ArgumentList.GetInt(1);
     binaryValue := message.ArgumentList.GetBinary(2);
@@ -288,15 +283,9 @@ begin
     argsLen := Length(dataItems);
     //取值，0~len-3 是入参，最后三个是固定参数用于判断使用
     goExecType := dataItems[argsLen - 3].GetInt();
-    //ConsoleLn('Render_GoEmitJS frame.IsValid: ' + BoolToStr(frame.IsValid));
     IPCID := dataItems[argsLen - 2].GetInt();
     onName := dataItems[argsLen - 1].GetString();
-    //ConsoleLn('Render_GoEmitJS - Name: ' + message.Name + '  CallbackCount: ' + IntToStr(TPROnCallbacks.Count) + ' argsLen: ' +
-    //  IntToStr(argsLen) + '  goExecType: ' + IntToStr(goExecType) + '  IPCID: ' + IntToStr(IPCID) + ' onName: ' + onName);
-
-    //ConsoleLn('Render_GoEmitJS GetOnCallback 1 : ' + onName);
     onCallback := GetOnCallback(onName);
-    //ConsoleLn('Render_GoEmitJS GetOnCallback 2 : ' + onName);
     if goExecType > 0 then
     begin
       {
@@ -338,11 +327,7 @@ begin
         end
         else;
       end;
-      //try
-      //except
-      //  on e: Exception do
-      //    ConsoleLn('Render_GoEmitJS Error: ' + e.ToString);
-      //end;
+
       //执行js on回调
       returnValue := onCallback^.GlobalCallbackFunc.ExecuteFunctionWithContext(onCallback^.GlobalCallbackContext, nil, arguments);
       if (not (returnValue = nil)) and (returnValue.IsValid) and (goExecType > 0) then
@@ -386,7 +371,6 @@ begin
     end;
     if goExecType > 0 then
     begin
-      //ConsoleLn('Render_GoEmitJS  SendProcessMessage To Browser argsSize: ' + IntToStr(processMessage.ArgumentList.GetSize));
       frame.SendProcessMessage(PID_BROWSER, processMessage);
       processMessage.ArgumentList.Clear;
     end;
@@ -405,7 +389,6 @@ var
   Name: ustring;
 begin
   Name := message.Name;
-  //ConsoleLn('BrowserProcessReceivedMessage Name: ' + Name);
   if WindowMoveDrag.Execute(Name, message) then
   begin //js中窗口移动消息
     ret := True;
@@ -562,7 +545,6 @@ begin
     eventArgsArray[1].VType := vtPointer;
     eventArgsArray[2].VPointer := ret;
     eventArgsArray[2].VType := vtPointer;
-    //ConsoleLn('Browser_GoEmitJSRet IPCId: ' + IntToStr(IPCId));
     TIPCEventClass.SendEvent(nativeuint(IPC_FN_TYPE_IPCGoEmitJSRet), eventArgsArray);
   finally
     SetLength(eventArgsArray, 0);
@@ -592,10 +574,8 @@ begin
   BindType := message.ArgumentList.GetInt(2);//bindType
   ValueType := message.ArgumentList.GetInt(3);//vType
   Callback := GetEmitCallback(IPCID);
-  //ConsoleLn('Render_JSEmitGoRet IPCId: ' + IntToStr(IPCId) + ' BindType: ' + IntToStr(BindType) + ' ValueType: ' + IntToStr(ValueType));
   if not (Callback = nil) then
   begin
-    //ConsoleLn(StrToUStr('Render_JSEmitGoRet 回调函数存在'));
     try
       SetLength(CallFnArgs, 3);
       if Exception = 0 then
@@ -628,7 +608,6 @@ begin
           FullName := message.ArgumentList.GetString(4);//FullName
           if BindType = 0 then//0:commonObject
           begin
-            //ConsoleLn(StrToUStr('Render_JSEmitGoRet 普通对象'));
             CallFnArgs[0] := TCEFIPCClass.GetCommonAccessor(frame.Identifier).V8Object;
             //CallFnArgs[0] := TCefv8ValueRef.NewString('好用？');
           end
@@ -668,7 +647,6 @@ begin
     finally
       if Callback^.GlobalCallbackContext.Enter then
       begin
-        //ConsoleLn(StrToUStr('Render_JSEmitGoRet 执行回调函数'));
         Callback^.GlobalCallbackFunc.ExecuteFunctionWithContext(Callback^.GlobalCallbackContext, nil, CallFnArgs);
         Callback^.GlobalCallbackContext.Exit;
       end;
@@ -691,8 +669,6 @@ var
   onCallback: PRGlobalCallback;
 begin
   try
-    //ConsoleLn('RenderProcess emit go js on event Name: ' + Name);
-
     onCallback := GetOnCallback(Name);
     if not (onCallback = nil) then
     begin
@@ -766,7 +742,6 @@ begin
     Result := Callback;
     exit;
   end;
-  //ConsoleLn('GetEmitCallback Count: ' + IntToStr(TPREmitCallbacks.Count));
   Result := nil;
 end;
 

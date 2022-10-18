@@ -76,7 +76,6 @@ var
   argumentsLen: integer;
 begin
   FieldBindInfo := new(PRFieldBindInfo);
-  //ConsoleLn('TV8CommonHandler Name: ' + Name);
   if TFuncHandlerInfos.TryGetData(Name, FieldBindInfo) then
   begin
     argumentsLen := Length(arguments);
@@ -97,7 +96,6 @@ begin
           2.返回参数类型，返回结果
           3.返回错误信息
         }
-      //ConsoleLn('TV8CommonHandler Execute Name: ' + Name + '  ArgsLen: ' + IntToStr(argumentsLen));
       retval := V8FuncHandler.Execute(FieldBindInfo, arguments, Exception);
       if not (Exception = '') then
       begin

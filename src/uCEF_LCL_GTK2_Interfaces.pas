@@ -28,7 +28,6 @@ function CustomX11ErrorHandler(Display: PDisplay; ErrorEv: PXErrorEvent): longin
 begin
   {$IFDEF DEBUG}
   XError := ErrorEv^.error_code;
-  WriteLn('Error: ' + IntToStr(XError));
   {$ENDIF}
   Result := 0;
 end;
@@ -40,7 +39,6 @@ end;
 
 procedure CustomWidgetSetInitialization;
 begin
-  ConsoleLn('CustomWidgetSetInitialization');
   CreateWidgetset(TGtk2WidgetSet);
   // Install xlib error handlers so that the application won't be terminated
   // on non-fatal errors. Must be done after initializing GTK.

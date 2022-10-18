@@ -33,11 +33,7 @@ end;
 //CommonValueBind处理
 procedure CEFV8ValueRef_CommonValueBindInfo(TempCommonValueBindInfo: PRPValueBindInfo); extdecl;
 begin
-  //ConsoleLn('CEFV8ValueRef_ValueBindInfo Name: '+string(PCharToUStr(ValueBindInfo^.Name)) + ' EventId: '+IntToStr(ValueBindInfo^.EventId)+
-  //'  BindType: '+IntToStr(integer(ValueBindInfo^.BindType))+'  FnInNum: '+IntToStr(integer(ValueBindInfo^.FnInNum))+ '  FnInParamType: '+string(PCharToUStr(ValueBindInfo^.FnInParamType))+
-  //'  FnOutNum: '+IntToStr(integer(ValueBindInfo^.FnOutNum))+ '  FnOutParamType: '+string(PCharToUStr(ValueBindInfo^.FnOutParamType)));
   TCommonValueBindInfoClass.Add(TempCommonValueBindInfo);
-  //TCEFWindowBindClass.Add(PCharToUStr(ValueBindInfo^.Name), ValueBindInfo^.EventId);
 end;
 
 
@@ -64,7 +60,6 @@ begin
       CefObject^.FuncLen := integer(TempCefObject^.FuncLen);
       SetLength(CefObject^.Fields, CefObject^.FieldLen);
       SetLength(CefObject^.Funcs, CefObject^.FuncLen);
-      //ConsoleLn('CEFV8ValueRef_ObjectValueBindInfo-查看父节点: ' + string(PCharToUStr(TempCefObject^.FullObjName)));
       //取出所有字段信息数据
       for i := 0 to CefObject^.FieldLen-1 do
       begin
@@ -96,7 +91,6 @@ begin
     except
       on E: Exception do
       begin
-        ConsoleLn('CEFV8ValueRef_ObjectValueBindInfo: ' + E.ToString);
       end;
     end;
 end;

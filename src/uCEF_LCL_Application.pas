@@ -111,13 +111,10 @@ begin
   TMainChromiumBrowserClass.PutBrowser(browser);
   //事件触发, go 绑定一些js属性和函数
   TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnContextCreated, [browser.Identifier, cefFrame, @v8Context, @state]);
-  //ConsoleLn('GlobalCEFAppEvent_OnContextCreated date time: ' + FloatToStr(now) + ' state: ' + BoolToStr(state));
   if not state then
   begin
     exit;
   end;
-
-  //ConsoleLn('GlobalCEFAppEvent_OnContextCreated CommCount: ' + IntToStr(TCommonValueBindInfoClass.Size()) + '  ObjectCount: ' + IntToStr(TObjectValueBindInfoClass.Size()) + '  WindowBindCount: ' + IntToStr(TCEFWindowBindClass.Size()));
 
   //js 注入
   ContextCreatedJSInject := TContextCreatedJSInjectClass.Create(browser, frame, context);
@@ -194,7 +191,6 @@ begin
   FrameName := nil;
   FrameUrl := nil;
   FreePRCEFFrame(cefFrame);
-  ConsoleLn('GlobalCEFAppEvent_OnContextCreated End. URL: ' + string(frame.Url));
 end;
 
 //ObjectValueBindHandler 对象字段处理
@@ -387,7 +383,6 @@ begin
   except
     on E: Exception do
     begin
-      ConsoleLn('CommonValueBindHandler Exception: ' + E.ToString);
     end;
   end;
 end;
@@ -395,7 +390,6 @@ end;
 //TCefApplication OnWebKitInitialized
 procedure GlobalCEFAppEvent_OnWebKitInitialized;
 begin
-  //ConsoleLn('GlobalCEFAppEvent_OnWebKitInitialized');
   TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnWebKitInitialized, []);
 end;
 
@@ -409,7 +403,6 @@ var
   binarySize: integer;
   binaryBuf: TBytes;
 begin
-  //ConsoleLn('render ' + StrToUStr('进程接收消息') + '  Name: ' + aMessage.Name + '  message-size: ' + IntToStr(aMessage.GetArgumentList.GetSize) + '  frameId: ' + IntToStr(frame.Identifier));
   if aMessage.Name = IPC_JSEmitGoRet then//JS执行Go监听的事件
   begin
     TCEFIPCClass.Render_JSEmitGoRet(frame, aMessage);
@@ -449,7 +442,6 @@ var
   commandArray: TStringArray;
   commandItemArray: TStringArray;
 begin
-  //ConsoleLn('GlobalCEFAppEvent_OnBeforeChildProcessLaunch');
   TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnBeforeChildProcessLaunch, [@commands]);
   commandArray := string(PCharToUStr(commands)).Split(' ');
   for idx := 0 to length(commandArray) - 1 do
@@ -469,7 +461,6 @@ end;
 //browser 消毁事件
 procedure GlobalCEFAppEvent_OnBrowserDestroyed(const browser: ICefBrowser);
 begin
-  //ConsoleLn('GlobalCEFAppEvent_OnBrowserDestroyed');
   TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnBrowserDestroyed, [browser.Identifier]);
 end;
 
@@ -481,7 +472,6 @@ begin
   cefFrame^.Name := PChar(UTF8Encode(frame.Name));
   cefFrame^.Url := PChar(UTF8Encode(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  //ConsoleLn('GlobalCEFAppEvent_OnRenderLoadStart');
   TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadStart, [browser.Identifier, cefFrame, transitionType]);
   FreePRCEFFrame(cefFrame);
 end;
@@ -494,7 +484,6 @@ begin
   cefFrame^.Name := PChar(UTF8Encode(frame.Name));
   cefFrame^.Url := PChar(UTF8Encode(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  //ConsoleLn('GlobalCEFAppEvent_OnRenderLoadEnd');
   TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadEnd, [browser.Identifier, cefFrame, httpStatusCode]);
   FreePRCEFFrame(cefFrame);
 end;
@@ -507,14 +496,12 @@ begin
   cefFrame^.Name := PChar(UTF8Encode(frame.Name));
   cefFrame^.Url := PChar(UTF8Encode(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  //ConsoleLn('GlobalCEFAppEvent_OnRenderLoadError');
   TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadError, [browser.Identifier, cefFrame, errorCode, PChar(UTF8Encode(errorText)), PChar(UTF8Encode(failedUrl))]);
   FreePRCEFFrame(cefFrame);
 end;
 
 procedure GlobalCEFAppEvent_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
 begin
-  //ConsoleLn('GlobalCEFAppEvent_OnRenderLoadingStateChange');
   TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadingStateChange, [browser.Identifier, isLoading, canGoBack, canGoForward]);
 end;
 

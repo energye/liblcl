@@ -95,7 +95,6 @@ var
 begin
   try
     //获取值时，在go中获取，同时更新 map 值
-    //ConsoleLn('Get Name: ' + string(Name) + '  根节点的IsSame: ' + BoolToStr(object_.IsSame(RootObjectAccessor)));
     //获得实际的 Name 对象
     PLookupObjectItem := FindLookupObject(Name, object_);
     if not (PLookupObjectItem = nil) then
@@ -103,7 +102,6 @@ begin
       //Parent = nil 一定是根对象
       if PLookupObjectItem^.Parent = nil then
       begin
-        //ConsoleLn('Name: ' + string(Name) + '  的父对象是根对象');
         retval := PLookupObjectItem^.CefObject^.CefV8ValueField;
         Result := True;
         exit;
@@ -111,7 +109,6 @@ begin
       else
       begin
         //子节点，根据子节点信息返回对应的值
-        //ConsoleLn('Parent <> nil VType: ' + IntToStr(PLookupObjectItem^.VType));
         case PLookupObjectItem^.VType of
           1://普通字段会触发事件函数在Go中获取值
           begin
@@ -120,7 +117,6 @@ begin
             //变量类型 0:string 1:int 2:double 3:bool 4:null 5:undefined 6:object
             TCEFWindowBindClass.SendEvent(FieldInfo^.FullName, [event_get, @PRetVType, @PRetStringValue, @PRetIntValue, @RetDoubleValue, @PRetBooleanValue, @PRetException]);
             ExceptionMessage := PCharToUstr(PChar(PRetException));
-            //ConsoleLn('Get GO类型: ' + IntToStr(integer(PRetVType)) + ' D类型: ' + IntToStr(FieldInfo^.BindType) + '  错误信息: ' + string(ExceptionMessage));
             if not (ExceptionMessage = '') then
             begin//有错误时返回错误，直接退出
               Exception := ExceptionMessage;
@@ -245,7 +241,6 @@ begin
             ExceptionMessage := PCharToUstr(PChar(PRetException));
             if not (ExceptionMessage = '') then
             begin
-              //ConsoleLn('Set调用返回结果失败: ' + string(ExceptionMessage));
               Exception := ExceptionMessage;
               Result := False;
               exit;
@@ -305,7 +300,6 @@ begin
   NextCefObjects := CefV8Objects;
   for i := 0 to length(FullObjName) - 2 do
   begin
-    //ConsoleLn('父节点查找: ' + FullObjName[i]);
     if NextCefObjects.TryGetData(FullObjName[i], parentV8Object) then
     begin
       if Value^.ParentId = parentV8Object^.Id then
@@ -318,10 +312,8 @@ begin
       NextCefObjects := CEFObjectBindMap(parentV8Object^.Children);
     end;
   end;
-  //ConsoleLn('父节点查找结束: ' + BoolTostr(isFindBool));
   if isFindBool then
   begin
-    //ConsoleLn('父节点查找: 添加');
     //先把指针类型的map转换成实际的map，否则会地址无效
     Value^.Parent := parentV8Object;
     CEFObjectBindMap(parentV8Object^.Children).AddOrSetData(ObjName, Value);
@@ -365,7 +357,6 @@ begin
     begin
       if V8Object^.Name = fieldName then
       begin
-        //ConsoleLn('在对象里 1');
         Result := V8Object;
         exit;
       end
@@ -373,13 +364,11 @@ begin
       begin
         if V8Object^.Fields.TryGetData(fieldName, field) then
         begin
-          //ConsoleLn('在字段里');
           Result := V8Object;
           exit;
         end
         else if V8Object^.Funcs.TryGetData(fieldName, field) then
         begin
-          //ConsoleLn('在函数里');
           Result := V8Object;
           exit;
         end;
@@ -388,11 +377,9 @@ begin
   end;
   if isFind then
   begin
-    //ConsoleLn('在对象里 0');
     Result := V8Object;
   end
   else
-    //ConsoleLn('未找到 0');
     Result := nil;
 end;
 
@@ -405,7 +392,6 @@ var
 begin
   //获取该名字的查找对象，如果有就在后面追加
   IsGet := LookupObjectsMap.TryGetData(Name, PObjects);
-  //ConsoleLn('对象查找MAP 名称: ' + string(Name) + '  获取结果: ' + BoolToStr(IsGet));
   if IsGet then
   begin
     SetLength(PObjects, Length(PObjects) + 1);
@@ -415,7 +401,6 @@ begin
     SetLength(PObjects, 1);
   end;
   LookupObject := new(PRLookupObject);
-  //ConsoleLn('对象查找MAP 创建PRLookupObject判断类型: ' + string(Name));
   if VType = 0 then
   begin
     LookupObject^.CefObject := CefObject;
@@ -434,7 +419,6 @@ begin
   LookupObject^.VType := VType;
   PObjects[High(PObjects)] := LookupObject;
   LookupObjectsMap.AddOrSetData(Name, PObjects);
-  //ConsoleLn('对象查找MAP Put 结束: ' + string(Name));
 end;
 
 //获取查找对象数组

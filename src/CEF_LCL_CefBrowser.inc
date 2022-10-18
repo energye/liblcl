@@ -23,11 +23,9 @@ var
   name, url: PChar;
 begin
   handleExceptionBegin;
-  //ConsoleLn('CEFBrowser_GetMainFrame browserId: ' + IntToStr(browserId));
   browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
   if browser = nil then
   begin
-    //ConsoleLn('CEFBrowser_GetMainFrame browser = nil');
     Result := nil;
     exit;
   end;
@@ -53,11 +51,9 @@ var
   name, url: PChar;
 begin
   handleExceptionBegin;
-  //ConsoleLn('CEFBrowser_GetMainFrame browserId: ' + IntToStr(browserId));
   browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
   if browser = nil then
   begin
-    //ConsoleLn('CEFBrowser_GetMainFrame browser = nil');
     Result := nil;
     exit;
   end;
@@ -210,7 +206,6 @@ begin
     exit;
   end;
   RetDouble := browser.GetHost.GetZoomLevel();
-  //ConsoleLn('GetZoomLevel: '+FloatToStr(RetDouble));
   handleExceptionEnd
 end;
 
@@ -550,7 +545,6 @@ begin
   browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
   if browser = nil then
   begin
-    //ConsoleLn('CEFBrowser_ShowDevTools browserId = nil');
     exit;
   end;
   try
@@ -564,7 +558,6 @@ begin
     begin
       devToolsWinName := DEVTOOLS_WINDOWNAME;
     end;
-    //ConsoleLn('CEFBrowser_ShowDevTools devToolsWinName: '+devToolsWinName);
     FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
     //WindowInfoAsPopUp(windowInfo, browser.Host.WindowHandle, devToolsWinName);
     //WindowInfoAsWindowless(windowInfo, windowParent.Handle, devToolsWinName);
@@ -572,7 +565,6 @@ begin
     client := TCustomClientHandler.Create(Chromium, True);
     FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
     browser.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
-    //ConsoleLn('CEFBrowser_ShowDevTools end ');
   finally
     //Free(windowInfo);
   end;
