@@ -1197,7 +1197,7 @@ exports
 
   // 库的信息
   DLibStringEncoding,
-  DLibVersion,
+  //DLibVersion,
 
   // TApplication
   Application_Instance,
@@ -1352,7 +1352,7 @@ exports
   DGetLibResourceCount,
   DGetLibResourceItem,
   DModifyLibResource,
-  DLibAbout,
+  //DLibAbout,
 
   DGetLibType,
 
