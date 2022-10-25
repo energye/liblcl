@@ -205,7 +205,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="C:\Users\Administrator\golcl\liblclx86"/>
+      <Filename Value="C:\Users\Administrator\golcl\liblcl"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

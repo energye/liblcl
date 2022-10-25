@@ -30,7 +30,7 @@
             <TargetCPU Value="x86_64"/>
             <TargetOS Value="win64"/>
             <Optimizations>
-              <OptimizationLevel Value="4"/>
+              <OptimizationLevel Value="2"/>
             </Optimizations>
             <SmallerCode Value="True"/>
           </CodeGeneration>
@@ -302,7 +302,7 @@
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <CursorPos X="9" Y="37"/>
+        <CursorPos Y="7"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -713,10 +713,11 @@
       </Unit49>
       <Unit50>
         <Filename Value="CEF_LCL_CefFrame.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="197"/>
-        <CursorPos X="31" Y="217"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="157"/>
+        <CursorPos X="8" Y="217"/>
         <UsageCount Value="93"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit50>
       <Unit51>
@@ -892,8 +893,8 @@
       <Unit73>
         <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-105.3.39\CEF4Delphi-master\source\uCEFInterfaces.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1332"/>
-        <CursorPos X="23" Y="1363"/>
+        <TopLine Value="770"/>
+        <CursorPos X="21" Y="832"/>
         <UsageCount Value="19"/>
       </Unit73>
       <Unit74>
@@ -951,7 +952,12 @@
     <OtherDefines Count="1">
       <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="1">
+      <Position1>
+        <Filename Value="CEF_LCL_CefFrame.inc"/>
+        <Caret Line="217" Column="8" TopLine="157"/>
+      </Position1>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode="default"/>
