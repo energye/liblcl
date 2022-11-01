@@ -62,6 +62,14 @@ begin
   EventMethodCode
 end;
 
+//EVENT_TYPE:ChromiumEventOnAddressChange
+procedure CEFChromium_SetOnAddressChange(AObj: TChromium; AEventId: NativeUInt); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnAddressChange}
+  {$DEFINE EventName := OnAddressChange}
+  EventMethodCode
+end;
+
 //EVENT_TYPE:ChromiumEventOnBeforeClose
 procedure CEFChromium_SetOnBeforeClose(AObj: TChromium; AEventId: NativeUInt); extdecl;
 begin
@@ -334,6 +342,7 @@ exports
    //other
    CEFChromium_SetOnAfterCreated,
    CEFChromium_SetOnBeforeBrowse,
+   CEFChromium_SetOnAddressChange,
    CEFChromium_SetOnBeforeClose,
    CEFChromium_SetOnClose,
    CEFChromium_SetOnPdfPrintFinished,

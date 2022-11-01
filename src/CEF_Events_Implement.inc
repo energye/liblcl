@@ -32,6 +32,19 @@ begin
   FreePRCEFFrame(cefFrame);
 end;
 
+//地址改变-事件
+class procedure TEventClass.ChromiumEvent_OnAddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
+var
+  cefFrame: PRCEFFrame;
+begin
+  cefFrame := new(PRCEFFrame);
+  cefFrame^.Name := PChar(string(frame.Name));
+  cefFrame^.Url := PChar(string(frame.Url));
+  cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
+  SendEvent(Sender, @TEventClass.ChromiumEvent_OnAddressChange, [Sender, browser.Identifier, cefFrame, PChar(string(url))]);
+  FreePRCEFFrame(cefFrame);
+end;
+
 //关闭之前-事件
 class procedure TEventClass.ChromiumEvent_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin

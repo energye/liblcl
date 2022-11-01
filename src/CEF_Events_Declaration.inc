@@ -16,6 +16,9 @@ class procedure ChromiumEvent_OnAfterCreated(Sender: TObject; const browser: ICe
 class procedure ChromiumEvent_OnBeforeBrowse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
   const request: ICefRequest; user_gesture, isRedirect: Boolean; out Result: Boolean);
 
+//地址改变-事件
+class procedure ChromiumEvent_OnAddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
+
 //关闭之前-事件
 class procedure ChromiumEvent_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
 
