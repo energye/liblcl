@@ -72,6 +72,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure cefRequest_SetHeaderMap(TObj: ICefRequest; HeaderMap: TCefCustomStringMultimap); extdecl;
+begin
+  handleExceptionBegin
+  TObj.SetHeaderMap(ICefStringMultimap(HeaderMap));
+  handleExceptionEnd
+end;
+
 
 exports
 //request
@@ -83,5 +90,6 @@ exports
   cefRequest_SetFirstPartyForCookies,
   cefRequest_GetHeaderByName,
   cefRequest_SetHeaderByName,
-  cefRequest_GetHeaderMap
+  cefRequest_GetHeaderMap,
+  cefRequest_SetHeaderMap
 ;
