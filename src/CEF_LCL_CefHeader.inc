@@ -20,23 +20,35 @@ begin
 end;
 
 function cefHeaderMap_GetEnumerate(TObj: TCefCustomStringMultimap; Key: PChar; ValueIndex: NativeUInt): PChar; extdecl;
+var
+  ret : string;
 begin
   handleExceptionBegin
-  Result := PChar(string(ICefStringMultimap(TObj).GetEnumerate(PCharToUStr(Key), ValueIndex)));
+  ret := string(ICefStringMultimap(TObj).GetEnumerate(PCharToUStr(Key), ValueIndex));
+  Result := PChar(ret);
+  ret := '';
   handleExceptionEnd
 end;
 
 function cefHeaderMap_GetKey(TObj: TCefCustomStringMultimap; Index: NativeUInt): PChar; extdecl;
+var
+  ret : string;
 begin
   handleExceptionBegin
-  Result := PChar(string(ICefStringMultimap(TObj).GetKey(Index)));
+  ret := string(ICefStringMultimap(TObj).GetKey(Index));
+  Result := PChar(ret);
+  ret := '';
   handleExceptionEnd
 end;
 
 function cefHeaderMap_GetValue(TObj: TCefCustomStringMultimap; Index: NativeUInt): PChar; extdecl;
+var
+  ret : string;
 begin
   handleExceptionBegin
-  Result := PChar(string(ICefStringMultimap(TObj).GetValue(Index)));
+  ret := string(ICefStringMultimap(TObj).GetValue(Index));
+  Result := PChar(ret);
+  ret := '';
   handleExceptionEnd
 end;
 
