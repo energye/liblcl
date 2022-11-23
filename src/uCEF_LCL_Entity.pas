@@ -218,7 +218,8 @@ type
   PArgumentsArray = ^ArgumentsArray;
 
   RArguments = record
-    StringValue: PChar;
+    PStringValue: PChar;
+    StringValue: string;
     IntegerValue: integer;
     PDoubleValue: Pdouble;
     DoubleValue: double;

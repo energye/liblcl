@@ -47,7 +47,7 @@ var
   retVType: integer = -1;
   PRetStringValue: Pointer;
   PRetIntValue: PInteger;
-  RetDoubleValue: Double;
+  RetDoubleValue: double;
   PRetBooleanValue: PBoolean;
 
   //args
@@ -57,7 +57,6 @@ var
   argsDefLen: integer;
   argsArray: array of TVarRec;
   argsArrayIdx: integer;
-  PRArgs: PRArguments;
 begin
   try
     res := True;
@@ -126,32 +125,32 @@ begin
     begin
       args := arguments[idx];
       argsArrayIdx := idx + argsDefLen;
-      FieldBindInfo^.ArgumentsArr^[idx] := new(PRArguments);
-      PRArgs := FieldBindInfo^.ArgumentsArr^[idx];
+      FieldBindInfo^.ArgumentsArr^[idx] := new(PRArguments);//做为一个引用数组使用
       //判断每个参数类型
       if args.IsString then
       begin
-        PRArgs^.StringValue := PChar(string(args.GetStringValue));
-        argsArray[argsArrayIdx].VPChar := PRArgs^.StringValue;
+        FieldBindInfo^.ArgumentsArr^[idx]^.StringValue := string(args.GetStringValue);
+        FieldBindInfo^.ArgumentsArr^[idx]^.PStringValue := PChar(FieldBindInfo^.ArgumentsArr^[idx]^.StringValue);
+        argsArray[argsArrayIdx].VPChar := FieldBindInfo^.ArgumentsArr^[idx]^.PStringValue;
         argsArray[argsArrayIdx].VType := vtPChar;
       end
       else if args.IsInt then
       begin
-        PRArgs^.IntegerValue := args.GetIntValue;
-        argsArray[argsArrayIdx].VInteger := PRArgs^.IntegerValue;
+        FieldBindInfo^.ArgumentsArr^[idx]^.IntegerValue := args.GetIntValue;
+        argsArray[argsArrayIdx].VInteger := FieldBindInfo^.ArgumentsArr^[idx]^.IntegerValue;
         argsArray[argsArrayIdx].VType := vtInteger;
       end
       else if args.IsDouble then
       begin
-        PRArgs^.DoubleValue := args.GetDoubleValue;
-        PRArgs^.PDoubleValue := @PRArgs^.DoubleValue;
-        argsArray[argsArrayIdx].VPointer := PRArgs^.PDoubleValue;
+        FieldBindInfo^.ArgumentsArr^[idx]^.DoubleValue := args.GetDoubleValue;
+        FieldBindInfo^.ArgumentsArr^[idx]^.PDoubleValue := @FieldBindInfo^.ArgumentsArr^[idx]^.DoubleValue;
+        argsArray[argsArrayIdx].VPointer := FieldBindInfo^.ArgumentsArr^[idx]^.PDoubleValue;
         argsArray[argsArrayIdx].VType := vtPointer;
       end
       else if args.IsBool then
       begin
-        PRArgs^.BooleanValue := args.GetBoolValue;
-        argsArray[argsArrayIdx].VBoolean := PRArgs^.BooleanValue;
+        FieldBindInfo^.ArgumentsArr^[idx]^.BooleanValue := args.GetBoolValue;
+        argsArray[argsArrayIdx].VBoolean := FieldBindInfo^.ArgumentsArr^[idx]^.BooleanValue;
         argsArray[argsArrayIdx].VType := vtBoolean;
       end
       else
@@ -206,12 +205,12 @@ begin
     PRetStringValue := nil;
     PRetIntValue := nil;
     PRetBooleanValue := nil;
-    PRArgs := nil;
     FreeArrayTVarRec(argsArray);
     SetLength(argsArray, 0);
     for idx := 0 to argumentsLen - 1 do
     begin
-      FieldBindInfo^.ArgumentsArr^[idx]^.StringValue := nil;
+      FieldBindInfo^.ArgumentsArr^[idx]^.StringValue := '';
+      FieldBindInfo^.ArgumentsArr^[idx]^.PStringValue := nil;
       FieldBindInfo^.ArgumentsArr^[idx]^.PDoubleValue := nil;
       FieldBindInfo^.ArgumentsArr^[idx] := nil;
     end;
