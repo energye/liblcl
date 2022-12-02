@@ -1398,7 +1398,9 @@ end;
 
 function ColorButton_StaticClassType: TClass; extdecl;
 begin
+  handleExceptionBegin
   Result := TColorButton;
+  handleExceptionEnd
 end;
 
 exports
@@ -1578,5 +1580,6 @@ exports
   ColorButton_SetBorderSpacing,
   ColorButton_GetComponents,
   ColorButton_GetAnchorSide,
-  ColorButton_StaticClassType;
+  ColorButton_StaticClassType
+;
 

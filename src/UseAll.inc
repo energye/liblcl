@@ -48,6 +48,7 @@
   Spin,
   Printers,
   ComboEx,
+  EditBtn,
   LResources,
   GraphType,
 //CEFChromium 组件单元

@@ -50,6 +50,11 @@
 {$I MyLCL_CollectionItem.inc}  //BASECLASS:TObject
 {$I MyLCL_StatusPanels.inc}  //BASECLASS:TObject
 {$I MyLCL_StatusPanel.inc}  //BASECLASS:TObject
+{$I MyLCL_FloatSpinEdit.inc}  //BASECLASS:TWinControl
+{$I MyLCL_DirectoryEdit.inc}  //BASECLASS:TWinControl
+{$I MyLCL_FlowPanelControl.inc}  //BASECLASS:TObject
+{$I MyLCL_FlowPanelControlList.inc}  //BASECLASS:TObject
+{$I MyLCL_ColorButton.inc}  //BASECLASS:TControl
 
 
 //{$ifdef windows}
