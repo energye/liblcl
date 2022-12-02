@@ -56,7 +56,6 @@ begin
       TFlowPanel,TCoolBar, TSpinEdit,TMiniWebview,TTaskDialog, TCalendar,
       TComboBoxEx,TXButton, TCheckGroup, TToggleBox
   ]);
-  {$I UserDefineComponentsClass.inc}
 end;
 
 

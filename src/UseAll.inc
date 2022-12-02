@@ -50,7 +50,8 @@
   ComboEx,
   LResources,
   GraphType,
-{$I UserDefineComponentUses.inc}
+//CEFChromium 组件单元
+{$I CEF_LCL_Component.inc}
   uLinkLabel,
   uEventCallback,
   ImageButton,

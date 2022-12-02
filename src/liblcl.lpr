@@ -57,8 +57,8 @@ uses
 {$I uExport4.pas}
 
 
-// 用户自己定义的组件
-{$I UserDefineComponents.inc}
+//组件接口导出
+{$I CEF_LCL_Export.inc}
 
 begin
   RequireDerivedFormResource := False;

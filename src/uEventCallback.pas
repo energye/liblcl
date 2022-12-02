@@ -200,8 +200,8 @@ type
     procedure OnTMenuDrawItemEvent(Sender: TObject; ACanvas: TCanvas; ARect: TRect; AState: TOwnerDrawState);
 
     procedure OnTWndProcEvent(Sender: TObject; var TheMessage: TLMessage);
-    // 用户定义事件声明
-    {$I UserDefineEventsDeclaration.inc}
+    // CEF 事件定义
+    {$I CEF_Events_Declaration.inc}
   public
     // thread sync
     class procedure ThreadProc;
@@ -958,7 +958,6 @@ begin
     GMessageCallbackPtr(DataPtr, @TheMessage);
 end;
 
-
-// 用户定义事件实现引入
-{$I UserDefineEventsImplement.inc}
+// CEF 事件实现
+{$I CEF_Events_Implement.inc}
 end.
