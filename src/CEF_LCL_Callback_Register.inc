@@ -23,7 +23,7 @@ begin
 end;
 
 //CEF App相关回调函数事件设置 SetCEFCallbackEvent
-procedure SetCEFCallbackEvent(AEventName: PChar; AEventId: NativeUInt); extdecl;
+procedure SetCEFCallbackEvent(AEventName: PChar; AEventData: Pointer); extdecl;
 var
   eventName : ustring;
 begin
@@ -34,47 +34,47 @@ begin
   if eventName = AppEvent_OnContextCreated then
   begin
      GlobalCEFApp.OnContextCreated := GlobalCEFAppEvent_OnContextCreated;
-     TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnContextCreated, AEventId);
+     //TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnContextCreated, AEventId);
   end
   else if eventName = AppEvent_OnWebKitInitialized then
   begin
      GlobalCEFApp.OnWebKitInitialized := GlobalCEFAppEvent_OnWebKitInitialized;
-     TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnWebKitInitialized, AEventId);
+     //TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnWebKitInitialized, AEventId);
   end
   else if eventName = AppEvent_OnProcessMessageReceived then
   begin
      GlobalCEFApp.OnProcessMessageReceived := GlobalCEFAppEvent_OnProcessMessageReceived;
-     TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnProcessMessageReceived, AEventId);
+     //TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnProcessMessageReceived, AEventId);
   end
   else if eventName = AppEvent_OnBeforeChildProcessLaunch then
   begin
      GlobalCEFApp.OnBeforeChildProcessLaunch := GlobalCEFAppEvent_OnBeforeChildProcessLaunch;
-     TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnBeforeChildProcessLaunch, AEventId);
+     //TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnBeforeChildProcessLaunch, AEventId);
   end
   else if eventName = AppEvent_OnBrowserDestroyed then
   begin
      GlobalCEFApp.OnBrowserDestroyed := GlobalCEFAppEvent_OnBrowserDestroyed;
-     TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnBrowserDestroyed, AEventId);
+     //TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnBrowserDestroyed, AEventId);
   end
   else if eventName = AppEvent_OnRenderLoadStart then
   begin
      GlobalCEFApp.OnLoadStart := GlobalCEFAppEvent_OnRenderLoadStart;
-     TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadStart, AEventId);
+     //TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadStart, AEventId);
   end
   else if eventName = AppEvent_OnRenderLoadEnd then
   begin
      GlobalCEFApp.OnLoadEnd := GlobalCEFAppEvent_OnRenderLoadEnd;
-     TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadEnd, AEventId);
+     //TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadEnd, AEventId);
   end
   else if eventName = AppEvent_OnRenderLoadError then
   begin
      GlobalCEFApp.OnLoadError := GlobalCEFAppEvent_OnRenderLoadError;
-     TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadError, AEventId);
+     //TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadError, AEventId);
   end
   else if eventName = AppEvent_OnRenderLoadingStateChange then
   begin
      GlobalCEFApp.OnLoadingStateChange := GlobalCEFAppEvent_OnRenderLoadingStateChange;
-     TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadingStateChange, AEventId);
+     //TEventClass.Add(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadingStateChange, AEventId);
   end;
 
   handleExceptionEnd

@@ -35,7 +35,7 @@ type // Cef Event
   public
     class constructor Create;
     class destructor Destroy;
-    class procedure Add(AEventName: ustring; AEventId: nativeuint);
+    class procedure Add(AEventName: ustring; AEventData: nativeuint);
     class procedure Remove(AEventName: ustring);
     class procedure SendEvent(AEventName: ustring; AArgs: array of const);
     class function Size(): longint;
@@ -60,7 +60,7 @@ type //Window Bind
   public
     class constructor Create;
     class destructor Destroy;
-    //class procedure Add(AEventName: ustring; AEventId: nativeuint);
+    //class procedure Add(AEventName: ustring; AEventData: Pointer);
    // class function GetEventId(AEventName: ustring): nativeuint;
     class function SendEvent(const AEventName: ustring; AArgs: array of const): boolean;
     class function Size(): longint;
@@ -158,7 +158,7 @@ begin
   TCEFWindowBinds.Clear;
 end;
 
-//class procedure TCEFWindowBindClass.Add(AEventName: ustring; AEventId: nativeuint);
+//class procedure TCEFWindowBindClass.Add(AEventName: ustring; AEventData: Pointer);
 //begin
 //  TCEFWindowBinds.AddOrSetData(AEventName, AEventId);
 //end;
@@ -170,11 +170,11 @@ end;
 
 //class function TCEFWindowBindClass.GetEventId(AEventName: ustring): nativeuint;
 //var
-//  LEventId: nativeuint = 0;
+//  AEventData: nativeuint = 0;
 //begin
-//  if TCEFWindowBinds.TryGetData(AEventName, LEventId) then
+//  if TCEFWindowBinds.TryGetData(AEventName, AEventData) then
 //  begin
-//    Result := LEventId;
+//    Result := AEventData;
 //    exit;
 //  end;
 //  Result := 0;
@@ -217,14 +217,14 @@ begin
   FCEFEvents.Free;
 end;
 
-class procedure TCEFEventClass.Add(AEventName: ustring; AEventId: nativeuint);
+class procedure TCEFEventClass.Add(AEventName: ustring; AEventData: nativeuint);
 var
   LEventId: nativeuint = 0;
 begin
 
   if Assigned(FCEFEvents) and (not FCEFEvents.TryGetData(AEventName, LEventId)) then
   begin
-    FCEFEvents.AddOrSetData(AEventName, AEventId);
+    FCEFEvents.AddOrSetData(AEventName, AEventData);
   end;
 end;
 

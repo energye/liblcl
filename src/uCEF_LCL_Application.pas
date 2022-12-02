@@ -110,7 +110,7 @@ begin
 
   TMainChromiumBrowserClass.PutBrowser(browser);
   //事件触发, go 绑定一些js属性和函数
-  TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnContextCreated, [browser.Identifier, cefFrame, @v8Context, @state]);
+  //TLCLEventBase.SendEvent([CommonInstance, browser.Identifier, cefFrame, @v8Context, @state]);
   if not state then
   begin
     exit;
@@ -390,7 +390,7 @@ end;
 //TCefApplication OnWebKitInitialized
 procedure GlobalCEFAppEvent_OnWebKitInitialized;
 begin
-  TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnWebKitInitialized, []);
+  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnWebKitInitialized, []);
 end;
 
 //render进程消息
@@ -425,7 +425,7 @@ begin
     processMessage^.Name := PChar(string(aMessage.Name));
     processMessage^.Data := @binaryBuf[0];
     processMessage^.DataLen := PInteger(binarySize);
-    TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnProcessMessageReceived, [browser.Identifier, cefFrame, sourceProcess, processMessage, @aHandled]);
+    //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnProcessMessageReceived, [browser.Identifier, cefFrame, sourceProcess, processMessage, @aHandled]);
     SetLength(binaryBuf, 0);
     processMessage^.Data := nil;
     processMessage := nil;
@@ -442,7 +442,7 @@ var
   commandArray: TStringArray;
   commandItemArray: TStringArray;
 begin
-  TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnBeforeChildProcessLaunch, [@commands]);
+  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnBeforeChildProcessLaunch, [@commands]);
   commandArray := string(PCharToUStr(commands)).Split(' ');
   for idx := 0 to length(commandArray) - 1 do
   begin
@@ -461,7 +461,7 @@ end;
 //browser 消毁事件
 procedure GlobalCEFAppEvent_OnBrowserDestroyed(const browser: ICefBrowser);
 begin
-  TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnBrowserDestroyed, [browser.Identifier]);
+  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnBrowserDestroyed, [browser.Identifier]);
 end;
 
 procedure GlobalCEFAppEvent_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
@@ -472,7 +472,7 @@ begin
   cefFrame^.Name := PChar(UTF8Encode(frame.Name));
   cefFrame^.Url := PChar(UTF8Encode(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadStart, [browser.Identifier, cefFrame, transitionType]);
+  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadStart, [browser.Identifier, cefFrame, transitionType]);
   FreePRCEFFrame(cefFrame);
 end;
 
@@ -484,7 +484,7 @@ begin
   cefFrame^.Name := PChar(UTF8Encode(frame.Name));
   cefFrame^.Url := PChar(UTF8Encode(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadEnd, [browser.Identifier, cefFrame, httpStatusCode]);
+  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadEnd, [browser.Identifier, cefFrame, httpStatusCode]);
   FreePRCEFFrame(cefFrame);
 end;
 
@@ -496,13 +496,13 @@ begin
   cefFrame^.Name := PChar(UTF8Encode(frame.Name));
   cefFrame^.Url := PChar(UTF8Encode(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadError, [browser.Identifier, cefFrame, errorCode, PChar(UTF8Encode(errorText)), PChar(UTF8Encode(failedUrl))]);
+  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadError, [browser.Identifier, cefFrame, errorCode, PChar(UTF8Encode(errorText)), PChar(UTF8Encode(failedUrl))]);
   FreePRCEFFrame(cefFrame);
 end;
 
 procedure GlobalCEFAppEvent_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
 begin
-  TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadingStateChange, [browser.Identifier, isLoading, canGoBack, canGoForward]);
+  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadingStateChange, [browser.Identifier, isLoading, canGoBack, canGoForward]);
 end;
 
 //应用主进程内执行函数

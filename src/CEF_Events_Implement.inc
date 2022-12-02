@@ -11,14 +11,14 @@
 
 {==chromium begin==}
 //浏览器创建之后
-class procedure TEventClass.ChromiumEvent_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
+procedure TLCLEvent.ChromiumEvent_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   //SendMessage(browser.Host.WindowHandle, WM_SETICON, 1, application.Icon.Handle);
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnAfterCreated, [Sender, browser.Identifier]);
+  SendEvent([Sender, browser.Identifier]);
 end;
 
 //浏览器创建之前事件
-class procedure TEventClass.ChromiumEvent_OnBeforeBrowse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
+procedure TLCLEvent.ChromiumEvent_OnBeforeBrowse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
   const request: ICefRequest; user_gesture, isRedirect: Boolean; out Result: Boolean);
 var
   cefFrame: PRCEFFrame;
@@ -28,12 +28,12 @@ begin
   cefFrame^.Url := PChar(string(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
   TMainChromiumBrowserClass.PutBrowser(browser);
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnBeforeBrowse, [Sender, browser.Identifier, cefFrame, @Result]);
+  SendEvent([Sender, browser.Identifier, cefFrame, @Result]);
   FreePRCEFFrame(cefFrame);
 end;
 
 //地址改变-事件
-class procedure TEventClass.ChromiumEvent_OnAddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
+procedure TLCLEvent.ChromiumEvent_OnAddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
 var
   cefFrame: PRCEFFrame;
 begin
@@ -41,21 +41,21 @@ begin
   cefFrame^.Name := PChar(string(frame.Name));
   cefFrame^.Url := PChar(string(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnAddressChange, [Sender, browser.Identifier, cefFrame, PChar(string(url))]);
+  SendEvent([Sender, browser.Identifier, cefFrame, PChar(string(url))]);
   FreePRCEFFrame(cefFrame);
 end;
 
 //关闭之前-事件
-class procedure TEventClass.ChromiumEvent_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
+procedure TLCLEvent.ChromiumEvent_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   TMainChromiumBrowserClass.RemoveBrowser(browser.Identifier);
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnBeforeClose, [Sender, browser.Identifier]);
+  SendEvent([Sender, browser.Identifier]);
 end;
 
 //关闭-事件
-class procedure TEventClass.ChromiumEvent_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
+procedure TLCLEvent.ChromiumEvent_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnClose, [Sender, browser.Identifier, @aAction]);
+  SendEvent([Sender, browser.Identifier, @aAction]);
   if not SingleProcess then
   begin
     TObjectValueBindInfoClass.Clear;
@@ -64,7 +64,7 @@ begin
 end;
 
 //右键菜单-before-正常
-class procedure TEventClass.ChromiumEvent_OnBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
+procedure TLCLEvent.ChromiumEvent_OnBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 var
   PParams : PRContextMenuParams;
@@ -89,13 +89,13 @@ begin
   cefFrame^.Name := PChar(string(frame.Name));
   cefFrame^.Url := PChar(string(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnBeforeContextMenu, [Sender, browser.Identifier, cefFrame, PParams, model]);
+  SendEvent([Sender, browser.Identifier, cefFrame, PParams, model]);
   PParams := nil;
   FreePRCEFFrame(cefFrame);
 end;
 
 //右键菜单-command-正常
-class procedure TEventClass.ChromiumEvent_OnContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
+procedure TLCLEvent.ChromiumEvent_OnContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
 var
   PParams : PRContextMenuParams;
@@ -120,12 +120,12 @@ begin
   cefFrame^.Name := PChar(string(frame.Name));
   cefFrame^.Url := PChar(string(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnContextMenuCommand, [Sender, browser.Identifier, cefFrame, PParams, commandId, eventFlags, @Result]);
+  SendEvent([Sender, browser.Identifier, cefFrame, PParams, commandId, eventFlags, @Result]);
   PParams := nil;
 end;
 
 //右键菜单-Dismissed
-class procedure TEventClass.ChromiumEvent_OnContextMenuDismissed(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame);
+procedure TLCLEvent.ChromiumEvent_OnContextMenuDismissed(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame);
 var
   cefFrame: PRCEFFrame;
 begin
@@ -133,25 +133,25 @@ begin
   cefFrame^.Name := PChar(string(frame.Name));
   cefFrame^.Url := PChar(string(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnContextMenuDismissed, [Sender, browser.Identifier, cefFrame]);
+  SendEvent([Sender, browser.Identifier, cefFrame]);
   FreePRCEFFrame(cefFrame);
 end;
 
 //导出PDF完成-事件
-class procedure TEventClass.ChromiumEvent_OnPdfPrintFinished(Sender: TObject; aResultOK: boolean);
+procedure TLCLEvent.ChromiumEvent_OnPdfPrintFinished(Sender: TObject; aResultOK: boolean);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnPdfPrintFinished, [Sender, aResultOK]);
+  SendEvent([Sender, aResultOK]);
 end;
 
 //键盘-事件
-class procedure TEventClass.ChromiumEvent_KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
+procedure TLCLEvent.ChromiumEvent_KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out Result: boolean);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_KeyEvent, [Sender, browser.Identifier, event, @Result]);
+  SendEvent([Sender, browser.Identifier, event, @Result]);
 end;
 
 //加载 start-事件
-class procedure TEventClass.ChromiumEvent_OnLoadStart(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
+procedure TLCLEvent.ChromiumEvent_OnLoadStart(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
   transitionType: TCefTransitionType);
 var
   cefFrame: PRCEFFrame;
@@ -161,27 +161,27 @@ begin
   cefFrame^.Url := PChar(string(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
   TMainChromiumBrowserClass.PutBrowser(browser);
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnLoadStart, [Sender, browser.Identifier, cefFrame]);
+  SendEvent([Sender, browser.Identifier, cefFrame]);
   FreePRCEFFrame(cefFrame);
 end;
 
 //加载 LoadingStateChange-事件
-class procedure TEventClass.ChromiumEvent_OnLoadingStateChange(Sender: TObject; const browser: ICefBrowser;
+procedure TLCLEvent.ChromiumEvent_OnLoadingStateChange(Sender: TObject; const browser: ICefBrowser;
   isLoading, canGoBack, canGoForward: boolean);
 begin
   TMainChromiumBrowserClass.PutBrowser(browser);
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnLoadingStateChange, [Sender, browser.Identifier, isLoading, canGoBack, canGoForward]);
+  SendEvent([Sender, browser.Identifier, isLoading, canGoBack, canGoForward]);
 end;
 
 //加载 LoadingProgressChange-事件
-class procedure TEventClass.ChromiumEvent_OnLoadingProgressChange(Sender: TObject; const browser: ICefBrowser; const progress: Double);
+procedure TLCLEvent.ChromiumEvent_OnLoadingProgressChange(Sender: TObject; const browser: ICefBrowser; const progress: Double);
 begin
   TMainChromiumBrowserClass.PutBrowser(browser);
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnLoadingProgressChange, [Sender, browser.Identifier, @progress]);
+  SendEvent([Sender, browser.Identifier, @progress]);
 end;
 
 //加载 LoadError-事件
-class procedure TEventClass.ChromiumEvent_OnLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: integer; const errorText, failedUrl: ustring);
+procedure TLCLEvent.ChromiumEvent_OnLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: integer; const errorText, failedUrl: ustring);
 var
   cefFrame: PRCEFFrame;
 begin
@@ -189,12 +189,12 @@ begin
   cefFrame^.Name := PChar(string(frame.Name));
   cefFrame^.Url := PChar(string(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnLoadError, [Sender, browser.Identifier, cefFrame, errorCode, PChar(string(errorText)), PChar(string(failedUrl))]);
+  SendEvent([Sender, browser.Identifier, cefFrame, errorCode, PChar(string(errorText)), PChar(string(failedUrl))]);
   FreePRCEFFrame(cefFrame);
 end;
 
 //加载 LoadEnd-事件
-class procedure TEventClass.ChromiumEvent_OnLoadEnd(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
+procedure TLCLEvent.ChromiumEvent_OnLoadEnd(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
 var
   cefFrame: PRCEFFrame;
 begin
@@ -202,12 +202,12 @@ begin
   cefFrame^.Name := PChar(string(frame.Name));
   cefFrame^.Url := PChar(string(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnLoadEnd, [Sender, browser.Identifier, cefFrame, httpStatusCode]);
+  SendEvent([Sender, browser.Identifier, cefFrame, httpStatusCode]);
   FreePRCEFFrame(cefFrame);
 end;
 
 //下载之前-事件  创建时设置
-class procedure TEventClass.ChromiumEvent_OnBeforeDownload(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
+procedure TLCLEvent.ChromiumEvent_OnBeforeDownload(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
   const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
 var
   downItem: PRDownloadItem;
@@ -233,12 +233,12 @@ begin
   downItem^.MimeType := PChar(string(downloadItem.MimeType));
   downItem^.IsValid := @isValid;
   downItem^.State := PInteger(-1);
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnBeforeDownload, [Sender, browser.Identifier, downItem, PChar(string(suggestedName)), callback]);
+  SendEvent([Sender, browser.Identifier, downItem, PChar(string(suggestedName)), callback]);
   downItem := nil;
 end;
 
 //下载更新-事件
-class procedure TEventClass.ChromiumEvent_OnDownloadUpdated(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
+procedure TLCLEvent.ChromiumEvent_OnDownloadUpdated(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
   const callback: ICefDownloadItemCallback);
 var
   downItem: PRDownloadItem;
@@ -282,24 +282,24 @@ begin
       TMainChromiumBrowserClass.PutBrowserDownloadItemCallback(browser.Identifier, downloadItem.Id, callback);
     end;
   end;
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnDownloadUpdated, [Sender, browser.Identifier, downItem, callback]);
+  SendEvent([Sender, browser.Identifier, downItem, callback]);
   downItem := nil;
 end;
 
 //放大缩小回调-事件
-class procedure TEventClass.ChromiumEvent_OnZoomPctAvailable(Sender: TObject; const aZoomPct: Double);
+procedure TLCLEvent.ChromiumEvent_OnZoomPctAvailable(Sender: TObject; const aZoomPct: Double);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnZoomPctAvailable, [Sender, @aZoomPct]);
+  SendEvent([Sender, @aZoomPct]);
 end;
 
 //全屏模式-事件
-class procedure TEventClass.ChromiumEvent_OnFullScreenModeChange(Sender: TObject;  const browser: ICefBrowser; fullscreen: boolean);
+procedure TLCLEvent.ChromiumEvent_OnFullScreenModeChange(Sender: TObject;  const browser: ICefBrowser; fullscreen: boolean);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnFullScreenModeChange, [Sender, browser.Identifier, fullscreen]);
+  SendEvent([Sender, browser.Identifier, fullscreen]);
 end;
 
 //弹窗之前-事件
-class procedure TEventClass.ChromiumEvent_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
+procedure TLCLEvent.ChromiumEvent_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings;
   var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean;  var Result: Boolean);
@@ -323,7 +323,7 @@ begin
     beforePopupInfo^.UserGesture := @userGesture;
 
     //event
-    SendEvent(Sender, @TEventClass.ChromiumEvent_OnBeforePopup, [Sender, browser.Identifier, cefFrame, beforePopupInfo, @windowInfo, client, @noJavascriptAccess, @Result]);
+    SendEvent([Sender, browser.Identifier, cefFrame, beforePopupInfo, @windowInfo, client, @noJavascriptAccess, @Result]);
   finally
     //free beforePopupInfo
     beforePopupInfo^.TargetUrl := nil;
@@ -339,7 +339,7 @@ begin
 end;
 
 //打开tab-事件
-class procedure TEventClass.ChromiumEvent_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
+procedure TLCLEvent.ChromiumEvent_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
   targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 begin
   if not boolean(GChromiumConfig.EnableOpenUrlTab) then //禁止弹新Tab
@@ -351,35 +351,35 @@ begin
 end;
 
 //标题改变-事件
-class procedure TEventClass.ChromiumEvent_OnTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
+procedure TLCLEvent.ChromiumEvent_OnTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnTitleChange, [Sender, browser.Identifier, string(title)]);
+  SendEvent([Sender, browser.Identifier, string(title)]);
 end;
 
 //Render-事件
-class procedure TEventClass.ChromiumEvent_OnRenderCompMsg(Sender: TObject; var aMessage: TMessage; var aHandled: boolean);
+procedure TLCLEvent.ChromiumEvent_OnRenderCompMsg(Sender: TObject; var aMessage: TMessage; var aHandled: boolean);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnRenderCompMsg, [Sender, @aMessage, aHandled]);
+  SendEvent([Sender, @aMessage, aHandled]);
 end;
 
-class procedure TEventClass.ChromiumEvent_OnRenderProcessTerminated(Sender: TObject; const browser: ICefBrowser; status: TCefTerminationStatus);
+procedure TLCLEvent.ChromiumEvent_OnRenderProcessTerminated(Sender: TObject; const browser: ICefBrowser; status: TCefTerminationStatus);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnRenderProcessTerminated, [Sender, browser.Identifier, status]);
+  SendEvent([Sender, browser.Identifier, status]);
 end;
 
-class procedure TEventClass.ChromiumEvent_OnRenderViewReady(Sender: Tobject; const browser: ICefBrowser);
+procedure TLCLEvent.ChromiumEvent_OnRenderViewReady(Sender: Tobject; const browser: ICefBrowser);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnRenderViewReady, [Sender, browser.Identifier]);
+  SendEvent([Sender, browser.Identifier]);
 end;
 
 //滚动条事件
-class procedure TEventClass.ChromiumEvent_OnScrollOffsetChanged(Sender: TObject; const browser: ICefBrowser; x, y: Double);
+procedure TLCLEvent.ChromiumEvent_OnScrollOffsetChanged(Sender: TObject; const browser: ICefBrowser; x, y: Double);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnScrollOffsetChanged, [Sender, browser.Identifier, @x, @y]);
+  SendEvent([Sender, browser.Identifier, @x, @y]);
 end;
 
 //browser 进程消息
-class procedure TEventClass.ChromiumEvent_OnProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
+procedure TLCLEvent.ChromiumEvent_OnProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
   sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
 var
   ret: boolean;
@@ -404,7 +404,7 @@ begin
     processMessage^.Name := PChar(string(message.Name));
     processMessage^.Data := @binaryBuf[0];
     processMessage^.DataLen := PInteger(binarySize);
-    SendEvent(Sender, @TEventClass.ChromiumEvent_OnProcessMessageReceived, [Sender, browser.Identifier, cefFrame, sourceProcess, processMessage, @Result]);
+    SendEvent([Sender, browser.Identifier, cefFrame, sourceProcess, processMessage, @Result]);
     SetLength(binaryBuf, 0);
     processMessage^.Data := nil;
     processMessage := nil;
@@ -414,30 +414,30 @@ begin
 end;
 
 //查找结果回调
-class procedure TEventClass.ChromiumEvent_OnFindResult(Sender: TObject; const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
+procedure TLCLEvent.ChromiumEvent_OnFindResult(Sender: TObject; const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
 begin
-    SendEvent(Sender, @TEventClass.ChromiumEvent_OnFindResult, [Sender, browser.Identifier, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate]);
+    SendEvent([Sender, browser.Identifier, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate]);
 end;
 
 {==chromium end==}
 
 //cookie begin
-class procedure TEventClass.ChromiumEvent_OnCookieSet(Sender: TObject; aSuccess: boolean; aID: integer);
+procedure TLCLEvent.ChromiumEvent_OnCookieSet(Sender: TObject; aSuccess: boolean; aID: integer);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnCookieSet, [Sender, aSuccess, aID]);
+  SendEvent([Sender, aSuccess, aID]);
 end;
 
-class procedure TEventClass.ChromiumEvent_OnCookiesDeleted(Sender: TObject; numDeleted: Integer);
+procedure TLCLEvent.ChromiumEvent_OnCookiesDeleted(Sender: TObject; numDeleted: Integer);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnCookiesDeleted, [Sender, numDeleted]);
+  SendEvent([Sender, numDeleted]);
 end;
 
-class procedure TEventClass.ChromiumEvent_OnCookiesFlushed(Sender: TObject);
+procedure TLCLEvent.ChromiumEvent_OnCookiesFlushed(Sender: TObject);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnCookiesFlushed, [Sender]);
+  SendEvent([Sender]);
 end;
 
-class procedure TEventClass.ChromiumEvent_OnCookiesVisited(Sender: TObject; const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean;
+procedure TLCLEvent.ChromiumEvent_OnCookiesVisited(Sender: TObject; const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean;
   const creation, lastAccess, expires: TDateTime; count, total, aID: Integer; same_site: TCefCookieSameSite; priority: Integer; var aDeleteCookie, aResult: Boolean);
 var
   cookie: PRCefCookie;
@@ -462,18 +462,18 @@ begin
   cookie^.aSetImmediately := @aResult;
   cookie^.aDeleteCookie := @aDeleteCookie;
   cookie^.Result := @aResult;
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnCookiesVisited, [Sender, cookie]);
+  SendEvent([Sender, cookie]);
   cookie := nil;
 end;
 
-class procedure TEventClass.ChromiumEvent_OnCookieVisitorDestroyed(Sender: TObject; aID: integer);
+procedure TLCLEvent.ChromiumEvent_OnCookieVisitorDestroyed(Sender: TObject; aID: integer);
 begin
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnCookieVisitorDestroyed, [Sender, aID]);
+  SendEvent([Sender, aID]);
 end;
 //cookie end
 
 //资源加载之前消息
-class procedure TEventClass.ChromiumEvent_OnBeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest;
+procedure TLCLEvent.ChromiumEvent_OnBeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest;
   const callback: ICefCallback; out Result: TCefReturnValue);
 var
   cefFrame: PRCEFFrame;
@@ -497,13 +497,13 @@ begin
   identifier := request.Identifier;
   rCefRequest^.Identifier := @identifier;
 
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnBeforeResourceLoad, [Sender, browser.Identifier, cefFrame, rCefRequest, callback, @Result]);
+  SendEvent([Sender, browser.Identifier, cefFrame, rCefRequest, callback, @Result]);
 
   FreePRCEFFrame(cefFrame);
   rCefRequest := nil;
 end;
 
-class procedure TEventClass.ChromiumEvent_OnResourceResponse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest;
+procedure TLCLEvent.ChromiumEvent_OnResourceResponse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest;
   const response: ICefResponse; out Result: boolean);
 var
   cefFrame: PRCEFFrame;
@@ -538,14 +538,14 @@ begin
   rCefResponse^.Error := pinteger(integer(response.Error));;
   rCefResponse^.URL := PChar(string(response.Url));
 
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnResourceResponse, [Sender, browser.Identifier, cefFrame, rCefRequest, rCefResponse, @Result]);
+  SendEvent([Sender, browser.Identifier, cefFrame, rCefRequest, rCefResponse, @Result]);
 
   FreePRCEFFrame(cefFrame);
   rCefRequest := nil;
   rCefResponse := nil;
 end;
 
-class procedure TEventClass.ChromiumEvent_OnResourceRedirect(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest;
+procedure TLCLEvent.ChromiumEvent_OnResourceRedirect(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest;
   const response: ICefResponse; var newUrl: ustring);
 var
   cefFrame: PRCEFFrame;
@@ -581,7 +581,7 @@ begin
   rCefResponse^.Error := pinteger(integer(response.Error));;
   rCefResponse^.URL := PChar(string(response.Url));
 
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnResourceRedirect, [Sender, browser.Identifier, cefFrame, rCefRequest, rCefResponse, @pNewUrl]);
+  SendEvent([Sender, browser.Identifier, cefFrame, rCefRequest, rCefResponse, @pNewUrl]);
   newUrl := PCharToUStr(pNewUrl);
   FreePRCEFFrame(cefFrame);
   rCefRequest := nil;
@@ -589,7 +589,7 @@ begin
 end;
 
 
-class procedure TEventClass.ChromiumEvent_OnResourceLoadComplete(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse;
+procedure TLCLEvent.ChromiumEvent_OnResourceLoadComplete(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse;
   status: TCefUrlRequestStatus; receivedContentLength: Int64);
 var
   cefFrame: PRCEFFrame;
@@ -623,14 +623,14 @@ begin
   rCefResponse^.Charset := PChar(string(response.Charset));
   rCefResponse^.Error := pinteger(integer(response.Error));;
   rCefResponse^.URL := PChar(string(response.Url));
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnResourceLoadComplete, [Sender, browser.Identifier, cefFrame, rCefRequest, rCefResponse, @integer(status), @receivedContentLength]);
+  SendEvent([Sender, browser.Identifier, cefFrame, rCefRequest, rCefResponse, @integer(status), @receivedContentLength]);
   FreePRCEFFrame(cefFrame);
   rCefRequest := nil;
   rCefResponse := nil;
 end;
 
 {==frame begin==}
-class procedure TEventClass.ChromiumEvent_OnFrameAttached(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
+procedure TLCLEvent.ChromiumEvent_OnFrameAttached(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
 var
   cefFrame: PRCEFFrame;
 begin
@@ -647,11 +647,11 @@ begin
     cefFrame^.Url := PChar('');
     cefFrame^.Identifier := PChar('-1');
   end;
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnFrameAttached, [Sender, browser.Identifier, cefFrame, reattached]);
+  SendEvent([Sender, browser.Identifier, cefFrame, reattached]);
   FreePRCEFFrame(cefFrame);
 end;
 
-class procedure TEventClass.ChromiumEvent_OnFrameCreated(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame);
+procedure TLCLEvent.ChromiumEvent_OnFrameCreated(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame);
 var
   cefFrame: PRCEFFrame;
   frameId, frameName, frameUrl: PChar;
@@ -665,7 +665,7 @@ begin
   cefFrame^.Url := frameUrl;
   if Assigned(cefFrame) then
   begin
-    SendEvent(Sender, @TEventClass.ChromiumEvent_OnFrameCreated, [Sender, browser.Identifier, cefFrame]);
+    SendEvent([Sender, browser.Identifier, cefFrame]);
   end;
   frameId := nil;
   frameName := nil;
@@ -674,7 +674,7 @@ begin
   cefFrame := nil;
 end;
 
-class procedure TEventClass.ChromiumEvent_OnFrameDetached(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame);
+procedure TLCLEvent.ChromiumEvent_OnFrameDetached(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame);
 var
   cefFrame: PRCEFFrame;
 begin
@@ -691,11 +691,11 @@ begin
     cefFrame^.Url := PChar('');
     cefFrame^.Identifier := PChar('-1');
   end;
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnFrameDetached, [Sender, browser.Identifier, cefFrame]);
+  SendEvent([Sender, browser.Identifier, cefFrame]);
   FreePRCEFFrame(cefFrame);
 end;
 
-class procedure TEventClass.ChromiumEvent_OnMainFrameChanged(Sender: TObject; const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
+procedure TLCLEvent.ChromiumEvent_OnMainFrameChanged(Sender: TObject; const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
 var
   oldCefFrame: PRCEFFrame;
   newCefFrame: PRCEFFrame;
@@ -726,20 +726,20 @@ begin
     newCefFrame^.Url := PChar('');
     newCefFrame^.Identifier := PChar('-1');
   end;
-  SendEvent(Sender, @TEventClass.ChromiumEvent_OnMainFrameChanged, [Sender, browser.Identifier, oldCefFrame, newCefFrame]);
+  SendEvent([Sender, browser.Identifier, oldCefFrame, newCefFrame]);
   FreePRCEFFrame(oldCefFrame);
   FreePRCEFFrame(newCefFrame);
 end;
 {==frame end==}
 
 {==window begin==}
-class procedure TEventClass.CEFWindowEvent_OnEnter(Sender: TObject);
+procedure TLCLEvent.CEFWindowEvent_OnEnter(Sender: TObject);
 begin
-  SendEvent(Sender, @TEventClass.CEFWindowEvent_OnEnter, [Sender]);
+  SendEvent([Sender]);
 end;
 
-class procedure TEventClass.CEFWindowEvent_OnExit(Sender: TObject);
+procedure TLCLEvent.CEFWindowEvent_OnExit(Sender: TObject);
 begin
-  SendEvent(Sender, @TEventClass.CEFWindowEvent_OnExit, [Sender]);
+  SendEvent([Sender]);
 end;
 

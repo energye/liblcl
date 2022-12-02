@@ -15,8 +15,8 @@ procedure CEFWindowInfoAsPopUp(var windowInfo : TCefWindowInfo; windowParent: {$
 begin
   handleExceptionBegin
   WindowInfoAsPopUp(windowInfo, windowParent.Handle, PCharToUStr(PWindowName));
-end;
   handleExceptionEnd
+end;
 
 procedure CEFWindowInfoAsWindowless(var windowInfo : TCefWindowInfo; windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; PWindowName: PChar); extdecl;
 begin

@@ -49,6 +49,7 @@
   Printers,
   ComboEx,
   LResources,
+  GraphType,
 {$I UserDefineComponentUses.inc}
   uLinkLabel,
   uEventCallback,

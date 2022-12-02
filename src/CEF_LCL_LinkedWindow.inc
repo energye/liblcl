@@ -223,7 +223,7 @@ end;
 
 
 //EVENT_TYPE:LinkedWindowEventOnEnter
-procedure CEFLinkedWindow_OnEnter(AObj: TCEFLinkedWindowParent; AEventId: NativeUInt); extdecl;
+procedure CEFLinkedWindow_OnEnter(AObj: TCEFLinkedWindowParent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := CEFWindowEvent_OnEnter}
   {$DEFINE EventName := OnEnter}
@@ -231,7 +231,7 @@ begin
 end;
 
 //EVENT_TYPE:LinkedWindowEventOnExit
-procedure CEFLinkedWindow_OnExit(AObj: TCEFLinkedWindowParent; AEventId: NativeUInt); extdecl;
+procedure CEFLinkedWindow_OnExit(AObj: TCEFLinkedWindowParent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := CEFWindowEvent_OnExit}
   {$DEFINE EventName := OnExit}
