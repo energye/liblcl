@@ -32,16 +32,6 @@ const
   v8cobj = 'gocobj';// common key
   v8obj = 'goobj'; // object key
   v8EmitKey = 'ipc';//JS emit Go on event
-  //渲染进程绑定事件
-  AppEvent_OnContextCreated: string = 'OnContextCreated';
-  AppEvent_OnWebKitInitialized: string = 'OnWebKitInitialized';
-  AppEvent_OnProcessMessageReceived: string = 'OnProcessMessageReceived';
-  AppEvent_OnBeforeChildProcessLaunch: string = 'OnBeforeChildProcessLaunch';
-  AppEvent_OnBrowserDestroyed: string = 'OnBrowserDestroyed';
-  AppEvent_OnRenderLoadStart: string = 'OnRenderLoadStart';
-  AppEvent_OnRenderLoadEnd: string = 'OnRenderLoadEnd';
-  AppEvent_OnRenderLoadError: string = 'OnRenderLoadError';
-  AppEvent_OnRenderLoadingStateChange: string = 'OnRenderLoadingStateChange';
   //区分64位系统和32位系统的整数大小
   intSize = SizeOf(nativeint);
   //窗口拖动消息名
@@ -83,11 +73,6 @@ type
   PICefMenuModel = ^ICefMenuModel;
   PICefCallback = ^ICefCallback;
   PICefRequest = ^ICefRequest;
-
-  //通用对象，用于没有回调函数的类
-  CommonObject = class(TObject)
-  public
-  end;
 
   PRFrameNames = ^RFrameNames;
   FrameNamesArray = array of PRFrameNames;
@@ -419,8 +404,6 @@ var
   //出参类型不正确, 只能为EefError 或 可选的[string int double boolean]
   //error message
   CVE_ERROR_FUNC_OUT_PAM: integer = 12;
-  //通用实例对象-用于给没实现的事件回调的类
-  CommonInstance: CommonObject;
 
   //全局变量
   GChromiumConfig: TCEFChromiumConfig;//chromium 全局配置
@@ -589,11 +572,5 @@ begin
   else
     Result := nil;
 end;
-
-initialization
-  if CommonInstance = nil then
-  begin
-    CommonInstance := CommonObject.Create;
-  end;
 
 end.
