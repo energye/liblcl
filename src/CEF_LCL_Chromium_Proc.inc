@@ -372,12 +372,16 @@ end;
 //cookie begin
 procedure CEFChromium_VisitAllCookies(Chromium: TChromium; aID: integer); extdecl;
 begin
+  handleExceptionBegin
   Chromium.VisitAllCookies(aID);
+  handleExceptionEnd
 end;
 
 procedure CEFChromium_VisitURLCookies(Chromium: TChromium; URL: PChar; includeHttpOnly: boolean; aID: integer); extdecl;
 begin
+  handleExceptionBegin
   Chromium.VisitURLCookies(PCharToUStr(URL), includeHttpOnly, aID);
+  handleExceptionEnd
 end;
 
 procedure CEFChromium_SetCookie(Chromium: TChromium; CefCookie: PRCefCookie); extdecl;
@@ -391,26 +395,23 @@ var
   aID: integer;
 begin
   handleExceptionBegin
-  try
-    url := PCharToUStr(CefCookie.url);
-    name := PCharToUStr(CefCookie.name);
-    value := PCharToUStr(CefCookie.value);
-    domain := PCharToUStr(CefCookie.domain);
-    path := PCharToUStr(CefCookie.path);
-    secure := Boolean(PBoolean(CefCookie.secure));
-    httponly := Boolean(PBoolean(CefCookie.httponly));
-    hasExpires := Boolean(PBoolean(CefCookie.hasExpires));
-    creation := Double(PDouble(CefCookie.creation)^);
-    lastAccess := Double(PDouble(CefCookie.lastAccess)^);
-    expires := Double(PDouble(CefCookie.expires)^);
-    sameSite := TCefCookieSameSite(Integer(CefCookie.sameSite));
-    priority := TCefCookiePriority(Integer(CefCookie.priority));
-    aSetImmediately := Boolean(PBoolean(CefCookie.aSetImmediately));
-    aID := Integer(CefCookie.aID);
-    Chromium.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, sameSite, priority, aSetImmediately, aID);
-  finally
-    CefCookie := nil;
-  end;
+  url := PCharToUStr(CefCookie.url);
+  name := PCharToUStr(CefCookie.name);
+  value := PCharToUStr(CefCookie.value);
+  domain := PCharToUStr(CefCookie.domain);
+  path := PCharToUStr(CefCookie.path);
+  secure := Boolean(PBoolean(CefCookie.secure));
+  httponly := Boolean(PBoolean(CefCookie.httponly));
+  hasExpires := Boolean(PBoolean(CefCookie.hasExpires));
+  creation := Double(PDouble(CefCookie.creation)^);
+  lastAccess := Double(PDouble(CefCookie.lastAccess)^);
+  expires := Double(PDouble(CefCookie.expires)^);
+  sameSite := TCefCookieSameSite(Integer(CefCookie.sameSite));
+  priority := TCefCookiePriority(Integer(CefCookie.priority));
+  aSetImmediately := Boolean(PBoolean(CefCookie.aSetImmediately));
+  aID := Integer(CefCookie.aID);
+  Chromium.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, sameSite, priority, aSetImmediately, aID);
+  CefCookie := nil;
   handleExceptionEnd
 end;
 

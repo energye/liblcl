@@ -33,9 +33,11 @@ end;
 // AddCrDelegate
 procedure CEF_AddCrDelegate(); extdecl;
 begin
+  handleExceptionBegin
   {$IFDEF DARWIN}
     AddCrDelegate;
   {$ENDIF}
+  handleExceptionEnd
 end;
 
 //创建 TCefApplication
@@ -191,16 +193,9 @@ end;
 
 //执行JS
 procedure CEFApplication_ExecuteJS(browserId: integer; jsCode: PChar); extdecl;
-var
-  pReturnValue: ICefv8Value;
-  pException: ICefV8Exception;
 begin
-  try
-  except
-    on E: Exception do
-    begin
-    end;
-  end;
+  handleExceptionBegin
+  handleExceptionEnd
 end;
 
 procedure CEFApplication_QueueAsyncCall(EventId: PtrInt); extdecl;

@@ -4,28 +4,24 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-//CEF IPC 事件处理函数
+//IPC事件回调函数注册
 procedure SetCEFIPCCallbackFunc(APtr: Pointer); extdecl;
 begin
+  handleExceptionBegin
   GCEFIPCEventCallbackPtr := TCEFIPCEventCallbackPtr(APtr);
+  handleExceptionEnd
 end;
 
-//CEF WindowBindFunction 事件回调函数注册
+//WindowBind事件回调函数注册
 procedure SetCEFWindowBindCallbackFunc(APtr: Pointer); extdecl;
 begin
+  handleExceptionBegin
   GCEFWindowBindPtr := TCEFWindowBindPtr(APtr);
-end;
-
-//CEF事件回调函数注册
-procedure SetCEFCallbackFunc(APtr: Pointer); extdecl;
-begin
-  GCEFEventCallbackPtr := TCEFEventCallbackPtr(APtr);
+  handleExceptionEnd
 end;
 
 exports
     SetCEFIPCCallbackFunc,
-    SetCEFWindowBindCallbackFunc,
-    SetCEFCallbackFunc
-//结尾
+    SetCEFWindowBindCallbackFunc
 ;
 

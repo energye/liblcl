@@ -21,25 +21,6 @@ const
   // call最长参数数，与导出的MySyscall一致，暂定为12个
   CEFCALL_MAX_PARAM = 12;
 
-type // Cef Event
-  //CEF事件回调函数指针-该事件集合不会清空
-  TCEFEventCallbackPtr = function(fn: nativeuint; args: Pointer; argsCout: nativeint): Pointer; extdecl;
-  //CEF事件回调函数存放集合
-  TCEFEventList = specialize TFPGMap<ustring, nativeuint>;
-
-  {定义CEF事件类}
-  TCEFEventClass = class
-  private
-  class var
-    FCEFEvents: TCEFEventList;
-  public
-    class constructor Create;
-    class destructor Destroy;
-    class procedure Add(AEventName: ustring; AEventData: nativeuint);
-    class procedure Remove(AEventName: ustring);
-    class procedure SendEvent(AEventName: ustring; AArgs: array of const);
-    class function Size(): longint;
-  end;
 
 type //Window Bind
   //window 字段 函数 绑定函数指针
@@ -88,8 +69,6 @@ type//Application.QueueAsyncCall UI主程序异步调用回调事件
 var
   //CEF IPC 事件处理函数指针变量
   GCEFIPCEventCallbackPtr: TCEFIPCEventCallbackPtr;
-  //CEF 事件回调函数指针变量
-  GCEFEventCallbackPtr: TCEFEventCallbackPtr;
   //WindowBind 回调函数指针变量
   GCEFWindowBindPtr: TCEFWindowBindPtr;
   //Application.QueueAsyncCall UI主程序异步调用回调指针
@@ -158,27 +137,11 @@ begin
   TCEFWindowBinds.Clear;
 end;
 
-//class procedure TCEFWindowBindClass.Add(AEventName: ustring; AEventData: Pointer);
-//begin
-//  TCEFWindowBinds.AddOrSetData(AEventName, AEventId);
-//end;
-
 class function TCEFWindowBindClass.Size(): longint;
 begin
   Result := TCEFWindowBinds.Count;
 end;
 
-//class function TCEFWindowBindClass.GetEventId(AEventName: ustring): nativeuint;
-//var
-//  AEventData: nativeuint = 0;
-//begin
-//  if TCEFWindowBinds.TryGetData(AEventName, AEventData) then
-//  begin
-//    Result := AEventData;
-//    exit;
-//  end;
-//  Result := 0;
-//end;
 
 class function TCEFWindowBindClass.SendEvent(const AEventName: ustring; AArgs: array of const): boolean;
 
@@ -204,71 +167,6 @@ begin
 end;
 
 {===Window Bind Events TCEFWindowBindClass===}
-
-{===CEF Events TCEFEventClass===}
-class constructor TCEFEventClass.Create;
-begin
-  FCEFEvents := TCEFEventList.Create;
-end;
-
-class destructor TCEFEventClass.Destroy;
-begin
-  FCEFEvents.Clear;
-  FCEFEvents.Free;
-end;
-
-class procedure TCEFEventClass.Add(AEventName: ustring; AEventData: nativeuint);
-var
-  LEventId: nativeuint = 0;
-begin
-
-  if Assigned(FCEFEvents) and (not FCEFEvents.TryGetData(AEventName, LEventId)) then
-  begin
-    FCEFEvents.AddOrSetData(AEventName, AEventData);
-  end;
-end;
-
-class procedure TCEFEventClass.Remove(AEventName: ustring);
-begin
-  if Assigned(FCEFEvents) then
-    FCEFEvents.Remove(AEventName);
-end;
-
-class function TCEFEventClass.Size(): longint;
-begin
-  if Assigned(FCEFEvents) then
-    Result := FCEFEvents.Count;
-end;
-
-//CEF发送事件回调函数
-class procedure TCEFEventClass.SendEvent(AEventName: ustring; AArgs: array of const);
-
-  procedure SendCEFEventSrc(EventId: nativeuint; AArgs: array of const);
-  var
-    LParams: PointerArray;
-    LArgLen: integer;
-  begin
-    if Assigned(GCEFEventCallbackPtr) and (EventId > 0) then
-    begin
-      LArgLen := Length(AArgs);
-      LParams := ArgsToParamsPtr(AArgs);
-      if not (LParams = nil) then
-      begin
-        GCEFEventCallbackPtr(EventId, @LParams[0], LArgLen);
-      end;
-    end;
-  end;
-
-var
-  LEventId: nativeuint = 0;
-begin
-  if FCEFEvents.TryGetData(AEventName, LEventId) then
-  begin
-    SendCEFEventSrc(LEventId, AArgs);
-    Exit;
-  end;
-end;
-{===CEF Events TCEFEventClass===}
 
 
 {===CEF IPC Events TIPCEventClass===}

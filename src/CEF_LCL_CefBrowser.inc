@@ -321,30 +321,27 @@ begin
   begin
     exit;
   end;
-  try
-    if len > 0 then
-    begin
-      dictValue := TDictValueList.Create;
-      {$ifdef DARWIN}
-      SetLength(macArgs, argumentsLength);
-      Move(arguments[0], macArgs[0], argumentsLength+1);
-      dictValue.UnPackage(macArgs);
-      {$else}
-      dictValue.UnPackage(arguments);
-      {$endif}
-      Result := browser.GetHost.ExecuteDevToolsMethod(messageId, PCharToUStr(method), dictValue.GetDictValue());
-    end
-    else
-    begin
-      Result := browser.GetHost.ExecuteDevToolsMethod(messageId, PCharToUStr(method), nil);
-    end;
-  finally
+  if len > 0 then
+  begin
+    dictValue := TDictValueList.Create;
     {$ifdef DARWIN}
-    SetLength(macArgs, 0);
+    SetLength(macArgs, argumentsLength);
+    Move(arguments[0], macArgs[0], argumentsLength+1);
+    dictValue.UnPackage(macArgs);
+    {$else}
+    dictValue.UnPackage(arguments);
     {$endif}
-    dictValue.Destroy;
-    dictValue := nil;
+    Result := browser.GetHost.ExecuteDevToolsMethod(messageId, PCharToUStr(method), dictValue.GetDictValue());
+  end
+  else
+  begin
+    Result := browser.GetHost.ExecuteDevToolsMethod(messageId, PCharToUStr(method), nil);
   end;
+  {$ifdef DARWIN}
+  SetLength(macArgs, 0);
+  {$endif}
+  dictValue.Destroy;
+  dictValue := nil;
   handleExceptionEnd
 end;
 
@@ -547,27 +544,23 @@ begin
   begin
     exit;
   end;
-  try
-    if PDevToolsWinName <> nil then
-    begin
-      devToolsWinName := PCharToUStr(PDevToolsWinName);
-      if devToolsWinName = '' then
-         devToolsWinName := DEVTOOLS_WINDOWNAME;
-    end
-    else
-    begin
-      devToolsWinName := DEVTOOLS_WINDOWNAME;
-    end;
-    FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
-    //WindowInfoAsPopUp(windowInfo, browser.Host.WindowHandle, devToolsWinName);
-    //WindowInfoAsWindowless(windowInfo, windowParent.Handle, devToolsWinName);
-    WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect, devToolsWinName);
-    client := TCustomClientHandler.Create(Chromium, True);
-    FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
-    browser.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
-  finally
-    //Free(windowInfo);
+  if PDevToolsWinName <> nil then
+  begin
+    devToolsWinName := PCharToUStr(PDevToolsWinName);
+    if devToolsWinName = '' then
+       devToolsWinName := DEVTOOLS_WINDOWNAME;
+  end
+  else
+  begin
+    devToolsWinName := DEVTOOLS_WINDOWNAME;
   end;
+  FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
+  //WindowInfoAsPopUp(windowInfo, browser.Host.WindowHandle, devToolsWinName);
+  //WindowInfoAsWindowless(windowInfo, windowParent.Handle, devToolsWinName);
+  WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect, devToolsWinName);
+  client := TCustomClientHandler.Create(Chromium, True);
+  FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
+  browser.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
   handleExceptionEnd
 end;
 
