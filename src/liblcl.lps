@@ -690,8 +690,10 @@
       </Unit46>
       <Unit47>
         <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="12"/>
-        <CursorPos X="21" Y="17"/>
+        <TopLine Value="4"/>
+        <CursorPos X="3" Y="40"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -743,9 +745,8 @@
       </Unit53>
       <Unit54>
         <Filename Value="ExtDecl.inc"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <CursorPos Y="20"/>
+        <CursorPos X="29" Y="45"/>
         <UsageCount Value="60"/>
         <Loaded Value="True"/>
       </Unit54>

@@ -13,6 +13,7 @@ end;
 
 function CEFChromium_GetHashCode(AObj: TChromium):Integer ; extdecl;
 begin
+  {$ifdef UsehandleException}Result := Integer(0);{$endif}
   handleExceptionBegin
   Result := AObj.GetHashCode();
   handleExceptionEnd
@@ -20,6 +21,7 @@ end;
 
 function CEFChromium_ClassName(AObj: TChromium):PChar ; extdecl;
 begin
+  {$ifdef UsehandleException}Result := PChar(nil);{$endif}
   handleExceptionBegin
   Result := ToPChar(AObj.ClassName());
   handleExceptionEnd
@@ -27,6 +29,7 @@ end;
 
 function CEFChromium_Equals(AObj: TChromium; Obj: TObject): LongBool; extdecl;
 begin
+  {$ifdef UsehandleException}Result := False;{$endif}
   handleExceptionBegin
   Result := AObj.Equals(Obj);
   handleExceptionEnd
@@ -34,6 +37,7 @@ end;
 
 function CEFChromium_ClassType(AObj: TChromium): TClass; extdecl;
 begin
+  {$ifdef UsehandleException}Result := TClass(nil);{$endif}
   handleExceptionBegin
   Result :=  AObj.ClassType;
   handleExceptionEnd
@@ -41,6 +45,7 @@ end;
 
 function CEFChromium_InstanceSize(AObj: TChromium): Integer; extdecl;
 begin
+  {$ifdef UsehandleException}Result := Integer(0);{$endif}
   handleExceptionBegin
   Result := AObj.InstanceSize;
   handleExceptionEnd
@@ -48,6 +53,7 @@ end;
 
 function CEFChromium_InheritsFrom(AObj: TChromium; AClass: TClass): LongBool; extdecl;
 begin
+  {$ifdef UsehandleException}Result := False;{$endif}
   handleExceptionBegin
   Result :=  AObj.InheritsFrom(AClass);
   handleExceptionEnd
@@ -55,6 +61,7 @@ end;
 
 function CEFChromium_ToString(AObj: TChromium): PChar; extdecl;
 begin
+  {$ifdef UsehandleException}Result := PChar(nil);{$endif}
   handleExceptionBegin
   Result :=  PChar(AObj.ToString);
   handleExceptionEnd
