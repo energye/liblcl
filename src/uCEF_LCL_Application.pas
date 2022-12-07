@@ -168,7 +168,6 @@ var
   state: boolean; //状态
 begin
   //开发者工具不加载绑定变量
-  ConsoleLn('CEFGlobalAppEvent_OnContextCreated 1 : ' + UTF8Encode(frame.Url));
   isDevtools := string(frame.Url).IndexOf('devtools://') = 0;
   if isDevtools or (not frame.IsValid) or (not context.IsValid) then
   begin
@@ -187,7 +186,6 @@ begin
   v8Context.Global := context.Global;
 
   TMainChromiumBrowserClass.PutBrowser(browser);
-  ConsoleLn('CEFGlobalAppEvent_OnContextCreated 2 : ' + UTF8Encode(frame.Url));
   //事件触发, go 绑定一些js属性和函数
   SendEvent(OnContextCreated_DataPtr, [browser.Identifier, cefFrame, @v8Context, @state]);
   if not state then
@@ -470,7 +468,7 @@ end;
 //TCefApplication OnWebKitInitialized
 procedure GlobalCEFApp_OnWebKitInitialized;
 begin
-  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnWebKitInitialized, []);
+  SendEvent(OnWebKitInitialized_DataPtr, []);
 end;
 
 //render进程消息
@@ -505,7 +503,7 @@ begin
     processMessage^.Name := PChar(string(aMessage.Name));
     processMessage^.Data := @binaryBuf[0];
     processMessage^.DataLen := PInteger(binarySize);
-    //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnProcessMessageReceived, [browser.Identifier, cefFrame, sourceProcess, processMessage, @aHandled]);
+    SendEvent(OnProcessMessageReceived_DataPtr, [browser.Identifier, cefFrame, sourceProcess, processMessage, @aHandled]);
     SetLength(binaryBuf, 0);
     processMessage^.Data := nil;
     processMessage := nil;
@@ -522,7 +520,7 @@ var
   commandArray: TStringArray;
   commandItemArray: TStringArray;
 begin
-  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnBeforeChildProcessLaunch, [@commands]);
+  SendEvent(OnBeforeChildProcessLaunch_DataPtr, [@commands]);
   commandArray := string(PCharToUStr(commands)).Split(' ');
   for idx := 0 to length(commandArray) - 1 do
   begin
@@ -541,7 +539,7 @@ end;
 //browser 消毁事件
 procedure GlobalCEFApp_OnBrowserDestroyed(const browser: ICefBrowser);
 begin
-  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnBrowserDestroyed, [browser.Identifier]);
+  SendEvent(OnBrowserDestroyed_DataPtr, [browser.Identifier]);
 end;
 
 procedure GlobalCEFApp_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
@@ -552,7 +550,7 @@ begin
   cefFrame^.Name := PChar(UTF8Encode(frame.Name));
   cefFrame^.Url := PChar(UTF8Encode(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadStart, [browser.Identifier, cefFrame, transitionType]);
+  SendEvent(OnRenderLoadStart_DataPtr, [browser.Identifier, cefFrame, transitionType]);
   FreePRCEFFrame(cefFrame);
 end;
 
@@ -564,7 +562,7 @@ begin
   cefFrame^.Name := PChar(UTF8Encode(frame.Name));
   cefFrame^.Url := PChar(UTF8Encode(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadEnd, [browser.Identifier, cefFrame, httpStatusCode]);
+  SendEvent(OnRenderLoadEnd_DataPtr, [browser.Identifier, cefFrame, httpStatusCode]);
   FreePRCEFFrame(cefFrame);
 end;
 
@@ -576,13 +574,13 @@ begin
   cefFrame^.Name := PChar(UTF8Encode(frame.Name));
   cefFrame^.Url := PChar(UTF8Encode(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadError, [browser.Identifier, cefFrame, errorCode, PChar(UTF8Encode(errorText)), PChar(UTF8Encode(failedUrl))]);
+  SendEvent(OnRenderLoadError_DataPtr, [browser.Identifier, cefFrame, errorCode, PChar(UTF8Encode(errorText)), PChar(UTF8Encode(failedUrl))]);
   FreePRCEFFrame(cefFrame);
 end;
 
 procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
 begin
-  //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadingStateChange, [browser.Identifier, isLoading, canGoBack, canGoForward]);
+  SendEvent(OnRenderLoadingStateChange_DataPtr, [browser.Identifier, isLoading, canGoBack, canGoForward]);
 end;
 
 //应用主进程内执行函数
