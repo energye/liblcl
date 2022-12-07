@@ -4,16 +4,64 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-//程序关闭时释放
-procedure CEFChromium_Free(); extdecl;
+procedure CEFChromium_Free(AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
-  //释放所有
+  AObj.Free();
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetHashCode(AObj: TChromium):Integer ; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.GetHashCode();
+  handleExceptionEnd
+end;
+
+function CEFChromium_ClassName(AObj: TChromium):PChar ; extdecl;
+begin
+  handleExceptionBegin
+  Result := ToPChar(AObj.ClassName());
+  handleExceptionEnd
+end;
+
+function CEFChromium_Equals(AObj: TChromium; Obj: TObject): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.Equals(Obj);
+  handleExceptionEnd
+end;
+
+function CEFChromium_ClassType(AObj: TChromium): TClass; extdecl;
+begin
+  handleExceptionBegin
+  Result :=  AObj.ClassType;
+  handleExceptionEnd
+end;
+
+function CEFChromium_InstanceSize(AObj: TChromium): Integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.InstanceSize;
+  handleExceptionEnd
+end;
+
+function CEFChromium_InheritsFrom(AObj: TChromium; AClass: TClass): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result :=  AObj.InheritsFrom(AClass);
+  handleExceptionEnd
+end;
+
+function CEFChromium_ToString(AObj: TChromium): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result :=  PChar(AObj.ToString);
   handleExceptionEnd
 end;
 
 //创建 TChromium
-function CEFChromium_Create(AOwner: TComponent;Config: TCEFChromiumConfig): TChromium; extdecl;
+function CEFChromium_Create(AOwner: TComponent; Config: TCEFChromiumConfig): TChromium; extdecl;
 begin
   handleExceptionBegin
   Result := TChromium.Create(AOwner);
@@ -23,7 +71,7 @@ begin
 end;
 
 //设置 默认URL
-procedure CEFChromium_SetDefaultURL(AObj:TChromium; AURL: PChar); extdecl;
+procedure CEFChromium_SetDefaultURL(AObj: TChromium; AURL: PChar); extdecl;
 begin
   handleExceptionBegin
   AObj.DefaultUrl:= PCharToUStr(AURL);
@@ -31,7 +79,7 @@ begin
 end;
 
 //设置 MultiBrowserMode 模式
-procedure CEFChromium_SetMultiBrowserMode(AObj:TChromium; AValue: Boolean); extdecl;
+procedure CEFChromium_SetMultiBrowserMode(AObj: TChromium; AValue: Boolean); extdecl;
 begin
   handleExceptionBegin
   AObj.MultiBrowserMode := AValue;
@@ -39,7 +87,7 @@ begin
 end;
 
 //加载URL
-procedure CEFChromium_LoadURL(AObj:TChromium; AURL: PChar); extdecl;
+procedure CEFChromium_LoadURL(AObj: TChromium; AURL: PChar); extdecl;
 begin
   handleExceptionBegin
   AObj.LoadURL(PCharToUStr(AURL));
@@ -47,7 +95,7 @@ begin
 end;
 
 //加载HTML
-procedure CEFChromium_LoadString(AObj:TChromium; AHTML: PChar); extdecl;
+procedure CEFChromium_LoadString(AObj: TChromium; AHTML: PChar); extdecl;
 begin
   handleExceptionBegin
   AObj.LoadString(PCharToUStr(AHTML));
@@ -55,7 +103,7 @@ begin
 end;
 
 //开始下载
-procedure CEFChromium_StartDownload(AObj:TChromium; AURL: PChar); extdecl;
+procedure CEFChromium_StartDownload(AObj: TChromium; AURL: PChar); extdecl;
 begin
   handleExceptionBegin
   AObj.StartDownload(PCharToUStr(AURL));
@@ -63,7 +111,7 @@ begin
 end;
 
 //下载图片
-procedure CEFChromium_DownloadImage(AObj:TChromium; const imageUrl: PChar; isFavicon: Boolean; maxImageSize: integer; bypassCache: Boolean); extdecl;
+procedure CEFChromium_DownloadImage(AObj: TChromium; const imageUrl: PChar; isFavicon: Boolean; maxImageSize: integer; bypassCache: Boolean); extdecl;
 begin
   handleExceptionBegin
   AObj.DownloadImage(PCharToUStr(imageUrl), isFavicon, maxImageSize, bypassCache);
@@ -71,7 +119,7 @@ begin
 end;
 
 //重新加载
-procedure CEFChromium_Reload(AObj:TChromium); extdecl;
+procedure CEFChromium_Reload(AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.Reload;
@@ -520,6 +568,13 @@ exports
   CEFChromium_CloseDevTools,
   CEFChromium_CloseDevToolsByWindowParent,
   CEFChromium_Free,
+  CEFChromium_GetHashCode,
+  CEFChromium_ClassName,
+  CEFChromium_Equals,
+  CEFChromium_ClassType,
+  CEFChromium_InstanceSize,
+  CEFChromium_InheritsFrom,
+  CEFChromium_ToString,
   CEFChromium_VisitAllCookies,
   CEFChromium_VisitURLCookies,
   CEFChromium_SetCookie,
