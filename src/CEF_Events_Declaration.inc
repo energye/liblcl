@@ -127,8 +127,4 @@ procedure CEFWindowEvent_OnEnter(Sender: TObject);
 procedure CEFWindowEvent_OnExit(Sender: TObject);
 {==window end==}
 
-{==GlobalCEFApp begin==}
-procedure CEFGlobalAppEvent_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
-{==GlobalCEFApp end==}
-
 

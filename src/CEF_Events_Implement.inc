@@ -744,43 +744,6 @@ begin
 end;
 {==window end==}
 
-{==GlobalCEFApp begin==}
-procedure TLCLEvent.CEFGlobalAppEvent_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
-var
-  v8Context: RCEFV8Context;
-  cefFrame: PRCEFFrame;
-  FrameName, Frameurl, FrameId: PChar;
-  state,isDevtools: boolean;
-begin
-  ConsoleLn('CEFGlobalAppEvent_OnContextCreated ');
-  //开发者工具不加载绑定变量
-  isDevtools := string(frame.Url).IndexOf('devtools://') = 0;
-  if isDevtools or (not frame.IsValid) or (not context.IsValid) then
-  begin
-    exit;
-  end;
-  FrameName := PChar(UTF8Encode(frame.Name));
-  Frameurl := PChar(UTF8Encode(frame.Url));
-  FrameId := PChar(IntToStr(frame.Identifier));
-  cefFrame := new(PRCEFFrame);
-  cefFrame^.Name := FrameName;
-  cefFrame^.Url := Frameurl;
-  cefFrame^.Identifier := FrameId;
-
-  v8Context.Browser := context.Browser;
-  v8Context.Global := context.Global;
-
-  TMainChromiumBrowserClass.PutBrowser(browser);
-  SendEvent([browser.Identifier, cefFrame, @v8Context, @state]);
-  if not state then
-  begin
-    exit;
-  end;
-end;
-
-
-
-{==GlobalCEFApp end==}
 
 
 

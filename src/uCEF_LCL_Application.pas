@@ -21,7 +21,7 @@ interface
 
 uses
   uCEF_LCL_ConsoleWrite,
-  SysUtils, Controls,
+  SysUtils, Controls, uEventCallback,
   uCEFInterfaces, uCEFv8Value, uCEFConstants, uCEFTypes,
   uCEF_LCL_Entity, uCEF_LCL_Chromium, uCEF_LCL_V8ValueRef,
   uCEF_LCL_V8CommonAccessor, uCEF_LCL_V8CommonHandler,
@@ -34,12 +34,15 @@ type
 
   //应用主进程内执行函数
   TCEFApplicationClass = class
+
   public
     //应用主进程内执行函数
     procedure ApplicationQueueAsyncCall(Data: PtrInt);
   end;
 
-// 事件回调
+procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
+
+// 渲染进程回调事件函数
 procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 
 procedure GlobalCEFApp_OnWebKitInitialized;
@@ -59,8 +62,82 @@ procedure ObjectFieldFuncHandler(const ObjectAccessor: TV8ObjectAccessor; const 
 procedure CommonValueBindHandler(const CommonAccessor: TV8CommonAccessor; const CommonHandler: TV8CommonHandler; const browser: ICefBrowser;
   const frame: ICefFrame; const context: ICefv8Context);
 
+var
+  // 渲染进程回调事件函数指针
+  OnRegCustomSchemes_DataPtr: Pointer;
+  OnWebKitInitialized_DataPtr: Pointer;
+  OnBeforeChildProcessLaunch_DataPtr: Pointer;
+  OnScheduleMessagePumpWork_DataPtr: Pointer;
+  OnGetDefaultClient_DataPtr: Pointer;
+  OnGetLocalizedString_DataPtr: Pointer;
+  OnGetDataResource_DataPtr: Pointer;
+  OnGetDataResourceForScale_DataPtr: Pointer;
+  OnContextCreated_DataPtr: Pointer;
+  OnProcessMessageReceived_DataPtr: Pointer;
+  OnBrowserDestroyed_DataPtr: Pointer;
+  OnRenderLoadStart_DataPtr: Pointer;
+  OnRenderLoadEnd_DataPtr: Pointer;
+  OnRenderLoadError_DataPtr: Pointer;
+  OnRenderLoadingStateChange_DataPtr: Pointer;
+  OnBrowserCreated_DataPtr: Pointer;
+  OnContextReleased_DataPtr: Pointer;
+  OnUncaughtException_DataPtr: Pointer;
+  OnFocusedNodeChanged_DataPtr: Pointer;
+  OnLoadingStateChange_DataPtr: Pointer;
+  OnLoadStart_DataPtr: Pointer;
+  OnLoadEnd_DataPtr: Pointer;
+  OnLoadError_DataPtr: Pointer;
+
 {实现}
 implementation
+
+
+procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
+var
+  LParams: array[0..CALL_MAX_PARAM - 1] of Pointer;
+  LArgLen: integer;
+  LV: TVarRec;
+  I: integer;
+begin
+  if Assigned(GEventCallbackPtr) then
+  begin
+    LArgLen := Length(AArgs);
+    if LArgLen <= Length(LParams) then
+    begin
+      for I := 0 to LArgLen - 1 do
+      begin
+        LV := AArgs[I];
+        case LV.VType of
+          vtInteger: LParams[I] := Pointer(LV.VInteger);
+          vtBoolean: LParams[I] := Pointer(byte(LV.VBoolean));
+          vtChar: LParams[I] := Pointer(Ord(LV.VChar));
+          vtExtended: LParams[I] := LV.VExtended;
+
+          vtString: LParams[I] :=
+{$IFDEF MSWINDOWS}
+              LV.VString
+{$ELSE}LV.VAnsiString{$ENDIF}
+            ;
+
+          vtPointer: LParams[I] := LV.VPointer;
+          vtPChar: LParams[I] := LV.VPChar;
+          vtObject: LParams[I] := LV.VObject;
+          vtClass: LParams[I] := LV.VClass;
+          vtWideChar: LParams[I] := Pointer(Ord(LV.VWideChar));
+          vtPWideChar: LParams[I] := LV.VPWideChar;
+          vtAnsiString: LParams[I] := LV.VAnsiString;
+          //          vtCurrency      = 12;
+          //          vtVariant       = 13;
+          vtInterface: LParams[I] := LV.VInterface;
+          vtWideString: LParams[I] := LV.VWideString;
+          vtInt64: LParams[I] := LV.VInt64;
+          vtUnicodeString: LParams[I] := LV.VUnicodeString;
+        end;
+      end;
+      GEventCallbackPtr(DataPtr, @LParams[0], LArgLen);
+    end;
+  end;
+end;
 
 //TCefApplication OnContextCreated
 procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
@@ -91,6 +168,7 @@ var
   state: boolean; //状态
 begin
   //开发者工具不加载绑定变量
+  ConsoleLn('CEFGlobalAppEvent_OnContextCreated 1 : ' + UTF8Encode(frame.Url));
   isDevtools := string(frame.Url).IndexOf('devtools://') = 0;
   if isDevtools or (not frame.IsValid) or (not context.IsValid) then
   begin
@@ -109,8 +187,9 @@ begin
   v8Context.Global := context.Global;
 
   TMainChromiumBrowserClass.PutBrowser(browser);
+  ConsoleLn('CEFGlobalAppEvent_OnContextCreated 2 : ' + UTF8Encode(frame.Url));
   //事件触发, go 绑定一些js属性和函数
-  //TLCLEventBase.SendEvent([CommonInstance, browser.Identifier, cefFrame, @v8Context, @state]);
+  SendEvent(OnContextCreated_DataPtr, [browser.Identifier, cefFrame, @v8Context, @state]);
   if not state then
   begin
     exit;

@@ -9,6 +9,7 @@
 unit uEventCallback;
 
 {$mode objfpc}{$H+}
+{$I cef.inc}
 
 {$I ExtDecl.inc}
 
@@ -335,14 +336,11 @@ begin
   Result := False;
   System.EnterCriticalSection(FEventObjectsLock);
    try
-       ConsoleLn('CheckAndUpdate 1');
      if AMethod.Data <> nil then
      begin
-       ConsoleLn('CheckAndUpdate 2');
        // 只有当要替换的数据不同时，则更新
        if TLCLEventBase(AMethod.Data).FHostDataPtr <> AHostDataPtr then
        begin
-       ConsoleLn('CheckAndUpdate 3');
          CallRemoveEvent(AMethod);
          TLCLEventBase(AMethod.Data).FHostDataPtr := AHostDataPtr;
          Result := True;
