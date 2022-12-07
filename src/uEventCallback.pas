@@ -30,7 +30,7 @@ uses
   uLinkLabel,
   fgl,
   Messages,
-  Math, uCEFInterfaces, uCEFMiscFunctions, uCEFTypes, uCEFWindowParent, uCEFLinkedWindowParent, uCEFChromium, uCEFClient, uCEFBaseRefCounted,
+  uCEF_LCL_ConsoleWrite, Math, uCEFInterfaces, uCEFMiscFunctions, uCEFTypes, uCEFWindowParent, uCEFLinkedWindowParent, uCEFChromium, uCEFClient, uCEFBaseRefCounted,
   uCEF_LCL_Chromium, uCEF_LCL_Entity, uCEF_LCL_V8ValueRef, uCEF_LCL_IPC;
 
 const
@@ -335,11 +335,14 @@ begin
   Result := False;
   System.EnterCriticalSection(FEventObjectsLock);
    try
+       ConsoleLn('CheckAndUpdate 1');
      if AMethod.Data <> nil then
      begin
+       ConsoleLn('CheckAndUpdate 2');
        // 只有当要替换的数据不同时，则更新
        if TLCLEventBase(AMethod.Data).FHostDataPtr <> AHostDataPtr then
        begin
+       ConsoleLn('CheckAndUpdate 3');
          CallRemoveEvent(AMethod);
          TLCLEventBase(AMethod.Data).FHostDataPtr := AHostDataPtr;
          Result := True;

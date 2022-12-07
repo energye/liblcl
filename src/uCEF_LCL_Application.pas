@@ -21,7 +21,7 @@ interface
 
 uses
   uCEF_LCL_ConsoleWrite,
-  Generics.Collections, SysUtils, Controls, uEventCallback,
+  SysUtils, Controls,
   uCEFInterfaces, uCEFv8Value, uCEFConstants, uCEFTypes,
   uCEF_LCL_Entity, uCEF_LCL_Chromium, uCEF_LCL_V8ValueRef,
   uCEF_LCL_V8CommonAccessor, uCEF_LCL_V8CommonHandler,
@@ -40,16 +40,16 @@ type
   end;
 
 // 事件回调
-procedure GlobalCEFAppEvent_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
-procedure GlobalCEFAppEvent_OnWebKitInitialized;
-procedure GlobalCEFAppEvent_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
-  const aMessage: ICefProcessMessage; var aHandled: boolean);
-procedure GlobalCEFAppEvent_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
-procedure GlobalCEFAppEvent_OnBrowserDestroyed(const browser: ICefBrowser);
-procedure GlobalCEFAppEvent_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
-procedure GlobalCEFAppEvent_OnRenderLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
-procedure GlobalCEFAppEvent_OnRenderLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
-procedure GlobalCEFAppEvent_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+
+procedure GlobalCEFApp_OnWebKitInitialized;
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled: boolean);
+procedure GlobalCEFApp_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
+procedure GlobalCEFApp_OnBrowserDestroyed(const browser: ICefBrowser);
+procedure GlobalCEFApp_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
+procedure GlobalCEFApp_OnRenderLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
+procedure GlobalCEFApp_OnRenderLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
+procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
 
 
 //绑定处理
@@ -63,7 +63,7 @@ procedure CommonValueBindHandler(const CommonAccessor: TV8CommonAccessor; const 
 implementation
 
 //TCefApplication OnContextCreated
-procedure GlobalCEFAppEvent_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 var
   v8Context: RCEFV8Context;
   cefFrame: PRCEFFrame;
@@ -120,28 +120,29 @@ begin
   ContextCreatedJSInject := TContextCreatedJSInjectClass.Create(browser, frame, context);
   ContextCreatedJSInject.JavaScriptInject();
 
-  //通用对象变量 Accessor
+  //通用类型变量 Accessor
   CommonAccessor := TV8CommonAccessor.Create;
   CommonAccessor.Browser := browser;
   CommonAccessor.Frame := frame;
   CommonAccessor.initState := 0;
-  //通用对象变量 Handler
+  //通用类型变量 Handler
   CommonHandler := TV8CommonHandler.Create;
   CommonHandler.Browser := browser;
   CommonHandler.Frame := frame;
 
-  //结构对象变量 Accessor
+  //结构类型变量 Accessor
   ObjectAccessor := TV8ObjectAccessor.Create;
   ObjectAccessor.RootObjectAccessor := TCefv8ValueRef.NewObject(ObjectAccessor, nil);
   ObjectAccessor.Browser := browser;
   ObjectAccessor.Frame := frame;
 
-  //结构对象变量 Handler
+  //结构类型变量 Handler
   ObjectHandler := TV8ObjectHandler.Create;
   ObjectHandler.Browser := browser;
   ObjectHandler.Frame := frame;
   ObjectHandler.ObjectAccessor := ObjectAccessor;
 
+  //数据绑定处理
   //ObjectValueBindHandler
   ObjectValueBindHandler(ObjectAccessor, ObjectHandler, browser, frame, context);
   //CommonValueBindHandler
@@ -388,13 +389,13 @@ begin
 end;
 
 //TCefApplication OnWebKitInitialized
-procedure GlobalCEFAppEvent_OnWebKitInitialized;
+procedure GlobalCEFApp_OnWebKitInitialized;
 begin
   //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnWebKitInitialized, []);
 end;
 
 //render进程消息
-procedure GlobalCEFAppEvent_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
   const aMessage: ICefProcessMessage; var aHandled: boolean);
 var
   processMessage: PRCEFProcessMessage;
@@ -435,7 +436,7 @@ begin
 end;
 
 //cefApp子进程启动命令行设置
-procedure GlobalCEFAppEvent_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
+procedure GlobalCEFApp_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
 var
   idx: integer;
   commands: PChar;
@@ -459,12 +460,12 @@ begin
 end;
 
 //browser 消毁事件
-procedure GlobalCEFAppEvent_OnBrowserDestroyed(const browser: ICefBrowser);
+procedure GlobalCEFApp_OnBrowserDestroyed(const browser: ICefBrowser);
 begin
   //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnBrowserDestroyed, [browser.Identifier]);
 end;
 
-procedure GlobalCEFAppEvent_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
+procedure GlobalCEFApp_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
 var
   cefFrame: PRCEFFrame;
 begin
@@ -476,7 +477,7 @@ begin
   FreePRCEFFrame(cefFrame);
 end;
 
-procedure GlobalCEFAppEvent_OnRenderLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
+procedure GlobalCEFApp_OnRenderLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
 var
   cefFrame: PRCEFFrame;
 begin
@@ -488,7 +489,7 @@ begin
   FreePRCEFFrame(cefFrame);
 end;
 
-procedure GlobalCEFAppEvent_OnRenderLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
+procedure GlobalCEFApp_OnRenderLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
 var
   cefFrame: PRCEFFrame;
 begin
@@ -500,7 +501,7 @@ begin
   FreePRCEFFrame(cefFrame);
 end;
 
-procedure GlobalCEFAppEvent_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
+procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
 begin
   //TEventClass.SendEvent(CommonInstance, @GlobalCEFAppEvent_OnRenderLoadingStateChange, [browser.Identifier, isLoading, canGoBack, canGoForward]);
 end;
