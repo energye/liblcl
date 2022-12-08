@@ -209,7 +209,6 @@ begin
       outMessage.ArgumentList.SetInt(1, integer(ret^.Exception));//Exception
       outMessage.ArgumentList.SetInt(2, integer(ret^.BindType));//bindType
       outMessage.ArgumentList.SetInt(3, integer(ret^.ValueType));//vType
-
       if integer(ret^.Exception) = 0 then
       begin
         case integer(ret^.ValueType) of
@@ -227,7 +226,6 @@ begin
       end
       else//exception > 0
       begin
-        //outMessage.ArgumentList.SetInt(4, integer(ret^.Exception));
         outMessage.ArgumentList.SetString(4, StrToUStr(string(PChar(ret^.Value))));
       end;
       //发送返回消息
@@ -609,7 +607,6 @@ begin
           if BindType = 0 then//0:commonObject
           begin
             CallFnArgs[0] := TCEFIPCClass.GetCommonAccessor(frame.Identifier).V8Object;
-            //CallFnArgs[0] := TCefv8ValueRef.NewString('好用？');
           end
           else if BindType = 1 then//1:object
           begin

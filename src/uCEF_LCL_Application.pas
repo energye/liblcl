@@ -481,7 +481,7 @@ var
   binarySize: integer;
   binaryBuf: TBytes;
 begin
-  if aMessage.Name = IPC_JSEmitGoRet then//JS执行Go监听的事件
+  if aMessage.Name = IPC_JSEmitGoRet then//JS执行Go监听事件的返回值消息
   begin
     TCEFIPCClass.Render_JSEmitGoRet(frame, aMessage);
   end
