@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-//macos 需要在go程序中单独设置 args 命令行参数, 原因是默认情况调用动态链接库启动获取不到args
+//macos 需要在go程序中单独设置 args 命令行参数, 原因是调用动态链接库启动获取不到args
 procedure SetMacOSXCommandLine(PCommandLine: PChar); extdecl;
 var
   i: integer;
@@ -41,12 +41,11 @@ begin
 end;
 
 //创建 TCefApplication
-function CEFApplication_Create(Config: PTCEFApplicationConfig):TCefApplication ; extdecl;
+function CEFApplication_Create(Config: PTCEFApplicationConfig): TCefApplication ; extdecl;
 var
     FrameworkDirPath, ResourcesDirPath, LocalesDirPath, Cache, UserDataPath: ustring;
     LocalesRequired, Language: ustring;
     MainBundlePath, BrowserSubprocessPath: ustring;
-    i: integer;
 begin
   handleExceptionBegin
   {$IFDEF DARWIN}
@@ -127,6 +126,18 @@ begin
   handleExceptionEnd
 end;
 
+//创建 TCefApplication Sub
+function CEFApplicationSub_Create(Config: PTCEFApplicationConfig): TCefApplication ; extdecl;
+begin
+  handleExceptionBegin
+  GlobalCEFApp := TCefApplication.Create;
+  {$IFDEF MACOSX}
+  GlobalCEFApp.InitLibLocationFromArgs;
+  {$ENDIF}
+  Result := GlobalCEFApp;
+  handleExceptionEnd
+end;
+
 //释放 TCefApplication
 procedure CEFApplication_Free(); extdecl;
 begin
@@ -136,7 +147,22 @@ begin
   handleExceptionEnd
 end;
 
-//启动主进程
+procedure CEFApplication_Destroy(); extdecl;
+begin
+  DestroyGlobalCEFApp;
+  {$IFDEF MACOSX}
+  DestroyGlobalCEFWorkScheduler;
+  {$ENDIF}
+  halt(0); // exit the subprocess
+end;
+
+procedure CEFApplication_StopScheduler(); extdecl;
+begin
+  if GlobalCEFWorkScheduler <> nil then
+    GlobalCEFWorkScheduler.StopScheduler;
+end;
+
+//start main process
 function CEFStartMainProcess(): integer; extdecl;
 var
   ret : boolean;
@@ -152,17 +178,12 @@ begin
   end
   else
   begin
-    DestroyGlobalCEFApp;
-    {$IFDEF MACOSX}
-    DestroyGlobalCEFWorkScheduler;
-    {$ENDIF}
-    halt(0); // exit the subprocess
     Result := 0;
   end;
-handleExceptionEnd
+  handleExceptionEnd
 end;
 
-//启动主进程
+//start sub process
 function CEFStartSubProcess(): integer; extdecl;
 var
   ret : boolean;
@@ -296,7 +317,10 @@ exports
     CEF_AddCrDelegate,
     SetMacOSXCommandLine,
     CEFApplication_Create,
+    CEFApplicationSub_Create,
     CEFApplication_Free,
+    CEFApplication_Destroy,
+    CEFApplication_StopScheduler,
     CEFStartMainProcess,
     CEFStartSubProcess,
     AddCustomCommandLine,
@@ -305,7 +329,7 @@ exports
     {QueueAsyncCall}
     CEFApplication_QueueAsyncCall,
     SetApplicationQueueAsyncCallFunc,
-    //GlobalCEFApp
+    //GlobalCEFApp event
     CEFGlobalApp_SetOnContextCreated,
     CEFGlobalApp_SetOnWebKitInitialized,
     CEFGlobalApp_SetOnProcessMessageReceived,
