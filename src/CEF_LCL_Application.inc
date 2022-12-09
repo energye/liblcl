@@ -126,18 +126,6 @@ begin
   handleExceptionEnd
 end;
 
-//创建 TCefApplication Sub
-function CEFApplicationSub_Create(Config: PTCEFApplicationConfig): TCefApplication ; extdecl;
-begin
-  handleExceptionBegin
-  GlobalCEFApp := TCefApplication.Create;
-  {$IFDEF MACOSX}
-  GlobalCEFApp.InitLibLocationFromArgs;
-  {$ENDIF}
-  Result := GlobalCEFApp;
-  handleExceptionEnd
-end;
-
 //释放 TCefApplication
 procedure CEFApplication_Free(); extdecl;
 begin
@@ -317,7 +305,6 @@ exports
     CEF_AddCrDelegate,
     SetMacOSXCommandLine,
     CEFApplication_Create,
-    CEFApplicationSub_Create,
     CEFApplication_Free,
     CEFApplication_Destroy,
     CEFApplication_StopScheduler,
