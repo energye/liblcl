@@ -1,6 +1,6 @@
 //----------------------------------------
 // Copyright © yanghy. All Rights Reserved.
-//
+
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 unit uCEF_LCL_Entity;
@@ -101,7 +101,8 @@ type
     ContentDisposition: PChar;
     MimeType: PChar;
     IsValid: PBoolean;
-    State: PInteger; //下载状态 -1:下载之前 0:下载中 1:下载取消 2:下载完成
+    State: PInteger;
+    //下载状态 -1:下载之前 0:下载中 1:下载取消 2:下载完成
   end;
 
   {RDownloadUpdate 下载更新-事件 信息}
@@ -367,6 +368,8 @@ function ErrorCodeToMessage(const Code: integer): unicodestring;
 function ByteToInteger(const Data: array of byte; start: integer = 0): integer;
 //复制Byte数组到Dest
 function CopyByteArray(const Source: array of byte; Position, Count: integer): TBytes;
+
+function CopyStringToNewString(old: string): string;
 //释放VarRec数组
 procedure FreeArrayTVarRec(argsArray: array of TVarRec);
 //释放 PRCEFFrame
@@ -477,7 +480,8 @@ begin
     0: Result := ' successful';
     1: Result := ' Field not found';
     2: Result := ' Function not found';
-    3: Result := ' The variable type is not supported. Only the variable type is supported [string int double bool null undefined]';
+    3: Result :=
+        ' The variable type is not supported. Only the variable type is supported [string int double bool null undefined]';
     4: Result := ' The field or value of type [array, object, function] cannot be changed';
     5: Result := ' Type is invalid';
     6: Result := ' Failed to get string';
@@ -486,7 +490,8 @@ begin
     9: Result := ' Failed to get a boolean';
     10: Result := ' The type is incorrect or the number of parameters is greater than 9';
     11: Result := ' The input parameter type is incorrect [string int double boolean]';
-    12: Result := ' The parameter type is incorrect and can only be [string int double boolean]';
+    12: Result :=
+        ' The parameter type is incorrect and can only be [string int double boolean]';
   end;
 end;
 
@@ -506,6 +511,19 @@ begin
     Inc(i);
   end;
   Result := Dest;
+end;
+
+function CopyStringToNewString(old: string): string;
+var
+  i: integer;
+  B: array of byte;
+begin
+  SetLength(B, Length(old) + 1);
+  for i := 0 to length(old) do
+  begin
+    B[i] := byte(old[i]);
+  end;
+  Result := string(B);
 end;
 
 procedure FreeArrayTVarRec(argsArray: array of TVarRec);
@@ -538,6 +556,7 @@ begin
     frame := nil;
   end;
 end;
+
 
 
 class constructor TBrowserWindowClass.Create;

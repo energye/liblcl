@@ -50,7 +50,7 @@ end;
 function cefRequest_GetHeaderByName(TObj: ICefRequest; name: PChar): PChar; extdecl;
 begin
   handleExceptionBegin
-  TObj.GetHeaderByName(PCharToUStr(name));
+  Result := PChar(string(TObj.GetHeaderByName(PCharToUStr(name))));
   handleExceptionEnd
 end;
 
