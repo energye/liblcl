@@ -6,8 +6,10 @@
 
 //macos 需要在go程序中单独设置 args 命令行参数, 原因是调用动态链接库启动获取不到args
 procedure SetMacOSXCommandLine(PCommandLine: PChar); extdecl;
+{$ifdef DARWIN}
 var
   i: integer;
+{$endif}
 begin
   handleExceptionBegin
   {$ifdef DARWIN}

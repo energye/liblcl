@@ -8,7 +8,7 @@ unit uCEF_LCL_ConsoleWrite;
 
 {$mode objfpc}{$H+}
 {$I cef.inc}
-{$APPTYPE CONSOLE}
+//{$APPTYPE CONSOLE}
 
 interface
 
@@ -18,7 +18,7 @@ implementation
 
 procedure ConsoleLn(msg: UnicodeString);
 begin
-  WriteLn('==[CEF-LCL-Log] == [', msg,']');
+  //WriteLn('==[CEF-LCL-Log] == [', msg,']');
 end;
 
 end.

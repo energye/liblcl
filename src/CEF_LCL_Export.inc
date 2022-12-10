@@ -10,6 +10,7 @@
 // cef
 {$I cef.inc}
 // cef chromium exports
+{$I CEF_LCL_Def.inc}
 {$I CEF_LCL_Callback_Register.inc}
 {$I CEF_LCL_Chromium_Proc.inc}
 {$I CEF_LCL_Chromium_Event.inc}
