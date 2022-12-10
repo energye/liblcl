@@ -3,11 +3,6 @@
 //
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
-{
-  CEF 事件声明
-  说明：在lcl扩展的用户自定义(uEventCallback.pas -> UserDefineEventsDeclaration.inc)文件引入
-  为CEF专有事件定义文件
-}
 
 {==chromium begin==}
 //浏览器创建之后
