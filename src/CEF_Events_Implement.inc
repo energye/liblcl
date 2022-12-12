@@ -740,5 +740,99 @@ end;
 {==window end==}
 
 
+{==CEFWindowComponent begin==}
+procedure TLCLEvent.WindowComponent_OnWindowCreated(const Sender: TObject; const window: ICefWindow);
+begin
+  SendEvent([Sender]);
+end;
 
+procedure TLCLEvent.WindowComponent_OnWindowDestroyed(const Sender: TObject; const window: ICefWindow);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnWindowActivationChanged(const Sender: TObject; const window: ICefWindow; active: boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnGetParentWindow(const Sender: TObject; const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnGetInitialBounds(const Sender: TObject; const window: ICefWindow; var aResult : TCefRect);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnGetInitialShowState(const Sender: TObject; const window: ICefWindow; var aResult : TCefShowState);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnIsFrameless(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnCanResize(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnCanMaximize(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnCanMinimize(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnCanClose(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnAccelerator(const Sender: TObject; const window: ICefWindow; command_id: Integer; var aResult : boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnKeyEvent(const Sender: TObject; const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+begin
+  SendEvent([Sender]);
+end;
+{==CEFWindowComponent end==}
+
+
+{==CEFBrowserViewComponent begin==}
+procedure TLCLEvent.BrowserViewComponent_OnBrowserCreated(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.BrowserViewComponent_OnBrowserDestroyed(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.BrowserViewComponent_OnGetDelegateForPopupBrowserView(const Sender: TObject; const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.BrowserViewComponent_OnPopupBrowserViewCreated(const Sender: TObject; const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.BrowserViewComponent_OnGetChromeToolbarType(const Sender: TObject; var aChromeToolbarType: TCefChromeToolbarType);
+begin
+  SendEvent([Sender]);
+end;
+
+{==CEFBrowserViewComponent end==}
 

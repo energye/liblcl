@@ -64,7 +64,8 @@ begin
     GlobalCEFApp.MultiThreadedMessageLoop  := False;
     GlobalCEFApp.OnScheduleMessagePumpWork := @GlobalCEFApp_OnScheduleMessagePumpWork;
   {$ELSE}
-    GlobalCEFApp.MultiThreadedMessageLoop  := True;
+    GlobalCEFApp.ExternalMessagePump       := boolean(Config^.ExternalMessagePump);
+    GlobalCEFApp.MultiThreadedMessageLoop  := boolean(Config^.MultiThreadedMessageLoop);
   {$ENDIF}
   //cef chromium 参数配置
   //string
@@ -123,6 +124,7 @@ begin
   GlobalCEFApp.DisableComponentUpdate := True;//禁用扩展组件更新
   GlobalCEFApp.EnablePrintPreview := True;
   //GlobalCEFApp.SitePerProcess := True;
+  GlobalCEFApp.ChromeRuntime := boolean(Config^.ChromeRuntime);
 
   Result := GlobalCEFApp;
   handleExceptionEnd
@@ -303,6 +305,18 @@ begin
   handleExceptionEnd
 end;
 
+//EVENT_TYPE:GlobalCEFAppEventOnGetDefaultClient
+procedure CEFGlobalApp_SetOnGetDefaultClient(AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  if GlobalCEFApp.ChromeRuntime then
+  begin
+    OnGetDefaultClient_DataPtr := AEventData;
+    GlobalCEFApp.OnGetDefaultClient := GlobalCEFApp_OnGetDefaultClient;
+  end;
+  handleExceptionEnd
+end;
+
 exports
     CEF_AddCrDelegate,
     SetMacOSXCommandLine,
@@ -327,7 +341,8 @@ exports
     CEFGlobalApp_SetOnRenderLoadStart,
     CEFGlobalApp_SetOnRenderLoadEnd,
     CEFGlobalApp_SetOnRenderLoadError,
-    CEFGlobalApp_SetOnRenderLoadingStateChange
+    CEFGlobalApp_SetOnRenderLoadingStateChange,
+    CEFGlobalApp_SetOnGetDefaultClient
 {end}
 ;
 

@@ -27,3 +27,6 @@
 {$I CEF_LCL_CefFrame.inc}
 {$I CEF_LCL_V8ValueRef.inc}
 {$I CEF_LCL_MiscFunctions.inc}
+{$I CEF_LCL_WindowComponent.inc}
+{$I CEF_LCL_BrowserViewComponent.inc}
+{$I CEF_LCL_Image.inc}

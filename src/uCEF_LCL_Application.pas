@@ -53,7 +53,7 @@ procedure GlobalCEFApp_OnRenderLoadStart(const browser: ICefBrowser; const frame
 procedure GlobalCEFApp_OnRenderLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
 procedure GlobalCEFApp_OnRenderLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
 procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
-
+procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
 
 //绑定处理
 procedure ObjectValueBindHandler(const ObjectAccessor: TV8ObjectAccessor; const ObjectHandler: TV8ObjectHandler; const browser: ICefBrowser;
@@ -581,6 +581,11 @@ end;
 procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
 begin
   SendEvent(OnRenderLoadingStateChange_DataPtr, [browser.Identifier, isLoading, canGoBack, canGoForward]);
+end;
+
+procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
+begin
+  SendEvent(OnGetDefaultClient_DataPtr, [aClient]);
 end;
 
 //应用主进程内执行函数

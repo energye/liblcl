@@ -147,6 +147,9 @@ type
     UseMockKeyChain: PBoolean;
     CheckCEFFiles: PBoolean;
     RemoteDebuggingPort: PInteger;
+    ExternalMessagePump: PBoolean;
+    MultiThreadedMessageLoop: PBoolean;
+    ChromeRuntime: PBoolean;
   end;//配置 end;
 
   //CEFChromium 配置
