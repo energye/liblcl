@@ -178,6 +178,13 @@ begin
 end;
 
 //property
+procedure CEFWindowComponent_SetTitle(TObj: TCEFWindowComponent; PTitle: PChar); extdecl;
+begin
+  handleExceptionBegin
+  TObj.Title := PCharToUstr(PTitle);
+  handleExceptionEnd
+end;
+
 function CEFWindowComponent_Title(TObj: TCEFWindowComponent): PChar; extdecl;
 begin
   handleExceptionBegin
@@ -185,17 +192,17 @@ begin
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_WindowIcon(TObj: TCEFWindowComponent): Pointer; extdecl;
+procedure CEFWindowComponent_WindowIcon(TObj: TCEFWindowComponent; out ret: ICefImage); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.WindowIcon.Wrap;
+  ret := TObj.WindowIcon;
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_WindowAppIcon(TObj: TCEFWindowComponent): Pointer; extdecl;
+procedure CEFWindowComponent_WindowAppIcon(TObj: TCEFWindowComponent; out ret: ICefImage); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.WindowAppIcon.Wrap;
+  ret := TObj.WindowAppIcon;
   handleExceptionEnd
 end;
 
@@ -379,6 +386,7 @@ exports
   CEFWindowComponent_RemoveAccelerator,
   CEFWindowComponent_RemoveAllAccelerators,
   //property
+  CEFWindowComponent_SetTitle,
   CEFWindowComponent_Title,
   CEFWindowComponent_WindowIcon,
   CEFWindowComponent_WindowAppIcon,
