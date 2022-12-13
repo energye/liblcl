@@ -195,9 +195,6 @@ type
 
   //ICefBrowser
   RCEFBrowser = record
-    //MainFrame: ICefFrame;
-    //FocusedFrame: ICefFrame;
-    //FrameCount: nativeuint;
     Identifier: integer;
   end;
 
@@ -342,6 +339,18 @@ type
     //shared_texture_enabled: PInteger;
     //external_begin_frame_enabled: PInteger;
     window: PTCefWindowHandle;
+  end;
+
+  PRCefRequestContextSettings = ^RCefRequestContextSettings;
+
+  RCefRequestContextSettings = record
+    size: PNativeuint;
+    cachePath: PChar;
+    persistSessionCookies: PInteger;
+    persistUserPreferences: PInteger;
+    acceptLanguageList: PChar;
+    cookieableSchemesList: PChar;
+    cookieableSchemesExcludeDefaults: PInteger;
   end;
 
   //浏览器窗口

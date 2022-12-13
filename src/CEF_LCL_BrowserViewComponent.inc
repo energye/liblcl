@@ -12,9 +12,29 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_CreateBrowserView(TObj: TCEFBrowserViewComponent; const client: ICefClient; const url: PChar; const settings: TCefBrowserSettings; const extra_info: ICefDictionaryValue; const request_context: ICefRequestContext): LongBool; extdecl;
+{$ifdef DARWIN}
+function CEFBrowserViewComponent_CreateBrowserView(TObj: TCEFBrowserViewComponent; const client: ICefClient; const url: PChar; const settings: PRCefRequestContextSettings; len: integer; const arguments: array of Byte; argumentsLength: integer): LongBool; extdecl;
+var
+  args: array of Byte;
+{$else}
+function CEFBrowserViewComponent_CreateBrowserView(TObj: TCEFBrowserViewComponent; const client: ICefClient; const url: PChar; const settings: PRCefRequestContextSettings; len: integer; const arguments: array of Byte): LongBool; stdcall;
+var
+{$endif}
+  request_context: ICefRequestContext;
+  requestContextSettings: PCefRequestContextSettings;
+  extra_info: ICefDictionaryValue;
 begin
   handleExceptionBegin
+  requestContextSettings := new(PCefRequestContextSettings);
+  requestContextSettings^.size := NativeUInt(settings^.size);
+  requestContextSettings^.cache_path := CefString(PCharToUStr(settings^.cachePath));
+  requestContextSettings^.persist_session_cookies := Integer(settings^.persistSessionCookies);
+  requestContextSettings^.persist_user_preferences := Integer(settings^.persistUserPreferences);
+  requestContextSettings^.accept_language_list := CefString(PCharToUStr(settings^.acceptLanguageList));
+  requestContextSettings^.cookieable_schemes_list := CefString(PCharToUStr(settings^.cookieableSchemesList));
+  requestContextSettings^.cookieable_schemes_exclude_defaults := Integer(settings^.cookieableSchemesExcludeDefaults);
+  request_context := TCefRequestContextRef.New(requestContextSettings);
+  //const client: ICefClient; const url: ustring; const settings: TCefBrowserSettings; const extra_info: ICefDictionaryValue; const request_context: ICefRequestContext
   Result := TObj.CreateBrowserView(client, PCharToUStr(url), settings, extra_info, request_context);
   handleExceptionEnd
 end;
