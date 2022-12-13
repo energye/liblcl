@@ -190,7 +190,7 @@ begin
 end;
 
 //判断是否为当前浏览器
-function CEFChromium_IsSameBrowser(AObj: TChromium; browserId: integer): Boolean; extdecl;
+function CEFChromium_IsSameBrowser(AObj: TChromium; browserId: integer): LongBool; extdecl;
 var
   browser: ICefBrowser;
 begin
@@ -499,7 +499,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_CreateClientHandler(Chromium: TChromium; client: ICefClient; alsOSR: boolean): boolean ; extdecl;
+function CEFChromium_CreateClientHandler(Chromium: TChromium; client: ICefClient; alsOSR: boolean): LongBool ; extdecl;
 begin
   handleExceptionBegin
   Result:= Chromium.CreateClientHandler(client, alsOSR);
@@ -520,7 +520,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_FrameIsFocused(Chromium: TChromium): boolean ; extdecl;
+function CEFChromium_FrameIsFocused(Chromium: TChromium): LongBool ; extdecl;
 begin
   handleExceptionBegin
   Result:= Chromium.FrameIsFocused;

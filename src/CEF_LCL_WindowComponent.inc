@@ -206,10 +206,10 @@ begin
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_Display(TObj: TCEFWindowComponent): Pointer; extdecl;
+procedure CEFWindowComponent_Display(TObj: TCEFWindowComponent; out ret: ICefDisplay); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.Display.Wrap;
+  ret := TObj.Display;
   handleExceptionEnd
 end;
 
@@ -227,42 +227,42 @@ begin
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsClosed(TObj: TCEFWindowComponent): boolean; extdecl;
+function CEFWindowComponent_IsClosed(TObj: TCEFWindowComponent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsClosed;
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsActive(TObj: TCEFWindowComponent): boolean; extdecl;
+function CEFWindowComponent_IsActive(TObj: TCEFWindowComponent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsActive;
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsAlwaysOnTop(TObj: TCEFWindowComponent): boolean; extdecl;
+function CEFWindowComponent_IsAlwaysOnTop(TObj: TCEFWindowComponent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsAlwaysOnTop;
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsFullscreen(TObj: TCEFWindowComponent): boolean; extdecl;
+function CEFWindowComponent_IsFullscreen(TObj: TCEFWindowComponent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsFullscreen;
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsMaximized(TObj: TCEFWindowComponent): boolean; extdecl;
+function CEFWindowComponent_IsMaximized(TObj: TCEFWindowComponent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsMaximized;
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsMinimized(TObj: TCEFWindowComponent): boolean; extdecl;
+function CEFWindowComponent_IsMinimized(TObj: TCEFWindowComponent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsMinimized;
@@ -414,4 +414,3 @@ exports
   CEFWindowComponent_SetOnAccelerator,
   CEFWindowComponent_SetOnKeyEvent
 ;
-

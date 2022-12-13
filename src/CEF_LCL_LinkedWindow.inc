@@ -200,7 +200,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFLinkedWindow_HandleAllocated(AObj: TCEFLinkedWindowParent): boolean; extdecl;
+function CEFLinkedWindow_HandleAllocated(AObj: TCEFLinkedWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.HandleAllocated;
@@ -214,7 +214,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFLinkedWindow_DestroyChildWindow(AObj: TCEFLinkedWindowParent): boolean; extdecl;
+function CEFLinkedWindow_DestroyChildWindow(AObj: TCEFLinkedWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.DestroyChildWindow;

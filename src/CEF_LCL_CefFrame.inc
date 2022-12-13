@@ -145,7 +145,7 @@ begin
 end;
 
 //CEFFrame_IsValid
-function CEFFrame_IsValid(browserId: Integer; FrameId: PInt64): Boolean; extdecl;
+function CEFFrame_IsValid(browserId: Integer; FrameId: PInt64): LongBool; extdecl;
 var
   frame: ICefFrame;
 begin
@@ -161,7 +161,7 @@ begin
 end;
 
 //CEFFrame_IsMain
-function CEFFrame_IsMain(browserId: Integer; FrameId: PInt64): Boolean; extdecl;
+function CEFFrame_IsMain(browserId: Integer; FrameId: PInt64): LongBool; extdecl;
 var
   frame: ICefFrame;
 begin
@@ -177,7 +177,7 @@ begin
 end;
 
 //CEFFrame_IsFocused
-function CEFFrame_IsFocused(browserId: Integer; FrameId: PInt64): Boolean; extdecl;
+function CEFFrame_IsFocused(browserId: Integer; FrameId: PInt64): LongBool; extdecl;
 var
   frame: ICefFrame;
 begin

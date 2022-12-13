@@ -52,7 +52,7 @@ begin
   handleExceptionEnd
 end;
 
-function cefHeaderMap_Append(TObj: TCefCustomStringMultimap; Key, Value: PChar) : boolean; extdecl;
+function cefHeaderMap_Append(TObj: TCefCustomStringMultimap; Key, Value: PChar):LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := ICefStringMultimap(TObj).Append(PCharToUStr(Key), PCharToUStr(Value));

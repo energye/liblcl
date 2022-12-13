@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-function cefResponse_IsReadOnly(TObj: ICefResponse): boolean; extdecl;
+function cefResponse_IsReadOnly(TObj: ICefResponse): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsReadOnly;

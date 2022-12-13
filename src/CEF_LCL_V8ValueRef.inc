@@ -82,8 +82,8 @@ begin
     begin
       TempFunc := TempCefObject^.Funcs[i];
       Func := new(PRFieldBindInfo);
-      Func^.Name := PCharToUStr(TempFunc^.Name);
-      Func^.FullName := FullObjName + StrToUStr('.') + Func^.Name;
+      Func^.Name := string(PCharToUStr(TempFunc^.Name));
+      Func^.FullName := string(FullObjName + StrToUStr('.') + Func^.Name);
       Func^.BindType := integer(TempFunc^.BindType);
       Func^.EventId := TempFunc^.EventId;
       Func^.FnInNum := integer(TempFunc^.FnInNum);

@@ -12,14 +12,14 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_CreateBrowserView(TObj: TCEFBrowserViewComponent; const client: ICefClient; const url: PChar; const settings: TCefBrowserSettings; const extra_info: ICefDictionaryValue; const request_context: ICefRequestContext): boolean; extdecl;
+function CEFBrowserViewComponent_CreateBrowserView(TObj: TCEFBrowserViewComponent; const client: ICefClient; const url: PChar; const settings: TCefBrowserSettings; const extra_info: ICefDictionaryValue; const request_context: ICefRequestContext): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.CreateBrowserView(client, PCharToUStr(url), settings, extra_info, request_context);
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_GetForBrowser(TObj: TCEFBrowserViewComponent; const browser: ICefBrowser): boolean; extdecl;
+function CEFBrowserViewComponent_GetForBrowser(TObj: TCEFBrowserViewComponent; const browser: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetForBrowser(browser);
@@ -98,6 +98,7 @@ exports
   CEFBrowserViewComponent_CreateBrowserView,
   CEFBrowserViewComponent_GetForBrowser,
   CEFBrowserViewComponent_SetPreferAccelerators,
+  CEFBrowserViewComponent_RequestFocus,
 //property
   CEFBrowserViewComponent_Browser,
   CEFBrowserViewComponent_BrowserView,
