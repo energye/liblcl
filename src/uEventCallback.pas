@@ -31,7 +31,7 @@ uses
   uLinkLabel,
   fgl,
   Messages,
-  uCEF_LCL_ConsoleWrite, Math, uCEFInterfaces, uCEFMiscFunctions, uCEFTypes, uCEFWindowParent, uCEFLinkedWindowParent, uCEFChromium, uCEFClient, uCEFBaseRefCounted,
+  uCEF_LCL_ConsoleWrite, Math, uCEFInterfaces, uCEFBrowser, uCEFMiscFunctions, uCEFTypes, uCEFWindowParent, uCEFLinkedWindowParent, uCEFChromium, uCEFClient, uCEFBaseRefCounted,
   uCEF_LCL_Chromium, uCEF_LCL_Entity, uCEF_LCL_V8ValueRef, uCEF_LCL_IPC;
 
 const

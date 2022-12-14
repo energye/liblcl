@@ -341,6 +341,39 @@ type
     window: PTCefWindowHandle;
   end;
 
+  PRCefBrowserSettings = ^RCefBrowserSettings;
+
+  RCefBrowserSettings = record
+    size: PNativeuint;
+    windowless_frame_rate: PInteger;
+    standard_font_family: PChar;
+    fixed_font_family: PChar;
+    serif_font_family: PChar;
+    sans_serif_font_family: PChar;
+    cursive_font_family: PChar;
+    fantasy_font_family: PChar;
+    default_font_size: PInteger;
+    default_fixed_font_size: PInteger;
+    minimum_font_size: PInteger;
+    minimum_logical_font_size: PInteger;
+    default_encoding: PChar;
+    remote_fonts: PInteger;
+    javascript: PInteger;
+    javascript_close_windows: PInteger;
+    javascript_access_clipboard: PInteger;
+    javascript_dom_paste: PInteger;
+    image_loading: PInteger;
+    image_shrink_standalone_to_fit: PInteger;
+    text_area_resize: PInteger;
+    tab_to_links: PInteger;
+    local_storage: PInteger;
+    databases: PInteger;
+    webgl: PInteger;
+    background_color: PCardinal;
+    accept_language_list: PChar;
+    chrome_status_bubble: PInteger;
+  end;
+
   PRCefRequestContextSettings = ^RCefRequestContextSettings;
 
   RCefRequestContextSettings = record
