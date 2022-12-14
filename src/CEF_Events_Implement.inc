@@ -811,27 +811,31 @@ end;
 {==CEFBrowserViewComponent begin==}
 procedure TLCLEvent.BrowserViewComponent_OnBrowserCreated(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser_view, browser.Identifier]);
 end;
 
 procedure TLCLEvent.BrowserViewComponent_OnBrowserDestroyed(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser_view, browser.Identifier]);
 end;
 
 procedure TLCLEvent.BrowserViewComponent_OnGetDelegateForPopupBrowserView(const Sender: TObject; const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
+var
+  browserSettings: PRCefBrowserSettings;
 begin
-  SendEvent([Sender]);
+  browserSettings := new(PRCefBrowserSettings);
+  SendEvent([Sender, browser_view, browserSettings, client, is_devtools, @aResult]);
+  browserSettings := nil;
 end;
 
 procedure TLCLEvent.BrowserViewComponent_OnPopupBrowserViewCreated(const Sender: TObject; const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser_view, popup_browser_view, is_devtools, @aResult]);
 end;
 
 procedure TLCLEvent.BrowserViewComponent_OnGetChromeToolbarType(const Sender: TObject; var aChromeToolbarType: TCefChromeToolbarType);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, @aChromeToolbarType]);
 end;
 
 {==CEFBrowserViewComponent end==}

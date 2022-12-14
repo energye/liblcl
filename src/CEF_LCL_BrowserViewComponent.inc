@@ -91,10 +91,16 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_GetForBrowser(TObj: TCEFBrowserViewComponent; const browser: ICefBrowser): LongBool; extdecl;
+function CEFBrowserViewComponent_GetForBrowser(TObj: TCEFBrowserViewComponent; const browserId: Integer): LongBool; extdecl;
+var
+  browser: ICefBrowser;
 begin
   handleExceptionBegin
-  Result := TObj.GetForBrowser(browser);
+  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
+  if browser <> nil then
+  begin
+    Result := TObj.GetForBrowser(browser);
+  end;
   handleExceptionEnd
 end;
 
@@ -113,10 +119,10 @@ begin
 end;
 
 //property
-function CEFBrowserViewComponent_Browser(TObj: TCEFBrowserViewComponent):ICefBrowser ; extdecl;
+function CEFBrowserViewComponent_Browser(TObj: TCEFBrowserViewComponent):Integer ; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.Browser;
+  Result := TObj.Browser.Identifier;
   handleExceptionEnd
 end;
 
