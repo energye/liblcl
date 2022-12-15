@@ -67,6 +67,7 @@ begin
     GlobalCEFApp.ExternalMessagePump       := boolean(Config^.ExternalMessagePump);
     GlobalCEFApp.MultiThreadedMessageLoop  := boolean(Config^.MultiThreadedMessageLoop);
   {$ENDIF}
+  GlobalCEFApp.ChromeRuntime := boolean(Config^.ChromeRuntime);
   //cef chromium 参数配置
   //string
   FrameworkDirPath := PCharToUStr(Config^.FrameworkDirPath);
@@ -106,7 +107,7 @@ begin
   //boolean
   GlobalCEFApp.NoSandbox := boolean(Config^.NoSandbox);
   {$IFDEF LINUX}
-  // 这是一个解决“GPU不可用错误”问题的方法:
+  // 这是一个解决“GPU不可用错误”问题的方法 linux
   // https://bitbucket.org/chromiumembedded/cef/issues/2964/gpu-is-not-usable-error-during-cef
   GlobalCEFApp.DisableZygote := boolean(Config^.DisableZygote); // 此属性添加了“——no-zygote”命令行开关
   {$ENDIF}
@@ -124,8 +125,6 @@ begin
   GlobalCEFApp.DisableComponentUpdate := True;//禁用扩展组件更新
   GlobalCEFApp.EnablePrintPreview := True;
   //GlobalCEFApp.SitePerProcess := True;
-  GlobalCEFApp.ChromeRuntime := boolean(Config^.ChromeRuntime);
-
   Result := GlobalCEFApp;
   handleExceptionEnd
 end;
@@ -155,46 +154,39 @@ begin
 end;
 
 //start main process
-function CEFStartMainProcess(): integer; extdecl;
-var
-  ret : boolean;
+function CEFStartMainProcess(): LongBool; extdecl;
 begin
   handleExceptionBegin
-  ret := GlobalCEFApp.StartMainProcess;
-  if ret then
+  Result := GlobalCEFApp.StartMainProcess;
+  if Result then
   begin
     {$ifdef Linux}
     //CustomWidgetSetInitialization();
     {$endif}
-    Result := 1;
-  end
-  else
-  begin
-    Result := 0;
   end;
   handleExceptionEnd
 end;
 
 //start sub process
-function CEFStartSubProcess(): integer; extdecl;
-var
-  ret : boolean;
+function CEFStartSubProcess(): LongBool; extdecl;
 begin
   handleExceptionBegin
   {$IFDEF MACOSX}
   GlobalCEFApp.InitLibLocationFromArgs;
   {$ENDIF}
-  ret := GlobalCEFApp.StartSubProcess;
-  if ret then
+  Result := GlobalCEFApp.StartSubProcess;
+  if Result then
   begin
     {$ifdef Linux}
     //CustomWidgetSetInitialization();
     {$endif}
-    Result := 1;
-  end
-  else
-    Result := 0;
+  end;
   handleExceptionEnd
+end;
+
+procedure CEFApplication_RunMessageLoop(); extdecl;
+begin
+  GlobalCEFApp.RunMessageLoop;
 end;
 
 {====== events ======}
@@ -230,6 +222,15 @@ begin
   handleExceptionBegin
   OnContextCreated_DataPtr := AEventData;
   GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
+  handleExceptionEnd
+end;
+
+//EVENT_TYPE:GlobalCEFAppEventOnContextInitialized
+procedure CEFGlobalApp_SetOnContextInitialized(AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  OnContextInitialized_DataPtr := AEventData;
+  GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
   handleExceptionEnd
 end;
 
@@ -320,6 +321,8 @@ end;
 exports
     CEF_AddCrDelegate,
     SetMacOSXCommandLine,
+    //Proc
+    CEFApplication_RunMessageLoop,
     CEFApplication_Create,
     CEFApplication_Free,
     CEFApplication_Destroy,
@@ -334,6 +337,7 @@ exports
     SetApplicationQueueAsyncCallFunc,
     //GlobalCEFApp event
     CEFGlobalApp_SetOnContextCreated,
+    CEFGlobalApp_SetOnContextInitialized,
     CEFGlobalApp_SetOnWebKitInitialized,
     CEFGlobalApp_SetOnProcessMessageReceived,
     CEFGlobalApp_SetOnBeforeChildProcessLaunch,

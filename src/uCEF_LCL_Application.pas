@@ -46,6 +46,7 @@ procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
 procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 
 procedure GlobalCEFApp_OnWebKitInitialized;
+procedure GlobalCEFApp_OnContextInitialized;
 procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled: boolean);
 procedure GlobalCEFApp_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
 procedure GlobalCEFApp_OnBrowserDestroyed(const browser: ICefBrowser);
@@ -66,6 +67,7 @@ var
   // 渲染进程回调事件函数指针
   OnRegCustomSchemes_DataPtr: Pointer;
   OnWebKitInitialized_DataPtr: Pointer;
+  OnContextInitialized_DataPtr: Pointer;
   OnBeforeChildProcessLaunch_DataPtr: Pointer;
   OnScheduleMessagePumpWork_DataPtr: Pointer;
   OnGetDefaultClient_DataPtr: Pointer;
@@ -469,6 +471,12 @@ end;
 procedure GlobalCEFApp_OnWebKitInitialized;
 begin
   SendEvent(OnWebKitInitialized_DataPtr, []);
+end;
+
+procedure GlobalCEFApp_OnContextInitialized;
+begin
+  ConsoleLn('GlobalCEFApp_OnContextInitialized');
+  SendEvent(OnContextInitialized_DataPtr, []);
 end;
 
 //render进程消息
