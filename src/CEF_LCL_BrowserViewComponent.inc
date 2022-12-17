@@ -133,6 +133,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFBrowserViewComponent_NIL();
+begin
+  handleExceptionBegin
+    //TODO 没搞懂，要加一个空函数编译才不报错
+  handleExceptionEnd
+end;
+
 //event
 procedure CEFBrowserViewComponent_SetOnBrowserCreated(AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
 begin
