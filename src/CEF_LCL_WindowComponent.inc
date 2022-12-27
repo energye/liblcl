@@ -34,10 +34,10 @@ begin
 end;
 
 
-procedure CEFWindowComponent_CenterWindow(TObj: TCEFWindowComponent; size_: TCefSize); extdecl;
+procedure CEFWindowComponent_CenterWindow(TObj: TCEFWindowComponent; var AValue: TCefSize); extdecl;
 begin
     handleExceptionBegin
-    TObj.CenterWindow(size_);
+    TObj.CenterWindow(AValue);
     handleExceptionEnd
 end;
 
@@ -269,6 +269,13 @@ begin
     handleExceptionEnd
 end;
 
+procedure CEFWindowComponent_AddChildView(TObj: TCEFWindowComponent; BrowserViewComponent: TCEFBrowserViewComponent); extdecl;
+begin
+    handleExceptionBegin
+    TObj.AddChildView(BrowserViewComponent.BrowserView);
+    handleExceptionEnd
+end;
+
 procedure CEFWindowComponent_NIL();
 begin
     //handleExceptionBegin
@@ -407,6 +414,7 @@ exports
     CEFWindowComponent_IsFullscreen,
     CEFWindowComponent_IsMaximized,
     CEFWindowComponent_IsMinimized,
+    CEFWindowComponent_AddChildView,
     //event
     CEFWindowComponent_SetOnWindowCreated,
     CEFWindowComponent_SetOnWindowDestroyed,

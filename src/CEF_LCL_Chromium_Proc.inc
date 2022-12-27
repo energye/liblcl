@@ -173,6 +173,14 @@ begin
   handleExceptionEnd
 end;
 
+//创建浏览器
+function CEFChromium_CreateBrowserByBrowserViewComponent(AObj: TChromium; PHomePage: PChar; BrowserViewComponent: TCEFBrowserViewComponent): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.CreateBrowser(PCharToUStr(PHomePage), BrowserViewComponent);
+  handleExceptionEnd
+end;
+
 //浏览器初始化
 function CEFChromium_Initialized(AObj: TChromium): LongBool; extdecl;
 begin
@@ -527,6 +535,13 @@ begin
   handleExceptionEnd
 end;
 
+function CEFChromium_TryCloseBrowser(Chromium: TChromium): LongBool ; extdecl;
+begin
+  handleExceptionBegin
+  Result:= Chromium.TryCloseBrowser;
+  handleExceptionEnd
+end;
+
 procedure CEF_AddGoForm(BrowserId: Integer; GoForm: TGoForm); extdecl;
 begin
   handleExceptionBegin
@@ -556,6 +571,7 @@ exports
   CEFChromium_CloseAllBrowsers,
   CEFChromium_CreateBrowserByWindow,
   CEFChromium_CreateBrowserByLinkedWindow,
+  CEFChromium_CreateBrowserByBrowserViewComponent,
   CEFChromium_Initialized,
   CEFChromium_GetBrowserId,
   CEFChromium_IsSameBrowser,
@@ -594,6 +610,7 @@ exports
   CEFChromium_SetFocus,
   CEFChromium_SendCaptureLostEvent,
   CEFChromium_FrameIsFocused,
+  CEFChromium_TryCloseBrowser,
   { ====  proc end ==== }
   { ====  go from begin ==== }
   CEF_AddGoForm,

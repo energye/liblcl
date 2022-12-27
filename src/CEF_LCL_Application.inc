@@ -189,6 +189,11 @@ begin
   GlobalCEFApp.RunMessageLoop;
 end;
 
+procedure CEFApplication_QuitMessageLoop(); extdecl;
+begin
+  GlobalCEFApp.QuitMessageLoop;
+end;
+
 {====== events ======}
 
 procedure AddCustomCommandLine(CommandLine, Value: PChar); extdecl;
@@ -323,6 +328,7 @@ exports
     SetMacOSXCommandLine,
     //Proc
     CEFApplication_RunMessageLoop,
+    CEFApplication_QuitMessageLoop,
     CEFApplication_Create,
     CEFApplication_Free,
     CEFApplication_Destroy,
