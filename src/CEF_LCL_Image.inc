@@ -4,19 +4,27 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-function CEFImage_New(): ICefImage; extdecl;
+function CEFImage_New(): Pointer; extdecl;
+var
+  Ret: ICefImage;
 begin
   handleExceptionBegin
-  //Result := TCefImageRef.New;
-  Result := nil;
+  Ret := TCefImageRef.New;
+  Result := Ret.Wrap;
+  //Result := TCefImageRef(TCefImageRef.New);
+  //Result := nil;
   handleExceptionEnd
 end;
 
-
-function CEFImage_AddPng(TObj: TCefImageRef; scaleFactor: Single; const pngData: Pointer; pngDataSize: NativeUInt): longbool; extdecl;
+function CEFImage_AddPng(TObj: Pointer; scaleFactor: PSingle; const pngData: array of Byte; pngDataSize: NativeUInt): longbool; extdecl;
+var
+  Image: ICefImage;
 begin
   handleExceptionBegin
-  Result := ICefImage(TObj).AddPng(scaleFactor, pngData, pngDataSize);
+  ConsoleLn('CEFImage_AddPng ' + FloatToStr(scaleFactor^) + ' pngDataSize: ' + IntToStr(pngDataSize));
+  Image := TCefImageRef.UnWrap(TObj);
+  Result := Image.AddPng(scaleFactor^, @pngData[0], Length(pngData));
+  ConsoleLn(' width: '+ IntToStr(Image.Width) +  ' height: '+ IntToStr(Image.height) + ' IsEmpty: ' + BoolToStr(Image.IsEmpty, True));
   handleExceptionEnd
 end;
 

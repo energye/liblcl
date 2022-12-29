@@ -199,10 +199,84 @@ begin
     handleExceptionEnd
 end;
 
+procedure CEFWindowComponent_SetWindowIconImage(TObj: TCEFWindowComponent; Icon: ICefImage); extdecl;
+begin
+    handleExceptionBegin
+    TObj.WindowIcon := Icon;
+    handleExceptionEnd
+end;
+
+{$ifdef DARWIN}
+procedure CEFWindowComponent_SetWindowIcon(TObj: TCEFWindowComponent; scaleFactor: PSingle; const data: array of Byte; dataSize: NativeUInt); extdecl;
+var
+  tmpData: array of Byte;
+{$else}
+procedure CEFWindowComponent_SetWindowIcon(TObj: TCEFWindowComponent; scaleFactor: PSingle; const data: array of Byte); extdecl;
+var
+{$endif}
+  icon: ICefImage;
+begin
+    handleExceptionBegin
+    icon := TCefImageRef.New;
+    {$ifdef DARWIN}
+    if dataSize >0 then
+    begin
+      try
+        SetLength(tmpData, dataSize);
+        Move(data[0], tmpData[0], dataSize);
+        icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
+      finally
+        SetLength(tmpData, 0);
+      end;
+    end;
+    {$else}
+    icon.AddPng(scaleFactor^, @data[0], length(data));
+    {$endif}
+    TObj.WindowIcon := icon;
+    handleExceptionEnd
+end;
+
 procedure CEFWindowComponent_WindowAppIcon(TObj: TCEFWindowComponent; out ret: ICefImage); extdecl;
 begin
     handleExceptionBegin
     ret := TObj.WindowAppIcon;
+    handleExceptionEnd
+end;
+
+{$ifdef DARWIN}
+procedure CEFWindowComponent_SetWindowAppIcon(TObj: TCEFWindowComponent; scaleFactor: PSingle; const data: array of Byte; dataSize: NativeUInt); extdecl;
+var
+  tmpData: array of Byte;
+{$else}
+procedure CEFWindowComponent_SetWindowAppIcon(TObj: TCEFWindowComponent; scaleFactor: PSingle; const data: array of Byte); stdcall;
+var
+{$endif}
+  icon: ICefImage;
+begin
+    handleExceptionBegin
+    icon := TCefImageRef.New;
+    {$ifdef DARWIN}
+    if dataSize >0 then
+    begin
+      try
+        SetLength(tmpData, dataSize);
+        Move(data[0], tmpData[0], dataSize);
+        icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
+      finally
+        SetLength(tmpData, 0);
+      end;
+    end;
+    {$else}
+    icon.AddPng(scaleFactor^, @data[0], length(data));
+    {$endif}
+    TObj.WindowAppIcon := icon;
+    handleExceptionEnd
+end;
+
+procedure CEFWindowComponent_SetWindowAppIconImage(TObj: TCEFWindowComponent; Icon: ICefImage); extdecl;
+begin
+    handleExceptionBegin
+    TObj.WindowAppIcon := Icon;
     handleExceptionEnd
 end;
 
@@ -404,7 +478,11 @@ exports
     CEFWindowComponent_SetTitle,
     CEFWindowComponent_Title,
     CEFWindowComponent_WindowIcon,
+    CEFWindowComponent_SetWindowIcon,
+    CEFWindowComponent_SetWindowIconImage,
     CEFWindowComponent_WindowAppIcon,
+    CEFWindowComponent_SetWindowAppIcon,
+    CEFWindowComponent_SetWindowAppIconImage,
     CEFWindowComponent_Display,
     CEFWindowComponent_ClientAreaBoundsInScreen,
     CEFWindowComponent_WindowHandle,
