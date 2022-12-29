@@ -213,10 +213,10 @@ begin
     handleExceptionEnd
 end;
 
-function CEFWindowComponent_ClientAreaBoundsInScreen(TObj: TCEFWindowComponent): TCefRect; extdecl;
+procedure CEFWindowComponent_ClientAreaBoundsInScreen(TObj: TCEFWindowComponent; out ret: TCefRect); extdecl;
 begin
     handleExceptionBegin
-    Result := TObj.ClientAreaBoundsInScreen;
+    ret := TObj.ClientAreaBoundsInScreen;
     handleExceptionEnd
 end;
 

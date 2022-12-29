@@ -30,3 +30,4 @@
 {$I CEF_LCL_WindowComponent.inc}
 {$I CEF_LCL_BrowserViewComponent.inc}
 {$I CEF_LCL_Image.inc}
+{$I CEF_LCL_Display.inc}
