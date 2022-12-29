@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Count="7" Active="Win64">
+    <BuildModes Count="7" Active="Linux64">
       <Item1 Name="Win64">
         <MacroValues Count="1">
           <Macro4 Name="LCLWidgetType" Value="win32"/>
@@ -53,7 +53,7 @@
       </Item1>
       <Item2 Name="Linux64">
         <MacroValues Count="1">
-          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+          <Macro6 Name="LCLWidgetType" Value="gtk3"/>
         </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
@@ -85,7 +85,7 @@
       </Item2>
       <Item3 Name="Linux32">
         <MacroValues Count="1">
-          <Macro5 Name="LCLWidgetType" Value="gtk2"/>
+          <Macro6 Name="LCLWidgetType" Value="gtk3"/>
         </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
@@ -291,8 +291,8 @@
       </Item7>
       <SessionEnabledMatrixOptions Count="5">
         <Item1 Mode="Win64" Option="028265915746"/>
-        <Item2 Mode="Linux64" Option="316477307003"/>
-        <Item3 Mode="Linux32" Option="316477307003"/>
+        <Item2 Mode="Linux64" Option="411076831854"/>
+        <Item3 Mode="Linux32" Option="411076831854"/>
         <Item4 Mode="LinuxARM" Option="471587070140"/>
         <Item5 Mode="MacOS64(cocoa)" Option="558457850193"/>
       </SessionEnabledMatrixOptions>
@@ -322,7 +322,6 @@
         <TopLine Value="12"/>
         <CursorPos X="3" Y="28"/>
         <UsageCount Value="200"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
         <Filename Value="ImageButton.pas"/>
@@ -331,7 +330,6 @@
         <TopLine Value="132"/>
         <CursorPos X="17" Y="89"/>
         <UsageCount Value="200"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
         <Filename Value="ucomponents.pas"/>
@@ -341,7 +339,6 @@
         <TopLine Value="12"/>
         <CursorPos X="3" Y="27"/>
         <UsageCount Value="201"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit4>
       <Unit5>
         <Filename Value="ugoform.pas"/>
@@ -351,7 +348,6 @@
         <TopLine Value="2"/>
         <CursorPos X="20" Y="50"/>
         <UsageCount Value="201"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit5>
       <Unit6>
         <Filename Value="uMiniWebview.pas"/>
@@ -359,7 +355,6 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="25" Y="12"/>
         <UsageCount Value="200"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit6>
       <Unit7>
         <Filename Value="ucontrolpatchs.pas"/>
@@ -369,7 +364,6 @@
         <TopLine Value="239"/>
         <CursorPos X="5" Y="268"/>
         <UsageCount Value="200"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit7>
       <Unit8>
         <Filename Value="umacospatchs.pas"/>
@@ -379,7 +373,6 @@
         <TopLine Value="13"/>
         <CursorPos X="40" Y="28"/>
         <UsageCount Value="210"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit8>
       <Unit9>
         <Filename Value="ulinuxpatchs.pas"/>
@@ -388,7 +381,6 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="32" Y="27"/>
         <UsageCount Value="209"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit9>
       <Unit10>
         <Filename Value="xbutton.pas"/>
@@ -398,7 +390,6 @@
         <TopLine Value="9"/>
         <CursorPos X="3" Y="27"/>
         <UsageCount Value="208"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit10>
       <Unit11>
         <Filename Value="urichedit.pas"/>
@@ -407,7 +398,6 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="30" Y="17"/>
         <UsageCount Value="203"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit11>
       <Unit12>
         <Filename Value="uFormDesignerFile.pas"/>
@@ -416,7 +406,6 @@
         <TopLine Value="324"/>
         <CursorPos X="38" Y="355"/>
         <UsageCount Value="201"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit12>
       <Unit13>
         <Filename Value="uexport1.pas"/>
@@ -424,7 +413,6 @@
         <UnitName Value="uExport1"/>
         <EditorIndex Value="-1"/>
         <UsageCount Value="200"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit13>
       <Unit14>
         <Filename Value="uexport2.pas"/>
@@ -432,7 +420,6 @@
         <UnitName Value="uExport2"/>
         <EditorIndex Value="-1"/>
         <UsageCount Value="200"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit14>
       <Unit15>
         <Filename Value="UseAll.inc"/>
@@ -440,7 +427,6 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="11" Y="50"/>
         <UsageCount Value="201"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit15>
       <Unit16>
         <Filename Value="uexceptionhandle.pas"/>
@@ -449,7 +435,6 @@
         <EditorIndex Value="-1"/>
         <CursorPos Y="13"/>
         <UsageCount Value="206"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit16>
       <Unit17>
         <Filename Value="ugauge.pas"/>
@@ -458,7 +443,6 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="32" Y="17"/>
         <UsageCount Value="203"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit17>
       <Unit18>
         <Filename Value="uexport3.pas"/>
@@ -466,7 +450,6 @@
         <UnitName Value="uExport3"/>
         <EditorIndex Value="-1"/>
         <UsageCount Value="202"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit18>
       <Unit19>
         <Filename Value="uexport4.pas"/>
@@ -474,7 +457,6 @@
         <EditorIndex Value="-1"/>
         <CursorPos Y="7"/>
         <UsageCount Value="202"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit19>
       <Unit20>
         <Filename Value="uCEF_LCL_Event.pas"/>
@@ -483,7 +465,6 @@
         <TopLine Value="124"/>
         <CursorPos X="40" Y="173"/>
         <UsageCount Value="202"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit20>
       <Unit21>
         <Filename Value="uCEF_LCL_V8ObjectAccessor.pas"/>
@@ -492,7 +473,6 @@
         <TopLine Value="5"/>
         <CursorPos X="16" Y="18"/>
         <UsageCount Value="201"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit21>
       <Unit22>
         <Filename Value="uCEF_LCL_IPC.pas"/>
@@ -501,7 +481,6 @@
         <TopLine Value="172"/>
         <CursorPos X="73" Y="211"/>
         <UsageCount Value="201"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit22>
       <Unit23>
         <Filename Value="uCEF_LCL_Process_Message.pas"/>
@@ -509,7 +488,6 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="3" Y="21"/>
         <UsageCount Value="201"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit23>
       <Unit24>
         <Filename Value="uCEF_LCL_DictionaryValue.pas"/>
@@ -518,7 +496,6 @@
         <TopLine Value="68"/>
         <CursorPos X="15" Y="58"/>
         <UsageCount Value="220"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit24>
       <Unit25>
         <Filename Value="ucef_lcl_uidemos.pas"/>
@@ -526,13 +503,11 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="14" Y="23"/>
         <UsageCount Value="167"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit25>
       <Unit26>
         <Filename Value="CEFApplication.pas"/>
         <EditorIndex Value="-1"/>
         <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
         <Filename Value="CEFEntity.pas"/>
@@ -540,35 +515,30 @@
         <TopLine Value="6"/>
         <CursorPos X="17" Y="35"/>
         <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit27>
       <Unit28>
         <Filename Value="CEFWindow.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="2"/>
         <UsageCount Value="5"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit28>
       <Unit29>
         <Filename Value="CEFChromium.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="18" Y="8"/>
         <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit29>
       <Unit30>
         <Filename Value="CEFLCLChromium.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="4"/>
         <UsageCount Value="7"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit30>
       <Unit31>
         <Filename Value="CEF_LCL_Chromium.pas"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="22"/>
         <UsageCount Value="8"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit31>
       <Unit32>
         <Filename Value="uCEF_LCL_V8Handler.pas"/>
@@ -576,7 +546,6 @@
         <TopLine Value="94"/>
         <CursorPos X="74" Y="119"/>
         <UsageCount Value="6"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit32>
       <Unit33>
         <Filename Value="CEF_LCL_Chromium.inc"/>
@@ -584,7 +553,6 @@
         <TopLine Value="363"/>
         <CursorPos X="37" Y="877"/>
         <UsageCount Value="7"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit33>
       <Unit34>
         <Filename Value="CEF_LCL_Application.inc"/>
@@ -603,7 +571,7 @@
       </Unit35>
       <Unit36>
         <Filename Value="CEF_Events_Implement.inc"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="765"/>
         <CursorPos X="121" Y="777"/>
         <UsageCount Value="102"/>
@@ -611,9 +579,10 @@
       </Unit36>
       <Unit37>
         <Filename Value="uCEF_LCL_Chromium.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="10"/>
         <TopLine Value="206"/>
-        <CursorPos X="148" Y="241"/>
+        <CursorPos X="22" Y="219"/>
         <UsageCount Value="101"/>
         <Loaded Value="True"/>
       </Unit37>
@@ -638,8 +607,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="36"/>
         <CursorPos X="44" Y="77"/>
-        <UsageCount Value="0"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
+        <UsageCount Value="10"/>
       </Unit40>
       <Unit41>
         <Filename Value="CEF_LCL_IPC.inc"/>
@@ -647,7 +615,6 @@
         <TopLine Value="10"/>
         <CursorPos X="5" Y="15"/>
         <UsageCount Value="22"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit41>
       <Unit42>
         <Filename Value="uCEF_LCL_V8EventEmitHandler.pas"/>
@@ -655,13 +622,11 @@
         <TopLine Value="42"/>
         <CursorPos X="5" Y="50"/>
         <UsageCount Value="54"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit42>
       <Unit43>
         <Filename Value="CEF_LCL_Callback_Register.inc"/>
         <EditorIndex Value="-1"/>
         <UsageCount Value="53"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit43>
       <Unit44>
         <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-103.0.9\CEF4Delphi\source\uCEFInterfaces.pas"/>
@@ -669,7 +634,6 @@
         <TopLine Value="1638"/>
         <CursorPos X="29" Y="1649"/>
         <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit44>
       <Unit45>
         <Filename Value="CEF_LCL_Chromium_Event.inc"/>
@@ -698,7 +662,6 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="179"/>
         <UsageCount Value="72"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit48>
       <Unit49>
         <Filename Value="CEF_LCL_CefBrowser.inc"/>
@@ -727,7 +690,6 @@
         <TopLine Value="53"/>
         <CursorPos X="10" Y="75"/>
         <UsageCount Value="5"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit52>
       <Unit53>
         <Filename Value="LazarusDef.inc"/>
@@ -747,7 +709,6 @@
         <EditorIndex Value="-1"/>
         <CursorPos X="112" Y="88"/>
         <UsageCount Value="3"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit55>
       <Unit56>
         <Filename Value="uCEF_LCL_V8ValueRef.pas"/>
@@ -755,7 +716,6 @@
         <TopLine Value="18"/>
         <CursorPos X="5" Y="49"/>
         <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit56>
       <Unit57>
         <Filename Value="CEF_LCL_ContextMenu.inc"/>
@@ -770,7 +730,6 @@
         <TopLine Value="51"/>
         <CursorPos X="3" Y="76"/>
         <UsageCount Value="25"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit58>
       <Unit59>
         <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-105.3.39\CEF4Delphi-master\source\uCEFChromium.pas"/>
@@ -778,7 +737,6 @@
         <TopLine Value="35"/>
         <CursorPos X="3" Y="66"/>
         <UsageCount Value="25"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit59>
       <Unit60>
         <Filename Value="..\..\..\..\..\..\CEF4Delphi-Libs-105.3.39\CEF4Delphi-master\source\uCEFApplicationCore.pas"/>
@@ -786,21 +744,18 @@
         <TopLine Value="548"/>
         <CursorPos X="18" Y="582"/>
         <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit60>
       <Unit61>
         <Filename Value="CEF_LCL_MiscFunctions.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="17" Y="24"/>
         <UsageCount Value="5"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit61>
       <Unit62>
         <Filename Value="CEF_LCL_LinkedWindow.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="39" Y="4"/>
         <UsageCount Value="5"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit62>
       <Unit63>
         <Filename Value="MyLCL_Button.inc"/>
@@ -808,7 +763,6 @@
         <TopLine Value="1119"/>
         <CursorPos X="29" Y="1171"/>
         <UsageCount Value="31"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit63>
       <Unit64>
         <Filename Value="C:\lazarus\lcl\controls.pp"/>
@@ -817,7 +771,6 @@
         <TopLine Value="1699"/>
         <CursorPos X="14" Y="1739"/>
         <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit64>
       <Unit65>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\objpash.inc"/>
@@ -825,7 +778,6 @@
         <TopLine Value="167"/>
         <CursorPos X="26" Y="220"/>
         <UsageCount Value="5"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit65>
       <Unit66>
         <Filename Value="D:\app.exe\energy\CEF4Delphi-master\source\uCEFChromiumCore.pas"/>
@@ -840,7 +792,6 @@
         <TopLine Value="750"/>
         <CursorPos X="46" Y="791"/>
         <UsageCount Value="21"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit67>
       <Unit68>
         <Filename Value="D:\app.exe\energy\CEF4Delphi-master\source\uCEFApplicationCore.pas"/>
@@ -876,7 +827,6 @@
         <TopLine Value="296"/>
         <CursorPos X="3" Y="335"/>
         <UsageCount Value="3"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit72>
       <Unit73>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\ustringh.inc"/>
@@ -884,7 +834,6 @@
         <TopLine Value="93"/>
         <CursorPos X="10" Y="139"/>
         <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit73>
       <Unit74>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\inc\threadh.inc"/>
@@ -892,7 +841,6 @@
         <TopLine Value="106"/>
         <CursorPos X="11" Y="167"/>
         <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit74>
       <Unit75>
         <Filename Value="C:\lazarus\lcl\dialogs.pp"/>
@@ -901,7 +849,6 @@
         <TopLine Value="291"/>
         <CursorPos X="12" Y="321"/>
         <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit75>
       <Unit76>
         <Filename Value="C:\lazarus\fpc\3.2.2\source\rtl\objpas\classes\classesh.inc"/>
@@ -909,7 +856,6 @@
         <TopLine Value="1850"/>
         <CursorPos X="7" Y="1883"/>
         <UsageCount Value="5"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit76>
       <Unit77>
         <Filename Value="CEF_LCL_Window.inc"/>
@@ -923,7 +869,6 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <UsageCount Value="5"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit78>
       <Unit79>
         <Filename Value="CEF_LCL_CefRequest.inc"/>
@@ -931,7 +876,6 @@
         <TopLine Value="6"/>
         <CursorPos X="21" Y="61"/>
         <UsageCount Value="1"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit79>
       <Unit80>
         <Filename Value="CEF_LCL_CefHeader.inc"/>
@@ -939,17 +883,15 @@
         <TopLine Value="4"/>
         <CursorPos X="13" Y="29"/>
         <UsageCount Value="1"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit80>
       <Unit81>
         <Filename Value="CEF_LCL_CefCallback.inc"/>
         <EditorIndex Value="-1"/>
         <UsageCount Value="5"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit81>
       <Unit82>
         <Filename Value="CEF_LCL_BrowserViewComponent.inc"/>
-        <EditorIndex Value="13"/>
+        <EditorIndex Value="12"/>
         <TopLine Value="110"/>
         <CursorPos X="21" Y="133"/>
         <UsageCount Value="73"/>
@@ -957,7 +899,7 @@
       </Unit82>
       <Unit83>
         <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="13"/>
         <TopLine Value="182"/>
         <CursorPos X="8" Y="219"/>
         <UsageCount Value="43"/>
@@ -965,17 +907,16 @@
       </Unit83>
       <Unit84>
         <Filename Value="CEF_LCL_Image.inc"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="43"/>
         <UsageCount Value="72"/>
-        <Loaded Value="True"/>
       </Unit84>
       <Unit85>
         <Filename Value="D:\app.exe\energy\CEF4Delphi-master\source\uCEFImage.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="26"/>
         <CursorPos X="56" Y="60"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit85>
       <Unit86>
         <Filename Value="D:\app.exe\energy\CEF4Delphi-master\source\uCEFTypes.pas"/>
@@ -1002,7 +943,7 @@
         <Filename Value="E:\lazarus\fpc\3.2.2\source\rtl\objpas\objpas.pp"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="8" Y="35"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit89>
       <Unit90>
         <Filename Value="D:\app.exe\energy\CEF4Delphi-master\source\uCEFBrowserViewComponent.pas"/>
@@ -1031,7 +972,6 @@
         <TopLine Value="138"/>
         <CursorPos X="48" Y="177"/>
         <UsageCount Value="4"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit93>
       <Unit94>
         <Filename Value="D:\app.exe\energy\CEF4Delphi-master\source\uCEFMiscFunctions.pas"/>
@@ -1077,18 +1017,17 @@
       </Unit99>
       <Unit100>
         <Filename Value="CEF_LCL_Display.inc"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <CursorPos X="23" Y="33"/>
+        <TopLine Value="12"/>
+        <CursorPos X="5" Y="20"/>
         <UsageCount Value="19"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit100>
     </Units>
     <OtherDefines Count="1">
-      <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
+      <Define0 Value="RMLCLTRUNK"/>
     </OtherDefines>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="29" HistoryIndex="28">
       <Position1>
         <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
         <Caret Line="563" Column="24" TopLine="535"/>
@@ -1186,28 +1125,24 @@
         <Caret Line="777" Column="121" TopLine="744"/>
       </Position24>
       <Position25>
-        <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="316" Column="51" TopLine="376"/>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="33" Column="24"/>
       </Position25>
       <Position26>
-        <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="33" Column="24"/>
-      </Position26>
-      <Position27>
         <Filename Value="CEF_LCL_Display.inc"/>
         <Caret Line="29" Column="60"/>
-      </Position27>
-      <Position28>
+      </Position26>
+      <Position27>
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="33" Column="24"/>
+      </Position27>
+      <Position28>
+        <Filename Value="CEF_LCL_WindowComponent.inc"/>
       </Position28>
       <Position29>
         <Filename Value="CEF_LCL_WindowComponent.inc"/>
-      </Position29>
-      <Position30>
-        <Filename Value="CEF_LCL_WindowComponent.inc"/>
         <Caret Line="209" Column="10" TopLine="182"/>
-      </Position30>
+      </Position29>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
