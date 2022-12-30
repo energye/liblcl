@@ -4,260 +4,361 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-//创建 TCEFWindowParent
-function CEFWindow_Create(AOwner: TComponent): TCEFWindowParent; extdecl;
+//property
+procedure ICEFWindow_Show(AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
-  Result := TCEFWindowParent.Create(AOwner);
-  Result.Width := 300;
-  Result.Height := 300;
-  Result.Align := alNone; //default
+  AWindow.Show;
   handleExceptionEnd
 end;
 
-//设置 CEFWindow_SetParent
-procedure CEFWindow_SetParent(AObj: TCEFWindowParent; AValue: TWinControl); extdecl;
+procedure ICEFWindow_Hide(AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
-  AObj.Parent := AValue;
+  AWindow.Hide;
   handleExceptionEnd
 end;
 
-//设置 CEFWindow_SetAlign
-procedure CEFWindow_SetAlign(AObj: TCEFWindowParent; AValue: TAlign); extdecl;
+procedure ICEFWindow_CenterWindow(AWindow: ICefWindow; var AValue: TCefSize); extdecl;
 begin
   handleExceptionBegin
-  AObj.Align := AValue;
+  AWindow.CenterWindow(AValue);
   handleExceptionEnd
 end;
 
-//获取 CEFWindow_GetAlign
-function CEFWindow_GetAlign(AObj: TCEFWindowParent): TAlign; extdecl;
+procedure ICEFWindow_Close(AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.Align;
+  AWindow.Close;
   handleExceptionEnd
 end;
 
-//Get 锚点定位
-function CEFWindow_GetAnchors(AObj: TCEFWindowParent): TAnchors; extdecl;
+function ICEFWindow_IsClosed(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.Anchors;
+  Result := AWindow.IsClosed;
   handleExceptionEnd
 end;
 
-//Set 锚点定位
-procedure CEFWindow_SetAnchors(AObj: TCEFWindowParent; AValue: TAnchors); extdecl;
+procedure ICEFWindow_Activate(AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
-  AObj.Anchors := AValue;
+  AWindow.Activate;
   handleExceptionEnd
 end;
 
-//Get 句柄
-function CEFWindow_GetHandle(AObj: TCEFWindowParent): HWND; extdecl;
+procedure ICEFWindow_Deactivate(AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.Handle;
+  AWindow.Deactivate;
   handleExceptionEnd
 end;
 
-function CEFWindow_GetVisible(AObj: TCEFWindowParent): LongBool; extdecl;
+function ICEFWindow_IsActive(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.Visible;
+  Result := AWindow.IsActive;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetVisible(AObj: TCEFWindowParent; AValue: LongBool); extdecl;
+procedure ICEFWindow_BringToTop(AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
-  AObj.Visible := AValue;
+  AWindow.BringToTop;
   handleExceptionEnd
 end;
 
-function CEFWindow_GetEnabled(AObj: TCEFWindowParent): LongBool; extdecl;
+procedure ICEFWindow_SetAlwaysOnTop(AWindow: ICefWindow; on_top: boolean); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.Enabled;
+  AWindow.SetAlwaysOnTop(on_top);
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetEnabled(AObj: TCEFWindowParent; AValue: LongBool); extdecl;
+function ICEFWindow_IsAlwaysOnTop(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
-  AObj.Enabled := AValue;
+  Result := AWindow.IsAlwaysOnTop;
   handleExceptionEnd
 end;
 
-//UpdateSize
-procedure CEFWindow_UpdateSize(AObj: TCEFWindowParent); extdecl;
+procedure ICEFWindow_Maximize(AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
-  AObj.UpdateSize;
+  AWindow.Maximize;
   handleExceptionEnd
 end;
 
-//CEFWindow_Free
-procedure CEFWindow_Free(AObj: TCEFWindowParent); extdecl;
+procedure ICEFWindow_Minimize(AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
-  AObj.Free;
+  AWindow.Minimize;
   handleExceptionEnd
 end;
 
-function CEFWindow_GetWidth(AObj: TCEFWindowParent): integer; extdecl;
+procedure ICEFWindow_Restore(AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.Width;
+  AWindow.Restore;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetWidth(AObj: TCEFWindowParent; AValue: integer); extdecl;
+procedure ICEFWindow_SetFullscreen(AWindow: ICefWindow; fullscreen: boolean); extdecl;
 begin
   handleExceptionBegin
-  AObj.Width := AValue;
+  AWindow.SetFullscreen(fullscreen);
   handleExceptionEnd
 end;
 
-function CEFWindow_GetHeight(AObj: TCEFWindowParent): integer; extdecl;
+function ICEFWindow_IsMaximized(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.Height;
+  Result := AWindow.IsMaximized;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetHeight(AObj: TCEFWindowParent; AValue: integer); extdecl;
+function ICEFWindow_IsMinimized(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
-  AObj.Height := AValue;
+  Result := AWindow.IsMinimized;
   handleExceptionEnd
 end;
 
-function CEFWindow_GetTop(AObj: TCEFWindowParent): integer; extdecl;
+function ICEFWindow_IsFullscreen(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.Top;
+  Result := AWindow.IsFullscreen;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetTop(AObj: TCEFWindowParent; AValue: integer); extdecl;
+procedure ICEFWindow_SetTitle(AWindow: ICefWindow; const PTitle: PChar); extdecl;
 begin
   handleExceptionBegin
-  AObj.Top := AValue;
+  AWindow.SetTitle(PCharToUStr(PTitle));
   handleExceptionEnd
 end;
 
-function CEFWindow_GetLeft(AObj: TCEFWindowParent): integer; extdecl;
+function ICEFWindow_GetTitle(AWindow: ICefWindow): PChar; extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.Left;
+  Result := PChar(string(AWindow.Title));
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetLeft(AObj: TCEFWindowParent; AValue: integer); extdecl;
+{$ifdef DARWIN}
+procedure ICEFWindow_SetWindowIcon(AWindow: ICefWindow; scaleFactor: PSingle; const data: array of Byte; dataSize: NativeUInt); extdecl;
+var
+  tmpData: array of Byte;
+{$else}
+procedure ICEFWindow_SetWindowIcon(AWindow: ICefWindow; scaleFactor: PSingle; const data: array of Byte); stdcall;
+var
+{$endif}
+  icon: ICefImage;
+begin
+    handleExceptionBegin
+    icon := TCefImageRef.New;
+    {$ifdef DARWIN}
+    if dataSize >0 then
+    begin
+      try
+        SetLength(tmpData, dataSize);
+        Move(data[0], tmpData[0], dataSize);
+        icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
+      finally
+        SetLength(tmpData, 0);
+      end;
+    end;
+    {$else}
+    icon.AddPng(scaleFactor^, @data[0], length(data));
+    {$endif}
+    AWindow.WindowIcon := icon;
+    handleExceptionEnd
+end;
+
+procedure ICEFWindow_GetWindowIcon(AWindow: ICefWindow; out ret: Pointer); extdecl;
+var
+  icon: ICefImage;
 begin
   handleExceptionBegin
-  AObj.Left := AValue;
+  icon := AWindow.WindowIcon;
+  if (icon <> nil) and not(icon.IsEmpty) then
+  begin
+    ret := icon.Wrap;
+  end;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_GetBoundsRect(AObj: TCEFWindowParent; var Result: TRect); extdecl;
+{$ifdef DARWIN}
+procedure ICEFWindow_SetWindowAppIcon(AWindow: ICefWindow; scaleFactor: PSingle; const data: array of Byte; dataSize: NativeUInt); extdecl;
+var
+  tmpData: array of Byte;
+{$else}
+procedure ICEFWindow_SetWindowAppIcon(AWindow: ICefWindow; scaleFactor: PSingle; const data: array of Byte); stdcall;
+var
+{$endif}
+  icon: ICefImage;
+begin
+    handleExceptionBegin
+    icon := TCefImageRef.New;
+    {$ifdef DARWIN}
+    if dataSize >0 then
+    begin
+      try
+        SetLength(tmpData, dataSize);
+        Move(data[0], tmpData[0], dataSize);
+        icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
+      finally
+        SetLength(tmpData, 0);
+      end;
+    end;
+    {$else}
+    icon.AddPng(scaleFactor^, @data[0], length(data));
+    {$endif}
+    AWindow.WindowAppIcon := icon;
+    handleExceptionEnd
+end;
+
+procedure ICEFWindow_GetWindowAppIcon(AWindow: ICefWindow; out ret: Pointer); extdecl;
+var
+  icon: ICefImage;
 begin
   handleExceptionBegin
-  Result :=  AObj.BoundsRect;
+  icon := AWindow.WindowAppIcon;
+  if (icon <> nil) and not(icon.IsEmpty) then
+  begin
+    ret := icon.Wrap;
+  end;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetBoundsRect(AObj: TCEFWindowParent; var AValue: TRect); extdecl;
+function ICEFWindow_AddOverlayView(AWindow: ICefWindow; const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController; extdecl;
 begin
   handleExceptionBegin
-  AObj.BoundsRect := AValue;
+  Result := AWindow.AddOverlayView(view, docking_mode);
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetName(AObj: TCEFWindowParent; PName: PChar); extdecl;
+procedure ICEFWindow_ShowMenu(AWindow: ICefWindow; const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition); extdecl;
 begin
   handleExceptionBegin
-  AObj.Name := string(PName);
+  AWindow.ShowMenu(menu_model, screen_point, anchor_position);
   handleExceptionEnd
 end;
 
-function CEFWindow_GetName(AObj: TCEFWindowParent): PChar; extdecl;
+procedure ICEFWindow_CancelMenu(AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(AObj.Name);
+  AWindow.CancelMenu;
   handleExceptionEnd
 end;
 
-function CEFWindow_HandleAllocated(AObj: TCEFWindowParent): LongBool ; extdecl;
+procedure ICEFWindow_GetDisplay(AWindow: ICefWindow; out Ret: ICefDisplay); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.HandleAllocated;
+  Ret := AWindow.GetDisplay;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_CreateHandle(AObj: TCEFWindowParent); extdecl;
+procedure ICEFWindow_GetClientAreaBoundsInScreen(AWindow: ICefWindow; out Ret: TCefRect); extdecl;
 begin
   handleExceptionBegin
-  AObj.CreateHandle;
+  Ret := AWindow.GetClientAreaBoundsInScreen;
   handleExceptionEnd
 end;
 
-function CEFWindow_DestroyChildWindow(AObj: TCEFWindowParent): LongBool; extdecl;
+procedure ICEFWindow_SetDraggableRegions(AWindow: ICefWindow; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.DestroyChildWindow;
+  AWindow.SetDraggableRegions(regionsCount, regions);
   handleExceptionEnd
 end;
 
-//EVENT_TYPE:WindowEventOnEnter
-procedure CEFWindow_OnEnter(AObj: TCEFWindowParent; AEventData: Pointer); extdecl;
+function ICEFWindow_GetWindowHandle(AWindow: ICefWindow): TCefWindowHandle; extdecl;
 begin
-  {$DEFINE EventMethodName := CEFWindowEvent_OnEnter}
-  {$DEFINE EventName := OnEnter}
-  EventMethodCode
+  handleExceptionBegin
+  Result := AWindow.GetWindowHandle;
+  handleExceptionEnd
 end;
 
-//EVENT_TYPE:WindowEventOnExit
-procedure CEFWindow_OnExit(AObj: TCEFWindowParent; AEventData: Pointer); extdecl;
+procedure ICEFWindow_SendKeyPress(AWindow: ICefWindow; key_code: Integer; event_flags: cardinal); extdecl;
 begin
-  {$DEFINE EventMethodName := CEFWindowEvent_OnExit}
-  {$DEFINE EventName := OnExit}
-  EventMethodCode
+  handleExceptionBegin
+  AWindow.SendKeyPress(key_code, event_flags);
+  handleExceptionEnd
 end;
 
+procedure ICEFWindow_SendMouseMove(AWindow: ICefWindow; screen_x, screen_y: Integer); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.SendMouseMove(screen_x, screen_y);
+  handleExceptionEnd
+end;
+
+procedure ICEFWindow_SendMouseEvents(AWindow: ICefWindow; button: TCefMouseButtonType; mouse_down, mouse_up: boolean); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.SendMouseEvents(button, mouse_down, mouse_up);
+  handleExceptionEnd
+end;
+
+procedure ICEFWindow_SetAccelerator(AWindow: ICefWindow; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.SetAccelerator(command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed);
+  handleExceptionEnd
+end;
+
+procedure ICEFWindow_RemoveAccelerator(AWindow: ICefWindow; command_id: Integer); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.RemoveAccelerator(command_id);
+  handleExceptionEnd
+end;
+
+procedure ICEFWindow_RemoveAllAccelerators(AWindow: ICefWindow); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.RemoveAllAccelerators();
+  handleExceptionEnd
+end;
 
 exports
-  CEFWindow_Create,
-  CEFWindow_SetName,
-  CEFWindow_GetName,
-  CEFWindow_SetParent,
-  CEFWindow_GetAlign,
-  CEFWindow_SetAlign,
-  CEFWindow_GetAnchors,
-  CEFWindow_SetAnchors,
-  CEFWindow_GetHandle,
-  CEFWindow_UpdateSize,
-  CEFWindow_Free,
-  CEFWindow_GetVisible,
-  CEFWindow_SetVisible,
-  CEFWindow_GetEnabled,
-  CEFWindow_SetEnabled,
-  CEFWindow_GetWidth,
-  CEFWindow_SetWidth,
-  CEFWindow_GetHeight,
-  CEFWindow_SetHeight,
-  CEFWindow_GetTop,
-  CEFWindow_SetTop,
-  CEFWindow_GetLeft,
-  CEFWindow_SetLeft,
-  CEFWindow_GetBoundsRect,
-  CEFWindow_SetBoundsRect,
-  CEFWindow_HandleAllocated,
-  CEFWindow_CreateHandle,
-  CEFWindow_DestroyChildWindow,
-  CEFWindow_OnEnter,
-  CEFWindow_OnExit
+  //property
+  ICEFWindow_Show,
+  ICEFWindow_Hide,
+  ICEFWindow_CenterWindow,
+  ICEFWindow_Close,
+  ICEFWindow_IsClosed,
+  ICEFWindow_Activate,
+  ICEFWindow_Deactivate,
+  ICEFWindow_IsActive,
+  ICEFWindow_BringToTop,
+  ICEFWindow_SetAlwaysOnTop,
+  ICEFWindow_IsAlwaysOnTop,
+  ICEFWindow_Maximize,
+  ICEFWindow_Minimize,
+  ICEFWindow_Restore,
+  ICEFWindow_SetFullscreen,
+  ICEFWindow_IsMaximized,
+  ICEFWindow_IsMinimized,
+  ICEFWindow_IsFullscreen,
+  ICEFWindow_SetTitle,
+  ICEFWindow_GetTitle,
+  ICEFWindow_SetWindowIcon,
+  ICEFWindow_GetWindowIcon,
+  ICEFWindow_SetWindowAppIcon,
+  ICEFWindow_GetWindowAppIcon,
+  ICEFWindow_AddOverlayView,
+  ICEFWindow_ShowMenu,
+  ICEFWindow_CancelMenu,
+  ICEFWindow_GetDisplay,
+  ICEFWindow_GetClientAreaBoundsInScreen,
+  ICEFWindow_SetDraggableRegions,
+  ICEFWindow_GetWindowHandle,
+  ICEFWindow_SendKeyPress,
+  ICEFWindow_SendMouseMove,
+  ICEFWindow_SendMouseEvents,
+  ICEFWindow_SetAccelerator,
+  ICEFWindow_RemoveAccelerator,
+  ICEFWindow_RemoveAllAccelerators
 ;

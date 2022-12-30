@@ -20,8 +20,8 @@
 {$I CEF_LCL_CefRequest.inc}
 {$I CEF_LCL_CefResponse.inc}
 {$I CEF_LCL_ContextMenu.inc}
-{$I CEF_LCL_Window.inc}
-{$I CEF_LCL_LinkedWindow.inc}
+{$I CEF_LCL_WindowParent.inc}
+{$I CEF_LCL_LinkedWindowParent.inc}
 {$I CEF_LCL_Application.inc}
 {$I CEF_LCL_CefBrowser.inc}
 {$I CEF_LCL_CefFrame.inc}
@@ -31,3 +31,4 @@
 {$I CEF_LCL_BrowserViewComponent.inc}
 {$I CEF_LCL_Image.inc}
 {$I CEF_LCL_Display.inc}
+{$I CEF_LCL_Window.inc}
