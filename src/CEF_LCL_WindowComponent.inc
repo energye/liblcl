@@ -206,7 +206,7 @@ procedure CEFWindowComponent_SetWindowIcon(TObj: TCEFWindowComponent; scaleFacto
 var
   tmpData: array of Byte;
 {$else}
-procedure CEFWindowComponent_SetWindowIcon(TObj: TCEFWindowComponent; scaleFactor: PSingle; const data: array of Byte); extdecl;
+procedure CEFWindowComponent_SetWindowIcon(TObj: TCEFWindowComponent; scaleFactor: PSingle; const data: array of Byte); stdcall;
 var
 {$endif}
   icon: ICefImage;

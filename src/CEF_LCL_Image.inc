@@ -19,7 +19,7 @@ function CEFImage_AddPng(TObj: Pointer; scaleFactor: PSingle; const data: array 
 var
   tmpData: array of Byte;
 {$else}
-function CEFImage_AddPng(TObj: Pointer; scaleFactor: PSingle; const data: array of Byte): longbool; extdecl;
+function CEFImage_AddPng(TObj: Pointer; scaleFactor: PSingle; const data: array of Byte): longbool; stdcall;
 {$endif}
 begin
   handleExceptionBegin
@@ -45,7 +45,7 @@ function CEFImage_AddJpeg(TObj: Pointer; scaleFactor: PSingle; const data: array
 var
   tmpData: array of Byte;
 {$else}
-function CEFImage_AddJpeg(TObj: Pointer; scaleFactor: PSingle; const data: array of Byte): longbool; extdecl;
+function CEFImage_AddJpeg(TObj: Pointer; scaleFactor: PSingle; const data: array of Byte): longbool; stdcall;
 {$endif}
 begin
   handleExceptionBegin
