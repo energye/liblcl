@@ -6,32 +6,63 @@
 
 function CEFImage_New(): Pointer; extdecl;
 var
-  Ret: ICefImage;
-begin
-  handleExceptionBegin
-  Ret := TCefImageRef.New;
-  Result := Ret.Wrap;
-  //Result := TCefImageRef(TCefImageRef.New);
-  //Result := nil;
-  handleExceptionEnd
-end;
-
-function CEFImage_AddPng(TObj: Pointer; scaleFactor: PSingle; const pngData: array of Byte; pngDataSize: NativeUInt): longbool; extdecl;
-var
   Image: ICefImage;
 begin
   handleExceptionBegin
-  ConsoleLn('CEFImage_AddPng ' + FloatToStr(scaleFactor^) + ' pngDataSize: ' + IntToStr(pngDataSize));
-  Image := TCefImageRef.UnWrap(TObj);
-  Result := Image.AddPng(scaleFactor^, @pngData[0], Length(pngData));
-  ConsoleLn(' width: '+ IntToStr(Image.Width) +  ' height: '+ IntToStr(Image.height) + ' IsEmpty: ' + BoolToStr(Image.IsEmpty, True));
+  Image := TCefImageRef.New;
+  Result := Image.Wrap;
   handleExceptionEnd
 end;
 
-function CEFImage_AddJpeg(TObj: Pointer; scaleFactor: Single; const jpegData: Pointer; jpegDataSize: NativeUInt): longbool; extdecl;
+{$ifdef DARWIN}
+function CEFImage_AddPng(TObj: Pointer; scaleFactor: PSingle; const data: array of Byte; dataSize: NativeUInt): longbool; extdecl;
+var
+  tmpData: array of Byte;
+{$else}
+function CEFImage_AddPng(TObj: Pointer; scaleFactor: PSingle; const data: array of Byte): longbool; extdecl;
+{$endif}
 begin
   handleExceptionBegin
-  Result := TCefImageRef.UnWrap(TObj).AddJpeg(scaleFactor, jpegData, jpegDataSize);
+  {$ifdef DARWIN}
+  if dataSize >0 then
+  begin
+    try
+      SetLength(tmpData, dataSize);
+      Move(data[0], tmpData[0], dataSize);
+      Result := TCefImageRef.UnWrap(TObj).AddPng(scaleFactor^, @tmpData[0], dataSize);
+    finally
+      SetLength(tmpData, 0);
+    end;
+  end;
+  {$else}
+  Result := TCefImageRef.UnWrap(TObj).AddPng(scaleFactor^, @data[0], Length(data));
+  {$endif}
+  handleExceptionEnd
+end;
+
+{$ifdef DARWIN}
+function CEFImage_AddJpeg(TObj: Pointer; scaleFactor: PSingle; const data: array of Byte; dataSize: NativeUInt); extdecl;
+var
+  tmpData: array of Byte;
+{$else}
+function CEFImage_AddJpeg(TObj: Pointer; scaleFactor: PSingle; const data: array of Byte): longbool; extdecl;
+{$endif}
+begin
+  handleExceptionBegin
+  {$ifdef DARWIN}
+  if dataSize >0 then
+  begin
+    try
+      SetLength(tmpData, dataSize);
+      Move(data[0], tmpData[0], dataSize);
+      Result := TCefImageRef.UnWrap(TObj).AddJpeg(scaleFactor^, @tmpData[0], dataSize);
+    finally
+      SetLength(tmpData, 0);
+    end;
+  end;
+  {$else}
+  Result := TCefImageRef.UnWrap(TObj).AddJpeg(scaleFactor^, @data[0], Length(data));
+  {$endif}
   handleExceptionEnd
 end;
 

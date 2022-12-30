@@ -192,17 +192,16 @@ begin
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_WindowIcon(TObj: TCEFWindowComponent; out ret: ICefImage); extdecl;
+procedure CEFWindowComponent_WindowIcon(TObj: TCEFWindowComponent; out ret: Pointer); extdecl;
+var
+  icon: ICefImage;
 begin
     handleExceptionBegin
-    ret := TObj.WindowIcon;
-    handleExceptionEnd
-end;
-
-procedure CEFWindowComponent_SetWindowIconImage(TObj: TCEFWindowComponent; Icon: ICefImage); extdecl;
-begin
-    handleExceptionBegin
-    TObj.WindowIcon := Icon;
+    icon := TObj.WindowIcon;
+    if (icon <> nil) and not(icon.IsEmpty) then
+    begin
+      ret := icon.Wrap;
+    end;
     handleExceptionEnd
 end;
 
@@ -236,10 +235,16 @@ begin
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_WindowAppIcon(TObj: TCEFWindowComponent; out ret: ICefImage); extdecl;
+procedure CEFWindowComponent_WindowAppIcon(TObj: TCEFWindowComponent; out ret: Pointer); extdecl;
+var
+  icon: ICefImage;
 begin
     handleExceptionBegin
-    ret := TObj.WindowAppIcon;
+    icon := TObj.WindowAppIcon;
+    if (icon <> nil) and not(icon.IsEmpty) then
+    begin
+      ret := icon.Wrap;
+    end;
     handleExceptionEnd
 end;
 
@@ -270,13 +275,6 @@ begin
     icon.AddPng(scaleFactor^, @data[0], length(data));
     {$endif}
     TObj.WindowAppIcon := icon;
-    handleExceptionEnd
-end;
-
-procedure CEFWindowComponent_SetWindowAppIconImage(TObj: TCEFWindowComponent; Icon: ICefImage); extdecl;
-begin
-    handleExceptionBegin
-    TObj.WindowAppIcon := Icon;
     handleExceptionEnd
 end;
 
@@ -479,10 +477,8 @@ exports
     CEFWindowComponent_Title,
     CEFWindowComponent_WindowIcon,
     CEFWindowComponent_SetWindowIcon,
-    CEFWindowComponent_SetWindowIconImage,
     CEFWindowComponent_WindowAppIcon,
     CEFWindowComponent_SetWindowAppIcon,
-    CEFWindowComponent_SetWindowAppIconImage,
     CEFWindowComponent_Display,
     CEFWindowComponent_ClientAreaBoundsInScreen,
     CEFWindowComponent_WindowHandle,
