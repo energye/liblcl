@@ -33,14 +33,12 @@ begin
     handleExceptionEnd
 end;
 
-
 procedure CEFWindowComponent_CenterWindow(TObj: TCEFWindowComponent; var AValue: TCefSize); extdecl;
 begin
     handleExceptionBegin
     TObj.CenterWindow(AValue);
     handleExceptionEnd
 end;
-
 
 procedure CEFWindowComponent_Close(TObj: TCEFWindowComponent); extdecl;
 begin
@@ -49,14 +47,12 @@ begin
     handleExceptionEnd
 end;
 
-
 procedure CEFWindowComponent_Activate(TObj: TCEFWindowComponent); extdecl;
 begin
     handleExceptionBegin
     TObj.Activate;
     handleExceptionEnd
 end;
-
 
 procedure CEFWindowComponent_Deactivate(TObj: TCEFWindowComponent); extdecl;
 begin
@@ -65,14 +61,12 @@ begin
     handleExceptionEnd
 end;
 
-
 procedure CEFWindowComponent_BringToTop(TObj: TCEFWindowComponent); extdecl;
 begin
     handleExceptionBegin
     TObj.BringToTop;
     handleExceptionEnd
 end;
-
 
 procedure CEFWindowComponent_Maximize(TObj: TCEFWindowComponent); extdecl;
 begin
@@ -81,7 +75,6 @@ begin
     handleExceptionEnd
 end;
 
-
 procedure CEFWindowComponent_Minimize(TObj: TCEFWindowComponent); extdecl;
 begin
     handleExceptionBegin
@@ -89,6 +82,19 @@ begin
     handleExceptionEnd
 end;
 
+procedure CEFWindowComponent_SetFullscreen(TObj: TCEFWindowComponent; fullscreen: boolean); extdecl;
+begin
+  handleExceptionBegin
+  TObj.IsFullscreen := fullscreen;
+  handleExceptionEnd
+end;
+
+procedure CEFWindowComponent_SetAlwaysOnTop(TObj: TCEFWindowComponent; onTop: boolean); extdecl;
+begin
+  handleExceptionBegin
+  TObj.IsAlwaysOnTop := onTop;
+  handleExceptionEnd
+end;
 
 procedure CEFWindowComponent_Restore(TObj: TCEFWindowComponent); extdecl;
 begin
@@ -97,14 +103,12 @@ begin
     handleExceptionEnd
 end;
 
-
 function CEFWindowComponent_AddOverlayView(TObj: TCEFWindowComponent; const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController; extdecl;
 begin
     handleExceptionBegin
     Result := TObj.AddOverlayView(view, docking_mode);
     handleExceptionEnd
 end;
-
 
 procedure CEFWindowComponent_ShowMenu(TObj: TCEFWindowComponent; const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition); extdecl;
 begin
@@ -113,14 +117,12 @@ begin
     handleExceptionEnd
 end;
 
-
 procedure CEFWindowComponent_CancelMenu(TObj: TCEFWindowComponent); extdecl;
 begin
     handleExceptionBegin
     TObj.CancelMenu;
     handleExceptionEnd
 end;
-
 
 procedure CEFWindowComponent_SetDraggableRegions(TObj: TCEFWindowComponent; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray); extdecl;
 begin
@@ -129,14 +131,12 @@ begin
     handleExceptionEnd
 end;
 
-
 procedure CEFWindowComponent_SendKeyPress(TObj: TCEFWindowComponent; key_code: Integer; event_flags: cardinal); extdecl;
 begin
     handleExceptionBegin
     TObj.SendKeyPress(key_code, event_flags);
     handleExceptionEnd
 end;
-
 
 procedure CEFWindowComponent_SendMouseMove(TObj: TCEFWindowComponent; screen_x, screen_y: Integer); extdecl;
 begin
@@ -145,14 +145,12 @@ begin
     handleExceptionEnd
 end;
 
-
 procedure CEFWindowComponent_SendMouseEvents(TObj: TCEFWindowComponent; button: TCefMouseButtonType; mouse_down, mouse_up: boolean); extdecl;
 begin
     handleExceptionBegin
     TObj.SendMouseEvents(button, mouse_down, mouse_up);
     handleExceptionEnd
 end;
-
 
 procedure CEFWindowComponent_SetAccelerator(TObj: TCEFWindowComponent; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean); extdecl;
 begin
@@ -161,14 +159,12 @@ begin
     handleExceptionEnd
 end;
 
-
 procedure CEFWindowComponent_RemoveAccelerator(TObj: TCEFWindowComponent; command_id: Integer); extdecl;
 begin
     handleExceptionBegin
     TObj.RemoveAccelerator(command_id);
     handleExceptionEnd
 end;
-
 
 procedure CEFWindowComponent_RemoveAllAccelerators(TObj: TCEFWindowComponent); extdecl;
 begin
@@ -472,6 +468,8 @@ exports
     CEFWindowComponent_SetAccelerator,
     CEFWindowComponent_RemoveAccelerator,
     CEFWindowComponent_RemoveAllAccelerators,
+    CEFWindowComponent_SetAlwaysOnTop,
+    CEFWindowComponent_SetFullscreen,
     //property
     CEFWindowComponent_SetTitle,
     CEFWindowComponent_Title,

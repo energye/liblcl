@@ -913,10 +913,9 @@
       </Unit76>
       <Unit77>
         <Filename Value="CEF_LCL_Window.inc"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="15"/>
-        <TopLine Value="240"/>
-        <CursorPos Y="261"/>
+        <TopLine Value="76"/>
+        <CursorPos X="5" Y="104"/>
         <UsageCount Value="15"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -959,9 +958,10 @@
       </Unit82>
       <Unit83>
         <Filename Value="CEF_LCL_WindowComponent.inc"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="12"/>
-        <TopLine Value="140"/>
-        <CursorPos X="23" Y="169"/>
+        <TopLine Value="437"/>
+        <CursorPos X="38" Y="466"/>
         <UsageCount Value="53"/>
         <Loaded Value="True"/>
       </Unit83>
@@ -991,9 +991,9 @@
       <Unit87>
         <Filename Value="D:\app.exe\energy\CEF4Delphi-master\source\uCEFWindowComponent.pas"/>
         <EditorIndex Value="13"/>
-        <TopLine Value="92"/>
-        <CursorPos Y="103"/>
-        <UsageCount Value="10"/>
+        <TopLine Value="120"/>
+        <CursorPos X="29" Y="159"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit87>
       <Unit88>
@@ -1131,123 +1131,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="CEF_LCL_Image.inc"/>
-        <Caret Line="25" Column="21"/>
+        <Caret Line="25" Column="5"/>
       </Position1>
       <Position2>
         <Filename Value="CEF_LCL_Image.inc"/>
-        <Caret Line="7" Column="38"/>
+        <Caret Line="26" Column="18"/>
       </Position2>
       <Position3>
         <Filename Value="CEF_LCL_Image.inc"/>
-        <Caret Line="19" Column="28"/>
+        <Caret Line="12" Column="24"/>
       </Position3>
       <Position4>
-        <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="278" Column="14" TopLine="236"/>
+        <Filename Value="CEF_LCL_Image.inc"/>
+        <Caret Line="7" Column="43"/>
       </Position4>
       <Position5>
-        <Filename Value="CEF_LCL_Image.inc"/>
-        <Caret Line="13" Column="21"/>
+        <Filename Value="CEF_LCL_WindowComponent.inc"/>
+        <Caret Line="475" Column="41" TopLine="445"/>
       </Position5>
       <Position6>
-        <Filename Value="CEF_LCL_Image.inc"/>
-        <Caret Line="25" Column="5"/>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="33" Column="21"/>
       </Position6>
       <Position7>
         <Filename Value="CEF_LCL_Image.inc"/>
-        <Caret Line="26" Column="18"/>
+        <Caret Line="60" Column="20" TopLine="23"/>
       </Position7>
       <Position8>
         <Filename Value="CEF_LCL_Image.inc"/>
-        <Caret Line="12" Column="24"/>
+        <Caret Line="53" Column="22" TopLine="26"/>
       </Position8>
       <Position9>
-        <Filename Value="CEF_LCL_Image.inc"/>
-        <Caret Line="7" Column="43"/>
+        <Filename Value="CEF_LCL_Application.inc"/>
+        <Caret Line="93" Column="10" TopLine="60"/>
       </Position9>
       <Position10>
-        <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="475" Column="41" TopLine="445"/>
+        <Filename Value="CEF_Events_Implement.inc"/>
+        <Caret Line="825" Column="109" TopLine="779"/>
       </Position10>
       <Position11>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="33" Column="21"/>
+        <Caret Line="34" Column="23"/>
       </Position11>
       <Position12>
-        <Filename Value="CEF_LCL_Image.inc"/>
-        <Caret Line="60" Column="20" TopLine="23"/>
-      </Position12>
-      <Position13>
-        <Filename Value="CEF_LCL_Image.inc"/>
-        <Caret Line="53" Column="22" TopLine="26"/>
-      </Position13>
-      <Position14>
-        <Filename Value="CEF_LCL_Application.inc"/>
-        <Caret Line="93" Column="10" TopLine="60"/>
-      </Position14>
-      <Position15>
-        <Filename Value="CEF_Events_Implement.inc"/>
-        <Caret Line="825" Column="109" TopLine="779"/>
-      </Position15>
-      <Position16>
-        <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="34" Column="23"/>
-      </Position16>
-      <Position17>
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="20" Column="28"/>
-      </Position17>
-      <Position18>
+      </Position12>
+      <Position13>
         <Filename Value="CEF_Events_Implement.inc"/>
         <Caret Line="786" TopLine="767"/>
+      </Position13>
+      <Position14>
+        <Filename Value="CEF_LCL_Window.inc"/>
+        <Caret Line="241" Column="68" TopLine="210"/>
+      </Position14>
+      <Position15>
+        <Filename Value="CEF_LCL_WindowComponent.inc"/>
+        <Caret Line="242" Column="25" TopLine="218"/>
+      </Position15>
+      <Position16>
+        <Filename Value="CEF_LCL_WindowComponent.inc"/>
+        <Caret Line="461" Column="35" TopLine="419"/>
+      </Position16>
+      <Position17>
+        <Filename Value="CEF_LCL_Window.inc"/>
+        <Caret Line="241" Column="125" TopLine="210"/>
+      </Position17>
+      <Position18>
+        <Filename Value="CEF_LCL_Window.inc"/>
+        <Caret Line="272" Column="54" TopLine="242"/>
       </Position18>
       <Position19>
         <Filename Value="CEF_LCL_Window.inc"/>
-        <Caret Line="241" Column="68" TopLine="210"/>
+        <Caret Line="328" Column="18" TopLine="274"/>
       </Position19>
       <Position20>
-        <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="242" Column="25" TopLine="218"/>
+        <Filename Value="CEF_LCL_Window.inc"/>
+        <Caret Line="341" Column="28" TopLine="305"/>
       </Position20>
       <Position21>
         <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="461" Column="35" TopLine="419"/>
+        <Caret Line="288" Column="95" TopLine="450"/>
       </Position21>
       <Position22>
-        <Filename Value="CEF_LCL_Window.inc"/>
-        <Caret Line="241" Column="125" TopLine="210"/>
+        <Filename Value="CEF_LCL_WindowComponent.inc"/>
+        <Caret Line="169" Column="10" TopLine="137"/>
       </Position22>
       <Position23>
         <Filename Value="CEF_LCL_Window.inc"/>
-        <Caret Line="272" Column="54" TopLine="242"/>
+        <Caret Line="39" Column="13" TopLine="308"/>
       </Position23>
       <Position24>
-        <Filename Value="CEF_LCL_Window.inc"/>
-        <Caret Line="328" Column="18" TopLine="274"/>
+        <Filename Value="CEF_LCL_WindowComponent.inc"/>
+        <Caret Line="169" Column="29" TopLine="137"/>
       </Position24>
       <Position25>
         <Filename Value="CEF_LCL_Window.inc"/>
-        <Caret Line="341" Column="28" TopLine="305"/>
+        <Caret Line="353" Column="25" TopLine="40"/>
       </Position25>
       <Position26>
         <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="288" Column="95" TopLine="450"/>
+        <Caret Line="169" Column="23" TopLine="140"/>
       </Position26>
       <Position27>
         <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="169" Column="10" TopLine="137"/>
+        <Caret Line="209" Column="43" TopLine="190"/>
       </Position27>
       <Position28>
-        <Filename Value="CEF_LCL_Window.inc"/>
-        <Caret Line="39" Column="13" TopLine="308"/>
+        <Filename Value="CEF_LCL_WindowComponent.inc"/>
+        <Caret Line="330" Column="39" TopLine="292"/>
       </Position28>
       <Position29>
         <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="169" Column="29" TopLine="137"/>
+        <Caret Line="333" Column="30" TopLine="291"/>
       </Position29>
       <Position30>
-        <Filename Value="CEF_LCL_Window.inc"/>
-        <Caret Line="353" Column="25" TopLine="40"/>
+        <Filename Value="CEF_LCL_WindowComponent.inc"/>
+        <Caret Line="487" Column="29" TopLine="432"/>
       </Position30>
     </JumpHistory>
     <RunParams>
