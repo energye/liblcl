@@ -41,7 +41,7 @@ begin
 end;
 
 {$ifdef DARWIN}
-function CEFImage_AddJpeg(TObj: Pointer; scaleFactor: PSingle; const data: array of Byte; dataSize: NativeUInt); extdecl;
+function CEFImage_AddJpeg(TObj: Pointer; scaleFactor: PSingle; const data: array of Byte; dataSize: NativeUInt): longbool; extdecl;
 var
   tmpData: array of Byte;
 {$else}
