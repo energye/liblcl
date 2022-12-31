@@ -475,7 +475,6 @@ end;
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin
-  ConsoleLn('GlobalCEFApp_OnContextInitialized');
   SendEvent(OnContextInitialized_DataPtr, []);
 end;
 
