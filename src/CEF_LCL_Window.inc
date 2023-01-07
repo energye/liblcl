@@ -294,10 +294,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_SetDraggableRegions(AWindow: ICefWindow; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray); extdecl;
+procedure ICEFWindow_SetDraggableRegions(AWindow: ICefWindow; regionsCount: NativeUInt; const regions: TCefDraggableRegionArray); extdecl;
 begin
   handleExceptionBegin
-  AWindow.SetDraggableRegions(regionsCount, regions);
+  AWindow.SetDraggableRegions(regionsCount, @regions[0]);
   handleExceptionEnd
 end;
 

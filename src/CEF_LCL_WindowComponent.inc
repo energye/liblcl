@@ -152,13 +152,6 @@ begin
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_SetDraggableRegions(TObj: TCEFWindowComponent; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray); extdecl;
-begin
-    handleExceptionBegin
-    TObj.SetDraggableRegions(regionsCount, regions);
-    handleExceptionEnd
-end;
-
 procedure CEFWindowComponent_SendKeyPress(TObj: TCEFWindowComponent; key_code: Integer; event_flags: cardinal); extdecl;
 begin
     handleExceptionBegin
@@ -226,6 +219,15 @@ begin
     begin
       ret := icon.Wrap;
     end;
+    handleExceptionEnd
+end;
+
+procedure CEFWindowComponent_SetDraggableRegions(TObj: TCEFWindowComponent; regionsCount: NativeUInt; const regions: TCefDraggableRegionArray); extdecl;
+var
+    temp: TCefDraggableRegion;
+begin
+    handleExceptionBegin
+    TObj.SetDraggableRegions(regionsCount, @regions[0]);
     handleExceptionEnd
 end;
 
