@@ -89,6 +89,34 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFWindowComponent_SetBackgroundColor(TObj: TCEFWindowComponent; var AValue : TCefColor); extdecl;
+begin
+  handleExceptionBegin
+  TObj.BackgroundColor := AValue;
+  handleExceptionEnd
+end;
+
+procedure CEFWindowComponent_SetBounds(TObj: TCEFWindowComponent; var AValue : TCefRect); extdecl;
+begin
+  handleExceptionBegin
+  TObj.Bounds := AValue;
+  handleExceptionEnd
+end;
+
+procedure CEFWindowComponent_SetSize(TObj: TCEFWindowComponent; var AValue : TCefSize); extdecl;
+begin
+  handleExceptionBegin
+  TObj.Size := AValue;
+  handleExceptionEnd
+end;
+
+procedure CEFWindowComponent_SetPosition(TObj: TCEFWindowComponent; var AValue : TCefPoint); extdecl;
+begin
+  handleExceptionBegin
+  TObj.Position := AValue;
+  handleExceptionEnd
+end;
+
 procedure CEFWindowComponent_SetAlwaysOnTop(TObj: TCEFWindowComponent; onTop: boolean); extdecl;
 begin
   handleExceptionBegin
@@ -470,6 +498,10 @@ exports
     CEFWindowComponent_RemoveAllAccelerators,
     CEFWindowComponent_SetAlwaysOnTop,
     CEFWindowComponent_SetFullscreen,
+    CEFWindowComponent_SetBackgroundColor,
+    CEFWindowComponent_SetBounds,
+    CEFWindowComponent_SetSize,
+    CEFWindowComponent_SetPosition,
     //property
     CEFWindowComponent_SetTitle,
     CEFWindowComponent_Title,

@@ -110,6 +110,34 @@ begin
   handleExceptionEnd
 end;
 
+procedure ICEFWindow_SetBackgroundColor(AWindow: ICefWindow; var AValue : TCefColor); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.BackgroundColor := AValue;
+  handleExceptionEnd
+end;
+
+procedure ICEFWindow_SetBounds(AWindow: ICefWindow; var AValue : TCefRect); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.Bounds := AValue;
+  handleExceptionEnd
+end;
+
+procedure ICEFWindow_SetSize(AWindow: ICefWindow; var AValue : TCefSize); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.Size := AValue;
+  handleExceptionEnd
+end;
+
+procedure ICEFWindow_SetPosition(AWindow: ICefWindow; var AValue : TCefPoint); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.Position := AValue;
+  handleExceptionEnd
+end;
+
 function ICEFWindow_IsMaximized(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -339,6 +367,10 @@ exports
   ICEFWindow_Minimize,
   ICEFWindow_Restore,
   ICEFWindow_SetFullscreen,
+  ICEFWindow_SetBackgroundColor,
+  ICEFWindow_SetBounds,
+  ICEFWindow_SetSize,
+  ICEFWindow_SetPosition,
   ICEFWindow_IsMaximized,
   ICEFWindow_IsMinimized,
   ICEFWindow_IsFullscreen,
