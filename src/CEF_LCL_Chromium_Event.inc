@@ -212,7 +212,27 @@ begin
   {$ifdef windows}
   {$DEFINE EventMethodName := ChromiumEvent_OnRenderCompMsg}
   {$DEFINE EventName := OnRenderCompMsg}
-  EventMethodCode     
+  EventMethodCode
+  {$endif}
+end;
+
+//EVENT_TYPE:ChromiumEventOnWidgetCompMsg
+procedure CEFChromium_SetOnWidgetCompMsg(AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$ifdef windows}
+  {$DEFINE EventMethodName := ChromiumEvent_OnWidgetCompMsg}
+  {$DEFINE EventName := OnWidgetCompMsg}
+  EventMethodCode
+  {$endif}
+end;
+
+//EVENT_TYPE:ChromiumEventOnBrowserCompMsg
+procedure CEFChromium_SetOnBrowserCompMsg(AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$ifdef windows}
+  {$DEFINE EventMethodName := ChromiumEvent_OnBrowserCompMsg}
+  {$DEFINE EventName := OnBrowserCompMsg}
+  EventMethodCode
   {$endif}
 end;
 
@@ -336,10 +356,25 @@ begin
   EventMethodCode
 end;
 
+//EVENT_TYPE:ChromiumEventOnDragEnter
+procedure CEFChromium_SetOnDragEnter(AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnDragEnter}
+  {$DEFINE EventName := OnDragEnter}
+  EventMethodCode
+end;
+
+//EVENT_TYPE:ChromiumEventOnDraggableRegionsChanged
+procedure CEFChromium_SetOnDraggableRegionsChanged(AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnDraggableRegionsChanged}
+  {$DEFINE EventName := OnDraggableRegionsChanged}
+  EventMethodCode
+end;
+
 
 exports
-{ ====  events begin ====  }
-   //other
+{ ====  chromium events ====  }
    CEFChromium_SetOnAfterCreated,
    CEFChromium_SetOnBeforeBrowse,
    CEFChromium_SetOnAddressChange,
@@ -355,13 +390,25 @@ exports
    CEFChromium_SetOnContextMenuDismissed,
    CEFChromium_SetOnBeforePopup,
    CEFChromium_SetOnOpenUrlFromTab,
-   //chromium load loading
-   CEFChromium_SetOnLoadStart, CEFChromium_SetOnLoadingStateChange, CEFChromium_SetOnLoadingProgressChange,
-   CEFChromium_SetOnLoadError, CEFChromium_SetOnLoadEnd,
+   //drag - css [-webkit-app-region： drag/no-drag]
+   CEFChromium_SetOnDragEnter,
+   CEFChromium_SetOnDraggableRegionsChanged,
+   //load loading
+   CEFChromium_SetOnLoadStart,
+   CEFChromium_SetOnLoadingStateChange,
+   CEFChromium_SetOnLoadingProgressChange,
+   CEFChromium_SetOnLoadError,
+   CEFChromium_SetOnLoadEnd,
    //download
-   CEFChromium_SetOnBeforeDownload, CEFChromium_SetOnDownloadUpdated,
+   CEFChromium_SetOnBeforeDownload,
+   CEFChromium_SetOnDownloadUpdated,
+   //msg
+   CEFChromium_SetOnRenderCompMsg,
+   CEFChromium_SetOnWidgetCompMsg,
+   CEFChromium_SetOnBrowserCompMsg,
    //Render
-   CEFChromium_SetOnRenderCompMsg, CEFChromium_SetOnRenderProcessTerminated, CEFChromium_SetOnRenderViewReady,
+   CEFChromium_SetOnRenderProcessTerminated,
+   CEFChromium_SetOnRenderViewReady,
    CEFChromium_SetOnScrollOffsetChanged,
    //ProcessMessage
    CEFChromium_SetOnProcessMessageReceived,
@@ -372,7 +419,7 @@ exports
    CEFChromium_SetOnCookiesFlushed,
    CEFChromium_SetOnCookiesDeleted,
    CEFChromium_SetOnCookieSet,
-   //other
+   //resource
    CEFChromium_SetOnBeforeResourceLoad,
    CEFChromium_SetOnResourceResponse,
    CEFChromium_SetOnResourceRedirect,
@@ -382,7 +429,5 @@ exports
    CEFChromium_SetOnFrameCreated,
    CEFChromium_SetOnFrameDetached,
    CEFChromium_SetOnMainFrameChanged
-{ ==== events end ==== }
-//结尾
 ;
 

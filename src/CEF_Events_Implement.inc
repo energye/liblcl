@@ -4,15 +4,15 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-{==chromium begin==}
-//浏览器创建之后
+{== chromium ==}
+//chromium 浏览器创建之后
 procedure TLCLEvent.ChromiumEvent_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   //SendMessage(browser.Host.WindowHandle, WM_SETICON, 1, application.Icon.Handle);
   SendEvent([Sender, browser.Identifier]);
 end;
 
-//浏览器创建之前事件
+//chromium 浏览器创建之前
 procedure TLCLEvent.ChromiumEvent_OnBeforeBrowse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
   const request: ICefRequest; user_gesture, isRedirect: Boolean; out Result: Boolean);
 var
@@ -27,7 +27,7 @@ begin
   FreePRCEFFrame(cefFrame);
 end;
 
-//地址改变-事件
+//chromium 地址改变
 procedure TLCLEvent.ChromiumEvent_OnAddressChange(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const url: ustring);
 var
   cefFrame: PRCEFFrame;
@@ -40,14 +40,14 @@ begin
   FreePRCEFFrame(cefFrame);
 end;
 
-//关闭之前-事件
+//chromium 关闭之前
 procedure TLCLEvent.ChromiumEvent_OnBeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   TMainChromiumBrowserClass.RemoveBrowser(browser.Identifier);
   SendEvent([Sender, browser.Identifier]);
 end;
 
-//关闭-事件
+//chromium 关闭
 procedure TLCLEvent.ChromiumEvent_OnClose(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
 begin
   SendEvent([Sender, browser.Identifier, @aAction]);
@@ -58,7 +58,7 @@ begin
   end;
 end;
 
-//右键菜单-before-正常
+//chromium 右键菜单-before-开启
 procedure TLCLEvent.ChromiumEvent_OnBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; const model: ICefMenuModel);
 var
@@ -89,7 +89,7 @@ begin
   FreePRCEFFrame(cefFrame);
 end;
 
-//右键菜单-command-正常
+//chromium 右键菜单-command-开启
 procedure TLCLEvent.ChromiumEvent_OnContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
   const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
 var
@@ -119,7 +119,7 @@ begin
   PParams := nil;
 end;
 
-//右键菜单-Dismissed
+//chromium 右键菜单-Dismissed
 procedure TLCLEvent.ChromiumEvent_OnContextMenuDismissed(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame);
 var
   cefFrame: PRCEFFrame;
@@ -132,20 +132,20 @@ begin
   FreePRCEFFrame(cefFrame);
 end;
 
-//导出PDF完成-事件
+//chromium 导出PDF完成
 procedure TLCLEvent.ChromiumEvent_OnPdfPrintFinished(Sender: TObject; aResultOK: boolean);
 begin
   SendEvent([Sender, aResultOK]);
 end;
 
-//键盘-事件
+//chromium 键盘
 procedure TLCLEvent.ChromiumEvent_KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
   out Result: boolean);
 begin
   SendEvent([Sender, browser.Identifier, event, @Result]);
 end;
 
-//加载 start-事件
+//chromium 加载 start
 procedure TLCLEvent.ChromiumEvent_OnLoadStart(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
   transitionType: TCefTransitionType);
 var
@@ -160,7 +160,7 @@ begin
   FreePRCEFFrame(cefFrame);
 end;
 
-//加载 LoadingStateChange-事件
+//chromium 加载 LoadingStateChange
 procedure TLCLEvent.ChromiumEvent_OnLoadingStateChange(Sender: TObject; const browser: ICefBrowser;
   isLoading, canGoBack, canGoForward: boolean);
 begin
@@ -168,14 +168,14 @@ begin
   SendEvent([Sender, browser.Identifier, isLoading, canGoBack, canGoForward]);
 end;
 
-//加载 LoadingProgressChange-事件
+//chromium 加载 LoadingProgressChange
 procedure TLCLEvent.ChromiumEvent_OnLoadingProgressChange(Sender: TObject; const browser: ICefBrowser; const progress: Double);
 begin
   TMainChromiumBrowserClass.PutBrowser(browser);
   SendEvent([Sender, browser.Identifier, @progress]);
 end;
 
-//加载 LoadError-事件
+//chromium 加载 LoadError
 procedure TLCLEvent.ChromiumEvent_OnLoadError(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; errorCode: integer; const errorText, failedUrl: ustring);
 var
   cefFrame: PRCEFFrame;
@@ -188,7 +188,7 @@ begin
   FreePRCEFFrame(cefFrame);
 end;
 
-//加载 LoadEnd-事件
+//chromium 加载 LoadEnd
 procedure TLCLEvent.ChromiumEvent_OnLoadEnd(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
 var
   cefFrame: PRCEFFrame;
@@ -201,7 +201,7 @@ begin
   FreePRCEFFrame(cefFrame);
 end;
 
-//下载之前-事件  创建时设置
+//chromium 下载之前
 procedure TLCLEvent.ChromiumEvent_OnBeforeDownload(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
   const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
 var
@@ -232,7 +232,7 @@ begin
   downItem := nil;
 end;
 
-//下载更新-事件
+//chromium 下载更新
 procedure TLCLEvent.ChromiumEvent_OnDownloadUpdated(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem;
   const callback: ICefDownloadItemCallback);
 var
@@ -281,19 +281,19 @@ begin
   downItem := nil;
 end;
 
-//放大缩小回调-事件
+//chromium 放大缩小回调
 procedure TLCLEvent.ChromiumEvent_OnZoomPctAvailable(Sender: TObject; const aZoomPct: Double);
 begin
   SendEvent([Sender, @aZoomPct]);
 end;
 
-//全屏模式-事件
+//chromium 全屏模式
 procedure TLCLEvent.ChromiumEvent_OnFullScreenModeChange(Sender: TObject;  const browser: ICefBrowser; fullscreen: boolean);
 begin
   SendEvent([Sender, browser.Identifier, fullscreen]);
 end;
 
-//弹窗之前-事件
+//chromium 弹窗之前
 procedure TLCLEvent.ChromiumEvent_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings;
@@ -301,7 +301,6 @@ procedure TLCLEvent.ChromiumEvent_OnBeforePopup(Sender: TObject; const browser: 
 var
   cefFrame: PRCEFFrame;
   beforePopupInfo: PRBeforePopupInfo;
-  //windowHandlePtr: PTCefWindowHandle;
 begin
   try
     //frame
@@ -327,13 +326,10 @@ begin
     beforePopupInfo := nil;
     //free frame
     FreePRCEFFrame(cefFrame);
-    //other
-    //windowHandlePtr := nil;
-    //chromiumPtr := nil;
   end;
 end;
 
-//打开tab-事件
+//chromium 打开tab
 procedure TLCLEvent.ChromiumEvent_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
   targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 begin
@@ -345,18 +341,29 @@ begin
   end;
 end;
 
-//标题改变-事件
+//chromium 标题改变
 procedure TLCLEvent.ChromiumEvent_OnTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
 begin
   SendEvent([Sender, browser.Identifier, string(title)]);
 end;
 
-//Render-事件
+//chromium msg
 procedure TLCLEvent.ChromiumEvent_OnRenderCompMsg(Sender: TObject; var aMessage: TMessage; var aHandled: boolean);
 begin
   SendEvent([Sender, @aMessage, aHandled]);
 end;
 
+procedure TLCLEvent.ChromiumEvent_OnWidgetCompMsg(Sender: TObject; var aMessage: TMessage; var aHandled: boolean);
+begin
+  SendEvent([Sender, @aMessage, aHandled]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnBrowserCompMsg(Sender: TObject; var aMessage: TMessage; var aHandled: boolean);
+begin
+  SendEvent([Sender, @aMessage, aHandled]);
+end;
+
+//chromium Render
 procedure TLCLEvent.ChromiumEvent_OnRenderProcessTerminated(Sender: TObject; const browser: ICefBrowser; status: TCefTerminationStatus);
 begin
   SendEvent([Sender, browser.Identifier, status]);
@@ -367,13 +374,13 @@ begin
   SendEvent([Sender, browser.Identifier]);
 end;
 
-//滚动条事件
+//chromium 滚动条事件
 procedure TLCLEvent.ChromiumEvent_OnScrollOffsetChanged(Sender: TObject; const browser: ICefBrowser; x, y: Double);
 begin
   SendEvent([Sender, browser.Identifier, @x, @y]);
 end;
 
-//browser 进程消息
+//chromium 进程消息
 procedure TLCLEvent.ChromiumEvent_OnProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame;
   sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
 var
@@ -408,15 +415,13 @@ begin
   Result := True;
 end;
 
-//查找结果回调
+//chromium 查找结果回调
 procedure TLCLEvent.ChromiumEvent_OnFindResult(Sender: TObject; const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
 begin
     SendEvent([Sender, browser.Identifier, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate]);
 end;
 
-{==chromium end==}
-
-//cookie begin
+//chromium cookie
 procedure TLCLEvent.ChromiumEvent_OnCookieSet(Sender: TObject; aSuccess: boolean; aID: integer);
 begin
   SendEvent([Sender, aSuccess, aID]);
@@ -465,9 +470,8 @@ procedure TLCLEvent.ChromiumEvent_OnCookieVisitorDestroyed(Sender: TObject; aID:
 begin
   SendEvent([Sender, aID]);
 end;
-//cookie end
 
-//资源加载之前消息
+//chromium Resource 资源加载之前
 procedure TLCLEvent.ChromiumEvent_OnBeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest;
   const callback: ICefCallback; out Result: TCefReturnValue);
 var
@@ -624,7 +628,7 @@ begin
   rCefResponse := nil;
 end;
 
-{==frame begin==}
+{==chromium frame==}
 procedure TLCLEvent.ChromiumEvent_OnFrameAttached(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
 var
   cefFrame: PRCEFFrame;
@@ -725,9 +729,26 @@ begin
   FreePRCEFFrame(oldCefFrame);
   FreePRCEFFrame(newCefFrame);
 end;
-{==frame end==}
 
-{==window begin==}
+{==chromium Drag==}
+procedure TLCLEvent.ChromiumEvent_OnDragEnter(Sender: TObject; const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations; out Result: Boolean);
+begin
+  SendEvent([Sender, browser.Identifier, @dragData, mask, @Result]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDraggableRegionsChanged(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray);
+var
+  cefFrame: PRCEFFrame;
+begin
+  cefFrame := new(PRCEFFrame);
+  cefFrame^.Name := PChar(string(frame.Name));
+  cefFrame^.Url := PChar(string(frame.Url));
+  cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
+  SendEvent([Sender, browser.Identifier, cefFrame, regionsCount, regions]);
+  FreePRCEFFrame(cefFrame);
+end;
+
+{==window parent==}
 procedure TLCLEvent.CEFWindowEvent_OnEnter(Sender: TObject);
 begin
   SendEvent([Sender]);
@@ -737,10 +758,9 @@ procedure TLCLEvent.CEFWindowEvent_OnExit(Sender: TObject);
 begin
   SendEvent([Sender]);
 end;
-{==window end==}
 
 
-{==CEFWindowComponent begin==}
+{==CEFWindowComponent==}
 procedure TLCLEvent.WindowComponent_OnWindowCreated(const Sender: TObject; const window: ICefWindow);
 begin
   SendEvent([Sender, window]);
@@ -813,10 +833,9 @@ procedure TLCLEvent.WindowComponent_OnKeyEvent(const Sender: TObject; const wind
 begin
   SendEvent([Sender, window, @event, @aResult]);
 end;
-{==CEFWindowComponent end==}
 
 
-{==CEFBrowserViewComponent begin==}
+{==CEFBrowserViewComponent==}
 procedure TLCLEvent.BrowserViewComponent_OnBrowserCreated(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser);
 begin
   SendEvent([Sender, browser_view, browser.Identifier]);
@@ -845,6 +864,4 @@ procedure TLCLEvent.BrowserViewComponent_OnGetChromeToolbarType(const Sender: TO
 begin
   SendEvent([Sender, @aChromeToolbarType]);
 end;
-
-{==CEFBrowserViewComponent end==}
 
