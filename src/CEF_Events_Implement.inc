@@ -744,7 +744,7 @@ begin
   cefFrame^.Name := PChar(string(frame.Name));
   cefFrame^.Url := PChar(string(frame.Url));
   cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  SendEvent([Sender, browser.Identifier, cefFrame, regionsCount, regions]);
+  SendEvent([Sender, browser.Identifier, cefFrame, Integer(regionsCount), regions]);
   FreePRCEFFrame(cefFrame);
 end;
 
