@@ -96,6 +96,27 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFWindowComponent_Bounds(TObj: TCEFWindowComponent; out Result : TCefRect); extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.Bounds;
+  handleExceptionEnd
+end;
+
+procedure CEFWindowComponent_Size(TObj: TCEFWindowComponent; out Result : TCefSize); extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.Size;
+  handleExceptionEnd
+end;
+
+procedure CEFWindowComponent_Position(TObj: TCEFWindowComponent; out Result : TCefPoint); extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.Position;
+  handleExceptionEnd
+end;
+
 procedure CEFWindowComponent_SetBounds(TObj: TCEFWindowComponent; var AValue : TCefRect); extdecl;
 begin
   handleExceptionBegin
@@ -501,6 +522,9 @@ exports
     CEFWindowComponent_SetAlwaysOnTop,
     CEFWindowComponent_SetFullscreen,
     CEFWindowComponent_SetBackgroundColor,
+    CEFWindowComponent_Bounds,
+    CEFWindowComponent_Size,
+    CEFWindowComponent_Position,
     CEFWindowComponent_SetBounds,
     CEFWindowComponent_SetSize,
     CEFWindowComponent_SetPosition,
