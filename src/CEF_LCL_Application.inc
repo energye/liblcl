@@ -60,13 +60,15 @@ begin
     MainBundlePath := PCharToUStr(Config^.MainBundlePath);
     if not (string(MainBundlePath) = '') then
        GlobalCEFApp.MainBundlePath         := MainBundlePath;
-    GlobalCEFApp.ExternalMessagePump       := True;
-    GlobalCEFApp.MultiThreadedMessageLoop  := False;
+    //GlobalCEFApp.ExternalMessagePump       := True;
+    //GlobalCEFApp.MultiThreadedMessageLoop  := False;
     GlobalCEFApp.OnScheduleMessagePumpWork := @GlobalCEFApp_OnScheduleMessagePumpWork;
   {$ELSE}
-    GlobalCEFApp.ExternalMessagePump       := boolean(Config^.ExternalMessagePump);
-    GlobalCEFApp.MultiThreadedMessageLoop  := boolean(Config^.MultiThreadedMessageLoop);
+    //GlobalCEFApp.ExternalMessagePump       := boolean(Config^.ExternalMessagePump);
+    //GlobalCEFApp.MultiThreadedMessageLoop  := boolean(Config^.MultiThreadedMessageLoop);
   {$ENDIF}
+  GlobalCEFApp.ExternalMessagePump       := boolean(Config^.ExternalMessagePump);
+  GlobalCEFApp.MultiThreadedMessageLoop  := boolean(Config^.MultiThreadedMessageLoop);
   GlobalCEFApp.ChromeRuntime := boolean(Config^.ChromeRuntime);
   //cef chromium 参数配置
   //string
