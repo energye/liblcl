@@ -349,18 +349,38 @@ end;
 
 //chromium msg
 procedure TLCLEvent.ChromiumEvent_OnRenderCompMsg(Sender: TObject; var aMessage: TMessage; var aHandled: boolean);
+var
+  LRet: PInteger;
 begin
-  SendEvent([Sender, @aMessage, aHandled]);
+  SendEvent([Sender, @aMessage, LRet, @aHandled]);
+  if not Integer(LRet) = 0 then
+  begin
+    aMessage.Result := Integer(LRet);
+  end;
+  //WriteLn('WidgetCompMsg aHandled ',aHandled ,' aMessage.Result ' ,aMessage.Result)
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnWidgetCompMsg(Sender: TObject; var aMessage: TMessage; var aHandled: boolean);
+var
+  LRet: PInteger;
 begin
-  SendEvent([Sender, @aMessage, aHandled]);
+  SendEvent([Sender, @aMessage, LRet, @aHandled]);
+  if not Integer(LRet) = 0 then
+  begin
+    aMessage.Result := Integer(LRet);
+  end;
+  //WriteLn('WidgetCompMsg aHandled ',aHandled ,' aMessage.Result ' ,aMessage.Result)
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnBrowserCompMsg(Sender: TObject; var aMessage: TMessage; var aHandled: boolean);
+var
+  LRet: PInteger;
 begin
-  SendEvent([Sender, @aMessage, aHandled]);
+  SendEvent([Sender, @aMessage, LRet, @aHandled]);
+  if not Integer(LRet) = 0 then
+  begin
+    aMessage.Result := Integer(LRet);
+  end;
 end;
 
 //chromium Render

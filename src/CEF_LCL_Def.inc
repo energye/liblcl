@@ -76,6 +76,27 @@ begin
   {$endif}
 end;
 
+function CEF_Win_ScreenToClient(Handle : HWND; var P : TPoint): Longint;
+begin
+  {$ifdef MSWINDOWS}
+  Result := ScreenToClient(Handle, p);
+  {$endif}
+end;
+
+function CEF_Win_ClientToScreen(Handle : HWND; var P : TPoint): Longbool;
+begin
+  {$ifdef MSWINDOWS}
+  Result := ClientToScreen(Handle, p);
+  {$endif}
+end;
+
+function CEF_Win_DefWindowProc(hWnd:HWND; Msg:UINT; wParam:WPARAM; lParam:LPARAM): LRESULT;
+begin
+  {$ifdef MSWINDOWS}
+  Result := DefWindowProc(hWnd, Msg, wParam, lParam);
+  {$endif}
+end;
+
 exports
   CEFVersion,
   LibBuildVersion,
@@ -84,5 +105,8 @@ exports
   CEF_Win_DeleteObject,
   CEF_Win_CombineRgn,
   CEF_Win_SetDraggableRegions,
-  CEF_Win_PtInRegion
+  CEF_Win_PtInRegion,
+  CEF_Win_ScreenToClient,
+  CEF_Win_ClientToScreen,
+  CEF_Win_DefWindowProc
 ;
