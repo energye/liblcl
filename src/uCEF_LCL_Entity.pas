@@ -456,6 +456,12 @@ var
   //全局变量
   GChromiumConfig: TCEFChromiumConfig;//chromium 全局配置
 
+
+  {$ifdef MSWINDOWS}
+  //拖拽区域
+  //draggable_region: HRGN;
+  {$endif}
+
 implementation
 
 

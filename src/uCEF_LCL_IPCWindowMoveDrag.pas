@@ -65,8 +65,8 @@ begin
     begin
       MX := message.ArgumentList.GetInt(1);
       MY := message.ArgumentList.GetInt(2);
-      mey := MY - (DY - WinTop);
       mex := MX - (DX - WinLeft);
+      mey := MY - (DY - WinTop);
       WinLeft := mex;
       WinTop := mey;
       Application.QueueAsyncCall(@Move, 0);
