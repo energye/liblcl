@@ -20,8 +20,36 @@ begin
   handleExceptionEnd
 end;
 
+//Chromium Windows Comp Message - WidgetCompMsgPtr
+procedure SetWidgetCompMsgCallbackFunc(APtr: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  WidgetCompMsgPtr := TChromiumWindowsCompMsg(APtr);
+  handleExceptionEnd
+end;
+
+//Chromium Windows Comp Message - RenderCompMsgPtr
+procedure SetRenderCompMsgCallbackFunc(APtr: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  RenderCompMsgPtr := TChromiumWindowsCompMsg(APtr);
+  handleExceptionEnd
+end;
+
+//Chromium Windows Comp Message - BrowserCompMsgPtr
+procedure SetBrowserCompMsgCallbackFunc(APtr: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  BrowserCompMsgPtr := TChromiumWindowsCompMsg(APtr);
+  handleExceptionEnd
+end;
+
+
 exports
     SetCEFIPCCallbackFunc,
-    SetCEFWindowBindCallbackFunc
+    SetCEFWindowBindCallbackFunc,
+    SetWidgetCompMsgCallbackFunc,
+    SetRenderCompMsgCallbackFunc,
+    SetBrowserCompMsgCallbackFunc
 ;
 

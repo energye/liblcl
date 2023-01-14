@@ -13,7 +13,7 @@ unit uCEF_LCL_Event;
 interface
 
 uses
-  fgl, Controls, uCEFTypes,
+  Messages, fgl, Controls, uCEFTypes,
   SysUtils,
   uCEF_LCL_Entity;
 
@@ -58,6 +58,11 @@ type //IPC
     class function SendEvent(IPCID: nativeuint; AArgs: array of const): boolean;
   end;
 
+
+type//Chromium Windows Comp Message
+  TChromiumWindowsCompMsg = function(var aMessage: TMessage; var aHandled: boolean): Pointer; extdecl;
+
+
 function ArgsToParamsPtr(AArgs: array of const): PointerArray;
 
 type//Application.QueueAsyncCall UI主程序异步调用回调事件
@@ -77,6 +82,11 @@ var
   //GlobalCEFApp TCefv8ValueRef 普通变量属性的所属默认对象名称 默认值 v8
   CommonRootName: ustring = v8cobj;
   ObjectRootName: ustring = v8obj;
+
+  //Chromium Windows Comp Message
+  WidgetCompMsgPtr : TChromiumWindowsCompMsg;
+  RenderCompMsgPtr : TChromiumWindowsCompMsg;
+  BrowserCompMsgPtr: TChromiumWindowsCompMsg;
 
 implementation
 

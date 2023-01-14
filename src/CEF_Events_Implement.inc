@@ -350,36 +350,39 @@ end;
 //chromium msg
 procedure TLCLEvent.ChromiumEvent_OnRenderCompMsg(Sender: TObject; var aMessage: TMessage; var aHandled: boolean);
 var
-  LRet: PInteger;
+  MessageResult: LRESULT;
 begin
-  SendEvent([Sender, @aMessage, LRet, @aHandled]);
-  if not Integer(LRet) = 0 then
+  MessageResult := aMessage.Result;
+  SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
+  if MessageResult > 0 then
   begin
-    aMessage.Result := Integer(LRet);
+    aMessage.Result := MessageResult;
   end;
-  //WriteLn('WidgetCompMsg aHandled ',aHandled ,' aMessage.Result ' ,aMessage.Result)
+  //WriteLn('RenderCompMsg aHandled ', aHandled ,' Result ' ,aMessage.Result);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnWidgetCompMsg(Sender: TObject; var aMessage: TMessage; var aHandled: boolean);
 var
-  LRet: PInteger;
+  MessageResult: LRESULT;
 begin
-  SendEvent([Sender, @aMessage, LRet, @aHandled]);
-  if not Integer(LRet) = 0 then
+  MessageResult := aMessage.Result;
+  SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
+  if MessageResult > 0 then
   begin
-    aMessage.Result := Integer(LRet);
+    aMessage.Result := MessageResult;
   end;
-  //WriteLn('WidgetCompMsg aHandled ',aHandled ,' aMessage.Result ' ,aMessage.Result)
+  //WriteLn('WidgetCompMsg aHandled ',aHandled ,' Result ' ,aMessage.Result);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnBrowserCompMsg(Sender: TObject; var aMessage: TMessage; var aHandled: boolean);
 var
-  LRet: PInteger;
+  MessageResult: LRESULT;
 begin
-  SendEvent([Sender, @aMessage, LRet, @aHandled]);
-  if not Integer(LRet) = 0 then
+  MessageResult := aMessage.Result;
+  SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
+  if MessageResult > 0 then
   begin
-    aMessage.Result := Integer(LRet);
+    aMessage.Result := MessageResult;
   end;
 end;
 

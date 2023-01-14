@@ -76,26 +76,38 @@ begin
   {$endif}
 end;
 
-function CEF_Win_ScreenToClient(Handle : HWND; var P : TPoint): Longint;
+function CEF_Win_ScreenToClient(hWnd : HWND; var P : TPoint): Longint;
 begin
   {$ifdef MSWINDOWS}
-  Result := ScreenToClient(Handle, p);
+  Result := ScreenToClient(hWnd, p);
   {$endif}
 end;
 
-function CEF_Win_ClientToScreen(Handle : HWND; var P : TPoint): Longbool;
+function CEF_Win_ClientToScreen(hWnd : HWND; var P : TPoint): Longbool;
 begin
   {$ifdef MSWINDOWS}
-  Result := ClientToScreen(Handle, p);
+  Result := ClientToScreen(hWnd, p);
   {$endif}
 end;
 
-function CEF_Win_DefWindowProc(hWnd:HWND; Msg:UINT; wParam:WPARAM; lParam:LPARAM): LRESULT;
+function CEF_Win_DefWindowProc(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT;
 begin
   {$ifdef MSWINDOWS}
   Result := DefWindowProc(hWnd, Msg, wParam, lParam);
+  //WriteLn('DefWindowProc ', Msg, ' ', wParam, ' ', lParam, ' Result ', Result);
   {$endif}
 end;
+
+procedure CEF_Win_OnPaint(hWnd : HWND);
+var
+  ps: TPaintStruct;
+begin
+  {$ifdef MSWINDOWS}
+  BeginPaint(hWnd, ps);
+  EndPaint(hWnd, ps);
+  {$endif}
+end;
+
 
 exports
   CEFVersion,
@@ -108,5 +120,6 @@ exports
   CEF_Win_PtInRegion,
   CEF_Win_ScreenToClient,
   CEF_Win_ClientToScreen,
-  CEF_Win_DefWindowProc
+  CEF_Win_DefWindowProc,
+  CEF_Win_OnPaint
 ;
