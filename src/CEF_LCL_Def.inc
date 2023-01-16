@@ -76,25 +76,32 @@ begin
   {$endif}
 end;
 
-function CEF_Win_ScreenToClient(hWnd : HWND; var P : TPoint): Longint;
+function CEF_Win_ScreenToClient(hWnd : HWND; var P : TPoint): Longint; extdecl;
 begin
   {$ifdef MSWINDOWS}
   Result := ScreenToClient(hWnd, p);
   {$endif}
 end;
 
-function CEF_Win_ClientToScreen(hWnd : HWND; var P : TPoint): Longbool;
+function CEF_Win_ClientToScreen(hWnd : HWND; var P : TPoint): Longbool; extdecl;
 begin
   {$ifdef MSWINDOWS}
   Result := ClientToScreen(hWnd, p);
   {$endif}
 end;
 
-function CEF_Win_DefWindowProc(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT;
+function CEF_Win_DefWindowProc(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; extdecl;
 begin
   {$ifdef MSWINDOWS}
   Result := DefWindowProc(hWnd, Msg, wParam, lParam);
   //WriteLn('DefWindowProc ', Msg, ' ', wParam, ' ', lParam, ' Result ', Result);
+  {$endif}
+end;
+
+function CEF_Win_DefSubclassProc(hWnd: HWND; uMsg: UINT; wParam: WPARAM; lParam: LPARAM): LRESULT; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := DefSubclassProc(hWnd, uMsg, wParam, lParam);
   {$endif}
 end;
 
@@ -121,5 +128,6 @@ exports
   CEF_Win_ScreenToClient,
   CEF_Win_ClientToScreen,
   CEF_Win_DefWindowProc,
+  CEF_Win_DefSubclassProc,
   CEF_Win_OnPaint
 ;
