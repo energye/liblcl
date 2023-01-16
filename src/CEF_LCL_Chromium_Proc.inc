@@ -542,6 +542,28 @@ begin
   handleExceptionEnd
 end;
 
+function CEFChromium_BrowserHandle(Chromium: TChromium): THandle ; extdecl;
+begin
+  handleExceptionBegin
+  Result:= Chromium.BrowserHandle;
+  handleExceptionEnd
+end;
+
+function CEFChromium_WidgetHandle(Chromium: TChromium): THandle ; extdecl;
+begin
+  handleExceptionBegin
+  Result:= Chromium.WidgetHandle;
+  handleExceptionEnd
+end;
+
+function CEFChromium_RenderHandle(Chromium: TChromium): THandle ; extdecl;
+begin
+  handleExceptionBegin
+  Result:= Chromium.RenderHandle;
+  handleExceptionEnd
+end;
+
+// CEF GoForm
 procedure CEF_AddGoForm(BrowserId: Integer; GoForm: TGoForm); extdecl;
 begin
   handleExceptionBegin
@@ -611,6 +633,9 @@ exports
   CEFChromium_SendCaptureLostEvent,
   CEFChromium_FrameIsFocused,
   CEFChromium_TryCloseBrowser,
+  CEFChromium_BrowserHandle,
+  CEFChromium_WidgetHandle,
+  CEFChromium_RenderHandle,
   { ====  proc end ==== }
   { ====  go from begin ==== }
   CEF_AddGoForm,
