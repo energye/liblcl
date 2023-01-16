@@ -344,7 +344,7 @@ end;
 //chromium 标题改变
 procedure TLCLEvent.ChromiumEvent_OnTitleChange(Sender: TObject; const browser: ICefBrowser; const title: ustring);
 begin
-  SendEvent([Sender, browser.Identifier, string(title)]);
+  SendEvent([Sender, browser.Identifier, PChar(string(title))]);
 end;
 
 //chromium msg
