@@ -545,21 +545,27 @@ end;
 function CEFChromium_BrowserHandle(Chromium: TChromium): THandle ; extdecl;
 begin
   handleExceptionBegin
+  {$ifdef mswindows}
   Result:= Chromium.BrowserHandle;
+  {$endif}
   handleExceptionEnd
 end;
 
 function CEFChromium_WidgetHandle(Chromium: TChromium): THandle ; extdecl;
 begin
   handleExceptionBegin
+  {$ifdef mswindows}
   Result:= Chromium.WidgetHandle;
+  {$endif}
   handleExceptionEnd
 end;
 
 function CEFChromium_RenderHandle(Chromium: TChromium): THandle ; extdecl;
 begin
   handleExceptionBegin
+  {$ifdef mswindows}
   Result:= Chromium.RenderHandle;
+  {$endif}
   handleExceptionEnd
 end;
 
