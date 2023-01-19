@@ -105,6 +105,20 @@ begin
   {$endif}
 end;
 
+function CEF_Win_CreateRoundRectRgn(_para1: longint; _para2: longint; _para3: longint; _para4: longint; _para5: longint;_para6: longint):HRGN; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := CreateRoundRectRgn(_para1, _para2, _para3, _para4, _para5, _para6);
+  {$endif}
+end;
+
+function CEF_Win_SetWindowRgn(hWnd: HWND; hRgn: HRGN; bRedraw: WINBOOL):longint; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := SetWindowRgn(hWnd, hRgn, bRedraw);
+  {$endif}
+end;
+
 procedure CEF_Win_OnPaint(hWnd : HWND);
 var
   ps: TPaintStruct;
@@ -129,5 +143,7 @@ exports
   CEF_Win_ClientToScreen,
   CEF_Win_DefWindowProc,
   CEF_Win_DefSubclassProc,
+  CEF_Win_CreateRoundRectRgn,
+  CEF_Win_SetWindowRgn,
   CEF_Win_OnPaint
 ;
