@@ -9,8 +9,9 @@ function CEFWindow_Create(AOwner: TComponent): TCEFWindowParent; extdecl;
 begin
   handleExceptionBegin
   Result := TCEFWindowParent.Create(AOwner);
-  Result.Width := 300;
-  Result.Height := 300;
+  Result.DoubleBuffered := True;
+  Result.Width := 100;
+  Result.Height := 100;
   Result.Align := alNone; //default
   handleExceptionEnd
 end;
