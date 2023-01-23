@@ -119,6 +119,20 @@ begin
   {$endif}
 end;
 
+function CEF_Win_SetCursor(hCursor: HCursor): HCURSOR; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := SetCursor(hCursor);
+  {$endif}
+end;
+
+function CEF_Win_LoadCursor(hInstance: THandle; lpCursorName: Integer): HCursor; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := LoadCursor(hInstance, MakeIntResource(lpCursorName));
+  {$endif}
+end;
+
 procedure CEF_Win_OnPaint(hWnd : HWND);
 var
   ps: TPaintStruct;
@@ -145,5 +159,7 @@ exports
   CEF_Win_DefSubclassProc,
   CEF_Win_CreateRoundRectRgn,
   CEF_Win_SetWindowRgn,
+  CEF_Win_SetCursor,
+  CEF_Win_LoadCursor,
   CEF_Win_OnPaint
 ;
