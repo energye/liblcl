@@ -213,6 +213,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFWindow_NIL();
+begin
+    //handleExceptionBegin
+    //TODO 没搞懂，要加一个空函数编译才不报错
+    //handleExceptionEnd
+end;
+
 //EVENT_TYPE:WindowEventOnEnter
 procedure CEFWindow_OnEnter(AObj: TCEFWindowParent; AEventData: Pointer); extdecl;
 begin
