@@ -212,7 +212,7 @@ end;
 procedure CEFChromium_PrintToPDF(AObj: TChromium; FilePath: PChar); extdecl;
 begin
   handleExceptionBegin
-  AObj.PrintToPDF(PCharToUStr(FilePath), AObj.DocumentURL, AObj.DocumentURL);
+  AObj.PrintToPDF(PCharToUStr(FilePath));
   handleExceptionEnd
 end;
 
