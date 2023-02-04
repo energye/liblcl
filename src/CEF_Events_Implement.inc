@@ -441,7 +441,7 @@ end;
 //chromium 查找结果回调
 procedure TLCLEvent.ChromiumEvent_OnFindResult(Sender: TObject; const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
 begin
-    SendEvent([Sender, browser.Identifier, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate]);
+  SendEvent([Sender, browser.Identifier, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate]);
 end;
 
 //chromium cookie

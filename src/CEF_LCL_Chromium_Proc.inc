@@ -72,8 +72,7 @@ function CEFChromium_Create(AOwner: TComponent; Config: TCEFChromiumConfig): TCh
 begin
   handleExceptionBegin
   Result := TChromium.Create(AOwner);
-  //初始化默认配置
-  ChromiumInitDefault(Result, Config);
+  GChromiumConfig := Config;
   handleExceptionEnd
 end;
 
@@ -439,37 +438,17 @@ end;
 
 //设置proxy
 procedure CEFChromium_SetProxy(Chromium: TChromium; proxy: PRChromiumProxy); extdecl;
-var
-  ProxyType, ProxyScheme: integer;
-  ProxyServer: string;
-  ProxyPort: integer;
-  ProxyUsername, ProxyPassword, ProxyScriptURL, ProxyByPassList: string;
-  MaxConnectionsPerProxy: integer;
-  CustomHeaderName, CustomHeaderValue: string;
 begin
   handleExceptionBegin
-  ProxyType := Integer(proxy.ProxyType);
-  ProxyScheme := Integer(proxy.ProxyScheme);
-  ProxyServer := PCharToUStr(proxy.ProxyServer);
-  ProxyPort := Integer(proxy.ProxyPort);
-  ProxyUsername := PCharToUStr(proxy.ProxyUsername);
-  ProxyPassword := PCharToUStr(proxy.ProxyPassword);
-  ProxyScriptURL := PCharToUStr(proxy.ProxyScriptURL);
-  ProxyByPassList := PCharToUStr(proxy.ProxyByPassList);
-  MaxConnectionsPerProxy := Integer(proxy.MaxConnectionsPerProxy);
-  CustomHeaderName := PCharToUStr(proxy.CustomHeaderName);
-  CustomHeaderValue := PCharToUStr(proxy.CustomHeaderValue);
-  Chromium.ProxyType              := ProxyType;
-  Chromium.ProxyScheme            := TCefProxyScheme(ProxyScheme);
-  Chromium.ProxyServer            := ProxyServer;
-  Chromium.ProxyPort              := ProxyPort;
-  Chromium.ProxyUsername          := ProxyUsername;
-  Chromium.ProxyPassword          := ProxyPassword;
-  Chromium.ProxyScriptURL         := ProxyScriptURL;
-  Chromium.ProxyByPassList        := ProxyByPassList;
-  Chromium.CustomHeaderName       := CustomHeaderName;
-  Chromium.CustomHeaderValue      := CustomHeaderValue;
-  Chromium.MaxConnectionsPerProxy := MaxConnectionsPerProxy;
+  Chromium.ProxyType              := Integer(proxy.ProxyType);
+  Chromium.ProxyScheme            := TCefProxyScheme(Integer(proxy.ProxyScheme));
+  Chromium.ProxyServer            := PCharToUStr(proxy.ProxyServer);
+  Chromium.ProxyPort              := Integer(proxy.ProxyPort);
+  Chromium.ProxyUsername          := PCharToUStr(proxy.ProxyUsername);
+  Chromium.ProxyPassword          := PCharToUStr(proxy.ProxyPassword);
+  Chromium.ProxyScriptURL         := PCharToUStr(proxy.ProxyScriptURL);
+  Chromium.ProxyByPassList        := PCharToUStr(proxy.ProxyByPassList);
+  Chromium.MaxConnectionsPerProxy := Integer(proxy.MaxConnectionsPerProxy);
   handleExceptionEnd
 end;
 
@@ -569,18 +548,470 @@ begin
   handleExceptionEnd
 end;
 
-// CEF GoForm
-procedure CEF_AddGoForm(BrowserId: Integer; GoForm: TGoForm); extdecl;
+//CustomHeader
+procedure CEFChromium_SetCustomHeader(Chromium: TChromium; PCustomHeader: PRCustomHeader); extdecl;
 begin
   handleExceptionBegin
-  TBrowserWindowClass.Add(BrowserId, GoForm);
+  Chromium.CustomHeaderName  := PCharToUStr(PCustomHeader.CustomHeaderName);
+  Chromium.CustomHeaderValue := PCharToUStr(PCustomHeader.CustomHeaderValue);
   handleExceptionEnd
 end;
 
-procedure CEF_RemoveGoForm(BrowserId: Integer); extdecl;
+function CEFChromium_GetCustomHeader(Chromium: TChromium): PRCustomHeader; extdecl;
+var
+  CustomHeader: PRCustomHeader;
 begin
   handleExceptionBegin
-  TBrowserWindowClass.Remove(BrowserId);
+  CustomHeader := new(PRCustomHeader);
+  CustomHeader.CustomHeaderName := PChar(string(Chromium.CustomHeaderName));
+  CustomHeader.CustomHeaderValue := PChar(string(Chromium.CustomHeaderValue));
+  Result := CustomHeader;
+  handleExceptionEnd
+end;
+
+//JavascriptEnabled
+procedure CEFChromium_SetJavascriptEnabled(Chromium: TChromium; EnabledJavascript: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.JavascriptEnabled := EnabledJavascript;//default true
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetJavascriptEnabled(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.JavascriptEnabled;
+  handleExceptionEnd
+end;
+
+//WebRTCIPHandlingPolicy
+procedure CEFChromium_SetWebRTCIPHandlingPolicy(Chromium: TChromium; value: Integer); extdecl;
+begin
+  handleExceptionBegin
+  //通过设置这些首选项，可以降低/避免WebRTC的IP泄漏 = hpDisableNonProxiedUDP
+  Chromium.WebRTCIPHandlingPolicy := TCefWebRTCHandlingPolicy(value); //defalt hpDefault
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetWebRTCIPHandlingPolicy(Chromium: TChromium): Integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := Integer(Chromium.WebRTCIPHandlingPolicy);
+  handleExceptionEnd
+end;
+
+//WebRTCMultipleRoutes
+procedure CEFChromium_SetWebRTCMultipleRoutes(Chromium: TChromium; value: Integer); extdecl;
+begin
+  handleExceptionBegin
+  //通过设置这些首选项，可以降低/避免WebRTC的IP泄漏 = STATE_DISABLED
+  Chromium.WebRTCMultipleRoutes := TCefState(value); //defalt STATE_DEFAULT
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetWebRTCMultipleRoutes(Chromium: TChromium): Integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := Integer(Chromium.WebRTCMultipleRoutes);
+  handleExceptionEnd
+end;
+
+//WebRTCNonproxiedUDP
+procedure CEFChromium_SetWebRTCNonproxiedUDP(Chromium: TChromium; value: Integer); extdecl;
+begin
+  handleExceptionBegin
+  //通过设置这些首选项，可以降低/避免WebRTC的IP泄漏 = STATE_DISABLED
+  Chromium.WebRTCNonproxiedUDP := TCefState(value); //defalt STATE_DEFAULT
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetWebRTCNonproxiedUDP(Chromium: TChromium): Integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := Integer(Chromium.WebRTCNonproxiedUDP);
+  handleExceptionEnd
+end;
+
+//BatterySaverModeState
+procedure CEFChromium_SetBatterySaverModeState(Chromium: TChromium; value: Integer); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.BatterySaverModeState := TCefBatterySaverModeState(value); //defalt bsmsDefault
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetBatterySaverModeState(Chromium: TChromium): Integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := Integer(Chromium.BatterySaverModeState);
+  handleExceptionEnd
+end;
+
+//HighEfficiencyMode
+procedure CEFChromium_SetHighEfficiencyMode(Chromium: TChromium; value: Integer); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.HighEfficiencyMode := TCefState(value); //defalt STATE_DEFAULT
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetHighEfficiencyMode(Chromium: TChromium): Integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := Integer(Chromium.HighEfficiencyMode);
+  handleExceptionEnd
+end;
+
+//LoadImagesAutomatically
+procedure CEFChromium_SetLoadImagesAutomatically(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.LoadImagesAutomatically := value; //defalt true
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetLoadImagesAutomatically(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.LoadImagesAutomatically;
+  handleExceptionEnd
+end;
+
+//QuicAllowed
+procedure CEFChromium_SetQuicAllowed(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.QuicAllowed := value; //defalt true
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetQuicAllowed(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.QuicAllowed;
+  handleExceptionEnd
+end;
+
+//Offline
+procedure CEFChromium_SetOffline(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.Offline := value; //defalt False
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetOffline(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.Offline;
+  handleExceptionEnd
+end;
+
+//DefaultWindowInfoExStyle
+procedure CEFChromium_SetDefaultWindowInfoExStyle(Chromium: TChromium; value: DWORD); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.DefaultWindowInfoExStyle := value; //defalt 0
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetDefaultWindowInfoExStyle(Chromium: TChromium): DWORD; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.DefaultWindowInfoExStyle;
+  handleExceptionEnd
+end;
+
+//Block3rdPartyCookies
+procedure CEFChromium_SetBlock3rdPartyCookies(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.Block3rdPartyCookies := value; //defalt False
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetBlock3rdPartyCookies(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.Block3rdPartyCookies;
+  handleExceptionEnd
+end;
+
+//AcceptCookies
+procedure CEFChromium_SetAcceptCookies(Chromium: TChromium; value: integer); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.AcceptCookies := TCefCookiePref(value); //defalt cpAllow
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetAcceptCookies(Chromium: TChromium): integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := integer(Chromium.AcceptCookies);
+  handleExceptionEnd
+end;
+
+//AcceptLanguageList
+procedure CEFChromium_SetAcceptLanguageList(Chromium: TChromium; value: PChar); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.AcceptLanguageList := PCharToUStr(value); //defalt ''
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetAcceptLanguageList(Chromium: TChromium): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(Chromium.AcceptLanguageList));
+  handleExceptionEnd
+end;
+
+//PrintingEnabled
+procedure CEFChromium_SetPrintingEnabled(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.PrintingEnabled := value; //defalt True
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetPrintingEnabled(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.PrintingEnabled;
+  handleExceptionEnd
+end;
+
+//YouTubeRestrict
+procedure CEFChromium_SetYouTubeRestrict(Chromium: TChromium; value: integer); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.YouTubeRestrict := value; //defalt YOUTUBE_RESTRICT_OFF
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetYouTubeRestrict(Chromium: TChromium): integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.YouTubeRestrict;
+  handleExceptionEnd
+end;
+
+//SafeSearch
+procedure CEFChromium_SetSafeSearch(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.SafeSearch := value; //defalt False
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetSafeSearch(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.SafeSearch;
+  handleExceptionEnd
+end;
+
+//AudioMuted
+procedure CEFChromium_SetAudioMuted(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.AudioMuted := value; //defalt ?
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetAudioMuted(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.AudioMuted;
+  handleExceptionEnd
+end;
+
+//DragOperations
+procedure CEFChromium_SetDragOperations(Chromium: TChromium; value: Cardinal); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.DragOperations := value; //default DRAG_OPERATION_NONE
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetDragOperations(Chromium: TChromium): Cardinal; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.DragOperations;
+  handleExceptionEnd
+end;
+
+//FrameCount
+function CEFChromium_GetFrameCount(Chromium: TChromium): NativeUInt; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.FrameCount;
+  handleExceptionEnd
+end;
+
+//SpellCheckerDicts
+procedure CEFChromium_SetSpellCheckerDicts(Chromium: TChromium; value: PChar); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.SpellCheckerDicts := PCharToUStr(value); //default ''
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetSpellCheckerDicts(Chromium: TChromium): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(Chromium.SpellCheckerDicts));
+  handleExceptionEnd
+end;
+
+//SpellChecking
+procedure CEFChromium_SetSpellChecking(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.SpellChecking := value; //default True
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetSpellChecking(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.SpellChecking;
+  handleExceptionEnd
+end;
+
+//AlwaysOpenPDFExternally
+procedure CEFChromium_SetAlwaysOpenPDFExternally(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.AlwaysOpenPDFExternally := value; //default False
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetAlwaysOpenPDFExternally(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.AlwaysOpenPDFExternally;
+  handleExceptionEnd
+end;
+
+//AlwaysAuthorizePlugins
+procedure CEFChromium_SetAlwaysAuthorizePlugins(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.AlwaysAuthorizePlugins := value; //default False
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetAlwaysAuthorizePlugins(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.AlwaysAuthorizePlugins;
+  handleExceptionEnd
+end;
+
+//AllowOutdatedPlugins
+procedure CEFChromium_SetAllowOutdatedPlugins(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.AllowOutdatedPlugins := value; //default False
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetAllowOutdatedPlugins(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.AllowOutdatedPlugins;
+  handleExceptionEnd
+end;
+
+//SendReferrer
+procedure CEFChromium_SetSendReferrer(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.SendReferrer := value; //default = True
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetSendReferrer(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.SendReferrer;
+  handleExceptionEnd
+end;
+
+//DoNotTrack
+procedure CEFChromium_SetDoNotTrack(Chromium: TChromium; value: boolean); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.DoNotTrack := value; //default = True
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetDoNotTrack(Chromium: TChromium): boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.DoNotTrack;
+  handleExceptionEnd
+end;
+
+//ZoomStep
+procedure CEFChromium_SetZoomStep(Chromium: TChromium; value: byte); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.ZoomStep := value; //default = ZOOM_STEP_DEF
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetZoomStep(Chromium: TChromium): byte; extdecl;
+begin
+  handleExceptionBegin
+  Result := Chromium.ZoomStep;
+  handleExceptionEnd
+end;
+
+//ZoomPct
+procedure CEFChromium_SetZoomPct(Chromium: TChromium; value: PDouble); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.ZoomPct := Double(value); //default = ZOOM_STEP_DEF
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetZoomPct(Chromium: TChromium): PDouble; extdecl;
+begin
+  handleExceptionBegin
+  Result := PDouble(Chromium.ZoomPct);
+  handleExceptionEnd
+end;
+
+//ZoomLevel
+procedure CEFChromium_SetZoomLevel(Chromium: TChromium; value: PDouble); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.ZoomLevel := Double(value); //default = ZOOM_STEP_DEF
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetZoomLevel(Chromium: TChromium): PDouble; extdecl;
+begin
+  handleExceptionBegin
+  Result := PDouble(Chromium.ZoomLevel);
+  handleExceptionEnd
+end;
+
+//DefaultEncoding
+procedure CEFChromium_SetDefaultEncoding(Chromium: TChromium; value: PChar); extdecl;
+begin
+  handleExceptionBegin
+  Chromium.DefaultEncoding := PCharToUStr(value); //default = ''
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetDefaultEncoding(Chromium: TChromium): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(Chromium.DefaultEncoding));
   handleExceptionEnd
 end;
 
@@ -642,11 +1073,68 @@ exports
   CEFChromium_BrowserHandle,
   CEFChromium_WidgetHandle,
   CEFChromium_RenderHandle,
+  CEFChromium_SetCustomHeader,//
+  CEFChromium_GetCustomHeader,
+  CEFChromium_SetJavascriptEnabled,
+  CEFChromium_GetJavascriptEnabled,
+  CEFChromium_SetWebRTCIPHandlingPolicy,
+  CEFChromium_GetWebRTCIPHandlingPolicy,
+  CEFChromium_SetWebRTCMultipleRoutes,
+  CEFChromium_GetWebRTCMultipleRoutes,
+  CEFChromium_SetWebRTCNonproxiedUDP,
+  CEFChromium_GetWebRTCNonproxiedUDP,
+  CEFChromium_SetBatterySaverModeState,
+  CEFChromium_GetBatterySaverModeState,
+  CEFChromium_SetHighEfficiencyMode,
+  CEFChromium_GetHighEfficiencyMode,
+  CEFChromium_SetLoadImagesAutomatically,
+  CEFChromium_GetLoadImagesAutomatically,
+  CEFChromium_SetQuicAllowed,
+  CEFChromium_GetQuicAllowed,
+  CEFChromium_SetOffline,
+  CEFChromium_GetOffline,
+  CEFChromium_SetDefaultWindowInfoExStyle,
+  CEFChromium_GetDefaultWindowInfoExStyle,
+  CEFChromium_SetBlock3rdPartyCookies,
+  CEFChromium_GetBlock3rdPartyCookies,
+  CEFChromium_SetAcceptCookies,
+  CEFChromium_GetAcceptCookies,
+  CEFChromium_SetAcceptLanguageList,
+  CEFChromium_GetAcceptLanguageList,
+  CEFChromium_SetPrintingEnabled,
+  CEFChromium_GetPrintingEnabled,
+  CEFChromium_SetYouTubeRestrict,
+  CEFChromium_GetYouTubeRestrict,
+  CEFChromium_SetSafeSearch,
+  CEFChromium_GetSafeSearch,
+  CEFChromium_SetAudioMuted,
+  CEFChromium_GetAudioMuted,
+  CEFChromium_SetDragOperations,
+  CEFChromium_GetDragOperations,
+  CEFChromium_GetFrameCount,
+  CEFChromium_SetSpellCheckerDicts,
+  CEFChromium_GetSpellCheckerDicts,
+  CEFChromium_SetSpellChecking,
+  CEFChromium_GetSpellChecking,
+  CEFChromium_SetAlwaysOpenPDFExternally,
+  CEFChromium_GetAlwaysOpenPDFExternally,
+  CEFChromium_SetAlwaysAuthorizePlugins,
+  CEFChromium_GetAlwaysAuthorizePlugins,
+  CEFChromium_SetAllowOutdatedPlugins,
+  CEFChromium_GetAllowOutdatedPlugins,
+  CEFChromium_SetSendReferrer,
+  CEFChromium_GetSendReferrer,
+  CEFChromium_SetDoNotTrack,
+  CEFChromium_GetDoNotTrack,
+  CEFChromium_SetZoomStep,
+  CEFChromium_GetZoomStep,
+  CEFChromium_SetZoomPct,
+  CEFChromium_GetZoomPct,
+  CEFChromium_SetZoomLevel,
+  CEFChromium_GetZoomLevel,
+  CEFChromium_SetDefaultEncoding,
+  CEFChromium_GetDefaultEncoding
   { ====  proc end ==== }
-  { ====  go from begin ==== }
-  CEF_AddGoForm,
-  CEF_RemoveGoForm
-  { ====  go from end ==== }
 
 //结尾
 ;

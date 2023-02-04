@@ -83,9 +83,6 @@ type
 
 // function
 
-//初始化chromium默认配置
-procedure ChromiumInitDefault(const Chromium: TChromium; const Config: TCEFChromiumConfig);
-
 procedure ChromiumExecDevToolsMethod(const Chromium: TChromium; const messageId: integer; const MethodName: PChar; const len: integer; const arguments: array of byte);
 
 
@@ -224,19 +221,6 @@ begin
 end;
 
 {TMainChromiumBrowserClass end}
-
-
-//初始化chromium默认配置
-procedure ChromiumInitDefault(const Chromium: TChromium; const Config: TCEFChromiumConfig);
-begin
-  GChromiumConfig := Config;
-  //一些配置
-  //Chromium.JavascriptEnabled := Boolean(Config.EnabledJavascript);
-  //通过设置这些首选项，可以降低/避免WebRTC的IP泄漏
-  Chromium.WebRTCIPHandlingPolicy := hpDisableNonProxiedUDP;
-  Chromium.WebRTCMultipleRoutes := STATE_DISABLED;
-  Chromium.WebRTCNonproxiedUDP := STATE_DISABLED;
-end;
 
 procedure ChromiumExecDevToolsMethod(const Chromium: TChromium; const messageId: integer; const MethodName: PChar; const len: integer; const arguments: array of byte);
 var

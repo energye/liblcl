@@ -255,7 +255,14 @@ type
     ProxyPort: PInteger;
     ProxyUsername, ProxyPassword, ProxyScriptURL, ProxyByPassList: PChar;
     MaxConnectionsPerProxy: PInteger;
-    CustomHeaderName, CustomHeaderValue: PChar;
+  end;
+
+  //CustomHeader
+  PRCustomHeader = ^RCustomHeader;
+
+  RCustomHeader = record
+    CustomHeaderName: PChar;
+    CustomHeaderValue: PChar;
   end;
 
   //context menu
@@ -458,8 +465,8 @@ var
 
 
   {$ifdef MSWINDOWS}
-  //拖拽区域
-  //draggable_region: HRGN;
+//拖拽区域
+//draggable_region: HRGN;
   {$endif}
 
 implementation

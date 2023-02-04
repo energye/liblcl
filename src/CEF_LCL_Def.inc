@@ -14,6 +14,21 @@ begin
   Result := PChar('2.2.4');
 end;
 
+// CEF GoForm
+procedure CEF_AddGoForm(BrowserId: Integer; GoForm: TGoForm); extdecl;
+begin
+  handleExceptionBegin
+  TBrowserWindowClass.Add(BrowserId, GoForm);
+  handleExceptionEnd
+end;
+
+procedure CEF_RemoveGoForm(BrowserId: Integer); extdecl;
+begin
+  handleExceptionBegin
+  TBrowserWindowClass.Remove(BrowserId);
+  handleExceptionEnd
+end;
+
 function CEF_Win_CreateRectRgn(X1, Y1, X2, Y2 : Integer): HRGN; extdecl;
 begin
   {$ifdef MSWINDOWS}
@@ -147,6 +162,10 @@ end;
 exports
   CEFVersion,
   LibBuildVersion,
+  { ====  go from begin ==== }
+  CEF_AddGoForm,
+  CEF_RemoveGoForm,
+  { ====  go from end ==== }
   CEF_Win_CreateRectRgn,
   CEF_Win_SetRectRgn,
   CEF_Win_DeleteObject,
