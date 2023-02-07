@@ -971,32 +971,32 @@ begin
 end;
 
 //ZoomPct
-procedure CEFChromium_SetZoomPct(Chromium: TChromium; value: PDouble); extdecl;
+procedure CEFChromium_SetZoomPct(Chromium: TChromium; value: Pointer); extdecl;
 begin
   handleExceptionBegin
-  Chromium.ZoomPct := Double(value); //default = ZOOM_STEP_DEF
+  Chromium.ZoomPct := Double(PDouble(value)^); //default = ZOOM_STEP_DEF
   handleExceptionEnd
 end;
 
-function CEFChromium_GetZoomPct(Chromium: TChromium): PDouble; extdecl;
+procedure CEFChromium_GetZoomPct(Chromium: TChromium; out Result: Double); extdecl;
 begin
   handleExceptionBegin
-  Result := PDouble(Chromium.ZoomPct);
+  Result := Chromium.ZoomPct;
   handleExceptionEnd
 end;
 
 //ZoomLevel
-procedure CEFChromium_SetZoomLevel(Chromium: TChromium; value: PDouble); extdecl;
+procedure CEFChromium_SetZoomLevel(Chromium: TChromium; value: Pointer); extdecl;
 begin
   handleExceptionBegin
-  Chromium.ZoomLevel := Double(value); //default = ZOOM_STEP_DEF
+  Chromium.ZoomLevel := Double(PDouble(value)^); //default = ZOOM_STEP_DEF
   handleExceptionEnd
 end;
 
-function CEFChromium_GetZoomLevel(Chromium: TChromium): PDouble; extdecl;
+procedure CEFChromium_GetZoomLevel(Chromium: TChromium; out Result: Double); extdecl;
 begin
   handleExceptionBegin
-  Result := PDouble(Chromium.ZoomLevel);
+  Result := Chromium.ZoomLevel;
   handleExceptionEnd
 end;
 
