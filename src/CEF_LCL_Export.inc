@@ -32,3 +32,4 @@
 {$I CEF_LCL_Image.inc}
 {$I CEF_LCL_Display.inc}
 {$I CEF_LCL_Window.inc}
+{$I Energy_Extend.inc}
