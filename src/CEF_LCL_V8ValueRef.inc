@@ -52,27 +52,32 @@ var
     TempFunc: PRPValueBindInfo;
     Field: PRFieldBindInfo;
     Func: PRFieldBindInfo;
-    FullObjName: ustring;
+    FullObjName, ObjName: ustring;
 begin
     handleExceptionBegin
     //对象的信息记录
     FullObjName := PCharToUStr(TempCefObject^.FullObjName);
+    ObjName := PCharToUStr(TempCefObject^.Name);
     CefObject := new(PRCefObject);
     CefObject^.Id := TempCefObject^.Id;
     CefObject^.ParentId := TempCefObject^.ParentId;
-    CefObject^.Name := PCharToUStr(TempCefObject^.Name);
-    CefObject^.FullObjName := string(FullObjName).Split('.') ;
+    if ObjName <> '' then
+      CefObject^.Name := ObjName;
+    if FullObjName <> '' then
+      CefObject^.FullObjName := string(FullObjName).Split('.') ;
     CefObject^.FieldLen := integer(TempCefObject^.FieldLen);
     CefObject^.FuncLen := integer(TempCefObject^.FuncLen);
     SetLength(CefObject^.Fields, CefObject^.FieldLen);
     SetLength(CefObject^.Funcs, CefObject^.FuncLen);
+    WriteLn('CEFV8ValueRef_ObjectValueBindInfo: ', Length(CefObject^.FullObjName),' FullObjName: ', FullObjName,' Name: ', TempCefObject^.Name);
     //取出所有字段信息数据
     for i := 0 to CefObject^.FieldLen-1 do
     begin
       TempField := TempCefObject^.Fields[i];
       Field := new(PRFieldBindInfo);
       Field^.Name := PCharToUStr(TempField^.Name);
-      Field^.FullName := FullObjName + StrToUStr('.') + Field^.Name;
+      if FullObjName <> '' then
+        Field^.FullName := string(FullObjName + StrToUStr('.') + Field^.Name);
       Field^.BindType := integer(TempField^.BindType);
       Field^.EventId := TempField^.EventId;
       CefObject^.Fields[i] := Field;
@@ -83,7 +88,8 @@ begin
       TempFunc := TempCefObject^.Funcs[i];
       Func := new(PRFieldBindInfo);
       Func^.Name := string(PCharToUStr(TempFunc^.Name));
-      Func^.FullName := string(FullObjName + StrToUStr('.') + Func^.Name);
+      if FullObjName <> '' then
+        Func^.FullName := string(FullObjName + StrToUStr('.') + Func^.Name);
       Func^.BindType := integer(TempFunc^.BindType);
       Func^.EventId := TempFunc^.EventId;
       Func^.FnInNum := integer(TempFunc^.FnInNum);

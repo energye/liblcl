@@ -107,7 +107,7 @@ end;
 }
 function TV8CommonAccessor.Set_(const Name: ustring; const object_: ICefv8Value; const Value: ICefv8Value; var Exception: ustring): boolean;
 begin
-  //fieldName event_set newValue  type
+  //fieldName BE_SET newValue  type
   //变量类型 0:string 1:int 2:double 3:bool 4:null 5:undefined 6:object 7:array 8:function
   //initState = 1 只让初始化完之后才触发
   if initState = 1 then

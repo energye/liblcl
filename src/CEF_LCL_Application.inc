@@ -317,11 +317,8 @@ end;
 procedure CEFGlobalApp_SetOnGetDefaultClient(AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  if GlobalCEFApp.ChromeRuntime then
-  begin
-    OnGetDefaultClient_DataPtr := AEventData;
-    GlobalCEFApp.OnGetDefaultClient := GlobalCEFApp_OnGetDefaultClient;
-  end;
+  OnGetDefaultClient_DataPtr := AEventData;
+  GlobalCEFApp.OnGetDefaultClient := GlobalCEFApp_OnGetDefaultClient;
   handleExceptionEnd
 end;
 

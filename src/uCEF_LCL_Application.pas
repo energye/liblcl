@@ -93,7 +93,7 @@ var
 {实现}
 implementation
 
-
+// CEF Application Event
 procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
 var
   LParams: array[0..CALL_MAX_PARAM - 1] of Pointer;
@@ -114,13 +114,7 @@ begin
           vtBoolean: LParams[I] := Pointer(byte(LV.VBoolean));
           vtChar: LParams[I] := Pointer(Ord(LV.VChar));
           vtExtended: LParams[I] := LV.VExtended;
-
-          vtString: LParams[I] :=
-{$IFDEF MSWINDOWS}
-              LV.VString
-{$ELSE}LV.VAnsiString{$ENDIF}
-            ;
-
+          vtString: LParams[I] := {$IFDEF MSWINDOWS} LV.VString {$ELSE}LV.VAnsiString{$ENDIF} ;
           vtPointer: LParams[I] := LV.VPointer;
           vtPChar: LParams[I] := LV.VPChar;
           vtObject: LParams[I] := LV.VObject;
@@ -195,6 +189,8 @@ begin
     exit;
   end;
 
+  TCEFWindowBindClass.SendEvent('', [BE_CTX_CRT_BIND]);
+
   //js 注入
   ContextCreatedJSInject := TContextCreatedJSInjectClass.Create(browser, frame, context);
   ContextCreatedJSInject.JavaScriptInject();
@@ -222,9 +218,9 @@ begin
   ObjectHandler.ObjectAccessor := ObjectAccessor;
 
   //数据绑定处理
-  //ObjectValueBindHandler
+  //对象(结构) | 直接 ObjectValueBindHandler
   ObjectValueBindHandler(ObjectAccessor, ObjectHandler, browser, frame, context);
-  //CommonValueBindHandler
+  //普通 CommonValueBindHandler
   CommonValueBindHandler(CommonAccessor, CommonHandler, browser, frame, context);
 
   //IPC class
@@ -288,7 +284,7 @@ begin
   begin
     //取出每个对象
     CefObject := TObjectValueBindInfoClass.GetCefObjects.Items[i];
-    //创建对象CefObject
+    //创建CefObject对象
     NewCefObjectBind := new(PRCEFObjectBind);
     NewCefObjectBind^.Id := CefObject^.Id;
     NewCefObjectBind^.ParentId := CefObject^.ParentId;
@@ -306,14 +302,13 @@ begin
       ObjectAccessor.Put(CefObject^.Name, NewCefObjectBind);
       //处理 field 和 func
       ObjectFieldFuncHandler(ObjectAccessor, ObjectHandler, CefObject, NewCefObjectBind);
-
+      //绑定到V8
       ObjectAccessor.RootObjectAccessor.SetValueByAccessor(CefObject^.Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
       ObjectAccessor.RootObjectAccessor.SetValueByKey(CefObject^.Name, NewCefObjectBind^.CefV8ValueField, V8_PROPERTY_ATTRIBUTE_NONE);
       //当前对象以根对象方式添加到查找Map对象中
       ObjectAccessor.PutLookupObjectsMap(CefObject^.Name, 0, NewCefObjectBind, nil, nil);
     end
-    else
-      //ParentId != 0 是子节点
+    else //ParentId != 0 是子节点
     begin
       //添加到指定的父节点CefObject中
       ParentV8Object := ObjectAccessor.PutChildrenObject(CefObject^.FullObjName, CefObject^.Name, NewCefObjectBind);

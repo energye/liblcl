@@ -115,7 +115,7 @@ begin
             //判断类型
             FieldInfo := PLookupObjectItem^.FieldInfo;
             //变量类型 0:string 1:int 2:double 3:bool 4:null 5:undefined 6:object
-            TCEFWindowBindClass.SendEvent(FieldInfo^.FullName, [event_get, @PRetVType, @PRetStringValue, @PRetIntValue, @RetDoubleValue, @PRetBooleanValue, @PRetException]);
+            TCEFWindowBindClass.SendEvent(FieldInfo^.FullName, [BE_GET, @PRetVType, @PRetStringValue, @PRetIntValue, @RetDoubleValue, @PRetBooleanValue, @PRetException]);
             ExceptionMessage := PCharToUstr(PChar(PRetException));
             if not (ExceptionMessage = '') then
             begin//有错误时返回错误，直接退出
@@ -217,19 +217,19 @@ begin
             FieldInfo := PLookupObjectItem^.FieldInfo;
             if (FieldInfo^.BindType = 0) and Value.IsString then
             begin
-              TCEFWindowBindClass.SendEvent(FieldInfo^.FullName, [event_set, 0, string(Value.GetStringValue), @PRetException]);
+              TCEFWindowBindClass.SendEvent(FieldInfo^.FullName, [BE_SET, 0, string(Value.GetStringValue), @PRetException]);
             end
             else if (FieldInfo^.BindType = 1) and Value.IsInt then
             begin
-              TCEFWindowBindClass.SendEvent(FieldInfo^.FullName, [event_set, 1, Value.GetIntValue, @PRetException]);
+              TCEFWindowBindClass.SendEvent(FieldInfo^.FullName, [BE_SET, 1, Value.GetIntValue, @PRetException]);
             end
             else if (FieldInfo^.BindType = 2) and Value.IsDouble then
             begin
-              TCEFWindowBindClass.SendEvent(FieldInfo^.FullName, [event_set, 2, Value.GetDoubleValue, @PRetException]);
+              TCEFWindowBindClass.SendEvent(FieldInfo^.FullName, [BE_SET, 2, Value.GetDoubleValue, @PRetException]);
             end
             else if (FieldInfo^.BindType = 3) and Value.IsBool then
             begin
-              TCEFWindowBindClass.SendEvent(FieldInfo^.FullName, [event_set, 3, Value.GetBoolValue, @PRetException]);
+              TCEFWindowBindClass.SendEvent(FieldInfo^.FullName, [BE_SET, 3, Value.GetBoolValue, @PRetException]);
             end
             else
             begin

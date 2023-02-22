@@ -39,7 +39,7 @@ begin
   try
     //RetValue := PRRetBindValue;
     //变量类型 0:string 1:int 2:double 3:bool 4:null 5:undefined 6:obje
-    TCEFWindowBindClass.SendEvent(Name, [event_get, @RetValue.PVType, @RetValue.PStringValue, @RetValue.PIntValue, @RetValue.DoubleValue,
+    TCEFWindowBindClass.SendEvent(Name, [BE_GET, @RetValue.PVType, @RetValue.PStringValue, @RetValue.PIntValue, @RetValue.DoubleValue,
       @RetValue.PBooleanValue, @RetValue.PException]);
     Result := RetValue;
     exit;
@@ -65,7 +65,7 @@ var
   DoubleValue: double;
   BooleanValue: boolean;
 begin
-  //fieldName event_set newValue  type
+  //fieldName BE_SET newValue  type
   //变量类型 0:string 1:int 2:double 3:bool 4:null 5:undefined 6:object 7:array 8:function
   try
     if Value.IsArray or Value.IsObject or Value.IsFunction or Value.IsArrayBuffer then
@@ -79,30 +79,30 @@ begin
       if Value.IsString then
       begin
         StringValue := string(Value.GetStringValue);
-        TCEFWindowBindClass.SendEvent(Name, [event_set, 0, StringValue, @PException]);
+        TCEFWindowBindClass.SendEvent(Name, [BE_SET, 0, StringValue, @PException]);
       end
       else if Value.IsInt then
       begin
         IntValue := Value.GetIntValue;
-        TCEFWindowBindClass.SendEvent(Name, [event_set, 1, IntValue, @PException]);
+        TCEFWindowBindClass.SendEvent(Name, [BE_SET, 1, IntValue, @PException]);
       end
       else if Value.IsDouble then
       begin
         DoubleValue := Value.GetDoubleValue;
-        TCEFWindowBindClass.SendEvent(Name, [event_set, 2, @DoubleValue, @PException]);
+        TCEFWindowBindClass.SendEvent(Name, [BE_SET, 2, @DoubleValue, @PException]);
       end
       else if Value.IsBool then
       begin
         BooleanValue := Value.GetBoolValue;
-        TCEFWindowBindClass.SendEvent(Name, [event_set, 3, BooleanValue, @PException]);
+        TCEFWindowBindClass.SendEvent(Name, [BE_SET, 3, BooleanValue, @PException]);
       end
       else if Value.IsNull then
       begin
-        TCEFWindowBindClass.SendEvent(Name, [event_set, 4, 'null', @PException]);
+        TCEFWindowBindClass.SendEvent(Name, [BE_SET, 4, 'null', @PException]);
       end
       else if Value.IsUndefined then
       begin
-        TCEFWindowBindClass.SendEvent(Name, [event_set, 5, 'undefined', @PException]);
+        TCEFWindowBindClass.SendEvent(Name, [BE_SET, 5, 'undefined', @PException]);
       end
       else
       begin

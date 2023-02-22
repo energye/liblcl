@@ -88,7 +88,7 @@ begin
     FieldBindInfo^.ArgumentsArr := new(PArgumentsArray);
     SetLength(FieldBindInfo^.ArgumentsArr^, argumentsLen);
 
-    argsArray[0].VInteger := longint(event_func);//事件类型
+    argsArray[0].VInteger := longint(BE_FUNC);//事件类型
     argsArray[0].VType := vtInteger;
 
     argsArray[1].VPointer := @PExceptionMessage;//返回值-异常信息
