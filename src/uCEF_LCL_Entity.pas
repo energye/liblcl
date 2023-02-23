@@ -31,11 +31,13 @@ const
   BE_CTX_CRT_BIND = 3;
 
   //绑定变量对象类型
-  v8cobj = 'gocobj';// common key
-  v8obj = 'goobj'; // object key
+  v8BindCommon = 'gocobj';// common key
+  v8BindObject = 'goobj'; // object key
   v8EmitKey = 'ipc';//JS emit Go on event
+
   //区分64位系统和32位系统的整数大小
   intSize = SizeOf(nativeint);
+
   //窗口拖动消息名
   windowDrag: ustring = 'windowDrag';
   MoveDragDown: ustring = 'mousedown';
@@ -65,9 +67,10 @@ type
     GO_VALUE_SLICE,
     GO_VALUE_FUNC,
     GO_VALUE_PTR,
+    GO_VALUE_MAP,
     GO_VALUE_EXCEPTION,
     GO_VALUE_INVALID_TYPE, //无效类型
-    GO_VALUE_ARGUMENT,    //argument
+    GO_VALUE_ARGUMENT,     //argument
     GO_VALUE_DICTVALUE    //dictValue
     );
 
@@ -172,8 +175,9 @@ type
 
   //TCEFv8Context
   RCEFV8Context = record
+    V8Context: ICefv8Context;
     Browser: ICefBrowser;
-    //Frame: ICefFrame;
+    Frame: ICefFrame;
     Global: ICefv8Value;
   end;
 

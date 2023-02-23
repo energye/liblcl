@@ -1,6 +1,6 @@
 //----------------------------------------
 // Copyright © yanghy. All Rights Reserved.
-//
+
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
@@ -27,7 +27,8 @@ uses
   uCEF_LCL_V8CommonAccessor, uCEF_LCL_V8CommonHandler,
   uCEF_LCL_V8ObjectAccessor, uCEF_LCL_V8ObjectHandler,
   uCEF_LCL_V8EventEmitHandler, uCEF_LCL_V8EventOnHandler,
-  uCEF_LCL_V8WindowMoveDragHandler, uCEF_LCL_BrowserWindowHandler, uCEF_LCL_ContextCreatedJSInject,
+  uCEF_LCL_V8WindowMoveDragHandler, uCEF_LCL_BrowserWindowHandler,
+  uCEF_LCL_ContextCreatedJSInject,
   uCEF_LCL_Event, uCEF_LCL_IPC;
 
 type
@@ -47,7 +48,8 @@ procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame:
 
 procedure GlobalCEFApp_OnWebKitInitialized;
 procedure GlobalCEFApp_OnContextInitialized;
-procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled: boolean);
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
+  const aMessage: ICefProcessMessage; var aHandled: boolean);
 procedure GlobalCEFApp_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
 procedure GlobalCEFApp_OnBrowserDestroyed(const browser: ICefBrowser);
 procedure GlobalCEFApp_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
@@ -59,7 +61,8 @@ procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
 //绑定处理
 procedure ObjectValueBindHandler(const ObjectAccessor: TV8ObjectAccessor; const ObjectHandler: TV8ObjectHandler; const browser: ICefBrowser;
   const frame: ICefFrame; const context: ICefv8Context);
-procedure ObjectFieldFuncHandler(const ObjectAccessor: TV8ObjectAccessor; const ObjectHandler: TV8ObjectHandler; const CefObject: PRCefObject; const NewCefObjectBind: PRCEFObjectBind);
+procedure ObjectFieldFuncHandler(const ObjectAccessor: TV8ObjectAccessor; const ObjectHandler: TV8ObjectHandler; const CefObject: PRCefObject;
+  const NewCefObjectBind: PRCEFObjectBind);
 procedure CommonValueBindHandler(const CommonAccessor: TV8CommonAccessor; const CommonHandler: TV8CommonHandler; const browser: ICefBrowser;
   const frame: ICefFrame; const context: ICefv8Context);
 
@@ -162,6 +165,10 @@ var
   //js inject
   ContextCreatedJSInject: TContextCreatedJSInjectClass;
   state: boolean; //状态
+  //ICefv8Context
+  CtxBrowser: ICefBrowser;
+  CtxFrame: ICefFrame;
+  CtxGlobal: ICefv8Value;
 begin
   //开发者工具不加载绑定变量
   isDevtools := string(frame.Url).IndexOf('devtools://') = 0;
@@ -178,8 +185,14 @@ begin
   cefFrame^.Url := Frameurl;
   cefFrame^.Identifier := FrameId;
 
-  v8Context.Browser := context.Browser;
-  v8Context.Global := context.Global;
+  CtxBrowser := context.Browser;
+  CtxFrame := context.Frame;
+  CtxGlobal := context.Global;
+
+  v8Context.V8Context := context;
+  v8Context.Browser := CtxBrowser;
+  v8Context.Frame := CtxFrame;
+  v8Context.Global := CtxGlobal;
 
   TMainChromiumBrowserClass.PutBrowser(browser);
   //事件触发, go 绑定一些js属性和函数
@@ -210,7 +223,6 @@ begin
   ObjectAccessor.RootObjectAccessor := TCefv8ValueRef.NewObject(ObjectAccessor, nil);
   ObjectAccessor.Browser := browser;
   ObjectAccessor.Frame := frame;
-
   //结构类型变量 Handler
   ObjectHandler := TV8ObjectHandler.Create;
   ObjectHandler.Browser := browser;
@@ -315,23 +327,29 @@ begin
       //添加到父节点的 ICefv8Value 中
       if not (ParentV8Object = nil) then
       begin
-        ParentV8Object^.CefV8ValueField.SetValueByAccessor(CefObject^.Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-        ParentV8Object^.CefV8ValueField.SetValueByKey(CefObject^.Name, NewCefObjectBind^.CefV8ValueField, V8_PROPERTY_ATTRIBUTE_NONE);
+        ParentV8Object^.CefV8ValueField.SetValueByAccessor(CefObject^.Name,
+          V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
+        ParentV8Object^.CefV8ValueField.SetValueByKey(CefObject^.Name,
+          NewCefObjectBind^.CefV8ValueField, V8_PROPERTY_ATTRIBUTE_NONE);
         //处理 field 和 func
-        ObjectFieldFuncHandler(ObjectAccessor, ObjectHandler, CefObject, NewCefObjectBind);
+        ObjectFieldFuncHandler(ObjectAccessor, ObjectHandler, CefObject,
+          NewCefObjectBind);
         //当前对象以字段对象方式添加到查找Map对象中
-        ObjectAccessor.PutLookupObjectsMap(CefObject^.Name, 3, NewCefObjectBind, ParentV8Object, nil);
+        ObjectAccessor.PutLookupObjectsMap(CefObject^.Name, 3,
+          NewCefObjectBind, ParentV8Object, nil);
       end;
     end;
   end;
   //清空TList集合
   //TObjectValueBindInfoClass.Clear();
-  context.Global.SetValueByKey(ObjectRootName, ObjectAccessor.RootObjectAccessor, V8_PROPERTY_ATTRIBUTE_NONE);
+  context.Global.SetValueByKey(ObjectRootName, ObjectAccessor.RootObjectAccessor,
+    V8_PROPERTY_ATTRIBUTE_NONE);
   ObjectAccessor.initState := 1;
 end;
 
 //处理每个对象的 field 和 func
-procedure ObjectFieldFuncHandler(const ObjectAccessor: TV8ObjectAccessor; const ObjectHandler: TV8ObjectHandler; const CefObject: PRCefObject; const NewCefObjectBind: PRCEFObjectBind);
+procedure ObjectFieldFuncHandler(const ObjectAccessor: TV8ObjectAccessor; const ObjectHandler: TV8ObjectHandler; const CefObject: PRCefObject;
+  const NewCefObjectBind: PRCEFObjectBind);
 var
   idx: integer;
   //对象属性
@@ -370,8 +388,10 @@ begin
     //只对普通类型字段处理
     if Field^.BindType < 4 then
     begin
-      NewCefObjectBind^.CefV8ValueField.SetValueByAccessor(Field^.Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-      NewCefObjectBind^.CefV8ValueField.SetValueByKey(Field^.Name, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+      NewCefObjectBind^.CefV8ValueField.SetValueByAccessor(Field^.Name,
+        V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
+      NewCefObjectBind^.CefV8ValueField.SetValueByKey(Field^.Name,
+        v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
       //当前字段添加到查找Map对象中
       ObjectAccessor.PutLookupObjectsMap(Field^.Name, 1, nil, NewCefObjectBind, Field);
     end;
@@ -384,7 +404,8 @@ begin
     //new func ICefv8Value
     v8Value := TCefv8ValueRef.NewFunction(Field^.Name, ObjectHandler);
     //NewCefObjectBind^.CefV8ValueFunc.SetValueByAccessor(Field^.Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-    NewCefObjectBind^.CefV8ValueField.SetValueByKey(Field^.Name, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+    NewCefObjectBind^.CefV8ValueField.SetValueByKey(Field^.Name,
+      v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
     //当前函数添加到查找Map对象中
     ObjectAccessor.PutLookupObjectsMap(Field^.Name, 2, nil, NewCefObjectBind, Field);
   end;
@@ -405,7 +426,8 @@ begin
     size := TCommonValueBindInfoClass.Size();
     for idx := 0 to size - 1 do
     begin
-      commonValueBindInfo := TCommonValueBindInfoClass.GetCommonValueBindInfos.Items[idx];
+      commonValueBindInfo :=
+        TCommonValueBindInfoClass.GetCommonValueBindInfos.Items[idx];
       //字段或函数名
       v8Name := StrToUStr(commonValueBindInfo^.Name);
       if commonValueBindInfo^.BindType = 8 then
@@ -415,7 +437,8 @@ begin
           begin
             CommonHandler.Put(v8Name, commonValueBindInfo);
             v8Value := TCefv8ValueRef.NewFunction(v8Name, CommonHandler);
-            CommonAccessor.V8Object.SetValueByKey(v8Name, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+            CommonAccessor.V8Object.SetValueByKey(v8Name, v8Value,
+              V8_PROPERTY_ATTRIBUTE_NONE);
           end
           else
         end;
@@ -449,11 +472,14 @@ begin
           end;
           else;
         end;
-        CommonAccessor.V8Object.SetValueByAccessor(v8Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-        CommonAccessor.V8Object.SetValueByKey(v8Name, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+        CommonAccessor.V8Object.SetValueByAccessor(v8Name,
+          V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
+        CommonAccessor.V8Object.SetValueByKey(v8Name, v8Value,
+          V8_PROPERTY_ATTRIBUTE_NONE);
       end;
     end;
-    context.Global.SetValueByKey(CommonRootName, CommonAccessor.V8Object, V8_PROPERTY_ATTRIBUTE_NONE);
+    context.Global.SetValueByKey(CommonRootName, CommonAccessor.V8Object,
+      V8_PROPERTY_ATTRIBUTE_NONE);
     CommonAccessor.initState := 1;
   except
     on E: Exception do

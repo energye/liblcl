@@ -13,7 +13,7 @@ begin
     name := PCharToUStr(PName);
     if name = '' then
     begin
-       name := v8cobj;
+       name := v8BindCommon;
     end;
     CommonRootName := name;
     handleExceptionEnd
@@ -28,7 +28,7 @@ begin
     name := PCharToUStr(PName);
     if name = '' then
     begin
-       name := v8obj;
+       name := v8BindObject;
     end;
     ObjectRootName := name;
     handleExceptionEnd

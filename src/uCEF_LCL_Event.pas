@@ -80,13 +80,8 @@ var
   GApplicationQueueAsyncCallPtr: ApplicationQueueAsyncCallPtr;
 
   //GlobalCEFApp TCefv8ValueRef 普通变量属性的所属默认对象名称 默认值 v8
-  CommonRootName: ustring = v8cobj;
-  ObjectRootName: ustring = v8obj;
-
-  //Chromium Windows Comp Message
-  WidgetCompMsgPtr : TChromiumWindowsCompMsg;
-  RenderCompMsgPtr : TChromiumWindowsCompMsg;
-  BrowserCompMsgPtr: TChromiumWindowsCompMsg;
+  CommonRootName: ustring = v8BindCommon;
+  ObjectRootName: ustring = v8BindObject;
 
 implementation
 
