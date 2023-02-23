@@ -27,6 +27,9 @@
       <MinorVersionNr Value="2"/>
       <StringTable Comments="LCL for Windows" CompanyName="yanghy" FileDescription="LCL for Windows" InternalName="liblcl" LegalCopyright="Copyright yanghy" OriginalFilename="liblcl.dll" ProductName="liblcl" ProductVersion="2.2.0.0"/>
     </VersionInfo>
+    <Res2go>
+      <GoRoot Value="E:\go"/>
+    </Res2go>
     <MacroValues Count="1">
       <Macro3 Name="LCLWidgetType" Value="win32"/>
     </MacroValues>
@@ -218,7 +221,7 @@
       <TargetCPU Value="i386"/>
       <TargetOS Value="win32"/>
       <Optimizations>
-        <OptimizationLevel Value="3"/>
+        <OptimizationLevel Value="4"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>

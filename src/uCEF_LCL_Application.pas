@@ -327,16 +327,12 @@ begin
       //添加到父节点的 ICefv8Value 中
       if not (ParentV8Object = nil) then
       begin
-        ParentV8Object^.CefV8ValueField.SetValueByAccessor(CefObject^.Name,
-          V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-        ParentV8Object^.CefV8ValueField.SetValueByKey(CefObject^.Name,
-          NewCefObjectBind^.CefV8ValueField, V8_PROPERTY_ATTRIBUTE_NONE);
+        ParentV8Object^.CefV8ValueField.SetValueByAccessor(CefObject^.Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
+        ParentV8Object^.CefV8ValueField.SetValueByKey(CefObject^.Name, NewCefObjectBind^.CefV8ValueField, V8_PROPERTY_ATTRIBUTE_NONE);
         //处理 field 和 func
-        ObjectFieldFuncHandler(ObjectAccessor, ObjectHandler, CefObject,
-          NewCefObjectBind);
+        ObjectFieldFuncHandler(ObjectAccessor, ObjectHandler, CefObject, NewCefObjectBind);
         //当前对象以字段对象方式添加到查找Map对象中
-        ObjectAccessor.PutLookupObjectsMap(CefObject^.Name, 3,
-          NewCefObjectBind, ParentV8Object, nil);
+        ObjectAccessor.PutLookupObjectsMap(CefObject^.Name, 3, NewCefObjectBind, ParentV8Object, nil);
       end;
     end;
   end;

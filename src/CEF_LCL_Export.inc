@@ -34,4 +34,6 @@
 {$I CEF_LCL_Window.inc}
 {$I CEF_LCL_Cefv8Value.inc}
 {$I CEF_LCL_Cefv8Accessor.inc}
+{$I CEF_LCL_Cefv8Handler.inc}
+{$I CEF_LCL_Cefv8Interceptor.inc}
 {$I Energy_Extend.inc}

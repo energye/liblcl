@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-unit uCEF_LCL_V8AccessorRef;
+unit uCEF_LCL_V8InterceptorRef;
 
 {$mode objfpc}{$H+}
 {$I cef.inc}
@@ -12,51 +12,69 @@ unit uCEF_LCL_V8AccessorRef;
 interface
 
 uses
-  uCEFv8Value, uCEFv8Accessor, uCEFInterfaces, uCEFTypes,
+  uCEFTypes, uCEFInterfaces, uCEFv8Value, uCEFv8Interceptor,
   uEventCallback;
 
 type
 
-  TV8AccessorRef = class(TCefV8AccessorOwn)
+  TV8InterceptorRef = class(TCefV8InterceptorOwn)
   public
-    GetPtr: Pointer;
-    SetPtr: Pointer;
+    GetByNamePtr: Pointer;
+    GetByIndexPtr: Pointer;
+    SetByNamePtr: Pointer;
+    SetByIndexPtr: Pointer;
     DestroyPtr: Pointer;
     constructor Create;
     destructor Destroy;
   protected
-    function Get(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean; override;
-    function Set_(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean; override;
+    function GetByName(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean; override;
+    function GetByIndex(index: integer; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean; override;
+    function SetByName(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean; override;
+    function SetByIndex(index: integer; const object_, Value: ICefv8Value; var Exception: ustring): boolean; override;
     procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
   end;
 
 implementation
 
-function TV8AccessorRef.Get(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean;
+
+function TV8InterceptorRef.GetByName(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean;
 begin
-  //WriteLn('TV8AccessorRef.Get: ', Name);
-  if (GetPtr <> nil) then
+  if (GetByNamePtr <> nil) then
   begin
-    SendEvent(GetPtr, []);
+    SendEvent(GetByNamePtr, []);
   end;
 end;
 
-
-function TV8AccessorRef.Set_(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean;
+function TV8InterceptorRef.GetByIndex(index: integer; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean;
 begin
-  //WriteLn('TV8AccessorRef.Set_: ', Name);
-  if (SetPtr <> nil) then
+  if (GetByIndexPtr <> nil) then
   begin
-    SendEvent(SetPtr, []);
+    SendEvent(GetByIndexPtr, []);
   end;
 end;
 
-constructor TV8AccessorRef.Create;
+function TV8InterceptorRef.SetByName(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean;
+begin
+  if (SetByNamePtr <> nil) then
+  begin
+    SendEvent(SetByNamePtr, []);
+  end;
+end;
+
+function TV8InterceptorRef.SetByIndex(index: integer; const object_, Value: ICefv8Value; var Exception: ustring): boolean;
+begin
+  if (SetByIndexPtr <> nil) then
+  begin
+    SendEvent(SetByIndexPtr, []);
+  end;
+end;
+
+constructor TV8InterceptorRef.Create;
 begin
   inherited Create;
 end;
 
-destructor TV8AccessorRef.Destroy;
+destructor TV8InterceptorRef.Destroy;
 begin
   if (DestroyPtr <> nil) then
   begin
@@ -65,7 +83,7 @@ begin
   inherited Destroy;
 end;
 
-procedure TV8AccessorRef.SendEvent(DataPtr: Pointer; AArgs: array of const);
+procedure TV8InterceptorRef.SendEvent(DataPtr: Pointer; AArgs: array of const);
 var
   LParams: array[0..CALL_MAX_PARAM - 1] of Pointer;
   LArgLen: integer;

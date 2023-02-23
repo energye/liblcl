@@ -415,7 +415,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewObject(const Accessor: ICefV8Accessor; const Interceptor: ICefV8Interceptor; out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewObject(const Accessor: TV8AccessorRef; const Interceptor: TV8InterceptorRef; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewObject(Accessor, Interceptor);
@@ -437,7 +437,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewFunction(const name: PChar; const handler: ICefv8Handler; out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewFunction(const name: PChar; const handler: TV8HandlerRef; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewFunction(StrPas(name), handler);

@@ -21,8 +21,14 @@ begin
     AObj.SetPtr := AEventData;
 end;
 
+procedure CefV8Accessor_Destroy(AObj: TV8AccessorRef; AEventData: Pointer); extdecl;
+begin
+    AObj.DestroyPtr := AEventData;
+end;
+
 exports
     CefV8Accessor_Create,
     CefV8Accessor_Get,
-    CefV8Accessor_Set
+    CefV8Accessor_Set,
+    CefV8Accessor_Destroy
 ;

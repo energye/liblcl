@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-unit uCEF_LCL_V8AccessorRef;
+unit uCEF_LCL_V8HandlerRef;
 
 {$mode objfpc}{$H+}
 {$I cef.inc}
@@ -12,51 +12,38 @@ unit uCEF_LCL_V8AccessorRef;
 interface
 
 uses
-  uCEFv8Value, uCEFv8Accessor, uCEFInterfaces, uCEFTypes,
+  uCEFTypes, uCEFInterfaces, uCEFv8Value, uCEFv8Handler,
   uEventCallback;
 
 type
 
-  TV8AccessorRef = class(TCefV8AccessorOwn)
+  TV8HandlerRef = class(TCefv8HandlerOwn)
   public
-    GetPtr: Pointer;
-    SetPtr: Pointer;
+    ExecutePtr: Pointer;
     DestroyPtr: Pointer;
     constructor Create;
     destructor Destroy;
   protected
-    function Get(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean; override;
-    function Set_(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean; override;
+    function Execute(const Name: ustring; const obj: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var Exception: ustring): boolean; override;
     procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
   end;
 
 implementation
 
-function TV8AccessorRef.Get(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean;
+function TV8HandlerRef.Execute(const Name: ustring; const obj: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var Exception: ustring): boolean;
 begin
-  //WriteLn('TV8AccessorRef.Get: ', Name);
-  if (GetPtr <> nil) then
+  if (ExecutePtr <> nil) then
   begin
-    SendEvent(GetPtr, []);
+    SendEvent(ExecutePtr, []);
   end;
 end;
 
-
-function TV8AccessorRef.Set_(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean;
-begin
-  //WriteLn('TV8AccessorRef.Set_: ', Name);
-  if (SetPtr <> nil) then
-  begin
-    SendEvent(SetPtr, []);
-  end;
-end;
-
-constructor TV8AccessorRef.Create;
+constructor TV8HandlerRef.Create;
 begin
   inherited Create;
 end;
 
-destructor TV8AccessorRef.Destroy;
+destructor TV8HandlerRef.Destroy;
 begin
   if (DestroyPtr <> nil) then
   begin
@@ -65,7 +52,7 @@ begin
   inherited Destroy;
 end;
 
-procedure TV8AccessorRef.SendEvent(DataPtr: Pointer; AArgs: array of const);
+procedure TV8HandlerRef.SendEvent(DataPtr: Pointer; AArgs: array of const);
 var
   LParams: array[0..CALL_MAX_PARAM - 1] of Pointer;
   LArgLen: integer;
