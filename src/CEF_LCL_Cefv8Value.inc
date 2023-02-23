@@ -196,7 +196,7 @@ end;
 function CefV8Value_HasValueByKey(const TObj: ICefv8Value; const key: PChar): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.HasValueByKey(StrPas(key));
+  Result := TObj.HasValueByKey(PCharToUStr(key));
   handleExceptionEnd
 end;
 
@@ -210,7 +210,7 @@ end;
 function CefV8Value_DeleteValueByKey(const TObj: ICefv8Value; const key: PChar): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.DeleteValueByKey(StrPas(key));
+  Result := TObj.DeleteValueByKey(PCharToUStr(key));
   handleExceptionEnd
 end;
 
@@ -224,7 +224,7 @@ end;
 procedure CefV8Value_GetValueByKey(const TObj: ICefv8Value; const key: PChar; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetValueByKey(StrPas(key));
+  Result := TObj.GetValueByKey(PCharToUStr(key));
   handleExceptionEnd
 end;
 
@@ -238,7 +238,7 @@ end;
 function CefV8Value_SetValueByKey(const TObj: ICefv8Value; const key: PChar; const value: ICefv8Value; attribute: Cardinal): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.SetValueByKey(StrPas(key), value, TCefV8PropertyAttributes(attribute));
+  Result := TObj.SetValueByKey(PCharToUStr(key), value, TCefV8PropertyAttributes(attribute));
   handleExceptionEnd
 end;
 
@@ -252,7 +252,7 @@ end;
 function CefV8Value_SetValueByAccessor(const TObj: ICefv8Value; const key: PChar; settings: Cardinal; attribute: Cardinal): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.SetValueByAccessor(StrPas(key), TCefV8AccessControls(settings), TCefV8PropertyAttributes(attribute));
+  Result := TObj.SetValueByAccessor(PCharToUStr(key), TCefV8AccessControls(settings), TCefV8PropertyAttributes(attribute));
   handleExceptionEnd
 end;
 
@@ -354,7 +354,7 @@ end;
 function CefV8Value_RejectPromise(const TObj: ICefv8Value; const errorMsg: PChar): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.RejectPromise(StrPas(errorMsg));
+  Result := TObj.RejectPromise(PCharToUStr(errorMsg));
   handleExceptionEnd
 end;
 
@@ -411,7 +411,7 @@ end;
 procedure CefV8ValueRef_NewString(value: PChar; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefv8ValueRef.NewString(StrPas(value));
+  Result := TCefv8ValueRef.NewString(PCharToUStr(value));
   handleExceptionEnd
 end;
 
@@ -440,7 +440,7 @@ end;
 procedure CefV8ValueRef_NewFunction(const name: PChar; const handler: TV8HandlerRef; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefv8ValueRef.NewFunction(StrPas(name), handler);
+  Result := TCefv8ValueRef.NewFunction(PCharToUStr(name), handler);
   handleExceptionEnd
 end;
 

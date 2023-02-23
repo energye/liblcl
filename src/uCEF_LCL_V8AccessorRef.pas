@@ -12,7 +12,7 @@ unit uCEF_LCL_V8AccessorRef;
 interface
 
 uses
-  uCEFv8Value, uCEFv8Accessor, uCEFInterfaces, uCEFTypes,
+  uCEF_LCL_Entity, uCEFv8Accessor, uCEFInterfaces, uCEFTypes,
   uEventCallback;
 
 type
@@ -33,21 +33,36 @@ type
 implementation
 
 function TV8AccessorRef.Get(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean;
+var
+  PName: PChar;
+  PException: PChar;
 begin
-  //WriteLn('TV8AccessorRef.Get: ', Name);
+  Result := False;
   if (GetPtr <> nil) then
   begin
-    SendEvent(GetPtr, []);
+    PName := PChar(string(Name));
+    SendEvent(GetPtr, [PName, object_, @retval, @PException, @Result]);
+    if PException <> nil then
+      Exception := PCharToUStr(PException);
+    PName := nil;
+    PException := nil;
   end;
 end;
 
 
 function TV8AccessorRef.Set_(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean;
+var
+  PName: PChar;
+  PException: PChar;
 begin
-  //WriteLn('TV8AccessorRef.Set_: ', Name);
   if (SetPtr <> nil) then
   begin
-    SendEvent(SetPtr, []);
+    PName := PChar(string(Name));
+    SendEvent(SetPtr, [PName, object_,Value, @PException, @Result]);
+    if PException <> nil then
+      Exception := PCharToUStr(PException);
+    PName := nil;
+    PException := nil;
   end;
 end;
 
