@@ -12,7 +12,7 @@ unit uCEF_LCL_V8HandlerRef;
 interface
 
 uses
-  uCEFTypes, uCEFInterfaces, uCEFv8Value, uCEFv8Handler,
+  uCEF_LCL_Entity, uCEFTypes, uCEFInterfaces, uCEFv8Value, uCEFv8Handler,
   uEventCallback;
 
 type
@@ -24,17 +24,28 @@ type
     constructor Create;
     destructor Destroy;
   protected
-    function Execute(const Name: ustring; const obj: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var Exception: ustring): boolean; override;
+    function Execute(const Name: ustring; const object_: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var Exception: ustring): boolean; override;
     procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
   end;
 
 implementation
 
-function TV8HandlerRef.Execute(const Name: ustring; const obj: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var Exception: ustring): boolean;
+function TV8HandlerRef.Execute(const Name: ustring; const object_: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var Exception: ustring): boolean;
+var
+  PName: PChar;
+  PException: PChar;
+  argumentsLen: Integer;
 begin
+  Result := False;
   if (ExecutePtr <> nil) then
   begin
-    SendEvent(ExecutePtr, []);
+    PName := PChar(string(Name));
+    argumentsLen := Length(arguments);
+    SendEvent(ExecutePtr, [PName, object_, @arguments[0], argumentsLen, @retval, @PException, @Result]);
+    if PException <> nil then
+      Exception := PCharToUStr(PException);
+    PName := nil;
+    PException := nil;
   end;
 end;
 

@@ -58,7 +58,7 @@ begin
   if (SetPtr <> nil) then
   begin
     PName := PChar(string(Name));
-    SendEvent(SetPtr, [PName, object_,Value, @PException, @Result]);
+    SendEvent(SetPtr, [PName, object_, Value, @PException, @Result]);
     if PException <> nil then
       Exception := PCharToUStr(PException);
     PName := nil;

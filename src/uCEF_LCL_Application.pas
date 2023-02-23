@@ -400,8 +400,7 @@ begin
     //new func ICefv8Value
     v8Value := TCefv8ValueRef.NewFunction(Field^.Name, ObjectHandler);
     //NewCefObjectBind^.CefV8ValueFunc.SetValueByAccessor(Field^.Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-    NewCefObjectBind^.CefV8ValueField.SetValueByKey(Field^.Name,
-      v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
+    NewCefObjectBind^.CefV8ValueField.SetValueByKey(Field^.Name, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
     //当前函数添加到查找Map对象中
     ObjectAccessor.PutLookupObjectsMap(Field^.Name, 2, nil, NewCefObjectBind, Field);
   end;
