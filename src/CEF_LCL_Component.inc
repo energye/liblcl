@@ -19,4 +19,5 @@ uCEFStringMultimap, uCEFCallback, uCEFChromium, uCEFWindowParent, uCEFLinkedWind
 uCEFConstants, uCEFWinControl, uCEFChromiumEvents, uCEFMiscFunctions, uCEFClient, uCEFProcessMessage, uCEFWorkScheduler, uCEFRunFileDialogCallback, uCEFDownloadImageCallBack,
 uCEFPDFPrintCallback, uCEFv8Context, uCEFBrowser, uCEFBrowserViewComponent, uCEFWindowComponent, uCEFImage, uCEFRequestContext, uCEFRequestContextHandler, uCEFv8Accessor, uCEFv8Exception,
 uCEF_LCL_Entity, uCEF_LCL_Chromium, uCEF_LCL_Application, uCEF_LCL_Event, uCEF_LCL_IPC, uCEF_LCL_DictionaryValue, uCEF_LCL_V8ValueRef, uCEF_LCL_V8AccessorRef, uCEF_LCL_V8HandlerRef, uCEF_LCL_V8InterceptorRef,
+uCEF_LCL_V8ArrayBufferReleaseCallbackRef,
 uCEF_LCL_ConsoleWrite,

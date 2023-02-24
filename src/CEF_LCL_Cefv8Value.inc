@@ -430,10 +430,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewArrayBuffer(buffer: Pointer; length: NativeUInt; const callback : ICefv8ArrayBufferReleaseCallback; out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewArrayBuffer(buffer: Pointer; length: Integer; const callback : TV8ArrayBufferReleaseCallbackRef; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefv8ValueRef.NewArrayBuffer(buffer, length, callback);
+  Result := TCefv8ValueRef.NewArrayBuffer(buffer, NativeUInt(length), callback);
   handleExceptionEnd
 end;
 
