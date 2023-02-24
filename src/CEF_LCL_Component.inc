@@ -15,7 +15,7 @@ uCEFLazarusCocoa,
 //uCEF_LCL_GTK2_Interfaces, //注释掉占CPU
 {$endif}
 Messages, Variants,uCEF_LCL_ScheduleMessagePumpWork,
-uCEFStringMultimap, uCEFCallback, uCEFChromium, uCEFWindowParent, uCEFLinkedWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFv8Value, uCEFBinaryValue,
+uCEFStringMultimap, uCEFCallback, uCEFChromium, uCEFWindowParent, uCEFLinkedWindowParent, uCEFInterfaces, uCEFApplication, uCEFTypes, uCEFv8Value, uCEFBinaryValue, uCEFListValue, uCEFValue,
 uCEFConstants, uCEFWinControl, uCEFChromiumEvents, uCEFMiscFunctions, uCEFClient, uCEFProcessMessage, uCEFWorkScheduler, uCEFRunFileDialogCallback, uCEFDownloadImageCallBack,
 uCEFPDFPrintCallback, uCEFv8Context, uCEFBrowser, uCEFBrowserViewComponent, uCEFWindowComponent, uCEFImage, uCEFRequestContext, uCEFRequestContextHandler, uCEFv8Accessor, uCEFv8Exception,
 uCEF_LCL_Entity, uCEF_LCL_Chromium, uCEF_LCL_Application, uCEF_LCL_Event, uCEF_LCL_IPC, uCEF_LCL_DictionaryValue, uCEF_LCL_V8ValueRef, uCEF_LCL_V8AccessorRef, uCEF_LCL_V8HandlerRef, uCEF_LCL_V8InterceptorRef,
