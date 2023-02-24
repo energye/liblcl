@@ -4,8 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-//CefProcessMessage
-
+//ICefProcessMessageRef
 procedure CefProcessMessageRef_New(const name: PChar; out Result: ICefProcessMessage); extdecl;
 begin
   handleExceptionBegin
@@ -13,21 +12,42 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefProcessMessageRef_ArgumentList(const TObj: ICefProcessMessage; out Result: ICefListValue); extdecl;
+procedure CefProcessMessage_ArgumentList(const TObj: ICefProcessMessage; out Result: ICefListValue); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.ArgumentList;
   handleExceptionEnd
 end;
 
-procedure CefProcessMessageRef_Free(var TObj: ICefProcessMessage); extdecl;
+function CefProcessMessage_IsValid(const TObj: ICefProcessMessage): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.IsValid;
+  handleExceptionEnd
+end;
+
+procedure CefProcessMessage_Copy(const TObj: ICefProcessMessage; out Result: ICefProcessMessage); extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.Copy;
+  handleExceptionEnd
+end;
+
+function CefProcessMessage_Name(const TObj: ICefProcessMessage): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(TObj.Name));
+  handleExceptionEnd
+end;
+
+procedure CefProcessMessage_Free(var TObj: ICefProcessMessage); extdecl;
 begin
   handleExceptionBegin
   TObj := nil;
   handleExceptionEnd
 end;
 
-//ArgumentList
+//ICefListValue
 function CefListValue_IsValid(const TObj: ICefListValue): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -188,8 +208,10 @@ end;
 exports
 //ICefProcessMessage
   CefProcessMessageRef_New,
-  CefProcessMessageRef_ArgumentList,
-  CefProcessMessageRef_Free,
+  CefProcessMessage_ArgumentList,
+  CefProcessMessage_Copy,
+  CefProcessMessage_Name,
+  CefProcessMessage_Free,
 //ICefListValue
   CefListValue_IsValid,
   CefListValue_IsOwned,
