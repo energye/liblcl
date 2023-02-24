@@ -20,7 +20,6 @@ type
   TV8HandlerRef = class(TCefv8HandlerOwn)
   public
     ExecutePtr: Pointer;
-    DestroyPtr: Pointer;
     constructor Create;
     destructor Destroy;
   protected
@@ -56,10 +55,6 @@ end;
 
 destructor TV8HandlerRef.Destroy;
 begin
-  if (DestroyPtr <> nil) then
-  begin
-    SendEvent(DestroyPtr, []);
-  end;
   inherited Destroy;
 end;
 

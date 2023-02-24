@@ -11,14 +11,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Handler_Execute(AObj: TV8HandlerRef; AEventData: Pointer); extdecl;
+procedure CefV8Handler_Execute(const AObj: TV8HandlerRef; AEventData: Pointer); extdecl;
 begin
     AObj.ExecutePtr := AEventData;
 end;
 
-procedure CefV8Handler_Destroy(AObj: TV8HandlerRef; AEventData: Pointer); extdecl;
+procedure CefV8Handler_Destroy(const AObj: TV8HandlerRef); extdecl;
 begin
-    AObj.DestroyPtr := AEventData;
+    AObj.Destroy();
 end;
 
 exports

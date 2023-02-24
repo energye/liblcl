@@ -11,29 +11,29 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8InterceptorRef_GetByName(AObj: TV8InterceptorRef; AEventData: Pointer); extdecl;
+procedure CefV8InterceptorRef_GetByName(const AObj: TV8InterceptorRef; AEventData: Pointer); extdecl;
 begin
     AObj.GetByNamePtr := AEventData;
 end;
 
-procedure CefV8InterceptorRef_GetByIndex(AObj: TV8InterceptorRef; AEventData: Pointer); extdecl;
+procedure CefV8InterceptorRef_GetByIndex(const AObj: TV8InterceptorRef; AEventData: Pointer); extdecl;
 begin
     AObj.GetByIndexPtr := AEventData;
 end;
 
-procedure CefV8InterceptorRef_SetByName(AObj: TV8InterceptorRef; AEventData: Pointer); extdecl;
+procedure CefV8InterceptorRef_SetByName(const AObj: TV8InterceptorRef; AEventData: Pointer); extdecl;
 begin
     AObj.SetByNamePtr := AEventData;
 end;
 
-procedure CefV8InterceptorRef_SetByIndex(AObj: TV8InterceptorRef; AEventData: Pointer); extdecl;
+procedure CefV8InterceptorRef_SetByIndex(const AObj: TV8InterceptorRef; AEventData: Pointer); extdecl;
 begin
     AObj.SetByIndexPtr := AEventData;
 end;
 
-procedure CefV8InterceptorRef_Destroy(AObj: TV8InterceptorRef; AEventData: Pointer); extdecl;
+procedure CefV8InterceptorRef_Destroy(const AObj: TV8InterceptorRef); extdecl;
 begin
-    AObj.DestroyPtr := AEventData;
+    AObj.Destroy();
 end;
 
 exports

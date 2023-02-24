@@ -11,19 +11,19 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Accessor_Get(AObj: TV8AccessorRef; AEventData: Pointer); extdecl;
+procedure CefV8Accessor_Get(const AObj: TV8AccessorRef; AEventData: Pointer); extdecl;
 begin
     AObj.GetPtr := AEventData;
 end;
 
-procedure CefV8Accessor_Set(AObj: TV8AccessorRef; AEventData: Pointer); extdecl;
+procedure CefV8Accessor_Set(const AObj: TV8AccessorRef; AEventData: Pointer); extdecl;
 begin
     AObj.SetPtr := AEventData;
 end;
 
-procedure CefV8Accessor_Destroy(AObj: TV8AccessorRef; AEventData: Pointer); extdecl;
+procedure CefV8Accessor_Destroy(const AObj: TV8AccessorRef); extdecl;
 begin
-    AObj.DestroyPtr := AEventData;
+    AObj.Destroy;
 end;
 
 exports

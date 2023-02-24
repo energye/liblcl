@@ -23,7 +23,6 @@ type
     GetByIndexPtr: Pointer;
     SetByNamePtr: Pointer;
     SetByIndexPtr: Pointer;
-    DestroyPtr: Pointer;
     constructor Create;
     destructor Destroy;
   protected
@@ -76,10 +75,6 @@ end;
 
 destructor TV8InterceptorRef.Destroy;
 begin
-  if (DestroyPtr <> nil) then
-  begin
-    SendEvent(DestroyPtr, []);
-  end;
   inherited Destroy;
 end;
 
