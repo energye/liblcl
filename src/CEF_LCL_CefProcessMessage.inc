@@ -51,6 +51,7 @@ end;
 function CefListValue_IsValid(const TObj: ICefListValue): LongBool; extdecl;
 begin
   handleExceptionBegin
+  Result := TObj.IsValid;
   handleExceptionEnd
 end;
 
@@ -209,6 +210,7 @@ exports
 //ICefProcessMessage
   CefProcessMessageRef_New,
   CefProcessMessage_ArgumentList,
+  CefProcessMessage_IsValid,
   CefProcessMessage_Copy,
   CefProcessMessage_Name,
   CefProcessMessage_Free,
