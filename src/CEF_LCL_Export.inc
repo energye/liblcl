@@ -39,4 +39,5 @@
 {$I CEF_LCL_Cefv8Context.inc}
 {$I CEF_LCL_Cefv8Exception.inc}
 {$I CEF_LCL_Cefv8ArrayBufferReleaseCallback.inc}
+{$I CEF_LCL_CefProcessMessage.inc}
 {$I Energy_Extend.inc}
