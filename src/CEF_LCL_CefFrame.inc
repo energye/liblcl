@@ -194,11 +194,11 @@ end;
 
 //进程发送消息
 {$ifdef DARWIN}
-function CEFFrame_SendProcessMessage(browserId: Integer; FrameId: PInt64; const PName: PChar; targetProcess, ItemLength: integer; const arguments: array of Byte; argumentsLength: integer): integer ; extdecl;
+function CEFFrame_SendProcessMessageByIPC(browserId: Integer; FrameId: PInt64; const PName: PChar; targetProcess, ItemLength: integer; const arguments: array of Byte; argumentsLength: integer): integer ; extdecl;
 var
   args: array of Byte;
 {$else}
-function CEFFrame_SendProcessMessage(browserId: Integer; FrameId: PInt64; const PName: PChar; targetProcess, ItemLength: integer; const arguments: array of Byte): integer; stdcall;
+function CEFFrame_SendProcessMessageByIPC(browserId: Integer; FrameId: PInt64; const PName: PChar; targetProcess, ItemLength: integer; const arguments: array of Byte): integer; stdcall;
 {$endif}
 var
   Name: string;
@@ -250,8 +250,16 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFFrame_SendProcessMessage(const TObj: ICefFrame; targetProcess: Integer; const message_: ICefProcessMessage); extdecl;
+begin
+  handleExceptionBegin
+  TObj.SendProcessMessage(TCefProcessId(targetProcess), message_);
+  handleExceptionEnd
+end;
+
 {exports}
 exports
+// CEF Frame for frameId
   CEFFrame_Undo,
   CEFFrame_Redo,
   CEFFrame_Cut,
@@ -265,6 +273,8 @@ exports
   CEFFrame_IsValid,
   CEFFrame_IsMain,
   CEFFrame_IsFocused,
+  CEFFrame_SendProcessMessageByIPC,
+// CEF Frame for ptr
   CEFFrame_SendProcessMessage
 {end}
 ;
