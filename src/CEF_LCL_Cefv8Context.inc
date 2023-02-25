@@ -37,9 +37,49 @@ begin
   handleExceptionEnd
 end;
 
+procedure CefV8Context_Browser(const TObj: ICefv8Context; out Result: ICefBrowser); extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.Browser;
+  handleExceptionEnd
+end;
+
+procedure CefV8Context_Frame(const TObj: ICefv8Context; out Result: ICefFrame); extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.Frame;
+  handleExceptionEnd
+end;
+
+procedure CefV8Context_Global(const TObj: ICefv8Context; out Result: ICefv8Value); extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.Global;
+  handleExceptionEnd
+end;
+
+procedure CefV8ContextRef_Current(out Result: ICefv8Context); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefv8ContextRef.Current;
+  handleExceptionEnd
+end;
+
+procedure CefV8ContextRef_Entered(out Result: ICefv8Context); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefv8ContextRef.Entered;
+  handleExceptionEnd
+end;
+
 exports
     CefV8Context_Eval,
     CefV8Context_Enter,
     CefV8Context_Exit,
-    CefV8Context_IsSame
+    CefV8Context_IsSame,
+    CefV8Context_Browser,
+    CefV8Context_Frame,
+    CefV8Context_Global,
+    CefV8ContextRef_Current,
+    CefV8ContextRef_Entered
 ;
