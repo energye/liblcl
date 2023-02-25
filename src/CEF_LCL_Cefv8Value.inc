@@ -4,112 +4,112 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-function CefV8Value_IsValid(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsValid(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsValid;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsUndefined(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsUndefined(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsUndefined;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsNull(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsNull(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsNull;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsBool(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsBool(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsBool;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsInt(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsInt(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsInt;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsUInt(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsUInt(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsUInt;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsDouble(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsDouble(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsDouble;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsDate(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsDate(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsDate;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsString(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsString(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsString;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsObject(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsObject(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsObject;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsArray(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsArray(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsArray;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsArrayBuffer(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsArrayBuffer(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsArrayBuffer;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsFunction(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsFunction(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsFunction;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsPromise(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsPromise(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsPromise;
   handleExceptionEnd
 end;
 
-function CefV8Value_IsSame(const TObj: ICefv8Value; const that: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsSame(const TObj: ICefv8Value; const that: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsSame(ICefv8Value(that));
   handleExceptionEnd
 end;
 
-function CefV8Value_GetBoolValue(TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_GetBoolValue(TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetBoolValue();
@@ -151,14 +151,14 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_IsUserCreated(TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_IsUserCreated(TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsUserCreated();
   handleExceptionEnd
 end;
 
-function CefV8Value_HasException(TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_HasException(TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.HasException();
@@ -172,49 +172,49 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_ClearException(TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_ClearException(TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.ClearException();
   handleExceptionEnd
 end;
 
-function CefV8Value_WillRethrowExceptions(TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_WillRethrowExceptions(TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.WillRethrowExceptions();
   handleExceptionEnd
 end;
 
-function CefV8Value_SetRethrowExceptions(const TObj: ICefv8Value; reThrow: Boolean): LongBool; extdecl;
+function CefV8Value_SetRethrowExceptions(const TObj: ICefv8Value; reThrow: Boolean): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetRethrowExceptions(reThrow);
   handleExceptionEnd
 end;
 
-function CefV8Value_HasValueByKey(const TObj: ICefv8Value; const key: PChar): LongBool; extdecl;
+function CefV8Value_HasValueByKey(const TObj: ICefv8Value; const key: PChar): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.HasValueByKey(PCharToUStr(key));
   handleExceptionEnd
 end;
 
-function CefV8Value_HasValueByIndex(const TObj: ICefv8Value; index: Integer): LongBool; extdecl;
+function CefV8Value_HasValueByIndex(const TObj: ICefv8Value; index: Integer): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.HasValueByIndex(index);
   handleExceptionEnd
 end;
 
-function CefV8Value_DeleteValueByKey(const TObj: ICefv8Value; const key: PChar): LongBool; extdecl;
+function CefV8Value_DeleteValueByKey(const TObj: ICefv8Value; const key: PChar): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.DeleteValueByKey(PCharToUStr(key));
   handleExceptionEnd
 end;
 
-function CefV8Value_DeleteValueByIndex(const TObj: ICefv8Value; index: Integer): LongBool; extdecl;
+function CefV8Value_DeleteValueByIndex(const TObj: ICefv8Value; index: Integer): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.DeleteValueByIndex(index);
@@ -235,21 +235,21 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_SetValueByKey(const TObj: ICefv8Value; const key: PChar; const value: ICefv8Value; attribute: Cardinal): LongBool; extdecl;
+function CefV8Value_SetValueByKey(const TObj: ICefv8Value; const key: PChar; const value: ICefv8Value; attribute: Cardinal): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetValueByKey(PCharToUStr(key), value, TCefV8PropertyAttributes(attribute));
   handleExceptionEnd
 end;
 
-function CefV8Value_SetValueByIndex(const TObj: ICefv8Value; index: Integer; const value: ICefv8Value): LongBool; extdecl;
+function CefV8Value_SetValueByIndex(const TObj: ICefv8Value; index: Integer; const value: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetValueByIndex(index, value);
   handleExceptionEnd
 end;
 
-function CefV8Value_SetValueByAccessor(const TObj: ICefv8Value; const key: PChar; settings: Cardinal; attribute: Cardinal): LongBool; extdecl;
+function CefV8Value_SetValueByAccessor(const TObj: ICefv8Value; const key: PChar; settings: Cardinal; attribute: Cardinal): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetValueByAccessor(PCharToUStr(key), TCefV8AccessControls(settings), TCefV8PropertyAttributes(attribute));
@@ -263,7 +263,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_SetUserData(const TObj: ICefv8Value; const data: ICefv8Value): LongBool; extdecl;
+function CefV8Value_SetUserData(const TObj: ICefv8Value; const data: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetUserData(data);
@@ -305,7 +305,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_NeuterArrayBuffer(const TObj: ICefv8Value): LongBool; extdecl;
+function CefV8Value_NeuterArrayBuffer(const TObj: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.NeuterArrayBuffer();
@@ -344,14 +344,14 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_ResolvePromise(const TObj: ICefv8Value; const arg: ICefv8Value): LongBool; extdecl;
+function CefV8Value_ResolvePromise(const TObj: ICefv8Value; const arg: ICefv8Value): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.ResolvePromise(arg);
   handleExceptionEnd
 end;
 
-function CefV8Value_RejectPromise(const TObj: ICefv8Value; const errorMsg: PChar): LongBool; extdecl;
+function CefV8Value_RejectPromise(const TObj: ICefv8Value; const errorMsg: PChar): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.RejectPromise(PCharToUStr(errorMsg));
@@ -373,7 +373,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewBool(value: LongBool; out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewBool(value: Boolean; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewBool(value);
@@ -420,7 +420,6 @@ begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewObject(Accessor, Interceptor);
   handleExceptionEnd
-
 end;
 
 procedure CefV8ValueRef_NewArray(len: Integer; out Result: ICefv8Value); extdecl;

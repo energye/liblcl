@@ -39,10 +39,10 @@ begin
   handleExceptionEnd
 end;
 
-function CefValue_GetType(const TObj: ICefValue): TCefValueType; extdecl;
+function CefValue_GetType(const TObj: ICefValue): Integer; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetType();
+  Result := Integer(TObj.GetType());
   handleExceptionEnd
 end;
 
@@ -102,7 +102,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefValue_SetBool(const TObj: ICefValue; value: boolean): Boolean; extdecl;
+function CefValue_SetBool(const TObj: ICefValue; value: Boolean): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetBool(value);
@@ -116,10 +116,10 @@ begin
   handleExceptionEnd
 end;
 
-function CefValue_SetDouble(const TObj: ICefValue; value: Double): Boolean; extdecl;
+function CefValue_SetDouble(const TObj: ICefValue; value: Pointer): Boolean; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.SetDouble(value);
+  Result := TObj.SetDouble(Double(PDouble(value)^));
   handleExceptionEnd
 end;
 

@@ -346,42 +346,42 @@ begin
     handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsClosed(TObj: TCEFWindowComponent): LongBool; extdecl;
+function CEFWindowComponent_IsClosed(TObj: TCEFWindowComponent): Boolean; extdecl;
 begin
     handleExceptionBegin
     Result := TObj.IsClosed;
     handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsActive(TObj: TCEFWindowComponent): LongBool; extdecl;
+function CEFWindowComponent_IsActive(TObj: TCEFWindowComponent): Boolean; extdecl;
 begin
     handleExceptionBegin
     Result := TObj.IsActive;
     handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsAlwaysOnTop(TObj: TCEFWindowComponent): LongBool; extdecl;
+function CEFWindowComponent_IsAlwaysOnTop(TObj: TCEFWindowComponent): Boolean; extdecl;
 begin
     handleExceptionBegin
     Result := TObj.IsAlwaysOnTop;
     handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsFullscreen(TObj: TCEFWindowComponent): LongBool; extdecl;
+function CEFWindowComponent_IsFullscreen(TObj: TCEFWindowComponent): Boolean; extdecl;
 begin
     handleExceptionBegin
     Result := TObj.IsFullscreen;
     handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsMaximized(TObj: TCEFWindowComponent): LongBool; extdecl;
+function CEFWindowComponent_IsMaximized(TObj: TCEFWindowComponent): Boolean; extdecl;
 begin
     handleExceptionBegin
     Result := TObj.IsMaximized;
     handleExceptionEnd
 end;
 
-function CEFWindowComponent_IsMinimized(TObj: TCEFWindowComponent): LongBool; extdecl;
+function CEFWindowComponent_IsMinimized(TObj: TCEFWindowComponent): Boolean; extdecl;
 begin
     handleExceptionBegin
     Result := TObj.IsMinimized;

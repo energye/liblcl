@@ -13,11 +13,11 @@ begin
 end;
 
 {$ifdef DARWIN}
-function CEFBrowserViewComponent_CreateBrowserView(TObj: TCEFBrowserViewComponent; client: ICefClient; url: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings; argsLen: integer; const dataBytesPtr: array of Byte; dataBytesLen: integer): LongBool; extdecl;
+function CEFBrowserViewComponent_CreateBrowserView(TObj: TCEFBrowserViewComponent; client: ICefClient; url: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings; argsLen: integer; const dataBytesPtr: array of Byte; dataBytesLen: integer): Boolean; extdecl;
 var
   tempDataBytes: array of Byte;
 {$else}
-function CEFBrowserViewComponent_CreateBrowserView(TObj: TCEFBrowserViewComponent; client: ICefClient; url: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings; argsLen: integer; const dataBytesPtr: array of Byte): LongBool; stdcall;
+function CEFBrowserViewComponent_CreateBrowserView(TObj: TCEFBrowserViewComponent; client: ICefClient; url: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings; argsLen: integer; const dataBytesPtr: array of Byte): Boolean; stdcall;
 var
 {$endif}
   request_context: ICefRequestContext;
@@ -91,7 +91,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_GetForBrowser(TObj: TCEFBrowserViewComponent; const browserId: Integer): LongBool; extdecl;
+function CEFBrowserViewComponent_GetForBrowser(TObj: TCEFBrowserViewComponent; const browserId: Integer): Boolean; extdecl;
 var
   browser: ICefBrowser;
 begin

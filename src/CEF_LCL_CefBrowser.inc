@@ -164,7 +164,7 @@ begin
 end;
 
 //CEFBrowser_TryCloseBrowser
-function CEFBrowser_TryCloseBrowser(browserId: Integer): LongBool; extdecl;
+function CEFBrowser_TryCloseBrowser(browserId: Integer): Boolean; extdecl;
 var
   browser: ICefBrowser;
 begin
@@ -486,7 +486,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowser_IsBackgroundHost(browserId: Integer) : LongBool; extdecl;
+function CEFBrowser_IsBackgroundHost(browserId: Integer) : Boolean; extdecl;
 var
   browser: ICefBrowser;
 begin
@@ -515,7 +515,7 @@ begin
   handleExceptionEnd
 end;
 
-function  CEFBrowser_IsAudioMuted(browserId: Integer) : LongBool; extdecl;
+function  CEFBrowser_IsAudioMuted(browserId: Integer) : Boolean; extdecl;
 var
   browser: ICefBrowser;
 begin
@@ -578,7 +578,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowser_HasDevTools(browserId: Integer): LongBool; extdecl;
+function CEFBrowser_HasDevTools(browserId: Integer): Boolean; extdecl;
 var
   browser: ICefBrowser;
 begin
@@ -593,7 +593,7 @@ begin
   handleExceptionEnd
 end;
 
-function  CEFBrowser_CanGoBack(browserId: Integer): LongBool; extdecl;
+function  CEFBrowser_CanGoBack(browserId: Integer): Boolean; extdecl;
 var
   browser: ICefBrowser;
 begin
@@ -622,7 +622,7 @@ begin
   handleExceptionEnd
 end;
 
-function  CEFBrowser_CanGoForward(browserId: Integer): LongBool; extdecl;
+function  CEFBrowser_CanGoForward(browserId: Integer): Boolean; extdecl;
 var
   browser: ICefBrowser;
 begin
@@ -651,7 +651,7 @@ begin
   handleExceptionEnd
 end;
 
-function  CEFBrowser_IsLoading(browserId: Integer): LongBool; extdecl;
+function  CEFBrowser_IsLoading(browserId: Integer): Boolean; extdecl;
 var
   browser: ICefBrowser;
 begin

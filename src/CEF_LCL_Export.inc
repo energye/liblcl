@@ -41,4 +41,6 @@
 {$I CEF_LCL_Cefv8ArrayBufferReleaseCallback.inc}
 {$I CEF_LCL_CefProcessMessage.inc}
 {$I CEF_LCL_CefValue.inc}
+{$I CEF_LCL_CefBinaryValue.inc}
+{$I CEF_LCL_CefDictionaryValue.inc}
 {$I Energy_Extend.inc}

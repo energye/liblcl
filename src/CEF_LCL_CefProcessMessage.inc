@@ -19,7 +19,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefProcessMessage_IsValid(const TObj: ICefProcessMessage): LongBool; extdecl;
+function CefProcessMessage_IsValid(const TObj: ICefProcessMessage): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsValid;
@@ -55,21 +55,21 @@ begin
   handleExceptionEnd
 end;
 
-function CefListValue_IsValid(const TObj: ICefListValue): LongBool; extdecl;
+function CefListValue_IsValid(const TObj: ICefListValue): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsValid;
   handleExceptionEnd
 end;
 
-function CefListValue_IsOwned(const TObj: ICefListValue): LongBool; extdecl;
+function CefListValue_IsOwned(const TObj: ICefListValue): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsOwned;
   handleExceptionEnd
 end;
 
-function CefListValue_IsReadOnly(const TObj: ICefListValue): LongBool; extdecl;
+function CefListValue_IsReadOnly(const TObj: ICefListValue): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsReadOnly;
@@ -83,7 +83,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefListValue_SetSize(const TObj: ICefListValue; size: NativeUInt): LongBool; extdecl;
+function CefListValue_SetSize(const TObj: ICefListValue; size: NativeUInt): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetSize(size);
@@ -97,14 +97,14 @@ begin
   handleExceptionEnd
 end;
 
-function CefListValue_Clear(const TObj: ICefListValue): LongBool; extdecl;
+function CefListValue_Clear(const TObj: ICefListValue): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Clear;
   handleExceptionEnd
 end;
 
-function CefListValue_Remove(const TObj: ICefListValue; index: NativeUInt): LongBool; extdecl;
+function CefListValue_Remove(const TObj: ICefListValue; index: NativeUInt): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Remove(index);
@@ -125,7 +125,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefListValue_GetBool(const TObj: ICefListValue; index: NativeUInt): LongBool; extdecl;
+function CefListValue_GetBool(const TObj: ICefListValue; index: NativeUInt): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetBool(index);
@@ -174,63 +174,63 @@ begin
   handleExceptionEnd
 end;
 
-function CefListValue_SetValue(const TObj: ICefListValue; index: NativeUInt; const value: ICefValue): LongBool; extdecl;
+function CefListValue_SetValue(const TObj: ICefListValue; index: NativeUInt; const value: ICefValue): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetValue(index, value);
   handleExceptionEnd
 end;
 
-function CefListValue_SetNull(const TObj: ICefListValue; index: NativeUInt): LongBool; extdecl;
+function CefListValue_SetNull(const TObj: ICefListValue; index: NativeUInt): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetNull(index);
   handleExceptionEnd
 end;
 
-function CefListValue_SetBool(const TObj: ICefListValue; index: NativeUInt; value: LongBool): LongBool; extdecl;
+function CefListValue_SetBool(const TObj: ICefListValue; index: NativeUInt; value: Boolean): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetBool(index, value);
   handleExceptionEnd
 end;
 
-function CefListValue_SetInt(const TObj: ICefListValue; index: NativeUInt; value: Integer): LongBool; extdecl;
+function CefListValue_SetInt(const TObj: ICefListValue; index: NativeUInt; value: Integer): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetInt(index, value);
   handleExceptionEnd
 end;
 
-function CefListValue_SetDouble(const TObj: ICefListValue; index: NativeUInt; value: Double): LongBool; extdecl;
+function CefListValue_SetDouble(const TObj: ICefListValue; index: NativeUInt; value: Pointer): Boolean; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.SetDouble(index, value);
+  Result := TObj.SetDouble(index, Double(PDouble(value)^));
   handleExceptionEnd
 end;
 
-function CefListValue_SetString(const TObj: ICefListValue; index: NativeUInt; const value: PChar): LongBool; extdecl;
+function CefListValue_SetString(const TObj: ICefListValue; index: NativeUInt; const value: PChar): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetString(index, PCharToUStr(value));
   handleExceptionEnd
 end;
 
-function CefListValue_SetBinary(const TObj: ICefListValue; index: NativeUInt; const value: ICefBinaryValue): LongBool; extdecl;
+function CefListValue_SetBinary(const TObj: ICefListValue; index: NativeUInt; const value: ICefBinaryValue): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetBinary(index, value);
   handleExceptionEnd
 end;
 
-function CefListValue_SetDictionary(const TObj: ICefListValue; index: NativeUInt; const value: ICefDictionaryValue): LongBool; extdecl;
+function CefListValue_SetDictionary(const TObj: ICefListValue; index: NativeUInt; const value: ICefDictionaryValue): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetDictionary(index, value);
   handleExceptionEnd
 end;
 
-function CefListValue_SetList(const TObj: ICefListValue; index: NativeUInt; const value: ICefListValue): LongBool; extdecl;
+function CefListValue_SetList(const TObj: ICefListValue; index: NativeUInt; const value: ICefListValue): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetList(index, value);

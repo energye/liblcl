@@ -1,0 +1,64 @@
+//----------------------------------------
+// Copyright © yanghy. All Rights Reserved.
+//
+// Licensed under Lazarus.modifiedLGPL
+//----------------------------------------
+
+procedure CefBinaryValueRef_New(const data: Pointer; dataSize: NativeUInt; out Result: ICefBinaryValue); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefBinaryValueRef.New(data, dataSize);
+  handleExceptionEnd
+end;
+
+procedure CefBinaryValueRef_Create(out Result: ICefBinaryValue); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefBinaryValueOwn.Create;
+  handleExceptionEnd
+end;
+
+function CefBinaryValue_IsValid(const TObj: ICefBinaryValue): Boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.IsValid();
+  handleExceptionEnd
+end;
+
+function CefBinaryValue_IsOwned(const TObj: ICefBinaryValue): Boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.IsOwned();
+  handleExceptionEnd
+end;
+
+procedure CefBinaryValue_Copy(const TObj: ICefBinaryValue; out Result: ICefBinaryValue); extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.Copy();
+  handleExceptionEnd
+end;
+
+function CefBinaryValue_GetSize(const TObj: ICefBinaryValue): NativeUInt; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.GetSize();
+  handleExceptionEnd
+end;
+
+function CefBinaryValue_GetData(const TObj: ICefBinaryValue; buffer: Pointer; bufferSize, dataOffset: NativeUInt): NativeUInt; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.GetData(buffer, bufferSize, dataOffset);
+  handleExceptionEnd
+end;
+
+exports
+    CefBinaryValueRef_New,
+    CefBinaryValueRef_Create,
+    CefBinaryValue_IsValid,
+    CefBinaryValue_IsOwned,
+    CefBinaryValue_Copy,
+    CefBinaryValue_GetSize,
+    CefBinaryValue_GetData
+;

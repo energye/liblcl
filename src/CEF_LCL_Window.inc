@@ -33,7 +33,7 @@ begin
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsClosed(AWindow: ICefWindow): LongBool; extdecl;
+function ICEFWindow_IsClosed(AWindow: ICefWindow): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsClosed;
@@ -54,7 +54,7 @@ begin
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsActive(AWindow: ICefWindow): LongBool; extdecl;
+function ICEFWindow_IsActive(AWindow: ICefWindow): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsActive;
@@ -75,7 +75,7 @@ begin
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsAlwaysOnTop(AWindow: ICefWindow): LongBool; extdecl;
+function ICEFWindow_IsAlwaysOnTop(AWindow: ICefWindow): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsAlwaysOnTop;
@@ -138,21 +138,21 @@ begin
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsMaximized(AWindow: ICefWindow): LongBool; extdecl;
+function ICEFWindow_IsMaximized(AWindow: ICefWindow): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsMaximized;
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsMinimized(AWindow: ICefWindow): LongBool; extdecl;
+function ICEFWindow_IsMinimized(AWindow: ICefWindow): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsMinimized;
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsFullscreen(AWindow: ICefWindow): LongBool; extdecl;
+function ICEFWindow_IsFullscreen(AWindow: ICefWindow): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsFullscreen;

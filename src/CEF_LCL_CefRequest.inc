@@ -5,7 +5,7 @@
 //----------------------------------------
 
 //request
-function cefRequest_IsReadOnly(TObj: ICefRequest): LongBool; extdecl;
+function cefRequest_IsReadOnly(TObj: ICefRequest): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsReadOnly;

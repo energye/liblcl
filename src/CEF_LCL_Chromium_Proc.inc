@@ -27,7 +27,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_Equals(AObj: TChromium; Obj: TObject): LongBool; extdecl;
+function CEFChromium_Equals(AObj: TChromium; Obj: TObject): Boolean; extdecl;
 begin
   {$ifdef UsehandleException}Result := False;{$endif}
   handleExceptionBegin
@@ -51,7 +51,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_InheritsFrom(AObj: TChromium; AClass: TClass): LongBool; extdecl;
+function CEFChromium_InheritsFrom(AObj: TChromium; AClass: TClass): Boolean; extdecl;
 begin
   {$ifdef UsehandleException}Result := False;{$endif}
   handleExceptionBegin
@@ -157,7 +157,7 @@ begin
 end;
 
 //创建浏览器
-function CEFChromium_CreateBrowserByWindow(AObj: TChromium; window: TCEFWindowParent): LongBool; extdecl;
+function CEFChromium_CreateBrowserByWindow(AObj: TChromium; window: TCEFWindowParent): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
@@ -165,7 +165,7 @@ begin
 end;
 
 //创建浏览器
-function CEFChromium_CreateBrowserByLinkedWindow(AObj: TChromium; window: TCEFLinkedWindowParent): LongBool; extdecl;
+function CEFChromium_CreateBrowserByLinkedWindow(AObj: TChromium; window: TCEFLinkedWindowParent): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
@@ -173,7 +173,7 @@ begin
 end;
 
 //创建浏览器
-function CEFChromium_CreateBrowserByBrowserViewComponent(AObj: TChromium; PHomePage: PChar; BrowserViewComponent: TCEFBrowserViewComponent): LongBool; extdecl;
+function CEFChromium_CreateBrowserByBrowserViewComponent(AObj: TChromium; PHomePage: PChar; BrowserViewComponent: TCEFBrowserViewComponent): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.CreateBrowser(PCharToUStr(PHomePage), BrowserViewComponent);
@@ -181,7 +181,7 @@ begin
 end;
 
 //浏览器初始化
-function CEFChromium_Initialized(AObj: TChromium): LongBool; extdecl;
+function CEFChromium_Initialized(AObj: TChromium): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Initialized;
@@ -197,7 +197,7 @@ begin
 end;
 
 //判断是否为当前浏览器
-function CEFChromium_IsSameBrowser(AObj: TChromium; browserId: integer): LongBool; extdecl;
+function CEFChromium_IsSameBrowser(AObj: TChromium; browserId: integer): Boolean; extdecl;
 var
   browser: ICefBrowser;
 begin
@@ -224,7 +224,7 @@ begin
 end;
 
 //设置下载目录
-procedure CEFChromium_SetDownloadPath(callback: ICefBeforeDownloadCallback; downloadPath: PChar; showDialog: LongBool); extdecl;
+procedure CEFChromium_SetDownloadPath(callback: ICefBeforeDownloadCallback; downloadPath: PChar; showDialog: Boolean); extdecl;
 begin
   handleExceptionBegin
   callback.Cont(PCharToUStr(downloadPath), showDialog);
@@ -315,7 +315,7 @@ begin
 end;
 
 //关闭 CloseBrowser
-procedure CEFChromium_CloseBrowser(AObj: TChromium; forceClose: LongBool); extdecl;
+procedure CEFChromium_CloseBrowser(AObj: TChromium; forceClose: Boolean); extdecl;
 begin
   handleExceptionBegin
   AObj.CloseBrowser(forceClose);
@@ -486,7 +486,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_CreateClientHandler(Chromium: TChromium; client: ICefClient; alsOSR: boolean): LongBool ; extdecl;
+function CEFChromium_CreateClientHandler(Chromium: TChromium; client: ICefClient; alsOSR: boolean): Boolean ; extdecl;
 begin
   handleExceptionBegin
   Result:= Chromium.CreateClientHandler(client, alsOSR);
@@ -507,14 +507,14 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_FrameIsFocused(Chromium: TChromium): LongBool ; extdecl;
+function CEFChromium_FrameIsFocused(Chromium: TChromium): Boolean ; extdecl;
 begin
   handleExceptionBegin
   Result:= Chromium.FrameIsFocused;
   handleExceptionEnd
 end;
 
-function CEFChromium_TryCloseBrowser(Chromium: TChromium): LongBool ; extdecl;
+function CEFChromium_TryCloseBrowser(Chromium: TChromium): Boolean ; extdecl;
 begin
   handleExceptionBegin
   Result:= Chromium.TryCloseBrowser;
