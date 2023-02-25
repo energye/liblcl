@@ -40,13 +40,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefProcessMessage_Free(var TObj: ICefProcessMessage); extdecl;
-begin
-  handleExceptionBegin
-  TObj := nil;
-  handleExceptionEnd
-end;
-
 //ICefListValue
 procedure CefListValue_New(out Result: ICefListValue); extdecl;
 begin
@@ -245,7 +238,6 @@ exports
   CefProcessMessage_IsValid,
   CefProcessMessage_Copy,
   CefProcessMessage_Name,
-  CefProcessMessage_Free,
 //ICefListValue
   CefListValue_New,
   CefListValue_IsValid,
