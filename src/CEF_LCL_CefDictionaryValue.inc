@@ -18,7 +18,7 @@ begin
     handleExceptionEnd
 end;
 
-function CefDictionaryValue_isOwned(const TObj: ICefDictionaryValue): Boolean; extdecl;
+function CefDictionaryValue_IsOwned(const TObj: ICefDictionaryValue): Boolean; extdecl;
 begin
     handleExceptionBegin
     Result := TObj.isOwned();
@@ -42,126 +42,126 @@ end;
 function CefDictionaryValue_GetSize(const TObj: ICefDictionaryValue): NativeUInt; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.GetSize();
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_Clear(const TObj: ICefDictionaryValue): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.Clear();
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_HasKey(const TObj: ICefDictionaryValue; const key: PChar): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.HasKey(PCharToUStr(key));
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_GetKeys(const TObj: ICefDictionaryValue; const keys: TStrings): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.GetKeys(keys);
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_Remove(const TObj: ICefDictionaryValue; const key: PChar): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.Remove(PCharToUStr(key));
     handleExceptionEnd
 end;
 
-function CefDictionaryValue_GetType(const TObj: ICefDictionaryValue; const key: PChar): TCefValueType; extdecl;
+function CefDictionaryValue_GetType(const TObj: ICefDictionaryValue; const key: PChar): Integer; extdecl;
 begin
     handleExceptionBegin
-
+    Result := Integer(TObj.GetType(PCharToUStr(key)));
     handleExceptionEnd
 end;
 
 procedure CefDictionaryValue_GetValue(const TObj: ICefDictionaryValue; const key: PChar; out Result: ICefValue); extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.GetValue(PCharToUStr(key));
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_GetBool(const TObj: ICefDictionaryValue; const key: PChar): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.GetBool(PCharToUStr(key));
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_GetInt(const TObj: ICefDictionaryValue; const key: PChar): Integer; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.GetInt(PCharToUStr(key));
     handleExceptionEnd
 end;
 
 procedure CefDictionaryValue_GetDouble(const TObj: ICefDictionaryValue; const key: PChar; out Result: Double); extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.GetDouble(PCharToUStr(key));
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_GetString(const TObj: ICefDictionaryValue; const key: PChar): PChar; extdecl;
 begin
     handleExceptionBegin
-
+    Result := PChar(string(TObj.GetString(PCharToUStr(key))));
     handleExceptionEnd
 end;
 
 procedure CefDictionaryValue_GetBinary(const TObj: ICefDictionaryValue; const key: PChar; out Result: ICefBinaryValue); extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.GetBinary(PCharToUStr(key));
     handleExceptionEnd
 end;
 
 procedure CefDictionaryValue_GetDictionary(const TObj: ICefDictionaryValue; const key: PChar; out Result: ICefDictionaryValue); extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.GetDictionary(PCharToUStr(key));
     handleExceptionEnd
 end;
 
 procedure CefDictionaryValue_GetList(const TObj: ICefDictionaryValue; const key: PChar; out Result: ICefListValue); extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.GetList(PCharToUStr(key));
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_SetValue(const TObj: ICefDictionaryValue; const key: PChar; const value: ICefValue): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.SetValue(PCharToUStr(key), value);
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_SetNull(const TObj: ICefDictionaryValue; const key: PChar): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.SetNull(PCharToUStr(key));
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_SetBool(const TObj: ICefDictionaryValue; const key: PChar; value: Boolean): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.SetBool(PCharToUStr(key), value);
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_SetInt(const TObj: ICefDictionaryValue; const key: PChar; value: Integer): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.SetInt(PCharToUStr(key), value);
     handleExceptionEnd
 end;
 
@@ -175,35 +175,35 @@ end;
 function CefDictionaryValue_SetString(const TObj: ICefDictionaryValue; const key, value: PChar): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.SetString(PCharToUStr(key), PCharToUStr(value));
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_SetBinary(const TObj: ICefDictionaryValue; const key: PChar; const value: ICefBinaryValue): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.SetBinary(PCharToUStr(key), value);
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_SetDictionary(const TObj: ICefDictionaryValue; const key: PChar; const value: ICefDictionaryValue): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.SetDictionary(PCharToUStr(key), value);
     handleExceptionEnd
 end;
 
 function CefDictionaryValue_SetList(const TObj: ICefDictionaryValue; const key: PChar; const value: ICefListValue): Boolean; extdecl;
 begin
     handleExceptionBegin
-
+    Result := TObj.SetList(PCharToUStr(key), value);
     handleExceptionEnd
 end;
 
 exports
     CefDictionaryValueRef_New,
     CefDictionaryValue_IsValid,
-    CefDictionaryValue_isOwned,
+    CefDictionaryValue_IsOwned,
     CefDictionaryValue_IsReadOnly,
     CefDictionaryValue_Copy,
     CefDictionaryValue_GetSize,
