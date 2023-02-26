@@ -141,9 +141,6 @@ end;
 //TCefApplication OnContextCreated
 procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 var
-  v8Context: RCEFV8Context;
-  cefFrame: PRCEFFrame;
-  FrameName, Frameurl, FrameId: PChar;
   //IPC emit
   IPCObject: ICefv8Value;
   EventEmitHandler: TV8EventEmitHandler;
@@ -165,38 +162,17 @@ var
   //js inject
   ContextCreatedJSInject: TContextCreatedJSInjectClass;
   state: boolean; //状态
-  //ICefv8Context
-  CtxBrowser: ICefBrowser;
-  CtxFrame: ICefFrame;
-  CtxGlobal: ICefv8Value;
 begin
   //开发者工具不加载绑定变量
   isDevtools := string(frame.Url).IndexOf('devtools://') = 0;
-  if isDevtools or (not frame.IsValid) or (not context.IsValid) then
+  if isDevtools then
   begin
     exit;
   end;
 
-  FrameName := PChar(UTF8Encode(frame.Name));
-  Frameurl := PChar(UTF8Encode(frame.Url));
-  FrameId := PChar(IntToStr(frame.Identifier));
-  cefFrame := new(PRCEFFrame);
-  cefFrame^.Name := FrameName;
-  cefFrame^.Url := Frameurl;
-  cefFrame^.Identifier := FrameId;
-
-  CtxBrowser := context.Browser;
-  CtxFrame := context.Frame;
-  CtxGlobal := context.Global;
-
-  v8Context.V8Context := context;
-  v8Context.Browser := CtxBrowser;
-  v8Context.Frame := CtxFrame;
-  v8Context.Global := CtxGlobal;
-
   TMainChromiumBrowserClass.PutBrowser(browser);
-  //事件触发, go 绑定一些js属性和函数
-  SendEvent(OnContextCreated_DataPtr, [browser.Identifier, cefFrame, @v8Context, @state]);
+
+  SendEvent(OnContextCreated_DataPtr, [browser, frame, context, @state]);
   if not state then
   begin
     exit;
@@ -275,10 +251,6 @@ begin
   context.Global.SetValueByKey(windowDrag, WindowDragObject, V8_PROPERTY_ATTRIBUTE_READONLY);
   context.Global.SetValueByKey(BrowserWindow, browserWindowHandler.BrowserWindowObject, V8_PROPERTY_ATTRIBUTE_READONLY);
 
-  FrameId := nil;
-  FrameName := nil;
-  FrameUrl := nil;
-  FreePRCEFFrame(cefFrame);
 end;
 
 //ObjectValueBindHandler 对象字段处理
@@ -499,7 +471,6 @@ procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; cons
   const aMessage: ICefProcessMessage; var aHandled: boolean);
 var
   processMessage: PRCEFProcessMessage;
-  cefFrame: PRCEFFrame;
   binaryValue: ICefBinaryValue;
   binarySize: integer;
   binaryBuf: TBytes;
@@ -515,10 +486,6 @@ begin
   else
   begin
     processMessage := new(PRCEFProcessMessage);
-    cefFrame := new(PRCEFFrame);
-    cefFrame^.Name := PChar(string(frame.Name));
-    cefFrame^.Url := PChar(string(frame.Url));
-    cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
     binarySize := aMessage.ArgumentList.GetInt(0);
     binaryValue := aMessage.ArgumentList.GetBinary(2);
     SetLength(binaryBuf, binarySize);
@@ -526,11 +493,10 @@ begin
     processMessage^.Name := PChar(string(aMessage.Name));
     processMessage^.Data := @binaryBuf[0];
     processMessage^.DataLen := PInteger(binarySize);
-    SendEvent(OnProcessMessageReceived_DataPtr, [browser.Identifier, cefFrame, sourceProcess, processMessage, @aHandled]);
+    SendEvent(OnProcessMessageReceived_DataPtr, [browser, frame, sourceProcess, processMessage, @aHandled]);
     SetLength(binaryBuf, 0);
     processMessage^.Data := nil;
     processMessage := nil;
-    cefFrame := nil;
   end;
   aHandled := True;
 end;
@@ -562,48 +528,27 @@ end;
 //browser 消毁事件
 procedure GlobalCEFApp_OnBrowserDestroyed(const browser: ICefBrowser);
 begin
-  SendEvent(OnBrowserDestroyed_DataPtr, [browser.Identifier]);
+  SendEvent(OnBrowserDestroyed_DataPtr, [browser]);
 end;
 
 procedure GlobalCEFApp_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
-var
-  cefFrame: PRCEFFrame;
 begin
-  cefFrame := new(PRCEFFrame);
-  cefFrame^.Name := PChar(UTF8Encode(frame.Name));
-  cefFrame^.Url := PChar(UTF8Encode(frame.Url));
-  cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  SendEvent(OnRenderLoadStart_DataPtr, [browser.Identifier, cefFrame, transitionType]);
-  FreePRCEFFrame(cefFrame);
+  SendEvent(OnRenderLoadStart_DataPtr, [browser, frame, transitionType]);
 end;
 
 procedure GlobalCEFApp_OnRenderLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
-var
-  cefFrame: PRCEFFrame;
 begin
-  cefFrame := new(PRCEFFrame);
-  cefFrame^.Name := PChar(UTF8Encode(frame.Name));
-  cefFrame^.Url := PChar(UTF8Encode(frame.Url));
-  cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  SendEvent(OnRenderLoadEnd_DataPtr, [browser.Identifier, cefFrame, httpStatusCode]);
-  FreePRCEFFrame(cefFrame);
+  SendEvent(OnRenderLoadEnd_DataPtr, [browser, frame, httpStatusCode]);
 end;
 
 procedure GlobalCEFApp_OnRenderLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
-var
-  cefFrame: PRCEFFrame;
 begin
-  cefFrame := new(PRCEFFrame);
-  cefFrame^.Name := PChar(UTF8Encode(frame.Name));
-  cefFrame^.Url := PChar(UTF8Encode(frame.Url));
-  cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  SendEvent(OnRenderLoadError_DataPtr, [browser.Identifier, cefFrame, errorCode, PChar(UTF8Encode(errorText)), PChar(UTF8Encode(failedUrl))]);
-  FreePRCEFFrame(cefFrame);
+  SendEvent(OnRenderLoadError_DataPtr, [browser, frame, errorCode, PChar(string(errorText)), PChar(string(failedUrl))]);
 end;
 
 procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
 begin
-  SendEvent(OnRenderLoadingStateChange_DataPtr, [browser.Identifier, isLoading, canGoBack, canGoForward]);
+  SendEvent(OnRenderLoadingStateChange_DataPtr, [browser, isLoading, canGoBack, canGoForward]);
 end;
 
 procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);

@@ -5,190 +5,106 @@
 //----------------------------------------
 
 //CEFFrame_Undo
-procedure CEFFrame_Undo(browserId: Integer; FrameId: PInt64); extdecl;
-var
-  frame: ICefFrame;
+procedure CEFFrame_Undo(const TObj: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    frame.Undo;
-  end;
+  TObj.Undo;
   handleExceptionEnd
 end;
 
 //CEFFrame_Redo
-procedure CEFFrame_Redo(browserId: Integer; FrameId: PInt64); extdecl;
-var
-  frame: ICefFrame;
+procedure CEFFrame_Redo(const TObj: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    frame.Redo;
-  end;
+  TObj.Redo;
   handleExceptionEnd
 end;
 
 //CEFFrame_Cut
-procedure CEFFrame_Cut(browserId: Integer; FrameId: PInt64); extdecl;
-var
-  frame: ICefFrame;
+procedure CEFFrame_Cut(const TObj: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    frame.Cut;
-  end;
+  TObj.Cut;
   handleExceptionEnd
 end;
 
 //CEFFrame_Copy
-procedure CEFFrame_Copy(browserId: Integer; FrameId: PInt64); extdecl;
-var
-  frame: ICefFrame;
+procedure CEFFrame_Copy(const TObj: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    frame.Copy;
-  end;
+  TObj.Copy;
   handleExceptionEnd
 end;
 
 //CEFFrame_Paste
-procedure CEFFrame_Paste(browserId: Integer; FrameId: PInt64); extdecl;
-var
-  frame: ICefFrame;
+procedure CEFFrame_Paste(const TObj: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    frame.Paste;
-  end;
+  TObj.Paste;
   handleExceptionEnd
 end;
 
 //CEFFrame_Del
-procedure CEFFrame_Del(browserId: Integer; FrameId: PInt64); extdecl;
-var
-  frame: ICefFrame;
+procedure CEFFrame_Del(const TObj: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    frame.Del;
-  end;
+  TObj.Del;
   handleExceptionEnd
 end;
 
 //CEFFrame_SelectAll
-procedure CEFFrame_SelectAll(browserId: Integer; FrameId: PInt64); extdecl;
-var
-  frame: ICefFrame;
+procedure CEFFrame_SelectAll(const TObj: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    frame.SelectAll;
-  end;
+  TObj.SelectAll;
   handleExceptionEnd
 end;
 
 //CEFFrame_ViewSource
-procedure CEFFrame_ViewSource(browserId: Integer; FrameId: PInt64); extdecl;
-var
-  frame: ICefFrame;
+procedure CEFFrame_ViewSource(const TObj: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    frame.ViewSource;
-  end;
+  TObj.ViewSource;
   handleExceptionEnd
 end;
 
 //CEFFrame_LoadUrl
-procedure CEFFrame_LoadUrl(browserId: Integer; FrameId: PInt64; PUrl: PChar); extdecl;
-var
-  frame: ICefFrame;
+procedure CEFFrame_LoadUrl(const TObj: ICefFrame; PUrl: PChar); extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    frame.LoadUrl(PCharToUStr(PUrl));
-  end;
+  TObj.LoadUrl(PCharToUStr(PUrl));
   handleExceptionEnd
 end;
 
 //CEFFrame_ExecuteJavaScript
-procedure CEFFrame_ExecuteJavaScript(browserId: Integer; FrameId: PInt64; code, scriptUrl: PChar; startLine: Integer); extdecl;
-var
-  frame: ICefFrame;
+procedure CEFFrame_ExecuteJavaScript(const TObj: ICefFrame; const PCode, PScriptUrl: PChar; startLine: Integer); extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    frame.ExecuteJavaScript(PCharToUStr(code), PCharToUStr(scriptUrl), startLine);
-  end;
+  TObj.ExecuteJavaScript(PCharToUStr(PCode), PCharToUStr(PScriptUrl), startLine);
   handleExceptionEnd
 end;
 
 //CEFFrame_IsValid
-function CEFFrame_IsValid(browserId: Integer; FrameId: PInt64): Boolean; extdecl;
-var
-  frame: ICefFrame;
+function CEFFrame_IsValid(const TObj: ICefFrame): Boolean; extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    Result := frame.IsValid;
-  end
-  else
-    Result := False;
+  Result := TObj.IsValid;
   handleExceptionEnd
 end;
 
 //CEFFrame_IsMain
-function CEFFrame_IsMain(browserId: Integer; FrameId: PInt64): Boolean; extdecl;
-var
-  frame: ICefFrame;
+function CEFFrame_IsMain(const TObj: ICefFrame): Boolean; extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    Result := frame.IsMain;
-  end
-  else
-    Result := False;
+  Result := TObj.IsMain;
   handleExceptionEnd
 end;
 
 //CEFFrame_IsFocused
-function CEFFrame_IsFocused(browserId: Integer; FrameId: PInt64): Boolean; extdecl;
-var
-  frame: ICefFrame;
+function CEFFrame_IsFocused(const TObj: ICefFrame): Boolean; extdecl;
 begin
   handleExceptionBegin
-  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-  if frame <> nil then
-  begin
-    Result := frame.IsFocused;
-  end
-  else
-    Result := False;
+  Result := TObj.IsFocused;
   handleExceptionEnd
 end;
 
@@ -257,9 +173,57 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFFrame_LoadRequest(const TObj: ICefFrame; const request: ICefRequest);
+begin
+  handleExceptionBegin
+  TObj.LoadRequest(request);
+  handleExceptionEnd
+end;
+
+procedure CEFFrame_Browser(const TObj: ICefFrame; out Result: ICefBrowser);
+begin
+  handleExceptionBegin
+  Result := TObj.Browser;
+  handleExceptionEnd
+end;
+
+procedure CEFFrame_GetV8Context(const TObj: ICefFrame; out Result: ICefv8Context);
+begin
+  handleExceptionBegin
+  Result := TObj.GetV8Context;
+  handleExceptionEnd
+end;
+
+procedure CEFFrame_Identifier(const TObj: ICefFrame; out Result: Int64);
+begin
+  handleExceptionBegin
+  Result := TObj.Identifier;
+  handleExceptionEnd
+end;
+
+function CEFFrame_Name(const TObj: ICefFrame): PChar;
+begin
+  handleExceptionBegin
+  Result := PChar(string(TObj.Name));
+  handleExceptionEnd
+end;
+
+function CEFFrame_Url(const TObj: ICefFrame): PChar;
+begin
+  handleExceptionBegin
+  Result := PChar(string(TObj.Url));
+  handleExceptionEnd
+end;
+
+procedure CEFFrame_Parent(const TObj: ICefFrame; out Result: ICefFrame);
+begin
+  handleExceptionBegin
+  Result := TObj.Parent;
+  handleExceptionEnd
+end;
+
 {exports}
 exports
-// CEF Frame for frameId
   CEFFrame_Undo,
   CEFFrame_Redo,
   CEFFrame_Cut,
@@ -274,8 +238,14 @@ exports
   CEFFrame_IsMain,
   CEFFrame_IsFocused,
   CEFFrame_SendProcessMessageByIPC,
-// CEF Frame for ptr
-  CEFFrame_SendProcessMessage
+  CEFFrame_SendProcessMessage,
+  CEFFrame_LoadRequest,
+  CEFFrame_Browser,
+  CEFFrame_GetV8Context,
+  CEFFrame_Identifier,
+  CEFFrame_Name,
+  CEFFrame_Url,
+  CEFFrame_Parent
 {end}
 ;
 

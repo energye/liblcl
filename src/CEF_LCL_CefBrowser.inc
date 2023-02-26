@@ -5,545 +5,235 @@
 //----------------------------------------
 
 //CEFBrowser_GetIdentifier
-function CEFBrowser_GetIdentifier(browser: ICefBrowser): integer; extdecl;
+function CEFBrowser_GetIdentifier(const TObj: ICefBrowser): Integer; extdecl;
 begin
   handleExceptionBegin
-  if browser <> nil then
-    Result := browser.Identifier
-  else
-    Result := 0;
+  Result := TObj.Identifier;
   handleExceptionEnd
 end;
 
-function CEFBrowser_GetFocusedFrame(browserId: Integer): PRCEFFrame; extdecl;
-var
-  browser: ICefBrowser;
-  cefFrame: PRCEFFrame;
-  frame: ICefFrame;
-  name, url: PChar;
+procedure CEFBrowser_GetFocusedFrame(const TObj: ICefBrowser; out Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin;
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    Result := nil;
-    exit;
-  end;
-  frame := browser.GetFocusedFrame;
-  cefFrame := new(PRCEFFrame);
-  name := PChar(UTF8Encode(frame.Name));
-  url := PChar(UTF8Encode(frame.Url));
-  cefFrame^.Name := name;
-  cefFrame^.Url := url;
-  cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  Result := cefFrame;
-  name := nil;
-  url := nil;
-  cefFrame := nil;
+  Result := TObj.GetFocusedFrame;
   handleExceptionEnd
 end;
 
-function CEFBrowser_GetMainFrame(browserId: Integer): PRCEFFrame; extdecl;
-var
-  browser: ICefBrowser;
-  cefFrame: PRCEFFrame;
-  frame: ICefFrame;
-  name, url: PChar;
+procedure CEFBrowser_GetMainFrame(const TObj: ICefBrowser; out Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin;
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    Result := nil;
-    exit;
-  end;
-  frame := browser.GetMainFrame;
-  cefFrame := new(PRCEFFrame);
-  name := PChar(UTF8Encode(frame.Name));
-  url := PChar(UTF8Encode(frame.Url));
-  cefFrame^.Name := name;
-  cefFrame^.Url := url;
-  cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  Result := cefFrame;
-  name := nil;
-  url := nil;
-  cefFrame := nil;
+  Result := TObj.GetMainFrame;
   handleExceptionEnd
 end;
 
-function CEFBrowser_GetFrameById(browserId: Integer; FrameId: PInt64): PRCEFFrame; extdecl;
-var
-  browser: ICefBrowser;
-  cefFrame: PRCEFFrame;
-  frame: ICefFrame;
-  name, url: PChar;
+procedure CEFBrowser_GetFrameById(const TObj: ICefBrowser; frameId: PInt64; out Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    Result := nil;
-    exit;
-  end;
-  frame := browser.GetFrameByident(FrameId^);
-  if frame = nil then
-  begin
-    Result := nil;
-    exit;
-  end;
-  name := PChar(UTF8Encode(frame.Name));
-  url := PChar(UTF8Encode(frame.Url));
-  cefFrame := new(PRCEFFrame);
-  cefFrame^.Name := name;
-  cefFrame^.Url := url;
-  cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  Result := cefFrame;
-  name := nil;
-  url := nil;
-  cefFrame := nil;
+  Result := TObj.GetFrameByident(FrameId^);
   handleExceptionEnd
 end;
 
-function CEFBrowser_GetFrameByName(browserId: Integer; PName: PChar): PRCEFFrame; extdecl;
-var
-  browser: ICefBrowser;
-  cefFrame: PRCEFFrame;
-  frame: ICefFrame;
-  name, url: PChar;
+procedure CEFBrowser_GetFrameByName(const TObj: ICefBrowser; PName: PChar; out Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    Result := nil;
-    exit;
-  end;
-  frame := browser.GetFrame(PCharToUStr(PName));
-  name := PChar(UTF8Encode(frame.Name));
-  url := PChar(UTF8Encode(frame.Url));
-  cefFrame := new(PRCEFFrame);
-  cefFrame^.Name := name;
-  cefFrame^.Url := url;
-  cefFrame^.Identifier := PChar(IntToStr(frame.Identifier));
-  Result := cefFrame;
-  name := nil;
-  url := nil;
-  cefFrame := nil;
+  Result := TObj.GetFrame(PCharToUStr(PName));
   handleExceptionEnd
 end;
 
-//CEFBrowser_GetHostWindowHandle
-function CEFBrowser_GetHostWindowHandle(browserId: Integer): TCefWindowHandle ; extdecl;
-var
-  browser: ICefBrowser;
+function CEFBrowser_GetHostWindowHandle(const TObj: ICefBrowser): TCefWindowHandle ; extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    Result := 0;
-    exit;
-  end;
-  Result := browser.GetHost.GetWindowHandle();
+  Result := TObj.GetHost.GetWindowHandle();
   handleExceptionEnd
 end;
 
-//CEFBrowser_CloseBrowser
-procedure CEFBrowser_CloseBrowser(browserId: Integer; forceClose: Boolean); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_CloseBrowser(const TObj: ICefBrowser; forceClose: Boolean); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.CloseBrowser(forceClose);
+  TObj.GetHost.CloseBrowser(forceClose);
   handleExceptionEnd
 end;
 
-//CEFBrowser_TryCloseBrowser
-function CEFBrowser_TryCloseBrowser(browserId: Integer): Boolean; extdecl;
-var
-  browser: ICefBrowser;
+function CEFBrowser_TryCloseBrowser(const TObj: ICefBrowser): Boolean; extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    Result := False;
-    exit;
-  end;
-  Result := Browser.GetHost.TryCloseBrowser();
+  Result := TObj.GetHost.TryCloseBrowser();
   handleExceptionEnd
 end;
 
-//CEFBrowser_SetFocus
-procedure CEFBrowser_SetFocus(browserId: Integer; focus: Boolean); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_SetFocus(const TObj: ICefBrowser; focus: Boolean); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.SetFocus(focus);
+  TObj.GetHost.SetFocus(focus);
   handleExceptionEnd
 end;
 
-//CEFBrowser_GetZoomLevel
-procedure CEFBrowser_GetZoomLevel(browserId: Integer; out RetDouble: Double); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_GetZoomLevel(const TObj: ICefBrowser; out Result: Double); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  RetDouble := browser.GetHost.GetZoomLevel();
+  Result := TObj.GetHost.GetZoomLevel();
   handleExceptionEnd
 end;
 
-//CEFBrowser_SetZoomLevel
-procedure CEFBrowser_SetZoomLevel(browserId: Integer; const zoomLevel: PDouble); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_SetZoomLevel(const TObj: ICefBrowser; const zoomLevel: Pointer); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.SetZoomLevel(zoomLevel^);
+  TObj.GetHost.SetZoomLevel(Double(PDouble(zoomLevel)^));
   handleExceptionEnd
 end;
 
-//CEFBrowser_RunFileDialog TODO 待写回调函数
-procedure CEFBrowser_RunFileDialog(browserId: Integer; mode: integer; const title, defaultFilePath: PChar; const acceptFilters: TStrings); extdecl;
+// TODO 待写回调函数
+procedure CEFBrowser_RunFileDialog(const TObj: ICefBrowser; mode: integer; const PTitle, PDefaultFilePath: PChar; const acceptFilters: TStrings); extdecl;
 var
-  browser: ICefBrowser;
   callback: ICefRunFileDialogCallback;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
   callback := TCefRunFileDialogCallbackOwn.Create;
-  browser.GetHost.RunFileDialog(mode, PCharToUStr(title), PCharToUStr(defaultFilePath), acceptFilters, callback);
+  TObj.GetHost.RunFileDialog(mode, PCharToUStr(PTitle), PCharToUStr(PDefaultFilePath), acceptFilters, callback);
   handleExceptionEnd
 end;
 
-//CEFBrowser_StartDownload
-procedure CEFBrowser_StartDownload(browserId: Integer; const PUrl: PChar); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_StartDownload(const TObj: ICefBrowser; const PUrl: PChar); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.StartDownload(PCharToUStr(PUrl));
+  TObj.GetHost.StartDownload(PCharToUStr(PUrl));
   handleExceptionEnd
 end;
 
-//CEFBrowser_DownloadImage
-procedure CEFBrowser_DownloadImage(browserId: Integer; const PImageUrl: PChar; isFavicon: Boolean; maxImageSize: integer; bypassCache: Boolean); extdecl;
+// TODO 待写回调函数
+procedure CEFBrowser_DownloadImage(const TObj: ICefBrowser; const PImageUrl: PChar; isFavicon: Boolean; maxImageSize: integer; bypassCache: Boolean); extdecl;
 var
-  browser: ICefBrowser;
   callback: ICefDownloadImageCallback;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
   callback := TCefDownloadImageCallbackOwn.Create;
-  browser.GetHost.DownloadImage(PCharToUStr(PImageUrl), isFavicon, maxImageSize, bypassCache, callback);
+  TObj.GetHost.DownloadImage(PCharToUStr(PImageUrl), isFavicon, maxImageSize, bypassCache, callback);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_Print(browserId: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_Print(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.Print();
+  TObj.GetHost.Print();
   handleExceptionEnd
 end;
 
-//procedure CEFBrowser_PrintToPdf(browserId: Integer; const PPath: PChar; settings: PCefPdfPrintSettings); extdecl;
-//var
-//  chromiumbrowser: PChromiumBrowser;
-//  browser: ICefBrowser;
-//  callback: ICefPdfPrintCallback;
-//begin
-//  handleExceptionBegin
-//  chromiumBrowser := TMainChromiumBrowserClass.GetBrowser(browserId);
-//  if chromiumBrowser <> nil then
-//  begin
-//    browser := chromiumBrowser^.Browser;
-//    callback := TCefPdfPrintCallbackOwn.Create;
-//    browser.GetHost.PrintToPdf(PCharToUStr(PPath), settings, callback);
-//  end;
-//  handleExceptionEnd
-//end;
-
-{$ifdef DARWIN}
-function CEFBrowser_ExecuteDevToolsMethod(browserId: Integer; messageId: integer; const method: PChar; const len: integer; const arguments: array of Byte; argumentsLength: integer): Integer; extdecl;
+procedure CEFBrowser_PrintToPdf(const TObj: ICefBrowser; const PPath: PChar; settings: PCefPdfPrintSettings); extdecl;
 var
-  macArgs: array of Byte;
-{$else}
-function CEFBrowser_ExecuteDevToolsMethod(browserId: Integer; messageId: integer; const method: PChar; const len: integer; const arguments: array of Byte): Integer;stdcall;
-var
-{$endif}
-  browser: ICefBrowser;
-  dictValue: TDictValueList;
+  callback: ICefPdfPrintCallback;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  if len > 0 then
-  begin
-    dictValue := TDictValueList.Create;
-    {$ifdef DARWIN}
-    SetLength(macArgs, argumentsLength);
-    Move(arguments[0], macArgs[0], argumentsLength+1);
-    dictValue.UnPackage(macArgs);
-    {$else}
-    dictValue.UnPackage(arguments);
-    {$endif}
-    Result := browser.GetHost.ExecuteDevToolsMethod(messageId, PCharToUStr(method), dictValue.GetDictValue());
-  end
-  else
-  begin
-    Result := browser.GetHost.ExecuteDevToolsMethod(messageId, PCharToUStr(method), nil);
-  end;
-  {$ifdef DARWIN}
-  SetLength(macArgs, 0);
-  {$endif}
-  dictValue.Destroy;
-  dictValue := nil;
+  callback := TCefPdfPrintCallbackOwn.Create;
+  TObj.GetHost.PrintToPdf(PCharToUStr(PPath), settings, callback);
   handleExceptionEnd
 end;
 
-
-procedure CEFBrowser_SendKeyEvent(browserId: Integer; const event: PCefKeyEvent); extdecl;
-var
-  browser: ICefBrowser;
+function CEFBrowser_ExecuteDevToolsMethod(const TObj: ICefBrowser; messageId: integer; const PMethod: PChar; const dictionaryValue: ICefDictionaryValue): Integer; extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.SendKeyEvent(event);
+  Result := TObj.GetHost.ExecuteDevToolsMethod(messageId, PCharToUStr(PMethod), dictionaryValue);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SendMouseClickEvent(browserId: Integer; const event: PCefMouseEvent; type_: integer; mouseUp: Boolean; clickCount: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_SendKeyEvent(const TObj: ICefBrowser; const event: PCefKeyEvent); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.SendMouseClickEvent(event, TCefMouseButtonType(type_), mouseUp, clickCount);
+  TObj.GetHost.SendKeyEvent(event);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SendMouseMoveEvent(browserId: Integer; const event: PCefMouseEvent; mouseLeave: Boolean); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_SendMouseClickEvent(const TObj: ICefBrowser; const event: PCefMouseEvent; type_: integer; mouseUp: Boolean; clickCount: Integer); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.SendMouseMoveEvent(event, mouseLeave);
+  TObj.GetHost.SendMouseClickEvent(event, TCefMouseButtonType(type_), mouseUp, clickCount);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SendMouseWheelEvent(browserId: Integer; const event: PCefMouseEvent; deltaX, deltaY: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_SendMouseMoveEvent(const TObj: ICefBrowser; const event: PCefMouseEvent; mouseLeave: Boolean); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.SendMouseWheelEvent(event, deltaX, deltaY);
+  TObj.GetHost.SendMouseMoveEvent(event, mouseLeave);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SendTouchEvent(browserId: Integer; const event: PCefTouchEvent); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_SendMouseWheelEvent(const TObj: ICefBrowser; const event: PCefMouseEvent; deltaX, deltaY: Integer); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.SendTouchEvent(event);
+  TObj.GetHost.SendMouseWheelEvent(event, deltaX, deltaY);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SendCaptureLostEvent(browserId: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_SendTouchEvent(const TObj: ICefBrowser; const event: PCefTouchEvent); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.SendCaptureLostEvent;
+  TObj.GetHost.SendTouchEvent(event);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_NotifyMoveOrResizeStarted(browserId: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_SendCaptureLostEvent(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.NotifyMoveOrResizeStarted;
+  TObj.GetHost.SendCaptureLostEvent;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_NotifyScreenInfoChanged(browserId: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_NotifyMoveOrResizeStarted(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.NotifyScreenInfoChanged;
+  TObj.GetHost.NotifyMoveOrResizeStarted;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SetAccessibilityState(browserId: Integer; accessibilityState: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_NotifyScreenInfoChanged(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.SetAccessibilityState(TCefState(accessibilityState));
+  TObj.GetHost.NotifyScreenInfoChanged;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SetAutoResizeEnabled(browserId: Integer; enabled: boolean; const min_size, max_size: PCefSize); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_SetAccessibilityState(const TObj: ICefBrowser; accessibilityState: Integer); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.SetAutoResizeEnabled(enabled, min_size, max_size);
+  TObj.GetHost.SetAccessibilityState(TCefState(accessibilityState));
   handleExceptionEnd
 end;
 
-function CEFBrowser_IsBackgroundHost(browserId: Integer) : Boolean; extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_SetAutoResizeEnabled(const TObj: ICefBrowser; enabled: boolean; const min_size, max_size: PCefSize); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    Result := False;
-    exit;
-  end;
-  Result := browser.GetHost.IsBackgroundHost;
+  TObj.GetHost.SetAutoResizeEnabled(enabled, min_size, max_size);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SetAudioMuted(browserId: Integer; mute: boolean); extdecl;
-var
-  browser: ICefBrowser;
+function CEFBrowser_IsBackgroundHost(const TObj: ICefBrowser) : Boolean; extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.SetAudioMuted(mute);
+  Result := TObj.GetHost.IsBackgroundHost;
   handleExceptionEnd
 end;
 
-function  CEFBrowser_IsAudioMuted(browserId: Integer) : Boolean; extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_SetAudioMuted(const TObj: ICefBrowser; mute: boolean); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    Result := False;
-    exit;
-  end;
-  Result := browser.GetHost.IsAudioMuted;
+  TObj.GetHost.SetAudioMuted(mute);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_ShowDevTools(Chromium: TChromium; browserId: Integer; windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; PDevToolsWinName: PChar); extdecl;
+function CEFBrowser_IsAudioMuted(const TObj: ICefBrowser) : Boolean; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.GetHost.IsAudioMuted;
+  handleExceptionEnd
+end;
+
+procedure CEFBrowser_ShowDevTools(const TObj: ICefBrowser; const Chromium: TChromium; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; PDevToolsWinName: PChar); extdecl;
 var
-  browser: ICefBrowser;
   windowInfo: TCefWindowInfo;
   client: ICefClient;
   browserSettings: TCefBrowserSettings;
   devToolsWinName: ustring;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
   if PDevToolsWinName <> nil then
   begin
     devToolsWinName := PCharToUStr(PDevToolsWinName);
@@ -555,175 +245,92 @@ begin
     devToolsWinName := DEVTOOLS_WINDOWNAME;
   end;
   FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
-  //WindowInfoAsPopUp(windowInfo, browser.Host.WindowHandle, devToolsWinName);
-  //WindowInfoAsWindowless(windowInfo, windowParent.Handle, devToolsWinName);
   WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect, devToolsWinName);
   client := TCustomClientHandler.Create(Chromium, True);
   FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
-  browser.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
+  TObj.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_CloseDevTools(browserId: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_CloseDevTools(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.CloseDevTools;
+  TObj.GetHost.CloseDevTools;
   handleExceptionEnd
 end;
 
-function CEFBrowser_HasDevTools(browserId: Integer): Boolean; extdecl;
-var
-  browser: ICefBrowser;
+function CEFBrowser_HasDevTools(const TObj: ICefBrowser): Boolean; extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    Result := False;
-    exit;
-  end;
-  Result := browser.GetHost.HasDevTools;
+  Result := TObj.GetHost.HasDevTools;
   handleExceptionEnd
 end;
 
-function  CEFBrowser_CanGoBack(browserId: Integer): Boolean; extdecl;
-var
-  browser: ICefBrowser;
+function  CEFBrowser_CanGoBack(const TObj: ICefBrowser): Boolean; extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    Result := False;
-    exit;
-  end;
-  Result := browser.CanGoBack;
+  Result := TObj.CanGoBack;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GoBack(browserId: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_GoBack(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GoBack;
+  TObj.GoBack;
   handleExceptionEnd
 end;
 
-function  CEFBrowser_CanGoForward(browserId: Integer): Boolean; extdecl;
-var
-  browser: ICefBrowser;
+function CEFBrowser_CanGoForward(const TObj: ICefBrowser): Boolean; extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    Result := False;
-    exit;
-  end;
-  Result := browser.CanGoForward;
+  Result := TObj.CanGoForward;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GoForward(browserId: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_GoForward(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GoForward;
+  TObj.GoForward;
   handleExceptionEnd
 end;
 
-function  CEFBrowser_IsLoading(browserId: Integer): Boolean; extdecl;
-var
-  browser: ICefBrowser;
+function CEFBrowser_IsLoading(const TObj: ICefBrowser): Boolean; extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  Result := browser.IsLoading;
+  Result := TObj.IsLoading;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_Reload(browserId: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_Reload(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.Reload;
+  TObj.Reload;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_ReloadIgnoreCache(browserId: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_ReloadIgnoreCache(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.ReloadIgnoreCache;
+  TObj.ReloadIgnoreCache;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_StopLoad(browserId: Integer); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_StopLoad(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.StopLoad;
+  TObj.StopLoad;
   handleExceptionEnd
 end;
 
-function CEFBrowser_FrameCount(browserId: Integer):NativeUInt; extdecl;
-var
-  browser: ICefBrowser;
+function CEFBrowser_FrameCount(const TObj: ICefBrowser):NativeUInt; extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  Result := browser.FrameCount;
+  Result := TObj.FrameCount;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GetFrameNames(browserId: Integer; out Result: Pointer; out resultSize: Integer); extdecl;
+procedure CEFBrowser_GetFrameNames(const TObj: ICefBrowser; out Result: Pointer; out resultSize: Integer); extdecl;
 var
-  browser: ICefBrowser;
   frameNames : TStrings;
   idx: Integer;
   name, value: string;
@@ -731,13 +338,8 @@ var
 begin
   handleExceptionBegin
   try
-    browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-    if browser = nil then
-    begin
-      exit;
-    end;
     frameNames := TStringList.Create;
-    browser.GetFrameNames(frameNames);
+    TObj.GetFrameNames(frameNames);
     resultSize := frameNames.Count;
     SetLength(resultArr, resultSize);
     for idx := 0 to resultSize - 1 do
@@ -756,31 +358,17 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_Find(browserId: Integer; searchText: PChar; forward_, matchCase, findNext: Boolean); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_Find(const TObj: ICefBrowser; PSearchText: PChar; forward_, matchCase, findNext: Boolean); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.Find(PCharToUStr(searchText), forward_, matchCase, findNext);
+  TObj.GetHost.Find(PCharToUStr(PSearchText), forward_, matchCase, findNext);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_StopFinding(browserId: Integer; clearSelection: Boolean); extdecl;
-var
-  browser: ICefBrowser;
+procedure CEFBrowser_StopFinding(const TObj: ICefBrowser; clearSelection: Boolean); extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser = nil then
-  begin
-    exit;
-  end;
-  browser.GetHost.StopFinding(clearSelection);
+  TObj.GetHost.StopFinding(clearSelection);
   handleExceptionEnd
 end;
 

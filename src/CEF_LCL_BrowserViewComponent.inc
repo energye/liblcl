@@ -4,27 +4,18 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-//function
-function CEFBrowserViewComponent_Create(AOwner: TComponent):TCEFBrowserViewComponent ; extdecl;
+procedure CEFBrowserViewComponent_Create(const AOwner: TComponent; out Result: TCEFBrowserViewComponent) ; extdecl;
 begin
   handleExceptionBegin
   Result := TCEFBrowserViewComponent.Create(AOwner);
   handleExceptionEnd
 end;
 
-{$ifdef DARWIN}
-function CEFBrowserViewComponent_CreateBrowserView(TObj: TCEFBrowserViewComponent; client: ICefClient; url: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings; argsLen: integer; const dataBytesPtr: array of Byte; dataBytesLen: integer): Boolean; extdecl;
+function CEFBrowserViewComponent_CreateBrowserView(const TObj: TCEFBrowserViewComponent; client: ICefClient; PUrl: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings; const extra_info: ICefDictionaryValue): Boolean; extdecl;
 var
-  tempDataBytes: array of Byte;
-{$else}
-function CEFBrowserViewComponent_CreateBrowserView(TObj: TCEFBrowserViewComponent; client: ICefClient; url: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings; argsLen: integer; const dataBytesPtr: array of Byte): Boolean; stdcall;
-var
-{$endif}
   request_context: ICefRequestContext;
   requestContextSettings: PCefRequestContextSettings;
   settings: TCefBrowserSettings;
-  extra_info: ICefDictionaryValue;
-  dictValue: TDictValueList;
 begin
   handleExceptionBegin
   //ICefRequestContext
@@ -68,50 +59,25 @@ begin
   settings.accept_language_list := CefString(PCharToUStr(PBorwserSettings^.accept_language_list)) ;
   settings.chrome_status_bubble := TCefState(PBorwserSettings^.chrome_status_bubble) ;
 
-  //extra_info
-  if argsLen > 0 then
-  begin
-    dictValue := TDictValueList.Create;
-    {$ifdef DARWIN}
-    try
-      SetLength(tempDataBytes, dataBytesLen);
-      Move(dataBytesPtr[0], tempDataBytes[0], dataBytesLen+1);
-      dictValue.UnPackage(tempDataBytes);
-      extra_info := dictValue.GetDictValue();
-      Result := TObj.CreateBrowserView(client, PCharToUStr(url), settings, extra_info, request_context);
-    finally
-      SetLength(tempDataBytes, 0);
-    end;
-    {$else}
-    dictValue.UnPackage(dataBytesPtr);
-    extra_info := dictValue.GetDictValue();
-    Result := TObj.CreateBrowserView(client, PCharToUStr(url), settings, extra_info, request_context);
-    {$endif}
-  end;
+  Result := TObj.CreateBrowserView(client, PCharToUStr(PUrl), settings, extra_info, request_context);
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_GetForBrowser(TObj: TCEFBrowserViewComponent; const browserId: Integer): Boolean; extdecl;
-var
-  browser: ICefBrowser;
+function CEFBrowserViewComponent_GetForBrowser(const TObj: TCEFBrowserViewComponent; const browser: ICefBrowser): Boolean; extdecl;
 begin
   handleExceptionBegin
-  browser := TMainChromiumBrowserClass.GetBrowserById(browserId);
-  if browser <> nil then
-  begin
-    Result := TObj.GetForBrowser(browser);
-  end;
+  Result := TObj.GetForBrowser(browser);
   handleExceptionEnd
 end;
 
-procedure CEFBrowserViewComponent_SetPreferAccelerators(TObj: TCEFBrowserViewComponent; prefer_accelerators: boolean); extdecl;
+procedure CEFBrowserViewComponent_SetPreferAccelerators(const TObj: TCEFBrowserViewComponent; prefer_accelerators: boolean); extdecl;
 begin
   handleExceptionBegin
   TObj.SetPreferAccelerators(prefer_accelerators);
   handleExceptionEnd
 end;
 
-procedure CEFBrowserViewComponent_RequestFocus(TObj: TCEFBrowserViewComponent); extdecl;
+procedure CEFBrowserViewComponent_RequestFocus(const TObj: TCEFBrowserViewComponent); extdecl;
 begin
   handleExceptionBegin
   TObj.RequestFocus;
@@ -119,14 +85,14 @@ begin
 end;
 
 //property
-function CEFBrowserViewComponent_Browser(TObj: TCEFBrowserViewComponent):Integer ; extdecl;
+procedure CEFBrowserViewComponent_Browser(const TObj: TCEFBrowserViewComponent; out Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.Browser.Identifier;
+  Result := TObj.Browser;
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_BrowserView(TObj: TCEFBrowserViewComponent):ICefBrowserView ; extdecl;
+function CEFBrowserViewComponent_BrowserView(const TObj: TCEFBrowserViewComponent):ICefBrowserView ; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.BrowserView;
@@ -141,35 +107,35 @@ begin
 end;
 
 //event
-procedure CEFBrowserViewComponent_SetOnBrowserCreated(AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
+procedure CEFBrowserViewComponent_SetOnBrowserCreated(const AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := BrowserViewComponent_OnBrowserCreated}
   {$DEFINE EventName := OnBrowserCreated}
   EventMethodCode
 end;
 
-procedure CEFBrowserViewComponent_SetOnBrowserDestroyed(AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
+procedure CEFBrowserViewComponent_SetOnBrowserDestroyed(const AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := BrowserViewComponent_OnBrowserDestroyed}
   {$DEFINE EventName := OnBrowserDestroyed}
   EventMethodCode
 end;
 
-procedure CEFBrowserViewComponent_SetOnGetDelegateForPopupBrowserView(AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
+procedure CEFBrowserViewComponent_SetOnGetDelegateForPopupBrowserView(const AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := BrowserViewComponent_OnGetDelegateForPopupBrowserView}
   {$DEFINE EventName := OnGetDelegateForPopupBrowserView}
   EventMethodCode
 end;
 
-procedure CEFBrowserViewComponent_SetOnPopupBrowserViewCreated(AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
+procedure CEFBrowserViewComponent_SetOnPopupBrowserViewCreated(const AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := BrowserViewComponent_OnPopupBrowserViewCreated}
   {$DEFINE EventName := OnPopupBrowserViewCreated}
   EventMethodCode
 end;
 
-procedure CEFBrowserViewComponent_SetOnGetChromeToolbarType(AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
+procedure CEFBrowserViewComponent_SetOnGetChromeToolbarType(const AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := BrowserViewComponent_OnGetChromeToolbarType}
   {$DEFINE EventName := OnGetChromeToolbarType}
