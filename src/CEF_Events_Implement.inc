@@ -416,8 +416,7 @@ begin
 end;
 
 //chromium Resource 资源加载之前
-procedure TLCLEvent.ChromiumEvent_OnBeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest;
-  const callback: ICefCallback; out Result: TCefReturnValue);
+procedure TLCLEvent.ChromiumEvent_OnBeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback; out Result: TCefReturnValue);
 var
   rCefRequest: PRICefRequest;
   identifier: UInt64;
@@ -475,8 +474,7 @@ begin
   rCefResponse := nil;
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnResourceRedirect(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest;
-  const response: ICefResponse; var newUrl: ustring);
+procedure TLCLEvent.ChromiumEvent_OnResourceRedirect(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var newUrl: ustring);
 var
   rCefRequest: PRICefRequest;
   rCefResponse: PRICefResponse;
