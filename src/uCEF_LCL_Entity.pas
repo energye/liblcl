@@ -28,7 +28,6 @@ const
   BE_SET = 0;
   BE_GET = 1;
   BE_FUNC = 2;
-  BE_CTX_CRT_BIND = 3;
 
   //绑定变量对象类型
   v8BindCommon = 'gocobj';// common key

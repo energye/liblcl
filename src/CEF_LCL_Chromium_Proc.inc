@@ -807,7 +807,6 @@ begin
   handleExceptionEnd
 end;
 
-//SafeSearch
 procedure CEFChromium_SetSafeSearch(const AObj: TChromium; value: boolean); extdecl;
 begin
   handleExceptionBegin
@@ -822,7 +821,6 @@ begin
   handleExceptionEnd
 end;
 
-//AudioMuted
 procedure CEFChromium_SetAudioMuted(const AObj: TChromium; value: boolean); extdecl;
 begin
   handleExceptionBegin
@@ -837,7 +835,6 @@ begin
   handleExceptionEnd
 end;
 
-//DragOperations
 procedure CEFChromium_SetDragOperations(const AObj: TChromium; value: Cardinal); extdecl;
 begin
   handleExceptionBegin
@@ -852,7 +849,6 @@ begin
   handleExceptionEnd
 end;
 
-//FrameCount
 function CEFChromium_GetFrameCount(const AObj: TChromium): NativeUInt; extdecl;
 begin
   handleExceptionBegin
@@ -860,7 +856,6 @@ begin
   handleExceptionEnd
 end;
 
-//SpellCheckerDicts
 procedure CEFChromium_SetSpellCheckerDicts(const AObj: TChromium; value: PChar); extdecl;
 begin
   handleExceptionBegin
@@ -875,7 +870,6 @@ begin
   handleExceptionEnd
 end;
 
-//SpellChecking
 procedure CEFChromium_SetSpellChecking(const AObj: TChromium; value: boolean); extdecl;
 begin
   handleExceptionBegin
@@ -890,7 +884,6 @@ begin
   handleExceptionEnd
 end;
 
-//AlwaysOpenPDFExternally
 procedure CEFChromium_SetAlwaysOpenPDFExternally(const AObj: TChromium; value: boolean); extdecl;
 begin
   handleExceptionBegin
@@ -905,7 +898,6 @@ begin
   handleExceptionEnd
 end;
 
-//AlwaysAuthorizePlugins
 procedure CEFChromium_SetAlwaysAuthorizePlugins(const AObj: TChromium; value: boolean); extdecl;
 begin
   handleExceptionBegin
@@ -920,7 +912,6 @@ begin
   handleExceptionEnd
 end;
 
-//AllowOutdatedPlugins
 procedure CEFChromium_SetAllowOutdatedPlugins(const AObj: TChromium; value: boolean); extdecl;
 begin
   handleExceptionBegin
@@ -935,7 +926,6 @@ begin
   handleExceptionEnd
 end;
 
-//SendReferrer
 procedure CEFChromium_SetSendReferrer(const AObj: TChromium; value: boolean); extdecl;
 begin
   handleExceptionBegin
@@ -950,7 +940,6 @@ begin
   handleExceptionEnd
 end;
 
-//DoNotTrack
 procedure CEFChromium_SetDoNotTrack(const AObj: TChromium; value: boolean); extdecl;
 begin
   handleExceptionBegin
@@ -965,7 +954,6 @@ begin
   handleExceptionEnd
 end;
 
-//ZoomStep
 procedure CEFChromium_SetZoomStep(const AObj: TChromium; value: byte); extdecl;
 begin
   handleExceptionBegin
@@ -980,7 +968,6 @@ begin
   handleExceptionEnd
 end;
 
-//ZoomPct
 procedure CEFChromium_SetZoomPct(const AObj: TChromium; value: Pointer); extdecl;
 begin
   handleExceptionBegin
@@ -995,7 +982,6 @@ begin
   handleExceptionEnd
 end;
 
-//ZoomLevel
 procedure CEFChromium_SetZoomLevel(const AObj: TChromium; value: Pointer); extdecl;
 begin
   handleExceptionBegin
@@ -1010,7 +996,6 @@ begin
   handleExceptionEnd
 end;
 
-//DefaultEncoding
 procedure CEFChromium_SetDefaultEncoding(const AObj: TChromium; value: PChar); extdecl;
 begin
   handleExceptionBegin
@@ -1025,8 +1010,14 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_SendProcessMessage(const AObj: TChromium; targetProcess: Integer; const message_: ICefProcessMessage); extdecl;
+begin
+  handleExceptionBegin
+  AObj.SendProcessMessage(TCefProcessId(targetProcess), message_);
+  handleExceptionEnd
+end;
+
 exports
-{ ==== proc begin ====  }
   CEFChromium_Create,
   CEFChromium_Browser,
   CEFChromium_BrowserById,
@@ -1147,9 +1138,7 @@ exports
   CEFChromium_SetZoomLevel,
   CEFChromium_GetZoomLevel,
   CEFChromium_SetDefaultEncoding,
-  CEFChromium_GetDefaultEncoding
-  { ====  proc end ==== }
-
-//结尾
+  CEFChromium_GetDefaultEncoding,
+  CEFChromium_SendProcessMessage
 ;
 

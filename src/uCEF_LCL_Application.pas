@@ -178,8 +178,6 @@ begin
     exit;
   end;
 
-  TCEFWindowBindClass.SendEvent('', [BE_CTX_CRT_BIND]);
-
   //js 注入
   ContextCreatedJSInject := TContextCreatedJSInjectClass.Create(browser, frame, context);
   ContextCreatedJSInject.JavaScriptInject();
@@ -469,37 +467,45 @@ end;
 //render进程消息
 procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
   const aMessage: ICefProcessMessage; var aHandled: boolean);
-var
-  processMessage: PRCEFProcessMessage;
-  binaryValue: ICefBinaryValue;
-  binarySize: integer;
-  binaryBuf: TBytes;
 begin
-  if aMessage.Name = IPC_JSEmitGoRet then//JS执行Go监听事件的返回值消息
-  begin
-    TCEFIPCClass.Render_JSEmitGoRet(frame, aMessage);
-  end
-  else if (aMessage.Name = IPC_GoEmitJS) then//Go执行JS监听的事件
-  begin
-    TCEFIPCClass.RenderProcessReceivedMessage(browser, frame, sourceProcess, aMessage);
-  end
-  else
-  begin
-    processMessage := new(PRCEFProcessMessage);
-    binarySize := aMessage.ArgumentList.GetInt(0);
-    binaryValue := aMessage.ArgumentList.GetBinary(2);
-    SetLength(binaryBuf, binarySize);
-    binaryValue.GetData(@binaryBuf[0], nativeuint(binarySize), 0);
-    processMessage^.Name := PChar(string(aMessage.Name));
-    processMessage^.Data := @binaryBuf[0];
-    processMessage^.DataLen := PInteger(binarySize);
-    SendEvent(OnProcessMessageReceived_DataPtr, [browser, frame, sourceProcess, processMessage, @aHandled]);
-    SetLength(binaryBuf, 0);
-    processMessage^.Data := nil;
-    processMessage := nil;
-  end;
-  aHandled := True;
+  aHandled := False;
+  SendEvent(OnProcessMessageReceived_DataPtr, [browser, frame, sourceProcess, aMessage, @aHandled]);
 end;
+
+//render进程消息
+//procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
+//  const aMessage: ICefProcessMessage; var aHandled: boolean);
+//var
+//  processMessage: PRCEFProcessMessage;
+//  binaryValue: ICefBinaryValue;
+//  binarySize: integer;
+//  binaryBuf: TBytes;
+//begin
+//  if aMessage.Name = IPC_JSEmitGoRet then//JS执行Go监听事件的返回值消息
+//  begin
+//    TCEFIPCClass.Render_JSEmitGoRet(frame, aMessage);
+//  end
+//  else if (aMessage.Name = IPC_GoEmitJS) then//Go执行JS监听的事件
+//  begin
+//    TCEFIPCClass.RenderProcessReceivedMessage(browser, frame, sourceProcess, aMessage);
+//  end
+//  else
+//  begin
+//    processMessage := new(PRCEFProcessMessage);
+//    binarySize := aMessage.ArgumentList.GetInt(0);
+//    binaryValue := aMessage.ArgumentList.GetBinary(2);
+//    SetLength(binaryBuf, binarySize);
+//    binaryValue.GetData(@binaryBuf[0], nativeuint(binarySize), 0);
+//    processMessage^.Name := PChar(string(aMessage.Name));
+//    processMessage^.Data := @binaryBuf[0];
+//    processMessage^.DataLen := PInteger(binarySize);
+//    SendEvent(OnProcessMessageReceived_DataPtr, [browser, frame, sourceProcess, processMessage, @aHandled]);
+//    SetLength(binaryBuf, 0);
+//    processMessage^.Data := nil;
+//    processMessage := nil;
+//  end;
+//  aHandled := True;
+//end;
 
 //cefApp子进程启动命令行设置
 procedure GlobalCEFApp_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);

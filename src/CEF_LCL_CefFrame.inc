@@ -173,49 +173,49 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFFrame_LoadRequest(const TObj: ICefFrame; const request: ICefRequest);
+procedure CEFFrame_LoadRequest(const TObj: ICefFrame; const request: ICefRequest); extdecl;
 begin
   handleExceptionBegin
   TObj.LoadRequest(request);
   handleExceptionEnd
 end;
 
-procedure CEFFrame_Browser(const TObj: ICefFrame; out Result: ICefBrowser);
+procedure CEFFrame_Browser(const TObj: ICefFrame; out Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Browser;
   handleExceptionEnd
 end;
 
-procedure CEFFrame_GetV8Context(const TObj: ICefFrame; out Result: ICefv8Context);
+procedure CEFFrame_GetV8Context(const TObj: ICefFrame; out Result: ICefv8Context); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetV8Context;
   handleExceptionEnd
 end;
 
-procedure CEFFrame_Identifier(const TObj: ICefFrame; out Result: Int64);
+procedure CEFFrame_Identifier(const TObj: ICefFrame; out Result: Int64); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Identifier;
   handleExceptionEnd
 end;
 
-function CEFFrame_Name(const TObj: ICefFrame): PChar;
+function CEFFrame_Name(const TObj: ICefFrame): PChar; extdecl;
 begin
   handleExceptionBegin
   Result := PChar(string(TObj.Name));
   handleExceptionEnd
 end;
 
-function CEFFrame_Url(const TObj: ICefFrame): PChar;
+function CEFFrame_Url(const TObj: ICefFrame): PChar; extdecl;
 begin
   handleExceptionBegin
   Result := PChar(string(TObj.Url));
   handleExceptionEnd
 end;
 
-procedure CEFFrame_Parent(const TObj: ICefFrame; out Result: ICefFrame);
+procedure CEFFrame_Parent(const TObj: ICefFrame; out Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Parent;
