@@ -569,7 +569,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnDraggableRegionsChanged(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray);
 begin
-  SendEvent([Sender, browser, frame, regionsCount, regions]);
+  SendEvent([Sender, browser, frame, Integer(regionsCount), regions]);
 end;
 
 {==window parent==}
