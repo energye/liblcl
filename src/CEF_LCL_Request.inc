@@ -64,7 +64,7 @@ end;
 procedure CefRequest_GetHeaderMap(const TObj: ICefRequest; out Result: ICefStringMultimap); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefCustomStringMultimap.Create;
+  Result := TCefStringMultimapOwn.Create();
   TObj.GetHeaderMap(Result);
   handleExceptionEnd
 end;

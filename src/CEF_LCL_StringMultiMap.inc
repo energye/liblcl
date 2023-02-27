@@ -4,11 +4,18 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-//header map
+
+procedure StringMultimapRef_Create(out Result: ICefStringMultimap); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefStringMultimapOwn.Create();
+  handleExceptionEnd
+end;
+
 function StringMultimap_GetSize(const TObj: ICefStringMultimap): Integer; extdecl;
 begin
   handleExceptionBegin
-  Result := Integer(ICefStringMultimap(TObj).GetSize);
+  Result := Integer(TObj.GetSize);
   handleExceptionEnd
 end;
 
@@ -55,6 +62,7 @@ begin
 end;
 
 exports
+  StringMultimapRef_Create,
   StringMultimap_GetSize,
   StringMultimap_FindCount,
   StringMultimap_GetEnumerate,

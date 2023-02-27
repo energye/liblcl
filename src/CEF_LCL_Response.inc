@@ -4,88 +4,93 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-function cefResponse_IsReadOnly(TObj: ICefResponse): Boolean; extdecl;
+function CefResponse_IsReadOnly(const TObj: ICefResponse): Boolean; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsReadOnly;
   handleExceptionEnd
 end;
 
-procedure cefResponse_SetError(TObj: ICefResponse; error: integer); extdecl;
+procedure CefResponse_SetError(const TObj: ICefResponse; error: integer); extdecl;
 begin
   handleExceptionBegin
   TObj.SetError(error);
   handleExceptionEnd
 end;
 
-procedure cefResponse_SetStatus(TObj: ICefResponse; status: Integer); extdecl;
+procedure CefResponse_SetStatus(const TObj: ICefResponse; status: Integer); extdecl;
 begin
   handleExceptionBegin
   TObj.SetStatus(status);
   handleExceptionEnd
 end;
 
-procedure cefResponse_SetStatusText(TObj: ICefResponse; statusText: PChar); extdecl;
+procedure CefResponse_SetStatusText(const TObj: ICefResponse; statusText: PChar); extdecl;
 begin
   handleExceptionBegin
   TObj.SetStatusText(PCharToUStr(statusText));
   handleExceptionEnd
 end;
-procedure cefResponse_SetMimeType(TObj: ICefResponse; mimetype: PChar); extdecl;
+procedure CefResponse_SetMimeType(const TObj: ICefResponse; mimetype: PChar); extdecl;
 begin
   handleExceptionBegin
   TObj.SetMimeType(PCharToUStr(mimetype));
   handleExceptionEnd
 end;
 
-procedure cefResponse_SetCharset(TObj: ICefResponse; charset: PChar); extdecl;
+procedure CefResponse_SetCharset(const TObj: ICefResponse; charset: PChar); extdecl;
 begin
   handleExceptionBegin
   TObj.SetCharset(PCharToUStr(charset));
   handleExceptionEnd
 end;
 
-function cefResponse_GetHeaderByName(TObj: ICefResponse; name: PChar): PChar; extdecl;
+function CefResponse_GetHeaderByName(const TObj: ICefResponse; name: PChar): PChar; extdecl;
 begin
   handleExceptionBegin
   TObj.GetHeaderByName(PCharToUStr(name));
   handleExceptionEnd
 end;
 
-procedure cefResponse_SetHeaderByName(TObj: ICefResponse; name, value: PChar; overwrite: boolean); extdecl;
+procedure CefResponse_SetHeaderByName(const TObj: ICefResponse; name, value: PChar; overwrite: boolean); extdecl;
 begin
   handleExceptionBegin
   TObj.SetHeaderByName(PCharToUStr(name), PCharToUStr(value), overwrite);
   handleExceptionEnd
 end;
 
-procedure cefResponse_SetURL(TObj: ICefResponse; url: PChar); extdecl;
+procedure CefResponse_SetURL(const TObj: ICefResponse; url: PChar); extdecl;
 begin
   handleExceptionBegin
   TObj.SetURL(PCharToUStr(url));
   handleExceptionEnd
 end;
 
-function cefResponse_GetHeaderMap(TObj: ICefResponse): TCefCustomStringMultimap; extdecl;
-var
-  headerMap: TCefCustomStringMultimap;
+procedure CefResponse_GetHeaderMap(const TObj: ICefResponse; out Result: ICefStringMultimap); extdecl;
 begin
   handleExceptionBegin
-  headerMap := TCefStringMultimapOwn.Create;
-  TObj.GetHeaderMap(headerMap);
-  Result := headerMap;
+  Result := TCefStringMultimapOwn.Create();
+  TObj.GetHeaderMap(Result);
+  handleExceptionEnd
+end;
+
+procedure CefResponse_SetHeaderMap(const TObj: ICefResponse; const HeaderMap: ICefStringMultimap); extdecl;
+begin
+  handleExceptionBegin
+  TObj.SetHeaderMap(HeaderMap);
   handleExceptionEnd
 end;
 
 exports
-  cefResponse_IsReadOnly,
-  cefResponse_SetError,
-  cefResponse_SetStatus,
-  cefResponse_SetStatusText,
-  cefResponse_SetMimeType,
-  cefResponse_SetCharset,
-  cefResponse_GetHeaderByName,
-  cefResponse_SetHeaderByName,
-  cefResponse_SetURL,
-  cefResponse_GetHeaderMap
+  CefResponse_IsReadOnly,
+  CefResponse_SetError,
+  CefResponse_SetStatus,
+  CefResponse_SetStatusText,
+  CefResponse_SetMimeType,
+  CefResponse_SetCharset,
+  CefResponse_GetHeaderByName,
+  CefResponse_SetHeaderByName,
+  CefResponse_SetURL,
+  CefResponse_GetHeaderMap,
+  CefResponse_SetHeaderMap
 ;
