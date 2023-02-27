@@ -43,4 +43,6 @@
 {$I CEF_LCL_Value.inc}
 {$I CEF_LCL_BinaryValue.inc}
 {$I CEF_LCL_DictionaryValue.inc}
+{$I CEF_LCL_PostData.inc}
+{$I CEF_LCL_PostDataElement.inc}
 {$I Energy_Extend.inc}
