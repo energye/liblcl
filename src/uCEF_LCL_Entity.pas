@@ -398,6 +398,14 @@ type
     cookieableSchemesExcludeDefaults: PInteger;
   end;
 
+  // string header
+  PStringHeader = ^StringHeader;
+
+  StringHeader = record
+    Value: PChar;
+    ValueLength: nativeuint;
+  end;
+
   //浏览器窗口
   TBrowserWindowMap = specialize TFPGMap<integer, TGoForm>;
 
@@ -412,6 +420,8 @@ type
     class procedure Remove(BrowserId: integer);
     class function Get(BrowserId: integer): TGoForm;
   end;
+
+function NewStringHeader(Data: ustring): PStringHeader;
 
 //string to hash
 function StrToHash(const SoureStr: string): cardinal;
@@ -476,6 +486,15 @@ var
 
 implementation
 
+function NewStringHeader(Data: ustring): PStringHeader;
+var
+  PH: PStringHeader;
+begin
+  PH := new(PStringHeader);
+  PH^.Value := PChar(UTF8Encode(Data));
+  PH^.ValueLength := Length(PH^.Value);
+  Result := PH;
+end;
 
 function ByteToInteger(const Data: array of byte; start: integer = 0): integer;
 var

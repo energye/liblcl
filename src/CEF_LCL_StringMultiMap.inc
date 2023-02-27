@@ -12,38 +12,38 @@ begin
   handleExceptionEnd
 end;
 
-function StringMultimap_GetSize(const TObj: ICefStringMultimap): Integer; extdecl;
+function StringMultimap_GetSize(const TObj: ICefStringMultimap): NativeUInt; extdecl;
 begin
   handleExceptionBegin
-  Result := Integer(TObj.GetSize);
+  Result := TObj.GetSize;
   handleExceptionEnd
 end;
 
-function StringMultimap_FindCount(const TObj: ICefStringMultimap; Key: PChar): Integer; extdecl;
+function StringMultimap_FindCount(const TObj: ICefStringMultimap; Key: PChar): NativeUInt; extdecl;
 begin
   handleExceptionBegin
-  Result := Integer(TObj.FindCount(PCharToUStr(Key)));
+  Result := TObj.FindCount(PCharToUStr(Key));
   handleExceptionEnd
 end;
 
-function StringMultimap_GetEnumerate(const TObj: ICefStringMultimap; Key: PChar; ValueIndex: Integer): PChar; extdecl;
+function StringMultimap_GetEnumerate(const TObj: ICefStringMultimap; Key: PChar; ValueIndex: NativeUInt): PChar; extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetEnumerate(PCharToUStr(Key), NativeUInt(ValueIndex))));
+  Result := PChar(string(TObj.GetEnumerate(PCharToUStr(Key), ValueIndex)));
   handleExceptionEnd
 end;
 
-function StringMultimap_GetKey(const TObj: ICefStringMultimap; Index: Integer): PChar; extdecl;
+function StringMultimap_GetKey(const TObj: ICefStringMultimap; Index: NativeUInt): PChar; extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetKey(NativeUInt(Index))));
+  Result := PChar(string(TObj.GetKey(Index)));
   handleExceptionEnd
 end;
 
-function StringMultimap_GetValue(const TObj: ICefStringMultimap; Index: Integer): PChar; extdecl;
+procedure StringMultimap_GetValue(const TObj: ICefStringMultimap; Index: NativeUInt; out Result: PStringHeader); extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetValue(NativeUInt(Index))));
+  Result := NewStringHeader(TObj.GetValue(Index));
   handleExceptionEnd
 end;
 
