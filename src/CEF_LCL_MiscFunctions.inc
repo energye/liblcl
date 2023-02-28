@@ -25,32 +25,32 @@ begin
   handleExceptionEnd
 end;
 
-function CEFJSRegisterExtension(const name, code: PChar; const Handler: TV8HandlerRef): Boolean; extdecl;
+function CEFJSRegisterExtension(const name, code: PChar; const Handler: TV8HandlerRef): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := CefRegisterExtension(PCharToUStr(name), PCharToUStr(code), Handler);
   handleExceptionEnd
 end;
 
-function CEFCheckSubprocessPath(const aSubprocessPath: PChar; var aMissingFiles: PChar) : Boolean; extdecl;
+function CEFCheckSubprocessPath(const aSubprocessPath: PChar; var aMissingFiles: PChar) : LongBool; extdecl;
 begin
   handleExceptionBegin
   handleExceptionEnd
 end;
 
-function CEFCheckLocales(const aLocalesDirPath: PChar; var aMissingFiles: PChar; const aLocalesRequired: PChar) : Boolean; extdecl;
+function CEFCheckLocales(const aLocalesDirPath: PChar; var aMissingFiles: PChar; const aLocalesRequired: PChar) : LongBool; extdecl;
 begin
   handleExceptionBegin
   handleExceptionEnd
 end;
 
-function CEFCheckResources(const aResourcesDirPath: PChar; var aMissingFiles: PChar) : Boolean; extdecl;
+function CEFCheckResources(const aResourcesDirPath: PChar; var aMissingFiles: PChar) : LongBool; extdecl;
 begin
   handleExceptionBegin
   handleExceptionEnd
 end;
 
-function CEFCheckDLLs(const aFrameworkDirPath: PChar; var aMissingFiles: PChar) : Boolean; extdecl;
+function CEFCheckDLLs(const aFrameworkDirPath: PChar; var aMissingFiles: PChar) : LongBool; extdecl;
 begin
   handleExceptionBegin
   handleExceptionEnd

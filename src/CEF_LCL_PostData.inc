@@ -11,14 +11,14 @@ begin
   handleExceptionEnd
 end;
 
-function CefPostData_IsReadOnly(const TObj: ICefPostData): Boolean; extdecl;
+function CefPostData_IsReadOnly(const TObj: ICefPostData): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsReadOnly();
   handleExceptionEnd
 end;
 
-function CefPostData_HasExcludedElements(const TObj: ICefPostData): Boolean; extdecl;
+function CefPostData_HasExcludedElements(const TObj: ICefPostData): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.HasExcludedElements();
@@ -39,14 +39,14 @@ begin
   handleExceptionEnd
 end;
 
-function CefPostData_RemoveElement(const TObj: ICefPostData; const element: ICefPostDataElement): Boolean; extdecl;
+function CefPostData_RemoveElement(const TObj: ICefPostData; const element: ICefPostDataElement): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.RemoveElement(element);
   handleExceptionEnd
 end;
 
-function CefPostData_AddElement(const TObj: ICefPostData; const element: ICefPostDataElement): Boolean; extdecl;
+function CefPostData_AddElement(const TObj: ICefPostData; const element: ICefPostDataElement): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.AddElement(element);

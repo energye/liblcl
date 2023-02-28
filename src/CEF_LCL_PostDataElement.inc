@@ -11,7 +11,7 @@ begin
   handleExceptionEnd
 end;
 
-function  PostDataElement_IsReadOnly(const TObj: ICefPostDataElement): Boolean; extdecl;
+function  PostDataElement_IsReadOnly(const TObj: ICefPostDataElement): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsReadOnly();

@@ -27,7 +27,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_Equals(const AObj: TChromium; Obj: TObject): Boolean; extdecl;
+function CEFChromium_Equals(const AObj: TChromium; Obj: TObject): LongBool; extdecl;
 begin
   {$ifdef UsehandleException}Result := False;{$endif}
   handleExceptionBegin
@@ -51,7 +51,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_InheritsFrom(const AObj: TChromium; AClass: TClass): Boolean; extdecl;
+function CEFChromium_InheritsFrom(const AObj: TChromium; AClass: TClass): LongBool; extdecl;
 begin
   {$ifdef UsehandleException}Result := False;{$endif}
   handleExceptionBegin
@@ -125,7 +125,7 @@ begin
 end;
 
 //设置 MultiBrowserMode 模式
-procedure CEFChromium_SetMultiBrowserMode(const AObj: TChromium; AValue: Boolean); extdecl;
+procedure CEFChromium_SetMultiBrowserMode(const AObj: TChromium; AValue: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.MultiBrowserMode := AValue;
@@ -157,7 +157,7 @@ begin
 end;
 
 //下载图片
-procedure CEFChromium_DownloadImage(const AObj: TChromium; const imageUrl: PChar; isFavicon: Boolean; maxImageSize: integer; bypassCache: Boolean); extdecl;
+procedure CEFChromium_DownloadImage(const AObj: TChromium; const imageUrl: PChar; isFavicon: LongBool; maxImageSize: integer; bypassCache: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.DownloadImage(PCharToUStr(imageUrl), isFavicon, maxImageSize, bypassCache);
@@ -197,7 +197,7 @@ begin
 end;
 
 //创建浏览器
-function CEFChromium_CreateBrowserByWindow(const AObj: TChromium; window: TCEFWindowParent): Boolean; extdecl;
+function CEFChromium_CreateBrowserByWindow(const AObj: TChromium; window: TCEFWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
@@ -205,7 +205,7 @@ begin
 end;
 
 //创建浏览器
-function CEFChromium_CreateBrowserByLinkedWindow(const AObj: TChromium; window: TCEFLinkedWindowParent): Boolean; extdecl;
+function CEFChromium_CreateBrowserByLinkedWindow(const AObj: TChromium; window: TCEFLinkedWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
@@ -213,7 +213,7 @@ begin
 end;
 
 //创建浏览器
-function CEFChromium_CreateBrowserByBrowserViewComponent(const AObj: TChromium; PHomePage: PChar; BrowserViewComponent: TCEFBrowserViewComponent): Boolean; extdecl;
+function CEFChromium_CreateBrowserByBrowserViewComponent(const AObj: TChromium; PHomePage: PChar; BrowserViewComponent: TCEFBrowserViewComponent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.CreateBrowser(PCharToUStr(PHomePage), BrowserViewComponent);
@@ -221,7 +221,7 @@ begin
 end;
 
 //浏览器初始化
-function CEFChromium_Initialized(const AObj: TChromium): Boolean; extdecl;
+function CEFChromium_Initialized(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Initialized;
@@ -229,7 +229,7 @@ begin
 end;
 
 //判断是否为当前浏览器
-function CEFChromium_IsSameBrowser(const AObj: TChromium; const that: ICefBrowser): Boolean; extdecl;
+function CEFChromium_IsSameBrowser(const AObj: TChromium; const that: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.IsSameBrowser(that);
@@ -285,7 +285,7 @@ begin
 end;
 
 //关闭 CloseBrowser
-procedure CEFChromium_CloseBrowser(const AObj: TChromium; forceClose: Boolean); extdecl;
+procedure CEFChromium_CloseBrowser(const AObj: TChromium; forceClose: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.CloseBrowser(forceClose);
@@ -354,7 +354,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_VisitURLCookies(const AObj: TChromium; URL: PChar; includeHttpOnly: boolean; aID: integer); extdecl;
+procedure CEFChromium_VisitURLCookies(const AObj: TChromium; URL: PChar; includeHttpOnly: LongBool; aID: integer); extdecl;
 begin
   handleExceptionBegin
   AObj.VisitURLCookies(PCharToUStr(URL), includeHttpOnly, aID);
@@ -364,11 +364,11 @@ end;
 procedure CEFChromium_SetCookie(const AObj: TChromium; CefCookie: PRCefCookie); extdecl;
 var
   url, name, value, domain, path: ustring;
-  secure, httponly, hasExpires: boolean;
+  secure, httponly, hasExpires: LongBool;
   creation, lastAccess, expires: double;
   sameSite: TCefCookieSameSite;
   priority: TCefCookiePriority;
-  aSetImmediately: boolean;
+  aSetImmediately: LongBool;
   aID: integer;
 begin
   handleExceptionBegin
@@ -377,22 +377,22 @@ begin
   value := PCharToUStr(CefCookie.value);
   domain := PCharToUStr(CefCookie.domain);
   path := PCharToUStr(CefCookie.path);
-  secure := Boolean(PBoolean(CefCookie.secure));
-  httponly := Boolean(PBoolean(CefCookie.httponly));
-  hasExpires := Boolean(PBoolean(CefCookie.hasExpires));
+  secure := LongBool(PLongBool(CefCookie.secure));
+  httponly := LongBool(PLongBool(CefCookie.httponly));
+  hasExpires := LongBool(PLongBool(CefCookie.hasExpires));
   creation := Double(PDouble(CefCookie.creation)^);
   lastAccess := Double(PDouble(CefCookie.lastAccess)^);
   expires := Double(PDouble(CefCookie.expires)^);
   sameSite := TCefCookieSameSite(Integer(CefCookie.sameSite));
   priority := TCefCookiePriority(Integer(CefCookie.priority));
-  aSetImmediately := Boolean(PBoolean(CefCookie.aSetImmediately));
+  aSetImmediately := LongBool(PLongBool(CefCookie.aSetImmediately));
   aID := Integer(CefCookie.aID);
   AObj.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, sameSite, priority, aSetImmediately, aID);
   CefCookie := nil;
   handleExceptionEnd
 end;
 
-procedure CEFChromium_DeleteCookies(const AObj: TChromium; PUrl: PChar; PCookieName: PChar; DeleteImmediately: boolean); extdecl;
+procedure CEFChromium_DeleteCookies(const AObj: TChromium; PUrl: PChar; PCookieName: PChar; DeleteImmediately: LongBool); extdecl;
 var
   url: ustring;
   cookieName: ustring;
@@ -437,14 +437,14 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_CreateClientHandler(const AObj: TChromium; client: ICefClient; alsOSR: boolean): Boolean ; extdecl;
+function CEFChromium_CreateClientHandler(const AObj: TChromium; client: ICefClient; alsOSR: LongBool): LongBool ; extdecl;
 begin
   handleExceptionBegin
   Result:= AObj.CreateClientHandler(client, alsOSR);
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SetFocus(const AObj: TChromium; Value: Boolean);extdecl;
+procedure CEFChromium_SetFocus(const AObj: TChromium; Value: LongBool);extdecl;
 begin
   handleExceptionBegin
   AObj.SetFocus(Value);
@@ -458,14 +458,14 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_FrameIsFocused(const AObj: TChromium): Boolean ; extdecl;
+function CEFChromium_FrameIsFocused(const AObj: TChromium): LongBool ; extdecl;
 begin
   handleExceptionBegin
   Result:= AObj.FrameIsFocused;
   handleExceptionEnd
 end;
 
-function CEFChromium_TryCloseBrowser(const AObj: TChromium): Boolean ; extdecl;
+function CEFChromium_TryCloseBrowser(const AObj: TChromium): LongBool ; extdecl;
 begin
   handleExceptionBegin
   Result:= AObj.TryCloseBrowser;
@@ -521,14 +521,14 @@ begin
 end;
 
 //JavascriptEnabled
-procedure CEFChromium_SetJavascriptEnabled(const AObj: TChromium; EnabledJavascript: boolean); extdecl;
+procedure CEFChromium_SetJavascriptEnabled(const AObj: TChromium; EnabledJavascript: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.JavascriptEnabled := EnabledJavascript;//default true
   handleExceptionEnd
 end;
 
-function CEFChromium_GetJavascriptEnabled(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetJavascriptEnabled(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.JavascriptEnabled;
@@ -614,14 +614,14 @@ begin
 end;
 
 //LoadImagesAutomatically
-procedure CEFChromium_SetLoadImagesAutomatically(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetLoadImagesAutomatically(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.LoadImagesAutomatically := value; //defalt true
   handleExceptionEnd
 end;
 
-function CEFChromium_GetLoadImagesAutomatically(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetLoadImagesAutomatically(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.LoadImagesAutomatically;
@@ -629,14 +629,14 @@ begin
 end;
 
 //QuicAllowed
-procedure CEFChromium_SetQuicAllowed(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetQuicAllowed(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.QuicAllowed := value; //defalt true
   handleExceptionEnd
 end;
 
-function CEFChromium_GetQuicAllowed(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetQuicAllowed(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.QuicAllowed;
@@ -644,14 +644,14 @@ begin
 end;
 
 //Offline
-procedure CEFChromium_SetOffline(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetOffline(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.Offline := value; //defalt False
   handleExceptionEnd
 end;
 
-function CEFChromium_GetOffline(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetOffline(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Offline;
@@ -674,14 +674,14 @@ begin
 end;
 
 //Block3rdPartyCookies
-procedure CEFChromium_SetBlock3rdPartyCookies(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetBlock3rdPartyCookies(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.Block3rdPartyCookies := value; //defalt False
   handleExceptionEnd
 end;
 
-function CEFChromium_GetBlock3rdPartyCookies(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetBlock3rdPartyCookies(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Block3rdPartyCookies;
@@ -719,14 +719,14 @@ begin
 end;
 
 //PrintingEnabled
-procedure CEFChromium_SetPrintingEnabled(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetPrintingEnabled(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.PrintingEnabled := value; //defalt True
   handleExceptionEnd
 end;
 
-function CEFChromium_GetPrintingEnabled(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetPrintingEnabled(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.PrintingEnabled;
@@ -748,28 +748,28 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SetSafeSearch(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetSafeSearch(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.SafeSearch := value; //defalt False
   handleExceptionEnd
 end;
 
-function CEFChromium_GetSafeSearch(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetSafeSearch(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.SafeSearch;
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SetAudioMuted(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetAudioMuted(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.AudioMuted := value; //defalt ?
   handleExceptionEnd
 end;
 
-function CEFChromium_GetAudioMuted(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetAudioMuted(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.AudioMuted;
@@ -811,84 +811,84 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SetSpellChecking(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetSpellChecking(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.SpellChecking := value; //default True
   handleExceptionEnd
 end;
 
-function CEFChromium_GetSpellChecking(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetSpellChecking(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.SpellChecking;
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SetAlwaysOpenPDFExternally(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetAlwaysOpenPDFExternally(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.AlwaysOpenPDFExternally := value; //default False
   handleExceptionEnd
 end;
 
-function CEFChromium_GetAlwaysOpenPDFExternally(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetAlwaysOpenPDFExternally(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.AlwaysOpenPDFExternally;
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SetAlwaysAuthorizePlugins(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetAlwaysAuthorizePlugins(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.AlwaysAuthorizePlugins := value; //default False
   handleExceptionEnd
 end;
 
-function CEFChromium_GetAlwaysAuthorizePlugins(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetAlwaysAuthorizePlugins(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.AlwaysAuthorizePlugins;
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SetAllowOutdatedPlugins(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetAllowOutdatedPlugins(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.AllowOutdatedPlugins := value; //default False
   handleExceptionEnd
 end;
 
-function CEFChromium_GetAllowOutdatedPlugins(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetAllowOutdatedPlugins(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.AllowOutdatedPlugins;
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SetSendReferrer(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetSendReferrer(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.SendReferrer := value; //default = True
   handleExceptionEnd
 end;
 
-function CEFChromium_GetSendReferrer(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetSendReferrer(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.SendReferrer;
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SetDoNotTrack(const AObj: TChromium; value: boolean); extdecl;
+procedure CEFChromium_SetDoNotTrack(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.DoNotTrack := value; //default = True
   handleExceptionEnd
 end;
 
-function CEFChromium_GetDoNotTrack(const AObj: TChromium): boolean; extdecl;
+function CEFChromium_GetDoNotTrack(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.DoNotTrack;

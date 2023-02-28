@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-function CefResponse_IsReadOnly(const TObj: ICefResponse): Boolean; extdecl;
+function CefResponse_IsReadOnly(const TObj: ICefResponse): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsReadOnly;
@@ -52,7 +52,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefResponse_SetHeaderByName(const TObj: ICefResponse; name, value: PChar; overwrite: boolean); extdecl;
+procedure CefResponse_SetHeaderByName(const TObj: ICefResponse; name, value: PChar; overwrite: LongBool); extdecl;
 begin
   handleExceptionBegin
   TObj.SetHeaderByName(PCharToUStr(name), PCharToUStr(value), overwrite);

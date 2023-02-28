@@ -85,7 +85,7 @@ begin
 end;
 
 //CEFFrame_IsValid
-function CEFFrame_IsValid(const TObj: ICefFrame): Boolean; extdecl;
+function CEFFrame_IsValid(const TObj: ICefFrame): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsValid;
@@ -93,7 +93,7 @@ begin
 end;
 
 //CEFFrame_IsMain
-function CEFFrame_IsMain(const TObj: ICefFrame): Boolean; extdecl;
+function CEFFrame_IsMain(const TObj: ICefFrame): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsMain;
@@ -101,7 +101,7 @@ begin
 end;
 
 //CEFFrame_IsFocused
-function CEFFrame_IsFocused(const TObj: ICefFrame): Boolean; extdecl;
+function CEFFrame_IsFocused(const TObj: ICefFrame): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsFocused;

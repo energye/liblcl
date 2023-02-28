@@ -72,28 +72,28 @@ begin
   handleExceptionEnd
 end;
 
-function CEFLinkedWindow_GetVisible(AObj: TCEFLinkedWindowParent): Boolean; extdecl;
+function CEFLinkedWindow_GetVisible(AObj: TCEFLinkedWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result :=  AObj.Visible;
   handleExceptionEnd
 end;
 
-procedure CEFLinkedWindow_SetVisible(AObj: TCEFLinkedWindowParent; AValue: Boolean); extdecl;
+procedure CEFLinkedWindow_SetVisible(AObj: TCEFLinkedWindowParent; AValue: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.Visible := AValue;
   handleExceptionEnd
 end;
 
-function CEFLinkedWindow_GetEnabled(AObj: TCEFLinkedWindowParent): Boolean; extdecl;
+function CEFLinkedWindow_GetEnabled(AObj: TCEFLinkedWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result :=  AObj.Enabled;
   handleExceptionEnd
 end;
 
-procedure CEFLinkedWindow_SetEnabled(AObj: TCEFLinkedWindowParent; AValue: Boolean); extdecl;
+procedure CEFLinkedWindow_SetEnabled(AObj: TCEFLinkedWindowParent; AValue: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.Enabled := AValue;
@@ -200,7 +200,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFLinkedWindow_HandleAllocated(AObj: TCEFLinkedWindowParent): Boolean; extdecl;
+function CEFLinkedWindow_HandleAllocated(AObj: TCEFLinkedWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.HandleAllocated;
@@ -214,7 +214,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFLinkedWindow_DestroyChildWindow(AObj: TCEFLinkedWindowParent): Boolean; extdecl;
+function CEFLinkedWindow_DestroyChildWindow(AObj: TCEFLinkedWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.DestroyChildWindow;

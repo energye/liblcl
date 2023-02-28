@@ -47,21 +47,21 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_CloseBrowser(const TObj: ICefBrowser; forceClose: Boolean); extdecl;
+procedure CEFBrowser_CloseBrowser(const TObj: ICefBrowser; forceClose: LongBool); extdecl;
 begin
   handleExceptionBegin
   TObj.GetHost.CloseBrowser(forceClose);
   handleExceptionEnd
 end;
 
-function CEFBrowser_TryCloseBrowser(const TObj: ICefBrowser): Boolean; extdecl;
+function CEFBrowser_TryCloseBrowser(const TObj: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetHost.TryCloseBrowser();
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SetFocus(const TObj: ICefBrowser; focus: Boolean); extdecl;
+procedure CEFBrowser_SetFocus(const TObj: ICefBrowser; focus: LongBool); extdecl;
 begin
   handleExceptionBegin
   TObj.GetHost.SetFocus(focus);
@@ -101,7 +101,7 @@ begin
 end;
 
 // TODO 待写回调函数
-procedure CEFBrowser_DownloadImage(const TObj: ICefBrowser; const PImageUrl: PChar; isFavicon: Boolean; maxImageSize: integer; bypassCache: Boolean); extdecl;
+procedure CEFBrowser_DownloadImage(const TObj: ICefBrowser; const PImageUrl: PChar; isFavicon: LongBool; maxImageSize: integer; bypassCache: LongBool); extdecl;
 var
   callback: ICefDownloadImageCallback;
 begin
@@ -142,14 +142,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SendMouseClickEvent(const TObj: ICefBrowser; const event: PCefMouseEvent; type_: integer; mouseUp: Boolean; clickCount: Integer); extdecl;
+procedure CEFBrowser_SendMouseClickEvent(const TObj: ICefBrowser; const event: PCefMouseEvent; type_: integer; mouseUp: LongBool; clickCount: Integer); extdecl;
 begin
   handleExceptionBegin
   TObj.GetHost.SendMouseClickEvent(event, TCefMouseButtonType(type_), mouseUp, clickCount);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SendMouseMoveEvent(const TObj: ICefBrowser; const event: PCefMouseEvent; mouseLeave: Boolean); extdecl;
+procedure CEFBrowser_SendMouseMoveEvent(const TObj: ICefBrowser; const event: PCefMouseEvent; mouseLeave: LongBool); extdecl;
 begin
   handleExceptionBegin
   TObj.GetHost.SendMouseMoveEvent(event, mouseLeave);
@@ -198,28 +198,28 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SetAutoResizeEnabled(const TObj: ICefBrowser; enabled: boolean; const min_size, max_size: PCefSize); extdecl;
+procedure CEFBrowser_SetAutoResizeEnabled(const TObj: ICefBrowser; enabled: LongBool; const min_size, max_size: PCefSize); extdecl;
 begin
   handleExceptionBegin
   TObj.GetHost.SetAutoResizeEnabled(enabled, min_size, max_size);
   handleExceptionEnd
 end;
 
-function CEFBrowser_IsBackgroundHost(const TObj: ICefBrowser) : Boolean; extdecl;
+function CEFBrowser_IsBackgroundHost(const TObj: ICefBrowser) : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetHost.IsBackgroundHost;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SetAudioMuted(const TObj: ICefBrowser; mute: boolean); extdecl;
+procedure CEFBrowser_SetAudioMuted(const TObj: ICefBrowser; mute: LongBool); extdecl;
 begin
   handleExceptionBegin
   TObj.GetHost.SetAudioMuted(mute);
   handleExceptionEnd
 end;
 
-function CEFBrowser_IsAudioMuted(const TObj: ICefBrowser) : Boolean; extdecl;
+function CEFBrowser_IsAudioMuted(const TObj: ICefBrowser) : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetHost.IsAudioMuted;
@@ -259,14 +259,14 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowser_HasDevTools(const TObj: ICefBrowser): Boolean; extdecl;
+function CEFBrowser_HasDevTools(const TObj: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetHost.HasDevTools;
   handleExceptionEnd
 end;
 
-function  CEFBrowser_CanGoBack(const TObj: ICefBrowser): Boolean; extdecl;
+function  CEFBrowser_CanGoBack(const TObj: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.CanGoBack;
@@ -280,7 +280,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowser_CanGoForward(const TObj: ICefBrowser): Boolean; extdecl;
+function CEFBrowser_CanGoForward(const TObj: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.CanGoForward;
@@ -294,7 +294,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowser_IsLoading(const TObj: ICefBrowser): Boolean; extdecl;
+function CEFBrowser_IsLoading(const TObj: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsLoading;
@@ -358,14 +358,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_Find(const TObj: ICefBrowser; PSearchText: PChar; forward_, matchCase, findNext: Boolean); extdecl;
+procedure CEFBrowser_Find(const TObj: ICefBrowser; PSearchText: PChar; forward_, matchCase, findNext: LongBool); extdecl;
 begin
   handleExceptionBegin
   TObj.GetHost.Find(PCharToUStr(PSearchText), forward_, matchCase, findNext);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_StopFinding(const TObj: ICefBrowser; clearSelection: Boolean); extdecl;
+procedure CEFBrowser_StopFinding(const TObj: ICefBrowser; clearSelection: LongBool); extdecl;
 begin
   handleExceptionBegin
   TObj.GetHost.StopFinding(clearSelection);

@@ -4,28 +4,28 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-function CefDownloadItem_IsValid(const TObj: ICefDownloadItem): Boolean; extdecl;
+function CefDownloadItem_IsValid(const TObj: ICefDownloadItem): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsValid();
   handleExceptionEnd
 end;
 
-function CefDownloadItem_IsInProgress(const TObj: ICefDownloadItem): Boolean; extdecl;
+function CefDownloadItem_IsInProgress(const TObj: ICefDownloadItem): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsInProgress();
   handleExceptionEnd
 end;
 
-function CefDownloadItem_IsComplete(const TObj: ICefDownloadItem): Boolean; extdecl;
+function CefDownloadItem_IsComplete(const TObj: ICefDownloadItem): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsComplete();
   handleExceptionEnd
 end;
 
-function CefDownloadItem_IsCanceled(const TObj: ICefDownloadItem): Boolean; extdecl;
+function CefDownloadItem_IsCanceled(const TObj: ICefDownloadItem): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsCanceled();
@@ -125,7 +125,7 @@ end;
 
 
 //设置下载目录
-procedure CefBeforeDownloadCallback_Cont(const TObj: ICefBeforeDownloadCallback; downloadPath: PChar; showDialog: Boolean); extdecl;
+procedure CefBeforeDownloadCallback_Cont(const TObj: ICefBeforeDownloadCallback; downloadPath: PChar; showDialog: LongBool); extdecl;
 begin
   handleExceptionBegin
   TObj.Cont(PCharToUStr(downloadPath), showDialog);

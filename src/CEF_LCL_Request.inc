@@ -5,7 +5,7 @@
 //----------------------------------------
 
 //request
-function CefRequest_IsReadOnly(const TObj: ICefRequest): Boolean; extdecl;
+function CefRequest_IsReadOnly(const TObj: ICefRequest): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsReadOnly;
@@ -54,7 +54,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefRequest_SetHeaderByName(const TObj: ICefRequest; name, value: PChar ; overwrite: boolean); extdecl;
+procedure CefRequest_SetHeaderByName(const TObj: ICefRequest; name, value: PChar ; overwrite: LongBool); extdecl;
 begin
   handleExceptionBegin
   TObj.SetHeaderByName(PCharToUStr(name), PCharToUStr(value), overwrite);

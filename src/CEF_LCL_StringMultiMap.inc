@@ -47,7 +47,7 @@ begin
   handleExceptionEnd
 end;
 
-function StringMultimap_Append(const TObj: ICefStringMultimap; Key, Value: PChar): Boolean; extdecl;
+function StringMultimap_Append(const TObj: ICefStringMultimap; Key, Value: PChar): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Append(PCharToUStr(Key), PCharToUStr(Value));

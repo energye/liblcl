@@ -64,28 +64,28 @@ begin
   handleExceptionEnd
 end;
 
-function CEFWindow_GetVisible(AObj: TCEFWindowParent): Boolean; extdecl;
+function CEFWindow_GetVisible(AObj: TCEFWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Visible;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetVisible(AObj: TCEFWindowParent; AValue: Boolean); extdecl;
+procedure CEFWindow_SetVisible(AObj: TCEFWindowParent; AValue: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.Visible := AValue;
   handleExceptionEnd
 end;
 
-function CEFWindow_GetEnabled(AObj: TCEFWindowParent): Boolean; extdecl;
+function CEFWindow_GetEnabled(AObj: TCEFWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Enabled;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetEnabled(AObj: TCEFWindowParent; AValue: Boolean); extdecl;
+procedure CEFWindow_SetEnabled(AObj: TCEFWindowParent; AValue: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.Enabled := AValue;
@@ -192,7 +192,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFWindow_HandleAllocated(AObj: TCEFWindowParent): Boolean ; extdecl;
+function CEFWindow_HandleAllocated(AObj: TCEFWindowParent): LongBool ; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.HandleAllocated;
@@ -206,7 +206,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFWindow_DestroyChildWindow(AObj: TCEFWindowParent): Boolean; extdecl;
+function CEFWindow_DestroyChildWindow(AObj: TCEFWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.DestroyChildWindow;

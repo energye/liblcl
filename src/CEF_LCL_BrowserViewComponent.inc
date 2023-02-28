@@ -11,7 +11,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_CreateBrowserView(const TObj: TCEFBrowserViewComponent; client: ICefClient; PUrl: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings; const extra_info: ICefDictionaryValue): Boolean; extdecl;
+function CEFBrowserViewComponent_CreateBrowserView(const TObj: TCEFBrowserViewComponent; client: ICefClient; PUrl: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings; const extra_info: ICefDictionaryValue): LongBool; extdecl;
 var
   request_context: ICefRequestContext;
   requestContextSettings: PCefRequestContextSettings;
@@ -63,14 +63,14 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_GetForBrowser(const TObj: TCEFBrowserViewComponent; const browser: ICefBrowser): Boolean; extdecl;
+function CEFBrowserViewComponent_GetForBrowser(const TObj: TCEFBrowserViewComponent; const browser: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetForBrowser(browser);
   handleExceptionEnd
 end;
 
-procedure CEFBrowserViewComponent_SetPreferAccelerators(const TObj: TCEFBrowserViewComponent; prefer_accelerators: boolean); extdecl;
+procedure CEFBrowserViewComponent_SetPreferAccelerators(const TObj: TCEFBrowserViewComponent; prefer_accelerators: LongBool); extdecl;
 begin
   handleExceptionBegin
   TObj.SetPreferAccelerators(prefer_accelerators);

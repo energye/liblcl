@@ -33,7 +33,7 @@ begin
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsClosed(AWindow: ICefWindow): Boolean; extdecl;
+function ICEFWindow_IsClosed(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsClosed;
@@ -54,7 +54,7 @@ begin
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsActive(AWindow: ICefWindow): Boolean; extdecl;
+function ICEFWindow_IsActive(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsActive;
@@ -68,14 +68,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_SetAlwaysOnTop(AWindow: ICefWindow; on_top: boolean); extdecl;
+procedure ICEFWindow_SetAlwaysOnTop(AWindow: ICefWindow; on_top: LongBool); extdecl;
 begin
   handleExceptionBegin
   AWindow.SetAlwaysOnTop(on_top);
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsAlwaysOnTop(AWindow: ICefWindow): Boolean; extdecl;
+function ICEFWindow_IsAlwaysOnTop(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsAlwaysOnTop;
@@ -103,7 +103,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_SetFullscreen(AWindow: ICefWindow; fullscreen: boolean); extdecl;
+procedure ICEFWindow_SetFullscreen(AWindow: ICefWindow; fullscreen: LongBool); extdecl;
 begin
   handleExceptionBegin
   AWindow.SetFullscreen(fullscreen);
@@ -138,21 +138,21 @@ begin
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsMaximized(AWindow: ICefWindow): Boolean; extdecl;
+function ICEFWindow_IsMaximized(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsMaximized;
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsMinimized(AWindow: ICefWindow): Boolean; extdecl;
+function ICEFWindow_IsMinimized(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsMinimized;
   handleExceptionEnd
 end;
 
-function ICEFWindow_IsFullscreen(AWindow: ICefWindow): Boolean; extdecl;
+function ICEFWindow_IsFullscreen(AWindow: ICefWindow): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.IsFullscreen;
@@ -322,14 +322,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_SendMouseEvents(AWindow: ICefWindow; button: TCefMouseButtonType; mouse_down, mouse_up: boolean); extdecl;
+procedure ICEFWindow_SendMouseEvents(AWindow: ICefWindow; button: TCefMouseButtonType; mouse_down, mouse_up: LongBool); extdecl;
 begin
   handleExceptionBegin
   AWindow.SendMouseEvents(button, mouse_down, mouse_up);
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_SetAccelerator(AWindow: ICefWindow; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean); extdecl;
+procedure ICEFWindow_SetAccelerator(AWindow: ICefWindow; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: LongBool); extdecl;
 begin
   handleExceptionBegin
   AWindow.SetAccelerator(command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed);

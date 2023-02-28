@@ -18,14 +18,14 @@ begin
   handleExceptionEnd
 end;
 
-function CefBinaryValue_IsValid(const TObj: ICefBinaryValue): Boolean; extdecl;
+function CefBinaryValue_IsValid(const TObj: ICefBinaryValue): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsValid();
   handleExceptionEnd
 end;
 
-function CefBinaryValue_IsOwned(const TObj: ICefBinaryValue): Boolean; extdecl;
+function CefBinaryValue_IsOwned(const TObj: ICefBinaryValue): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsOwned();

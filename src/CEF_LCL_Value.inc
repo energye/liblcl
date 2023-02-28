@@ -11,21 +11,21 @@ begin
   handleExceptionEnd
 end;
 
-function CefValue_IsValid(const TObj: ICefValue): Boolean; extdecl;
+function CefValue_IsValid(const TObj: ICefValue): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsValid();
   handleExceptionEnd
 end;
 
-function CefValue_IsOwned(const TObj: ICefValue): Boolean; extdecl;
+function CefValue_IsOwned(const TObj: ICefValue): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsOwned();
   handleExceptionEnd
 end;
 
-function CefValue_IsReadOnly(const TObj: ICefValue): Boolean; extdecl;
+function CefValue_IsReadOnly(const TObj: ICefValue): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.IsReadOnly();
@@ -46,7 +46,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefValue_GetBool(const TObj: ICefValue): Boolean; extdecl;
+function CefValue_GetBool(const TObj: ICefValue): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetBool();
@@ -95,56 +95,56 @@ begin
   handleExceptionEnd
 end;
 
-function CefValue_SetNull(const TObj: ICefValue): Boolean; extdecl;
+function CefValue_SetNull(const TObj: ICefValue): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetNull();
   handleExceptionEnd
 end;
 
-function CefValue_SetBool(const TObj: ICefValue; value: Boolean): Boolean; extdecl;
+function CefValue_SetBool(const TObj: ICefValue; value: LongBool): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetBool(value);
   handleExceptionEnd
 end;
 
-function CefValue_SetInt(const TObj: ICefValue; value: Integer): Boolean; extdecl;
+function CefValue_SetInt(const TObj: ICefValue; value: Integer): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetInt(value);
   handleExceptionEnd
 end;
 
-function CefValue_SetDouble(const TObj: ICefValue; value: Pointer): Boolean; extdecl;
+function CefValue_SetDouble(const TObj: ICefValue; value: Pointer): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetDouble(Double(PDouble(value)^));
   handleExceptionEnd
 end;
 
-function CefValue_SetString(const TObj: ICefValue; const value: PChar): Boolean; extdecl;
+function CefValue_SetString(const TObj: ICefValue; const value: PChar): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetString(PCharToUStr(value));
   handleExceptionEnd
 end;
 
-function CefValue_SetBinary(const TObj: ICefValue; const value: ICefBinaryValue): Boolean; extdecl;
+function CefValue_SetBinary(const TObj: ICefValue; const value: ICefBinaryValue): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetBinary(value);
   handleExceptionEnd
 end;
 
-function CefValue_SetDictionary(const TObj: ICefValue; const value: ICefDictionaryValue): Boolean; extdecl;
+function CefValue_SetDictionary(const TObj: ICefValue; const value: ICefDictionaryValue): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetDictionary(value);
   handleExceptionEnd
 end;
 
-function CefValue_SetList(const TObj: ICefValue; const value: ICefListValue): Boolean; extdecl;
+function CefValue_SetList(const TObj: ICefValue; const value: ICefListValue): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetList(value);
