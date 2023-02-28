@@ -5,14 +5,14 @@
 //----------------------------------------
 
 //cef callback
-procedure cefCallback_Cont(TObj: ICefCallback); extdecl;
+procedure cefCallback_Cont(const TObj: ICefCallback); extdecl;
 begin
   handleExceptionBegin
   TObj.Cont;
   handleExceptionEnd
 end;
 
-procedure cefCallback_Cancel(TObj: ICefCallback); extdecl;
+procedure cefCallback_Cancel(const TObj: ICefCallback); extdecl;
 begin
   handleExceptionBegin
   TObj.Cancel;

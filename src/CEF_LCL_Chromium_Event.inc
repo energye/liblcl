@@ -7,7 +7,7 @@
 {====== events ======}
 
 //EVENT_TYPE:ChromiumEventOnCookieVisitorDestroyed
-procedure CEFChromium_SetOnCookieVisitorDestroyed(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnCookieVisitorDestroyed(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnCookieVisitorDestroyed}
   {$DEFINE EventName := OnCookieVisitorDestroyed}
@@ -15,7 +15,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnCookiesVisited
-procedure CEFChromium_SetOnCookiesVisited(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnCookiesVisited(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnCookiesVisited}
   {$DEFINE EventName := OnCookiesVisited}
@@ -23,7 +23,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnCookiesFlushed
-procedure CEFChromium_SetOnCookiesFlushed(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnCookiesFlushed(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnCookiesFlushed}
   {$DEFINE EventName := OnCookiesFlushed}
@@ -31,7 +31,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnCookiesDeleted
-procedure CEFChromium_SetOnCookiesDeleted(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnCookiesDeleted(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnCookiesDeleted}
   {$DEFINE EventName := OnCookiesDeleted}
@@ -39,7 +39,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnCookieSet
-procedure CEFChromium_SetOnCookieSet(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnCookieSet(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnCookieSet}
   {$DEFINE EventName := OnCookieSet}
@@ -47,7 +47,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnAfterCreated
-procedure CEFChromium_SetOnAfterCreated(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnAfterCreated(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnAfterCreated}
   {$DEFINE EventName := OnAfterCreated}
@@ -55,7 +55,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnBeforeBrowse
-procedure CEFChromium_SetOnBeforeBrowse(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnBeforeBrowse(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnBeforeBrowse}
   {$DEFINE EventName := OnBeforeBrowse}
@@ -63,7 +63,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnAddressChange
-procedure CEFChromium_SetOnAddressChange(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnAddressChange(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnAddressChange}
   {$DEFINE EventName := OnAddressChange}
@@ -71,7 +71,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnBeforeClose
-procedure CEFChromium_SetOnBeforeClose(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnBeforeClose(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnBeforeClose}
   {$DEFINE EventName := OnBeforeClose}
@@ -79,7 +79,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnClose
-procedure CEFChromium_SetOnClose(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnClose(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnClose}
   {$DEFINE EventName := OnClose}
@@ -87,7 +87,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnBeforeContextMenu
-procedure CEFChromium_SetOnBeforeContextMenu(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnBeforeContextMenu(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnBeforeContextMenu}
   {$DEFINE EventName := OnBeforeContextMenu}
@@ -95,7 +95,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnContextMenuCommand
-procedure CEFChromium_SetOnContextMenuCommand(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnContextMenuCommand(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnContextMenuCommand}
   {$DEFINE EventName := OnContextMenuCommand}
@@ -103,7 +103,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnContextMenuDismissed
-procedure CEFChromium_SetOnContextMenuDismissed(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnContextMenuDismissed(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnContextMenuDismissed}
   {$DEFINE EventName := OnContextMenuDismissed}
@@ -111,7 +111,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventResult
-procedure CEFChromium_SetOnPdfPrintFinished(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnPdfPrintFinished(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnPdfPrintFinished}
   {$DEFINE EventName := OnPdfPrintFinished}
@@ -119,7 +119,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnLoadStart
-procedure CEFChromium_SetOnLoadStart(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnLoadStart(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnLoadStart}
   {$DEFINE EventName := OnLoadStart}
@@ -127,7 +127,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnLoadingStateChange
-procedure CEFChromium_SetOnLoadingStateChange(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnLoadingStateChange(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnLoadingStateChange}
   {$DEFINE EventName := OnLoadingStateChange}
@@ -135,7 +135,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnLoadingProgressChange
-procedure CEFChromium_SetOnLoadingProgressChange(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnLoadingProgressChange(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnLoadingProgressChange}
   {$DEFINE EventName := OnLoadingProgressChange}
@@ -143,7 +143,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnLoadError
-procedure CEFChromium_SetOnLoadError(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnLoadError(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnLoadError}
   {$DEFINE EventName := OnLoadError}
@@ -151,7 +151,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnOnLoadEnd
-procedure CEFChromium_SetOnLoadEnd(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnLoadEnd(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnLoadEnd}
   {$DEFINE EventName := OnLoadEnd}
@@ -159,7 +159,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnBeforeDownload
-procedure CEFChromium_SetOnBeforeDownload(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnBeforeDownload(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnBeforeDownload}
   {$DEFINE EventName := OnBeforeDownload}
@@ -167,7 +167,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnDownloadUpdated
-procedure CEFChromium_SetOnDownloadUpdated(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDownloadUpdated(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDownloadUpdated}
   {$DEFINE EventName := OnDownloadUpdated}
@@ -175,7 +175,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnResultFloat
-procedure CEFChromium_SetOnZoomPctAvailable(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnZoomPctAvailable(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnZoomPctAvailable}
   {$DEFINE EventName := OnZoomPctAvailable}
@@ -183,7 +183,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnFullScreenModeChange
-procedure CEFChromium_SetOnFullScreenModeChange(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnFullScreenModeChange(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnFullScreenModeChange}
   {$DEFINE EventName := OnFullScreenModeChange}
@@ -191,7 +191,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnKeyEvent 键盘事件
-procedure CEFChromium_SetOnKeyEvent(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnKeyEvent(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_KeyEvent}
   {$DEFINE EventName := OnKeyEvent}
@@ -199,7 +199,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnTitleChange
-procedure CEFChromium_SetOnTitleChange(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnTitleChange(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnTitleChange}
   {$DEFINE EventName := OnTitleChange}
@@ -207,7 +207,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnRenderCompMsg
-procedure CEFChromium_SetOnRenderCompMsg(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnRenderCompMsg(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$ifdef windows}
   {$DEFINE EventMethodName := ChromiumEvent_OnRenderCompMsg}
@@ -217,7 +217,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnWidgetCompMsg
-procedure CEFChromium_SetOnWidgetCompMsg(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnWidgetCompMsg(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$ifdef windows}
   {$DEFINE EventMethodName := ChromiumEvent_OnWidgetCompMsg}
@@ -227,7 +227,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnBrowserCompMsg
-procedure CEFChromium_SetOnBrowserCompMsg(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnBrowserCompMsg(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$ifdef windows}
   {$DEFINE EventMethodName := ChromiumEvent_OnBrowserCompMsg}
@@ -237,7 +237,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnRenderProcessTerminated
-procedure CEFChromium_SetOnRenderProcessTerminated(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnRenderProcessTerminated(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnRenderProcessTerminated}
   {$DEFINE EventName := OnRenderProcessTerminated}
@@ -245,7 +245,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnRenderViewReady
-procedure CEFChromium_SetOnRenderViewReady(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnRenderViewReady(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnRenderViewReady}
   {$DEFINE EventName := OnRenderViewReady}
@@ -253,7 +253,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnScrollOffsetChanged
-procedure CEFChromium_SetOnScrollOffsetChanged(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnScrollOffsetChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnScrollOffsetChanged}
   {$DEFINE EventName := OnScrollOffsetChanged}
@@ -261,7 +261,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnProcessMessageReceived
-procedure CEFChromium_SetOnProcessMessageReceived(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnProcessMessageReceived(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnProcessMessageReceived}
   {$DEFINE EventName := OnProcessMessageReceived}
@@ -269,7 +269,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnFindResult
-procedure CEFChromium_SetOnFindResult(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnFindResult(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnFindResult}
   {$DEFINE EventName := OnFindResult}
@@ -277,7 +277,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnBeforeResourceLoad
-procedure CEFChromium_SetOnBeforeResourceLoad(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnBeforeResourceLoad(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnBeforeResourceLoad}
   {$DEFINE EventName := OnBeforeResourceLoad}
@@ -285,7 +285,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnResourceResponse
-procedure CEFChromium_SetOnResourceResponse(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnResourceResponse(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnResourceResponse}
   {$DEFINE EventName := OnResourceResponse}
@@ -293,7 +293,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnResourceRedirect
-procedure CEFChromium_SetOnResourceRedirect(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnResourceRedirect(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnResourceRedirect}
   {$DEFINE EventName := OnResourceRedirect}
@@ -301,7 +301,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnResourceLoadComplete
-procedure CEFChromium_SetOnResourceLoadComplete(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnResourceLoadComplete(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnResourceLoadComplete}
   {$DEFINE EventName := OnResourceLoadComplete}
@@ -309,7 +309,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnFrameAttached
-procedure CEFChromium_SetOnFrameAttached(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnFrameAttached(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnFrameAttached}
   {$DEFINE EventName := OnFrameAttached}
@@ -317,7 +317,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnFrameCreated
-procedure CEFChromium_SetOnFrameCreated(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnFrameCreated(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnFrameCreated}
   {$DEFINE EventName := OnFrameCreated}
@@ -325,7 +325,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnFrameDetached
-procedure CEFChromium_SetOnFrameDetached(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnFrameDetached(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnFrameDetached}
   {$DEFINE EventName := OnFrameDetached}
@@ -333,7 +333,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnMainFrameChanged
-procedure CEFChromium_SetOnMainFrameChanged(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnMainFrameChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnMainFrameChanged}
   {$DEFINE EventName := OnMainFrameChanged}
@@ -341,7 +341,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnBeforePopup
-procedure CEFChromium_SetOnBeforePopup(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnBeforePopup(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnBeforePopup}
   {$DEFINE EventName := OnBeforePopup}
@@ -349,7 +349,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnOpenUrlFromTab
-procedure CEFChromium_SetOnOpenUrlFromTab(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnOpenUrlFromTab(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnOpenUrlFromTab}
   {$DEFINE EventName := OnOpenUrlFromTab}
@@ -357,7 +357,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnDragEnter
-procedure CEFChromium_SetOnDragEnter(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDragEnter(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDragEnter}
   {$DEFINE EventName := OnDragEnter}
@@ -365,7 +365,7 @@ begin
 end;
 
 //EVENT_TYPE:ChromiumEventOnDraggableRegionsChanged
-procedure CEFChromium_SetOnDraggableRegionsChanged(AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDraggableRegionsChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDraggableRegionsChanged}
   {$DEFINE EventName := OnDraggableRegionsChanged}

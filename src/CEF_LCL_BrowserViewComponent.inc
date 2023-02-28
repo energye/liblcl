@@ -11,7 +11,8 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_CreateBrowserView(const TObj: TCEFBrowserViewComponent; client: ICefClient; PUrl: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings; const extra_info: ICefDictionaryValue): LongBool; extdecl;
+function CEFBrowserViewComponent_CreateBrowserView(const TObj: TCEFBrowserViewComponent; client: ICefClient; PUrl: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings;
+  const extra_info: ICefDictionaryValue): LongBool; extdecl;
 var
   request_context: ICefRequestContext;
   requestContextSettings: PCefRequestContextSettings;

@@ -17,7 +17,7 @@ begin
 end;
 
 //设置 CEFWindow_SetParent
-procedure CEFWindow_SetParent(AObj: TCEFWindowParent; AValue: TWinControl); extdecl;
+procedure CEFWindow_SetParent(const AObj: TCEFWindowParent; AValue: TWinControl); extdecl;
 begin
   handleExceptionBegin
   AObj.Parent := AValue;
@@ -25,7 +25,7 @@ begin
 end;
 
 //设置 CEFWindow_SetAlign
-procedure CEFWindow_SetAlign(AObj: TCEFWindowParent; AValue: TAlign); extdecl;
+procedure CEFWindow_SetAlign(const AObj: TCEFWindowParent; AValue: TAlign); extdecl;
 begin
   handleExceptionBegin
   AObj.Align := AValue;
@@ -33,7 +33,7 @@ begin
 end;
 
 //获取 CEFWindow_GetAlign
-function CEFWindow_GetAlign(AObj: TCEFWindowParent): TAlign; extdecl;
+function CEFWindow_GetAlign(const AObj: TCEFWindowParent): TAlign; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Align;
@@ -41,7 +41,7 @@ begin
 end;
 
 //Get 锚点定位
-function CEFWindow_GetAnchors(AObj: TCEFWindowParent): TAnchors; extdecl;
+function CEFWindow_GetAnchors(const AObj: TCEFWindowParent): TAnchors; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Anchors;
@@ -49,7 +49,7 @@ begin
 end;
 
 //Set 锚点定位
-procedure CEFWindow_SetAnchors(AObj: TCEFWindowParent; AValue: TAnchors); extdecl;
+procedure CEFWindow_SetAnchors(const AObj: TCEFWindowParent; AValue: TAnchors); extdecl;
 begin
   handleExceptionBegin
   AObj.Anchors := AValue;
@@ -57,35 +57,35 @@ begin
 end;
 
 //Get 句柄
-function CEFWindow_GetHandle(AObj: TCEFWindowParent): HWND; extdecl;
+function CEFWindow_GetHandle(const AObj: TCEFWindowParent): HWND; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Handle;
   handleExceptionEnd
 end;
 
-function CEFWindow_GetVisible(AObj: TCEFWindowParent): LongBool; extdecl;
+function CEFWindow_GetVisible(const AObj: TCEFWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Visible;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetVisible(AObj: TCEFWindowParent; AValue: LongBool); extdecl;
+procedure CEFWindow_SetVisible(const AObj: TCEFWindowParent; AValue: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.Visible := AValue;
   handleExceptionEnd
 end;
 
-function CEFWindow_GetEnabled(AObj: TCEFWindowParent): LongBool; extdecl;
+function CEFWindow_GetEnabled(const AObj: TCEFWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Enabled;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetEnabled(AObj: TCEFWindowParent; AValue: LongBool); extdecl;
+procedure CEFWindow_SetEnabled(const AObj: TCEFWindowParent; AValue: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.Enabled := AValue;
@@ -93,7 +93,7 @@ begin
 end;
 
 //UpdateSize
-procedure CEFWindow_UpdateSize(AObj: TCEFWindowParent); extdecl;
+procedure CEFWindow_UpdateSize(const AObj: TCEFWindowParent); extdecl;
 begin
   handleExceptionBegin
   AObj.UpdateSize;
@@ -101,112 +101,112 @@ begin
 end;
 
 //CEFWindow_Free
-procedure CEFWindow_Free(AObj: TCEFWindowParent); extdecl;
+procedure CEFWindow_Free(const AObj: TCEFWindowParent); extdecl;
 begin
   handleExceptionBegin
   AObj.Free;
   handleExceptionEnd
 end;
 
-function CEFWindow_GetWidth(AObj: TCEFWindowParent): integer; extdecl;
+function CEFWindow_GetWidth(const AObj: TCEFWindowParent): integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Width;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetWidth(AObj: TCEFWindowParent; AValue: integer); extdecl;
+procedure CEFWindow_SetWidth(const AObj: TCEFWindowParent; AValue: integer); extdecl;
 begin
   handleExceptionBegin
   AObj.Width := AValue;
   handleExceptionEnd
 end;
 
-function CEFWindow_GetHeight(AObj: TCEFWindowParent): integer; extdecl;
+function CEFWindow_GetHeight(const AObj: TCEFWindowParent): integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Height;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetHeight(AObj: TCEFWindowParent; AValue: integer); extdecl;
+procedure CEFWindow_SetHeight(const AObj: TCEFWindowParent; AValue: integer); extdecl;
 begin
   handleExceptionBegin
   AObj.Height := AValue;
   handleExceptionEnd
 end;
 
-function CEFWindow_GetTop(AObj: TCEFWindowParent): integer; extdecl;
+function CEFWindow_GetTop(const AObj: TCEFWindowParent): integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Top;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetTop(AObj: TCEFWindowParent; AValue: integer); extdecl;
+procedure CEFWindow_SetTop(const AObj: TCEFWindowParent; AValue: integer); extdecl;
 begin
   handleExceptionBegin
   AObj.Top := AValue;
   handleExceptionEnd
 end;
 
-function CEFWindow_GetLeft(AObj: TCEFWindowParent): integer; extdecl;
+function CEFWindow_GetLeft(const AObj: TCEFWindowParent): integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Left;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetLeft(AObj: TCEFWindowParent; AValue: integer); extdecl;
+procedure CEFWindow_SetLeft(const AObj: TCEFWindowParent; AValue: integer); extdecl;
 begin
   handleExceptionBegin
   AObj.Left := AValue;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_GetBoundsRect(AObj: TCEFWindowParent; var Result: TRect); extdecl;
+procedure CEFWindow_GetBoundsRect(const AObj: TCEFWindowParent; var Result: TRect); extdecl;
 begin
   handleExceptionBegin
   Result :=  AObj.BoundsRect;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetBoundsRect(AObj: TCEFWindowParent; var AValue: TRect); extdecl;
+procedure CEFWindow_SetBoundsRect(const AObj: TCEFWindowParent; var AValue: TRect); extdecl;
 begin
   handleExceptionBegin
   AObj.BoundsRect := AValue;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_SetName(AObj: TCEFWindowParent; PName: PChar); extdecl;
+procedure CEFWindow_SetName(const AObj: TCEFWindowParent; PName: PChar); extdecl;
 begin
   handleExceptionBegin
   AObj.Name := string(PName);
   handleExceptionEnd
 end;
 
-function CEFWindow_GetName(AObj: TCEFWindowParent): PChar; extdecl;
+function CEFWindow_GetName(const AObj: TCEFWindowParent): PChar; extdecl;
 begin
   handleExceptionBegin
   Result := PChar(AObj.Name);
   handleExceptionEnd
 end;
 
-function CEFWindow_HandleAllocated(AObj: TCEFWindowParent): LongBool ; extdecl;
+function CEFWindow_HandleAllocated(const AObj: TCEFWindowParent): LongBool ; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.HandleAllocated;
   handleExceptionEnd
 end;
 
-procedure CEFWindow_CreateHandle(AObj: TCEFWindowParent); extdecl;
+procedure CEFWindow_CreateHandle(const AObj: TCEFWindowParent); extdecl;
 begin
   handleExceptionBegin
   AObj.CreateHandle;
   handleExceptionEnd
 end;
 
-function CEFWindow_DestroyChildWindow(AObj: TCEFWindowParent): LongBool; extdecl;
+function CEFWindow_DestroyChildWindow(const AObj: TCEFWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.DestroyChildWindow;
@@ -221,7 +221,7 @@ begin
 end;
 
 //EVENT_TYPE:WindowEventOnEnter
-procedure CEFWindow_OnEnter(AObj: TCEFWindowParent; AEventData: Pointer); extdecl;
+procedure CEFWindow_OnEnter(const AObj: TCEFWindowParent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := CEFWindowEvent_OnEnter}
   {$DEFINE EventName := OnEnter}
@@ -229,7 +229,7 @@ begin
 end;
 
 //EVENT_TYPE:WindowEventOnExit
-procedure CEFWindow_OnExit(AObj: TCEFWindowParent; AEventData: Pointer); extdecl;
+procedure CEFWindow_OnExit(const AObj: TCEFWindowParent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := CEFWindowEvent_OnExit}
   {$DEFINE EventName := OnExit}

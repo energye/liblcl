@@ -5,35 +5,35 @@
 //----------------------------------------
 
 //property
-procedure CEFDisplay_ID(ADisplay: ICefDisplay; var Result: int64) ; extdecl;
+procedure CEFDisplay_ID(const ADisplay: ICefDisplay; var Result: int64) ; extdecl;
 begin
     handleExceptionBegin
     Result := ADisplay.ID;
     handleExceptionEnd
 end;
 
-procedure CEFDisplay_DeviceScaleFactor(ADisplay: ICefDisplay; var Result: Single) ; extdecl;
+procedure CEFDisplay_DeviceScaleFactor(const ADisplay: ICefDisplay; var Result: Single) ; extdecl;
 begin
     handleExceptionBegin
     Result := ADisplay.DeviceScaleFactor;
     handleExceptionEnd
 end;
 
-function CEFDisplay_Rotation(ADisplay: ICefDisplay): Integer ; extdecl;
+function CEFDisplay_Rotation(const ADisplay: ICefDisplay): Integer ; extdecl;
 begin
     handleExceptionBegin
     Result := ADisplay.Rotation;
     handleExceptionEnd
 end;
 
-procedure CEFDisplay_Bounds(ADisplay: ICefDisplay; out Result: TCefRect); extdecl;
+procedure CEFDisplay_Bounds(const ADisplay: ICefDisplay; out Result: TCefRect); extdecl;
 begin
     handleExceptionBegin
     Result := ADisplay.Bounds;
     handleExceptionEnd
 end;
 
-procedure CEFDisplay_WorkArea(ADisplay: ICefDisplay; out Result: TCefRect); extdecl;
+procedure CEFDisplay_WorkArea(const ADisplay: ICefDisplay; out Result: TCefRect); extdecl;
 begin
     handleExceptionBegin
     Result := ADisplay.WorkArea;
