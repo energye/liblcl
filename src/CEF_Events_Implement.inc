@@ -135,80 +135,14 @@ end;
 
 //chromium 下载之前
 procedure TLCLEvent.ChromiumEvent_OnBeforeDownload(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
-var
-  downItem: PRDownloadItem;
-  startTime, dndTime: double;
-  isValid: boolean;
 begin
-  startTime := downloadItem.StartTime;
-  dndTime := downloadItem.EndTime;
-  downItem := new(PRDownloadItem);
-  isValid := downloadItem.IsValid;
-  downItem^.Id := PInteger(downloadItem.Id);
-  downItem^.CurrentSpeed := PInt64(downloadItem.CurrentSpeed);
-  downItem^.PercentComplete := PInteger(downloadItem.PercentComplete);
-  downItem^.TotalBytes := PInt64(downloadItem.TotalBytes);
-  downItem^.ReceivedBytes := PInt64(downloadItem.ReceivedBytes);
-  downItem^.StartTime := @startTime;
-  downItem^.EndTime := @dndTime;
-  downItem^.FullPath := PChar(string(downloadItem.FullPath));
-  downItem^.Url := PChar(string(downloadItem.Url));
-  downItem^.OriginalUrl := PChar(string(downloadItem.OriginalUrl));
-  downItem^.SuggestedFileName := PChar(string(downloadItem.SuggestedFileName));
-  downItem^.ContentDisposition := PChar(string(downloadItem.ContentDisposition));
-  downItem^.MimeType := PChar(string(downloadItem.MimeType));
-  downItem^.IsValid := @isValid;
-  downItem^.State := PInteger(-1);
-  SendEvent([Sender, browser, downItem, PChar(string(suggestedName)), callback]);
-  downItem := nil;
+  SendEvent([Sender, browser, downloadItem, PChar(string(suggestedName)), callback]);
 end;
 
 //chromium 下载更新
 procedure TLCLEvent.ChromiumEvent_OnDownloadUpdated(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
-var
-  downItem: PRDownloadItem;
-  startTime, dndTime: double;
-  isValid: boolean;
 begin
-  startTime := downloadItem.StartTime;
-  dndTime := downloadItem.EndTime;
-  downItem := new(PRDownloadItem);
-  isValid := downloadItem.IsValid;
-  downItem^.Id := PInteger(downloadItem.Id);
-  downItem^.CurrentSpeed := PInt64(downloadItem.CurrentSpeed);
-  downItem^.PercentComplete := PInteger(downloadItem.PercentComplete);
-  downItem^.TotalBytes := PInt64(downloadItem.TotalBytes);
-  downItem^.ReceivedBytes := PInt64(downloadItem.ReceivedBytes);
-  downItem^.StartTime := @startTime;
-  downItem^.EndTime := @dndTime;
-  downItem^.FullPath := PChar(string(downloadItem.FullPath));
-  downItem^.Url := PChar(string(downloadItem.Url));
-  downItem^.OriginalUrl := PChar(string(downloadItem.OriginalUrl));
-  downItem^.SuggestedFileName := PChar(string(downloadItem.SuggestedFileName));
-  downItem^.ContentDisposition := PChar(string(downloadItem.ContentDisposition));
-  downItem^.MimeType := PChar(string(downloadItem.MimeType));
-  downItem^.IsValid := @isValid;
-  if downloadItem.IsComplete then //完成
-  begin
-     downItem^.State := PInteger(2);
-     TMainChromiumBrowserClass.RemoveBrowserItemDownload(browser.Identifier, downloadItem.Id);
-  end
-  else if downloadItem.IsCanceled then//取消
-  begin
-     downItem^.State := PInteger(1);
-     TMainChromiumBrowserClass.RemoveBrowserItemDownload(browser.Identifier, downloadItem.Id);
-  end
-  else if downloadItem.IsInProgress then//下载中
-  begin
-     downItem^.State := PInteger(0);
-    //进度和接收都是0是第一次
-    if (downloadItem.PercentComplete = 0) and (downloadItem.ReceivedBytes = 0) then
-    begin
-      TMainChromiumBrowserClass.PutBrowserDownloadItemCallback(browser.Identifier, downloadItem.Id, callback);
-    end;
-  end;
-  SendEvent([Sender, browser, downItem, callback]);
-  downItem := nil;
+  SendEvent([Sender, browser, downloadItem, callback]);
 end;
 
 //chromium 放大缩小回调

@@ -45,4 +45,5 @@
 {$I CEF_LCL_DictionaryValue.inc}
 {$I CEF_LCL_PostData.inc}
 {$I CEF_LCL_PostDataElement.inc}
+{$I CEF_LCL_DownloadItem.inc}
 {$I Energy_Extend.inc}

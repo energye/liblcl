@@ -40,10 +40,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure StringMultimap_GetValue(const TObj: ICefStringMultimap; Index: NativeUInt; out Result: PStringHeader); extdecl;
+function StringMultimap_GetValue(const TObj: ICefStringMultimap; Index: NativeUInt): PChar; extdecl;
 begin
   handleExceptionBegin
-  Result := NewStringHeader(TObj.GetValue(Index));
+  Result := PChar(string(TObj.GetValue(Index)));
   handleExceptionEnd
 end;
 

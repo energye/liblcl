@@ -252,65 +252,6 @@ begin
   handleExceptionEnd
 end;
 
-//设置下载目录
-procedure CEFChromium_SetDownloadPath(callback: ICefBeforeDownloadCallback; downloadPath: PChar; showDialog: Boolean); extdecl;
-begin
-  handleExceptionBegin
-  callback.Cont(PCharToUStr(downloadPath), showDialog);
-  handleExceptionEnd
-end;
-
-//下载暂停
-procedure CEFChromium_DownloadPause(Callback: ICefDownloadItemCallback); extdecl;
-begin
-  handleExceptionBegin
-  if Callback <> nil then
-     Callback.Pause;
-  handleExceptionEnd
-end;
-
-//下载取消
-procedure CEFChromium_BrowserDownloadCancel(borwserId: integer; DownId: integer); extdecl;
-var
-  itemCallback: ICefDownloadItemCallback;
-begin
-  handleExceptionBegin
-  itemCallback := TMainChromiumBrowserClass.GetBrowserDownloadItemCallback(borwserId, DownId);
-  if itemCallback <> nil then
-  begin
-     itemCallback.Cancel;
-  end;
-  handleExceptionEnd
-end;
-
-//下载暂停
-procedure CEFChromium_BrowserDownloadPause(borwserId: integer; DownId: integer); extdecl;
-var
-  itemCallback: ICefDownloadItemCallback;
-begin
-  handleExceptionBegin
-  itemCallback := TMainChromiumBrowserClass.GetBrowserDownloadItemCallback(borwserId, DownId);
-  if itemCallback <> nil then
-  begin
-     itemCallback.Pause;
-  end;
-  handleExceptionEnd
-end;
-
-//下载恢复
-procedure CEFChromium_DownloadResume(borwserId: integer; DownId: integer); extdecl;
-var
-  itemCallback: ICefDownloadItemCallback;
-begin
-  handleExceptionBegin
-  itemCallback := TMainChromiumBrowserClass.GetBrowserDownloadItemCallback(borwserId, DownId);
-  if itemCallback <> nil then
-  begin
-     itemCallback.Resume;
-  end;
-  handleExceptionEnd
-end;
-
 //zoom 页面，0恢复 1放大 2缩小
 procedure CEFChromium_BrowserZoom(const AObj: TChromium; Zoom: integer); extdecl;
 begin
@@ -1041,11 +982,6 @@ exports
   CEFChromium_IsSameBrowser,
   CEFChromium_PrintToPDF,
   CEFChromium_Print,
-  CEFChromium_SetDownloadPath,
-  CEFChromium_BrowserDownloadCancel,
-  CEFChromium_DownloadPause,
-  CEFChromium_BrowserDownloadPause,
-  CEFChromium_DownloadResume,
   CEFChromium_BrowserZoom,
   CEFChromium_GoBackForward,
   CEFChromium_NotifyMoveOrResizeStarted,

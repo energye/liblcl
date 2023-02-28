@@ -86,52 +86,17 @@ type
     Value: PChar;
   end;
 
-  {=====download begin======}
-  {RDownloadItem 下载-事件 信息}
-  PRDownloadItem = ^RDownloadItem;
+  // string header
+  PStringHeader = ^StringHeader;
 
-  RDownloadItem = record
-    Id: PInteger;
-    CurrentSpeed: PInt64;
-    PercentComplete: PInteger;
-    TotalBytes: PInt64;
-    ReceivedBytes: PInt64;
-    StartTime: Pointer;
-    EndTime: Pointer;
-    FullPath: PChar;
-    Url: PChar;
-    OriginalUrl: PChar;
-    SuggestedFileName: PChar;
-    ContentDisposition: PChar;
-    MimeType: PChar;
-    IsValid: PBoolean;
-    State: PInteger;
-    //下载状态 -1:下载之前 0:下载中 1:下载取消 2:下载完成
+  StringHeader = record
+    PValue: PChar;
+    ValueLength: nativeuint;
+    Value: string;
   end;
 
-  {RDownloadUpdate 下载更新-事件 信息}
-  PRDownloadUpdate = ^RDownloadUpdate;
-
-  RDownloadUpdate = record
-    BrowserId: Pinteger;
-    DownId: Pinteger;
-    State: Pinteger; //state 下载状态 0:下载中 1:下载取消 2:下载完成
-    FullPath: PChar;
-    PercentComplete: Pinteger;
-    ReceivedBytes: pint64;
-    TotalBytes: pint64;
-  end;
-
-  {BrowserDownload 下载项}
-  PBrowserDownload = ^BrowserDownload;
-
-  BrowserDownload = record
-    ItemCallback: ICefDownloadItemCallback;//下载更新时的回调
-  end;
-  {=====download end======}
-
-  PTCEFApplicationConfig = ^TCEFApplicationConfig;
   //CEF Application 配置
+  PTCEFApplicationConfig = ^TCEFApplicationConfig;
   TCEFApplicationConfig = record
     FrameworkDirPath: PChar;
     ResourcesDirPath: PChar;
@@ -398,14 +363,6 @@ type
     cookieableSchemesExcludeDefaults: PInteger;
   end;
 
-  // string header
-  PStringHeader = ^StringHeader;
-
-  StringHeader = record
-    Value: PChar;
-    ValueLength: nativeuint;
-  end;
-
   //浏览器窗口
   TBrowserWindowMap = specialize TFPGMap<integer, TGoForm>;
 
@@ -490,9 +447,9 @@ function NewStringHeader(Data: ustring): PStringHeader;
 var
   PH: PStringHeader;
 begin
-  PH := new(PStringHeader);
-  PH^.Value := PChar(UTF8Encode(Data));
-  PH^.ValueLength := Length(PH^.Value);
+  PH^.Value := UTF8Encode(Data);
+  PH^.PValue := PChar(PH^.Value);
+  PH^.ValueLength := Length(PH^.PValue);
   Result := PH;
 end;
 

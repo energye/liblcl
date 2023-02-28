@@ -35,7 +35,6 @@ end;
 procedure CefPostData_GetElements(const TObj: ICefPostData; elementsCount: NativeUInt; out Result: TCefPostDataElementArray); extdecl;
 begin
   handleExceptionBegin
-  //SetLength(Result, elementsCount);
   TObj.GetElements(elementsCount, Result);
   handleExceptionEnd
 end;
