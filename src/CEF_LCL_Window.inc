@@ -246,16 +246,10 @@ begin
     handleExceptionEnd
 end;
 
-procedure ICEFWindow_GetWindowAppIcon(const AWindow: ICefWindow; out ret: Pointer); extdecl;
-var
-  icon: ICefImage;
+procedure ICEFWindow_GetWindowAppIcon(const AWindow: ICefWindow; out Result: ICefImage); extdecl;
 begin
   handleExceptionBegin
-  icon := AWindow.WindowAppIcon;
-  if (icon <> nil) and not(icon.IsEmpty) then
-  begin
-    ret := icon.Wrap;
-  end;
+  Result := AWindow.WindowAppIcon;
   handleExceptionEnd
 end;
 

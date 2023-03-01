@@ -1000,9 +1000,9 @@ begin
   Result := GlobalCEFApp.ForcedDeviceScaleFactor;
 end;
 
-procedure CEFAppConfig_SetForcedDeviceScaleFactor(value: single); extdecl;
+procedure CEFAppConfig_SetForcedDeviceScaleFactor(value: PSingle); extdecl;
 begin
-  GlobalCEFApp.ForcedDeviceScaleFactor := value;
+  GlobalCEFApp.ForcedDeviceScaleFactor := Single(value^);
 end;
 
 function CEFAppConfig_DisableZygote(): LongBool; extdecl;
@@ -1285,7 +1285,7 @@ begin
    GlobalCEFApp.ReRaiseExceptions := value;
 end;
 
-function CEFAppConfig_DeviceScaleFactor(): single; extdecl;
+procedure CEFAppConfig_DeviceScaleFactor(out Result: single); extdecl;
 begin
    Result := GlobalCEFApp.DeviceScaleFactor;
 end;

@@ -230,112 +230,52 @@ begin
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_WindowIcon(const TObj: TCEFWindowComponent; out ret: Pointer); extdecl;
-var
-  icon: ICefImage;
-begin
-    handleExceptionBegin
-    icon := TObj.WindowIcon;
-    if (icon <> nil) and not(icon.IsEmpty) then
-    begin
-      ret := icon.Wrap;
-    end;
-    handleExceptionEnd
-end;
-
 procedure CEFWindowComponent_SetDraggableRegions(const TObj: TCEFWindowComponent; regionsCount: NativeUInt; const regions: TCefDraggableRegionArray); extdecl;
-var
-    temp: TCefDraggableRegion;
 begin
     handleExceptionBegin
     TObj.SetDraggableRegions(regionsCount, @regions[0]);
     handleExceptionEnd
 end;
 
-{$ifdef DARWIN}
-procedure CEFWindowComponent_SetWindowIcon(const TObj: TCEFWindowComponent; scaleFactor: PSingle; const data: array of Byte; dataSize: NativeUInt); extdecl;
-var
-  tmpData: array of Byte;
-{$else}
-procedure CEFWindowComponent_SetWindowIcon(const TObj: TCEFWindowComponent; scaleFactor: PSingle; const data: array of Byte); stdcall;
-var
-{$endif}
-  icon: ICefImage;
+procedure CEFWindowComponent_WindowIcon(const TObj: TCEFWindowComponent; out Result: ICefImage); extdecl;
 begin
     handleExceptionBegin
-    icon := TCefImageRef.New;
-    {$ifdef DARWIN}
-    if dataSize >0 then
-    begin
-      try
-        SetLength(tmpData, dataSize);
-        Move(data[0], tmpData[0], dataSize);
-        icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
-      finally
-        SetLength(tmpData, 0);
-      end;
-    end;
-    {$else}
-    icon.AddPng(scaleFactor^, @data[0], length(data));
-    {$endif}
+    Result := TObj.WindowIcon;
+    handleExceptionEnd
+end;
+
+procedure CEFWindowComponent_SetWindowIcon(const TObj: TCEFWindowComponent; const icon: ICefImage); extdecl;
+begin
+    handleExceptionBegin
     TObj.WindowIcon := icon;
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_WindowAppIcon(const TObj: TCEFWindowComponent; out ret: Pointer); extdecl;
-var
-  icon: ICefImage;
+procedure CEFWindowComponent_WindowAppIcon(const TObj: TCEFWindowComponent; out Result: ICefImage); extdecl;
 begin
     handleExceptionBegin
-    icon := TObj.WindowAppIcon;
-    if (icon <> nil) and not(icon.IsEmpty) then
-    begin
-      ret := icon.Wrap;
-    end;
+    Result := TObj.WindowAppIcon;
     handleExceptionEnd
 end;
 
-{$ifdef DARWIN}
-procedure CEFWindowComponent_SetWindowAppIcon(const TObj: TCEFWindowComponent; scaleFactor: PSingle; const data: array of Byte; dataSize: NativeUInt); extdecl;
-var
-  tmpData: array of Byte;
-{$else}
-procedure CEFWindowComponent_SetWindowAppIcon(const TObj: TCEFWindowComponent; scaleFactor: PSingle; const data: array of Byte); stdcall;
-var
-{$endif}
-  icon: ICefImage;
+procedure CEFWindowComponent_SetWindowAppIcon(const TObj: TCEFWindowComponent; const icon: ICefImage); extdecl;
 begin
     handleExceptionBegin
-    icon := TCefImageRef.New;
-    {$ifdef DARWIN}
-    if dataSize >0 then
-    begin
-      try
-        SetLength(tmpData, dataSize);
-        Move(data[0], tmpData[0], dataSize);
-        icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
-      finally
-        SetLength(tmpData, 0);
-      end;
-    end;
-    {$else}
-    icon.AddPng(scaleFactor^, @data[0], length(data));
-    {$endif}
     TObj.WindowAppIcon := icon;
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_Display(const TObj: TCEFWindowComponent; out ret: ICefDisplay); extdecl;
+procedure CEFWindowComponent_Display(const TObj: TCEFWindowComponent; out Result: ICefDisplay); extdecl;
 begin
     handleExceptionBegin
-    ret := TObj.Display;
+    Result := TObj.Display;
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_ClientAreaBoundsInScreen(const TObj: TCEFWindowComponent; out ret: TCefRect); extdecl;
+procedure CEFWindowComponent_ClientAreaBoundsInScreen(const TObj: TCEFWindowComponent; out Result: TCefRect); extdecl;
 begin
     handleExceptionBegin
-    ret := TObj.ClientAreaBoundsInScreen;
+    Result := TObj.ClientAreaBoundsInScreen;
     handleExceptionEnd
 end;
 
@@ -388,7 +328,7 @@ begin
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_AddChildView(const TObj: TCEFWindowComponent; BrowserViewComponent: TCEFBrowserViewComponent); extdecl;
+procedure CEFWindowComponent_AddChildView(const TObj: TCEFWindowComponent; const BrowserViewComponent: TCEFBrowserViewComponent); extdecl;
 begin
     handleExceptionBegin
     TObj.AddChildView(BrowserViewComponent.BrowserView);

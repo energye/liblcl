@@ -12,7 +12,7 @@ begin
     handleExceptionEnd
 end;
 
-procedure CEFDisplay_DeviceScaleFactor(const ADisplay: ICefDisplay; var Result: Single) ; extdecl;
+procedure CEFDisplay_DeviceScaleFactor(const ADisplay: ICefDisplay; out Result: Single) ; extdecl;
 begin
     handleExceptionBegin
     Result := ADisplay.DeviceScaleFactor;
