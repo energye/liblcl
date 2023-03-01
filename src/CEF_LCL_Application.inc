@@ -1320,7 +1320,7 @@ begin
    else if GlobalCEFApp.ProcessType = TCefProcessType.ptOther then
       Result := 7
    else
-      Result := -1;
+      Result := 0;
 end;
 
 function CEFAppConfig_MustCreateResourceBundleHandler(): LongBool; extdecl;
@@ -1387,7 +1387,7 @@ begin
    else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorExecutingProcess then
       Result := 9
    else
-      Result := -1;
+      Result := 0;
 end;
 
 function CEFAppConfig_MissingLibFiles(): PChar; extdecl;
