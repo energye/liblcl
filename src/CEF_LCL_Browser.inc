@@ -118,12 +118,49 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_PrintToPdf(const TObj: ICefBrowser; const PPath: PChar; settings: PCefPdfPrintSettings); extdecl;
+procedure CEFBrowser_PrintToPdf(const TObj: ICefBrowser; const PPath: PChar; PSettings: PRCefPdfPrintSettings; const TChromiumObj: TChromium); extdecl;
 var
   callback: ICefPdfPrintCallback;
+  settings: PCefPdfPrintSettings;
+  margin_type: Integer;
 begin
   handleExceptionBegin
-  callback := TCefPdfPrintCallbackOwn.Create;
+  // settings.margin_type = TCefPdfPrintMarginType = (
+  //  PDF_PRINT_MARGIN_DEFAULT,
+  //  PDF_PRINT_MARGIN_NONE,
+  //  PDF_PRINT_MARGIN_CUSTOM
+  //)
+  settings := new(PCefPdfPrintSettings);
+  if PSettings <> nil then
+  begin
+    margin_type := Integer(PSettings.margin_type);
+    settings.landscape := Integer(PSettings.landscape);
+    settings.print_background := Integer(PSettings.print_background);
+    settings.scale := Double(PSettings.scale^);
+    settings.paper_width := Double(PSettings.paper_width^);
+    settings.paper_height := Double(PSettings.paper_height^);
+    settings.prefer_css_page_size := Integer(PSettings.prefer_css_page_size);
+    settings.margin_top := Double(PSettings.margin_top^);
+    settings.margin_right := Double(PSettings.margin_right^);
+    settings.margin_bottom := Double(PSettings.margin_bottom^);
+    settings.margin_left := Double(PSettings.margin_left^);
+    settings.page_ranges := CefString(PCharToUStr(PSettings.page_ranges));
+    settings.display_header_footer := Integer(PSettings.display_header_footer);
+    settings.header_template := CefString(PCharToUStr(PSettings.header_template));
+    settings.footer_template := CefString(PCharToUStr(PSettings.footer_template));
+
+    if margin_type = 0 then
+       settings.margin_type := TCefPdfPrintMarginType.PDF_PRINT_MARGIN_DEFAULT
+    else if margin_type = 1 then
+       settings.margin_type := TCefPdfPrintMarginType.PDF_PRINT_MARGIN_NONE
+    else if margin_type = 2 then
+       settings.margin_type := TCefPdfPrintMarginType.PDF_PRINT_MARGIN_CUSTOM;
+  end;
+
+  if TChromiumObj = nil then
+      callback := TCefPdfPrintCallbackOwn.Create()
+  else
+      callback := TCefCustomPDFPrintCallBack.Create(TChromiumObj);
   TObj.GetHost.PrintToPdf(PCharToUStr(PPath), settings, callback);
   handleExceptionEnd
 end;
@@ -391,6 +428,7 @@ exports
   CEFBrowser_StartDownload,
   CEFBrowser_DownloadImage,
   CEFBrowser_Print,
+  CEFBrowser_PrintToPdf,
   CEFBrowser_ExecuteDevToolsMethod,
   CEFBrowser_SendKeyEvent,
   CEFBrowser_SetAudioMuted,

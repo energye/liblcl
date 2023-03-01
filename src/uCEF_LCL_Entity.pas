@@ -97,6 +97,7 @@ type
 
   //CEF Application 配置
   PTCEFApplicationConfig = ^TCEFApplicationConfig;
+
   TCEFApplicationConfig = record
     FrameworkDirPath: PChar;
     ResourcesDirPath: PChar;
@@ -349,6 +350,26 @@ type
     background_color: PCardinal;
     accept_language_list: PChar;
     chrome_status_bubble: PInteger;
+  end;
+
+  PRCefPdfPrintSettings = ^RCefPdfPrintSettings;
+
+  RCefPdfPrintSettings = record
+    landscape: PInteger;
+    print_background: PInteger;
+    scale: PDouble;
+    paper_width: PDouble;
+    paper_height: PDouble;
+    prefer_css_page_size: PInteger;
+    margin_type: PInteger;
+    margin_top: PDouble;
+    margin_right: PDouble;
+    margin_bottom: PDouble;
+    margin_left: PDouble;
+    page_ranges: PChar;
+    display_header_footer: PInteger;
+    header_template: PChar;
+    footer_template: PChar;
   end;
 
   PRCefRequestContextSettings = ^RCefRequestContextSettings;
