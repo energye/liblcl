@@ -32,6 +32,7 @@
 {$I CEF_LCL_PostData.inc}
 {$I CEF_LCL_PostDataElement.inc}
 {$I CEF_LCL_ProcessMessage.inc}
+{$I CEF_LCL_PdfPrintCallback.inc}
 {$I CEF_LCL_Request.inc}
 {$I CEF_LCL_Response.inc}
 {$I CEF_LCL_StringMultiMap.inc}
