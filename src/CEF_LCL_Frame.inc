@@ -108,63 +108,6 @@ begin
   handleExceptionEnd
 end;
 
-//{$ifdef DARWIN}
-//function CEFFrame_SendProcessMessageByIPC(browserId: Integer; FrameId: PInt64; const PName: PChar; targetProcess, ItemLength: integer; const arguments: array of Byte; argumentsLength: integer): integer ; extdecl;
-//var
-//  args: array of Byte;
-//{$else}
-//function CEFFrame_SendProcessMessageByIPC(browserId: Integer; FrameId: PInt64; const PName: PChar; targetProcess, ItemLength: integer; const arguments: array of Byte): integer; stdcall;
-//{$endif}
-//var
-//  Name: string;
-//  frame: ICefFrame;
-//  processMessage: ICefProcessMessage;
-//  binaryValue: ICefBinaryValue;
-//begin
-//  handleExceptionBegin
-//  Name := string(PCharToUstr(PName));
-//  if (Name = '') then
-//  begin
-//    Result := -3; //消息名为空
-//    exit;
-//  end;
-//  if (TCefProcessId(targetProcess) <> PID_BROWSER) and (TCefProcessId(targetProcess) <> PID_RENDERER) then
-//  begin
-//    Result := -2; //消息目标进程不正确
-//    exit;
-//  end;
-//  frame := TMainChromiumBrowserClass.GetFrameById(browserId, FrameId^);
-//  if frame <> nil then
-//  begin
-//    if frame.IsValid then
-//    begin
-//      processMessage := TCefProcessMessageRef.New(StrToUStr(Name));
-//      {$ifdef DARWIN}
-//      binaryValue := TCefBinaryValueRef.New(@arguments[0], argumentsLength);
-//      processMessage.ArgumentList.SetInt(0, argumentsLength);
-//      {$else}
-//      binaryValue := TCefBinaryValueRef.New(@arguments[0], High(arguments));
-//      processMessage.ArgumentList.SetInt(0, High(arguments));
-//      {$endif}
-//      processMessage.ArgumentList.SetInt(1, ItemLength);
-//      processMessage.ArgumentList.SetBinary(2, binaryValue);
-//      frame.SendProcessMessage(TCefProcessId(targetProcess), processMessage);
-//      processMessage.ArgumentList.Clear;
-//      processMessage := nil;
-//      Result := 1;//成功
-//    end
-//    else
-//    begin
-//      Result := -4;//无效的Frame
-//    end;
-//  end
-//  else
-//  begin
-//    Result := -1;//未找到frame
-//  end;
-//  handleExceptionEnd
-//end;
-
 //进程发送消息
 procedure CEFFrame_SendProcessMessage(const TObj: ICefFrame; targetProcess: Integer; const message_: ICefProcessMessage); extdecl;
 begin
@@ -237,7 +180,6 @@ exports
   CEFFrame_IsValid,
   CEFFrame_IsMain,
   CEFFrame_IsFocused,
-  //CEFFrame_SendProcessMessageByIPC,
   CEFFrame_SendProcessMessage,
   CEFFrame_LoadRequest,
   CEFFrame_Browser,

@@ -257,7 +257,6 @@ end;
 function CEFAppConfig_MultiThreadedMessageLoop(): LongBool; extdecl;
 begin
   Result := GlobalCEFApp.MultiThreadedMessageLoop;
-  WriteLn('MultiThreadedMessageLoop ',Result);
 end;
 
 procedure CEFAppConfig_SetMultiThreadedMessageLoop(value: LongBool) ; extdecl;
@@ -268,7 +267,6 @@ end;
 function CEFAppConfig_ExternalMessagePump(): LongBool; extdecl;
 begin
   Result := GlobalCEFApp.ExternalMessagePump;
-  WriteLn('ExternalMessagePump ',Result);
 end;
 
 procedure CEFAppConfig_SetExternalMessagePump(value: LongBool) ; extdecl;

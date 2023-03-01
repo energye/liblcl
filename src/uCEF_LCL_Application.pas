@@ -140,114 +140,114 @@ end;
 
 //TCefApplication OnContextCreated
 procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
-var
-  //IPC emit
-  IPCObject: ICefv8Value;
-  EventEmitHandler: TV8EventEmitHandler;
-  //IPC on
-  EventOnHandler: TV8EventOnHandler;
-  //common
-  CommonAccessor: TV8CommonAccessor;
-  CommonHandler: TV8CommonHandler;
-  //object
-  ObjectAccessor: TV8ObjectAccessor;
-  ObjectHandler: TV8ObjectHandler;
-  //process devtools
-  isDevtools: boolean;
-  //window move drag
-  windowMoveDragHandler: TV8WindowMoveDragHandler;
-  WindowDragObject: ICefv8Value;
-  //browser window
-  browserWindowHandler: TBrowserWindowHandler;
-  //js inject
-  ContextCreatedJSInject: TContextCreatedJSInjectClass;
-  state: boolean; //状态
+//var
+  ////IPC emit
+  //IPCObject: ICefv8Value;
+  //EventEmitHandler: TV8EventEmitHandler;
+  ////IPC on
+  //EventOnHandler: TV8EventOnHandler;
+  ////common
+  //CommonAccessor: TV8CommonAccessor;
+  //CommonHandler: TV8CommonHandler;
+  ////object
+  //ObjectAccessor: TV8ObjectAccessor;
+  //ObjectHandler: TV8ObjectHandler;
+  ////process devtools
+  //isDevtools: boolean;
+  ////window move drag
+  //windowMoveDragHandler: TV8WindowMoveDragHandler;
+  //WindowDragObject: ICefv8Value;
+  ////browser window
+  //browserWindowHandler: TBrowserWindowHandler;
+  ////js inject
+  //ContextCreatedJSInject: TContextCreatedJSInjectClass;
+  //state: boolean; //状态
 begin
-  //开发者工具不加载绑定变量
-  isDevtools := string(frame.Url).IndexOf('devtools://') = 0;
-  if isDevtools then
-  begin
-    exit;
-  end;
+  ////开发者工具不加载绑定变量
+  //isDevtools := string(frame.Url).IndexOf('devtools://') = 0;
+  //if isDevtools then
+  //begin
+  //  exit;
+  //end;
+  //
+  //TMainChromiumBrowserClass.PutBrowser(browser);
 
-  TMainChromiumBrowserClass.PutBrowser(browser);
-
-  SendEvent(OnContextCreated_DataPtr, [browser, frame, context, @state]);
-  if not state then
-  begin
-    exit;
-  end;
-
-  //js 注入
-  ContextCreatedJSInject := TContextCreatedJSInjectClass.Create(browser, frame, context);
-  ContextCreatedJSInject.JavaScriptInject();
-
-  //通用类型变量 Accessor
-  CommonAccessor := TV8CommonAccessor.Create;
-  CommonAccessor.Browser := browser;
-  CommonAccessor.Frame := frame;
-  CommonAccessor.initState := 0;
-  //通用类型变量 Handler
-  CommonHandler := TV8CommonHandler.Create;
-  CommonHandler.Browser := browser;
-  CommonHandler.Frame := frame;
-
-  //结构类型变量 Accessor
-  ObjectAccessor := TV8ObjectAccessor.Create;
-  ObjectAccessor.RootObjectAccessor := TCefv8ValueRef.NewObject(ObjectAccessor, nil);
-  ObjectAccessor.Browser := browser;
-  ObjectAccessor.Frame := frame;
-  //结构类型变量 Handler
-  ObjectHandler := TV8ObjectHandler.Create;
-  ObjectHandler.Browser := browser;
-  ObjectHandler.Frame := frame;
-  ObjectHandler.ObjectAccessor := ObjectAccessor;
-
-  //数据绑定处理
-  //对象(结构) | 直接 ObjectValueBindHandler
-  ObjectValueBindHandler(ObjectAccessor, ObjectHandler, browser, frame, context);
-  //普通 CommonValueBindHandler
-  CommonValueBindHandler(CommonAccessor, CommonHandler, browser, frame, context);
-
-  //IPC class
-  TCEFIPCClass.SetCommonAccessor(frame.Identifier, CommonAccessor);
-  TCEFIPCClass.SetObjectAccessor(frame.Identifier, ObjectAccessor);
-
-  //注册全局异步执行函数 emit
-  EventEmitHandler := TV8EventEmitHandler.Create;
-  EventEmitHandler.Browser := browser;
-  EventEmitHandler.Frame := frame;
-  //注册全局js事件监听
-  EventOnHandler := TV8EventOnHandler.Create;
-  EventOnHandler.Browser := browser;
-  EventOnHandler.Frame := frame;
-  //windowMoveDragHandler
-  windowMoveDragHandler := TV8WindowMoveDragHandler.Create;
-  windowMoveDragHandler.Browser := browser;
-  windowMoveDragHandler.Frame := frame;
-  windowMoveDragHandler.Init;
-  //borwserWindow
-  browserWindowHandler := TBrowserWindowHandler.Create;
-  browserWindowHandler.Browser := browser;
-  browserWindowHandler.Frame := frame;
-  browserWindowHandler.BrowserWindowObject := TCefv8ValueRef.NewObject(nil, nil);
-  browserWindowHandler.Init();
-
-
-  IPCObject := TCefv8ValueRef.NewObject(nil, nil);
-  IPCObject.SetValueByKey(IPCExecuteName, TCefv8ValueRef.NewFunction(IPCExecuteName, EventEmitHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
-  IPCObject.SetValueByKey(IPCEventOnName, TCefv8ValueRef.NewFunction(IPCEventOnName, EventOnHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
-
-  //windowMoveDragHandler
-  WindowDragObject := TCefv8ValueRef.NewObject(nil, nil);
-  WindowDragObject.SetValueByKey(MoveDragDown, TCefv8ValueRef.NewFunction(MoveDragDown, windowMoveDragHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
-  WindowDragObject.SetValueByKey(MoveDragMove, TCefv8ValueRef.NewFunction(MoveDragMove, windowMoveDragHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
-  WindowDragObject.SetValueByKey(MoveDragUp, TCefv8ValueRef.NewFunction(MoveDragUp, windowMoveDragHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
-
-
-  context.Global.SetValueByKey(v8EmitKey, IPCObject, V8_PROPERTY_ATTRIBUTE_READONLY);
-  context.Global.SetValueByKey(windowDrag, WindowDragObject, V8_PROPERTY_ATTRIBUTE_READONLY);
-  context.Global.SetValueByKey(BrowserWindow, browserWindowHandler.BrowserWindowObject, V8_PROPERTY_ATTRIBUTE_READONLY);
+  SendEvent(OnContextCreated_DataPtr, [browser, frame, context]);
+  //if not state then
+  //begin
+  //  exit;
+  //end;
+  //
+  ////js 注入
+  //ContextCreatedJSInject := TContextCreatedJSInjectClass.Create(browser, frame, context);
+  //ContextCreatedJSInject.JavaScriptInject();
+  //
+  ////通用类型变量 Accessor
+  //CommonAccessor := TV8CommonAccessor.Create;
+  //CommonAccessor.Browser := browser;
+  //CommonAccessor.Frame := frame;
+  //CommonAccessor.initState := 0;
+  ////通用类型变量 Handler
+  //CommonHandler := TV8CommonHandler.Create;
+  //CommonHandler.Browser := browser;
+  //CommonHandler.Frame := frame;
+  //
+  ////结构类型变量 Accessor
+  //ObjectAccessor := TV8ObjectAccessor.Create;
+  //ObjectAccessor.RootObjectAccessor := TCefv8ValueRef.NewObject(ObjectAccessor, nil);
+  //ObjectAccessor.Browser := browser;
+  //ObjectAccessor.Frame := frame;
+  ////结构类型变量 Handler
+  //ObjectHandler := TV8ObjectHandler.Create;
+  //ObjectHandler.Browser := browser;
+  //ObjectHandler.Frame := frame;
+  //ObjectHandler.ObjectAccessor := ObjectAccessor;
+  //
+  ////数据绑定处理
+  ////对象(结构) | 直接 ObjectValueBindHandler
+  //ObjectValueBindHandler(ObjectAccessor, ObjectHandler, browser, frame, context);
+  ////普通 CommonValueBindHandler
+  //CommonValueBindHandler(CommonAccessor, CommonHandler, browser, frame, context);
+  //
+  ////IPC class
+  //TCEFIPCClass.SetCommonAccessor(frame.Identifier, CommonAccessor);
+  //TCEFIPCClass.SetObjectAccessor(frame.Identifier, ObjectAccessor);
+  //
+  ////注册全局异步执行函数 emit
+  //EventEmitHandler := TV8EventEmitHandler.Create;
+  //EventEmitHandler.Browser := browser;
+  //EventEmitHandler.Frame := frame;
+  ////注册全局js事件监听
+  //EventOnHandler := TV8EventOnHandler.Create;
+  //EventOnHandler.Browser := browser;
+  //EventOnHandler.Frame := frame;
+  ////windowMoveDragHandler
+  //windowMoveDragHandler := TV8WindowMoveDragHandler.Create;
+  //windowMoveDragHandler.Browser := browser;
+  //windowMoveDragHandler.Frame := frame;
+  //windowMoveDragHandler.Init;
+  ////borwserWindow
+  //browserWindowHandler := TBrowserWindowHandler.Create;
+  //browserWindowHandler.Browser := browser;
+  //browserWindowHandler.Frame := frame;
+  //browserWindowHandler.BrowserWindowObject := TCefv8ValueRef.NewObject(nil, nil);
+  //browserWindowHandler.Init();
+  //
+  //
+  //IPCObject := TCefv8ValueRef.NewObject(nil, nil);
+  //IPCObject.SetValueByKey(IPCExecuteName, TCefv8ValueRef.NewFunction(IPCExecuteName, EventEmitHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
+  //IPCObject.SetValueByKey(IPCEventOnName, TCefv8ValueRef.NewFunction(IPCEventOnName, EventOnHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
+  //
+  ////windowMoveDragHandler
+  //WindowDragObject := TCefv8ValueRef.NewObject(nil, nil);
+  //WindowDragObject.SetValueByKey(MoveDragDown, TCefv8ValueRef.NewFunction(MoveDragDown, windowMoveDragHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
+  //WindowDragObject.SetValueByKey(MoveDragMove, TCefv8ValueRef.NewFunction(MoveDragMove, windowMoveDragHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
+  //WindowDragObject.SetValueByKey(MoveDragUp, TCefv8ValueRef.NewFunction(MoveDragUp, windowMoveDragHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
+  //
+  //
+  //context.Global.SetValueByKey(v8EmitKey, IPCObject, V8_PROPERTY_ATTRIBUTE_READONLY);
+  //context.Global.SetValueByKey(windowDrag, WindowDragObject, V8_PROPERTY_ATTRIBUTE_READONLY);
+  //context.Global.SetValueByKey(BrowserWindow, browserWindowHandler.BrowserWindowObject, V8_PROPERTY_ATTRIBUTE_READONLY);
 
 end;
 
