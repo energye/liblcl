@@ -69,7 +69,7 @@ begin
     CefObject^.FuncLen := integer(TempCefObject^.FuncLen);
     SetLength(CefObject^.Fields, CefObject^.FieldLen);
     SetLength(CefObject^.Funcs, CefObject^.FuncLen);
-    WriteLn('CEFV8ValueRef_ObjectValueBindInfo: ', Length(CefObject^.FullObjName),' FullObjName: ', FullObjName,' Name: ', TempCefObject^.Name);
+    //WriteLn('CEFV8ValueRef_ObjectValueBindInfo: ', Length(CefObject^.FullObjName),' FullObjName: ', FullObjName,' Name: ', TempCefObject^.Name);
     //取出所有字段信息数据
     for i := 0 to CefObject^.FieldLen-1 do
     begin
