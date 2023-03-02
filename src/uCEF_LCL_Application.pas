@@ -357,8 +357,7 @@ begin
           begin
             CommonHandler.Put(v8Name, commonValueBindInfo);
             v8Value := TCefv8ValueRef.NewFunction(v8Name, CommonHandler);
-            CommonAccessor.V8Object.SetValueByKey(v8Name, v8Value,
-              V8_PROPERTY_ATTRIBUTE_NONE);
+            CommonAccessor.V8Object.SetValueByKey(v8Name, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
           end
           else
         end;
@@ -392,14 +391,11 @@ begin
           end;
           else;
         end;
-        CommonAccessor.V8Object.SetValueByAccessor(v8Name,
-          V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-        CommonAccessor.V8Object.SetValueByKey(v8Name, v8Value,
-          V8_PROPERTY_ATTRIBUTE_NONE);
+        CommonAccessor.V8Object.SetValueByAccessor(v8Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
+        CommonAccessor.V8Object.SetValueByKey(v8Name, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
       end;
     end;
-    context.Global.SetValueByKey(CommonRootName, CommonAccessor.V8Object,
-      V8_PROPERTY_ATTRIBUTE_NONE);
+    context.Global.SetValueByKey(CommonRootName, CommonAccessor.V8Object, V8_PROPERTY_ATTRIBUTE_NONE);
     CommonAccessor.initState := 1;
   except
     on E: Exception do
