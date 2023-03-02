@@ -23,16 +23,17 @@ type
     constructor Create;
     destructor Destroy;
   protected
-    procedure OnPdfPrintFinished(const path: ustring; ok: Boolean); override;
+    procedure OnPdfPrintFinished(const path: ustring; ok: boolean); override;
+
   end;
 
 implementation
 
-procedure TPdfPrintCallbackRef.OnPdfPrintFinished(const path: ustring; ok: Boolean);
+procedure TPdfPrintCallbackRef.OnPdfPrintFinished(const path: ustring; ok: boolean);
 begin
   if (PdfPrintFinishedPtr <> nil) then
   begin
-    SendEvent(PdfPrintFinishedPtr, [PChar(string(path)), ok]);
+    TCEFEventCallback.SendEvent(PdfPrintFinishedPtr, [PChar(string(path)), ok]);
   end;
 end;
 

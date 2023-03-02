@@ -14,12 +14,19 @@ interface
 uses
   uEventCallback;
 
+type
 
-procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
+  TCEFEventCallback = class
+  public
+    class constructor Create;
+    class destructor Destroy;
+    class procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
+  end;
+
 
 implementation
 
-procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
+class procedure TCEFEventCallback.SendEvent(DataPtr: Pointer; AArgs: array of const);
 var
   LParams: array[0..CALL_MAX_PARAM - 1] of Pointer;
   LArgLen: integer;
@@ -62,6 +69,14 @@ begin
       GEventCallbackPtr(DataPtr, @LParams[0], LArgLen);
     end;
   end;
+end;
+
+class constructor TCEFEventCallback.Create;
+begin
+end;
+
+class destructor TCEFEventCallback.Destroy;
+begin
 end;
 
 

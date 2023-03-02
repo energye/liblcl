@@ -21,27 +21,24 @@ interface
 
 uses
   uCEF_LCL_ConsoleWrite,
-  SysUtils, Controls, uEventCallback,
+  SysUtils, Controls, uEventCallback, uCEF_LCL_EventCallback,
   uCEFInterfaces, uCEFv8Value, uCEFConstants, uCEFTypes,
   uCEF_LCL_Entity, uCEF_LCL_Chromium, uCEF_LCL_V8ValueRef,
   uCEF_LCL_V8CommonAccessor, uCEF_LCL_V8CommonHandler,
   uCEF_LCL_V8ObjectAccessor, uCEF_LCL_V8ObjectHandler,
   uCEF_LCL_V8EventEmitHandler, uCEF_LCL_V8EventOnHandler,
-  uCEF_LCL_V8WindowMoveDragHandler, uCEF_LCL_BrowserWindowHandler,
-  uCEF_LCL_ContextCreatedJSInject,
+  uCEF_LCL_BrowserWindowHandler,
   uCEF_LCL_Event, uCEF_LCL_IPC;
 
 type
 
   //应用主进程内执行函数
   TCEFApplicationClass = class
-
   public
     //应用主进程内执行函数
     procedure ApplicationQueueAsyncCall(Data: PtrInt);
   end;
 
-procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
 
 // 渲染进程回调事件函数
 procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
@@ -96,48 +93,6 @@ var
 {实现}
 implementation
 
-// CEF Application Event
-procedure SendEvent(DataPtr: Pointer; AArgs: array of const);
-var
-  LParams: array[0..CALL_MAX_PARAM - 1] of Pointer;
-  LArgLen: integer;
-  LV: TVarRec;
-  I: integer;
-begin
-  if Assigned(GEventCallbackPtr) then
-  begin
-    LArgLen := Length(AArgs);
-    if LArgLen <= Length(LParams) then
-    begin
-      for I := 0 to LArgLen - 1 do
-      begin
-        LV := AArgs[I];
-        case LV.VType of
-          vtInteger: LParams[I] := Pointer(LV.VInteger);
-          vtBoolean: LParams[I] := Pointer(byte(LV.VBoolean));
-          vtChar: LParams[I] := Pointer(Ord(LV.VChar));
-          vtExtended: LParams[I] := LV.VExtended;
-          vtString: LParams[I] := {$IFDEF MSWINDOWS} LV.VString {$ELSE}LV.VAnsiString{$ENDIF} ;
-          vtPointer: LParams[I] := LV.VPointer;
-          vtPChar: LParams[I] := LV.VPChar;
-          vtObject: LParams[I] := LV.VObject;
-          vtClass: LParams[I] := LV.VClass;
-          vtWideChar: LParams[I] := Pointer(Ord(LV.VWideChar));
-          vtPWideChar: LParams[I] := LV.VPWideChar;
-          vtAnsiString: LParams[I] := LV.VAnsiString;
-          //          vtCurrency      = 12;
-          //          vtVariant       = 13;
-          vtInterface: LParams[I] := LV.VInterface;
-          vtWideString: LParams[I] := LV.VWideString;
-          vtInt64: LParams[I] := LV.VInt64;
-          vtUnicodeString: LParams[I] := LV.VUnicodeString;
-        end;
-      end;
-      GEventCallbackPtr(DataPtr, @LParams[0], LArgLen);
-    end;
-  end;
-end;
-
 //TCefApplication OnContextCreated
 procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 //var
@@ -172,7 +127,7 @@ begin
   //
   //TMainChromiumBrowserClass.PutBrowser(browser);
 
-  SendEvent(OnContextCreated_DataPtr, [browser, frame, context]);
+  TCEFEventCallback.SendEvent(OnContextCreated_DataPtr, [browser, frame, context]);
   //if not state then
   //begin
   //  exit;
@@ -456,12 +411,12 @@ end;
 //TCefApplication OnWebKitInitialized
 procedure GlobalCEFApp_OnWebKitInitialized;
 begin
-  SendEvent(OnWebKitInitialized_DataPtr, []);
+  TCEFEventCallback.SendEvent(OnWebKitInitialized_DataPtr, []);
 end;
 
 procedure GlobalCEFApp_OnContextInitialized;
 begin
-  SendEvent(OnContextInitialized_DataPtr, []);
+  TCEFEventCallback.SendEvent(OnContextInitialized_DataPtr, []);
 end;
 
 //render进程消息
@@ -469,7 +424,7 @@ procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; cons
   const aMessage: ICefProcessMessage; var aHandled: boolean);
 begin
   aHandled := False;
-  SendEvent(OnProcessMessageReceived_DataPtr, [browser, frame, sourceProcess, aMessage, @aHandled]);
+  TCEFEventCallback.SendEvent(OnProcessMessageReceived_DataPtr, [browser, frame, sourceProcess, aMessage, @aHandled]);
 end;
 
 //render进程消息
@@ -515,7 +470,7 @@ var
   commandArray: TStringArray;
   commandItemArray: TStringArray;
 begin
-  SendEvent(OnBeforeChildProcessLaunch_DataPtr, [@commands]);
+  TCEFEventCallback.SendEvent(OnBeforeChildProcessLaunch_DataPtr, [@commands]);
   commandArray := string(PCharToUStr(commands)).Split(' ');
   for idx := 0 to length(commandArray) - 1 do
   begin
@@ -534,32 +489,32 @@ end;
 //browser 消毁事件
 procedure GlobalCEFApp_OnBrowserDestroyed(const browser: ICefBrowser);
 begin
-  SendEvent(OnBrowserDestroyed_DataPtr, [browser]);
+  TCEFEventCallback.SendEvent(OnBrowserDestroyed_DataPtr, [browser]);
 end;
 
 procedure GlobalCEFApp_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
 begin
-  SendEvent(OnRenderLoadStart_DataPtr, [browser, frame, transitionType]);
+  TCEFEventCallback.SendEvent(OnRenderLoadStart_DataPtr, [browser, frame, transitionType]);
 end;
 
 procedure GlobalCEFApp_OnRenderLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
 begin
-  SendEvent(OnRenderLoadEnd_DataPtr, [browser, frame, httpStatusCode]);
+  TCEFEventCallback.SendEvent(OnRenderLoadEnd_DataPtr, [browser, frame, httpStatusCode]);
 end;
 
 procedure GlobalCEFApp_OnRenderLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
 begin
-  SendEvent(OnRenderLoadError_DataPtr, [browser, frame, errorCode, PChar(string(errorText)), PChar(string(failedUrl))]);
+  TCEFEventCallback.SendEvent(OnRenderLoadError_DataPtr, [browser, frame, errorCode, PChar(string(errorText)), PChar(string(failedUrl))]);
 end;
 
 procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
 begin
-  SendEvent(OnRenderLoadingStateChange_DataPtr, [browser, isLoading, canGoBack, canGoForward]);
+  TCEFEventCallback.SendEvent(OnRenderLoadingStateChange_DataPtr, [browser, isLoading, canGoBack, canGoForward]);
 end;
 
 procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
 begin
-  SendEvent(OnGetDefaultClient_DataPtr, [aClient]);
+  TCEFEventCallback.SendEvent(OnGetDefaultClient_DataPtr, [aClient]);
 end;
 
 //应用主进程内执行函数
@@ -567,5 +522,6 @@ procedure TCEFApplicationClass.ApplicationQueueAsyncCall(Data: PtrInt);
 begin
   ApplicationQueueAsyncCallEventClass.SendEvent(nativeuint(Data));
 end;
+
 
 end.
