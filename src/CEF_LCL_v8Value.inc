@@ -256,10 +256,11 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_GetKeys(const TObj: ICefv8Value; const keys: TStrings): Integer; extdecl;
+function CefV8Value_GetKeys(const TObj: ICefv8Value; out ResultKeys: TStrings): Integer; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetKeys(keys);
+  ResultKeys := TStringList.Create;
+  Result := TObj.GetKeys(ResultKeys);
   handleExceptionEnd
 end;
 
