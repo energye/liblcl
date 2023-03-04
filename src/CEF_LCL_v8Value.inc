@@ -337,11 +337,7 @@ end;
 procedure CefV8Value_ExecuteFunctionWithContext(const TObj: ICefv8Value; const context: ICefv8Context; const obj: ICefv8Value; out Result: ICefv8Value; const arguments: TCefv8ValueArray); extdecl;
 begin
   handleExceptionBegin
-  if context.Enter then
-  begin
-    Result := TObj.ExecuteFunctionWithContext(context, obj, arguments);
-    context.Exit;
-  end;
+  Result := TObj.ExecuteFunctionWithContext(context, obj, arguments);
   handleExceptionEnd
 end;
 
@@ -451,6 +447,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CefV8ValueRef_UnWrap(const data: ICefv8Value; out Result: ICefv8Value); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefv8ValueRef.UnWrap(data.Wrap);
+  handleExceptionEnd
+end;
+
 exports
     //CefV8Value
     CefV8Value_IsValid,
@@ -516,5 +519,6 @@ exports
     CefV8ValueRef_NewArray,
     CefV8ValueRef_NewArrayBuffer,
     CefV8ValueRef_NewFunction,
-    CefV8ValueRef_NewPromise
+    CefV8ValueRef_NewPromise,
+    CefV8ValueRef_UnWrap
 ;

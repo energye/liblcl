@@ -419,6 +419,14 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFBrowserRef_UnWrap(const data: ICefBrowser; out Result: ICefBrowser); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefBrowserRef.UnWrap(data.Wrap);
+  handleExceptionEnd
+end;
+
+
 exports
   CEFBrowser_ShowDevTools,
   CEFBrowser_CloseDevTools,
@@ -463,6 +471,7 @@ exports
   CEFBrowser_FrameCount,
   CEFBrowser_GetFrameNames,
   CEFBrowser_Find,
-  CEFBrowser_StopFinding
+  CEFBrowser_StopFinding,
+  CEFBrowserRef_UnWrap
 ;
 

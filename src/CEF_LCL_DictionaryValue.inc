@@ -11,6 +11,13 @@ begin
     handleExceptionEnd
 end;
 
+procedure CefDictionaryValueRef_UnWrap(const data: ICefDictionaryValue; out Result: ICefDictionaryValue); extdecl;
+begin
+    handleExceptionBegin
+    Result := TCefDictionaryValueRef.UnWrap(data.Wrap);
+    handleExceptionEnd
+end;
+
 function CefDictionaryValue_IsValid(const TObj: ICefDictionaryValue): LongBool; extdecl;
 begin
     handleExceptionBegin
@@ -60,10 +67,12 @@ begin
     handleExceptionEnd
 end;
 
-function CefDictionaryValue_GetKeys(const TObj: ICefDictionaryValue; const keys: TStrings): LongBool; extdecl;
+function CefDictionaryValue_GetKeys(const TObj: ICefDictionaryValue; out ResultKeys: TStrings): Integer; extdecl;
 begin
     handleExceptionBegin
-    Result := TObj.GetKeys(keys);
+    ResultKeys := TStringList.Create;
+    TObj.GetKeys(ResultKeys);
+    Result := ResultKeys.Count;
     handleExceptionEnd
 end;
 
@@ -202,6 +211,7 @@ end;
 
 exports
     CefDictionaryValueRef_New,
+    CefDictionaryValueRef_UnWrap,
     CefDictionaryValue_IsValid,
     CefDictionaryValue_IsOwned,
     CefDictionaryValue_IsReadOnly,

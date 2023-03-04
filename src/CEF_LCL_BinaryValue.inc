@@ -18,6 +18,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CefBinaryValueRef_UnWrap(const data: ICefBinaryValue; out Result: ICefBinaryValue); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefBinaryValueRef.UnWrap(data.Wrap);
+  handleExceptionEnd
+end;
+
 function CefBinaryValue_IsValid(const TObj: ICefBinaryValue): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -56,6 +63,7 @@ end;
 exports
     CefBinaryValueRef_New,
     CefBinaryValueRef_Create,
+    CefBinaryValueRef_UnWrap,
     CefBinaryValue_IsValid,
     CefBinaryValue_IsOwned,
     CefBinaryValue_Copy,

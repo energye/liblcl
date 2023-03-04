@@ -165,6 +165,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFFrameRef_UnWrap(const data: ICefFrame; out Result: ICefFrame); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefFrameRef.UnWrap(data.Wrap);
+  handleExceptionEnd
+end;
+
 {exports}
 exports
   CEFFrame_Undo,
@@ -187,7 +194,8 @@ exports
   CEFFrame_Identifier,
   CEFFrame_Name,
   CEFFrame_Url,
-  CEFFrame_Parent
+  CEFFrame_Parent,
+  CEFFrameRef_UnWrap
 {end}
 ;
 
