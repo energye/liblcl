@@ -327,17 +327,43 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Value_ExecuteFunction(const TObj: ICefv8Value; const obj: ICefv8Value; out Result: ICefv8Value; const arguments: TCefv8ValueArray); extdecl;
+procedure CefV8Value_ExecuteFunction(const TObj: ICefv8Value; const obj: ICefv8Value; out Result: ICefv8Value; const arguments: TCefv8ValueArray; argumentsLength: Integer); extdecl;
+var
+  i: integer;
+  args: TCefv8ValueArray;
 begin
   handleExceptionBegin
-  Result := TObj.ExecuteFunction(obj, arguments);
+  if argumentsLength > 0 then
+  begin
+    SetLength(args, argumentsLength);
+    for i := 0 to argumentsLength - 1 do
+    begin
+      args[i] := arguments[i];
+    end;
+    Result := TObj.ExecuteFunction(obj, args);
+    SetLength(args, 0);
+    args := nil;
+  end;
   handleExceptionEnd
 end;
 
-procedure CefV8Value_ExecuteFunctionWithContext(const TObj: ICefv8Value; const context: ICefv8Context; const obj: ICefv8Value; out Result: ICefv8Value; const arguments: TCefv8ValueArray); extdecl;
+procedure CefV8Value_ExecuteFunctionWithContext(const TObj: ICefv8Value; const context: ICefv8Context; const obj: ICefv8Value; out Result: ICefv8Value; const arguments: TCefv8ValueArray; argumentsLength: Integer); extdecl;
+var
+  i: integer;
+  args: TCefv8ValueArray;
 begin
   handleExceptionBegin
-  Result := TObj.ExecuteFunctionWithContext(context, obj, arguments);
+  if argumentsLength > 0 then
+  begin
+    SetLength(args, argumentsLength);
+    for i := 0 to argumentsLength - 1 do
+    begin
+      args[i] := arguments[i];
+    end;
+    Result := TObj.ExecuteFunctionWithContext(context, obj, args);
+    SetLength(args, 0);
+    args := nil;
+  end;
   handleExceptionEnd
 end;
 
@@ -391,10 +417,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewDouble(value: Double; out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewDouble(value: PDouble; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefv8ValueRef.NewDouble(value);
+  Result := TCefv8ValueRef.NewDouble(Double(PDouble(value)^));
   handleExceptionEnd
 end;
 

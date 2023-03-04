@@ -174,7 +174,7 @@ begin
     handleExceptionEnd
 end;
 
-function CefDictionaryValue_SetDouble(const TObj: ICefDictionaryValue; const key: PChar; value: Pointer): LongBool; extdecl;
+function CefDictionaryValue_SetDouble(const TObj: ICefDictionaryValue; const key: PChar; value: PDouble): LongBool; extdecl;
 begin
     handleExceptionBegin
     Result := TObj.SetDouble(PCharToUStr(key), Double(PDouble(value)^));
