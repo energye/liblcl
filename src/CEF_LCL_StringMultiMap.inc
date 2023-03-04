@@ -4,7 +4,6 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-
 procedure StringMultimapRef_Create(out Result: ICefStringMultimap); extdecl;
 begin
   handleExceptionBegin

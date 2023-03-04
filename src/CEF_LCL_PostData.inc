@@ -11,6 +11,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CefPostDataRef_UnWrap(const data: ICefPostData; out Result: ICefPostData); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefPostDataRef.UnWrap(data.Wrap);
+  handleExceptionEnd
+end;
+
 function CefPostData_IsReadOnly(const TObj: ICefPostData): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -62,6 +69,7 @@ end;
 
 exports
   CefPostDataRef_Create,
+  CefPostDataRef_UnWrap,
   CefPostData_IsReadOnly,
   CefPostData_HasExcludedElements,
   CefPostData_GetElementCount,

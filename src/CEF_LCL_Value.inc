@@ -11,6 +11,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CefValueRef_UnWrap(const data: ICefValue; out Result: ICefValue); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefValueRef.UnWrap(data.Wrap);
+  handleExceptionEnd
+end;
+
 function CefValue_IsValid(const TObj: ICefValue): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -153,6 +160,7 @@ end;
 
 exports
     CefValueRef_New,
+    CefValueRef_UnWrap,
     CefValue_IsValid,
     CefValue_IsOwned,
     CefValue_IsReadOnly,

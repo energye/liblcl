@@ -12,6 +12,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CefProcessMessageRef_UnWrap(const data: ICefProcessMessage; out Result: ICefProcessMessage); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefProcessMessageRef.UnWrap(data.Wrap);
+  handleExceptionEnd
+end;
+
 procedure CefProcessMessage_ArgumentList(const TObj: ICefProcessMessage; out Result: ICefListValue); extdecl;
 begin
   handleExceptionBegin
@@ -41,10 +48,17 @@ begin
 end;
 
 //ICefListValue
-procedure CefListValue_New(out Result: ICefListValue); extdecl;
+procedure CefListValueRef_New(out Result: ICefListValue); extdecl;
 begin
   handleExceptionBegin
   Result := TCefListValueRef.New;
+  handleExceptionEnd
+end;
+
+procedure CefListValueRef_UnWrap(const data: ICefListValue; out Result: ICefListValue); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefListValueRef.UnWrap(data.Wrap);
   handleExceptionEnd
 end;
 
@@ -234,12 +248,14 @@ end;
 exports
 //ICefProcessMessage
   CefProcessMessageRef_New,
+  CefProcessMessageRef_UnWrap,
   CefProcessMessage_ArgumentList,
   CefProcessMessage_IsValid,
   CefProcessMessage_Copy,
   CefProcessMessage_Name,
 //ICefListValue
-  CefListValue_New,
+  CefListValueRef_New,
+  CefListValueRef_UnWrap,
   CefListValue_IsValid,
   CefListValue_IsOwned,
   CefListValue_IsReadOnly,

@@ -4,6 +4,13 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
+procedure CefResponseRef_UnWrap(const data: ICefResponse; out Result: ICefResponse); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefResponseRef.UnWrap(data.Wrap);
+  handleExceptionEnd
+end;
+
 function CefResponse_IsReadOnly(const TObj: ICefResponse): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -82,6 +89,7 @@ begin
 end;
 
 exports
+  CefResponseRef_UnWrap,
   CefResponse_IsReadOnly,
   CefResponse_SetError,
   CefResponse_SetStatus,

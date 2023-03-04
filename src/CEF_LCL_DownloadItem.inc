@@ -4,6 +4,13 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
+procedure CefDownloadItemRef_UnWrap(const data: ICefDownloadItem; out Result: ICefDownloadItem); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefDownLoadItemRef.UnWrap(data.Wrap);
+  handleExceptionEnd
+end;
+
 function CefDownloadItem_IsValid(const TObj: ICefDownloadItem): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -157,6 +164,7 @@ begin
 end;
 
 exports
+    CefDownloadItemRef_UnWrap,
     CefDownloadItem_IsValid,
     CefDownloadItem_IsInProgress,
     CefDownloadItem_IsComplete,

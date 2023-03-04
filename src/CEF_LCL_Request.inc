@@ -4,7 +4,13 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-//request
+procedure CefRequestRef_UnWrap(const data: ICefRequest; out Result: ICefRequest); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefRequestRef.UnWrap(data.Wrap);
+  handleExceptionEnd
+end;
+
 function CefRequest_IsReadOnly(const TObj: ICefRequest): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -92,6 +98,7 @@ end;
 
 
 exports
+  CefRequestRef_UnWrap,
   CefRequest_IsReadOnly,
   CefRequest_SetUrl,
   CefRequest_SetMethod,

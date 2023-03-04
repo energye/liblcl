@@ -11,6 +11,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure PostDataElementRef_UnWrap(const data: ICefPostDataElement; out Result: ICefPostDataElement); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefPostDataElementRef.UnWrap(data.Wrap);
+  handleExceptionEnd
+end;
+
 function  PostDataElement_IsReadOnly(const TObj: ICefPostDataElement): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -69,6 +76,7 @@ end;
 
 exports
   PostDataElementRef_Create,
+  PostDataElementRef_UnWrap,
   PostDataElement_IsReadOnly,
   PostDataElement_SetToEmpty,
   PostDataElement_SetToFile,
