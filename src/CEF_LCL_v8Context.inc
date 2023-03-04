@@ -72,7 +72,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8ContextRef_UnWrap(out data: ICefv8Context; out Result: ICefv8Context); extdecl;
+procedure CefV8ContextRef_UnWrap(const data: ICefv8Context; out Result: ICefv8Context); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ContextRef.UnWrap(data.Wrap);
