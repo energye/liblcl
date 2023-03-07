@@ -299,10 +299,10 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_GetArrayBufferReleaseCallback(const TObj: ICefv8Value): ICefv8ArrayBufferReleaseCallback; extdecl;
+procedure CefV8Value_GetArrayBufferReleaseCallback(const TObj: ICefv8Value; out Result: TV8ArrayBufferReleaseCallbackRef); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetArrayBufferReleaseCallback();
+  Result := TV8ArrayBufferReleaseCallbackRef(TObj.GetArrayBufferReleaseCallback());
   handleExceptionEnd
 end;
 
