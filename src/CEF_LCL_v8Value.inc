@@ -341,9 +341,11 @@ begin
       args[i] := arguments[i];
     end;
     Result := TObj.ExecuteFunction(obj, args);
-    SetLength(args, 0);
-    args := nil;
-  end;
+  end
+  else
+    Result := TObj.ExecuteFunction(obj, nil);
+  SetLength(args, 0);
+  args := nil;
   handleExceptionEnd
 end;
 
@@ -361,9 +363,11 @@ begin
       args[i] := arguments[i];
     end;
     Result := TObj.ExecuteFunctionWithContext(context, obj, args);
-    SetLength(args, 0);
-    args := nil;
-  end;
+  end
+  else
+    Result := TObj.ExecuteFunctionWithContext(context, obj, nil);
+  SetLength(args, 0);
+  args := nil;
   handleExceptionEnd
 end;
 
