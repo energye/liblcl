@@ -453,6 +453,7 @@ procedure CefV8ValueRef_NewArray(len: Integer; out Result: ICefv8Value); extdecl
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewArray(len);
+  //TCefBaseRefCountedRef(Result).Destroy;
   handleExceptionEnd
 end;
 

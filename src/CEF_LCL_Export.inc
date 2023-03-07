@@ -16,6 +16,7 @@
 {$I CEF_LCL_BrowserView.inc}
 {$I CEF_LCL_BinaryValue.inc}
 {$I CEF_LCL_BrowserViewComponent.inc}
+{$I CEF_LCL_BaseRefCounted.inc}
 {$I CEF_LCL_ContextMenu.inc}
 {$I CEF_LCL_Callback.inc}
 {$I CEF_LCL_Callback_Register.inc}
