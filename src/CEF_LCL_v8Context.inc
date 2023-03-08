@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-function CefV8Context_Eval(const TObj: ICefv8Context; const code: PChar; const script_url: PChar; start_line: integer; out retval: ICefv8Value; out exception: ICefV8Exception): LongBool; extdecl;
+function CefV8Context_Eval(const TObj: ICefv8Context; const code: PChar; const script_url: PChar; start_line: integer; var retval: ICefv8Value; var exception: ICefV8Exception): LongBool; extdecl;
 var
   pReturnValue : ICefv8Value;
   pReturnException: ICefV8Exception;
@@ -37,42 +37,48 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Context_Browser(const TObj: ICefv8Context; out Result: ICefBrowser); extdecl;
+procedure CefV8Context_Browser(const TObj: ICefv8Context; var Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Browser;
   handleExceptionEnd
 end;
 
-procedure CefV8Context_Frame(const TObj: ICefv8Context; out Result: ICefFrame); extdecl;
+procedure CefV8Context_Frame(const TObj: ICefv8Context; var Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Frame;
   handleExceptionEnd
 end;
 
-procedure CefV8Context_Global(const TObj: ICefv8Context; out Result: ICefv8Value); extdecl;
+procedure CefV8Context_Free(var data: ICefv8Context); extdecl;
+begin
+  TCefv8ContextRef(data).Free;
+  data := nil;
+end;
+
+procedure CefV8Context_Global(const TObj: ICefv8Context; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Global;
   handleExceptionEnd
 end;
 
-procedure CefV8ContextRef_Current(out Result: ICefv8Context); extdecl;
+procedure CefV8ContextRef_Current(var Result: ICefv8Context); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ContextRef.Current;
   handleExceptionEnd
 end;
 
-procedure CefV8ContextRef_Entered(out Result: ICefv8Context); extdecl;
+procedure CefV8ContextRef_Entered(var Result: ICefv8Context); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ContextRef.Entered;
   handleExceptionEnd
 end;
 
-procedure CefV8ContextRef_UnWrap(const data: ICefv8Context; out Result: ICefv8Context); extdecl;
+procedure CefV8ContextRef_UnWrap(const data: ICefv8Context; var Result: ICefv8Context); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ContextRef.UnWrap(data.Wrap);
@@ -87,6 +93,7 @@ exports
     CefV8Context_Browser,
     CefV8Context_Frame,
     CefV8Context_Global,
+    CefV8Context_Free,
     CefV8ContextRef_Current,
     CefV8ContextRef_Entered,
     CefV8ContextRef_UnWrap

@@ -130,14 +130,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Value_GetDoubleValue(TObj: ICefv8Value; out Result: Double) ; extdecl;
+procedure CefV8Value_GetDoubleValue(TObj: ICefv8Value; var Result: Double) ; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetDoubleValue();
   handleExceptionEnd
 end;
 
-procedure CefV8Value_GetDateValue(TObj: ICefv8Value; out Result: TDateTime); extdecl;
+procedure CefV8Value_GetDateValue(TObj: ICefv8Value; var Result: TDateTime); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetDateValue();
@@ -221,14 +221,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Value_GetValueByKey(const TObj: ICefv8Value; const key: PChar; out Result: ICefv8Value); extdecl;
+procedure CefV8Value_GetValueByKey(const TObj: ICefv8Value; const key: PChar; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetValueByKey(PCharToUStr(key));
   handleExceptionEnd
 end;
 
-procedure CefV8Value_GetValueByIndex(const TObj: ICefv8Value; index: Integer; out Result: ICefv8Value); extdecl;
+procedure CefV8Value_GetValueByIndex(const TObj: ICefv8Value; index: Integer; var Result: ICefv8Value) ; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetValueByIndex(index);
@@ -256,7 +256,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_GetKeys(const TObj: ICefv8Value; out ResultKeys: TStrings): Integer; extdecl;
+function CefV8Value_GetKeys(const TObj: ICefv8Value; var ResultKeys: TStrings): Integer; extdecl;
 begin
   handleExceptionBegin
   ResultKeys := TStringList.Create;
@@ -271,7 +271,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Value_GetUserData(const TObj: ICefv8Value; out Result: ICefv8Value); extdecl;
+procedure CefV8Value_GetUserData(const TObj: ICefv8Value; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetUserData();
@@ -299,7 +299,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Value_GetArrayBufferReleaseCallback(const TObj: ICefv8Value; out Result: TV8ArrayBufferReleaseCallbackRef); extdecl;
+procedure CefV8Value_GetArrayBufferReleaseCallback(const TObj: ICefv8Value; var Result: TV8ArrayBufferReleaseCallbackRef); extdecl;
 begin
   handleExceptionBegin
   Result := TV8ArrayBufferReleaseCallbackRef(TObj.GetArrayBufferReleaseCallback());
@@ -320,14 +320,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Value_GetFunctionHandler(const TObj: ICefv8Value; out Result: TV8HandlerRef); extdecl;
+procedure CefV8Value_GetFunctionHandler(const TObj: ICefv8Value; var Result: TV8HandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TV8HandlerRef(TObj.GetFunctionHandler());
   handleExceptionEnd
 end;
 
-procedure CefV8Value_ExecuteFunction(const TObj: ICefv8Value; const obj: ICefv8Value; out Result: ICefv8Value; const arguments: TCefv8ValueArray; argumentsLength: Integer); extdecl;
+procedure CefV8Value_ExecuteFunction(const TObj: ICefv8Value; const obj: ICefv8Value; var Result: ICefv8Value; const arguments: TCefv8ValueArray; argumentsLength: Integer); extdecl;
 var
   i: integer;
   args: TCefv8ValueArray;
@@ -349,7 +349,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Value_ExecuteFunctionWithContext(const TObj: ICefv8Value; const context: ICefv8Context; const obj: ICefv8Value; out Result: ICefv8Value; const arguments: TCefv8ValueArray; argumentsLength: Integer); extdecl;
+procedure CefV8Value_ExecuteFunctionWithContext(const TObj: ICefv8Value; const context: ICefv8Context; const obj: ICefv8Value; var Result: ICefv8Value; const arguments: TCefv8ValueArray; argumentsLength: Integer); extdecl;
 var
   i: integer;
   args: TCefv8ValueArray;
@@ -385,100 +385,107 @@ begin
   handleExceptionEnd
 end;
 
+procedure CefV8Value_Free(var data: ICefv8Value); extdecl;
+begin
+  handleExceptionBegin
+  TCefv8ValueRef(data).Free;
+  data := nil;
+  handleExceptionEnd
+end;
+
 //CefV8ValueRef
-procedure CefV8ValueRef_NewUndefined(out Result: ICefv8Value); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefv8ValueRef.NewUndefined;
-  handleExceptionEnd
-end;
-
-procedure CefV8ValueRef_NewNull(out Result: ICefv8Value); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefv8ValueRef.NewNull;
-  handleExceptionEnd
-end;
-
-procedure CefV8ValueRef_NewBool(value: LongBool; out Result: ICefv8Value); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefv8ValueRef.NewBool(value);
-  handleExceptionEnd
-end;
-
-procedure CefV8ValueRef_NewInt(value: integer; out Result: ICefv8Value); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefv8ValueRef.NewInt(value);
-  handleExceptionEnd
-end;
-
-procedure CefV8ValueRef_NewUInt(value: Cardinal; out Result: ICefv8Value); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefv8ValueRef.NewUInt(value);
-  handleExceptionEnd
-end;
-
-procedure CefV8ValueRef_NewDouble(value: PDouble; out Result: ICefv8Value); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefv8ValueRef.NewDouble(Double(PDouble(value)^));
-  handleExceptionEnd
-end;
-
-procedure CefV8ValueRef_NewDate(value: Double; out Result: ICefv8Value); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefv8ValueRef.NewDate(TDateTime(value));
-  handleExceptionEnd
-end;
-
-procedure CefV8ValueRef_NewString(value: PChar; out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewString(const value: PChar; var Result: ICefv8Value) ; extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewString(PCharToUStr(value));
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewObject(const Accessor: TV8AccessorRef; const Interceptor: TV8InterceptorRef; out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewUndefined(var Result: ICefv8Value); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefv8ValueRef.NewUndefined;
+  handleExceptionEnd
+end;
+
+procedure CefV8ValueRef_NewNull(var Result: ICefv8Value); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefv8ValueRef.NewNull;
+  handleExceptionEnd
+end;
+
+procedure CefV8ValueRef_NewBool(value: LongBool; var Result: ICefv8Value); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefv8ValueRef.NewBool(value);
+  handleExceptionEnd
+end;
+
+procedure CefV8ValueRef_NewInt(value: integer; var Result: ICefv8Value); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefv8ValueRef.NewInt(value);
+  handleExceptionEnd
+end;
+
+procedure CefV8ValueRef_NewUInt(value: Cardinal; var Result: ICefv8Value); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefv8ValueRef.NewUInt(value);
+  handleExceptionEnd
+end;
+
+procedure CefV8ValueRef_NewDouble(value: PDouble; var Result: ICefv8Value); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefv8ValueRef.NewDouble(Double(PDouble(value)^));
+  handleExceptionEnd
+end;
+
+procedure CefV8ValueRef_NewDate(value: Double; var Result: ICefv8Value); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefv8ValueRef.NewDate(TDateTime(value));
+  handleExceptionEnd
+end;
+
+procedure CefV8ValueRef_NewObject(const Accessor: TV8AccessorRef; const Interceptor: TV8InterceptorRef; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewObject(Accessor, Interceptor);
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewArray(len: Integer; out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewArray(len: Integer; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewArray(len);
-  //TCefBaseRefCountedRef(Result).Destroy;
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewArrayBuffer(buffer: Pointer; length: Integer; const callback : TV8ArrayBufferReleaseCallbackRef; out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewArrayBuffer(buffer: Pointer; length: Integer; const callback : TV8ArrayBufferReleaseCallbackRef; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewArrayBuffer(buffer, NativeUInt(length), callback);
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewFunction(const name: PChar; const handler: TV8HandlerRef; out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewFunction(const name: PChar; const handler: TV8HandlerRef; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewFunction(PCharToUStr(name), handler);
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewPromise(out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewPromise(var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewPromise();
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_UnWrap(const data: ICefv8Value; out Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_UnWrap(const data: ICefv8Value; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.UnWrap(data.Wrap);
@@ -537,6 +544,7 @@ exports
     CefV8Value_ExecuteFunctionWithContext,
     CefV8Value_ResolvePromise,
     CefV8Value_RejectPromise,
+    CefV8Value_Free,
     //CefV8ValueRef
     CefV8ValueRef_NewUndefined,
     CefV8ValueRef_NewNull,
