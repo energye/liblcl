@@ -389,6 +389,7 @@ procedure CefV8Value_Free(var data: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   TCefv8ValueRef(data).Free;
+  TCefv8ValueRef(data).Destroy;
   data := nil;
   handleExceptionEnd
 end;
