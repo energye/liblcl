@@ -5,21 +5,21 @@
 //----------------------------------------
 
 //ICefProcessMessageRef
-procedure CefProcessMessageRef_New(const name: PChar; out Result: ICefProcessMessage); extdecl;
+procedure CefProcessMessageRef_New(const name: PChar; var Result: ICefProcessMessage); extdecl;
 begin
   handleExceptionBegin
   Result := TCefProcessMessageRef.New(PCharToUStr(name));
   handleExceptionEnd
 end;
 
-procedure CefProcessMessageRef_UnWrap(const data: ICefProcessMessage; out Result: ICefProcessMessage); extdecl;
+procedure CefProcessMessageRef_UnWrap(const data: ICefProcessMessage; var Result: ICefProcessMessage); extdecl;
 begin
   handleExceptionBegin
   Result := TCefProcessMessageRef.UnWrap(data.Wrap);
   handleExceptionEnd
 end;
 
-procedure CefProcessMessage_ArgumentList(const TObj: ICefProcessMessage; out Result: ICefListValue); extdecl;
+procedure CefProcessMessage_ArgumentList(const TObj: ICefProcessMessage; var Result: ICefListValue); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.ArgumentList;
@@ -33,7 +33,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefProcessMessage_Copy(const TObj: ICefProcessMessage; out Result: ICefProcessMessage); extdecl;
+procedure CefProcessMessage_Copy(const TObj: ICefProcessMessage; var Result: ICefProcessMessage); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Copy;
@@ -48,14 +48,14 @@ begin
 end;
 
 //ICefListValue
-procedure CefListValueRef_New(out Result: ICefListValue); extdecl;
+procedure CefListValueRef_New(var Result: ICefListValue); extdecl;
 begin
   handleExceptionBegin
   Result := TCefListValueRef.New;
   handleExceptionEnd
 end;
 
-procedure CefListValueRef_UnWrap(const data: ICefListValue; out Result: ICefListValue); extdecl;
+procedure CefListValueRef_UnWrap(const data: ICefListValue; var Result: ICefListValue); extdecl;
 begin
   handleExceptionBegin
   Result := TCefListValueRef.UnWrap(data.Wrap);
@@ -83,7 +83,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefListValue_Copy(const TObj: ICefListValue; out Result: ICefListValue); extdecl;
+procedure CefListValue_Copy(const TObj: ICefListValue; var Result: ICefListValue); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Copy;
@@ -125,7 +125,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefListValue_GetValue(const TObj: ICefListValue; index: NativeUInt; out Result: ICefValue); extdecl;
+procedure CefListValue_GetValue(const TObj: ICefListValue; index: NativeUInt; var Result: ICefValue); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetValue(index);
@@ -146,7 +146,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefListValue_GetDouble(const TObj: ICefListValue; index: NativeUInt; out Result: Double); extdecl;
+procedure CefListValue_GetDouble(const TObj: ICefListValue; index: NativeUInt; var Result: Double); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetDouble(index);
@@ -160,21 +160,21 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefListValue_GetBinary(const TObj: ICefListValue; index: NativeUInt; out Result: ICefBinaryValue); extdecl;
+procedure CefListValue_GetBinary(const TObj: ICefListValue; index: NativeUInt; var Result: ICefBinaryValue); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetBinary(index);
   handleExceptionEnd
 end;
 
-procedure CefListValue_GetDictionary(const TObj: ICefListValue; index: NativeUInt; out Result: ICefDictionaryValue); extdecl;
+procedure CefListValue_GetDictionary(const TObj: ICefListValue; index: NativeUInt; var Result: ICefDictionaryValue); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetDictionary(index);
   handleExceptionEnd
 end;
 
-procedure CefListValue_GetList(const TObj: ICefListValue; index: NativeUInt; out Result: ICefListValue); extdecl;
+procedure CefListValue_GetList(const TObj: ICefListValue; index: NativeUInt; var Result: ICefListValue); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetList(index);

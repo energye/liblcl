@@ -123,21 +123,21 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFFrame_Browser(const TObj: ICefFrame; out Result: ICefBrowser); extdecl;
+procedure CEFFrame_Browser(const TObj: ICefFrame; var Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Browser;
   handleExceptionEnd
 end;
 
-procedure CEFFrame_GetV8Context(const TObj: ICefFrame; out Result: ICefv8Context); extdecl;
+procedure CEFFrame_GetV8Context(const TObj: ICefFrame; var Result: ICefv8Context); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetV8Context;
   handleExceptionEnd
 end;
 
-procedure CEFFrame_Identifier(const TObj: ICefFrame; out Result: Int64); extdecl;
+procedure CEFFrame_Identifier(const TObj: ICefFrame; var Result: Int64); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Identifier;
@@ -158,14 +158,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFFrame_Parent(const TObj: ICefFrame; out Result: ICefFrame); extdecl;
+procedure CEFFrame_Parent(const TObj: ICefFrame; var Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Parent;
   handleExceptionEnd
 end;
 
-procedure CEFFrameRef_UnWrap(const data: ICefFrame; out Result: ICefFrame); extdecl;
+procedure CEFFrameRef_UnWrap(const data: ICefFrame; var Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin
   Result := TCefFrameRef.UnWrap(data.Wrap);
