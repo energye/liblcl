@@ -163,6 +163,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CefDownloadItemCallbackRef_UnWrap(const TObj: ICefDownloadItemCallback; var Result: ICefDownloadItemCallback); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefDownloadItemCallbackRef.UnWrap(TObj.Wrap);
+  handleExceptionEnd
+end;
+
 exports
     CefDownloadItemRef_UnWrap,
     CefDownloadItem_IsValid,
@@ -185,5 +192,6 @@ exports
     CefBeforeDownloadCallback_Cont,
     CefDownloadItemCallback_Pause,
     CefDownloadItemCallback_Cancel,
-    CefDownloadItemCallback_Resume
+    CefDownloadItemCallback_Resume,
+    CefDownloadItemCallbackRef_UnWrap
 ;
