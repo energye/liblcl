@@ -4,14 +4,14 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefDictionaryValueRef_New(out Result: ICefDictionaryValue); extdecl;
+procedure CefDictionaryValueRef_New(var Result: ICefDictionaryValue); extdecl;
 begin
     handleExceptionBegin
     Result := TCefDictionaryValueRef.New();
     handleExceptionEnd
 end;
 
-procedure CefDictionaryValueRef_UnWrap(const data: ICefDictionaryValue; out Result: ICefDictionaryValue); extdecl;
+procedure CefDictionaryValueRef_UnWrap(const data: ICefDictionaryValue; var Result: ICefDictionaryValue); extdecl;
 begin
     handleExceptionBegin
     Result := TCefDictionaryValueRef.UnWrap(data.Wrap);
@@ -39,7 +39,7 @@ begin
     handleExceptionEnd
 end;
 
-procedure CefDictionaryValue_Copy(const TObj: ICefDictionaryValue; excludeEmptyChildren: LongBool; out Result: ICefDictionaryValue); extdecl;
+procedure CefDictionaryValue_Copy(const TObj: ICefDictionaryValue; excludeEmptyChildren: LongBool; var Result: ICefDictionaryValue); extdecl;
 begin
     handleExceptionBegin
     Result := TObj.Copy(excludeEmptyChildren);
@@ -67,7 +67,7 @@ begin
     handleExceptionEnd
 end;
 
-function CefDictionaryValue_GetKeys(const TObj: ICefDictionaryValue; out ResultKeys: TStrings): Integer; extdecl;
+function CefDictionaryValue_GetKeys(const TObj: ICefDictionaryValue; var ResultKeys: TStrings): Integer; extdecl;
 begin
     handleExceptionBegin
     ResultKeys := TStringList.Create;
@@ -90,7 +90,7 @@ begin
     handleExceptionEnd
 end;
 
-procedure CefDictionaryValue_GetValue(const TObj: ICefDictionaryValue; const key: PChar; out Result: ICefValue); extdecl;
+procedure CefDictionaryValue_GetValue(const TObj: ICefDictionaryValue; const key: PChar; var Result: ICefValue); extdecl;
 begin
     handleExceptionBegin
     Result := TObj.GetValue(PCharToUStr(key));
@@ -111,7 +111,7 @@ begin
     handleExceptionEnd
 end;
 
-procedure CefDictionaryValue_GetDouble(const TObj: ICefDictionaryValue; const key: PChar; out Result: Double); extdecl;
+procedure CefDictionaryValue_GetDouble(const TObj: ICefDictionaryValue; const key: PChar; var Result: Double); extdecl;
 begin
     handleExceptionBegin
     Result := TObj.GetDouble(PCharToUStr(key));
@@ -125,21 +125,21 @@ begin
     handleExceptionEnd
 end;
 
-procedure CefDictionaryValue_GetBinary(const TObj: ICefDictionaryValue; const key: PChar; out Result: ICefBinaryValue); extdecl;
+procedure CefDictionaryValue_GetBinary(const TObj: ICefDictionaryValue; const key: PChar; var Result: ICefBinaryValue); extdecl;
 begin
     handleExceptionBegin
     Result := TObj.GetBinary(PCharToUStr(key));
     handleExceptionEnd
 end;
 
-procedure CefDictionaryValue_GetDictionary(const TObj: ICefDictionaryValue; const key: PChar; out Result: ICefDictionaryValue); extdecl;
+procedure CefDictionaryValue_GetDictionary(const TObj: ICefDictionaryValue; const key: PChar; var Result: ICefDictionaryValue); extdecl;
 begin
     handleExceptionBegin
     Result := TObj.GetDictionary(PCharToUStr(key));
     handleExceptionEnd
 end;
 
-procedure CefDictionaryValue_GetList(const TObj: ICefDictionaryValue; const key: PChar; out Result: ICefListValue); extdecl;
+procedure CefDictionaryValue_GetList(const TObj: ICefDictionaryValue; const key: PChar; var Result: ICefListValue); extdecl;
 begin
     handleExceptionBegin
     Result := TObj.GetList(PCharToUStr(key));

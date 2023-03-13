@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefPdfPrintCallback_Create(out Result: TPdfPrintCallbackRef); extdecl;
+procedure CefPdfPrintCallback_Create(var Result: TPdfPrintCallbackRef); extdecl;
 begin
   handleExceptionBegin
   Result := TPdfPrintCallbackRef.Create;

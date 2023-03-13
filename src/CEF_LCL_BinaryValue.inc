@@ -4,21 +4,21 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefBinaryValueRef_New(const data: Pointer; dataSize: NativeUInt; out Result: ICefBinaryValue); extdecl;
+procedure CefBinaryValueRef_New(const data: Pointer; dataSize: NativeUInt; var Result: ICefBinaryValue); extdecl;
 begin
   handleExceptionBegin
   Result := TCefBinaryValueRef.New(data, dataSize);
   handleExceptionEnd
 end;
 
-procedure CefBinaryValueRef_Create(out Result: ICefBinaryValue); extdecl;
+procedure CefBinaryValueRef_Create(var Result: ICefBinaryValue); extdecl;
 begin
   handleExceptionBegin
   Result := TCefBinaryValueOwn.Create;
   handleExceptionEnd
 end;
 
-procedure CefBinaryValueRef_UnWrap(const data: ICefBinaryValue; out Result: ICefBinaryValue); extdecl;
+procedure CefBinaryValueRef_UnWrap(const data: ICefBinaryValue; var Result: ICefBinaryValue); extdecl;
 begin
   handleExceptionBegin
   Result := TCefBinaryValueRef.UnWrap(data.Wrap);
@@ -39,7 +39,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefBinaryValue_Copy(const TObj: ICefBinaryValue; out Result: ICefBinaryValue); extdecl;
+procedure CefBinaryValue_Copy(const TObj: ICefBinaryValue; var Result: ICefBinaryValue); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Copy();

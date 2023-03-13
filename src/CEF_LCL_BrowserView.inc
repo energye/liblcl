@@ -4,14 +4,14 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefBrowserView_Browser(const TObj: ICefBrowserView; out Result: ICefBrowser); extdecl;
+procedure CefBrowserView_Browser(const TObj: ICefBrowserView; var Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetBrowser();
   handleExceptionEnd
 end;
 
-procedure CefBrowserView_ChromeToolbar(const TObj: ICefBrowserView; out Result: ICefView); extdecl;
+procedure CefBrowserView_ChromeToolbar(const TObj: ICefBrowserView; var Result: ICefView); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetChromeToolbar();

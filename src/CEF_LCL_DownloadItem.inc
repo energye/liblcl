@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefDownloadItemRef_UnWrap(const data: ICefDownloadItem; out Result: ICefDownloadItem); extdecl;
+procedure CefDownloadItemRef_UnWrap(const data: ICefDownloadItem; var Result: ICefDownloadItem); extdecl;
 begin
   handleExceptionBegin
   Result := TCefDownLoadItemRef.UnWrap(data.Wrap);
@@ -67,14 +67,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefDownloadItem_StartTime(const TObj: ICefDownloadItem; out Result: Double); extdecl;
+procedure CefDownloadItem_StartTime(const TObj: ICefDownloadItem; var Result: Double); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetStartTime();
   handleExceptionEnd
 end;
 
-procedure CefDownloadItem_EndTime(const TObj: ICefDownloadItem; out Result: Double); extdecl;
+procedure CefDownloadItem_EndTime(const TObj: ICefDownloadItem; var Result: Double); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetEndTime();

@@ -4,14 +4,14 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure PostDataElementRef_Create(out Result: ICefPostDataElement); extdecl;
+procedure PostDataElementRef_Create(var Result: ICefPostDataElement); extdecl;
 begin
   handleExceptionBegin
   Result := TCefPostDataElementRef.New;
   handleExceptionEnd
 end;
 
-procedure PostDataElementRef_UnWrap(const data: ICefPostDataElement; out Result: ICefPostDataElement); extdecl;
+procedure PostDataElementRef_UnWrap(const data: ICefPostDataElement; var Result: ICefPostDataElement); extdecl;
 begin
   handleExceptionBegin
   Result := TCefPostDataElementRef.UnWrap(data.Wrap);
@@ -67,7 +67,7 @@ begin
   handleExceptionEnd
 end;
 
-function  PostDataElement_GetBytes(const TObj: ICefPostDataElement; size: NativeUInt; out bytes: Pointer): NativeUInt; extdecl;
+function  PostDataElement_GetBytes(const TObj: ICefPostDataElement; size: NativeUInt; var bytes: Pointer): NativeUInt; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetBytes(size, bytes);

@@ -53,10 +53,10 @@ begin
     handleExceptionEnd
 end;
 
-procedure cefMenuModel_AddSubMenu(const model :ICefMenuModel; commandId: Integer; PText: PChar; out ret: ICefMenuModel); extdecl;
+procedure cefMenuModel_AddSubMenu(const model :ICefMenuModel; commandId: Integer; PText: PChar; var Result: ICefMenuModel); extdecl;
 begin
     handleExceptionBegin
-    ret := model.AddSubMenu(commandId, PCharToUStr(PText));
+    Result := model.AddSubMenu(commandId, PCharToUStr(PText));
     handleExceptionEnd
 end;
 

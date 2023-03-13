@@ -96,21 +96,21 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_Bounds(const TObj: TCEFWindowComponent; out Result : TCefRect); extdecl;
+procedure CEFWindowComponent_Bounds(const TObj: TCEFWindowComponent; var Result : TCefRect); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Bounds;
   handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_Size(const TObj: TCEFWindowComponent; out Result : TCefSize); extdecl;
+procedure CEFWindowComponent_Size(const TObj: TCEFWindowComponent; var Result : TCefSize); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Size;
   handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_Position(const TObj: TCEFWindowComponent; out Result : TCefPoint); extdecl;
+procedure CEFWindowComponent_Position(const TObj: TCEFWindowComponent; var Result : TCefPoint); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Position;
@@ -237,7 +237,7 @@ begin
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_WindowIcon(const TObj: TCEFWindowComponent; out Result: ICefImage); extdecl;
+procedure CEFWindowComponent_WindowIcon(const TObj: TCEFWindowComponent; var Result: ICefImage); extdecl;
 begin
     handleExceptionBegin
     Result := TObj.WindowIcon;
@@ -251,7 +251,7 @@ begin
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_WindowAppIcon(const TObj: TCEFWindowComponent; out Result: ICefImage); extdecl;
+procedure CEFWindowComponent_WindowAppIcon(const TObj: TCEFWindowComponent; var Result: ICefImage); extdecl;
 begin
     handleExceptionBegin
     Result := TObj.WindowAppIcon;
@@ -265,14 +265,14 @@ begin
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_Display(const TObj: TCEFWindowComponent; out Result: ICefDisplay); extdecl;
+procedure CEFWindowComponent_Display(const TObj: TCEFWindowComponent; var Result: ICefDisplay); extdecl;
 begin
     handleExceptionBegin
     Result := TObj.Display;
     handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_ClientAreaBoundsInScreen(const TObj: TCEFWindowComponent; out Result: TCefRect); extdecl;
+procedure CEFWindowComponent_ClientAreaBoundsInScreen(const TObj: TCEFWindowComponent; var Result: TCefRect); extdecl;
 begin
     handleExceptionBegin
     Result := TObj.ClientAreaBoundsInScreen;

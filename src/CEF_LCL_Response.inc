@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefResponseRef_UnWrap(const data: ICefResponse; out Result: ICefResponse); extdecl;
+procedure CefResponseRef_UnWrap(const data: ICefResponse; var Result: ICefResponse); extdecl;
 begin
   handleExceptionBegin
   Result := TCefResponseRef.UnWrap(data.Wrap);
@@ -73,7 +73,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefResponse_GetHeaderMap(const TObj: ICefResponse; out Result: ICefStringMultimap); extdecl;
+procedure CefResponse_GetHeaderMap(const TObj: ICefResponse; var Result: ICefStringMultimap); extdecl;
 begin
   handleExceptionBegin
   Result := TCefStringMultimapOwn.Create();

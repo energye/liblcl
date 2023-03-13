@@ -4,14 +4,14 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefPostDataRef_Create(out Result: ICefPostData); extdecl;
+procedure CefPostDataRef_Create(var Result: ICefPostData); extdecl;
 begin
   handleExceptionBegin
   Result := TCefPostDataRef.New;
   handleExceptionEnd
 end;
 
-procedure CefPostDataRef_UnWrap(const data: ICefPostData; out Result: ICefPostData); extdecl;
+procedure CefPostDataRef_UnWrap(const data: ICefPostData; var Result: ICefPostData); extdecl;
 begin
   handleExceptionBegin
   Result := TCefPostDataRef.UnWrap(data.Wrap);
@@ -39,7 +39,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefPostData_GetElements(const TObj: ICefPostData; elementsCount: NativeUInt; out Result: TCefPostDataElementArray); extdecl;
+procedure CefPostData_GetElements(const TObj: ICefPostData; elementsCount: NativeUInt; var Result: TCefPostDataElementArray); extdecl;
 begin
   handleExceptionBegin
   TObj.GetElements(elementsCount, Result);

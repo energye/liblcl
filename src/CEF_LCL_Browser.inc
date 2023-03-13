@@ -12,28 +12,28 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GetFocusedFrame(const TObj: ICefBrowser; out Result: ICefFrame); extdecl;
+procedure CEFBrowser_GetFocusedFrame(const TObj: ICefBrowser; var Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin;
   Result := TObj.GetFocusedFrame;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GetMainFrame(const TObj: ICefBrowser; out Result: ICefFrame); extdecl;
+procedure CEFBrowser_GetMainFrame(const TObj: ICefBrowser; var Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin;
   Result := TObj.GetMainFrame;
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GetFrameById(const TObj: ICefBrowser; frameId: PInt64; out Result: ICefFrame); extdecl;
+procedure CEFBrowser_GetFrameById(const TObj: ICefBrowser; frameId: PInt64; var Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetFrameByident(FrameId^);
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GetFrameByName(const TObj: ICefBrowser; PName: PChar; out Result: ICefFrame); extdecl;
+procedure CEFBrowser_GetFrameByName(const TObj: ICefBrowser; PName: PChar; var Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetFrame(PCharToUStr(PName));
@@ -68,7 +68,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GetZoomLevel(const TObj: ICefBrowser; out Result: Double); extdecl;
+procedure CEFBrowser_GetZoomLevel(const TObj: ICefBrowser; var Result: Double); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetHost.GetZoomLevel();
@@ -376,7 +376,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GetFrameNames(const TObj: ICefBrowser; out Result: Pointer; out resultSize: Integer); extdecl;
+procedure CEFBrowser_GetFrameNames(const TObj: ICefBrowser; var Result: Pointer; var resultSize: Integer); extdecl;
 var
   frameNames : TStrings;
   idx: Integer;
@@ -419,7 +419,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowserRef_UnWrap(const data: ICefBrowser; out Result: ICefBrowser); extdecl;
+procedure CEFBrowserRef_UnWrap(const data: ICefBrowser; var Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   Result := TCefBrowserRef.UnWrap(data.Wrap);

@@ -67,7 +67,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefValue_GetDouble(const TObj: ICefValue; out Result: Double); extdecl;
+procedure CefValue_GetDouble(const TObj: ICefValue; var Result: Double); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetDouble();
@@ -81,21 +81,21 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefValue_GetBinary(const TObj: ICefValue; out Result: ICefBinaryValue); extdecl;
+procedure CefValue_GetBinary(const TObj: ICefValue; var Result: ICefBinaryValue); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetBinary();
   handleExceptionEnd
 end;
 
-procedure CefValue_GetDictionary(const TObj: ICefValue; out Result: ICefDictionaryValue) ; extdecl;
+procedure CefValue_GetDictionary(const TObj: ICefValue; var Result: ICefDictionaryValue) ; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetDictionary();
   handleExceptionEnd
 end;
 
-procedure CefValue_GetList(const TObj: ICefValue; out Result: ICefListValue) ; extdecl;
+procedure CefValue_GetList(const TObj: ICefValue; var Result: ICefListValue) ; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetList();

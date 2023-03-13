@@ -203,7 +203,7 @@ begin
     handleExceptionEnd
 end;
 
-procedure ICEFWindow_GetWindowIcon(const AWindow: ICefWindow; out ret: Pointer); extdecl;
+procedure ICEFWindow_GetWindowIcon(const AWindow: ICefWindow; var Result: Pointer); extdecl;
 var
   icon: ICefImage;
 begin
@@ -211,7 +211,7 @@ begin
   icon := AWindow.WindowIcon;
   if (icon <> nil) and not(icon.IsEmpty) then
   begin
-    ret := icon.Wrap;
+    Result := icon.Wrap;
   end;
   handleExceptionEnd
 end;
@@ -246,7 +246,7 @@ begin
     handleExceptionEnd
 end;
 
-procedure ICEFWindow_GetWindowAppIcon(const AWindow: ICefWindow; out Result: ICefImage); extdecl;
+procedure ICEFWindow_GetWindowAppIcon(const AWindow: ICefWindow; var Result: ICefImage); extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.WindowAppIcon;
@@ -274,17 +274,17 @@ begin
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_GetDisplay(const AWindow: ICefWindow; out Ret: ICefDisplay); extdecl;
+procedure ICEFWindow_GetDisplay(const AWindow: ICefWindow; var Result: ICefDisplay); extdecl;
 begin
   handleExceptionBegin
-  Ret := AWindow.GetDisplay;
+  Result := AWindow.GetDisplay;
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_GetClientAreaBoundsInScreen(const AWindow: ICefWindow; out Ret: TCefRect); extdecl;
+procedure ICEFWindow_GetClientAreaBoundsInScreen(const AWindow: ICefWindow; var Result: TCefRect); extdecl;
 begin
   handleExceptionBegin
-  Ret := AWindow.GetClientAreaBoundsInScreen;
+  Result := AWindow.GetClientAreaBoundsInScreen;
   handleExceptionEnd
 end;
 

@@ -12,7 +12,7 @@ begin
     handleExceptionEnd
 end;
 
-procedure CEFDisplay_DeviceScaleFactor(const ADisplay: ICefDisplay; out Result: Single) ; extdecl;
+procedure CEFDisplay_DeviceScaleFactor(const ADisplay: ICefDisplay; var Result: Single) ; extdecl;
 begin
     handleExceptionBegin
     Result := ADisplay.DeviceScaleFactor;
@@ -26,14 +26,14 @@ begin
     handleExceptionEnd
 end;
 
-procedure CEFDisplay_Bounds(const ADisplay: ICefDisplay; out Result: TCefRect); extdecl;
+procedure CEFDisplay_Bounds(const ADisplay: ICefDisplay; var Result: TCefRect); extdecl;
 begin
     handleExceptionBegin
     Result := ADisplay.Bounds;
     handleExceptionEnd
 end;
 
-procedure CEFDisplay_WorkArea(const ADisplay: ICefDisplay; out Result: TCefRect); extdecl;
+procedure CEFDisplay_WorkArea(const ADisplay: ICefDisplay; var Result: TCefRect); extdecl;
 begin
     handleExceptionBegin
     Result := ADisplay.WorkArea;

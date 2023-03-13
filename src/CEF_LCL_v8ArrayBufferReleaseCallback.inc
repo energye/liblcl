@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefV8ArrayBufferReleaseCallback_Create(out Result: TV8ArrayBufferReleaseCallbackRef); extdecl;
+procedure CefV8ArrayBufferReleaseCallback_Create(var Result: TV8ArrayBufferReleaseCallbackRef); extdecl;
 begin
   handleExceptionBegin
   Result := TV8ArrayBufferReleaseCallbackRef.Create();

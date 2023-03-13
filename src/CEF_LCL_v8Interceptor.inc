@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefV8InterceptorRef_Create(out Result: TV8InterceptorRef); extdecl;
+procedure CefV8InterceptorRef_Create(var Result: TV8InterceptorRef); extdecl;
 begin
   handleExceptionBegin
   Result := TV8InterceptorRef.Create;

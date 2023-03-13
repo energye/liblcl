@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CEFImage_New(out Result: ICefImage); extdecl;
+procedure CEFImage_New(var Result: ICefImage); extdecl;
 begin
   handleExceptionBegin
   Result := TCefImageRef.New;
@@ -93,7 +93,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFImage_GetAsBitmap(const TObj: ICefImage; scaleFactor: PSingle; colorType: Integer; alphaType: Integer; var pixelWidth, pixelHeight: Integer; out Result: ICefBinaryValue); extdecl;
+procedure CEFImage_GetAsBitmap(const TObj: ICefImage; scaleFactor: PSingle; colorType: Integer; alphaType: Integer; var pixelWidth, pixelHeight: Integer; var Result: ICefBinaryValue); extdecl;
 var
   ct: TCefColorType;
   at: TCefAlphaType;
@@ -126,14 +126,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFImage_GetAsPng(const TObj: ICefImage; scaleFactor: PSingle; withTransparency: longbool; var pixelWidth, pixelHeight: Integer; out Result: ICefBinaryValue); extdecl;
+procedure CEFImage_GetAsPng(const TObj: ICefImage; scaleFactor: PSingle; withTransparency: longbool; var pixelWidth, pixelHeight: Integer; var Result: ICefBinaryValue); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetAsPng(Single(scaleFactor^), withTransparency, pixelWidth, pixelHeight);
   handleExceptionEnd
 end;
 
-procedure CEFImage_GetAsJpeg(const TObj: ICefImage; scaleFactor: PSingle; quality: Integer; var pixelWidth, pixelHeight: Integer; out Result: ICefBinaryValue); extdecl;
+procedure CEFImage_GetAsJpeg(const TObj: ICefImage; scaleFactor: PSingle; quality: Integer; var pixelWidth, pixelHeight: Integer; var Result: ICefBinaryValue); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetAsJpeg(Single(scaleFactor^), quality, pixelWidth, pixelHeight);

@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure StringMultimapRef_Create(out Result: ICefStringMultimap); extdecl;
+procedure StringMultimapRef_Create(var Result: ICefStringMultimap); extdecl;
 begin
   handleExceptionBegin
   Result := TCefStringMultimapOwn.Create();

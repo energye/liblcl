@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CEFBrowserViewComponent_Create(const AOwner: TComponent; out Result: TCEFBrowserViewComponent) ; extdecl;
+procedure CEFBrowserViewComponent_Create(const AOwner: TComponent; var Result: TCEFBrowserViewComponent) ; extdecl;
 begin
   handleExceptionBegin
   Result := TCEFBrowserViewComponent.Create(AOwner);
@@ -86,7 +86,7 @@ begin
 end;
 
 //property
-procedure CEFBrowserViewComponent_Browser(const TObj: TCEFBrowserViewComponent; out Result: ICefBrowser); extdecl;
+procedure CEFBrowserViewComponent_Browser(const TObj: TCEFBrowserViewComponent; var Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Browser;
