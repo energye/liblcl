@@ -21,7 +21,7 @@ interface
 
 uses
   uCEF_LCL_ConsoleWrite,
-  SysUtils, Controls, uEventCallback, uCEF_LCL_EventCallback,
+  SysUtils, Controls, uEventCallback, uCEF_LCL_EventCallback, uCEFSchemeRegistrar, uCEFPreferenceRegistrar,
   uCEFInterfaces, uCEFv8Value, uCEFConstants, uCEFTypes,
   uCEF_LCL_Entity, uCEF_LCL_Chromium, uCEF_LCL_V8ValueRef,
   uCEF_LCL_V8CommonAccessor, uCEF_LCL_V8CommonHandler,
@@ -41,31 +41,40 @@ type
 
 
 // 渲染进程回调事件函数
-procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+// ICefApp
+procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 
-procedure GlobalCEFApp_OnWebKitInitialized;
+// ICefBrowserProcessHandler
+procedure GlobalCEFApp_OnRegisterCustomPreferences(type_: TCefPreferencesType; const registrar: TCefPreferenceRegistrarRef);
 procedure GlobalCEFApp_OnContextInitialized;
-procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
-  const aMessage: ICefProcessMessage; var aHandled: boolean);
 procedure GlobalCEFApp_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
+procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
+
+// ICefResourceBundleHandler
+procedure GlobalCEFApp_OnGetLocalizedString(stringId: Integer; out stringVal: ustring; var aResult : Boolean);
+procedure GlobalCEFApp_OnGetDataResource(resourceId: Integer; out data: Pointer; out dataSize: NativeUInt; var aResult : Boolean);
+procedure GlobalCEFApp_OnGetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; out data: Pointer; out dataSize: NativeUInt; var aResult : Boolean);
+
+// ICefRenderProcessHandler
+procedure GlobalCEFApp_OnWebKitInitialized;
+procedure GlobalCEFApp_OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
 procedure GlobalCEFApp_OnBrowserDestroyed(const browser: ICefBrowser);
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+procedure GlobalCEFApp_OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+procedure GlobalCEFApp_OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
+procedure GlobalCEFApp_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled: boolean);
+
+// ICefLoadHandler
+procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
 procedure GlobalCEFApp_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
 procedure GlobalCEFApp_OnRenderLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
 procedure GlobalCEFApp_OnRenderLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
-procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
-procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
-
-//绑定处理
-procedure ObjectValueBindHandler(const ObjectAccessor: TV8ObjectAccessor; const ObjectHandler: TV8ObjectHandler; const browser: ICefBrowser;
-  const frame: ICefFrame; const context: ICefv8Context);
-procedure ObjectFieldFuncHandler(const ObjectAccessor: TV8ObjectAccessor; const ObjectHandler: TV8ObjectHandler; const CefObject: PRCefObject;
-  const NewCefObjectBind: PRCEFObjectBind);
-procedure CommonValueBindHandler(const CommonAccessor: TV8CommonAccessor; const CommonHandler: TV8CommonHandler; const browser: ICefBrowser;
-  const frame: ICefFrame; const context: ICefv8Context);
 
 var
   // 渲染进程回调事件函数指针
   OnRegCustomSchemes_DataPtr: Pointer;
+  OnRegisterCustomPreferences_DataPtr: Pointer;
   OnWebKitInitialized_DataPtr: Pointer;
   OnContextInitialized_DataPtr: Pointer;
   OnBeforeChildProcessLaunch_DataPtr: Pointer;
@@ -93,321 +102,29 @@ var
 {实现}
 implementation
 
-//TCefApplication OnContextCreated
-procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
-//var
-  ////IPC emit
-  //IPCObject: ICefv8Value;
-  //EventEmitHandler: TV8EventEmitHandler;
-  ////IPC on
-  //EventOnHandler: TV8EventOnHandler;
-  ////common
-  //CommonAccessor: TV8CommonAccessor;
-  //CommonHandler: TV8CommonHandler;
-  ////object
-  //ObjectAccessor: TV8ObjectAccessor;
-  //ObjectHandler: TV8ObjectHandler;
-  ////process devtools
-  //isDevtools: boolean;
-  ////window move drag
-  //windowMoveDragHandler: TV8WindowMoveDragHandler;
-  //WindowDragObject: ICefv8Value;
-  ////browser window
-  //browserWindowHandler: TBrowserWindowHandler;
-  ////js inject
-  //ContextCreatedJSInject: TContextCreatedJSInjectClass;
-  //state: boolean; //状态
+//应用主进程内执行函数
+procedure TCEFApplicationClass.ApplicationQueueAsyncCall(Data: PtrInt);
 begin
-  ////开发者工具不加载绑定变量
-  //isDevtools := string(frame.Url).IndexOf('devtools://') = 0;
-  //if isDevtools then
-  //begin
-  //  exit;
-  //end;
-  //
-  //TMainChromiumBrowserClass.PutBrowser(browser);
-
-  TCEFEventCallback.SendEvent(OnContextCreated_DataPtr, [browser, frame, context]);
-  //if not state then
-  //begin
-  //  exit;
-  //end;
-  //
-  ////js 注入
-  //ContextCreatedJSInject := TContextCreatedJSInjectClass.Create(browser, frame, context);
-  //ContextCreatedJSInject.JavaScriptInject();
-  //
-  ////通用类型变量 Accessor
-  //CommonAccessor := TV8CommonAccessor.Create;
-  //CommonAccessor.Browser := browser;
-  //CommonAccessor.Frame := frame;
-  //CommonAccessor.initState := 0;
-  ////通用类型变量 Handler
-  //CommonHandler := TV8CommonHandler.Create;
-  //CommonHandler.Browser := browser;
-  //CommonHandler.Frame := frame;
-  //
-  ////结构类型变量 Accessor
-  //ObjectAccessor := TV8ObjectAccessor.Create;
-  //ObjectAccessor.RootObjectAccessor := TCefv8ValueRef.NewObject(ObjectAccessor, nil);
-  //ObjectAccessor.Browser := browser;
-  //ObjectAccessor.Frame := frame;
-  ////结构类型变量 Handler
-  //ObjectHandler := TV8ObjectHandler.Create;
-  //ObjectHandler.Browser := browser;
-  //ObjectHandler.Frame := frame;
-  //ObjectHandler.ObjectAccessor := ObjectAccessor;
-  //
-  ////数据绑定处理
-  ////对象(结构) | 直接 ObjectValueBindHandler
-  //ObjectValueBindHandler(ObjectAccessor, ObjectHandler, browser, frame, context);
-  ////普通 CommonValueBindHandler
-  //CommonValueBindHandler(CommonAccessor, CommonHandler, browser, frame, context);
-  //
-  ////IPC class
-  //TCEFIPCClass.SetCommonAccessor(frame.Identifier, CommonAccessor);
-  //TCEFIPCClass.SetObjectAccessor(frame.Identifier, ObjectAccessor);
-  //
-  ////注册全局异步执行函数 emit
-  //EventEmitHandler := TV8EventEmitHandler.Create;
-  //EventEmitHandler.Browser := browser;
-  //EventEmitHandler.Frame := frame;
-  ////注册全局js事件监听
-  //EventOnHandler := TV8EventOnHandler.Create;
-  //EventOnHandler.Browser := browser;
-  //EventOnHandler.Frame := frame;
-  ////windowMoveDragHandler
-  //windowMoveDragHandler := TV8WindowMoveDragHandler.Create;
-  //windowMoveDragHandler.Browser := browser;
-  //windowMoveDragHandler.Frame := frame;
-  //windowMoveDragHandler.Init;
-  ////borwserWindow
-  //browserWindowHandler := TBrowserWindowHandler.Create;
-  //browserWindowHandler.Browser := browser;
-  //browserWindowHandler.Frame := frame;
-  //browserWindowHandler.BrowserWindowObject := TCefv8ValueRef.NewObject(nil, nil);
-  //browserWindowHandler.Init();
-  //
-  //
-  //IPCObject := TCefv8ValueRef.NewObject(nil, nil);
-  //IPCObject.SetValueByKey(IPCExecuteName, TCefv8ValueRef.NewFunction(IPCExecuteName, EventEmitHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
-  //IPCObject.SetValueByKey(IPCEventOnName, TCefv8ValueRef.NewFunction(IPCEventOnName, EventOnHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
-  //
-  ////windowMoveDragHandler
-  //WindowDragObject := TCefv8ValueRef.NewObject(nil, nil);
-  //WindowDragObject.SetValueByKey(MoveDragDown, TCefv8ValueRef.NewFunction(MoveDragDown, windowMoveDragHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
-  //WindowDragObject.SetValueByKey(MoveDragMove, TCefv8ValueRef.NewFunction(MoveDragMove, windowMoveDragHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
-  //WindowDragObject.SetValueByKey(MoveDragUp, TCefv8ValueRef.NewFunction(MoveDragUp, windowMoveDragHandler), V8_PROPERTY_ATTRIBUTE_READONLY);
-  //
-  //
-  //context.Global.SetValueByKey(v8EmitKey, IPCObject, V8_PROPERTY_ATTRIBUTE_READONLY);
-  //context.Global.SetValueByKey(windowDrag, WindowDragObject, V8_PROPERTY_ATTRIBUTE_READONLY);
-  //context.Global.SetValueByKey(BrowserWindow, browserWindowHandler.BrowserWindowObject, V8_PROPERTY_ATTRIBUTE_READONLY);
-
+  ApplicationQueueAsyncCallEventClass.SendEvent(nativeuint(Data));
 end;
 
-//ObjectValueBindHandler 对象字段处理
-procedure ObjectValueBindHandler(const ObjectAccessor: TV8ObjectAccessor; const ObjectHandler: TV8ObjectHandler; const browser: ICefBrowser;
-  const frame: ICefFrame; const context: ICefv8Context);
+// ICefApp
+procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
+begin
+  TCEFEventCallback.SendEvent(OnRegCustomSchemes_DataPtr, [registrar]);
+end;
+
+// ICefBrowserProcessHandler
+procedure GlobalCEFApp_OnRegisterCustomPreferences(type_: TCefPreferencesType; const registrar: TCefPreferenceRegistrarRef);
 var
-  i: integer;
-  //object
-  CefObject: PRCefObject;
-  NewCefObjectBind: PRCEFObjectBind;
-  ParentV8Object: PRCEFObjectBind;
+  t: integer;
 begin
-  //处理 PRCefObject 对象信息数据，将映射成 js 可调用的对象，包括属性和函数.
-  for i := 0 to TObjectValueBindInfoClass.Size() - 1 do
-  begin
-    //取出每个对象
-    CefObject := TObjectValueBindInfoClass.GetCefObjects.Items[i];
-    //创建CefObject对象
-    NewCefObjectBind := new(PRCEFObjectBind);
-    NewCefObjectBind^.Id := CefObject^.Id;
-    NewCefObjectBind^.ParentId := CefObject^.ParentId;
-    NewCefObjectBind^.Name := CefObject^.Name;
-    NewCefObjectBind^.CefV8ValueField := TCefv8ValueRef.NewObject(ObjectAccessor, nil);
-    //对象类型
-    NewCefObjectBind^.Fields := FieldBindInfoMap.Create;
-    NewCefObjectBind^.Funcs := FieldBindInfoMap.Create;
-    NewCefObjectBind^.Children := PCEFObjectBinds(CEFObjectBindMap.Create);
-    NewCefObjectBind^.Parent := nil;//根节点的父节点是空
-    //ParentId = 0 是根节点
-    if integer(CefObject^.ParentId) = 0 then
-    begin
-      //添加到根节点中
-      ObjectAccessor.Put(CefObject^.Name, NewCefObjectBind);
-      //处理 field 和 func
-      ObjectFieldFuncHandler(ObjectAccessor, ObjectHandler, CefObject, NewCefObjectBind);
-      //绑定到V8
-      ObjectAccessor.RootObjectAccessor.SetValueByAccessor(CefObject^.Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-      ObjectAccessor.RootObjectAccessor.SetValueByKey(CefObject^.Name, NewCefObjectBind^.CefV8ValueField, V8_PROPERTY_ATTRIBUTE_NONE);
-      //当前对象以根对象方式添加到查找Map对象中
-      ObjectAccessor.PutLookupObjectsMap(CefObject^.Name, 0, NewCefObjectBind, nil, nil);
-    end
-    else //ParentId != 0 是子节点
-    begin
-      //添加到指定的父节点CefObject中
-      ParentV8Object := ObjectAccessor.PutChildrenObject(CefObject^.FullObjName, CefObject^.Name, NewCefObjectBind);
-      //添加到父节点的 ICefv8Value 中
-      if not (ParentV8Object = nil) then
-      begin
-        ParentV8Object^.CefV8ValueField.SetValueByAccessor(CefObject^.Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-        ParentV8Object^.CefV8ValueField.SetValueByKey(CefObject^.Name, NewCefObjectBind^.CefV8ValueField, V8_PROPERTY_ATTRIBUTE_NONE);
-        //处理 field 和 func
-        ObjectFieldFuncHandler(ObjectAccessor, ObjectHandler, CefObject, NewCefObjectBind);
-        //当前对象以字段对象方式添加到查找Map对象中
-        ObjectAccessor.PutLookupObjectsMap(CefObject^.Name, 3, NewCefObjectBind, ParentV8Object, nil);
-      end;
-    end;
-  end;
-  //清空TList集合
-  //TObjectValueBindInfoClass.Clear();
-  context.Global.SetValueByKey(ObjectRootName, ObjectAccessor.RootObjectAccessor,
-    V8_PROPERTY_ATTRIBUTE_NONE);
-  ObjectAccessor.initState := 1;
-end;
-
-//处理每个对象的 field 和 func
-procedure ObjectFieldFuncHandler(const ObjectAccessor: TV8ObjectAccessor; const ObjectHandler: TV8ObjectHandler; const CefObject: PRCefObject;
-  const NewCefObjectBind: PRCEFObjectBind);
-var
-  idx: integer;
-  //对象属性
-  Field: PRFieldBindInfo;
-  //cef v8 value
-  v8Value: ICEFv8Value;
-begin
-  //处理 field
-  for idx := 0 to CefObject^.FieldLen - 1 do
-  begin
-    //取出每个字段并放到新对象节点中
-    Field := PRFieldBindInfo(CefObject^.Fields[idx]);
-    NewCefObjectBind^.Fields.AddOrSetData(Field^.Name, Field);
-    //根据字段类型创建 ICefv8Value
-    case Field^.BindType of
-      0://ustring
-      begin
-        v8Value := TCefv8ValueRef.NewString('');
-      end;
-      1://integer
-      begin
-        v8Value := TCefv8ValueRef.NewInt(0);
-      end;
-      2://double
-      begin
-        v8Value := TCefv8ValueRef.NewDouble(0.0);
-      end;
-      3://boolean
-      begin
-        v8Value := TCefv8ValueRef.NewBool(False);
-      end;
-      6://Object
-      begin
-      end;
-    end;
-    //只对普通类型字段处理
-    if Field^.BindType < 4 then
-    begin
-      NewCefObjectBind^.CefV8ValueField.SetValueByAccessor(Field^.Name,
-        V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-      NewCefObjectBind^.CefV8ValueField.SetValueByKey(Field^.Name,
-        v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
-      //当前字段添加到查找Map对象中
-      ObjectAccessor.PutLookupObjectsMap(Field^.Name, 1, nil, NewCefObjectBind, Field);
-    end;
-  end;
-  //处理 func
-  for idx := 0 to integer(CefObject^.FuncLen) - 1 do
-  begin
-    Field := PRFieldBindInfo(CefObject^.Funcs[idx]);
-    NewCefObjectBind^.Funcs.AddOrSetData(Field^.Name, Field);
-    //new func ICefv8Value
-    v8Value := TCefv8ValueRef.NewFunction(Field^.Name, ObjectHandler);
-    //NewCefObjectBind^.CefV8ValueFunc.SetValueByAccessor(Field^.Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-    NewCefObjectBind^.CefV8ValueField.SetValueByKey(Field^.Name, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
-    //当前函数添加到查找Map对象中
-    ObjectAccessor.PutLookupObjectsMap(Field^.Name, 2, nil, NewCefObjectBind, Field);
-  end;
-end;
-
-//CommonValueBindHandler 通用类型字段处理
-procedure CommonValueBindHandler(const CommonAccessor: TV8CommonAccessor; const CommonHandler: TV8CommonHandler; const browser: ICefBrowser;
-  const frame: ICefFrame; const context: ICefv8Context);
-var
-  v8Value: ICEFv8Value;
-  v8Name: ustring;
-  commonValueBindInfo: PRFieldBindInfo;
-  size: int64;
-  idx: integer;
-begin
-  try
-    CommonAccessor.V8Object := TCefv8ValueRef.NewObject(CommonAccessor, nil);
-    size := TCommonValueBindInfoClass.Size();
-    for idx := 0 to size - 1 do
-    begin
-      commonValueBindInfo :=
-        TCommonValueBindInfoClass.GetCommonValueBindInfos.Items[idx];
-      //字段或函数名
-      v8Name := StrToUStr(commonValueBindInfo^.Name);
-      if commonValueBindInfo^.BindType = 8 then
-      begin //函数
-        case commonValueBindInfo^.BindType of
-          8://function
-          begin
-            CommonHandler.Put(v8Name, commonValueBindInfo);
-            v8Value := TCefv8ValueRef.NewFunction(v8Name, CommonHandler);
-            CommonAccessor.V8Object.SetValueByKey(v8Name, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
-          end
-          else
-        end;
-      end
-      else if commonValueBindInfo^.BindType < 6 then //变量属性
-      begin
-        case commonValueBindInfo^.BindType of
-          0://ustring
-          begin
-            v8Value := TCefv8ValueRef.NewString('');
-          end;
-          1://integer
-          begin
-            v8Value := TCefv8ValueRef.NewInt(0);
-          end;
-          2://double
-          begin
-            v8Value := TCefv8ValueRef.NewDouble(0.0);
-          end;
-          3://boolean
-          begin
-            v8Value := TCefv8ValueRef.NewBool(False);
-          end;
-          4://null
-          begin
-            v8Value := TCefv8ValueRef.NewNull;
-          end;
-          5://undefined
-          begin
-            v8Value := TCefv8ValueRef.NewUndefined;
-          end;
-          else;
-        end;
-        CommonAccessor.V8Object.SetValueByAccessor(v8Name, V8_ACCESS_CONTROL_DEFAULT, V8_PROPERTY_ATTRIBUTE_NONE);
-        CommonAccessor.V8Object.SetValueByKey(v8Name, v8Value, V8_PROPERTY_ATTRIBUTE_NONE);
-      end;
-    end;
-    context.Global.SetValueByKey(CommonRootName, CommonAccessor.V8Object, V8_PROPERTY_ATTRIBUTE_NONE);
-    CommonAccessor.initState := 1;
-  except
-    on E: Exception do
-    begin
-    end;
-  end;
-end;
-
-//TCefApplication OnWebKitInitialized
-procedure GlobalCEFApp_OnWebKitInitialized;
-begin
-  TCEFEventCallback.SendEvent(OnWebKitInitialized_DataPtr, []);
+  t := 0;
+  if type_ = TCefPreferencesType.CEF_PREFERENCES_TYPE_GLOBAL then
+     t := 0
+  else if type_ = TCefPreferencesType.CEF_PREFERENCES_TYPE_REQUEST_CONTEXT then
+     t := 1;
+  TCEFEventCallback.SendEvent(OnRegisterCustomPreferences_DataPtr, [t, registrar]);
 end;
 
 procedure GlobalCEFApp_OnContextInitialized;
@@ -415,50 +132,6 @@ begin
   TCEFEventCallback.SendEvent(OnContextInitialized_DataPtr, []);
 end;
 
-//render进程消息
-procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
-  const aMessage: ICefProcessMessage; var aHandled: boolean);
-begin
-  aHandled := False;
-  TCEFEventCallback.SendEvent(OnProcessMessageReceived_DataPtr, [browser, frame, sourceProcess, aMessage, @aHandled]);
-end;
-
-//render进程消息
-//procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId;
-//  const aMessage: ICefProcessMessage; var aHandled: boolean);
-//var
-//  processMessage: PRCEFProcessMessage;
-//  binaryValue: ICefBinaryValue;
-//  binarySize: integer;
-//  binaryBuf: TBytes;
-//begin
-//  if aMessage.Name = IPC_JSEmitGoRet then//JS执行Go监听事件的返回值消息
-//  begin
-//    TCEFIPCClass.Render_JSEmitGoRet(frame, aMessage);
-//  end
-//  else if (aMessage.Name = IPC_GoEmitJS) then//Go执行JS监听的事件
-//  begin
-//    TCEFIPCClass.RenderProcessReceivedMessage(browser, frame, sourceProcess, aMessage);
-//  end
-//  else
-//  begin
-//    processMessage := new(PRCEFProcessMessage);
-//    binarySize := aMessage.ArgumentList.GetInt(0);
-//    binaryValue := aMessage.ArgumentList.GetBinary(2);
-//    SetLength(binaryBuf, binarySize);
-//    binaryValue.GetData(@binaryBuf[0], nativeuint(binarySize), 0);
-//    processMessage^.Name := PChar(string(aMessage.Name));
-//    processMessage^.Data := @binaryBuf[0];
-//    processMessage^.DataLen := PInteger(binarySize);
-//    SendEvent(OnProcessMessageReceived_DataPtr, [browser, frame, sourceProcess, processMessage, @aHandled]);
-//    SetLength(binaryBuf, 0);
-//    processMessage^.Data := nil;
-//    processMessage := nil;
-//  end;
-//  aHandled := True;
-//end;
-
-//cefApp子进程启动命令行设置
 procedure GlobalCEFApp_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
 var
   idx: integer;
@@ -482,10 +155,77 @@ begin
   end;
 end;
 
-//browser 消毁事件
+procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
+begin
+  TCEFEventCallback.SendEvent(OnGetDefaultClient_DataPtr, [aClient]);
+end;
+
+// ICefResourceBundleHandler
+procedure GlobalCEFApp_OnGetLocalizedString(stringId: Integer; out stringVal: ustring; var aResult : Boolean);
+var
+  result: PChar;
+begin
+  TCEFEventCallback.SendEvent(OnGetLocalizedString_DataPtr, [stringId, @result, @aResult]);
+  stringVal := PCharToUStr(result);
+end;
+
+procedure GlobalCEFApp_OnGetDataResource(resourceId: Integer; out data: Pointer; out dataSize: NativeUInt; var aResult : Boolean);
+begin
+  TCEFEventCallback.SendEvent(OnGetDataResource_DataPtr, [resourceId, @data, @dataSize, @aResult]);
+end;
+
+procedure GlobalCEFApp_OnGetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; out data: Pointer; out dataSize: NativeUInt; var aResult : Boolean);
+begin
+  TCEFEventCallback.SendEvent(OnGetDataResourceForScale_DataPtr, [resourceId, Integer(scaleFactor), @data, @dataSize, @aResult]);
+end;
+
+
+// ICefRenderProcessHandler
+procedure GlobalCEFApp_OnWebKitInitialized;
+begin
+  TCEFEventCallback.SendEvent(OnWebKitInitialized_DataPtr, []);
+end;
+
+procedure GlobalCEFApp_OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
+begin
+  TCEFEventCallback.SendEvent(OnBrowserCreated_DataPtr, [browser, extra_info]);
+end;
+
 procedure GlobalCEFApp_OnBrowserDestroyed(const browser: ICefBrowser);
 begin
   TCEFEventCallback.SendEvent(OnBrowserDestroyed_DataPtr, [browser]);
+end;
+
+procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+begin
+  TCEFEventCallback.SendEvent(OnContextCreated_DataPtr, [browser, frame, context]);
+end;
+
+procedure GlobalCEFApp_OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
+begin
+  TCEFEventCallback.SendEvent(OnContextReleased_DataPtr, [browser, frame, context]);
+end;
+
+procedure GlobalCEFApp_OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
+begin
+  TCEFEventCallback.SendEvent(OnUncaughtException_DataPtr, [browser, frame, context, exception, stackTrace]);
+end;
+
+procedure GlobalCEFApp_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
+begin
+  TCEFEventCallback.SendEvent(OnFocusedNodeChanged_DataPtr, [browser, frame, node]);
+end;
+
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled: boolean);
+begin
+  aHandled := False;
+  TCEFEventCallback.SendEvent(OnProcessMessageReceived_DataPtr, [browser, frame, sourceProcess, aMessage, @aHandled]);
+end;
+
+// ICefLoadHandler
+procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
+begin
+  TCEFEventCallback.SendEvent(OnRenderLoadingStateChange_DataPtr, [browser, isLoading, canGoBack, canGoForward]);
 end;
 
 procedure GlobalCEFApp_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
@@ -502,22 +242,5 @@ procedure GlobalCEFApp_OnRenderLoadError(const browser: ICefBrowser; const frame
 begin
   TCEFEventCallback.SendEvent(OnRenderLoadError_DataPtr, [browser, frame, errorCode, PChar(string(errorText)), PChar(string(failedUrl))]);
 end;
-
-procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
-begin
-  TCEFEventCallback.SendEvent(OnRenderLoadingStateChange_DataPtr, [browser, isLoading, canGoBack, canGoForward]);
-end;
-
-procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
-begin
-  TCEFEventCallback.SendEvent(OnGetDefaultClient_DataPtr, [aClient]);
-end;
-
-//应用主进程内执行函数
-procedure TCEFApplicationClass.ApplicationQueueAsyncCall(Data: PtrInt);
-begin
-  ApplicationQueueAsyncCallEventClass.SendEvent(nativeuint(Data));
-end;
-
 
 end.

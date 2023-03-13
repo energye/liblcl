@@ -126,81 +126,88 @@ begin
   GApplicationQueueAsyncCallPtr := ApplicationQueueAsyncCallPtr(APtr);
 end;
 
-//EVENT_TYPE:GlobalCEFAppEventOnContextCreated
 procedure CEFGlobalApp_SetOnContextCreated(AEventData: Pointer); extdecl;
 begin
   OnContextCreated_DataPtr := AEventData;
   GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
 end;
 
-//EVENT_TYPE:GlobalCEFAppEventOnContextInitialized
+procedure CEFGlobalApp_SetOnRegCustomSchemes(AEventData: Pointer); extdecl;
+begin
+  OnRegCustomSchemes_DataPtr := AEventData;
+  GlobalCEFApp.OnRegCustomSchemes := GlobalCEFApp_OnRegCustomSchemes;
+end;
+
 procedure CEFGlobalApp_SetOnContextInitialized(AEventData: Pointer); extdecl;
 begin
   OnContextInitialized_DataPtr := AEventData;
   GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
 end;
 
-//EVENT_TYPE:GlobalCEFAppEventOnWebKitInitialized
 procedure CEFGlobalApp_SetOnWebKitInitialized(AEventData: Pointer); extdecl;
 begin
   OnWebKitInitialized_DataPtr := AEventData;
   GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitialized;
 end;
 
-//EVENT_TYPE:GlobalCEFAppEventOnWebKitInitialized
 procedure CEFGlobalApp_SetOnProcessMessageReceived(AEventData: Pointer); extdecl;
 begin
   OnProcessMessageReceived_DataPtr := AEventData;
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
 end;
 
-//EVENT_TYPE:GlobalCEFAppEventOnBeforeChildProcessLaunch
 procedure CEFGlobalApp_SetOnBeforeChildProcessLaunch(AEventData: Pointer); extdecl;
 begin
   OnBeforeChildProcessLaunch_DataPtr := AEventData;
   GlobalCEFApp.OnBeforeChildProcessLaunch := GlobalCEFApp_OnBeforeChildProcessLaunch;
 end;
 
-//EVENT_TYPE:GlobalCEFAppEventOnBrowserDestroyed
 procedure CEFGlobalApp_SetOnBrowserDestroyed(AEventData: Pointer); extdecl;
 begin
   OnBrowserDestroyed_DataPtr := AEventData;
   GlobalCEFApp.OnBrowserDestroyed := GlobalCEFApp_OnBrowserDestroyed;
 end;
 
-//EVENT_TYPE:GlobalCEFAppEventOnRenderLoadStart
 procedure CEFGlobalApp_SetOnRenderLoadStart(AEventData: Pointer); extdecl;
 begin
   OnRenderLoadStart_DataPtr := AEventData;
   GlobalCEFApp.OnLoadStart := GlobalCEFApp_OnRenderLoadStart;
 end;
 
-//EVENT_TYPE:GlobalCEFAppEventOnRenderLoadEnd
 procedure CEFGlobalApp_SetOnRenderLoadEnd(AEventData: Pointer); extdecl;
 begin
   OnRenderLoadEnd_DataPtr := AEventData;
   GlobalCEFApp.OnLoadEnd := GlobalCEFApp_OnRenderLoadEnd;
 end;
 
-//EVENT_TYPE:GlobalCEFAppEventOnRenderLoadError
 procedure CEFGlobalApp_SetOnRenderLoadError(AEventData: Pointer); extdecl;
 begin
   OnRenderLoadError_DataPtr := AEventData;
   GlobalCEFApp.OnLoadError := GlobalCEFApp_OnRenderLoadError;
 end;
 
-//EVENT_TYPE:GlobalCEFAppEventOnRenderLoadingStateChange
 procedure CEFGlobalApp_SetOnRenderLoadingStateChange(AEventData: Pointer); extdecl;
 begin
   OnRenderLoadingStateChange_DataPtr := AEventData;
   GlobalCEFApp.OnLoadingStateChange := GlobalCEFApp_OnRenderLoadingStateChange;
 end;
 
-//EVENT_TYPE:GlobalCEFAppEventOnGetDefaultClient
+procedure CEFGlobalApp_SetOnScheduleMessagePumpWork(AEventData: Pointer); extdecl;
+begin
+  OnScheduleMessagePumpWork_DataPtr := AEventData;
+  GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
+end;
+
 procedure CEFGlobalApp_SetOnGetDefaultClient(AEventData: Pointer); extdecl;
 begin
   OnGetDefaultClient_DataPtr := AEventData;
   GlobalCEFApp.OnGetDefaultClient := GlobalCEFApp_OnGetDefaultClient;
+end;
+
+procedure CEFGlobalApp_SetOnGetLocalizedString(AEventData: Pointer); extdecl;
+begin
+  OnGetLocalizedString_DataPtr := AEventData;
+  GlobalCEFApp.OnGetLocalizedString := GlobalCEFApp_OnGetLocalizedString;
 end;
 
 // 设置 TCefSettings (cef_settings_t) 属性
@@ -1466,6 +1473,7 @@ exports
     SetApplicationQueueAsyncCallFunc,
 //Application event
     CEFGlobalApp_SetOnContextCreated,
+    CEFGlobalApp_SetOnRegCustomSchemes,
     CEFGlobalApp_SetOnContextInitialized,
     CEFGlobalApp_SetOnWebKitInitialized,
     CEFGlobalApp_SetOnProcessMessageReceived,
@@ -1475,6 +1483,7 @@ exports
     CEFGlobalApp_SetOnRenderLoadEnd,
     CEFGlobalApp_SetOnRenderLoadError,
     CEFGlobalApp_SetOnRenderLoadingStateChange,
+    CEFGlobalApp_SetOnScheduleMessagePumpWork,
     CEFGlobalApp_SetOnGetDefaultClient,
 // 设置 TCefSettings (cef_settings_t) 属性
     CEFAppConfig_NoSandbox,
