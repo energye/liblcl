@@ -265,34 +265,6 @@ begin
   SendEvent([Sender, browser, frame, sourceProcess, message, @Result]);
 end;
 
-//chromium 进程消息
-//procedure TLCLEvent.ChromiumEvent_OnProcessMessageReceived(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message: ICefProcessMessage; out Result: Boolean);
-//var
-//  ret: boolean;
-//  processMessage: PRCEFProcessMessage;
-//  binaryValue: ICefBinaryValue;
-//  binarySize: integer;
-//  binaryBuf: array of Byte;
-//begin
-//  ret := TCEFIPCClass.BrowserProcessReceivedMessage(browser, frame, sourceProcess, message);
-//  if not ret then
-//  begin
-//    processMessage := new(PRCEFProcessMessage);
-//    binarySize := message.ArgumentList.GetInt(0);
-//    binaryValue := message.ArgumentList.GetBinary(2);
-//    SetLength(binaryBuf, binarySize);
-//    binaryValue.GetData(@binaryBuf[0], nativeuint(binarySize), 0);
-//    processMessage^.Name := PChar(string(message.Name));
-//    processMessage^.Data := @binaryBuf[0];
-//    processMessage^.DataLen := PInteger(binarySize);
-//    SendEvent([Sender, browser, frame, sourceProcess, processMessage, @Result]);
-//    SetLength(binaryBuf, 0);
-//    processMessage^.Data := nil;
-//    processMessage := nil;
-//  end;
-//  Result := True;
-//end;
-
 //chromium 查找结果回调
 procedure TLCLEvent.ChromiumEvent_OnFindResult(Sender: TObject; const browser: ICefBrowser; identifier, count: Integer; const selectionRect: PCefRect; activeMatchOrdinal: Integer; finalUpdate: Boolean);
 begin
@@ -521,7 +493,6 @@ procedure TLCLEvent.CEFWindowEvent_OnExit(Sender: TObject);
 begin
   SendEvent([Sender]);
 end;
-
 
 {==CEFWindowComponent==}
 procedure TLCLEvent.WindowComponent_OnWindowCreated(const Sender: TObject; const window: ICefWindow);
