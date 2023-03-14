@@ -30,6 +30,8 @@ procedure CEFBrowser_GetFrameById(const TObj: ICefBrowser; frameId: PInt64; var 
 begin
   handleExceptionBegin
   Result := TObj.GetFrameByident(FrameId^);
+  if not Result.IsValid then
+     Result := nil;
   handleExceptionEnd
 end;
 

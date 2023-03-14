@@ -77,7 +77,7 @@ begin
 end;
 
 //获取 Browser
-procedure CEFChromium_Browser(const AObj: TChromium; out Result: ICefBrowser); extdecl;
+procedure CEFChromium_Browser(const AObj: TChromium; var Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Browser;
@@ -85,10 +85,12 @@ begin
 end;
 
 //根据 id 获取 Browser
-procedure CEFChromium_BrowserById(const AObj: TChromium; id: integer; out Result: ICefBrowser); extdecl;
+procedure CEFChromium_BrowserById(const AObj: TChromium; id: integer; var Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.BrowserById[id];
+  if not Result.IsValid then
+     Result := nil;
   handleExceptionEnd
 end;
 
@@ -916,7 +918,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_GetZoomPct(const AObj: TChromium; out Result: Double); extdecl;
+procedure CEFChromium_GetZoomPct(const AObj: TChromium; var Result: Double); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ZoomPct;
@@ -930,7 +932,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_GetZoomLevel(const AObj: TChromium; out Result: Double); extdecl;
+procedure CEFChromium_GetZoomLevel(const AObj: TChromium; var Result: Double); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ZoomLevel;
