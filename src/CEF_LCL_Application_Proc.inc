@@ -4,6 +4,22 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
+procedure CEFApplication_QueueAsyncCall(EventId: PtrInt); extdecl;
+begin
+  Application.QueueAsyncCall(TCEFApplicationClass.ApplicationQueueAsyncCall, EventId);
+end;
+
+//Application.QueueAsyncCall UI主程序异步调用回调指针
+procedure SetApplicationQueueAsyncCallFunc(APtr: Pointer); extdecl;
+begin
+  GApplicationQueueAsyncCallPtr := ApplicationQueueAsyncCallPtr(APtr);
+end;
+
+procedure AddCustomCommandLine(CommandLine, Value: PChar); extdecl;
+begin
+  GlobalCEFApp.AddCustomCommandLine(PCharToUStr(CommandLine), PCharToUStr(Value));
+end;
+
 //macos 需要在go程序中单独设置 args 命令行参数, 原因是调用动态链接库启动获取不到args
 procedure SetMacOSXCommandLine(PCommandLine: PChar); extdecl;
 {$ifdef DARWIN}
@@ -106,108 +122,6 @@ end;
 procedure CEFApplication_QuitMessageLoop(); extdecl;
 begin
   GlobalCEFApp.QuitMessageLoop;
-end;
-
-{====== events ======}
-
-procedure AddCustomCommandLine(CommandLine, Value: PChar); extdecl;
-begin
-  GlobalCEFApp.AddCustomCommandLine(PCharToUStr(CommandLine), PCharToUStr(Value));
-end;
-
-procedure CEFApplication_QueueAsyncCall(EventId: PtrInt); extdecl;
-begin
-  Application.QueueAsyncCall(TCEFApplicationClass.ApplicationQueueAsyncCall, EventId);
-end;
-
-//Application.QueueAsyncCall UI主程序异步调用回调指针
-procedure SetApplicationQueueAsyncCallFunc(APtr: Pointer); extdecl;
-begin
-  GApplicationQueueAsyncCallPtr := ApplicationQueueAsyncCallPtr(APtr);
-end;
-
-procedure CEFGlobalApp_SetOnContextCreated(AEventData: Pointer); extdecl;
-begin
-  OnContextCreated_DataPtr := AEventData;
-  GlobalCEFApp.OnContextCreated := GlobalCEFApp_OnContextCreated;
-end;
-
-procedure CEFGlobalApp_SetOnRegCustomSchemes(AEventData: Pointer); extdecl;
-begin
-  OnRegCustomSchemes_DataPtr := AEventData;
-  GlobalCEFApp.OnRegCustomSchemes := GlobalCEFApp_OnRegCustomSchemes;
-end;
-
-procedure CEFGlobalApp_SetOnContextInitialized(AEventData: Pointer); extdecl;
-begin
-  OnContextInitialized_DataPtr := AEventData;
-  GlobalCEFApp.OnContextInitialized := GlobalCEFApp_OnContextInitialized;
-end;
-
-procedure CEFGlobalApp_SetOnWebKitInitialized(AEventData: Pointer); extdecl;
-begin
-  OnWebKitInitialized_DataPtr := AEventData;
-  GlobalCEFApp.OnWebKitInitialized := GlobalCEFApp_OnWebKitInitialized;
-end;
-
-procedure CEFGlobalApp_SetOnProcessMessageReceived(AEventData: Pointer); extdecl;
-begin
-  OnProcessMessageReceived_DataPtr := AEventData;
-  GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
-end;
-
-procedure CEFGlobalApp_SetOnBeforeChildProcessLaunch(AEventData: Pointer); extdecl;
-begin
-  OnBeforeChildProcessLaunch_DataPtr := AEventData;
-  GlobalCEFApp.OnBeforeChildProcessLaunch := GlobalCEFApp_OnBeforeChildProcessLaunch;
-end;
-
-procedure CEFGlobalApp_SetOnBrowserDestroyed(AEventData: Pointer); extdecl;
-begin
-  OnBrowserDestroyed_DataPtr := AEventData;
-  GlobalCEFApp.OnBrowserDestroyed := GlobalCEFApp_OnBrowserDestroyed;
-end;
-
-procedure CEFGlobalApp_SetOnRenderLoadStart(AEventData: Pointer); extdecl;
-begin
-  OnRenderLoadStart_DataPtr := AEventData;
-  GlobalCEFApp.OnLoadStart := GlobalCEFApp_OnRenderLoadStart;
-end;
-
-procedure CEFGlobalApp_SetOnRenderLoadEnd(AEventData: Pointer); extdecl;
-begin
-  OnRenderLoadEnd_DataPtr := AEventData;
-  GlobalCEFApp.OnLoadEnd := GlobalCEFApp_OnRenderLoadEnd;
-end;
-
-procedure CEFGlobalApp_SetOnRenderLoadError(AEventData: Pointer); extdecl;
-begin
-  OnRenderLoadError_DataPtr := AEventData;
-  GlobalCEFApp.OnLoadError := GlobalCEFApp_OnRenderLoadError;
-end;
-
-procedure CEFGlobalApp_SetOnRenderLoadingStateChange(AEventData: Pointer); extdecl;
-begin
-  OnRenderLoadingStateChange_DataPtr := AEventData;
-  GlobalCEFApp.OnLoadingStateChange := GlobalCEFApp_OnRenderLoadingStateChange;
-end;
-
-procedure CEFGlobalApp_SetOnScheduleMessagePumpWork(AEventData: Pointer); extdecl;
-begin
-  OnScheduleMessagePumpWork_DataPtr := AEventData;
-  GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
-end;
-
-procedure CEFGlobalApp_SetOnGetDefaultClient(AEventData: Pointer); extdecl;
-begin
-  OnGetDefaultClient_DataPtr := AEventData;
-  GlobalCEFApp.OnGetDefaultClient := GlobalCEFApp_OnGetDefaultClient;
-end;
-
-procedure CEFGlobalApp_SetOnGetLocalizedString(AEventData: Pointer); extdecl;
-begin
-  OnGetLocalizedString_DataPtr := AEventData;
-  GlobalCEFApp.OnGetLocalizedString := GlobalCEFApp_OnGetLocalizedString;
 end;
 
 // 设置 TCefSettings (cef_settings_t) 属性
@@ -1456,6 +1370,10 @@ begin
 end;
 
 exports
+//QueueAsyncCall
+    CEFApplication_QueueAsyncCall,
+    SetApplicationQueueAsyncCallFunc,
+    AddCustomCommandLine,
     CEF_AddCrDelegate,
     SetMacOSXCommandLine,
 //Application
@@ -1467,24 +1385,6 @@ exports
     CEFApplication_StopScheduler,
     CEFStartMainProcess,
     CEFStartSubProcess,
-    AddCustomCommandLine,
-//QueueAsyncCall
-    CEFApplication_QueueAsyncCall,
-    SetApplicationQueueAsyncCallFunc,
-//Application event
-    CEFGlobalApp_SetOnContextCreated,
-    CEFGlobalApp_SetOnRegCustomSchemes,
-    CEFGlobalApp_SetOnContextInitialized,
-    CEFGlobalApp_SetOnWebKitInitialized,
-    CEFGlobalApp_SetOnProcessMessageReceived,
-    CEFGlobalApp_SetOnBeforeChildProcessLaunch,
-    CEFGlobalApp_SetOnBrowserDestroyed,
-    CEFGlobalApp_SetOnRenderLoadStart,
-    CEFGlobalApp_SetOnRenderLoadEnd,
-    CEFGlobalApp_SetOnRenderLoadError,
-    CEFGlobalApp_SetOnRenderLoadingStateChange,
-    CEFGlobalApp_SetOnScheduleMessagePumpWork,
-    CEFGlobalApp_SetOnGetDefaultClient,
 // 设置 TCefSettings (cef_settings_t) 属性
     CEFAppConfig_NoSandbox,
     CEFAppConfig_SetNoSandbox,

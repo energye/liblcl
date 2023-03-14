@@ -73,31 +73,36 @@ procedure GlobalCEFApp_OnRenderLoadError(const browser: ICefBrowser; const frame
 
 var
   // 渲染进程回调事件函数指针
+  // ICefApp
   OnRegCustomSchemes_DataPtr: Pointer;
+  // ICefBrowserProcessHandler
+
   OnRegisterCustomPreferences_DataPtr: Pointer;
-  OnWebKitInitialized_DataPtr: Pointer;
   OnContextInitialized_DataPtr: Pointer;
   OnBeforeChildProcessLaunch_DataPtr: Pointer;
   OnScheduleMessagePumpWork_DataPtr: Pointer;
   OnGetDefaultClient_DataPtr: Pointer;
+
+  // ICefResourceBundleHandler
   OnGetLocalizedString_DataPtr: Pointer;
   OnGetDataResource_DataPtr: Pointer;
   OnGetDataResourceForScale_DataPtr: Pointer;
-  OnContextCreated_DataPtr: Pointer;
-  OnProcessMessageReceived_DataPtr: Pointer;
-  OnBrowserDestroyed_DataPtr: Pointer;
-  OnRenderLoadStart_DataPtr: Pointer;
-  OnRenderLoadEnd_DataPtr: Pointer;
-  OnRenderLoadError_DataPtr: Pointer;
-  OnRenderLoadingStateChange_DataPtr: Pointer;
+
+  // ICefRenderProcessHandler
+  OnWebKitInitialized_DataPtr: Pointer;
   OnBrowserCreated_DataPtr: Pointer;
+  OnBrowserDestroyed_DataPtr: Pointer;
+  OnContextCreated_DataPtr: Pointer;
   OnContextReleased_DataPtr: Pointer;
   OnUncaughtException_DataPtr: Pointer;
   OnFocusedNodeChanged_DataPtr: Pointer;
-  OnLoadingStateChange_DataPtr: Pointer;
-  OnLoadStart_DataPtr: Pointer;
-  OnLoadEnd_DataPtr: Pointer;
-  OnLoadError_DataPtr: Pointer;
+  OnProcessMessageReceived_DataPtr: Pointer;
+
+  // ICefLoadHandler
+  OnRenderLoadingStateChange_DataPtr: Pointer;
+  OnRenderLoadStart_DataPtr: Pointer;
+  OnRenderLoadEnd_DataPtr: Pointer;
+  OnRenderLoadError_DataPtr: Pointer;
 
 {实现}
 implementation
@@ -133,26 +138,26 @@ begin
 end;
 
 procedure GlobalCEFApp_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
-var
-  idx: integer;
-  commands: PChar;
-  commandArray: TStringArray;
-  commandItemArray: TStringArray;
+//var
+//  idx: integer;
+//  commands: PChar;
+//  commandArray: TStringArray;
+//  commandItemArray: TStringArray;
 begin
-  TCEFEventCallback.SendEvent(OnBeforeChildProcessLaunch_DataPtr, [@commands]);
-  commandArray := string(PCharToUStr(commands)).Split(' ');
-  for idx := 0 to length(commandArray) - 1 do
-  begin
-    commandItemArray := commandArray[idx].Split('=');
-    if length(commandItemArray) = 2 then
-    begin
-      commandLine.AppendSwitchWithValue(commandItemArray[0], commandItemArray[1]);
-    end
-    else if length(commandItemArray) = 1 then
-    begin
-      commandLine.AppendArgument(commandItemArray[0]);
-    end;
-  end;
+  TCEFEventCallback.SendEvent(OnBeforeChildProcessLaunch_DataPtr, [commandLine]);
+  //commandArray := string(PCharToUStr(commands)).Split(' ');
+  //for idx := 0 to length(commandArray) - 1 do
+  //begin
+  //  commandItemArray := commandArray[idx].Split('=');
+  //  if length(commandItemArray) = 2 then
+  //  begin
+  //    commandLine.AppendSwitchWithValue(commandItemArray[0], commandItemArray[1]);
+  //  end
+  //  else if length(commandItemArray) = 1 then
+  //  begin
+  //    commandLine.AppendArgument(commandItemArray[0]);
+  //  end;
+  //end;
 end;
 
 procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
@@ -167,6 +172,7 @@ var
 begin
   TCEFEventCallback.SendEvent(OnGetLocalizedString_DataPtr, [stringId, @result, @aResult]);
   stringVal := PCharToUStr(result);
+  result := nil;
 end;
 
 procedure GlobalCEFApp_OnGetDataResource(resourceId: Integer; out data: Pointer; out dataSize: NativeUInt; var aResult : Boolean);

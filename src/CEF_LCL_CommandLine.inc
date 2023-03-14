@@ -18,10 +18,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefCommandLineRef_Global(const TObj: TCefCommandLineRef; var Result: ICefCommandLine); extdecl;
+procedure CefCommandLineRef_Global(var Result: ICefCommandLine); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.Global;
+  Result := TCefCommandLineRef.Global;
   handleExceptionEnd
 end;
 
@@ -60,9 +60,10 @@ begin
      Result := PChar(string(TObj.GetCommandLineString));
 end;
 
-procedure CefCommandLine_GetArgv(const TObj: ICefCommandLine; var args: TStrings); extdecl;
+procedure CefCommandLine_GetArgv(const TObj: ICefCommandLine; var ResultArgv: TStrings); extdecl;
 begin
-     TObj.GetArgv(args);
+     ResultArgv := TStringList.Create;
+     TObj.GetArgv(ResultArgv);
 end;
 
 function  CefCommandLine_GetProgram(const TObj: ICefCommandLine): PChar; extdecl;
@@ -90,14 +91,17 @@ begin
      Result := PChar(string(TObj.GetSwitchValue(PCharToUStr(PName))));
 end;
 
-function  CefCommandLine_GetSwitches(const TObj: ICefCommandLine; var switches: TStrings): boolean; extdecl;
+function  CefCommandLine_GetSwitches(const TObj: ICefCommandLine; var ResultSwitches: TStrings): boolean; extdecl;
 begin
-     Result := TObj.GetSwitches(switches);
+     ResultSwitches := TStringList.Create;
+     Result := TObj.GetSwitches(ResultSwitches);
 end;
 
-function  CefCommandLine_GetSwitchesList(const TObj: ICefCommandLine; var SwitchKeys, SwitchValues: TStringList): boolean; extdecl;
+function  CefCommandLine_GetSwitchesList(const TObj: ICefCommandLine; var ResultSwitchKeys, ResultSwitchValues: TStringList): boolean; extdecl;
 begin
-     Result := TObj.GetSwitches(SwitchKeys, SwitchValues);
+     ResultSwitchKeys := TStringList.Create;
+     ResultSwitchValues := TStringList.Create;
+     Result := TObj.GetSwitches(ResultSwitchKeys, ResultSwitchValues);
 end;
 
 procedure CefCommandLine_AppendSwitch(const TObj: ICefCommandLine; const PName: PChar); extdecl;
@@ -115,9 +119,10 @@ begin
      Result := TObj.HasArguments;
 end;
 
-procedure CefCommandLine_GetArguments(const TObj: ICefCommandLine; var arguments: TStrings); extdecl;
+procedure CefCommandLine_GetArguments(const TObj: ICefCommandLine; var ResultArguments: TStrings); extdecl;
 begin
-     TObj.GetArguments(arguments);
+     ResultArguments := TStringList.Create;
+     TObj.GetArguments(ResultArguments);
 end;
 
 procedure CefCommandLine_AppendArgument(const TObj: ICefCommandLine; const argument: PChar); extdecl;
