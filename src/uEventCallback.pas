@@ -31,8 +31,7 @@ uses
   uLinkLabel,
   fgl,
   Messages,
-  Math, uCEFInterfaces, uCEFTypes,
-  uCEF_LCL_Chromium, uCEF_LCL_Entity, uCEF_LCL_V8ValueRef, uCEF_LCL_IPC;
+  Math, uCEFInterfaces, uCEFTypes, uCEF_LCL_Entity;
 
 const
   // call最长参数数，暂定为12个

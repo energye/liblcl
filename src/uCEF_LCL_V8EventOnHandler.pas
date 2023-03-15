@@ -18,8 +18,7 @@ uses
   uCEF_LCL_ConsoleWrite,
   fgl, SysUtils,
   uCEFTypes, uCEFInterfaces, uCEFv8Value, uCEFv8Handler, uCEFv8Context, uCEFProcessMessage,
-  uCEF_LCL_Entity, uCEF_LCL_Event,
-  uCEF_LCL_IPC;
+  uCEF_LCL_Entity, uCEF_LCL_Event;
 
 type
 

@@ -76,10 +76,6 @@ var
   //Application.QueueAsyncCall UI主程序异步调用回调指针
   GApplicationQueueAsyncCallPtr: ApplicationQueueAsyncCallPtr;
 
-  //GlobalCEFApp TCefv8ValueRef 普通变量属性的所属默认对象名称 默认值 v8
-  CommonRootName: ustring = v8BindCommon;
-  ObjectRootName: ustring = v8BindObject;
-
 implementation
 
 function ArgsToParamsPtr(AArgs: array of const): PointerArray;

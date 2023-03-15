@@ -15,7 +15,7 @@ uses
   uCEF_LCL_ConsoleWrite,
   Classes, SysUtils, fgl, SyncObjs,
   uCEFTypes, uCEFInterfaces, uCEFProcessMessage, uCEFv8Value, uCEFv8Context,
-  uCEF_LCL_Entity, uCEF_LCL_V8ValueRef, uCEF_LCL_Process_Message, uCEF_LCL_Event, uCEF_LCL_IPCWindowMoveDrag, uCEF_LCL_V8ObjectAccessor, uCEF_LCL_V8CommonAccessor;
+  uCEF_LCL_Entity, uCEF_LCL_Event, uCEF_LCL_IPCWindowMoveDrag;
 
 const
   IPC_FN_TYPE_IPCJSEmitGo = 1;

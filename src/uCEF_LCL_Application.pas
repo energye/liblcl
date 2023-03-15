@@ -23,12 +23,7 @@ uses
   uCEF_LCL_ConsoleWrite,
   SysUtils, Controls, uEventCallback, uCEF_LCL_EventCallback, uCEFSchemeRegistrar, uCEFPreferenceRegistrar,
   uCEFInterfaces, uCEFv8Value, uCEFConstants, uCEFTypes,
-  uCEF_LCL_Entity, uCEF_LCL_Chromium, uCEF_LCL_V8ValueRef,
-  uCEF_LCL_V8CommonAccessor, uCEF_LCL_V8CommonHandler,
-  uCEF_LCL_V8ObjectAccessor, uCEF_LCL_V8ObjectHandler,
-  uCEF_LCL_V8EventEmitHandler, uCEF_LCL_V8EventOnHandler,
-  uCEF_LCL_BrowserWindowHandler,
-  uCEF_LCL_Event, uCEF_LCL_IPC;
+  uCEF_LCL_Entity, uCEF_LCL_Event;
 
 type
 
@@ -138,26 +133,8 @@ begin
 end;
 
 procedure GlobalCEFApp_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
-//var
-//  idx: integer;
-//  commands: PChar;
-//  commandArray: TStringArray;
-//  commandItemArray: TStringArray;
 begin
   TCEFEventCallback.SendEvent(OnBeforeChildProcessLaunch_DataPtr, [commandLine]);
-  //commandArray := string(PCharToUStr(commands)).Split(' ');
-  //for idx := 0 to length(commandArray) - 1 do
-  //begin
-  //  commandItemArray := commandArray[idx].Split('=');
-  //  if length(commandItemArray) = 2 then
-  //  begin
-  //    commandLine.AppendSwitchWithValue(commandItemArray[0], commandItemArray[1]);
-  //  end
-  //  else if length(commandItemArray) = 1 then
-  //  begin
-  //    commandLine.AppendArgument(commandItemArray[0]);
-  //  end;
-  //end;
 end;
 
 procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
