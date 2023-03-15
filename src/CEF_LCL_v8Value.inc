@@ -444,10 +444,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewDate(value: Double; var Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewDate(value: PDouble; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefv8ValueRef.NewDate(TDateTime(value));
+  Result := TCefv8ValueRef.NewDate(TDateTime(Double(PDouble(value)^)));
   handleExceptionEnd
 end;
 
