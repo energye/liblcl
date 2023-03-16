@@ -20,5 +20,5 @@ uCEFStringMultimap, uCEFCallback, uCEFChromium, uCEFWindowParent, uCEFLinkedWind
 uCEFConstants, uCEFWinControl, uCEFChromiumEvents, uCEFMiscFunctions, uCEFClient, uCEFProcessMessage, uCEFWorkScheduler, uCEFRunFileDialogCallback, uCEFDownloadImageCallBack, uCEFPostData, uCEFPostDataElement, uCEFDownLoadItem, uCEFRequest, uCEFResponse,
 uCEFPDFPrintCallback, uCEFv8Context, uCEFBrowser, uCEFBrowserViewComponent, uCEFWindowComponent, uCEFImage, uCEFRequestContext, uCEFRequestContextHandler, uCEFv8Accessor, uCEFv8Exception, uCEFPDFPrintOptions,
 uCEF_LCL_Entity, uCEF_LCL_Application, uCEF_LCL_Event, uCEF_LCL_DictionaryValue, uCEF_LCL_V8AccessorRef, uCEF_LCL_V8HandlerRef, uCEF_LCL_V8InterceptorRef, uCEF_LCL_PdfPrintCallbackRef,
-uCEF_LCL_V8ArrayBufferReleaseCallbackRef, uCEF_LCL_ProcessMessage, uCEF_LCL_GJSON,
+uCEF_LCL_V8ArrayBufferReleaseCallbackRef, uCEF_LCL_ProcessMessage, uCEF_LCL_ValueConvert,
 uCEF_LCL_ConsoleWrite,

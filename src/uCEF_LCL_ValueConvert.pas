@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-unit uCEF_LCL_GJSON;
+unit uCEF_LCL_ValueConvert;
 
 {$mode objfpc}{$H+}
 {$I cef.inc}
@@ -17,7 +17,7 @@ uses
 
 type
 
-  TGJSON = class
+  TValueConvert = class
   public
     class constructor Create;
     class destructor Destroy;
@@ -31,7 +31,7 @@ type
 
 implementation
 
-class function TGJSON.BytesToProcessMessage(const Data: Pointer; dataSize: nativeuint): ICefProcessMessage;
+class function TValueConvert.BytesToProcessMessage(const Data: Pointer; dataSize: nativeuint): ICefProcessMessage;
 var
   FData: TBytes;
   JSONString: string;
@@ -39,7 +39,7 @@ var
   JSONObject: TJSONObject;
   JSONArray: TJSONArray;
   message: ICefProcessMessage;
-  Name: string;
+  Name: unicodestring;
   I: integer;
 begin
   try
@@ -59,7 +59,7 @@ begin
         case JSONArray.Types[I] of
           TJSONtype.jtString:
           begin
-            message.ArgumentList.SetString(I, string(JSONArray.Strings[I]));
+            message.ArgumentList.SetString(I, UTF8Decode(JSONArray.Strings[I]));
           end;
           TJSONtype.jtNumber:
           begin
@@ -99,7 +99,7 @@ begin
   end;
 end;
 
-class function TGJSON.JSONArrayToListValue(JSONArray: TJSONArray): ICefListValue;
+class function TValueConvert.JSONArrayToListValue(JSONArray: TJSONArray): ICefListValue;
 var
   ListValue: ICefListValue;
   I: integer;
@@ -112,7 +112,7 @@ begin
       case JSONArray.Types[I] of
         TJSONtype.jtString:
         begin
-          ListValue.SetString(I, string(JSONArray.Strings[I]));
+          ListValue.SetString(I, UTF8Decode(JSONArray.Strings[I]));
         end;
         TJSONtype.jtNumber:
         begin
@@ -147,11 +147,11 @@ begin
   end;
 end;
 
-class function TGJSON.JSONObjectToDictionaryValue(JSONObject: TJSONObject): ICefDictionaryValue;
+class function TValueConvert.JSONObjectToDictionaryValue(JSONObject: TJSONObject): ICefDictionaryValue;
 var
   DictionaryValue: ICefDictionaryValue;
   I: integer;
-  Name: string;
+  Name: TJSONStringType;
 begin
   try
     DictionaryValue := TCefDictionaryValueRef.New;
@@ -162,31 +162,31 @@ begin
       case JSONObject.Types[Name] of
         TJSONtype.jtString:
         begin
-          DictionaryValue.SetString(Name, JSONObject.Strings[Name]);
+          DictionaryValue.SetString(UTF8Decode(Name), JSONObject.Strings[Name]);
         end;
         TJSONtype.jtNumber:
         begin
-          DictionaryValue.SetDouble(Name, JSONObject.Floats[Name]);
+          DictionaryValue.SetDouble(UTF8Decode(Name), JSONObject.Floats[Name]);
         end;
         TJSONtype.jtBoolean:
         begin
-          DictionaryValue.SetBool(Name, JSONObject.Booleans[Name]);
+          DictionaryValue.SetBool(UTF8Decode(Name), JSONObject.Booleans[Name]);
         end;
         TJSONtype.jtNull:
         begin
-          DictionaryValue.SetNull(Name);
+          DictionaryValue.SetNull(UTF8Decode(Name));
         end;
         TJSONtype.jtUnknown:
         begin
-          DictionaryValue.SetNull(Name);
+          DictionaryValue.SetNull(UTF8Decode(Name));
         end;
         TJSONtype.jtArray:
         begin
-          DictionaryValue.SetList(Name, JSONArrayToListValue(JSONObject.Arrays[Name]));
+          DictionaryValue.SetList(UTF8Decode(Name), JSONArrayToListValue(JSONObject.Arrays[Name]));
         end;
         TJSONtype.jtObject:
         begin
-          DictionaryValue.SetDictionary(Name, JSONObjectToDictionaryValue(JSONObject.Objects[Name]));
+          DictionaryValue.SetDictionary(UTF8Decode(Name), JSONObjectToDictionaryValue(JSONObject.Objects[Name]));
         end;
       end;
       Inc(I);
@@ -197,26 +197,26 @@ begin
   end;
 end;
 
-class function TGJSON.BytesToV8ValueArray(const Data: Pointer; dataSize: nativeuint): TCefv8ValueArray;
+class function TValueConvert.BytesToV8ValueArray(const Data: Pointer; dataSize: nativeuint): TCefv8ValueArray;
 begin
 
 end;
 
-class function TGJSON.BytesToV8Array(const Data: Pointer; dataSize: nativeuint): ICefv8Value;
+class function TValueConvert.BytesToV8Array(const Data: Pointer; dataSize: nativeuint): ICefv8Value;
 begin
 
 end;
 
-class function TGJSON.BytesToV8Object(const Data: Pointer; dataSize: nativeuint): ICefv8Value;
+class function TValueConvert.BytesToV8Object(const Data: Pointer; dataSize: nativeuint): ICefv8Value;
 begin
 
 end;
 
-class constructor TGJSON.Create;
+class constructor TValueConvert.Create;
 begin
 end;
 
-class destructor TGJSON.Destroy;
+class destructor TValueConvert.Destroy;
 begin
 end;
 
