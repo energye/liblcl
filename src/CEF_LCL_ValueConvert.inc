@@ -4,6 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
+// JSONArray TBytes 转换 进程消息 ICefProcessMessage
 procedure ValueConvert_BytesToProcessMessage(const PName: PChar; const Data: Pointer; dataSize: nativeuint; out Result: ICefProcessMessage); extdecl;
 begin
   handleExceptionBegin
@@ -11,6 +12,7 @@ begin
   handleExceptionEnd
 end;
 
+// JSONArray TBytes 转换 ICefListValue
 procedure ValueConvert_BytesToListValue(const Data: Pointer; dataSize: nativeuint; out Result: ICefListValue); extdecl;
 begin
   handleExceptionBegin
@@ -18,6 +20,7 @@ begin
   handleExceptionEnd
 end;
 
+// TJSONObject TBytes 转换 ICefDictionaryValue
 procedure ValueConvert_BytesToDictionaryValue(const Data: Pointer; dataSize: nativeuint; out Result: ICefDictionaryValue); extdecl;
 begin
   handleExceptionBegin
@@ -25,6 +28,7 @@ begin
   handleExceptionEnd
 end;
 
+// JSONArray TBytes 转换 TCefv8ValueArray
 procedure ValueConvert_BytesToV8ValueArray(const Data: Pointer; dataSize: nativeuint; out Result: TCefv8ValueArray); extdecl;
 begin
   handleExceptionBegin
@@ -32,6 +36,7 @@ begin
   handleExceptionEnd
 end;
 
+// TJSONArray TBytes 转换 ICefv8Value
 procedure ValueConvert_BytesToV8Array(const Data: Pointer; dataSize: nativeuint; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
@@ -39,6 +44,7 @@ begin
   handleExceptionEnd
 end;
 
+// TJSONObject TBytes 转换 ICefv8Value
 procedure ValueConvert_BytesToV8Object(const Data: Pointer; dataSize: nativeuint; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin

@@ -21,7 +21,7 @@ type
   public
     class constructor Create;
     class destructor Destroy;
-    // JSONArray TBytes 转换 进程消息
+    // JSONArray TBytes 转换 进程消息 ICefProcessMessage
     class function BytesToProcessMessage(Name: unicodestring; const Data: Pointer; dataSize: nativeuint): ICefProcessMessage;
     // JSONArray TBytes 转换 ICefListValue
     class function BytesToListValue(const Data: Pointer; dataSize: nativeuint): ICefListValue;
