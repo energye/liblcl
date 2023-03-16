@@ -116,6 +116,18 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFFrame_SendProcessMessageForJSONBytes(const AObj: ICefFrame; const PName: PChar; targetProcess: Integer; const data: Pointer; dataSize: NativeUInt); extdecl;
+var
+  message_ : ICefProcessMessage;
+begin
+  handleExceptionBegin
+  message_ := TCefProcessMessageRef.New(PCharToUStr(PName));
+  message_.ArgumentList.SetBinary(0, TCefBinaryValueRef.New(data, dataSize));
+  AObj.SendProcessMessage(TCefProcessId(targetProcess), message_);
+  message_.ArgumentList.Clear;
+  handleExceptionEnd
+end;
+
 procedure CEFFrame_LoadRequest(const TObj: ICefFrame; const request: ICefRequest); extdecl;
 begin
   handleExceptionBegin
@@ -188,6 +200,7 @@ exports
   CEFFrame_IsMain,
   CEFFrame_IsFocused,
   CEFFrame_SendProcessMessage,
+  CEFFrame_SendProcessMessageForJSONBytes,
   CEFFrame_LoadRequest,
   CEFFrame_Browser,
   CEFFrame_GetV8Context,

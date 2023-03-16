@@ -47,6 +47,7 @@
 {$I CEF_LCL_v8Interceptor.inc}
 {$I CEF_LCL_v8Value.inc}
 {$I CEF_LCL_Value.inc}
+{$I CEF_LCL_ValueConvert.inc}
 {$I CEF_LCL_Window.inc}
 {$I CEF_LCL_WindowComponent.inc}
 {$I CEF_LCL_WindowParent.inc}
