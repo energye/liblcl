@@ -960,6 +960,22 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_SendProcessMessageForJSONBytes(const AObj: TChromium; const PName: PChar; targetProcess: Integer; const data: Pointer; dataSize: NativeUInt); extdecl;
+var
+  //GJSON : TGJSON;
+  message_ : ICefProcessMessage;
+begin
+  handleExceptionBegin
+  //GJSON := TGJSON.Create;
+  //message_ := GJSON.BytesToProcessMessage(data, dataSize);
+  message_ := TCefProcessMessageRef.New(PCharToUStr(PName));
+  message_.ArgumentList.SetBinary(0, TCefBinaryValueRef.New(data, dataSize));
+  AObj.SendProcessMessage(TCefProcessId(targetProcess), message_);
+  message_.ArgumentList.Clear;
+  //GJSON.Free;
+  handleExceptionEnd
+end;
+
 exports
   CEFChromium_Create,
   CEFChromium_Browser,
@@ -1077,6 +1093,7 @@ exports
   CEFChromium_GetZoomLevel,
   CEFChromium_SetDefaultEncoding,
   CEFChromium_GetDefaultEncoding,
-  CEFChromium_SendProcessMessage
+  CEFChromium_SendProcessMessage,
+  CEFChromium_SendProcessMessageForJSONBytes
 ;
 
