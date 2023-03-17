@@ -34,13 +34,13 @@ type
 
     // JSONArray TBytes 转换 TCefv8ValueArray
     class function BytesToV8ValueArray(const Data: Pointer; dataSize: nativeuint): TCefv8ValueArray;
-    // TJSONArray TBytes 转换 ICefv8Value
+    // JSONArray TBytes 转换 ICefv8Value
     class function BytesToV8Array(const Data: Pointer; dataSize: nativeuint): ICefv8Value;
-    // TJSONArray 转换 ICefv8Value
+    // JSONArray 转换 ICefv8Value
     class function JSONArrayToV8Array(JSONArray: TJSONArray): ICefv8Value;
-    // TJSONObject TBytes 转换 ICefv8Value
+    // JSONObject TBytes 转换 ICefv8Value
     class function BytesToV8Object(const Data: Pointer; dataSize: nativeuint): ICefv8Value;
-    // TJSONObject 转换 ICefv8Value
+    // JSONObject 转换 ICefv8Value
     class function JSONObjectToV8Object(JSONObject: TJSONObject): ICefv8Value;
   end;
 
@@ -51,8 +51,9 @@ class function TValueConvert.BytesToProcessMessage(Name: unicodestring; const Da
 var
   FData: TBytes;
   JSONString: string;
-  JSON: TJSONData;
+  Item, JSON: TJSONData;
   JSONArray: TJSONArray;
+  JSONNumber: TJSONNumber;
   message: ICefProcessMessage;
   I: integer;
 begin
@@ -67,14 +68,33 @@ begin
       I := 0;
       while (I < JSONArray.Count) do
       begin
-        case JSONArray.Types[I] of
+        Item := JSONArray.Items[I];
+        case Item.JSONType of
           TJSONtype.jtString:
           begin
             message.ArgumentList.SetString(I, UTF8Decode(JSONArray.Strings[I]));
           end;
           TJSONtype.jtNumber:
           begin
-            message.ArgumentList.SetDouble(I, JSONArray.Floats[I]);
+            JSONNumber := (Item as TJSONNumber);
+            case JSONNumber.NumberType of
+              TJSONNumberType.ntInteger:
+              begin
+                message.ArgumentList.SetInt(I, JSONArray.Integers[I]);
+              end;
+              TJSONNumberType.ntInt64:
+              begin
+                message.ArgumentList.SetInt(I, integer(JSONArray.Int64s[I]));
+              end;
+              TJSONNumberType.ntQWord:
+              begin
+                message.ArgumentList.SetInt(I, integer(JSONArray.QWords[I]));
+              end;
+              TJSONNumberType.ntFloat:
+              begin
+                message.ArgumentList.SetDouble(I, JSONArray.Floats[I]);
+              end;
+            end;
           end;
           TJSONtype.jtBoolean:
           begin
@@ -122,7 +142,7 @@ begin
     Move(Data^, FData[0], dataSize);
     JSONString := string(StringOf(FData));
     JSON := GetJSON(JSONString);
-    Result := JSONArrayToListValue(TJSONArray(JSON));
+    Result := JSONArrayToListValue(JSON as TJSONArray);
   finally
     JSONString := '';
     SetLength(FData, 0);
@@ -134,6 +154,8 @@ end;
 class function TValueConvert.JSONArrayToListValue(JSONArray: TJSONArray): ICefListValue;
 var
   ListValue: ICefListValue;
+  Item: TJSONData;
+  JSONNumber: TJSONNumber;
   I: integer;
 begin
   try
@@ -141,14 +163,33 @@ begin
     I := 0;
     while (I < JSONArray.Count) do
     begin
-      case JSONArray.Types[I] of
+      Item := JSONArray.Items[I];
+      case Item.JSONType of
         TJSONtype.jtString:
         begin
           ListValue.SetString(I, UTF8Decode(JSONArray.Strings[I]));
         end;
         TJSONtype.jtNumber:
         begin
-          ListValue.SetDouble(I, JSONArray.Floats[I]);
+          JSONNumber := (Item as TJSONNumber);
+          case JSONNumber.NumberType of
+            TJSONNumberType.ntInteger:
+            begin
+              ListValue.SetInt(I, JSONArray.Integers[I]);
+            end;
+            TJSONNumberType.ntInt64:
+            begin
+              ListValue.SetInt(I, integer(JSONArray.Int64s[I]));
+            end;
+            TJSONNumberType.ntQWord:
+            begin
+              ListValue.SetInt(I, integer(JSONArray.QWords[I]));
+            end;
+            TJSONNumberType.ntFloat:
+            begin
+              ListValue.SetDouble(I, JSONArray.Floats[I]);
+            end;
+          end;
         end;
         TJSONtype.jtBoolean:
         begin
@@ -191,7 +232,7 @@ begin
     Move(Data^, FData[0], dataSize);
     JSONString := string(StringOf(FData));
     JSON := GetJSON(JSONString);
-    Result := JSONObjectToDictionaryValue(TJSONObject(JSON));
+    Result := JSONObjectToDictionaryValue(JSON as TJSONObject);
   finally
     JSONString := '';
     SetLength(FData, 0);
@@ -205,6 +246,8 @@ var
   DictionaryValue: ICefDictionaryValue;
   I: integer;
   Name: TJSONStringType;
+  Item: TJSONData;
+  JSONNumber: TJSONNumber;
 begin
   try
     DictionaryValue := TCefDictionaryValueRef.New;
@@ -212,14 +255,33 @@ begin
     while (I < JSONObject.Count) do
     begin
       Name := JSONObject.Names[I];
-      case JSONObject.Types[Name] of
+      Item := JSONObject.Elements[Name];
+      case Item.JSONType of
         TJSONtype.jtString:
         begin
-          DictionaryValue.SetString(UTF8Decode(Name), JSONObject.Strings[Name]);
+          DictionaryValue.SetString(UTF8Decode(Name), UTF8Decode(JSONObject.Strings[Name]));
         end;
         TJSONtype.jtNumber:
         begin
-          DictionaryValue.SetDouble(UTF8Decode(Name), JSONObject.Floats[Name]);
+          JSONNumber := (Item as TJSONNumber);
+          case JSONNumber.NumberType of
+            TJSONNumberType.ntInteger:
+            begin
+              DictionaryValue.SetInt(UTF8Decode(Name), JSONObject.Integers[Name]);
+            end;
+            TJSONNumberType.ntInt64:
+            begin
+              DictionaryValue.SetInt(UTF8Decode(Name), integer(JSONObject.Int64s[Name]));
+            end;
+            TJSONNumberType.ntQWord:
+            begin
+              DictionaryValue.SetInt(UTF8Decode(Name), integer(JSONObject.QWords[Name]));
+            end;
+            TJSONNumberType.ntFloat:
+            begin
+              DictionaryValue.SetDouble(UTF8Decode(Name), JSONObject.Floats[Name]);
+            end;
+          end;
         end;
         TJSONtype.jtBoolean:
         begin
@@ -255,8 +317,9 @@ class function TValueConvert.BytesToV8ValueArray(const Data: Pointer; dataSize: 
 var
   FData: TBytes;
   JSONString: string;
-  JSON: TJSONData;
+  Item, JSON: TJSONData;
   JSONArray: TJSONArray;
+  JSONNumber: TJSONNumber;
   ValueArray: TCefv8ValueArray;
   I: integer;
 begin
@@ -266,19 +329,43 @@ begin
       Move(Data^, FData[0], dataSize);
       JSONString := string(StringOf(FData));
       JSON := GetJSON(JSONString);
-      JSONArray := TJSONArray(JSON);
+      JSONArray := JSON as TJSONArray;
+      if JSONArray.Count = 0 then
+      begin
+        Result := nil;
+        exit;
+      end;
       SetLength(ValueArray, JSONArray.Count);
       I := 0;
       while (I < JSONArray.Count) do
       begin
-        case JSONArray.Types[I] of
+        Item := JSONArray.Items[I];
+        case Item.JSONType of
           TJSONtype.jtString:
           begin
             ValueArray[I] := TCefv8ValueRef.NewString(UTF8Decode(JSONArray.Strings[I]));
           end;
           TJSONtype.jtNumber:
           begin
-            ValueArray[I] := TCefv8ValueRef.NewDouble(JSONArray.Floats[I]);
+            JSONNumber := (Item as TJSONNumber);
+            case JSONNumber.NumberType of
+              TJSONNumberType.ntInteger:
+              begin
+                ValueArray[I] := TCefv8ValueRef.NewInt(JSONArray.Integers[I]);
+              end;
+              TJSONNumberType.ntInt64:
+              begin
+                ValueArray[I] := TCefv8ValueRef.NewInt(integer(JSONArray.Int64s[I]));
+              end;
+              TJSONNumberType.ntQWord:
+              begin
+                ValueArray[I] := TCefv8ValueRef.NewInt(integer(JSONArray.QWords[I]));
+              end;
+              TJSONNumberType.ntFloat:
+              begin
+                ValueArray[I] := TCefv8ValueRef.NewDouble(JSONArray.Floats[I]);
+              end;
+            end;
           end;
           TJSONtype.jtBoolean:
           begin
@@ -315,7 +402,7 @@ begin
   end;
 end;
 
-// TJSONArray TBytes 转换 ICefv8Value
+// JSONArray TBytes 转换 ICefv8Value
 class function TValueConvert.BytesToV8Array(const Data: Pointer; dataSize: nativeuint): ICefv8Value;
 var
   FData: TBytes;
@@ -327,7 +414,7 @@ begin
     Move(Data^, FData[0], dataSize);
     JSONString := string(StringOf(FData));
     JSON := GetJSON(JSONString);
-    Result := JSONArrayToV8Array(TJSONArray(JSON));
+    Result := JSONArrayToV8Array(JSON as TJSONArray);
   finally
     JSONString := '';
     SetLength(FData, 0);
@@ -335,25 +422,46 @@ begin
   end;
 end;
 
-// TJSONArray 转换 ICefv8Value
+// JSONArray 转换 ICefv8Value
 class function TValueConvert.JSONArrayToV8Array(JSONArray: TJSONArray): ICefv8Value;
 var
   V8Array: ICefv8Value;
   I: integer;
+  Item: TJSONData;
+  JSONNumber: TJSONNumber;
 begin
   try
     V8Array := TCefv8ValueRef.NewArray(JSONArray.Count);
     I := 0;
     while (I < JSONArray.Count) do
     begin
-      case JSONArray.Types[I] of
+      Item := JSONArray.Items[I];
+      case Item.JSONType of
         TJSONtype.jtString:
         begin
           V8Array.SetValueByIndex(I, TCefv8ValueRef.NewString(UTF8Decode(JSONArray.Strings[I])));
         end;
         TJSONtype.jtNumber:
         begin
-          V8Array.SetValueByIndex(I, TCefv8ValueRef.NewDouble(JSONArray.Floats[I]));
+          JSONNumber := (Item as TJSONNumber);
+          case JSONNumber.NumberType of
+            TJSONNumberType.ntInteger:
+            begin
+              V8Array.SetValueByIndex(I, TCefv8ValueRef.NewInt(JSONArray.Integers[I]));
+            end;
+            TJSONNumberType.ntInt64:
+            begin
+              V8Array.SetValueByIndex(I, TCefv8ValueRef.NewInt(integer(JSONArray.Int64s[I])));
+            end;
+            TJSONNumberType.ntQWord:
+            begin
+              V8Array.SetValueByIndex(I, TCefv8ValueRef.NewInt(integer(JSONArray.QWords[I])));
+            end;
+            TJSONNumberType.ntFloat:
+            begin
+              V8Array.SetValueByIndex(I, TCefv8ValueRef.NewDouble(JSONArray.Floats[I]));
+            end;
+          end;
         end;
         TJSONtype.jtBoolean:
         begin
@@ -384,7 +492,7 @@ begin
   end;
 end;
 
-// TJSONObject TBytes 转换 ICefv8Value
+// JSONObject TBytes 转换 ICefv8Value
 class function TValueConvert.BytesToV8Object(const Data: Pointer; dataSize: nativeuint): ICefv8Value;
 var
   FData: TBytes;
@@ -396,7 +504,7 @@ begin
     Move(Data^, FData[0], dataSize);
     JSONString := string(StringOf(FData));
     JSON := GetJSON(JSONString);
-    Result := JSONObjectToV8Object(TJSONObject(JSON));
+    Result := JSONObjectToV8Object(JSON as TJSONObject);
   finally
     JSONString := '';
     SetLength(FData, 0);
@@ -404,12 +512,14 @@ begin
   end;
 end;
 
-// TJSONObject 转换 ICefv8Value
+// JSONObject 转换 ICefv8Value
 class function TValueConvert.JSONObjectToV8Object(JSONObject: TJSONObject): ICefv8Value;
 var
   V8Object: ICefv8Value;
   I: integer;
   Name: TJSONStringType;
+  Item: TJSONData;
+  JSONNumber: TJSONNumber;
 begin
   try
     V8Object := TCefv8ValueRef.NewObject(nil, nil);
@@ -417,14 +527,33 @@ begin
     while (I < JSONObject.Count) do
     begin
       Name := JSONObject.Names[I];
-      case JSONObject.Types[Name] of
+      Item := JSONObject.Elements[Name];
+      case Item.JSONType of
         TJSONtype.jtString:
         begin
           V8Object.SetValueByKey(UTF8Decode(Name), TCefv8ValueRef.NewString(UTF8Decode(JSONObject.Strings[Name])), V8_PROPERTY_ATTRIBUTE_NONE);
         end;
         TJSONtype.jtNumber:
         begin
-          V8Object.SetValueByKey(UTF8Decode(Name), TCefv8ValueRef.NewDouble(JSONObject.Floats[Name]), V8_PROPERTY_ATTRIBUTE_NONE);
+          JSONNumber := (Item as TJSONNumber);
+          case JSONNumber.NumberType of
+            TJSONNumberType.ntInteger:
+            begin
+              V8Object.SetValueByKey(UTF8Decode(Name), TCefv8ValueRef.NewInt(JSONObject.Integers[Name]), V8_PROPERTY_ATTRIBUTE_NONE);
+            end;
+            TJSONNumberType.ntInt64:
+            begin
+              V8Object.SetValueByKey(UTF8Decode(Name), TCefv8ValueRef.NewInt(integer(JSONObject.Int64s[Name])), V8_PROPERTY_ATTRIBUTE_NONE);
+            end;
+            TJSONNumberType.ntQWord:
+            begin
+              V8Object.SetValueByKey(UTF8Decode(Name), TCefv8ValueRef.NewInt(integer(JSONObject.QWords[Name])), V8_PROPERTY_ATTRIBUTE_NONE);
+            end;
+            TJSONNumberType.ntFloat:
+            begin
+              V8Object.SetValueByKey(UTF8Decode(Name), TCefv8ValueRef.NewDouble(JSONObject.Floats[Name]), V8_PROPERTY_ATTRIBUTE_NONE);
+            end;
+          end;
         end;
         TJSONtype.jtBoolean:
         begin

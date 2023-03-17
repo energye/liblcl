@@ -29,14 +29,26 @@ begin
 end;
 
 // JSONArray TBytes 转换 TCefv8ValueArray
-procedure ValueConvert_BytesToV8ValueArray(const Data: Pointer; dataSize: nativeuint; out Result: TCefv8ValueArray); extdecl;
+procedure ValueConvert_BytesToV8ValueArray(const Data: Pointer; dataSize: nativeuint; out Result: Pointer; out ResultLength: Integer); extdecl;
+var
+  ValueArray: TCefv8ValueArray;
 begin
   handleExceptionBegin
-  Result := TValueConvert.BytesToV8ValueArray(Data, dataSize);
-  handleExceptionEnd
+  ValueArray := TValueConvert.BytesToV8ValueArray(Data, dataSize);
+  if ValueArray = nil then
+  begin
+    Result := 0;
+    ResultLength := 0;
+  end
+  else
+  begin
+    ResultLength := Length(ValueArray);
+    Result := @ValueArray[0];
+  end;
+handleExceptionEnd
 end;
 
-// TJSONArray TBytes 转换 ICefv8Value
+// JSONArray TBytes 转换 ICefv8Value
 procedure ValueConvert_BytesToV8Array(const Data: Pointer; dataSize: nativeuint; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
@@ -44,7 +56,7 @@ begin
   handleExceptionEnd
 end;
 
-// TJSONObject TBytes 转换 ICefv8Value
+// JSONObject TBytes 转换 ICefv8Value
 procedure ValueConvert_BytesToV8Object(const Data: Pointer; dataSize: nativeuint; out Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
