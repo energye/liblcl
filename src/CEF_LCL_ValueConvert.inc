@@ -48,22 +48,6 @@ begin
 handleExceptionEnd
 end;
 
-procedure ValueConvert_BytesToV8ValueArrayFree(var data: TCefv8ValueArray; size: Integer); extdecl;
-var
-  tmp : ICefv8Value;
-  I: Integer;
-begin
-  handleExceptionBegin
-  WriteLn('length: ', size);
-  while (I < size) do
-  begin
-     data[I] := nil;
-  end;
-  SetLength(data, 0);
-  data := nil;
-  handleExceptionEnd
-end;
-
 // JSONArray TBytes 转换 ICefv8Value
 procedure ValueConvert_BytesToV8Array(const Data: Pointer; dataSize: nativeuint; out Result: ICefv8Value); extdecl;
 begin
@@ -85,7 +69,6 @@ exports
     ValueConvert_BytesToListValue,
     ValueConvert_BytesToDictionaryValue,
     ValueConvert_BytesToV8ValueArray,
-    ValueConvert_BytesToV8ValueArrayFree,
     ValueConvert_BytesToV8Array,
     ValueConvert_BytesToV8Object
 ;
