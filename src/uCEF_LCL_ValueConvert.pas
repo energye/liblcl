@@ -42,9 +42,18 @@ type
     class function BytesToV8Object(const Data: Pointer; dataSize: nativeuint): ICefv8Value;
     // JSONObject 转换 ICefv8Value
     class function JSONObjectToV8Object(JSONObject: TJSONObject): ICefv8Value;
+
+    // ICefv8Value 转换 Bytes
+    class function V8ValueToBytes(const Value: ICefv8Value): TBytes;
   end;
 
 implementation
+
+// ICefv8Value 转换 Bytes
+class function TValueConvert.V8ValueToBytes(const Value: ICefv8Value): TBytes;
+begin
+
+end;
 
 // JSONArray TBytes 转换 进程消息
 class function TValueConvert.BytesToProcessMessage(Name: unicodestring; const Data: Pointer; dataSize: nativeuint): ICefProcessMessage;
@@ -382,10 +391,12 @@ begin
           TJSONtype.jtArray:
           begin
             ValueArray[I] := JSONArrayToV8Array(JSONArray.Arrays[I]);
+            //ValueArray[I] := TCefv8ValueRef.NewNull;
           end;
           TJSONtype.jtObject:
           begin
             ValueArray[I] := JSONObjectToV8Object(JSONArray.Objects[I]);
+            //ValueArray[I] := TCefv8ValueRef.NewNull;
           end;
         end;
         Inc(I);
@@ -397,7 +408,7 @@ begin
   finally
     JSONString := '';
     SetLength(FData, 0);
-    // SetLength(ValueArray, 0);//
+    SetLength(ValueArray, 0);
     JSON.Free;
   end;
 end;

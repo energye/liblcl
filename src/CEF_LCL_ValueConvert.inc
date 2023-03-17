@@ -29,7 +29,7 @@ begin
 end;
 
 // JSONArray TBytes 转换 TCefv8ValueArray
-procedure ValueConvert_BytesToV8ValueArray(const Data: Pointer; dataSize: nativeuint; out Result: Pointer; out ResultLength: Integer); extdecl;
+procedure ValueConvert_BytesToV8ValueArray(const Data: Pointer; dataSize: nativeuint; out Result: TCefv8ValueArray; out ResultLength: Integer); extdecl;
 var
   ValueArray: TCefv8ValueArray;
 begin
@@ -37,15 +37,31 @@ begin
   ValueArray := TValueConvert.BytesToV8ValueArray(Data, dataSize);
   if ValueArray = nil then
   begin
-    Result := 0;
+    Result := nil;
     ResultLength := 0;
   end
   else
   begin
+    Result := ValueArray;
     ResultLength := Length(ValueArray);
-    Result := @ValueArray[0];
   end;
 handleExceptionEnd
+end;
+
+procedure ValueConvert_BytesToV8ValueArrayFree(var data: TCefv8ValueArray; size: Integer); extdecl;
+var
+  tmp : ICefv8Value;
+  I: Integer;
+begin
+  handleExceptionBegin
+  WriteLn('length: ', size);
+  while (I < size) do
+  begin
+     data[I] := nil;
+  end;
+  SetLength(data, 0);
+  data := nil;
+  handleExceptionEnd
 end;
 
 // JSONArray TBytes 转换 ICefv8Value
@@ -69,6 +85,7 @@ exports
     ValueConvert_BytesToListValue,
     ValueConvert_BytesToDictionaryValue,
     ValueConvert_BytesToV8ValueArray,
+    ValueConvert_BytesToV8ValueArrayFree,
     ValueConvert_BytesToV8Array,
     ValueConvert_BytesToV8Object
 ;

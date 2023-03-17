@@ -371,6 +371,19 @@ begin
   handleExceptionEnd
 end;
 
+procedure CefV8Value_ExecuteFunctionWithContextForArgsBytes(const TObj: ICefv8Value; const context: ICefv8Context; const obj: ICefv8Value; const argsBytes: Pointer; argsBytesSize: nativeuint; var Result: ICefv8Value); extdecl;
+var
+  i: integer;
+  arguments: TCefv8ValueArray;
+begin
+  handleExceptionBegin
+  arguments := TValueConvert.BytesToV8ValueArray(argsBytes, argsBytesSize);
+  Result := TObj.ExecuteFunctionWithContext(context, obj, arguments);
+  SetLength(arguments, 0);
+  arguments := nil;
+  handleExceptionEnd
+end;
+
 function CefV8Value_ResolvePromise(const TObj: ICefv8Value; const arg: ICefv8Value): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -543,6 +556,7 @@ exports
     CefV8Value_GetFunctionHandler,
     CefV8Value_ExecuteFunction,
     CefV8Value_ExecuteFunctionWithContext,
+    CefV8Value_ExecuteFunctionWithContextForArgsBytes,
     CefV8Value_ResolvePromise,
     CefV8Value_RejectPromise,
     CefV8Value_Free,

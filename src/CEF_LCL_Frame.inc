@@ -124,7 +124,7 @@ begin
   message_ := TCefProcessMessageRef.New(PCharToUStr(PName));
   message_.ArgumentList.SetBinary(0, TCefBinaryValueRef.New(data, dataSize));
   AObj.SendProcessMessage(TCefProcessId(targetProcess), message_);
-  message_.ArgumentList.Clear;
+  //message_.ArgumentList.Clear;
   handleExceptionEnd
 end;
 
