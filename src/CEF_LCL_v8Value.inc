@@ -327,7 +327,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Value_ExecuteFunction(const TObj: ICefv8Value; const obj: ICefv8Value; var Result: ICefv8Value; const arguments: TCefv8ValueArray; argumentsLength: Integer); extdecl;
+procedure CefV8Value_ExecuteFunction(const TObj: ICefv8Value; const obj: ICefv8Value; const arguments: TCefv8ValueArray; argumentsLength: Integer; var Result: ICefv8Value); extdecl;
 var
   i: integer;
   args: TCefv8ValueArray;
@@ -349,7 +349,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Value_ExecuteFunctionWithContext(const TObj: ICefv8Value; const context: ICefv8Context; const obj: ICefv8Value; var Result: ICefv8Value; const arguments: TCefv8ValueArray; argumentsLength: Integer); extdecl;
+procedure CefV8Value_ExecuteFunctionWithContext(const TObj: ICefv8Value; const context: ICefv8Context; const obj: ICefv8Value; const arguments: TCefv8ValueArray; argumentsLength: Integer; var Result: ICefv8Value); extdecl;
 var
   i: integer;
   args: TCefv8ValueArray;
@@ -365,7 +365,9 @@ begin
     Result := TObj.ExecuteFunctionWithContext(context, obj, args);
   end
   else
+  begin
     Result := TObj.ExecuteFunctionWithContext(context, obj, nil);
+  end;
   SetLength(args, 0);
   args := nil;
   handleExceptionEnd
@@ -373,7 +375,6 @@ end;
 
 procedure CefV8Value_ExecuteFunctionWithContextForArgsBytes(const TObj: ICefv8Value; const context: ICefv8Context; const obj: ICefv8Value; const argsBytes: Pointer; argsBytesSize: nativeuint; var Result: ICefv8Value); extdecl;
 var
-  i: integer;
   arguments: TCefv8ValueArray;
 begin
   handleExceptionBegin
@@ -402,7 +403,6 @@ procedure CefV8Value_Free(var data: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   TCefv8ValueRef(data).Free;
-  TCefv8ValueRef(data).Destroy;
   data := nil;
   handleExceptionEnd
 end;

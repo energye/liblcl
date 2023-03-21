@@ -972,6 +972,20 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_SendProcessMessageForV8Value(const AObj: ICefFrame; const PName: PChar; targetProcess: Integer; const arguments: ICefv8Value); extdecl;
+var
+  message_ : ICefProcessMessage;
+begin
+  handleExceptionBegin
+  message_ := TValueConvert.V8ValueToProcessMessage(PCharToUStr(PName), arguments);
+  if message_ <> nil then
+  begin
+    AObj.SendProcessMessage(TCefProcessId(targetProcess), message_);
+    message_.ArgumentList.Clear;
+  end;
+  handleExceptionEnd
+end;
+
 exports
   CEFChromium_Create,
   CEFChromium_Browser,
@@ -1090,6 +1104,7 @@ exports
   CEFChromium_SetDefaultEncoding,
   CEFChromium_GetDefaultEncoding,
   CEFChromium_SendProcessMessage,
-  CEFChromium_SendProcessMessageForJSONBytes
+  CEFChromium_SendProcessMessageForJSONBytes,
+  CEFChromium_SendProcessMessageForV8Value
 ;
 

@@ -12,7 +12,7 @@ unit uCEF_LCL_ValueConvert;
 interface
 
 uses
-  SysUtils, uCEFTypes, uCEFInterfaces, uCEFConstants, fpjson, jsonparser,
+  SysUtils, Classes, uCEFTypes, uCEFInterfaces, uCEFConstants, fpjson, jsonparser,
   uCEFProcessMessage, uCEFListValue, uCEFDictionaryValue, uCEFv8Value;
 
 type
@@ -22,7 +22,7 @@ type
     class constructor Create;
     class destructor Destroy;
     // JSONArray TBytes 转换 进程消息 ICefProcessMessage
-    class function BytesToProcessMessage(Name: unicodestring; const Data: Pointer; dataSize: nativeuint): ICefProcessMessage;
+    class function BytesToProcessMessage(Name: ustring; const Data: Pointer; dataSize: nativeuint): ICefProcessMessage;
     // JSONArray TBytes 转换 ICefListValue
     class function BytesToListValue(const Data: Pointer; dataSize: nativeuint): ICefListValue;
     // TJSONArray 转换 ICefListValue
@@ -43,20 +43,18 @@ type
     // JSONObject 转换 ICefv8Value
     class function JSONObjectToV8Object(JSONObject: TJSONObject): ICefv8Value;
 
-    // ICefv8Value 转换 Bytes
-    class function V8ValueToBytes(const Value: ICefv8Value): TBytes;
+    // ICefv8Value 转换 ProcessMessage
+    class function V8ValueToProcessMessage(Name: ustring; const Value: ICefv8Value): ICefProcessMessage;
+    // ICefv8Value 转换 ICefListValue
+    class function V8ValueToListValue(const Value: ICefv8Value): ICefListValue;
+    // ICefv8Value 转换 ICefDictionaryValue
+    class function V8ValueToDictionaryValue(const Value: ICefv8Value): ICefDictionaryValue;
   end;
 
 implementation
 
-// ICefv8Value 转换 Bytes
-class function TValueConvert.V8ValueToBytes(const Value: ICefv8Value): TBytes;
-begin
-
-end;
-
 // JSONArray TBytes 转换 进程消息
-class function TValueConvert.BytesToProcessMessage(Name: unicodestring; const Data: Pointer; dataSize: nativeuint): ICefProcessMessage;
+class function TValueConvert.BytesToProcessMessage(Name: ustring; const Data: Pointer; dataSize: nativeuint): ICefProcessMessage;
 var
   FData: TBytes;
   JSONString: string;
@@ -67,13 +65,14 @@ var
   I: integer;
 begin
   try
+    SetLength(FData, dataSize);
+    Move(Data^, FData[0], dataSize);
+    //JSONString := '["返回值", 111111, 2222.22, true]';
+    JSONString := string(StringOf(FData));
+    JSON := GetJSON(JSONString);
+    JSONArray := TJSONArray(JSON);
+    message := TCefProcessMessageRef.New(Name);
     try
-      SetLength(FData, dataSize);
-      Move(Data^, FData[0], dataSize);
-      JSONString := string(StringOf(FData));
-      JSON := GetJSON(JSONString);
-      JSONArray := TJSONArray(JSON);
-      message := TCefProcessMessageRef.New(Name);
       I := 0;
       while (I < JSONArray.Count) do
       begin
@@ -135,7 +134,8 @@ begin
   finally
     JSONString := '';
     SetLength(FData, 0);
-    JSON.Free;
+    JSONArray.Free;
+    //JSON.Free;
   end;
 end;
 
@@ -592,6 +592,186 @@ begin
     Result := V8Object;
   except
     on E: Exception do
+  end;
+end;
+
+
+// ICefv8Value 转换 ProcessMessage
+class function TValueConvert.V8ValueToProcessMessage(Name: ustring; const Value: ICefv8Value): ICefProcessMessage;
+var
+  message: ICefProcessMessage;
+  I, keysSize: integer;
+  dataValue: ICefv8Value;
+  keys: TStrings;
+  key: string;
+begin
+  try
+    message := TCefProcessMessageRef.New(Name);
+    if Value = nil then
+    begin
+      Result := message;
+      exit;
+    end;
+    if Value.IsArray then
+    begin
+      I := 0;
+      while (I < Value.GetArrayLength) do
+      begin
+        dataValue := Value.GetValueByIndex(I);
+        if dataValue.IsString then
+          message.ArgumentList.SetString(I, dataValue.GetStringValue)
+        else if dataValue.IsInt then
+          message.ArgumentList.SetInt(I, dataValue.GetIntValue)
+        else if dataValue.IsUInt then
+          message.ArgumentList.SetInt(I, integer(dataValue.GetUIntValue))
+        else if dataValue.IsDouble then
+          message.ArgumentList.SetDouble(I, dataValue.GetDoubleValue)
+        else if dataValue.IsBool then
+          message.ArgumentList.SetBool(I, dataValue.GetBoolValue)
+        else if dataValue.IsArray then
+          message.ArgumentList.SetList(I, V8ValueToListValue(dataValue))
+        else if dataValue.IsObject then
+          message.ArgumentList.SetDictionary(I, V8ValueToDictionaryValue(dataValue))
+        else
+          message.ArgumentList.SetNull(I);
+        Inc(I);
+        TCefv8ValueRef(dataValue).Free;
+      end;
+    end
+    else if Value.IsObject then
+    begin
+      keys := TStringList.Create;
+      keysSize := Value.GetKeys(keys);
+      I := 0;
+      while (I < keysSize) do
+      begin
+        key := keys.Strings[I];
+        dataValue := Value.GetValueByKey(key);
+        if dataValue.IsString then
+          message.ArgumentList.SetString(I, dataValue.GetStringValue)
+        else if dataValue.IsInt then
+          message.ArgumentList.SetInt(I, dataValue.GetIntValue)
+        else if dataValue.IsUInt then
+          message.ArgumentList.SetInt(I, integer(dataValue.GetUIntValue))
+        else if dataValue.IsDouble then
+          message.ArgumentList.SetDouble(I, dataValue.GetDoubleValue)
+        else if dataValue.IsBool then
+          message.ArgumentList.SetBool(I, dataValue.GetBoolValue)
+        else if dataValue.IsArray then
+          message.ArgumentList.SetList(I, V8ValueToListValue(dataValue))
+        else if dataValue.IsObject then
+          message.ArgumentList.SetDictionary(I, V8ValueToDictionaryValue(dataValue))
+        else
+          message.ArgumentList.SetNull(I);
+        Inc(I);
+        TCefv8ValueRef(dataValue).Free;
+      end;
+      keys.Free;
+    end
+    else
+    begin
+      if Value.IsString then
+        message.ArgumentList.SetString(0, Value.GetStringValue)
+      else if Value.IsInt then
+        message.ArgumentList.SetInt(0, Value.GetIntValue)
+      else if Value.IsUInt then
+        message.ArgumentList.SetInt(0, integer(Value.GetUIntValue))
+      else if Value.IsDouble then
+        message.ArgumentList.SetDouble(0, Value.GetDoubleValue)
+      else if Value.IsBool then
+        message.ArgumentList.SetBool(0, Value.GetBoolValue)
+      else
+        message.ArgumentList.SetNull(0);
+    end;
+    Result := message;
+  except
+    on E: Exception do
+  end;
+  TCefv8ValueRef(Value).Free;
+end;
+
+
+// ICefv8Value 转换 ICefListValue
+class function TValueConvert.V8ValueToListValue(const Value: ICefv8Value): ICefListValue;
+var
+  ListValue: ICefListValue;
+  I: integer;
+  dataValue: ICefv8Value;
+begin
+  try
+    ListValue := TCefListValueRef.New;
+    I := 0;
+    while (I < Value.GetArrayLength) do
+    begin
+      dataValue := Value.GetValueByIndex(I);
+      if dataValue.IsString then
+        ListValue.SetString(I, dataValue.GetStringValue)
+      else if dataValue.IsInt then
+        ListValue.SetInt(I, dataValue.GetIntValue)
+      else if dataValue.IsUInt then
+        ListValue.SetInt(I, integer(dataValue.GetUIntValue))
+      else if dataValue.IsDouble then
+        ListValue.SetDouble(I, dataValue.GetDoubleValue)
+      else if dataValue.IsBool then
+        ListValue.SetBool(I, dataValue.GetBoolValue)
+      else if dataValue.IsArray then
+        ListValue.SetList(I, V8ValueToListValue(dataValue))
+      else if dataValue.IsObject then
+        ListValue.SetDictionary(I, V8ValueToDictionaryValue(dataValue))
+      else
+        ListValue.SetNull(I);
+      Inc(I);
+      TCefv8ValueRef(dataValue).Free;
+    end;
+  except
+    on E: Exception do
+  end;
+end;
+
+// ICefv8Value 转换 ICefDictionaryValue
+class function TValueConvert.V8ValueToDictionaryValue(const Value: ICefv8Value): ICefDictionaryValue;
+var
+  DictionaryValue: ICefDictionaryValue;
+  I, keysSize: integer;
+  dataValue: ICefv8Value;
+  keys: TStrings;
+  key: string;
+begin
+  try
+    DictionaryValue := TCefDictionaryValueRef.New;
+    keys := TStringList.Create;
+    keysSize := Value.GetKeys(keys);
+    try
+      I := 0;
+      while (I < keysSize) do
+      begin
+        key := keys.Strings[I];
+        dataValue := Value.GetValueByKey(key);
+        if dataValue.IsString then
+          DictionaryValue.SetString(key, dataValue.GetStringValue)
+        else if dataValue.IsInt then
+          DictionaryValue.SetInt(key, dataValue.GetIntValue)
+        else if dataValue.IsUInt then
+          DictionaryValue.SetInt(key, integer(dataValue.GetUIntValue))
+        else if dataValue.IsDouble then
+          DictionaryValue.SetDouble(key, dataValue.GetDoubleValue)
+        else if dataValue.IsBool then
+          DictionaryValue.SetBool(key, dataValue.GetBoolValue)
+        else if dataValue.IsArray then
+          DictionaryValue.SetList(key, V8ValueToListValue(dataValue))
+        else if dataValue.IsObject then
+          DictionaryValue.SetDictionary(key, V8ValueToDictionaryValue(dataValue))
+        else
+          DictionaryValue.SetNull(key);
+        Inc(I);
+        TCefv8ValueRef(dataValue).Free;
+      end;
+      Result := DictionaryValue;
+    except
+      on E: Exception do
+    end;
+  finally
+    keys.Free;
   end;
 end;
 

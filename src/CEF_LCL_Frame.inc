@@ -128,6 +128,20 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFFrame_SendProcessMessageForV8Value(const AObj: ICefFrame; const PName: PChar; targetProcess: Integer; const arguments: ICefv8Value); extdecl;
+var
+  message_ : ICefProcessMessage;
+begin
+  handleExceptionBegin
+  message_ := TValueConvert.V8ValueToProcessMessage(PCharToUStr(PName), arguments);
+  if message_ <> nil then
+  begin
+    AObj.SendProcessMessage(TCefProcessId(targetProcess), message_);
+    message_.ArgumentList.Clear;
+  end;
+  handleExceptionEnd
+end;
+
 procedure CEFFrame_LoadRequest(const TObj: ICefFrame; const request: ICefRequest); extdecl;
 begin
   handleExceptionBegin
@@ -201,6 +215,7 @@ exports
   CEFFrame_IsFocused,
   CEFFrame_SendProcessMessage,
   CEFFrame_SendProcessMessageForJSONBytes,
+  CEFFrame_SendProcessMessageForV8Value,
   CEFFrame_LoadRequest,
   CEFFrame_Browser,
   CEFFrame_GetV8Context,
