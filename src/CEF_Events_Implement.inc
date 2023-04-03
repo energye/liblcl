@@ -151,7 +151,7 @@ begin
   SendEvent([Sender, @aZoomPct]);
 end;
 
-//chromium 全屏模式
+//chromium 全屏模式改变
 procedure TLCLEvent.ChromiumEvent_OnFullScreenModeChange(Sender: TObject;  const browser: ICefBrowser; fullscreen: boolean);
 begin
   SendEvent([Sender, browser, fullscreen]);
@@ -174,7 +174,7 @@ begin
     beforePopupInfo^.UserGesture := @userGesture;
 
     //event
-    SendEvent([Sender, browser, frame, beforePopupInfo, @windowInfo, client, @noJavascriptAccess, @Result]);
+    SendEvent([Sender, browser, frame, beforePopupInfo, @windowInfo, @client, @settings, @extra_info, @noJavascriptAccess, @Result]);
   finally
     //free beforePopupInfo
     beforePopupInfo^.TargetUrl := nil;
