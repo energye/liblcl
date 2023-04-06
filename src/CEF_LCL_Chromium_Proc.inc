@@ -443,7 +443,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_CreateClientHandler(const AObj: TChromium; client: ICefClient; alsOSR: LongBool): LongBool ; extdecl;
+function CEFChromium_CreateClientHandler(const AObj: TChromium; var client: ICefClient; alsOSR: LongBool): LongBool ; extdecl;
 begin
   handleExceptionBegin
   Result:= AObj.CreateClientHandler(client, alsOSR);

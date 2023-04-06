@@ -4,21 +4,21 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CEFWindowInfoAsChild(var windowInfo : TCefWindowInfo; windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; PWindowName: PChar); extdecl;
+procedure CEFWindowInfoAsChild(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
 begin
   handleExceptionBegin
   WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect, PCharToUStr(PWindowName));
   handleExceptionEnd
 end;
 
-procedure CEFWindowInfoAsPopUp(var windowInfo : TCefWindowInfo; windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; PWindowName: PChar); extdecl;
+procedure CEFWindowInfoAsPopUp(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
 begin
   handleExceptionBegin
   WindowInfoAsPopUp(windowInfo, windowParent.Handle, PCharToUStr(PWindowName));
   handleExceptionEnd
 end;
 
-procedure CEFWindowInfoAsWindowless(var windowInfo : TCefWindowInfo; windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; PWindowName: PChar); extdecl;
+procedure CEFWindowInfoAsWindowless(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
 begin
   handleExceptionBegin
   WindowInfoAsWindowless(windowInfo, windowParent.Handle, PCharToUStr(PWindowName));
