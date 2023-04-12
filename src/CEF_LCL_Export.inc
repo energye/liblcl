@@ -37,6 +37,7 @@
 {$I CEF_LCL_PostDataElement.inc}
 {$I CEF_LCL_ProcessMessage.inc}
 {$I CEF_LCL_Request.inc}
+{$I CEF_LCL_RequestContext.inc}
 {$I CEF_LCL_Response.inc}
 {$I CEF_LCL_StringMultiMap.inc}
 {$I CEF_LCL_v8Accessor.inc}

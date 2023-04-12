@@ -216,6 +216,15 @@ begin
   handleExceptionEnd
 end;
 
+function CEFBrowser_SendDevToolsMessage(const TObj: ICefBrowser; const message_: PChar): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := False;
+  if TObj.GetHost <> nil then
+     Result := TObj.GetHost.SendDevToolsMessage(PCharToUStr(message_));
+  handleExceptionEnd
+end;
+
 function CEFBrowser_ExecuteDevToolsMethod(const TObj: ICefBrowser; messageId: integer; const PMethod: PChar; const dictionaryValue: ICefDictionaryValue): Integer; extdecl;
 begin
   handleExceptionBegin
@@ -367,6 +376,15 @@ begin
   handleExceptionEnd
 end;
 
+function CEFBrowser_HasView(const TObj: ICefBrowser): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := False;
+  if TObj.GetHost <> nil then
+     Result := TObj.GetHost.HasView;
+  handleExceptionEnd
+end;
+
 function CEFBrowser_HasDevTools(const TObj: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -484,15 +502,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_BrowserHost(const TObj: ICefBrowser; var Result: ICefBrowserHost); extdecl;
+procedure CEFBrowser_GetRequestContext(const TObj: ICefBrowser; var Result: ICefRequestContext); extdecl;
 begin
   handleExceptionBegin
   Result := nil;
   if TObj.GetHost <> nil then
-     Result := TObj.GetHost;
+     Result := TObj.GetHost.GetRequestContext();
   handleExceptionEnd
 end;
-
 
 procedure CEFBrowserRef_UnWrap(const data: ICefBrowser; var Result: ICefBrowser); extdecl;
 begin
@@ -505,6 +522,7 @@ end;
 exports
   CEFBrowser_ShowDevTools,
   CEFBrowser_CloseDevTools,
+  CEFBrowser_HasView,
   CEFBrowser_HasDevTools,
   CEFBrowser_GetIdentifier,
   CEFBrowser_GetFocusedFrame,
@@ -522,6 +540,7 @@ exports
   CEFBrowser_DownloadImage,
   CEFBrowser_Print,
   CEFBrowser_PrintToPdf,
+  CEFBrowser_SendDevToolsMessage,
   CEFBrowser_ExecuteDevToolsMethod,
   CEFBrowser_SendKeyEvent,
   CEFBrowser_SetAudioMuted,
@@ -547,7 +566,7 @@ exports
   CEFBrowser_GetFrameNames,
   CEFBrowser_Find,
   CEFBrowser_StopFinding,
-  CEFBrowser_BrowserHost,
+  CEFBrowser_GetRequestContext,
   CEFBrowserRef_UnWrap
 ;
 
