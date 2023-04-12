@@ -121,6 +121,7 @@ var
   idx: integer;
   argsArray: array of TVarRec;
   tempArrayDouble: array of double;
+  tempArrayPChar: array of string;
   //IPC_FieldMessage
   browserId, IPCId: integer;
   FullName: ustring;
@@ -149,6 +150,7 @@ begin
     begin
       SetLength(IPCEventParam.ValueTypeArr, IPCEventParam.ValueTypeArrLen);
       SetLength(tempArrayDouble, IPCEventParam.ValueTypeArrLen);
+      SetLength(tempArrayPChar, IPCEventParam.ValueTypeArrLen);
     end;
     //拿到参数
     for idx := 0 to IPCEventParam.ValueTypeArrLen - 1 do
@@ -158,7 +160,8 @@ begin
       if argsItemValueType = VTYPE_STRING then
       begin
         IPCEventParam.ValueTypeArr[idx] := 0;
-        argsArray[idx + bIdx].VPChar := PChar(string(argsItem.GetString));
+        tempArrayPChar[idx] := string(argsItem.GetString);
+        argsArray[idx + bIdx].VPChar := PChar(tempArrayPChar[idx]);
         argsArray[idx + bIdx].VType := vtPChar;
       end
       else if argsItemValueType = VTYPE_INT then
@@ -235,6 +238,7 @@ begin
     SetLength(IPCEventParam.ValueTypeArr, 0);
     FreeArrayTVarRec(argsArray);
     SetLength(tempArrayDouble, 0);
+    SetLength(tempArrayPChar, 0);
     SetLength(argsArray, 0);
     IPCEventParam.FullName := nil;
     ret^.Value := nil;
