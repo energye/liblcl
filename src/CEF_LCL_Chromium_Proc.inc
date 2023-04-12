@@ -413,7 +413,7 @@ end;
 //cookie end
 
 //设置proxy
-procedure CEFChromium_SetProxy(const AObj: TChromium; proxy: PRChromiumProxy); extdecl;
+procedure CEFChromium_SetProxy(const AObj: TChromium; const proxy: PRChromiumProxy); extdecl;
 begin
   handleExceptionBegin
   AObj.ProxyType              := Integer(proxy.ProxyType);
@@ -425,6 +425,9 @@ begin
   AObj.ProxyScriptURL         := PCharToUStr(proxy.ProxyScriptURL);
   AObj.ProxyByPassList        := PCharToUStr(proxy.ProxyByPassList);
   AObj.MaxConnectionsPerProxy := Integer(proxy.MaxConnectionsPerProxy);
+  //WriteLn('SetProxy: ', Integer(proxy.ProxyType), ' ProxyScheme: ', TCefProxyScheme(Integer(proxy.ProxyScheme)), ' ProxyServer: ', PCharToUStr(proxy.ProxyServer), ' ProxyPort: ', Integer(proxy.ProxyPort),
+  //' ProxyUsername: ', PCharToUStr(proxy.ProxyUsername), ' ProxyPassword: ', PCharToUStr(proxy.ProxyPassword),
+  //' ProxyScriptURL: ', PCharToUStr(proxy.ProxyScriptURL),' ProxyByPassList: ', PCharToUStr(proxy.ProxyByPassList),' MaxConnectionsPerProxy ', Integer(proxy.MaxConnectionsPerProxy));
   handleExceptionEnd
 end;
 

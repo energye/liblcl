@@ -45,10 +45,10 @@ procedure ChromiumEvent_OnZoomPctAvailable(Sender: TObject; const aZoomPct: doub
 //chromium 全屏模式-事件
 procedure ChromiumEvent_OnFullScreenModeChange(Sender: TObject;  const browser: ICefBrowser; fullscreen: boolean);
 
-//chromium 弹窗之前-事件 此事件只用在了配置禁用
+//chromium 弹窗之前-事件
 procedure ChromiumEvent_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean;  var Result: Boolean);
-//chromium 打开tab-事件 此事件只用在了配置禁用
+//chromium 打开tab-事件
 procedure ChromiumEvent_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 
 //chromium TitleChange

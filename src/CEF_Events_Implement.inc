@@ -188,12 +188,13 @@ end;
 procedure TLCLEvent.ChromiumEvent_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
   targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean);
 begin
-  if not boolean(GChromiumConfig.EnableOpenUrlTab) then //禁止弹新Tab
-  begin
+  //if not boolean(GChromiumConfig.EnableOpenUrlTab) then //禁止弹新Tab
+  //begin
     // 阻止所有弹出窗口和新选项卡
-     Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
-     exit;
-  end;
+  //   Result := (targetDisposition in [WOD_NEW_FOREGROUND_TAB, WOD_NEW_BACKGROUND_TAB, WOD_NEW_POPUP, WOD_NEW_WINDOW]);
+  //   exit;
+  //end;
+  SendEvent([Sender, browser, frame, PChar(string(targetUrl)), Integer(targetDisposition), userGesture, @Result]);
 end;
 
 //chromium 标题改变

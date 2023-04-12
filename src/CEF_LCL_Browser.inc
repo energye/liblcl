@@ -484,6 +484,16 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFBrowser_BrowserHost(const TObj: ICefBrowser; var Result: ICefBrowserHost); extdecl;
+begin
+  handleExceptionBegin
+  Result := nil;
+  if TObj.GetHost <> nil then
+     Result := TObj.GetHost;
+  handleExceptionEnd
+end;
+
+
 procedure CEFBrowserRef_UnWrap(const data: ICefBrowser; var Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
@@ -537,6 +547,7 @@ exports
   CEFBrowser_GetFrameNames,
   CEFBrowser_Find,
   CEFBrowser_StopFinding,
+  CEFBrowser_BrowserHost,
   CEFBrowserRef_UnWrap
 ;
 
