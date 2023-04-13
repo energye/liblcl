@@ -46,7 +46,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefStreamReader_Tell(const TObj: ICefStreamReader): Int64; extdecl;
+procedure CefStreamReader_Tell(const TObj: ICefStreamReader; var Result: Int64); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Tell;
