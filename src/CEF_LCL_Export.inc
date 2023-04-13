@@ -33,6 +33,7 @@
 {$I CEF_LCL_Extension.inc}
 {$I CEF_LCL_ExtensionHandler.inc}
 {$I CEF_LCL_Frame.inc}
+{$I CEF_LCL_GetExtensionResourceCallback.inc}
 {$I CEF_LCL_Image.inc}
 {$I CEF_LCL_LinkedWindowParent.inc}
 {$I CEF_LCL_MiscFunctions.inc}
@@ -43,6 +44,7 @@
 {$I CEF_LCL_Request.inc}
 {$I CEF_LCL_RequestContext.inc}
 {$I CEF_LCL_Response.inc}
+{$I CEF_LCL_StreamReader.inc}
 {$I CEF_LCL_StringMultiMap.inc}
 {$I CEF_LCL_v8Accessor.inc}
 {$I CEF_LCL_v8ArrayBufferReleaseCallback.inc}
