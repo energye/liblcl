@@ -64,9 +64,10 @@ begin
   handleExceptionEnd
 end;
 
-function  RequestContext_GetHandler(const TObj: ICefRequestContext): ICefRequestContextHandler;  extdecl;
+procedure  RequestContext_GetHandler(const TObj: ICefRequestContext; var Result: ICefRequestContextHandler);  extdecl;
 begin
   handleExceptionBegin
+  Result := TObj.GetHandler;
   handleExceptionEnd
 end;
 
@@ -77,17 +78,19 @@ begin
   handleExceptionEnd
 end;
 
-function  RequestContext_GetCookieManager(const TObj: ICefRequestContext; const callback: ICefCompletionCallback): ICefCookieManager;  extdecl;
+procedure  RequestContext_GetCookieManager(const TObj: ICefRequestContext; const callback: ICefCompletionCallback; var Result: ICefCookieManager);  extdecl;
 begin
   handleExceptionBegin
+  Result := TObj.GetCookieManager(callback);
   handleExceptionEnd
 end;
 
-function  RequestContext_GetCookieManagerProc(const TObj: ICefRequestContext; const callback: TCefCompletionCallbackProc): ICefCookieManager;  extdecl;
-begin
-  handleExceptionBegin
-  handleExceptionEnd
-end;
+// GetCookieManager
+//procedure  RequestContext_GetCookieManagerProc(const TObj: ICefRequestContext; const callback: TCefCompletionCallbackProc; var Result: ICefCookieManager);  extdecl;
+//begin
+//  handleExceptionBegin
+//  handleExceptionEnd
+//end;
 
 function  RequestContext_RegisterSchemeHandlerFactory(const TObj: ICefRequestContext; const schemeName, domainName: PChar; const factory: ICefSchemeHandlerFactory): LongBool;  extdecl;
 begin
@@ -98,6 +101,7 @@ end;
 function  RequestContext_ClearSchemeHandlerFactories(const TObj: ICefRequestContext): LongBool;  extdecl;
 begin
   handleExceptionBegin
+  TObj.ClearSchemeHandlerFactories;
   handleExceptionEnd
 end;
 
@@ -125,9 +129,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure RequestContext_LoadExtension(const TObj: ICefRequestContext; const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);  extdecl;
+procedure RequestContext_LoadExtension(const TObj: ICefRequestContext; const root_directory: PChar; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);  extdecl;
 begin
   handleExceptionBegin
+
   handleExceptionEnd
 end;
 
@@ -149,13 +154,13 @@ begin
   handleExceptionEnd
 end;
 
-function  RequestContext_GetExtension(const TObj: ICefRequestContext; const extension_id: PChar): ICefExtension;  extdecl;
+procedure  RequestContext_GetExtension(const TObj: ICefRequestContext; const extension_id: PChar; var Result: ICefExtension);  extdecl;
 begin
   handleExceptionBegin
   handleExceptionEnd
 end;
 
-function  RequestContext_GetMediaRouter(const TObj: ICefRequestContext; const callback: ICefCompletionCallback): ICefMediaRouter;  extdecl;
+procedure  RequestContext_GetMediaRouter(const TObj: ICefRequestContext; const callback: ICefCompletionCallback; var Result: ICefMediaRouter);  extdecl;
 begin
   handleExceptionBegin
   handleExceptionEnd
@@ -174,7 +179,7 @@ exports
     RequestContext_GetHandler,
     RequestContext_GetCachePath,
     RequestContext_GetCookieManager,
-    RequestContext_GetCookieManagerProc,
+    //RequestContext_GetCookieManagerProc,
     RequestContext_RegisterSchemeHandlerFactory,
     RequestContext_ClearSchemeHandlerFactories,
     RequestContext_ClearCertificateExceptions,
