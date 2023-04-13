@@ -24,6 +24,7 @@
 {$I CEF_LCL_Chromium_Event.inc}
 {$I CEF_LCL_Chromium_Proc.inc}
 {$I CEF_LCL_CommandLine.inc}
+{$I CEF_LCL_CompletionCallback.inc}
 {$I CEF_LCL_ContextMenu.inc}
 {$I CEF_LCL_Def.inc}
 {$I CEF_LCL_DictionaryValue.inc}

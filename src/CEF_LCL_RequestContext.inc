@@ -78,7 +78,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure  RequestContext_GetCookieManager(const TObj: ICefRequestContext; const callback: ICefCompletionCallback; var Result: ICefCookieManager);  extdecl;
+procedure  RequestContext_GetCookieManager(const TObj: ICefRequestContext; const callback: TCompletionCallbackRef; var Result: ICefCookieManager);  extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetCookieManager(callback);
