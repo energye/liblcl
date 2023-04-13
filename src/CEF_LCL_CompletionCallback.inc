@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefCompletionCallback_Create(var Result: TCompletionCallbackRef); extdecl;
+procedure CefCompletionCallbackRef_Create(var Result: TCompletionCallbackRef); extdecl;
 begin
   handleExceptionBegin
   Result := TCompletionCallbackRef.Create;
@@ -17,6 +17,6 @@ begin
 end;
 
 exports
-    CefCompletionCallback_Create,
+    CefCompletionCallbackRef_Create,
     CefCompletionCallback_OnComplete
 ;
