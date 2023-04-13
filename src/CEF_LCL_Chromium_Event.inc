@@ -372,9 +372,16 @@ begin
   EventMethodCode
 end;
 
+//EVENT_TYPE:ChromiumEventOnGetAuthCredentials
+procedure CEFChromium_SetOnGetAuthCredentials(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnGetAuthCredentials}
+  {$DEFINE EventName := OnGetAuthCredentials}
+  EventMethodCode
+end;
+
 
 exports
-{ ====  chromium events ====  }
    CEFChromium_SetOnAfterCreated,
    CEFChromium_SetOnBeforeBrowse,
    CEFChromium_SetOnAddressChange,
@@ -390,44 +397,36 @@ exports
    CEFChromium_SetOnContextMenuDismissed,
    CEFChromium_SetOnBeforePopup,
    CEFChromium_SetOnOpenUrlFromTab,
-   //drag - css [-webkit-app-region： drag/no-drag]
    CEFChromium_SetOnDragEnter,
-   CEFChromium_SetOnDraggableRegionsChanged,
-   //load loading
+   CEFChromium_SetOnDraggableRegionsChanged,//drag - css [-webkit-app-region： drag/no-drag]
    CEFChromium_SetOnLoadStart,
    CEFChromium_SetOnLoadingStateChange,
    CEFChromium_SetOnLoadingProgressChange,
    CEFChromium_SetOnLoadError,
    CEFChromium_SetOnLoadEnd,
-   //download
    CEFChromium_SetOnBeforeDownload,
    CEFChromium_SetOnDownloadUpdated,
-   //msg
    CEFChromium_SetOnRenderCompMsg,
    CEFChromium_SetOnWidgetCompMsg,
    CEFChromium_SetOnBrowserCompMsg,
-   //Render
    CEFChromium_SetOnRenderProcessTerminated,
    CEFChromium_SetOnRenderViewReady,
    CEFChromium_SetOnScrollOffsetChanged,
-   //ProcessMessage
    CEFChromium_SetOnProcessMessageReceived,
    CEFChromium_SetOnFindResult,
-   //cookie
    CEFChromium_SetOnCookieVisitorDestroyed,
    CEFChromium_SetOnCookiesVisited,
    CEFChromium_SetOnCookiesFlushed,
    CEFChromium_SetOnCookiesDeleted,
    CEFChromium_SetOnCookieSet,
-   //resource
    CEFChromium_SetOnBeforeResourceLoad,
    CEFChromium_SetOnResourceResponse,
    CEFChromium_SetOnResourceRedirect,
    CEFChromium_SetOnResourceLoadComplete,
-   //frame
    CEFChromium_SetOnFrameAttached,
    CEFChromium_SetOnFrameCreated,
    CEFChromium_SetOnFrameDetached,
-   CEFChromium_SetOnMainFrameChanged
+   CEFChromium_SetOnMainFrameChanged,
+   CEFChromium_SetOnGetAuthCredentials
 ;
 
