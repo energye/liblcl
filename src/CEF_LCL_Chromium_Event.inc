@@ -380,6 +380,70 @@ begin
   EventMethodCode
 end;
 
+//EVENT_TYPE:ChromiumEventOnExtensionBeforeBackgroundBrowser
+procedure CEFChromium_SetOnExtensionBeforeBackgroundBrowser(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionBeforeBackgroundBrowser}
+  {$DEFINE EventName := OnExtensionBeforeBackgroundBrowser}
+  EventMethodCode
+end;
+
+//EVENT_TYPE:ChromiumEventOnExtensionBeforeBrowser
+procedure CEFChromium_SetOnExtensionBeforeBrowser(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionBeforeBrowser}
+  {$DEFINE EventName := OnExtensionBeforeBrowser}
+  EventMethodCode
+end;
+
+//EVENT_TYPE:ChromiumEventOnExtensionCanAccessBrowser
+procedure CEFChromium_SetOnExtensionCanAccessBrowser(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionCanAccessBrowser}
+  {$DEFINE EventName := OnExtensionCanAccessBrowser}
+  EventMethodCode
+end;
+
+//EVENT_TYPE:ChromiumEventOnExtensionGetActiveBrowser
+procedure CEFChromium_SetOnExtensionGetActiveBrowser(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionGetActiveBrowser}
+  {$DEFINE EventName := OnExtensionGetActiveBrowser}
+  EventMethodCode
+end;
+
+//EVENT_TYPE:ChromiumEventOnExtensionGetExtensionResource
+procedure CEFChromium_SetOnExtensionGetExtensionResource(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionGetExtensionResource}
+  {$DEFINE EventName := OnExtensionGetExtensionResource}
+  EventMethodCode
+end;
+
+//EVENT_TYPE:ChromiumEventOnExtensionLoaded
+procedure CEFChromium_SetOnExtensionLoaded(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionLoaded}
+  {$DEFINE EventName := OnExtensionLoaded}
+  EventMethodCode
+end;
+
+//EVENT_TYPE:ChromiumEventOnExtensionLoadFailed
+procedure CEFChromium_SetOnExtensionLoadFailed(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionLoadFailed}
+  {$DEFINE EventName := OnExtensionLoadFailed}
+  EventMethodCode
+end;
+
+//EVENT_TYPE:ChromiumEventOnExtensionUnloaded
+procedure CEFChromium_SetOnExtensionUnloaded(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionUnloaded}
+  {$DEFINE EventName := OnExtensionUnloaded}
+  EventMethodCode
+end;
+
 
 exports
    CEFChromium_SetOnAfterCreated,
@@ -427,6 +491,14 @@ exports
    CEFChromium_SetOnFrameCreated,
    CEFChromium_SetOnFrameDetached,
    CEFChromium_SetOnMainFrameChanged,
-   CEFChromium_SetOnGetAuthCredentials
+   CEFChromium_SetOnGetAuthCredentials,
+   CEFChromium_SetOnExtensionBeforeBackgroundBrowser,
+   CEFChromium_SetOnExtensionBeforeBrowser,
+   CEFChromium_SetOnExtensionCanAccessBrowser,
+   CEFChromium_SetOnExtensionGetActiveBrowser,
+   CEFChromium_SetOnExtensionGetExtensionResource,
+   CEFChromium_SetOnExtensionLoaded,
+   CEFChromium_SetOnExtensionLoadFailed,
+   CEFChromium_SetOnExtensionUnloaded
 ;
 

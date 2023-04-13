@@ -75,7 +75,8 @@ function TExtensionHandlerRef.OnBeforeBackgroundBrowser(const extension: ICefExt
 begin
   if (BeforeBackgroundBrowserPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(BeforeBackgroundBrowserPtr, [extension, PChar(string(url)), @client, @settings]);
+    Result := False;
+    TCEFEventCallback.SendEvent(BeforeBackgroundBrowserPtr, [extension, PChar(string(url)), @client, @settings, @Result]);
   end;
 end;
 
@@ -84,7 +85,8 @@ function TExtensionHandlerRef.OnBeforeBrowser(const extension: ICefExtension; co
 begin
   if (BeforeBrowserPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(BeforeBrowserPtr, [extension, browser, active_browser, index, PChar(string(url)), active, @windowInfo, @client, @settings]);
+    Result := False;
+    TCEFEventCallback.SendEvent(BeforeBrowserPtr, [extension, browser, active_browser, index, PChar(string(url)), active, @windowInfo, @client, @settings, @Result]);
   end;
 end;
 
