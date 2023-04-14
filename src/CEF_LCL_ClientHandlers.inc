@@ -5,36 +5,36 @@
 //----------------------------------------
 
 {== AudioHandler ==}
-procedure CefAudioHandlerRef_Create(var Result: TAudioHandlerRef); extdecl;
+procedure CefAudioHandlerRef_Create(var Result: ICefAudioHandler); extdecl;
 begin
   handleExceptionBegin
   Result := TAudioHandlerRef.Create;
   handleExceptionEnd
 end;
 
-procedure CefAudioHandler_OnGetAudioParameters(const AObj: TAudioHandlerRef; AEventData: Pointer); extdecl;
+procedure CefAudioHandler_OnGetAudioParameters(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
 begin
-    AObj.GetAudioParametersPtr := AEventData;
+    TAudioHandlerRef(AObj).GetAudioParametersPtr := AEventData;
 end;
 
-procedure CefAudioHandler_OnAudioStreamStarted(const AObj: TAudioHandlerRef; AEventData: Pointer); extdecl;
+procedure CefAudioHandler_OnAudioStreamStarted(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
 begin
-    AObj.AudioStreamStartedPtr := AEventData;
+    TAudioHandlerRef(AObj).AudioStreamStartedPtr := AEventData;
 end;
 
-procedure CefAudioHandler_OnAudioStreamPacket(const AObj: TAudioHandlerRef; AEventData: Pointer); extdecl;
+procedure CefAudioHandler_OnAudioStreamPacket(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
 begin
-    AObj.AudioStreamPacketPtr := AEventData;
+    TAudioHandlerRef(AObj).AudioStreamPacketPtr := AEventData;
 end;
 
-procedure CefAudioHandler_OnAudioStreamStopped(const AObj: TAudioHandlerRef; AEventData: Pointer); extdecl;
+procedure CefAudioHandler_OnAudioStreamStopped(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
 begin
-    AObj.AudioStreamStoppedPtr := AEventData;
+    TAudioHandlerRef(AObj).AudioStreamStoppedPtr := AEventData;
 end;
 
-procedure CefAudioHandler_OnAudioStreamError(const AObj: TAudioHandlerRef; AEventData: Pointer); extdecl;
+procedure CefAudioHandler_OnAudioStreamError(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
 begin
-    AObj.AudioStreamErrorPtr := AEventData;
+    TAudioHandlerRef(AObj).AudioStreamErrorPtr := AEventData;
 end;
 
 

@@ -279,6 +279,7 @@ end;
 
 constructor TClientRef.Create;
 begin
+  inherited Create;
   FAudioHandler := nil;
   FCommandHandler := nil;
   FContextMenuHandler := nil;
@@ -297,7 +298,6 @@ begin
   FPrintHandler := nil;
   FRenderHandler := nil;
   FRequestHandler := nil;
-  inherited Create;
 end;
 
 destructor TClientRef.Destroy;
