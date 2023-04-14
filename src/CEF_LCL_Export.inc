@@ -23,6 +23,8 @@
 {$I CEF_LCL_Callback_Register.inc}
 {$I CEF_LCL_Chromium_Event.inc}
 {$I CEF_LCL_Chromium_Proc.inc}
+{$I CEF_LCL_Client.inc}
+{$I CEF_LCL_ClientHandlers.inc}
 {$I CEF_LCL_CommandLine.inc}
 {$I CEF_LCL_CompletionCallback.inc}
 {$I CEF_LCL_ContextMenu.inc}

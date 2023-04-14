@@ -979,6 +979,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_CefClient(const AObj: TChromium; var Result: ICefClient); extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.CefClient;
+  handleExceptionEnd
+end;
+
 procedure CEFChromium_SendProcessMessageForV8Value(const AObj: ICefFrame; const PName: PChar; targetProcess: Integer; const arguments: ICefv8Value); extdecl;
 var
   message_ : ICefProcessMessage;
@@ -1112,6 +1119,7 @@ exports
   CEFChromium_GetDefaultEncoding,
   CEFChromium_SendProcessMessage,
   CEFChromium_SendProcessMessageForJSONBytes,
+  CEFChromium_CefClient,
   CEFChromium_SendProcessMessageForV8Value
 ;
 
