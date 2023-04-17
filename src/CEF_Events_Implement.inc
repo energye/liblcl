@@ -31,49 +31,13 @@ begin
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnBeforeContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
-var
-  PParams : PRContextMenuParams;
 begin
-  PParams := new(PRContextMenuParams);
-  PParams^.XCoord := PInteger(params.XCoord);
-  PParams^.YCoord := PInteger(params.YCoord);
-  PParams^.TypeFlags := PCardinal(params.TypeFlags);
-  PParams^.LinkUrl := PChar(string(params.LinkUrl));
-  PParams^.UnfilteredLinkUrl := PChar(string(params.UnfilteredLinkUrl));
-  PParams^.SourceUrl := PChar(string(params.SourceUrl));
-  PParams^.TitleText := PChar(string(params.TitleText));
-  PParams^.PageUrl := PChar(string(params.PageUrl));
-  PParams^.FrameUrl := PChar(string(params.FrameUrl));
-  PParams^.FrameCharset := PChar(string(params.FrameCharset));
-  PParams^.MediaType := PInteger(integer(params.MediaType));
-  PParams^.MediaStateFlags := PCardinal(params.MediaStateFlags);
-  PParams^.SelectionText := PChar(string(params.SelectionText));
-  PParams^.EditStateFlags := PCardinal(params.EditStateFlags);
-  SendEvent([Sender, browser, frame, PParams, model]);
-  PParams := nil;
+  SendEvent([Sender, browser, frame, params, model]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnContextMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: Cardinal; out Result: Boolean);
-var
-  PParams : PRContextMenuParams;
 begin
-  PParams := new(PRContextMenuParams);
-  PParams^.XCoord := PInteger(params.XCoord);
-  PParams^.YCoord := PInteger(params.YCoord);
-  PParams^.TypeFlags := PCardinal(params.TypeFlags);
-  PParams^.LinkUrl := PChar(string(params.LinkUrl));
-  PParams^.UnfilteredLinkUrl := PChar(string(params.UnfilteredLinkUrl));
-  PParams^.SourceUrl := PChar(string(params.SourceUrl));
-  PParams^.TitleText := PChar(string(params.TitleText));
-  PParams^.PageUrl := PChar(string(params.PageUrl));
-  PParams^.FrameUrl := PChar(string(params.FrameUrl));
-  PParams^.FrameCharset := PChar(string(params.FrameCharset));
-  PParams^.MediaType := PInteger(integer(params.MediaType));
-  PParams^.MediaStateFlags := PCardinal(params.MediaStateFlags);
-  PParams^.SelectionText := PChar(string(params.SelectionText));
-  PParams^.EditStateFlags := PCardinal(params.EditStateFlags);
-  SendEvent([Sender, browser, frame, PParams, commandId, eventFlags, @Result]);
-  PParams := nil;
+  SendEvent([Sender, browser, frame, params, commandId, eventFlags, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnContextMenuDismissed(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame);

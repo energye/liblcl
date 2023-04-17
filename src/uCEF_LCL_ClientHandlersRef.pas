@@ -422,9 +422,10 @@ end;
 {== CommandHandler ==}
 function TCommandHandlerRef.OnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
 begin
+  Result := False;
   if (ChromeCommandPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ChromeCommandPtr, []);
+    TCEFEventCallback.SendEvent(ChromeCommandPtr, [browser, command_id, disposition, @Result]);
   end;
 end;
 
@@ -449,23 +450,25 @@ procedure TContextMenuHandlerRef.OnBeforeContextMenu(const browser: ICefBrowser;
 begin
   if (BeforeContextMenuPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(BeforeContextMenuPtr, []);
+    TCEFEventCallback.SendEvent(BeforeContextMenuPtr, [browser, frame, params, model]);
   end;
 end;
 
 function TContextMenuHandlerRef.RunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback): boolean;
 begin
+  Result := False;
   if (RunContextMenuPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(RunContextMenuPtr, []);
+    TCEFEventCallback.SendEvent(RunContextMenuPtr, [browser, frame, params, model, callback, @Result]);
   end;
 end;
 
 function TContextMenuHandlerRef.OnContextMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: integer; eventFlags: TCefEventFlags): boolean;
 begin
+  Result := False;
   if (ContextMenuCommandPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ContextMenuCommandPtr, []);
+    TCEFEventCallback.SendEvent(ContextMenuCommandPtr, [browser, frame, params, commandId, eventFlags]);
   end;
 end;
 
@@ -473,23 +476,25 @@ procedure TContextMenuHandlerRef.OnContextMenuDismissed(const browser: ICefBrows
 begin
   if (ContextMenuDismissedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ContextMenuDismissedPtr, []);
+    TCEFEventCallback.SendEvent(ContextMenuDismissedPtr, [browser, frame]);
   end;
 end;
 
 function TContextMenuHandlerRef.RunQuickMenu(const browser: ICefBrowser; const frame: ICefFrame; location: PCefPoint; size: PCefSize; edit_state_flags: TCefQuickMenuEditStateFlags; const callback: ICefRunQuickMenuCallback): boolean;
 begin
+  Result := False;
   if (RunQuickMenuPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(RunQuickMenuPtr, []);
+    TCEFEventCallback.SendEvent(RunQuickMenuPtr, [browser, frame, location, size, edit_state_flags, callback, @Result]);
   end;
 end;
 
 function TContextMenuHandlerRef.OnQuickMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; command_id: integer; event_flags: TCefEventFlags): boolean;
 begin
+  Result := False;
   if (QuickMenuCommandPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(QuickMenuCommandPtr, []);
+    TCEFEventCallback.SendEvent(QuickMenuCommandPtr, [browser, frame, command_id, event_flags, @Result]);
   end;
 end;
 
@@ -497,7 +502,7 @@ procedure TContextMenuHandlerRef.OnQuickMenuDismissed(const browser: ICefBrowser
 begin
   if (QuickMenuDismissedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(QuickMenuDismissedPtr, []);
+    TCEFEventCallback.SendEvent(QuickMenuDismissedPtr, [browser, frame]);
   end;
 end;
 

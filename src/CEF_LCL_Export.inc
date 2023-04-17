@@ -28,6 +28,7 @@
 {$I CEF_LCL_CommandLine.inc}
 {$I CEF_LCL_CompletionCallback.inc}
 {$I CEF_LCL_ContextMenu.inc}
+{$I CEF_LCL_ContextMenuParams.inc}
 {$I CEF_LCL_Def.inc}
 {$I CEF_LCL_DictionaryValue.inc}
 {$I CEF_LCL_Display.inc}
