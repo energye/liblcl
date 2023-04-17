@@ -9,6 +9,11 @@ begin
     Result := TClientRef.Create;
 end;
 
+procedure CefClientRef_CreateForChromium(const Chromium: TChromium; aDevToolsClient : boolean; var Result: ICefClient); extdecl;
+begin
+    Result := TCustomClientHandler.Create(Chromium, aDevToolsClient);
+end;
+
 procedure CefClient_GetAudioHandler(const TObj: ICefClient; var aHandler: ICefAudioHandler); extdecl;
 var
   TempHandler : ICefAudioHandler;
@@ -205,6 +210,7 @@ end;
 
 exports
     CefClientRef_Create,
+    CefClientRef_CreateForChromium,
     CefClient_GetAudioHandler,
     CefClient_GetCommandHandler,
     CefClient_GetContextMenuHandler,

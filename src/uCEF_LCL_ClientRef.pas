@@ -21,8 +21,8 @@ type
   {== Client ==}
   TClientRef = class(TCefClientOwn)
   public
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     FAudioHandler: ICefAudioHandler;
     FCommandHandler: ICefCommandHandler;

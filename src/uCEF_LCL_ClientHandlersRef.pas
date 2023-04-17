@@ -28,8 +28,8 @@ type
     AudioStreamPacketPtr: Pointer;
     AudioStreamStoppedPtr: Pointer;
     AudioStreamErrorPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnGetAudioParameters(const browser: ICefBrowser; var params: TCefAudioParameters; var aResult: boolean); override;
     procedure OnAudioStreamStarted(const browser: ICefBrowser; const params: TCefAudioParameters; channels: integer); override;
@@ -43,8 +43,8 @@ type
   TCommandHandlerRef = class(TCefCommandHandlerOwn)
   public
     ChromeCommandPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     function OnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean; override;
     procedure RemoveReferences; override;
@@ -60,8 +60,8 @@ type
     RunQuickMenuPtr: Pointer;
     QuickMenuCommandPtr: Pointer;
     QuickMenuDismissedPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnBeforeContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel); override;
     function RunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback): boolean; override;
@@ -77,8 +77,8 @@ type
   TDialogHandlerRef = class(TCefDialogHandlerOwn)
   public
     FileDialogPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     function OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): boolean; override;
     procedure RemoveReferences; override;
@@ -98,8 +98,8 @@ type
     LoadingProgressChangePtr: Pointer;
     CursorChangePtr: Pointer;
     MediaAccessChangePtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnAddressChange(const browser: ICefBrowser; const frame: ICefFrame; const url: ustring); override;
     procedure OnTitleChange(const browser: ICefBrowser; const title: ustring); override;
@@ -121,8 +121,8 @@ type
     CanDownloadPtr: Pointer;
     BeforeDownloadPtr: Pointer;
     DownloadUpdatedPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     function CanDownload(const browser: ICefBrowser; const url, request_method: ustring): boolean; override;
     procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); override;
@@ -135,8 +135,8 @@ type
   public
     DragEnterPtr: Pointer;
     DraggableRegionsChangedPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     function OnDragEnter(const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations): boolean; override;
     procedure OnDraggableRegionsChanged(const browser: ICefBrowser; const frame: ICefFrame; regionsCount: nativeuint; const regions: PCefDraggableRegionArray); override;
@@ -147,8 +147,8 @@ type
   TFindHandlerRef = class(TCefFindHandlerOwn)
   public
     FindResultPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnFindResult(const browser: ICefBrowser; identifier, Count: integer; const selectionRect: PCefRect; activeMatchOrdinal: integer; finalUpdate: boolean); override;
     procedure RemoveReferences; override;
@@ -160,8 +160,8 @@ type
     TakeFocusPtr: Pointer;
     SetFocusPtr: Pointer;
     GotFocusPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnTakeFocus(const browser: ICefBrowser; Next: boolean); override;
     function OnSetFocus(const browser: ICefBrowser; Source: TCefFocusSource): boolean; override;
@@ -176,8 +176,8 @@ type
     FrameAttachedPtr: Pointer;
     FrameDetachedPtr: Pointer;
     MainFrameChangedPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame); override;
     procedure OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean); override;
@@ -192,8 +192,8 @@ type
     RequestMediaAccessPermissionPtr: Pointer;
     ShowPermissionPromptPtr: Pointer;
     DismissPermissionPromptPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     function OnRequestMediaAccessPermission(const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback): boolean; override;
     function OnShowPermissionPrompt(const browser: ICefBrowser; prompt_id: uint64; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefPermissionPromptCallback): boolean; override;
@@ -208,8 +208,8 @@ type
     BeforeUnloadDialogPtr: Pointer;
     ResetDialogStatePtr: Pointer;
     DialogClosedPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     function OnJsdialog(const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: boolean): boolean; override;
     function OnBeforeUnloadDialog(const browser: ICefBrowser; const messageText: ustring; isReload: boolean; const callback: ICefJsDialogCallback): boolean; override;
@@ -223,8 +223,8 @@ type
   public
     PreKeyEventPtr: Pointer;
     KeyEventPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     function OnPreKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: boolean): boolean; override;
     function OnKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle): boolean; override;
@@ -238,8 +238,8 @@ type
     AfterCreatedPtr: Pointer;
     DoClosePtr: Pointer;
     BeforeClosePtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     function OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: boolean): boolean; override;
     procedure OnAfterCreated(const browser: ICefBrowser); override;
@@ -255,8 +255,8 @@ type
     LoadStartPtr: Pointer;
     LoadEndPtr: Pointer;
     LoadErrorPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean); override;
     procedure OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType); override;
@@ -274,8 +274,8 @@ type
     PrintJobPtr: Pointer;
     PrintResetPtr: Pointer;
     PDFPaperSizePtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnPrintStart(const browser: ICefBrowser); override;
     procedure OnPrintSettings(const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean); override;
@@ -306,8 +306,8 @@ type
     IMECompositionRangeChangedPtr: Pointer;
     TextSelectionChangedPtr: Pointer;
     VirtualKeyboardRequestedPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure GetAccessibilityHandler(var aAccessibilityHandler: ICefAccessibilityHandler); override;
     function GetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): boolean; override;
@@ -341,8 +341,8 @@ type
     RenderViewReadyPtr: Pointer;
     RenderProcessTerminatedPtr: Pointer;
     DocumentAvailableInMainFramePtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     function OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: boolean): boolean; override;
     function OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean): boolean; override;
@@ -371,7 +371,7 @@ procedure TAudioHandlerRef.OnAudioStreamStarted(const browser: ICefBrowser; cons
 begin
   if (AudioStreamStartedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(AudioStreamStartedPtr, []);
+    TCEFEventCallback.SendEvent(AudioStreamStartedPtr, [browser, @params, channels]);
   end;
 end;
 
@@ -379,7 +379,7 @@ procedure TAudioHandlerRef.OnAudioStreamPacket(const browser: ICefBrowser; const
 begin
   if (AudioStreamPacketPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(AudioStreamPacketPtr, []);
+    TCEFEventCallback.SendEvent(AudioStreamPacketPtr, [browser, Data, frames, pts]);
   end;
 end;
 
@@ -387,7 +387,7 @@ procedure TAudioHandlerRef.OnAudioStreamStopped(const browser: ICefBrowser);
 begin
   if (AudioStreamStoppedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(AudioStreamStoppedPtr, []);
+    TCEFEventCallback.SendEvent(AudioStreamStoppedPtr, [browser]);
   end;
 end;
 
@@ -395,7 +395,7 @@ procedure TAudioHandlerRef.OnAudioStreamError(const browser: ICefBrowser; const 
 begin
   if (AudioStreamErrorPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(AudioStreamErrorPtr, []);
+    TCEFEventCallback.SendEvent(AudioStreamErrorPtr, [browser, PChar(string(message_))]);
   end;
 end;
 
