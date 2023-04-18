@@ -468,7 +468,7 @@ begin
   Result := False;
   if (ContextMenuCommandPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ContextMenuCommandPtr, [browser, frame, params, commandId, eventFlags]);
+    TCEFEventCallback.SendEvent(ContextMenuCommandPtr, [browser, frame, params, commandId, eventFlags, @Result]);
   end;
 end;
 

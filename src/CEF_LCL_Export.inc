@@ -47,6 +47,8 @@
 {$I CEF_LCL_Request.inc}
 {$I CEF_LCL_RequestContext.inc}
 {$I CEF_LCL_Response.inc}
+{$I CEF_LCL_RunContextMenuCallback.inc}
+{$I CEF_LCL_RunQuickMenuCallback.inc}
 {$I CEF_LCL_StreamReader.inc}
 {$I CEF_LCL_StringMultiMap.inc}
 {$I CEF_LCL_v8Accessor.inc}
