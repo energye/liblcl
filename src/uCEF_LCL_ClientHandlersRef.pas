@@ -12,7 +12,7 @@ unit uCEF_LCL_ClientHandlersRef;
 interface
 
 uses
-  Classes,
+  Classes, uCEF_LCL_Entity,
   uCEFTypes, uCEFInterfaces, uCEFClient, uCEFAudioHandler, uCEFCommandHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFDisplayHandler,
   uCEFDownloadHandler, uCEFDragHandler, uCEFFindHandler, uCEFFocusHandler, uCEFFrameHandler, uCEFPermissionHandler, uCEFJsdialogHandler, uCEFKeyboardHandler,
   uCEFLifeSpanHandler, uCEFLoadHandler, uCEFPrintHandler, uCEFRenderHandler, uCEFRequestHandler,
@@ -534,7 +534,7 @@ begin
   if (FileDialogPtr <> nil) then
   begin
     Result := False;
-    TCEFEventCallback.SendEvent(FileDialogPtr, [browser, mode, title, PChar(string(defaultFilePath)), acceptFilters, callback, @Result]);
+    TCEFEventCallback.SendEvent(FileDialogPtr, [browser, mode, PChar(string(title)), PChar(string(defaultFilePath)), acceptFilters, callback, @Result]);
   end;
 end;
 
@@ -559,7 +559,7 @@ procedure TDisplayHandlerRef.OnAddressChange(const browser: ICefBrowser; const f
 begin
   if (AddressChangePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(AddressChangePtr, []);
+    TCEFEventCallback.SendEvent(AddressChangePtr, [browser, frame, PChar(string(url))]);
   end;
 end;
 
@@ -567,7 +567,7 @@ procedure TDisplayHandlerRef.OnTitleChange(const browser: ICefBrowser; const tit
 begin
   if (TitleChangePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(TitleChangePtr, []);
+    TCEFEventCallback.SendEvent(TitleChangePtr, [browser, PChar(string(title))]);
   end;
 end;
 
@@ -575,7 +575,7 @@ procedure TDisplayHandlerRef.OnFaviconUrlChange(const browser: ICefBrowser; cons
 begin
   if (FaviconUrlChangePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(FaviconUrlChangePtr, []);
+    TCEFEventCallback.SendEvent(FaviconUrlChangePtr, [browser, iconUrls]);
   end;
 end;
 
@@ -583,15 +583,20 @@ procedure TDisplayHandlerRef.OnFullScreenModeChange(const browser: ICefBrowser; 
 begin
   if (FullScreenModeChangePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(FullScreenModeChangePtr, []);
+    TCEFEventCallback.SendEvent(FullScreenModeChangePtr, [browser, fullscreen]);
   end;
 end;
 
 function TDisplayHandlerRef.OnTooltip(const browser: ICefBrowser; var Text: ustring): boolean;
+var
+  PRetText: PChar;
 begin
   if (TooltipPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(TooltipPtr, []);
+    PRetText := new(PChar);
+    TCEFEventCallback.SendEvent(TooltipPtr, [browser, @PRetText]);
+    Text := PCharToUStr(PRetText);
+    PRetText := nil;
   end;
 end;
 
@@ -599,7 +604,7 @@ procedure TDisplayHandlerRef.OnStatusMessage(const browser: ICefBrowser; const V
 begin
   if (StatusMessagePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(StatusMessagePtr, []);
+    TCEFEventCallback.SendEvent(StatusMessagePtr, [browser, PChar(string(Value))]);
   end;
 end;
 
@@ -607,7 +612,7 @@ function TDisplayHandlerRef.OnConsoleMessage(const browser: ICefBrowser; level: 
 begin
   if (ConsoleMessagePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ConsoleMessagePtr, []);
+    TCEFEventCallback.SendEvent(ConsoleMessagePtr, [browser, level, PChar(string(message_)), PChar(string(Source)), line]);
   end;
 end;
 
@@ -615,7 +620,7 @@ function TDisplayHandlerRef.OnAutoResize(const browser: ICefBrowser; const new_s
 begin
   if (AutoResizePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(AutoResizePtr, []);
+    TCEFEventCallback.SendEvent(AutoResizePtr, [browser, new_size]);
   end;
 end;
 
@@ -623,7 +628,7 @@ procedure TDisplayHandlerRef.OnLoadingProgressChange(const browser: ICefBrowser;
 begin
   if (LoadingProgressChangePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(LoadingProgressChangePtr, []);
+    TCEFEventCallback.SendEvent(LoadingProgressChangePtr, [browser, @progress]);
   end;
 end;
 
@@ -631,7 +636,7 @@ procedure TDisplayHandlerRef.OnCursorChange(const browser: ICefBrowser; cursor_:
 begin
   if (CursorChangePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(CursorChangePtr, []);
+    TCEFEventCallback.SendEvent(CursorChangePtr, [browser, cursor_, CursorType, customCursorInfo, @aResult]);
   end;
 end;
 
@@ -639,7 +644,7 @@ procedure TDisplayHandlerRef.OnMediaAccessChange(const browser: ICefBrowser; has
 begin
   if (MediaAccessChangePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(MediaAccessChangePtr, []);
+    TCEFEventCallback.SendEvent(MediaAccessChangePtr, [browser, has_video_access, has_audio_access]);
   end;
 end;
 

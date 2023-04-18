@@ -35,6 +35,7 @@
 {$I CEF_LCL_DownloadItem.inc}
 {$I CEF_LCL_Extension.inc}
 {$I CEF_LCL_ExtensionHandler.inc}
+{$I CEF_LCL_FileDialogCallback.inc}
 {$I CEF_LCL_Frame.inc}
 {$I CEF_LCL_GetExtensionResourceCallback.inc}
 {$I CEF_LCL_Image.inc}

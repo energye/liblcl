@@ -93,6 +93,27 @@ begin
     AObj.QuickMenuDismissedPtr := AEventData;
 end;
 
+{== DialogHandler ==}
+procedure CefDialogHandlerRef_Create(var Result: ICefDialogHandler); extdecl;
+begin
+  handleExceptionBegin
+  Result := TDialogHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefDialogHandler_OnFileDialog(const AObj: TDialogHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.FileDialogPtr := AEventData;
+end;
+
+{== DisplayHandler ==}
+procedure CefDisplayHandlerRef_Create(var Result: ICefDisplayHandler); extdecl;
+begin
+  handleExceptionBegin
+  Result := TDisplayHandlerRef.Create;
+  handleExceptionEnd
+end;
+
 exports
   {== AudioHandler ==}
   CefAudioHandlerRef_Create,
@@ -112,5 +133,10 @@ exports
   CefContextMenuHandler_OnContextMenuDismissed,
   CefContextMenuHandler_RunQuickMenu,
   CefContextMenuHandler_OnQuickMenuCommand,
-  CefContextMenuHandler_OnQuickMenuDismissed
+  CefContextMenuHandler_OnQuickMenuDismissed,
+  {== DialogHandler ==}
+  CefDialogHandlerRef_Create,
+  CefDialogHandler_OnFileDialog,
+  {== DisplayHandler ==}
+  CefDisplayHandlerRef_Create
 ;
