@@ -591,12 +591,17 @@ function TDisplayHandlerRef.OnTooltip(const browser: ICefBrowser; var Text: ustr
 var
   PRetText: PChar;
 begin
-  if (TooltipPtr <> nil) then
-  begin
-    PRetText := new(PChar);
-    TCEFEventCallback.SendEvent(TooltipPtr, [browser, @PRetText]);
-    Text := PCharToUStr(PRetText);
-    PRetText := nil;
+  try
+    Result := False;
+    if (TooltipPtr <> nil) then
+    begin
+      PRetText := new(PChar);
+      TCEFEventCallback.SendEvent(TooltipPtr, [browser, @PRetText, @Result]);
+      Text := PCharToUStr(PRetText);
+    end;
+  finally
+    if PRetText <> nil then
+      PRetText := nil;
   end;
 end;
 
@@ -610,17 +615,19 @@ end;
 
 function TDisplayHandlerRef.OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, Source: ustring; line: integer): boolean;
 begin
+  Result := False;
   if (ConsoleMessagePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ConsoleMessagePtr, [browser, level, PChar(string(message_)), PChar(string(Source)), line]);
+    TCEFEventCallback.SendEvent(ConsoleMessagePtr, [browser, level, PChar(string(message_)), PChar(string(Source)), line, @Result]);
   end;
 end;
 
 function TDisplayHandlerRef.OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): boolean;
 begin
+  Result := False;
   if (AutoResizePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(AutoResizePtr, [browser, new_size]);
+    TCEFEventCallback.SendEvent(AutoResizePtr, [browser, new_size, @Result]);
   end;
 end;
 

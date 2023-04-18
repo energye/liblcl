@@ -114,6 +114,61 @@ begin
   handleExceptionEnd
 end;
 
+procedure CefDisplayHandler_OnAddressChange(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.AddressChangePtr := AEventData;
+end;
+
+procedure CefDisplayHandler_OnTitleChange(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.TitleChangePtr := AEventData;
+end;
+
+procedure CefDisplayHandler_OnFaviconUrlChange(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.FaviconUrlChangePtr := AEventData;
+end;
+
+procedure CefDisplayHandler_OnFullScreenModeChange(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.FullScreenModeChangePtr := AEventData;
+end;
+
+procedure CefDisplayHandler_OnTooltip(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.TooltipPtr := AEventData;
+end;
+
+procedure CefDisplayHandler_OnStatusMessage(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.StatusMessagePtr := AEventData;
+end;
+
+procedure CefDisplayHandler_OnConsoleMessage(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.ConsoleMessagePtr := AEventData;
+end;
+
+procedure CefDisplayHandler_OnAutoResize(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.AutoResizePtr := AEventData;
+end;
+
+procedure CefDisplayHandler_OnLoadingProgressChange(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.LoadingProgressChangePtr := AEventData;
+end;
+
+procedure CefDisplayHandler_OnCursorChange(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.CursorChangePtr := AEventData;
+end;
+
+procedure CefDisplayHandler_OnMediaAccessChange(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.MediaAccessChangePtr := AEventData;
+end;
+
 exports
   {== AudioHandler ==}
   CefAudioHandlerRef_Create,
@@ -138,5 +193,16 @@ exports
   CefDialogHandlerRef_Create,
   CefDialogHandler_OnFileDialog,
   {== DisplayHandler ==}
-  CefDisplayHandlerRef_Create
+  CefDisplayHandlerRef_Create,
+  CefDisplayHandler_OnAddressChange,
+  CefDisplayHandler_OnTitleChange,
+  CefDisplayHandler_OnFaviconUrlChange,
+  CefDisplayHandler_OnFullScreenModeChange,
+  CefDisplayHandler_OnTooltip,
+  CefDisplayHandler_OnStatusMessage,
+  CefDisplayHandler_OnConsoleMessage,
+  CefDisplayHandler_OnAutoResize,
+  CefDisplayHandler_OnLoadingProgressChange,
+  CefDisplayHandler_OnCursorChange,
+  CefDisplayHandler_OnMediaAccessChange
 ;
