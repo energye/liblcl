@@ -210,6 +210,121 @@ begin
     AObj.DraggableRegionsChangedPtr := AEventData;
 end;
 
+{== FindHandler ==}
+procedure CefFindHandlerRef_Create(var Result: ICefFindHandler); extdecl;
+begin
+  handleExceptionBegin
+  Result := TFindHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefFindHandler_OnFindResult(const AObj: TFindHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.FindResultPtr := AEventData;
+end;
+
+{== FocusHandler ==}
+procedure CefFocusHandlerRef_Create(var Result: ICefFocusHandler); extdecl;
+begin
+  handleExceptionBegin
+  Result := TFocusHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefFocusHandler_OnTakeFocus(const AObj: TFocusHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.TakeFocusPtr := AEventData;
+end;
+
+procedure CefFocusHandler_OnSetFocus(const AObj: TFocusHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.SetFocusPtr := AEventData;
+end;
+
+procedure CefFocusHandler_OnGotFocus(const AObj: TFocusHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.GotFocusPtr := AEventData;
+end;
+
+{== FrameHandler ==}
+procedure CefFrameHandlerRef_Create(var Result: ICefFrameHandler); extdecl;
+begin
+  handleExceptionBegin
+  Result := TFrameHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefFrameHandler_OnFrameCreated(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.FrameCreatedPtr := AEventData;
+end;
+
+procedure CefFrameHandler_OnFrameAttached(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.FrameAttachedPtr := AEventData;
+end;
+
+procedure CefFrameHandler_OnFrameDetached(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.FrameDetachedPtr := AEventData;
+end;
+
+procedure CefFrameHandler_OnMainFrameChanged(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.MainFrameChangedPtr := AEventData;
+end;
+
+{== PermissionHandler ==}
+procedure CefPermissionHandlerRef_Create(var Result: ICefPermissionHandler); extdecl;
+begin
+  handleExceptionBegin
+  Result := TPermissionHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefPermissionHandler_OnRequestMediaAccessPermission(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.RequestMediaAccessPermissionPtr := AEventData;
+end;
+
+procedure CefPermissionHandler_OnShowPermissionPrompt(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.ShowPermissionPromptPtr := AEventData;
+end;
+
+procedure CefPermissionHandler_OnDismissPermissionPrompt(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.DismissPermissionPromptPtr := AEventData;
+end;
+
+{== JsDialogHandler ==}
+procedure CefJsDialogHandlerRef_Create(var Result: ICefJsDialogHandler); extdecl;
+begin
+  handleExceptionBegin
+  Result := TJsDialogHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefJsDialogHandler_OnJsdialog(const AObj: TJsDialogHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.JsdialogPtr := AEventData;
+end;
+
+procedure CefJsDialogHandler_OnBeforeUnloadDialog(const AObj: TJsDialogHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.BeforeUnloadDialogPtr := AEventData;
+end;
+
+procedure CefJsDialogHandler_OnResetDialogState(const AObj: TJsDialogHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.ResetDialogStatePtr := AEventData;
+end;
+
+procedure CefJsDialogHandler_OnDialogClosed(const AObj: TJsDialogHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.DialogClosedPtr := AEventData;
+end;
+
 exports
   {== AudioHandler ==}
   CefAudioHandlerRef_Create,
@@ -254,5 +369,30 @@ exports
   {== DragHandler ==}
   CefDragHandlerRef_Create,
   CefDragHandler_OnDragEnter,
-  CefDragHandler_OnDraggableRegionsChanged
+  CefDragHandler_OnDraggableRegionsChanged,
+  {== FindHandler ==}
+  CefFindHandlerRef_Create,
+  CefFindHandler_OnFindResult,
+  {== FocusHandler ==}
+  CefFocusHandlerRef_Create,
+  CefFocusHandler_OnTakeFocus,
+  CefFocusHandler_OnSetFocus,
+  CefFocusHandler_OnGotFocus,
+  {== FrameHandler ==}
+  CefFrameHandlerRef_Create,
+  CefFrameHandler_OnFrameCreated,
+  CefFrameHandler_OnFrameAttached,
+  CefFrameHandler_OnFrameDetached,
+  CefFrameHandler_OnMainFrameChanged,
+  {== PermissionHandler ==}
+  CefPermissionHandlerRef_Create,
+  CefPermissionHandler_OnRequestMediaAccessPermission,
+  CefPermissionHandler_OnShowPermissionPrompt,
+  CefPermissionHandler_OnDismissPermissionPrompt,
+  {== JsDialogHandler ==}
+  CefJsDialogHandlerRef_Create,
+  CefJsDialogHandler_OnJsdialog,
+  CefJsDialogHandler_OnBeforeUnloadDialog,
+  CefJsDialogHandler_OnResetDialogState,
+  CefJsDialogHandler_OnDialogClosed
 ;

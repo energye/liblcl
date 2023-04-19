@@ -891,7 +891,6 @@ begin
   inherited Destroy;
 end;
 
-
 {== PermissionHandler ==}
 function TPermissionHandlerRef.OnRequestMediaAccessPermission(const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback): boolean;
 begin
@@ -907,7 +906,7 @@ begin
   Result := False;
   if (ShowPermissionPromptPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ShowPermissionPromptPtr, [browser, prompt_id, PChar(string(requesting_origin)), requested_permissions, callback]);
+    TCEFEventCallback.SendEvent(ShowPermissionPromptPtr, [browser, @prompt_id, PChar(string(requesting_origin)), requested_permissions, callback, @Result]);
   end;
 end;
 
@@ -915,7 +914,7 @@ procedure TPermissionHandlerRef.OnDismissPermissionPrompt(const browser: ICefBro
 begin
   if (DismissPermissionPromptPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(DismissPermissionPromptPtr, [browser, prompt_id, Result]);
+    TCEFEventCallback.SendEvent(DismissPermissionPromptPtr, [browser, @prompt_id, Result]);
   end;
 end;
 
@@ -938,14 +937,13 @@ begin
   inherited Destroy;
 end;
 
-
 {== JsDialogHandler ==}
 function TJsDialogHandlerRef.OnJsdialog(const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: boolean): boolean;
 begin
   Result := False;
   if (JsdialogPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(JsdialogPtr, [browser, PChar(string(originUrl)), dialogType, PChar(string(messageText)), PChar(string(defaultPromptText)), callback, @suppressMessage, @Result]);
+    TCEFEventCallback.SendEvent(JsdialogPtr, [browser, PChar(string(originUrl)), Integer(dialogType), PChar(string(messageText)), PChar(string(defaultPromptText)), callback, @suppressMessage, @Result]);
   end;
 end;
 
