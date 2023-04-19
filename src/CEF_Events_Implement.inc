@@ -50,10 +50,9 @@ begin
   SendEvent([Sender, aResultOK]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_KeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle;
-  out Result: boolean);
+procedure TLCLEvent.ChromiumEvent_OnKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out Result: boolean);
 begin
-  SendEvent([Sender, browser, event, @Result]);
+  SendEvent([Sender, browser, event, osEvent, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnLoadStart(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);

@@ -193,7 +193,7 @@ end;
 //EVENT_TYPE:ChromiumEventOnKeyEvent 键盘事件
 procedure CEFChromium_SetOnKeyEvent(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_KeyEvent}
+  {$DEFINE EventMethodName := ChromiumEvent_OnKeyEvent}
   {$DEFINE EventName := OnKeyEvent}
   EventMethodCode
 end;

@@ -325,6 +325,24 @@ begin
     AObj.DialogClosedPtr := AEventData;
 end;
 
+{== KeyboardHandler ==}
+procedure CefKeyboardHandlerRef_Create(var Result: TKeyboardHandlerRef); extdecl;
+begin
+  handleExceptionBegin
+  Result := TKeyboardHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefKeyboardHandler_OnPreKeyEvent(const AObj: TKeyboardHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.PreKeyEventPtr := AEventData;
+end;
+
+procedure CefKeyboardHandler_OnKeyEvent(const AObj: TKeyboardHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.KeyEventPtr := AEventData;
+end;
+
 exports
   {== AudioHandler ==}
   CefAudioHandlerRef_Create,
@@ -394,5 +412,9 @@ exports
   CefJsDialogHandler_OnJsdialog,
   CefJsDialogHandler_OnBeforeUnloadDialog,
   CefJsDialogHandler_OnResetDialogState,
-  CefJsDialogHandler_OnDialogClosed
+  CefJsDialogHandler_OnDialogClosed,
+  {== KeyboardHandler ==}
+  CefKeyboardHandlerRef_Create,
+  CefKeyboardHandler_OnPreKeyEvent,
+  CefKeyboardHandler_OnKeyEvent
 ;
