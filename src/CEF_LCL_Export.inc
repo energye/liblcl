@@ -33,6 +33,7 @@
 {$I CEF_LCL_DictionaryValue.inc}
 {$I CEF_LCL_Display.inc}
 {$I CEF_LCL_DownloadItem.inc}
+{$I CEF_LCL_DragData.inc}
 {$I CEF_LCL_Extension.inc}
 {$I CEF_LCL_ExtensionHandler.inc}
 {$I CEF_LCL_FileDialogCallback.inc}
@@ -51,6 +52,7 @@
 {$I CEF_LCL_RunContextMenuCallback.inc}
 {$I CEF_LCL_RunQuickMenuCallback.inc}
 {$I CEF_LCL_StreamReader.inc}
+{$I CEF_LCL_StreamWriter.inc}
 {$I CEF_LCL_StringMultiMap.inc}
 {$I CEF_LCL_v8Accessor.inc}
 {$I CEF_LCL_v8ArrayBufferReleaseCallback.inc}
