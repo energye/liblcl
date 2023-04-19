@@ -416,6 +416,7 @@ end;
 
 destructor TAudioHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -442,6 +443,7 @@ end;
 
 destructor TCommandHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -525,6 +527,7 @@ end;
 
 destructor TContextMenuHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -551,6 +554,7 @@ end;
 
 destructor TDialogHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -678,6 +682,7 @@ end;
 
 destructor TDisplayHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -722,6 +727,7 @@ end;
 
 destructor TDownloadHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -757,6 +763,7 @@ end;
 
 destructor TDragHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -782,6 +789,7 @@ end;
 
 destructor TFindHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -826,6 +834,7 @@ end;
 
 destructor TFocusHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -878,6 +887,7 @@ end;
 
 destructor TFrameHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -924,6 +934,7 @@ end;
 
 destructor TPermissionHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -979,6 +990,7 @@ end;
 
 destructor TJsDialogHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -1016,6 +1028,7 @@ end;
 
 destructor TKeyboardHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -1089,6 +1102,7 @@ end;
 
 destructor TLifeSpanHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -1142,6 +1156,7 @@ end;
 
 destructor TLoadHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -1213,6 +1228,7 @@ end;
 
 destructor TPrintHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -1387,6 +1403,7 @@ end;
 
 destructor TRenderHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 
@@ -1492,6 +1509,7 @@ end;
 
 destructor TRequestHandlerRef.Destroy;
 begin
+  RemoveReferences;
   inherited Destroy;
 end;
 

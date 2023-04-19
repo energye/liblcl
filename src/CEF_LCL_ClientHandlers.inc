@@ -169,6 +169,47 @@ begin
     AObj.MediaAccessChangePtr := AEventData;
 end;
 
+{== DownloadHandler ==}
+procedure CefDownloadHandlerRef_Create(var Result: ICefDownloadHandler); extdecl;
+begin
+  handleExceptionBegin
+  Result := TDownloadHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefDownloadHandler_CanDownload(const AObj: TDownloadHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.CanDownloadPtr := AEventData;
+end;
+
+procedure CefDownloadHandler_OnBeforeDownload(const AObj: TDownloadHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.BeforeDownloadPtr := AEventData;
+end;
+
+procedure CefDownloadHandler_OnDownloadUpdated(const AObj: TDownloadHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.DownloadUpdatedPtr := AEventData;
+end;
+
+{== DragHandler ==}
+procedure CefDragHandlerRef_Create(var Result: ICefDragHandler); extdecl;
+begin
+  handleExceptionBegin
+  Result := TDragHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefDragHandler_OnDragEnter(const AObj: TDragHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.DragEnterPtr := AEventData;
+end;
+
+procedure CefDragHandler_OnDraggableRegionsChanged(const AObj: TDragHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.DraggableRegionsChangedPtr := AEventData;
+end;
+
 exports
   {== AudioHandler ==}
   CefAudioHandlerRef_Create,
@@ -204,5 +245,14 @@ exports
   CefDisplayHandler_OnAutoResize,
   CefDisplayHandler_OnLoadingProgressChange,
   CefDisplayHandler_OnCursorChange,
-  CefDisplayHandler_OnMediaAccessChange
+  CefDisplayHandler_OnMediaAccessChange,
+  {== DownloadHandler ==}
+  CefDownloadHandlerRef_Create,
+  CefDownloadHandler_CanDownload,
+  CefDownloadHandler_OnBeforeDownload,
+  CefDownloadHandler_OnDownloadUpdated,
+  {== DragHandler ==}
+  CefDragHandlerRef_Create,
+  CefDragHandler_OnDragEnter,
+  CefDragHandler_OnDraggableRegionsChanged
 ;
