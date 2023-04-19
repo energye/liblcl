@@ -1041,14 +1041,14 @@ begin
   if (BeforePopupPtr <> nil) then
   begin
     try
-        //popup info
-        beforePopupInfo := new(PRBeforePopupInfo);
-        beforePopupInfo^.TargetUrl := PChar(string(targetUrl));
-        beforePopupInfo^.TargetFrameName := PChar(string(targetFrameName));
-        beforePopupInfo^.TargetDisposition := PInteger(Integer(targetDisposition));
-        beforePopupInfo^.UserGesture := @userGesture;
-        //event
-        TCEFEventCallback.SendEvent(BeforePopupPtr, [browser, frame, beforePopupInfo, @windowInfo, @client, @settings, @extra_info, @noJavascriptAccess, @Result]);
+      //popup info
+      beforePopupInfo := new(PRBeforePopupInfo);
+      beforePopupInfo^.TargetUrl := PChar(string(targetUrl));
+      beforePopupInfo^.TargetFrameName := PChar(string(targetFrameName));
+      beforePopupInfo^.TargetDisposition := PInteger(Integer(targetDisposition));
+      beforePopupInfo^.UserGesture := @userGesture;
+      //event
+      TCEFEventCallback.SendEvent(BeforePopupPtr, [browser, frame, beforePopupInfo, @windowInfo, @client, @settings, @extra_info, @noJavascriptAccess, @Result]);
     finally
       //free beforePopupInfo
       beforePopupInfo^.TargetUrl := nil;
@@ -1103,7 +1103,6 @@ begin
   RemoveReferences;
   inherited Destroy;
 end;
-
 
 {== LoadHandler ==}
 procedure TLoadHandlerRef.OnLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);

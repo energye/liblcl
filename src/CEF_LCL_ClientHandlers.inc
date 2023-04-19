@@ -343,6 +343,100 @@ begin
     AObj.KeyEventPtr := AEventData;
 end;
 
+{== LifeSpanHandler ==}
+procedure CefLifeSpanHandlerRef_Create(var Result: TLifeSpanHandlerRef); extdecl;
+begin
+  handleExceptionBegin
+  Result := TLifeSpanHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefLifeSpanHandler_OnBeforePopup(const AObj: TLifeSpanHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.BeforePopupPtr := AEventData;
+end;
+
+procedure CefLifeSpanHandler_OnAfterCreated(const AObj: TLifeSpanHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.AfterCreatedPtr := AEventData;
+end;
+
+procedure CefLifeSpanHandler_DoClose(const AObj: TLifeSpanHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.DoClosePtr := AEventData;
+end;
+
+procedure CefLifeSpanHandler_OnBeforeClose(const AObj: TLifeSpanHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.BeforeClosePtr := AEventData;
+end;
+
+{== LoadHandler ==}
+procedure CefLoadHandlerRef_Create(var Result: TLoadHandlerRef); extdecl;
+begin
+  handleExceptionBegin
+  Result := TLoadHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefLoadHandler_OnLoadingStateChange(const AObj: TLoadHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.LoadingStateChangePtr := AEventData;
+end;
+
+procedure CefLoadHandler_OnLoadStart(const AObj: TLoadHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.LoadStartPtr := AEventData;
+end;
+
+procedure CefLoadHandler_OnLoadEnd(const AObj: TLoadHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.LoadEndPtr := AEventData;
+end;
+
+procedure CefLoadHandler_OnLoadError(const AObj: TLoadHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.LoadErrorPtr := AEventData;
+end;
+
+{== PrintHandler ==}
+procedure CefPrintHandlerRef_Create(var Result: TPrintHandlerRef); extdecl;
+begin
+  handleExceptionBegin
+  Result := TPrintHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefPrintHandler_OnPrintStart(const AObj: TPrintHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.PrintStartPtr := AEventData;
+end;
+
+procedure CefPrintHandler_OnPrintSettings(const AObj: TPrintHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.PrintSettingsPtr := AEventData;
+end;
+
+procedure CefPrintHandler_OnPrintDialog(const AObj: TPrintHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.PrintDialogPtr := AEventData;
+end;
+
+procedure CefPrintHandler_OnPrintJob(const AObj: TPrintHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.PrintJobPtr := AEventData;
+end;
+
+procedure CefPrintHandler_OnPrintReset(const AObj: TPrintHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.PrintResetPtr := AEventData;
+end;
+
+procedure CefPrintHandler_GetPDFPaperSize(const AObj: TPrintHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.PDFPaperSizePtr := AEventData;
+end;
+
 exports
   {== AudioHandler ==}
   CefAudioHandlerRef_Create,
@@ -416,5 +510,25 @@ exports
   {== KeyboardHandler ==}
   CefKeyboardHandlerRef_Create,
   CefKeyboardHandler_OnPreKeyEvent,
-  CefKeyboardHandler_OnKeyEvent
+  CefKeyboardHandler_OnKeyEvent,
+  {== LifeSpanHandler ==}
+  CefLifeSpanHandlerRef_Create,
+  CefLifeSpanHandler_OnBeforePopup,
+  CefLifeSpanHandler_OnAfterCreated,
+  CefLifeSpanHandler_DoClose,
+  CefLifeSpanHandler_OnBeforeClose,
+  {== LoadHandler ==}
+  CefLoadHandlerRef_Create,
+  CefLoadHandler_OnLoadingStateChange,
+  CefLoadHandler_OnLoadStart,
+  CefLoadHandler_OnLoadEnd,
+  CefLoadHandler_OnLoadError,
+  {== PrintHandler ==}
+  CefPrintHandlerRef_Create,
+  CefPrintHandler_OnPrintStart,
+  CefPrintHandler_OnPrintSettings,
+  CefPrintHandler_OnPrintDialog,
+  CefPrintHandler_OnPrintJob,
+  CefPrintHandler_OnPrintReset,
+  CefPrintHandler_GetPDFPaperSize
 ;
