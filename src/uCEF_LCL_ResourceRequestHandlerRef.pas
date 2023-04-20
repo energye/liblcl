@@ -85,9 +85,10 @@ end;
 
 function TResourceRequestHandlerRef.OnResourceResponse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): boolean;
 begin
+  Result := False;
   if (ResourceResponsePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ResourceResponsePtr, [browser, frame, request, response]);
+    TCEFEventCallback.SendEvent(ResourceResponsePtr, [browser, frame, request, response, @Result]);
   end;
 end;
 
