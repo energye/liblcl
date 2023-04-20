@@ -24,11 +24,11 @@ type
     GetResourceHandlerPtr: Pointer;
     ResourceRedirectPtr: Pointer;
     ResourceResponsePtr: Pointer;
-    ResourceResponseFilterPtr: Pointer;
+    GetResourceResponseFilterPtr: Pointer;
     ResourceLoadCompletePtr: Pointer;
     ProtocolExecutionPtr: Pointer;
     constructor Create; override;
-    destructor Destroy;
+    destructor Destroy; override;
   protected
     procedure GetCookieAccessFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aFilter: ICefCookieAccessFilter); override;
     function OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback): TCefReturnValue; override;
@@ -55,9 +55,10 @@ end;
 
 function TResourceRequestHandlerRef.OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback): TCefReturnValue;
 begin
+  Result := RV_CONTINUE;
   if (BeforeResourceLoadPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(BeforeResourceLoadPtr, [browser, frame, request, callback]);
+    TCEFEventCallback.SendEvent(BeforeResourceLoadPtr, [browser, frame, request, callback, @Result]);
   end;
 end;
 
@@ -65,7 +66,7 @@ procedure TResourceRequestHandlerRef.GetResourceHandler(const browser: ICefBrows
 begin
   if (GetResourceHandlerPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GetResourceHandlerPtr, [browser, frame, request, aResourceHandler]);
+    TCEFEventCallback.SendEvent(GetResourceHandlerPtr, [browser, frame, request, @aResourceHandler]);
   end;
 end;
 
@@ -92,9 +93,9 @@ end;
 
 procedure TResourceRequestHandlerRef.GetResourceResponseFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var aResponseFilter: ICefResponseFilter);
 begin
-  if (ResourceResponseFilterPtr <> nil) then
+  if (GetResourceResponseFilterPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ResourceResponseFilterPtr, [browser, frame, request, response, @aResponseFilter]);
+    TCEFEventCallback.SendEvent(GetResourceResponseFilterPtr, [browser, frame, request, response, @aResponseFilter]);
   end;
 end;
 
@@ -121,7 +122,7 @@ begin
   GetResourceHandlerPtr := nil;
   ResourceRedirectPtr := nil;
   ResourceResponsePtr := nil;
-  ResourceResponseFilterPtr := nil;
+  GetResourceResponseFilterPtr := nil;
   ResourceLoadCompletePtr := nil;
   ProtocolExecutionPtr := nil;
   inherited RemoveReferences;

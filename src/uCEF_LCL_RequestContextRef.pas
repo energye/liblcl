@@ -21,8 +21,8 @@ type
   public
     RequestContextInitializedPtr: Pointer;
     GetResourceRequestHandlerPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnRequestContextInitialized(const request_context: ICefRequestContext); override;
     procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler: ICefResourceRequestHandler); override;

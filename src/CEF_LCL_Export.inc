@@ -58,6 +58,7 @@
 {$I CEF_LCL_Request.inc}
 {$I CEF_LCL_RequestContext.inc}
 {$I CEF_LCL_RequestContextHandler.inc}
+{$I CEF_LCL_ResourceRequestHandler.inc}
 {$I CEF_LCL_Response.inc}
 {$I CEF_LCL_RunContextMenuCallback.inc}
 {$I CEF_LCL_RunQuickMenuCallback.inc}
