@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-unit uCEF_LCL_CookieCallbacks;
+unit uCEF_LCL_CookieCallbacksRef;
 
 {$mode objfpc}{$H+}
 {$I cef.inc}
