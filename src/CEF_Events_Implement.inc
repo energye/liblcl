@@ -235,8 +235,8 @@ begin
   cookie^.aID := PInteger(aID);
   cookie^.sameSite := PInteger(integer(same_site));
   cookie^.priority := PInteger(priority);
-  cookie^.aSetImmediately := @aResult;
-  cookie^.aDeleteCookie := @aDeleteCookie;
+  cookie^.setImmediately := @aResult;
+  cookie^.deleteCookie := @aDeleteCookie;
   cookie^.Result := @aResult;
   SendEvent([Sender, cookie]);
   cookie := nil;

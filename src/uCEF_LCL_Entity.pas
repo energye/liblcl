@@ -214,7 +214,7 @@ type
     secure, httponly, hasExpires: Pointer;//boolean
     creation, lastAccess, expires: Pointer;//double
     Count, total, aID, sameSite, priority: PInteger;//integer
-    aSetImmediately, aDeleteCookie, Result: Pointer;//boolean
+    setImmediately, deleteCookie, Result: Pointer;//boolean
   end;
 
   //Proxy

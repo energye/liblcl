@@ -391,7 +391,7 @@ begin
   expires := Double(PDouble(CefCookie.expires)^);
   sameSite := TCefCookieSameSite(Integer(CefCookie.sameSite));
   priority := TCefCookiePriority(Integer(CefCookie.priority));
-  aSetImmediately := LongBool(PLongBool(CefCookie.aSetImmediately));
+  aSetImmediately := LongBool(PLongBool(CefCookie.setImmediately));
   aID := Integer(CefCookie.aID);
   AObj.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, sameSite, priority, aSetImmediately, aID);
   CefCookie := nil;
