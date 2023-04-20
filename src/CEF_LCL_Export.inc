@@ -11,6 +11,7 @@
 {$I cef.inc}
 
 // cef chromium exports
+{$I CEF_LCL_AccessibilityHandler.inc}
 {$I CEF_LCL_Application_Event.inc}
 {$I CEF_LCL_Application_Proc.inc}
 {$I CEF_LCL_AuthCallback.inc}
