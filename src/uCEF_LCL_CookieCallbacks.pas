@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-unit uCEF_LCL_CookieVisitorRef;
+unit uCEF_LCL_CookieCallbacks;
 
 {$mode objfpc}{$H+}
 {$I cef.inc}
@@ -12,11 +12,12 @@ unit uCEF_LCL_CookieVisitorRef;
 interface
 
 uses
-  uCEFTypes, uCEF_LCL_Entity, uCEFInterfaces, uCEFCookieVisitor,
+  uCEFTypes, uCEF_LCL_Entity, uCEFInterfaces, uCEFCookieVisitor, uCEFSetCookieCallback, uCEFDeleteCookiesCallback,
   uCEF_LCL_EventCallback;
 
 type
 
+  {== CookieVisitor ==}
   TCookieVisitorRef = class(TCefCookieVisitorOwn)
   public
     visitPtr: Pointer;
@@ -26,8 +27,30 @@ type
     function visit(const Name, Value, domain, path: ustring; secure, httponly, hasExpires: boolean; const creation, lastAccess, expires: TDateTime; Count, total: integer; same_site: TCefCookieSameSite; priority: TCefCookiePriority; out deleteCookie: boolean): boolean; override;
   end;
 
+  {== SetCookieCallback ==}
+  TSetCookieCallbackRef = class(TCefSetCookieCallbackOwn)
+  public
+    CompletePtr: Pointer;
+    constructor Create; override;
+    destructor Destroy;
+  protected
+   procedure OnComplete(success: Boolean); override;
+  end;
+
+  {== DeleteCookiesCallback ==}
+  TDeleteCookiesCallbackRef = class(TCefDeleteCookiesCallbackOwn)
+  public
+    CompletePtr: Pointer;
+    constructor Create; override;
+    destructor Destroy;
+  protected
+   procedure OnComplete(numDeleted: Integer); override;
+  end;
+
+
 implementation
 
+{== CookieVisitor ==}
 function TCookieVisitorRef.visit(const Name, Value, domain, path: ustring; secure, httponly, hasExpires: boolean; const creation, lastAccess, expires: TDateTime; Count, total: integer; same_site: TCefCookieSameSite; priority: TCefCookiePriority; out deleteCookie: boolean): boolean;
 var
   cookie: PRCefCookie;
@@ -47,7 +70,7 @@ begin
     cookie^.creation := @creation;
     cookie^.lastAccess := @lastAccess;
     cookie^.expires := @expires;
-    cookie^.Count := PInteger(count);
+    cookie^.Count := PInteger(Count);
     cookie^.total := PInteger(total);
     cookie^.aID := PInteger(0);
     cookie^.sameSite := PInteger(integer(same_site));
@@ -68,6 +91,46 @@ end;
 destructor TCookieVisitorRef.Destroy;
 begin
   visitPtr := nil;
+  inherited Destroy;
+end;
+
+{== SetCookieCallback ==}
+procedure TSetCookieCallbackRef.OnComplete(success: Boolean);
+begin
+  if (CompletePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(CompletePtr, [success]);
+  end;
+end;
+
+constructor TSetCookieCallbackRef.Create;
+begin
+  inherited Create;
+end;
+
+destructor TSetCookieCallbackRef.Destroy;
+begin
+  CompletePtr := nil;
+  inherited Destroy;
+end;
+
+{== DeleteCookiesCallback ==}
+procedure TDeleteCookiesCallbackRef.OnComplete(numDeleted: Integer);
+begin
+  if (CompletePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(CompletePtr, [numDeleted]);
+  end;
+end;
+
+constructor TDeleteCookiesCallbackRef.Create;
+begin
+  inherited Create;
+end;
+
+destructor TDeleteCookiesCallbackRef.Destroy;
+begin
+  CompletePtr := nil;
   inherited Destroy;
 end;
 

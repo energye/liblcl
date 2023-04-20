@@ -31,7 +31,7 @@
 {$I CEF_LCL_ContextMenu.inc}
 {$I CEF_LCL_ContextMenuParams.inc}
 {$I CEF_LCL_CookieManager.inc}
-{$I CEF_LCL_CookieVisitor.inc}
+{$I CEF_LCL_CookieCallbacks.inc}
 {$I CEF_LCL_Def.inc}
 {$I CEF_LCL_DictionaryValue.inc}
 {$I CEF_LCL_Display.inc}
