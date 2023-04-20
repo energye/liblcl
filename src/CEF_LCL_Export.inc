@@ -48,6 +48,7 @@
 {$I CEF_LCL_PermissionPromptCallback.inc}
 {$I CEF_LCL_PostData.inc}
 {$I CEF_LCL_PostDataElement.inc}
+{$I CEF_LCL_PrintSettings.inc}
 {$I CEF_LCL_ProcessMessage.inc}
 {$I CEF_LCL_Request.inc}
 {$I CEF_LCL_RequestContext.inc}
