@@ -4,7 +4,6 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-//CEFBrowser_GetIdentifier
 function CEFBrowser_GetIdentifier(const TObj: ICefBrowser): Integer; extdecl;
 begin
   handleExceptionBegin

@@ -62,6 +62,7 @@
 {$I CEF_LCL_Response.inc}
 {$I CEF_LCL_RunContextMenuCallback.inc}
 {$I CEF_LCL_RunQuickMenuCallback.inc}
+{$I CEF_LCL_SchemeHandlerFactory.inc}
 {$I CEF_LCL_StreamReader.inc}
 {$I CEF_LCL_StreamWriter.inc}
 {$I CEF_LCL_StringMultiMap.inc}

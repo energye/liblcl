@@ -105,7 +105,7 @@ begin
 end;
 
 {== ResourceHandler ==}
-procedure ResourceHandlerRef_Create(var Result: TResourceHandlerRef; const browser: ICefBrowser; const frame: ICefFrame; const schemeName: PChar; const request: ICefRequest); extdecl;
+procedure ResourceHandlerRef_Create(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: PChar; const request: ICefRequest; var Result: TResourceHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TResourceHandlerRef.Create(browser, frame, PCharToUStr(schemeName), request);

@@ -4,63 +4,98 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CEFWindowInfoAsChild(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
+procedure Misc_WindowInfoAsChild(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
 begin
   handleExceptionBegin
   WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect, PCharToUStr(PWindowName));
   handleExceptionEnd
 end;
 
-procedure CEFWindowInfoAsPopUp(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
+procedure Misc_WindowInfoAsPopUp(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
 begin
   handleExceptionBegin
   WindowInfoAsPopUp(windowInfo, windowParent.Handle, PCharToUStr(PWindowName));
   handleExceptionEnd
 end;
 
-procedure CEFWindowInfoAsWindowless(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
+procedure Misc_WindowInfoAsWindowless(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
 begin
   handleExceptionBegin
   WindowInfoAsWindowless(windowInfo, windowParent.Handle, PCharToUStr(PWindowName));
   handleExceptionEnd
 end;
 
-function CEFJSRegisterExtension(const name, code: PChar; const Handler: TV8HandlerRef): LongBool; extdecl;
+function Misc_CefRegisterExtension(const name, code: PChar; const Handler: TV8HandlerRef): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := CefRegisterExtension(PCharToUStr(name), PCharToUStr(code), Handler);
   handleExceptionEnd
 end;
 
-function CEFCheckSubprocessPath(const aSubprocessPath: PChar; var aMissingFiles: PChar) : LongBool; extdecl;
+function Misc_CheckSubprocessPath(const aSubprocessPath: PChar; var aMissingFiles: PChar) : LongBool; extdecl;
+var
+  MissingFiles: string;
 begin
   handleExceptionBegin
+  Result := CheckSubprocessPath(StrPas(aSubprocessPath), MissingFiles);
+  aMissingFiles := PChar(MissingFiles);
   handleExceptionEnd
 end;
 
-function CEFCheckLocales(const aLocalesDirPath: PChar; var aMissingFiles: PChar; const aLocalesRequired: PChar) : LongBool; extdecl;
+function Misc_CheckLocales(const aLocalesDirPath: PChar; var aMissingFiles: PChar; const aLocalesRequired: PChar) : LongBool; extdecl;
+var
+  MissingFiles: string;
 begin
   handleExceptionBegin
+  Result := CheckLocales(StrPas(aLocalesDirPath), MissingFiles, StrPas(aLocalesRequired));
+  aMissingFiles := PChar(MissingFiles);
   handleExceptionEnd
 end;
 
-function CEFCheckResources(const aResourcesDirPath: PChar; var aMissingFiles: PChar) : LongBool; extdecl;
+function Misc_CheckResources(const aResourcesDirPath: PChar; var aMissingFiles: PChar) : LongBool; extdecl;
+var
+  MissingFiles: string;
 begin
   handleExceptionBegin
+  Result := CheckResources(StrPas(aResourcesDirPath), MissingFiles);
+  aMissingFiles := PChar(MissingFiles);
   handleExceptionEnd
 end;
 
-function CEFCheckDLLs(const aFrameworkDirPath: PChar; var aMissingFiles: PChar) : LongBool; extdecl;
+function Misc_CheckDLLs(const aFrameworkDirPath: PChar; var aMissingFiles: PChar) : LongBool; extdecl;
+var
+  MissingFiles: string;
 begin
   handleExceptionBegin
+  Result := CheckDLLs(StrPas(aFrameworkDirPath), MissingFiles);
+  aMissingFiles := PChar(MissingFiles);
+  handleExceptionEnd
+end;
+
+function Misc_CefRegisterSchemeHandlerFactory(const SchemeName, DomainName : PChar; const handler: TCefResourceHandlerClass): LongBool;
+begin
+  handleExceptionBegin
+  Result := CefRegisterSchemeHandlerFactory(StrPas(SchemeName), StrPas(DomainName), handler);
+  handleExceptionEnd
+end;
+
+function Misc_CefClearSchemeHandlerFactories : LongBool;
+begin
+  handleExceptionBegin
+  Result := CefClearSchemeHandlerFactories();
   handleExceptionEnd
 end;
 
 exports
-  CEFWindowInfoAsChild,
-  CEFWindowInfoAsPopUp,
-  CEFWindowInfoAsWindowless,
-  CEFJSRegisterExtension
-{end}
+  Misc_WindowInfoAsChild,
+  Misc_WindowInfoAsPopUp,
+  Misc_WindowInfoAsWindowless,
+  Misc_CefRegisterExtension,
+  Misc_CheckSubprocessPath,
+  Misc_CheckLocales,
+  Misc_CheckResources,
+  Misc_CheckDLLs,
+  Misc_CefRegisterSchemeHandlerFactory,
+  Misc_CefClearSchemeHandlerFactories
 ;
 
