@@ -4,6 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
+{== ResourceRequestHandler ==}
 procedure ResourceRequestHandlerRef_Create(var Result: TResourceRequestHandlerRef); extdecl;
 begin
   handleExceptionBegin
@@ -74,7 +75,37 @@ begin
   handleExceptionEnd
 end;
 
+{== CookieAccessFilter ==}
+procedure CookieAccessFilterRef_Create(var Result: TCookieAccessFilterRef); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCookieAccessFilterRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CookieAccessFilterRef_CreateForChromium(const chromium: TChromium; var Result: ICefCookieAccessFilter); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCustomCookieAccessFilter.Create(chromium);
+  handleExceptionEnd
+end;
+
+procedure CookieAccessFilter_CanSendCookie(const AObj: TCookieAccessFilterRef; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.CanSendCookiePtr := AEventData;
+  handleExceptionEnd
+end;
+
+procedure CookieAccessFilter_CanSaveCookie(const AObj: TCookieAccessFilterRef; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.CanSaveCookiePtr := AEventData;
+  handleExceptionEnd
+end;
+
 exports
+  {== ResourceRequestHandler ==}
   ResourceRequestHandlerRef_Create,
   ResourceRequestHandlerRef_CreateForChromium,
   ResourceRequestHandler_GetCookieAccessFilter,
@@ -84,5 +115,10 @@ exports
   ResourceRequestHandler_OnResourceResponse,
   ResourceRequestHandler_GetResourceResponseFilter,
   ResourceRequestHandler_OnResourceLoadComplete,
-  ResourceRequestHandler_OnProtocolExecution
+  ResourceRequestHandler_OnProtocolExecution,
+  {== CookieAccessFilter ==}
+  CookieAccessFilterRef_Create,
+  CookieAccessFilterRef_CreateForChromium,
+  CookieAccessFilter_CanSendCookie,
+  CookieAccessFilter_CanSaveCookie
 ;

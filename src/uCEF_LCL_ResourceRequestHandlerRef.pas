@@ -12,11 +12,12 @@ unit uCEF_LCL_ResourceRequestHandlerRef;
 interface
 
 uses
-  uCEFTypes, uCEFInterfaces, uCEFResourceRequestHandler,
+  uCEFTypes, uCEFInterfaces, uCEFResourceRequestHandler, uCEFCookieAccessFilter,
   uCEF_LCL_Entity, uCEF_LCL_EventCallback;
 
 type
 
+  {== ResourceRequestHandler ==}
   TResourceRequestHandlerRef = class(TCefResourceRequestHandlerOwn)
   public
     GetCookieAccessFilterPtr: Pointer;
@@ -39,12 +40,24 @@ type
     procedure OnResourceLoadComplete(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; status: TCefUrlRequestStatus; receivedContentLength: int64); override;
     procedure OnProtocolExecution(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var allowOsExecution: boolean); override;
     procedure RemoveReferences; override;
+  end;
 
+  {== CookieAccessFilter ==}
+  TCookieAccessFilterRef = class(TCefCookieAccessFilterOwn)
+  public
+    CanSendCookiePtr: Pointer;
+    CanSaveCookiePtr: Pointer;
+    constructor Create; override;
+    destructor Destroy; override;
+  protected
+    function CanSendCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie: PCefCookie): boolean; override;
+    function CanSaveCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie): boolean; override;
+    procedure RemoveReferences; override;
   end;
 
 implementation
 
-
+{== ResourceRequestHandler ==}
 procedure TResourceRequestHandlerRef.GetCookieAccessFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aFilter: ICefCookieAccessFilter);
 begin
   if (GetCookieAccessFilterPtr <> nil) then
@@ -78,7 +91,8 @@ begin
   begin
     RetNewURL := new(PChar);
     TCEFEventCallback.SendEvent(ResourceRedirectPtr, [browser, frame, request, response, @RetNewURL]);
-    newUrl := PCharToUStr(RetNewURL);
+    if RetNewURL <> nil then
+      newUrl := PCharToUStr(RetNewURL);
     RetNewURL := nil;
   end;
 end;
@@ -104,7 +118,7 @@ procedure TResourceRequestHandlerRef.OnResourceLoadComplete(const browser: ICefB
 begin
   if (ResourceLoadCompletePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ResourceLoadCompletePtr, [browser, frame, request, response, Integer(status), @receivedContentLength]);
+    TCEFEventCallback.SendEvent(ResourceLoadCompletePtr, [browser, frame, request, response, integer(status), @receivedContentLength]);
   end;
 end;
 
@@ -135,6 +149,43 @@ begin
 end;
 
 destructor TResourceRequestHandlerRef.Destroy;
+begin
+  RemoveReferences;
+  inherited Destroy;
+end;
+
+{== CookieAccessFilter ==}
+function TCookieAccessFilterRef.CanSendCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie: PCefCookie): boolean;
+begin
+  Result := False;
+  if (CanSendCookiePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(CanSendCookiePtr, [browser, frame, request, cookie, @Result]);
+  end;
+end;
+
+function TCookieAccessFilterRef.CanSaveCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie): boolean;
+begin
+  Result := False;
+  if (CanSaveCookiePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(CanSaveCookiePtr, [browser, frame, request, response, cookie, @Result]);
+  end;
+end;
+
+procedure TCookieAccessFilterRef.RemoveReferences;
+begin
+  CanSendCookiePtr := nil;
+  CanSaveCookiePtr := nil;
+  inherited RemoveReferences;
+end;
+
+constructor TCookieAccessFilterRef.Create;
+begin
+  inherited Create;
+end;
+
+destructor TCookieAccessFilterRef.Destroy;
 begin
   RemoveReferences;
   inherited Destroy;
