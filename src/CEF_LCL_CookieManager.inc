@@ -4,21 +4,21 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefCookieManager_VisitAllCookies(const AObj: ICefCookieManager; const visitor: ICefCookieVisitor); extdecl;
+procedure CefCookieManager_VisitAllCookies(const AObj: ICefCookieManager; const visitor: TCookieVisitorRef); extdecl;
 begin
   handleExceptionBegin
   AObj.VisitAllCookies(visitor);
   handleExceptionEnd
 end;
 
-function  CefCookieManager_VisitUrlCookies(const AObj: ICefCookieManager; const url: PChar; includeHttpOnly: LongBool; const visitor: ICefCookieVisitor): LongBool; extdecl;
+function  CefCookieManager_VisitUrlCookies(const AObj: ICefCookieManager; const url: PChar; includeHttpOnly: LongBool; const visitor: TCookieVisitorRef): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.VisitUrlCookies(PCharToUStr(url), includeHttpOnly, visitor);
   handleExceptionEnd
 end;
 
-function  CefCookieManager_SetCookie(const AObj: ICefCookieManager; CefCookie: PRCefCookie; const callback: ICefSetCookieCallback): LongBool; extdecl;
+function  CefCookieManager_SetCookie(const AObj: ICefCookieManager; CefCookie: PRCefCookie; const callback: TSetCookieCallbackRef): LongBool; extdecl;
 var
   url, name, value, domain, path: ustring;
   secure, httponly, hasExpires: LongBool;
@@ -45,7 +45,7 @@ begin
   handleExceptionEnd
 end;
 
-function  CefCookieManager_DeleteCookies(const AObj: ICefCookieManager; const url, cookieName: PChar; const callback: ICefDeleteCookiesCallback): LongBool; extdecl;
+function  CefCookieManager_DeleteCookies(const AObj: ICefCookieManager; const url, cookieName: PChar; const callback: TDeleteCookiesCallbackRef): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.DeleteCookies(PCharToUStr(url), PCharToUStr(cookieName), callback);
