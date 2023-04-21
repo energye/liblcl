@@ -52,7 +52,7 @@ begin
   handleExceptionEnd
 end;
 
-function  CefCookieManager_FlushStore(const AObj: ICefCookieManager; const callback: ICefCompletionCallback): LongBool; extdecl;
+function  CefCookieManager_FlushStore(const AObj: ICefCookieManager; const callback: TCompletionCallbackRef): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.FlushStore(callback);
