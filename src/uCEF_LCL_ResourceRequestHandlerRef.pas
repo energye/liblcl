@@ -12,7 +12,7 @@ unit uCEF_LCL_ResourceRequestHandlerRef;
 interface
 
 uses
-  uCEFTypes, uCEFInterfaces, uCEFResourceRequestHandler, uCEFCookieAccessFilter,
+  uCEFTypes, uCEFInterfaces, uCEFResourceRequestHandler, uCEFCookieAccessFilter, uCEFResourceHandler,
   uCEF_LCL_Entity, uCEF_LCL_EventCallback;
 
 type
@@ -53,6 +53,24 @@ type
     function CanSendCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie: PCefCookie): boolean; override;
     function CanSaveCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie): boolean; override;
     procedure RemoveReferences; override;
+  end;
+
+  {== ResourceHandler ==}
+  TResourceHandlerRef = class(TCefResourceHandlerOwn)
+  public
+    OpenPtr: Pointer;
+    GetResponseHeadersPtr: Pointer;
+    skipPtr: Pointer;
+    ReadPtr: Pointer;
+    CancelPtr: Pointer;
+    constructor Create(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: ustring; const request: ICefRequest); override;
+    destructor Destroy; override;
+  protected
+    function Open(const request: ICefRequest; var handle_request: boolean; const callback: ICefCallback): boolean; override;
+    procedure GetResponseHeaders(const response: ICefResponse; out responseLength: int64; out redirectUrl: ustring); override;
+    function skip(bytes_to_skip: int64; var bytes_skipped: int64; const callback: ICefResourceSkipCallback): boolean; override;
+    function Read(const data_out: Pointer; bytes_to_read: integer; var bytes_read: integer; const callback: ICefResourceReadCallback): boolean; override;
+    procedure Cancel; override;
   end;
 
 implementation
@@ -188,6 +206,71 @@ end;
 destructor TCookieAccessFilterRef.Destroy;
 begin
   RemoveReferences;
+  inherited Destroy;
+end;
+
+{== ResourceHandler ==}
+function TResourceHandlerRef.Open(const request: ICefRequest; var handle_request: boolean; const callback: ICefCallback): boolean;
+begin
+  Result := False;
+  if (OpenPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OpenPtr, [request, @handle_request, callback, @Result]);
+  end;
+end;
+
+procedure TResourceHandlerRef.GetResponseHeaders(const response: ICefResponse; out responseLength: int64; out redirectUrl: ustring);
+var
+  RetRedirectUrl: PChar;
+begin
+  if (GetResponseHeadersPtr <> nil) then
+  begin
+    RetRedirectUrl := new(PChar);
+    TCEFEventCallback.SendEvent(GetResponseHeadersPtr, [response, @responseLength, @RetRedirectUrl]);
+    if RetRedirectUrl <> nil then
+       redirectUrl := PCharToUStr(RetRedirectUrl);
+    RetRedirectUrl := nil;
+  end;
+end;
+
+function TResourceHandlerRef.skip(bytes_to_skip: int64; var bytes_skipped: int64; const callback: ICefResourceSkipCallback): boolean;
+begin
+  Result := False;
+  if (skipPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(skipPtr, [@bytes_to_skip, @bytes_skipped, callback, @Result]);
+  end;
+end;
+
+function TResourceHandlerRef.Read(const data_out: Pointer; bytes_to_read: integer; var bytes_read: integer; const callback: ICefResourceReadCallback): boolean;
+begin
+  Result := False;
+  if (ReadPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(ReadPtr, [@data_out, bytes_to_read, @bytes_read, callback, @Result]);
+  end;
+end;
+
+procedure TResourceHandlerRef.Cancel;
+begin
+  if (CancelPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(CancelPtr, []);
+  end;
+end;
+
+constructor TResourceHandlerRef.Create(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: ustring; const request: ICefRequest);
+begin
+  inherited Create(browser, frame, schemeName, request);
+end;
+
+destructor TResourceHandlerRef.Destroy;
+begin
+  OpenPtr := nil;
+  GetResponseHeadersPtr := nil;
+  skipPtr := nil;
+  ReadPtr := nil;
+  CancelPtr := nil;
   inherited Destroy;
 end;
 

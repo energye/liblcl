@@ -104,6 +104,49 @@ begin
   handleExceptionEnd
 end;
 
+{== ResourceHandler ==}
+procedure ResourceHandlerRef_Create(var Result: TResourceHandlerRef; const browser: ICefBrowser; const frame: ICefFrame; const schemeName: PChar; const request: ICefRequest); extdecl;
+begin
+  handleExceptionBegin
+  Result := TResourceHandlerRef.Create(browser, frame, PCharToUStr(schemeName), request);
+  handleExceptionEnd
+end;
+
+procedure ResourceHandler_Open(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.OpenPtr := AEventData;
+  handleExceptionEnd
+end;
+
+procedure ResourceHandler_GetResponseHeaders(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.GetResponseHeadersPtr := AEventData;
+  handleExceptionEnd
+end;
+
+procedure ResourceHandler_Skip(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.skipPtr := AEventData;
+  handleExceptionEnd
+end;
+
+procedure ResourceHandler_Read(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ReadPtr := AEventData;
+  handleExceptionEnd
+end;
+
+procedure ResourceHandler_Cancel(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.CancelPtr := AEventData;
+  handleExceptionEnd
+end;
+
 exports
   {== ResourceRequestHandler ==}
   ResourceRequestHandlerRef_Create,
@@ -120,5 +163,12 @@ exports
   CookieAccessFilterRef_Create,
   CookieAccessFilterRef_CreateForChromium,
   CookieAccessFilter_CanSendCookie,
-  CookieAccessFilter_CanSaveCookie
+  CookieAccessFilter_CanSaveCookie,
+  {== ResourceHandler ==}
+  ResourceHandlerRef_Create,
+  ResourceHandler_Open,
+  ResourceHandler_GetResponseHeaders,
+  ResourceHandler_Skip,
+  ResourceHandler_Read,
+  ResourceHandler_Cancel
 ;
