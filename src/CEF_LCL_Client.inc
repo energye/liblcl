@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefClientRef_Create(var Result: ICefClient); extdecl;
+procedure CefClientRef_Create(var Result: TClientRef); extdecl;
 begin
     Result := TClientRef.Create;
 end;
@@ -14,197 +14,197 @@ begin
     Result := TCustomClientHandler.Create(Chromium, aDevToolsClient);
 end;
 
-procedure CefClient_GetAudioHandler(const TObj: ICefClient; var aHandler: ICefAudioHandler); extdecl;
+procedure CefClient_GetAudioHandler(const TObj: TClientRef; var aHandler: ICefAudioHandler); extdecl;
 var
   TempHandler : ICefAudioHandler;
 begin
     handleExceptionBegin
-    TObj.GetAudioHandler(TempHandler);
+    ICefClient(TObj).GetAudioHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetCommandHandler(const TObj: ICefClient; var aHandler: ICefCommandHandler); extdecl;
+procedure CefClient_GetCommandHandler(const TObj: TClientRef; var aHandler: ICefCommandHandler); extdecl;
 var
   TempHandler : ICefCommandHandler;
 begin
     handleExceptionBegin
-    TObj.GetCommandHandler(TempHandler);
+    ICefClient(TObj).GetCommandHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetContextMenuHandler(const TObj: ICefClient; var aHandler: ICefContextMenuHandler); extdecl;
+procedure CefClient_GetContextMenuHandler(const TObj: TClientRef; var aHandler: ICefContextMenuHandler); extdecl;
 var
   TempHandler : ICefContextMenuHandler;
 begin
     handleExceptionBegin
-    TObj.GetContextMenuHandler(TempHandler);
+    ICefClient(TObj).GetContextMenuHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetDialogHandler(const TObj: ICefClient; var aHandler: ICefDialogHandler); extdecl;
+procedure CefClient_GetDialogHandler(const TObj: TClientRef; var aHandler: ICefDialogHandler); extdecl;
 var
   TempHandler : ICefDialogHandler;
 begin
     handleExceptionBegin
-    TObj.GetDialogHandler(TempHandler);
+    ICefClient(TObj).GetDialogHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetDisplayHandler(const TObj: ICefClient; var aHandler: ICefDisplayHandler); extdecl;
+procedure CefClient_GetDisplayHandler(const TObj: TClientRef; var aHandler: ICefDisplayHandler); extdecl;
 var
   TempHandler : ICefDisplayHandler;
 begin
     handleExceptionBegin
-    TObj.GetDisplayHandler(TempHandler);
+    ICefClient(TObj).GetDisplayHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetDownloadHandler(const TObj: ICefClient; var aHandler: ICefDownloadHandler); extdecl;
+procedure CefClient_GetDownloadHandler(const TObj: TClientRef; var aHandler: ICefDownloadHandler); extdecl;
 var
   TempHandler : ICefDownloadHandler;
 begin
     handleExceptionBegin
-    TObj.GetDownloadHandler(TempHandler);
+    ICefClient(TObj).GetDownloadHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetDragHandler(const TObj: ICefClient; var aHandler: ICefDragHandler); extdecl;
+procedure CefClient_GetDragHandler(const TObj: TClientRef; var aHandler: ICefDragHandler); extdecl;
 var
   TempHandler : ICefDragHandler;
 begin
     handleExceptionBegin
-    TObj.GetDragHandler(TempHandler);
+    ICefClient(TObj).GetDragHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetFindHandler(const TObj: ICefClient; var aHandler: ICefFindHandler); extdecl;
+procedure CefClient_GetFindHandler(const TObj: TClientRef; var aHandler: ICefFindHandler); extdecl;
 var
   TempHandler : ICefFindHandler;
 begin
     handleExceptionBegin
-    TObj.GetFindHandler(TempHandler);
+    ICefClient(TObj).GetFindHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetFocusHandler(const TObj: ICefClient; var aHandler: ICefFocusHandler); extdecl;
+procedure CefClient_GetFocusHandler(const TObj: TClientRef; var aHandler: ICefFocusHandler); extdecl;
 var
   TempHandler : ICefFocusHandler;
 begin
     handleExceptionBegin
-    TObj.GetFocusHandler(TempHandler);
+    ICefClient(TObj).GetFocusHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetFrameHandler(const TObj: ICefClient; var aHandler: ICefFrameHandler); extdecl;
+procedure CefClient_GetFrameHandler(const TObj: TClientRef; var aHandler: ICefFrameHandler); extdecl;
 var
   TempHandler : ICefFrameHandler;
 begin
     handleExceptionBegin
-    TObj.GetFrameHandler(TempHandler);
+    ICefClient(TObj).GetFrameHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetPermissionHandler(const TObj: ICefClient; var aHandler: ICefPermissionHandler); extdecl;
+procedure CefClient_GetPermissionHandler(const TObj: TClientRef; var aHandler: ICefPermissionHandler); extdecl;
 var
   TempHandler : ICefPermissionHandler;
 begin
     handleExceptionBegin
-    TObj.GetPermissionHandler(TempHandler);
+    ICefClient(TObj).GetPermissionHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetJsdialogHandler(const TObj: ICefClient; var aHandler: ICefJsdialogHandler); extdecl;
+procedure CefClient_GetJsdialogHandler(const TObj: TClientRef; var aHandler: ICefJsdialogHandler); extdecl;
 var
   TempHandler : ICefJsdialogHandler;
 begin
     handleExceptionBegin
-    TObj.GetJsdialogHandler(TempHandler);
+    ICefClient(TObj).GetJsdialogHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetKeyboardHandler(const TObj: ICefClient; var aHandler: ICefKeyboardHandler); extdecl;
+procedure CefClient_GetKeyboardHandler(const TObj: TClientRef; var aHandler: ICefKeyboardHandler); extdecl;
 var
   TempHandler : ICefKeyboardHandler;
 begin
     handleExceptionBegin
-    TObj.GetKeyboardHandler(TempHandler);
+    ICefClient(TObj).GetKeyboardHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetLifeSpanHandler(const TObj: ICefClient; var aHandler: ICefLifeSpanHandler); extdecl;
+procedure CefClient_GetLifeSpanHandler(const TObj: TClientRef; var aHandler: ICefLifeSpanHandler); extdecl;
 var
   TempHandler : ICefLifeSpanHandler;
 begin
     handleExceptionBegin
-    TObj.GetLifeSpanHandler(TempHandler);
+    ICefClient(TObj).GetLifeSpanHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetLoadHandler(const TObj: ICefClient; var aHandler: ICefLoadHandler); extdecl;
+procedure CefClient_GetLoadHandler(const TObj: TClientRef; var aHandler: ICefLoadHandler); extdecl;
 var
   TempHandler : ICefLoadHandler;
 begin
     handleExceptionBegin
-    TObj.GetLoadHandler(TempHandler);
+    ICefClient(TObj).GetLoadHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetPrintHandler(const TObj: ICefClient; var aHandler: ICefPrintHandler); extdecl;
+procedure CefClient_GetPrintHandler(const TObj: TClientRef; var aHandler: ICefPrintHandler); extdecl;
 var
   TempHandler : ICefPrintHandler;
 begin
     handleExceptionBegin
-    TObj.GetPrintHandler(TempHandler);
+    ICefClient(TObj).GetPrintHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetRenderHandler(const TObj: ICefClient; var aHandler: ICefRenderHandler); extdecl;
+procedure CefClient_GetRenderHandler(const TObj: TClientRef; var aHandler: ICefRenderHandler); extdecl;
 var
   TempHandler : ICefRenderHandler;
 begin
     handleExceptionBegin
-    TObj.GetRenderHandler(TempHandler);
+    ICefClient(TObj).GetRenderHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetRequestHandler(const TObj: ICefClient; var aHandler: ICefRequestHandler); extdecl;
+procedure CefClient_GetRequestHandler(const TObj: TClientRef; var aHandler: ICefRequestHandler); extdecl;
 var
   TempHandler : ICefRequestHandler;
 begin
     handleExceptionBegin
-    TObj.GetRequestHandler(TempHandler);
+    ICefClient(TObj).GetRequestHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-function CefClient_OnProcessMessageReceived(const TObj: ICefClient; const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_: ICefProcessMessage): boolean; extdecl;
+function CefClient_OnProcessMessageReceived(const TObj: TClientRef; const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_: ICefProcessMessage): boolean; extdecl;
 begin
     handleExceptionBegin
-    Result := TObj.OnProcessMessageReceived(browser, frame, sourceProcess, message_);
+    Result := ICefClient(TObj).OnProcessMessageReceived(browser, frame, sourceProcess, message_);
     handleExceptionEnd
 end;
 
-procedure CefClient_RemoveReferences(const TObj: ICefClient); extdecl;
+procedure CefClient_RemoveReferences(const TObj: TClientRef); extdecl;
 begin
     handleExceptionBegin
-    TObj.RemoveReferences;
+    ICefClient(TObj).RemoveReferences;
     handleExceptionEnd
 end;
 

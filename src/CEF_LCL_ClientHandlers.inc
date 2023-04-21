@@ -5,7 +5,7 @@
 //----------------------------------------
 
 {== AudioHandler ==}
-procedure CefAudioHandlerRef_Create(var Result: ICefAudioHandler); extdecl;
+procedure CefAudioHandlerRef_Create(var Result: TAudioHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TAudioHandlerRef.Create;
@@ -38,7 +38,7 @@ begin
 end;
 
 {== CommandHandler ==}
-procedure CefCommandHandlerRef_Create(var Result: ICefCommandHandler); extdecl;
+procedure CefCommandHandlerRef_Create(var Result: TCommandHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TCommandHandlerRef.Create;
@@ -51,7 +51,7 @@ begin
 end;
 
 {== ContextMenuHandler ==}
-procedure CefContextMenuHandlerRef_Create(var Result: ICefContextMenuHandler); extdecl;
+procedure CefContextMenuHandlerRef_Create(var Result: TContextMenuHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TContextMenuHandlerRef.Create;
@@ -94,7 +94,7 @@ begin
 end;
 
 {== DialogHandler ==}
-procedure CefDialogHandlerRef_Create(var Result: ICefDialogHandler); extdecl;
+procedure CefDialogHandlerRef_Create(var Result: TDialogHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TDialogHandlerRef.Create;
@@ -107,7 +107,7 @@ begin
 end;
 
 {== DisplayHandler ==}
-procedure CefDisplayHandlerRef_Create(var Result: ICefDisplayHandler); extdecl;
+procedure CefDisplayHandlerRef_Create(var Result: TDisplayHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TDisplayHandlerRef.Create;
@@ -170,7 +170,7 @@ begin
 end;
 
 {== DownloadHandler ==}
-procedure CefDownloadHandlerRef_Create(var Result: ICefDownloadHandler); extdecl;
+procedure CefDownloadHandlerRef_Create(var Result: TDownloadHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TDownloadHandlerRef.Create;
@@ -193,7 +193,7 @@ begin
 end;
 
 {== DragHandler ==}
-procedure CefDragHandlerRef_Create(var Result: ICefDragHandler); extdecl;
+procedure CefDragHandlerRef_Create(var Result: TDragHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TDragHandlerRef.Create;
@@ -211,7 +211,7 @@ begin
 end;
 
 {== FindHandler ==}
-procedure CefFindHandlerRef_Create(var Result: ICefFindHandler); extdecl;
+procedure CefFindHandlerRef_Create(var Result: TFindHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TFindHandlerRef.Create;
@@ -224,7 +224,7 @@ begin
 end;
 
 {== FocusHandler ==}
-procedure CefFocusHandlerRef_Create(var Result: ICefFocusHandler); extdecl;
+procedure CefFocusHandlerRef_Create(var Result: TFocusHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TFocusHandlerRef.Create;
@@ -247,7 +247,7 @@ begin
 end;
 
 {== FrameHandler ==}
-procedure CefFrameHandlerRef_Create(var Result: ICefFrameHandler); extdecl;
+procedure CefFrameHandlerRef_Create(var Result: TFrameHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TFrameHandlerRef.Create;
@@ -275,7 +275,7 @@ begin
 end;
 
 {== PermissionHandler ==}
-procedure CefPermissionHandlerRef_Create(var Result: ICefPermissionHandler); extdecl;
+procedure CefPermissionHandlerRef_Create(var Result: TPermissionHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TPermissionHandlerRef.Create;
@@ -298,7 +298,7 @@ begin
 end;
 
 {== JsDialogHandler ==}
-procedure CefJsDialogHandlerRef_Create(var Result: ICefJsDialogHandler); extdecl;
+procedure CefJsDialogHandlerRef_Create(var Result: TJsDialogHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TJsDialogHandlerRef.Create;
