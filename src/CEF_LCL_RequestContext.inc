@@ -92,7 +92,7 @@ end;
 //  handleExceptionEnd
 //end;
 
-function  RequestContext_RegisterSchemeHandlerFactory(const TObj: ICefRequestContext; const schemeName, domainName: PChar; const factory: ICefSchemeHandlerFactory): LongBool;  extdecl;
+function  RequestContext_RegisterSchemeHandlerFactory(const TObj: ICefRequestContext; const schemeName, domainName: PChar; const factory: TSchemeHandlerFactoryRef): LongBool;  extdecl;
 begin
   handleExceptionBegin
   Result := TObj.RegisterSchemeHandlerFactory(PCharToUStr(schemeName), PCharToUStr(domainName), factory);

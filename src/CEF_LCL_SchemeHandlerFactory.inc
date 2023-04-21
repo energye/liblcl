@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure SchemeHandlerFactoryRef_Create(const AClass: TCefResourceHandlerClass; var Result: ICefSchemeHandlerFactory); extdecl;
+procedure SchemeHandlerFactoryRef_Create(const AClass: TCefResourceHandlerClass; var Result: TSchemeHandlerFactoryRef); extdecl;
 begin
   handleExceptionBegin
   if AClass <> nil then
@@ -13,7 +13,7 @@ begin
   end
   else
   begin
-       Result := TSchemeHandlerFactoryRef.Create(TResourceHandlerRef);
+       Result := TSchemeHandlerFactoryRef.Create(nil);
   end;
   handleExceptionEnd
 end;
