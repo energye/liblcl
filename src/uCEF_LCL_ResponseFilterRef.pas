@@ -42,11 +42,12 @@ end;
 
 function TResponseFilterRef.Filter(data_in: Pointer; data_in_size: nativeuint; var data_in_read: nativeuint; data_out: Pointer; data_out_size: nativeuint; var data_out_written: nativeuint): TCefResponseFilterStatus;
 var
-  RetStatus: Integer;
+  RetStatus: integer;
 begin
+  Result := RESPONSE_FILTER_DONE;
   if (FilterPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(FilterPtr, [@data_in, data_in_size, @data_in_read, @data_out, data_out_size, @data_out_written, @RetStatus]);
+    TCEFEventCallback.SendEvent(FilterPtr, [data_in, data_in_size, @data_in_read, data_out, data_out_size, @data_out_written, @RetStatus]);
     Result := TCefResponseFilterStatus(RetStatus);
   end;
 end;
