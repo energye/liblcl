@@ -364,7 +364,9 @@ begin
   if (GetAudioParametersPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(GetAudioParametersPtr, [browser, @params, @aResult]);
-  end;
+  end
+  else
+    inherited OnGetAudioParameters(browser, params, aResult);
 end;
 
 procedure TAudioHandlerRef.OnAudioStreamStarted(const browser: ICefBrowser; const params: TCefAudioParameters; channels: integer);
@@ -372,7 +374,9 @@ begin
   if (AudioStreamStartedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(AudioStreamStartedPtr, [browser, @params, channels]);
-  end;
+  end
+  else
+    inherited OnAudioStreamStarted(browser, params, channels);
 end;
 
 procedure TAudioHandlerRef.OnAudioStreamPacket(const browser: ICefBrowser; const Data: PPSingle; frames: integer; pts: int64);
@@ -380,7 +384,9 @@ begin
   if (AudioStreamPacketPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(AudioStreamPacketPtr, [browser, Data, frames, pts]);
-  end;
+  end
+  else
+    inherited OnAudioStreamPacket(browser, Data, frames, pts);
 end;
 
 procedure TAudioHandlerRef.OnAudioStreamStopped(const browser: ICefBrowser);
@@ -388,7 +394,9 @@ begin
   if (AudioStreamStoppedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(AudioStreamStoppedPtr, [browser]);
-  end;
+  end
+  else
+    inherited OnAudioStreamStopped(browser);
 end;
 
 procedure TAudioHandlerRef.OnAudioStreamError(const browser: ICefBrowser; const message_: ustring);
@@ -396,7 +404,9 @@ begin
   if (AudioStreamErrorPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(AudioStreamErrorPtr, [browser, PChar(string(message_))]);
-  end;
+  end
+  else
+    inherited OnAudioStreamError(browser, message_);
 end;
 
 procedure TAudioHandlerRef.RemoveReferences;
@@ -427,7 +437,9 @@ begin
   if (ChromeCommandPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ChromeCommandPtr, [browser, command_id, disposition, @Result]);
-  end;
+  end
+  else
+     Result := inherited OnChromeCommand(browser, command_id, disposition);
 end;
 
 procedure TCommandHandlerRef.RemoveReferences;
@@ -453,7 +465,9 @@ begin
   if (BeforeContextMenuPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(BeforeContextMenuPtr, [browser, frame, params, model]);
-  end;
+  end
+  else
+    inherited OnBeforeContextMenu(browser, frame, params, model);
 end;
 
 function TContextMenuHandlerRef.RunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback): boolean;
@@ -462,7 +476,9 @@ begin
   if (RunContextMenuPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(RunContextMenuPtr, [browser, frame, params, model, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited RunContextMenu(browser, frame, params, model, callback);
 end;
 
 function TContextMenuHandlerRef.OnContextMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: integer; eventFlags: TCefEventFlags): boolean;
@@ -471,7 +487,9 @@ begin
   if (ContextMenuCommandPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ContextMenuCommandPtr, [browser, frame, params, commandId, eventFlags, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnContextMenuCommand(browser, frame, params, commandId, eventFlags);
 end;
 
 procedure TContextMenuHandlerRef.OnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame);
@@ -479,7 +497,9 @@ begin
   if (ContextMenuDismissedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ContextMenuDismissedPtr, [browser, frame]);
-  end;
+  end
+  else
+    inherited OnContextMenuDismissed(browser, frame);
 end;
 
 function TContextMenuHandlerRef.RunQuickMenu(const browser: ICefBrowser; const frame: ICefFrame; location: PCefPoint; size: PCefSize; edit_state_flags: TCefQuickMenuEditStateFlags; const callback: ICefRunQuickMenuCallback): boolean;
@@ -488,7 +508,9 @@ begin
   if (RunQuickMenuPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(RunQuickMenuPtr, [browser, frame, location, size, edit_state_flags, callback, @Result]);
-  end;
+  end
+  else
+     Result := inherited RunQuickMenu(browser, frame, location, size, edit_state_flags, callback);
 end;
 
 function TContextMenuHandlerRef.OnQuickMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; command_id: integer; event_flags: TCefEventFlags): boolean;
@@ -497,7 +519,9 @@ begin
   if (QuickMenuCommandPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(QuickMenuCommandPtr, [browser, frame, command_id, event_flags, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnQuickMenuCommand(browser, frame, command_id, event_flags);
 end;
 
 procedure TContextMenuHandlerRef.OnQuickMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame);
@@ -505,7 +529,9 @@ begin
   if (QuickMenuDismissedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(QuickMenuDismissedPtr, [browser, frame]);
-  end;
+  end
+  else
+    inherited OnQuickMenuDismissed(browser, frame);
 end;
 
 procedure TContextMenuHandlerRef.RemoveReferences;
@@ -534,11 +560,13 @@ end;
 {== DialogHandler ==}
 function TDialogHandlerRef.OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback): boolean;
 begin
+  Result := False;
   if (FileDialogPtr <> nil) then
   begin
-    Result := False;
     TCEFEventCallback.SendEvent(FileDialogPtr, [browser, mode, PChar(string(title)), PChar(string(defaultFilePath)), acceptFilters, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnFileDialog(browser, mode, title, defaultFilePath, acceptFilters, callback);
 end;
 
 procedure TDialogHandlerRef.RemoveReferences;
@@ -564,7 +592,9 @@ begin
   if (AddressChangePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(AddressChangePtr, [browser, frame, PChar(string(url))]);
-  end;
+  end
+  else
+    inherited OnAddressChange(browser, frame, url);
 end;
 
 procedure TDisplayHandlerRef.OnTitleChange(const browser: ICefBrowser; const title: ustring);
@@ -572,7 +602,9 @@ begin
   if (TitleChangePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(TitleChangePtr, [browser, PChar(string(title))]);
-  end;
+  end
+  else
+    inherited OnTitleChange(browser, title);
 end;
 
 procedure TDisplayHandlerRef.OnFaviconUrlChange(const browser: ICefBrowser; const iconUrls: TStrings);
@@ -580,7 +612,9 @@ begin
   if (FaviconUrlChangePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(FaviconUrlChangePtr, [browser, iconUrls]);
-  end;
+  end
+  else
+    inherited OnFaviconUrlChange(browser, iconUrls);
 end;
 
 procedure TDisplayHandlerRef.OnFullScreenModeChange(const browser: ICefBrowser; fullscreen: boolean);
@@ -588,25 +622,26 @@ begin
   if (FullScreenModeChangePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(FullScreenModeChangePtr, [browser, fullscreen]);
-  end;
+  end
+  else
+    inherited OnFullScreenModeChange(browser, fullscreen);
 end;
 
 function TDisplayHandlerRef.OnTooltip(const browser: ICefBrowser; var Text: ustring): boolean;
 var
   PRetText: PChar;
 begin
-  try
     Result := False;
     if (TooltipPtr <> nil) then
     begin
       PRetText := new(PChar);
       TCEFEventCallback.SendEvent(TooltipPtr, [browser, @PRetText, @Result]);
       Text := PCharToUStr(PRetText);
-    end;
-  finally
-    if PRetText <> nil then
-      PRetText := nil;
-  end;
+      if PRetText <> nil then
+         PRetText := nil;
+    end
+    else
+      Result := inherited OnTooltip(browser, Text);
 end;
 
 procedure TDisplayHandlerRef.OnStatusMessage(const browser: ICefBrowser; const Value: ustring);
@@ -614,7 +649,9 @@ begin
   if (StatusMessagePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(StatusMessagePtr, [browser, PChar(string(Value))]);
-  end;
+  end
+  else
+    inherited OnStatusMessage(browser, Value);
 end;
 
 function TDisplayHandlerRef.OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, Source: ustring; line: integer): boolean;
@@ -623,7 +660,9 @@ begin
   if (ConsoleMessagePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ConsoleMessagePtr, [browser, level, PChar(string(message_)), PChar(string(Source)), line, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnConsoleMessage(browser, level, message_, Source, line);
 end;
 
 function TDisplayHandlerRef.OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): boolean;
@@ -632,7 +671,9 @@ begin
   if (AutoResizePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(AutoResizePtr, [browser, new_size, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnAutoResize(browser, new_size);
 end;
 
 procedure TDisplayHandlerRef.OnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
@@ -640,7 +681,9 @@ begin
   if (LoadingProgressChangePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(LoadingProgressChangePtr, [browser, @progress]);
-  end;
+  end
+  else
+    inherited OnLoadingProgressChange(browser, progress);
 end;
 
 procedure TDisplayHandlerRef.OnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: boolean);
@@ -648,7 +691,9 @@ begin
   if (CursorChangePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(CursorChangePtr, [browser, cursor_, CursorType, customCursorInfo, @aResult]);
-  end;
+  end
+  else
+    inherited OnCursorChange(browser, cursor_, CursorType, customCursorInfo, aResult);
 end;
 
 procedure TDisplayHandlerRef.OnMediaAccessChange(const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
@@ -656,7 +701,9 @@ begin
   if (MediaAccessChangePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(MediaAccessChangePtr, [browser, has_video_access, has_audio_access]);
-  end;
+  end
+  else
+    inherited OnMediaAccessChange(browser, has_video_access, has_audio_access);
 end;
 
 procedure TDisplayHandlerRef.RemoveReferences;
@@ -693,7 +740,9 @@ begin
   if (CanDownloadPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(CanDownloadPtr, [browser, PChar(string(url)), PChar(string(request_method)), @Result]);
-  end;
+  end
+  else
+    Result := inherited CanDownload(browser, url, request_method);
 end;
 
 procedure TDownloadHandlerRef.OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
@@ -701,7 +750,9 @@ begin
   if (BeforeDownloadPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(BeforeDownloadPtr, [browser, downloadItem, PChar(string(suggestedName)), callback]);
-  end;
+  end
+  else
+    inherited OnBeforeDownload(browser, downloadItem, suggestedName, callback);
 end;
 
 procedure TDownloadHandlerRef.OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
@@ -709,7 +760,9 @@ begin
   if (DownloadUpdatedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(DownloadUpdatedPtr, [browser, downloadItem, callback]);
-  end;
+  end
+  else
+    inherited OnDownloadUpdated(browser, downloadItem, callback);
 end;
 
 procedure TDownloadHandlerRef.RemoveReferences;
@@ -739,15 +792,19 @@ begin
   if (DragEnterPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(DragEnterPtr, [browser, dragData, mask, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnDragEnter(browser, dragData, mask);
 end;
 
 procedure TDragHandlerRef.OnDraggableRegionsChanged(const browser: ICefBrowser; const frame: ICefFrame; regionsCount: nativeuint; const regions: PCefDraggableRegionArray);
 begin
   if (DraggableRegionsChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(DraggableRegionsChangedPtr, [browser, frame, Integer(regionsCount), regions]);
-  end;
+    TCEFEventCallback.SendEvent(DraggableRegionsChangedPtr, [browser, frame, integer(regionsCount), regions]);
+  end
+  else
+    inherited OnDraggableRegionsChanged(browser, frame, regionsCount, regions);
 end;
 
 procedure TDragHandlerRef.RemoveReferences;
@@ -799,7 +856,9 @@ begin
   if (TakeFocusPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(TakeFocusPtr, [browser, Next]);
-  end;
+  end
+  else
+    inherited OnTakeFocus(browser, Next);
 end;
 
 function TFocusHandlerRef.OnSetFocus(const browser: ICefBrowser; Source: TCefFocusSource): boolean;
@@ -807,8 +866,10 @@ begin
   Result := False;
   if (SetFocusPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(SetFocusPtr, [browser, Integer(Source), @Result]);
-  end;
+    TCEFEventCallback.SendEvent(SetFocusPtr, [browser, integer(Source), @Result]);
+  end
+  else
+    Result := inherited OnSetFocus(browser, Source);
 end;
 
 procedure TFocusHandlerRef.OnGotFocus(const browser: ICefBrowser);
@@ -816,7 +877,9 @@ begin
   if (GotFocusPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(GotFocusPtr, [browser]);
-  end;
+  end
+  else
+    inherited OnGotFocus(browser);
 end;
 
 procedure TFocusHandlerRef.RemoveReferences;
@@ -844,7 +907,9 @@ begin
   if (FrameCreatedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(FrameCreatedPtr, [browser, frame]);
-  end;
+  end
+  else
+    inherited OnFrameCreated(browser, frame);
 end;
 
 procedure TFrameHandlerRef.OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
@@ -852,7 +917,9 @@ begin
   if (FrameAttachedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(FrameAttachedPtr, [browser, frame, reattached]);
-  end;
+  end
+  else
+    inherited OnFrameAttached(browser, frame, reattached);
 end;
 
 procedure TFrameHandlerRef.OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
@@ -860,7 +927,9 @@ begin
   if (FrameDetachedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(FrameDetachedPtr, [browser, frame]);
-  end;
+  end
+  else
+    inherited OnFrameDetached(browser, frame);
 end;
 
 procedure TFrameHandlerRef.OnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
@@ -868,7 +937,9 @@ begin
   if (MainFrameChangedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(MainFrameChangedPtr, [browser, old_frame, new_frame]);
-  end;
+  end
+  else
+    inherited OnMainFrameChanged(browser, old_frame, new_frame);
 end;
 
 procedure TFrameHandlerRef.RemoveReferences;
@@ -898,7 +969,9 @@ begin
   if (RequestMediaAccessPermissionPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(RequestMediaAccessPermissionPtr, [browser, frame, PChar(string(requesting_origin)), requested_permissions, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnRequestMediaAccessPermission(browser, frame, requesting_origin, requested_permissions, callback);
 end;
 
 function TPermissionHandlerRef.OnShowPermissionPrompt(const browser: ICefBrowser; prompt_id: uint64; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefPermissionPromptCallback): boolean;
@@ -907,7 +980,9 @@ begin
   if (ShowPermissionPromptPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ShowPermissionPromptPtr, [browser, @prompt_id, PChar(string(requesting_origin)), requested_permissions, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnShowPermissionPrompt(browser, prompt_id, requesting_origin, requested_permissions, callback);
 end;
 
 procedure TPermissionHandlerRef.OnDismissPermissionPrompt(const browser: ICefBrowser; prompt_id: uint64; Result: TCefPermissionRequestResult);
@@ -915,7 +990,9 @@ begin
   if (DismissPermissionPromptPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(DismissPermissionPromptPtr, [browser, @prompt_id, Result]);
-  end;
+  end
+  else
+    inherited OnDismissPermissionPrompt(browser, prompt_id, Result);
 end;
 
 procedure TPermissionHandlerRef.RemoveReferences;
@@ -943,8 +1020,10 @@ begin
   Result := False;
   if (JsdialogPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(JsdialogPtr, [browser, PChar(string(originUrl)), Integer(dialogType), PChar(string(messageText)), PChar(string(defaultPromptText)), callback, @suppressMessage, @Result]);
-  end;
+    TCEFEventCallback.SendEvent(JsdialogPtr, [browser, PChar(string(originUrl)), integer(dialogType), PChar(string(messageText)), PChar(string(defaultPromptText)), callback, @suppressMessage, @Result]);
+  end
+  else
+    Result := inherited OnJsdialog(browser, originUrl, dialogType, messageText, defaultPromptText, callback, suppressMessage);
 end;
 
 function TJsDialogHandlerRef.OnBeforeUnloadDialog(const browser: ICefBrowser; const messageText: ustring; isReload: boolean; const callback: ICefJsDialogCallback): boolean;
@@ -953,7 +1032,9 @@ begin
   if (BeforeUnloadDialogPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(BeforeUnloadDialogPtr, [browser, PChar(string(messageText)), isReload, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnBeforeUnloadDialog(browser, messageText, isReload, callback);
 end;
 
 procedure TJsDialogHandlerRef.OnResetDialogState(const browser: ICefBrowser);
@@ -961,7 +1042,9 @@ begin
   if (ResetDialogStatePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ResetDialogStatePtr, [browser]);
-  end;
+  end
+  else
+    inherited OnResetDialogState(browser);
 end;
 
 procedure TJsDialogHandlerRef.OnDialogClosed(const browser: ICefBrowser);
@@ -969,7 +1052,9 @@ begin
   if (DialogClosedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(DialogClosedPtr, [browser]);
-  end;
+  end
+  else
+    inherited OnDialogClosed(browser);
 end;
 
 procedure TJsDialogHandlerRef.RemoveReferences;
@@ -1000,7 +1085,9 @@ begin
   if (PreKeyEventPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(PreKeyEventPtr, [browser, event, osEvent, @isKeyboardShortcut, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnPreKeyEvent(browser, event, osEvent, isKeyboardShortcut);
 end;
 
 function TKeyboardHandlerRef.OnKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle): boolean;
@@ -1009,7 +1096,9 @@ begin
   if (KeyEventPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(KeyEventPtr, [browser, event, osEvent, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnKeyEvent(browser, event, osEvent);
 end;
 
 procedure TKeyboardHandlerRef.RemoveReferences;
@@ -1032,8 +1121,7 @@ end;
 
 
 {== LifeSpanHandler ==}
-function TLifeSpanHandlerRef.OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean; const popupFeatures: TCefPopupFeatures;
-  var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: boolean): boolean;
+function TLifeSpanHandlerRef.OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: boolean): boolean;
 var
   beforePopupInfo: PRBeforePopupInfo;
 begin
@@ -1045,7 +1133,7 @@ begin
       beforePopupInfo := new(PRBeforePopupInfo);
       beforePopupInfo^.TargetUrl := PChar(string(targetUrl));
       beforePopupInfo^.TargetFrameName := PChar(string(targetFrameName));
-      beforePopupInfo^.TargetDisposition := PInteger(Integer(targetDisposition));
+      beforePopupInfo^.TargetDisposition := PInteger(integer(targetDisposition));
       beforePopupInfo^.UserGesture := @userGesture;
       //event
       TCEFEventCallback.SendEvent(BeforePopupPtr, [browser, frame, beforePopupInfo, @windowInfo, @client, @settings, @extra_info, @noJavascriptAccess, @Result]);
@@ -1056,7 +1144,9 @@ begin
       beforePopupInfo^.UserGesture := nil;
       beforePopupInfo := nil;
     end;
-  end;
+  end
+  else
+    Result := inherited OnBeforePopup(browser, frame, targetUrl, targetFrameName, targetDisposition, userGesture, popupFeatures, windowInfo, client, settings, extra_info, noJavascriptAccess);
 end;
 
 procedure TLifeSpanHandlerRef.OnAfterCreated(const browser: ICefBrowser);
@@ -1064,7 +1154,9 @@ begin
   if (AfterCreatedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(AfterCreatedPtr, [browser]);
-  end;
+  end
+  else
+    inherited OnAfterCreated(browser);
 end;
 
 function TLifeSpanHandlerRef.DoClose(const browser: ICefBrowser): boolean;
@@ -1073,7 +1165,9 @@ begin
   if (DoClosePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(DoClosePtr, [browser, @Result]);
-  end;
+  end
+  else
+    Result := inherited DoClose(browser);
 end;
 
 procedure TLifeSpanHandlerRef.OnBeforeClose(const browser: ICefBrowser);
@@ -1081,7 +1175,9 @@ begin
   if (BeforeClosePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(BeforeClosePtr, [browser]);
-  end;
+  end
+  else
+    inherited OnBeforeClose(browser);
 end;
 
 procedure TLifeSpanHandlerRef.RemoveReferences;
@@ -1110,7 +1206,9 @@ begin
   if (LoadingStateChangePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(LoadingStateChangePtr, [browser, isLoading, canGoBack, canGoForward]);
-  end;
+  end
+  else
+    inherited OnLoadingStateChange(browser, isLoading, canGoBack, canGoForward);
 end;
 
 procedure TLoadHandlerRef.OnLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
@@ -1118,7 +1216,9 @@ begin
   if (LoadStartPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(LoadStartPtr, [browser, frame, transitionType]);
-  end;
+  end
+  else
+    inherited OnLoadStart(browser, frame, transitionType);
 end;
 
 procedure TLoadHandlerRef.OnLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
@@ -1126,7 +1226,9 @@ begin
   if (LoadEndPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(LoadEndPtr, [browser, frame, httpStatusCode]);
-  end;
+  end
+  else
+    inherited OnLoadEnd(browser, frame, httpStatusCode);
 end;
 
 procedure TLoadHandlerRef.OnLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
@@ -1134,7 +1236,9 @@ begin
   if (LoadErrorPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(LoadErrorPtr, [browser, frame, errorCode, PChar(string(errorText)), PChar(string(failedUrl))]);
-  end;
+  end
+  else
+    inherited OnLoadError(browser, frame, errorCode, errorText, failedUrl);
 end;
 
 procedure TLoadHandlerRef.RemoveReferences;
@@ -1180,7 +1284,9 @@ begin
   if (PrintDialogPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(PrintDialogPtr, [browser, hasSelection, callback, @aResult]);
-  end;
+  end
+  else
+    inherited OnPrintDialog(browser, hasSelection, callback, aResult);
 end;
 
 procedure TPrintHandlerRef.OnPrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult: boolean);
@@ -1188,7 +1294,9 @@ begin
   if (PrintJobPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(PrintJobPtr, [browser, PChar(string(documentName)), PChar(string(PDFFilePath)), callback, @aResult]);
-  end;
+  end
+  else
+    inherited OnPrintJob(browser, documentName, PDFFilePath, callback, aResult);
 end;
 
 procedure TPrintHandlerRef.OnPrintReset(const browser: ICefBrowser);
@@ -1204,7 +1312,9 @@ begin
   if (PDFPaperSizePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(PDFPaperSizePtr, [browser, deviceUnitsPerInch, @aResult]);
-  end;
+  end
+  else
+    inherited GetPDFPaperSize(browser, deviceUnitsPerInch, aResult);
 end;
 
 procedure TPrintHandlerRef.RemoveReferences;
@@ -1229,14 +1339,15 @@ begin
   inherited Destroy;
 end;
 
-
 {== RenderHandler ==}
 procedure TRenderHandlerRef.GetAccessibilityHandler(var aAccessibilityHandler: ICefAccessibilityHandler);
 begin
   if (AccessibilityHandlerPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(AccessibilityHandlerPtr, [@aAccessibilityHandler]);
-  end;
+  end
+  else
+    inherited GetAccessibilityHandler(aAccessibilityHandler);
 end;
 
 function TRenderHandlerRef.GetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): boolean;
@@ -1245,7 +1356,9 @@ begin
   if (RootScreenRectPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(RootScreenRectPtr, [browser, @rect, @Result]);
-  end;
+  end
+  else
+    Result := inherited GetRootScreenRect(browser, rect);
 end;
 
 procedure TRenderHandlerRef.GetViewRect(const browser: ICefBrowser; var rect: TCefRect);
@@ -1253,7 +1366,9 @@ begin
   if (ViewRectPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ViewRectPtr, [browser, @rect]);
-  end;
+  end
+  else
+    inherited GetViewRect(browser, rect);
 end;
 
 function TRenderHandlerRef.GetScreenPoint(const browser: ICefBrowser; viewX, viewY: integer; var screenX, screenY: integer): boolean;
@@ -1262,7 +1377,9 @@ begin
   if (ScreenPointPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ScreenPointPtr, [browser, viewX, viewY, @screenX, @screenY, @Result]);
-  end;
+  end
+  else
+    Result := inherited GetScreenPoint(browser, viewX, viewY, screenX, screenY);
 end;
 
 function TRenderHandlerRef.GetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): boolean;
@@ -1271,7 +1388,9 @@ begin
   if (ScreenInfoPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ScreenInfoPtr, [browser, @screenInfo, @Result]);
-  end;
+  end
+  else
+    Result := inherited GetScreenInfo(browser, screenInfo);
 end;
 
 procedure TRenderHandlerRef.OnPopupShow(const browser: ICefBrowser; Show: boolean);
@@ -1279,7 +1398,9 @@ begin
   if (PopupShowPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(PopupShowPtr, [browser, Show]);
-  end;
+  end
+  else
+    inherited OnPopupShow(browser, Show);
 end;
 
 procedure TRenderHandlerRef.OnPopupSize(const browser: ICefBrowser; const rect: PCefRect);
@@ -1287,7 +1408,9 @@ begin
   if (PopupSizePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(PopupSizePtr, [browser, rect]);
-  end;
+  end
+  else
+    inherited OnPopupSize(browser, rect);
 end;
 
 procedure TRenderHandlerRef.OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; const buffer: Pointer; Width, Height: integer);
@@ -1295,7 +1418,9 @@ begin
   if (PaintPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(PaintPtr, [browser, kind, dirtyRectsCount, dirtyRects, buffer, Width, Height]);
-  end;
+  end
+  else
+    inherited OnPaint(browser, kind, dirtyRectsCount, dirtyRects, buffer, Width, Height);
 end;
 
 procedure TRenderHandlerRef.OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; shared_handle: Pointer);
@@ -1303,7 +1428,9 @@ begin
   if (AcceleratedPaintPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(AcceleratedPaintPtr, [browser, kind, dirtyRectsCount, dirtyRects, shared_handle]);
-  end;
+  end
+  else
+    inherited OnAcceleratedPaint(browser, kind, dirtyRectsCount, dirtyRects, shared_handle);
 end;
 
 procedure TRenderHandlerRef.GetTouchHandleSize(const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize);
@@ -1311,7 +1438,9 @@ begin
   if (TouchHandleSizePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(TouchHandleSizePtr, [browser, orientation, @size]);
-  end;
+  end
+  else
+    inherited GetTouchHandleSize(browser, orientation, size);
 end;
 
 procedure TRenderHandlerRef.OnTouchHandleStateChanged(const browser: ICefBrowser; const state: TCefTouchHandleState);
@@ -1319,7 +1448,9 @@ begin
   if (TouchHandleStateChangedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(TouchHandleStateChangedPtr, [browser, @state]);
-  end;
+  end
+  else
+    inherited OnTouchHandleStateChanged(browser, state);
 end;
 
 function TRenderHandlerRef.OnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: integer): boolean;
@@ -1328,7 +1459,9 @@ begin
   if (StartDraggingPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(StartDraggingPtr, [browser, dragData, allowedOps, x, y, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnStartDragging(browser, dragData, allowedOps, x, y);
 end;
 
 procedure TRenderHandlerRef.OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation);
@@ -1336,7 +1469,9 @@ begin
   if (UpdateDragCursorPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(UpdateDragCursorPtr, [browser, operation]);
-  end;
+  end
+  else
+    inherited OnUpdateDragCursor(browser, operation);
 end;
 
 procedure TRenderHandlerRef.OnScrollOffsetChanged(const browser: ICefBrowser; x, y: double);
@@ -1344,7 +1479,9 @@ begin
   if (ScrollOffsetChangedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ScrollOffsetChangedPtr, [browser, @x, @y]);
-  end;
+  end
+  else
+    inherited OnScrollOffsetChanged(browser, x, y);
 end;
 
 procedure TRenderHandlerRef.OnIMECompositionRangeChanged(const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: nativeuint; const character_bounds: PCefRect);
@@ -1352,7 +1489,9 @@ begin
   if (IMECompositionRangeChangedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(IMECompositionRangeChangedPtr, [browser, selected_range, character_boundsCount, character_bounds]);
-  end;
+  end
+  else
+    inherited OnIMECompositionRangeChanged(browser, selected_range, character_boundsCount, character_bounds);
 end;
 
 procedure TRenderHandlerRef.OnTextSelectionChanged(const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange);
@@ -1360,7 +1499,9 @@ begin
   if (TextSelectionChangedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(TextSelectionChangedPtr, [browser, PChar(string(selected_text)), selected_range]);
-  end;
+  end
+  else
+    inherited OnTextSelectionChanged(browser, selected_text, selected_range);
 end;
 
 procedure TRenderHandlerRef.OnVirtualKeyboardRequested(const browser: ICefBrowser; input_mode: TCefTextInpuMode);
@@ -1368,7 +1509,9 @@ begin
   if (VirtualKeyboardRequestedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(VirtualKeyboardRequestedPtr, [browser, input_mode]);
-  end;
+  end
+  else
+    inherited OnVirtualKeyboardRequested(browser, input_mode);
 end;
 
 procedure TRenderHandlerRef.RemoveReferences;
@@ -1412,7 +1555,9 @@ begin
   if (BeforeBrowsePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(BeforeBrowsePtr, [browser, frame, request, user_gesture, isRedirect, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnBeforeBrowse(browser, frame, request, user_gesture, isRedirect);
 end;
 
 function TRequestHandlerRef.OnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean): boolean;
@@ -1421,16 +1566,19 @@ begin
   if (OpenUrlFromTabPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(OpenUrlFromTabPtr, [browser, frame, PChar(string(targetUrl)), targetDisposition, userGesture, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnOpenUrlFromTab(browser, frame, targetUrl, targetDisposition, userGesture);
 end;
 
-procedure TRequestHandlerRef.GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring;
-  var disable_default_handling: boolean; var aResourceRequestHandler: ICefResourceRequestHandler);
+procedure TRequestHandlerRef.GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler: ICefResourceRequestHandler);
 begin
   if (GetResourceRequestHandlerPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(GetResourceRequestHandlerPtr, [browser, frame, request, is_navigation, is_download, PChar(string(request_initiator)), @disable_default_handling, @aResourceRequestHandler]);
-  end;
+  end
+  else
+    inherited GetResourceRequestHandler(browser, frame, request, is_navigation, is_download, request_initiator, disable_default_handling, aResourceRequestHandler);
 end;
 
 function TRequestHandlerRef.GetAuthCredentials(const browser: ICefBrowser; const originUrl: ustring; isProxy: boolean; const host: ustring; port: integer; const realm, scheme: ustring; const callback: ICefAuthCallback): boolean;
@@ -1439,7 +1587,9 @@ begin
   if (GetAuthCredentialsPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(GetAuthCredentialsPtr, [browser, PChar(string(originUrl)), isProxy, PChar(string(host)), port, PChar(string(realm)), PChar(string(scheme)), callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited GetAuthCredentials(browser, originUrl, isProxy, host, port, realm, scheme, callback);
 end;
 
 function TRequestHandlerRef.OnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback): boolean;
@@ -1447,18 +1597,21 @@ begin
   Result := False;
   if (CertificateErrorPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(CertificateErrorPtr, [browser, certError, PChar(string(requestUrl)), sslInfo, callback]);
-  end;
+    TCEFEventCallback.SendEvent(CertificateErrorPtr, [browser, certError, PChar(string(requestUrl)), sslInfo, callback, @Result]);
+  end
+  else
+    Result := inherited OnCertificateError(browser, certError, requestUrl, sslInfo, callback);
 end;
 
-function TRequestHandlerRef.OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: nativeuint; const certificates: TCefX509CertificateArray;
-  const callback: ICefSelectClientCertificateCallback): boolean;
+function TRequestHandlerRef.OnSelectClientCertificate(const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: nativeuint; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback): boolean;
 begin
   Result := False;
   if (SelectClientCertificatePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(SelectClientCertificatePtr, [browser, isProxy, PChar(string(host)), port, certificatesCount, @certificates, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnSelectClientCertificate(browser, isProxy, host, port, certificatesCount, certificates, callback);
 end;
 
 procedure TRequestHandlerRef.OnRenderViewReady(const browser: ICefBrowser);
@@ -1466,7 +1619,9 @@ begin
   if (RenderViewReadyPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(RenderViewReadyPtr, [browser]);
-  end;
+  end
+  else
+    inherited OnRenderViewReady(browser);
 end;
 
 procedure TRequestHandlerRef.OnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus);
@@ -1474,7 +1629,9 @@ begin
   if (RenderProcessTerminatedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(RenderProcessTerminatedPtr, [browser, status]);
-  end;
+  end
+  else
+    inherited OnRenderProcessTerminated(browser, status);
 end;
 
 procedure TRequestHandlerRef.OnDocumentAvailableInMainFrame(const browser: ICefBrowser);
@@ -1482,7 +1639,9 @@ begin
   if (DocumentAvailableInMainFramePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(DocumentAvailableInMainFramePtr, [browser]);
-  end;
+  end
+  else
+    inherited OnDocumentAvailableInMainFrame(browser);
 end;
 
 procedure TRequestHandlerRef.RemoveReferences;

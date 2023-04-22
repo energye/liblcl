@@ -46,11 +46,7 @@ begin
           vtBoolean: LParams[I] := Pointer(byte(LV.VBoolean));
           vtChar: LParams[I] := Pointer(Ord(LV.VChar));
           vtExtended: LParams[I] := LV.VExtended;
-          vtString: LParams[I] :=
-{$IFDEF MSWINDOWS}
-              LV.VString
-{$ELSE}LV.VAnsiString{$ENDIF}
-            ;
+          vtString: LParams[I] := {$IFDEF MSWINDOWS} LV.VString {$ELSE}LV.VAnsiString{$ENDIF};
           vtPointer: LParams[I] := LV.VPointer;
           vtPChar: LParams[I] := LV.VPChar;
           vtObject: LParams[I] := LV.VObject;

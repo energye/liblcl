@@ -85,7 +85,9 @@ begin
   if (GetCookieAccessFilterPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(GetCookieAccessFilterPtr, [browser, frame, request, @aFilter]);
-  end;
+  end
+  else
+    inherited GetCookieAccessFilter(browser, frame, request, aFilter);
 end;
 
 function TResourceRequestHandlerRef.OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback): TCefReturnValue;
@@ -94,7 +96,9 @@ begin
   if (BeforeResourceLoadPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(BeforeResourceLoadPtr, [browser, frame, request, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnBeforeResourceLoad(browser, frame, request, callback);
 end;
 
 procedure TResourceRequestHandlerRef.GetResourceHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aResourceHandler: ICefResourceHandler);
@@ -102,7 +106,9 @@ begin
   if (GetResourceHandlerPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(GetResourceHandlerPtr, [browser, frame, request, @aResourceHandler]);
-  end;
+  end
+  else
+    inherited GetResourceHandler(browser, frame, request, aResourceHandler);
 end;
 
 procedure TResourceRequestHandlerRef.OnResourceRedirect(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var newUrl: ustring);
@@ -116,7 +122,9 @@ begin
     if RetNewURL <> nil then
       newUrl := PCharToUStr(RetNewURL);
     RetNewURL := nil;
-  end;
+  end
+  else
+    inherited OnResourceRedirect(browser, frame, request, response, newUrl);
 end;
 
 function TResourceRequestHandlerRef.OnResourceResponse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): boolean;
@@ -125,7 +133,9 @@ begin
   if (ResourceResponsePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ResourceResponsePtr, [browser, frame, request, response, @Result]);
-  end;
+  end
+  else
+    Result := inherited OnResourceResponse(browser, frame, request, response);
 end;
 
 procedure TResourceRequestHandlerRef.GetResourceResponseFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var aResponseFilter: ICefResponseFilter);
@@ -133,7 +143,9 @@ begin
   if (GetResourceResponseFilterPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(GetResourceResponseFilterPtr, [browser, frame, request, response, @aResponseFilter]);
-  end;
+  end
+  else
+    inherited GetResourceResponseFilter(browser, frame, request, response, aResponseFilter);
 end;
 
 procedure TResourceRequestHandlerRef.OnResourceLoadComplete(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; status: TCefUrlRequestStatus; receivedContentLength: int64);
@@ -141,7 +153,9 @@ begin
   if (ResourceLoadCompletePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ResourceLoadCompletePtr, [browser, frame, request, response, integer(status), @receivedContentLength]);
-  end;
+  end
+  else
+    inherited OnResourceLoadComplete(browser, frame, request, response, status, receivedContentLength);
 end;
 
 procedure TResourceRequestHandlerRef.OnProtocolExecution(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var allowOsExecution: boolean);
@@ -149,7 +163,9 @@ begin
   if (ProtocolExecutionPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ProtocolExecutionPtr, [browser, frame, request, @allowOsExecution]);
-  end;
+  end
+  else
+    inherited OnProtocolExecution(browser, frame, request, allowOsExecution);
 end;
 
 procedure TResourceRequestHandlerRef.RemoveReferences;
@@ -183,7 +199,9 @@ begin
   if (CanSendCookiePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(CanSendCookiePtr, [browser, frame, request, cookie, @Result]);
-  end;
+  end
+  else
+     Result := inherited CanSendCookie(browser, frame, request, cookie);
 end;
 
 function TCookieAccessFilterRef.CanSaveCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie): boolean;
@@ -192,7 +210,9 @@ begin
   if (CanSaveCookiePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(CanSaveCookiePtr, [browser, frame, request, response, cookie, @Result]);
-  end;
+  end
+  else
+     Result := inherited CanSaveCookie(browser, frame, request, response, cookie);
 end;
 
 procedure TCookieAccessFilterRef.RemoveReferences;
@@ -220,7 +240,9 @@ begin
   if (OpenPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(OpenPtr, [request, @handle_request, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited Open(request, handle_request, callback);
 end;
 
 procedure TResourceHandlerRef.GetResponseHeaders(const response: ICefResponse; out responseLength: int64; out redirectUrl: ustring);
@@ -234,7 +256,9 @@ begin
     if RetRedirectUrl <> nil then
       redirectUrl := PCharToUStr(RetRedirectUrl);
     RetRedirectUrl := nil;
-  end;
+  end
+  else
+    inherited GetResponseHeaders(response, responseLength, redirectUrl);
 end;
 
 function TResourceHandlerRef.skip(bytes_to_skip: int64; var bytes_skipped: int64; const callback: ICefResourceSkipCallback): boolean;
@@ -243,7 +267,9 @@ begin
   if (skipPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(skipPtr, [@bytes_to_skip, @bytes_skipped, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited skip(bytes_to_skip, bytes_skipped, callback);
 end;
 
 function TResourceHandlerRef.Read(const data_out: Pointer; bytes_to_read: integer; var bytes_read: integer; const callback: ICefResourceReadCallback): boolean;
@@ -252,7 +278,9 @@ begin
   if (ReadPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ReadPtr, [@data_out, bytes_to_read, @bytes_read, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited Read(data_out, bytes_to_read, bytes_read, callback);
 end;
 
 function TResourceHandlerRef.ProcessRequest(const request: ICefRequest; const callback: ICefCallback): boolean; // deprecated
@@ -261,7 +289,9 @@ begin
   if (ProcessRequestPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ProcessRequestPtr, [request, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited ProcessRequest(request, callback);
 end;
 
 function TResourceHandlerRef.ReadResponse(const dataOut: Pointer; bytesToRead: integer; var bytesRead: integer; const callback: ICefCallback): boolean; // deprecated
@@ -270,7 +300,9 @@ begin
   if (ReadResponsePtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ReadResponsePtr, [@dataOut, bytesToRead, @bytesRead, callback, @Result]);
-  end;
+  end
+  else
+    Result := inherited ReadResponse(dataOut, bytesToRead, bytesRead, callback);
 end;
 
 procedure TResourceHandlerRef.Cancel;
@@ -278,7 +310,9 @@ begin
   if (CancelPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(CancelPtr, []);
-  end;
+  end
+  else
+    inherited Cancel();
 end;
 
 constructor TResourceHandlerRef.Create(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: ustring; const request: ICefRequest);

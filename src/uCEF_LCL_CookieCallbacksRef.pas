@@ -81,7 +81,9 @@ begin
     cookie^.Result := @Result;
     TCEFEventCallback.SendEvent(visitPtr, [cookie, @Result]);
     cookie := nil;
-  end;
+  end
+  else
+    Result := inherited visit(Name, Value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, Count, total, same_site, priority, deleteCookie);
 end;
 
 constructor TCookieVisitorRef.Create;

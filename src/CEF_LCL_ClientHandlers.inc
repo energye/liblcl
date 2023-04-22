@@ -437,6 +437,99 @@ begin
     AObj.PDFPaperSizePtr := AEventData;
 end;
 
+{== RenderHandler ==}
+procedure CefRenderHandlerRef_Create(var Result: TRenderHandlerRef); extdecl;
+begin
+  handleExceptionBegin
+  Result := TRenderHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefRenderHandler_GetAccessibilityHandler(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.AccessibilityHandlerPtr := AEventData;
+end;
+
+procedure CefRenderHandler_GetRootScreenRect(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.RootScreenRectPtr := AEventData;
+end;
+
+procedure CefRenderHandler_GetViewRect(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.ViewRectPtr := AEventData;
+end;
+
+procedure CefRenderHandler_GetScreenPoint(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.ScreenPointPtr := AEventData;
+end;
+
+procedure CefRenderHandler_GetScreenInfo(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.ScreenInfoPtr := AEventData;
+end;
+
+procedure CefRenderHandler_OnPopupShow(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.PopupShowPtr := AEventData;
+end;
+
+procedure CefRenderHandler_OnPopupSize(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.PopupSizePtr := AEventData;
+end;
+
+procedure CefRenderHandler_OnPaint(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.PaintPtr := AEventData;
+end;
+
+procedure CefRenderHandler_OnAcceleratedPaint(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.AcceleratedPaintPtr := AEventData;
+end;
+
+procedure CefRenderHandler_GetTouchHandleSize(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.TouchHandleSizePtr := AEventData;
+end;
+
+procedure CefRenderHandler_OnTouchHandleStateChanged(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.TouchHandleStateChangedPtr := AEventData;
+end;
+
+procedure CefRenderHandler_OnStartDragging(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.StartDraggingPtr := AEventData;
+end;
+
+procedure CefRenderHandler_OnUpdateDragCursor(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.UpdateDragCursorPtr := AEventData;
+end;
+
+procedure CefRenderHandler_OnScrollOffsetChanged(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.ScrollOffsetChangedPtr := AEventData;
+end;
+
+procedure CefRenderHandler_OnIMECompositionRangeChanged(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.IMECompositionRangeChangedPtr := AEventData;
+end;
+
+procedure CefRenderHandler_OnTextSelectionChanged(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.TextSelectionChangedPtr := AEventData;
+end;
+
+procedure CefRenderHandler_OnVirtualKeyboardRequested(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.VirtualKeyboardRequestedPtr := AEventData;
+end;
+
 exports
   {== AudioHandler ==}
   CefAudioHandlerRef_Create,
@@ -530,5 +623,24 @@ exports
   CefPrintHandler_OnPrintDialog,
   CefPrintHandler_OnPrintJob,
   CefPrintHandler_OnPrintReset,
-  CefPrintHandler_GetPDFPaperSize
+  CefPrintHandler_GetPDFPaperSize,
+  {== RenderHandler ==}
+  CefRenderHandlerRef_Create,
+  CefRenderHandler_GetAccessibilityHandler,
+  CefRenderHandler_GetRootScreenRect,
+  CefRenderHandler_GetViewRect,
+  CefRenderHandler_GetScreenPoint,
+  CefRenderHandler_GetScreenInfo,
+  CefRenderHandler_OnPopupShow,
+  CefRenderHandler_OnPopupSize,
+  CefRenderHandler_OnPaint,
+  CefRenderHandler_OnAcceleratedPaint,
+  CefRenderHandler_GetTouchHandleSize,
+  CefRenderHandler_OnTouchHandleStateChanged,
+  CefRenderHandler_OnStartDragging,
+  CefRenderHandler_OnUpdateDragCursor,
+  CefRenderHandler_OnScrollOffsetChanged,
+  CefRenderHandler_OnIMECompositionRangeChanged,
+  CefRenderHandler_OnTextSelectionChanged,
+  CefRenderHandler_OnVirtualKeyboardRequested
 ;

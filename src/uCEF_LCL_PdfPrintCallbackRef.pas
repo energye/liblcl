@@ -20,11 +20,10 @@ type
   TPdfPrintCallbackRef = class(TCefPdfPrintCallbackOwn)
   public
     PdfPrintFinishedPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnPdfPrintFinished(const path: ustring; ok: boolean); override;
-
   end;
 
 implementation

@@ -34,7 +34,9 @@ begin
   if (CompletionCallbackPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(CompletionCallbackPtr, []);
-  end;
+  end
+  else
+    inherited OnComplete();
 end;
 
 constructor TCompletionCallbackRef.Create;

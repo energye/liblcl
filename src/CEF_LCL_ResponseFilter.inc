@@ -21,7 +21,6 @@ begin
     AObj.FilterPtr := AEventData;
 end;
 
-
 exports
   CefResponseFilterRef_Create,
   CefResponseFilter_InitFilter,

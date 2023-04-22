@@ -38,7 +38,9 @@ begin
   if (RequestContextInitializedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(RequestContextInitializedPtr, [request_context]);
-  end;
+  end
+  else
+    inherited OnRequestContextInitialized(request_context);
 end;
 
 procedure TRequestContextHandlerRef.GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler: ICefResourceRequestHandler);
@@ -46,7 +48,9 @@ begin
   if (GetResourceRequestHandlerPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(GetResourceRequestHandlerPtr, [browser, frame, request, is_navigation, is_download, PChar(string(request_initiator)), @disable_default_handling, @aResourceRequestHandler]);
-  end;
+  end
+  else
+    inherited GetResourceRequestHandler(browser, frame, request, is_navigation, is_download, request_initiator, disable_default_handling, aResourceRequestHandler);
 end;
 
 procedure TRequestContextHandlerRef.RemoveReferences;
