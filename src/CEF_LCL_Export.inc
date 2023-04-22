@@ -61,6 +61,7 @@
 {$I CEF_LCL_ResourceCallbacks.inc}
 {$I CEF_LCL_ResourceRequestHandler.inc}
 {$I CEF_LCL_Response.inc}
+{$I CEF_LCL_ResponseFilter.inc}
 {$I CEF_LCL_RunContextMenuCallback.inc}
 {$I CEF_LCL_RunQuickMenuCallback.inc}
 {$I CEF_LCL_SchemeHandlerFactory.inc}

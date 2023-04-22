@@ -20,8 +20,8 @@ type
   TCompletionCallbackRef = class(TCefCompletionCallbackOwn)
   public
     CompletionCallbackPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnComplete(); override;
 
