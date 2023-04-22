@@ -62,6 +62,8 @@ type
     GetResponseHeadersPtr: Pointer;
     skipPtr: Pointer;
     ReadPtr: Pointer;
+    ProcessRequestPtr: Pointer;
+    ReadResponsePtr: Pointer;
     CancelPtr: Pointer;
     constructor Create(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: ustring; const request: ICefRequest); override;
     destructor Destroy; override;
@@ -70,6 +72,8 @@ type
     procedure GetResponseHeaders(const response: ICefResponse; out responseLength: int64; out redirectUrl: ustring); override;
     function skip(bytes_to_skip: int64; var bytes_skipped: int64; const callback: ICefResourceSkipCallback): boolean; override;
     function Read(const data_out: Pointer; bytes_to_read: integer; var bytes_read: integer; const callback: ICefResourceReadCallback): boolean; override;
+    function ProcessRequest(const request: ICefRequest; const callback: ICefCallback): boolean; override; // deprecated
+    function ReadResponse(const dataOut: Pointer; bytesToRead: integer; var bytesRead: integer; const callback: ICefCallback): boolean; override; // deprecated
     procedure Cancel; override;
   end;
 
@@ -228,7 +232,7 @@ begin
     RetRedirectUrl := new(PChar);
     TCEFEventCallback.SendEvent(GetResponseHeadersPtr, [response, @responseLength, @RetRedirectUrl]);
     if RetRedirectUrl <> nil then
-       redirectUrl := PCharToUStr(RetRedirectUrl);
+      redirectUrl := PCharToUStr(RetRedirectUrl);
     RetRedirectUrl := nil;
   end;
 end;
@@ -248,6 +252,24 @@ begin
   if (ReadPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ReadPtr, [@data_out, bytes_to_read, @bytes_read, callback, @Result]);
+  end;
+end;
+
+function TResourceHandlerRef.ProcessRequest(const request: ICefRequest; const callback: ICefCallback): boolean; // deprecated
+begin
+  Result := False;
+  if (ProcessRequestPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(ProcessRequestPtr, [request, callback, @Result]);
+  end;
+end;
+
+function TResourceHandlerRef.ReadResponse(const dataOut: Pointer; bytesToRead: integer; var bytesRead: integer; const callback: ICefCallback): boolean; // deprecated
+begin
+  Result := False;
+  if (ReadResponsePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(ReadResponsePtr, [@dataOut, bytesToRead, @bytesRead, callback, @Result]);
   end;
 end;
 

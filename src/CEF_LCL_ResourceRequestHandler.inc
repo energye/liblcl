@@ -140,6 +140,20 @@ begin
   handleExceptionEnd
 end;
 
+procedure ResourceHandler_ProcessRequest(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ProcessRequestPtr := AEventData;
+  handleExceptionEnd
+end;
+
+procedure ResourceHandler_ReadResponse(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ReadResponsePtr := AEventData;
+  handleExceptionEnd
+end;
+
 procedure ResourceHandler_Cancel(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
@@ -170,5 +184,7 @@ exports
   ResourceHandler_GetResponseHeaders,
   ResourceHandler_Skip,
   ResourceHandler_Read,
+  ResourceHandler_ProcessRequest,
+  ResourceHandler_ReadResponse,
   ResourceHandler_Cancel
 ;
