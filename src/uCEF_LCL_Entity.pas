@@ -293,6 +293,8 @@ type
     UserGesture: PBoolean;
   end;
 
+  PTCefX509CertificateArray = ^TCefX509CertificateArray;
+
   PRTCefRect = ^RTCefRect;
 
   RTCefRect = record

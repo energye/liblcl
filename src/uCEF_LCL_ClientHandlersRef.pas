@@ -13,9 +13,9 @@ interface
 
 uses
   Classes, uCEF_LCL_Entity,
-  uCEFTypes, uCEFInterfaces, uCEFClient, uCEFAudioHandler, uCEFCommandHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFDisplayHandler,
+  uCEFTypes, uCEFInterfaces, uCEFAudioHandler, uCEFCommandHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFDisplayHandler,
   uCEFDownloadHandler, uCEFDragHandler, uCEFFindHandler, uCEFFocusHandler, uCEFFrameHandler, uCEFPermissionHandler, uCEFJsdialogHandler, uCEFKeyboardHandler,
-  uCEFLifeSpanHandler, uCEFLoadHandler, uCEFPrintHandler, uCEFRenderHandler, uCEFRequestHandler,
+  uCEFLifeSpanHandler, uCEFLoadHandler, uCEFPrintHandler, uCEFRenderHandler, uCEFRequestHandler, uCEFv8Value,
   uCEF_LCL_EventCallback;
 
 type
