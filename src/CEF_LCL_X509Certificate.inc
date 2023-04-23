@@ -167,6 +167,13 @@ begin
   handleExceptionEnd
 end;
 
+{== ICefSelectClientCertificateCallback ==}
+procedure CefSelectClientCertificateCallback_Select(const AObj: ICefSelectClientCertificateCallback; const cert: ICefX509Certificate); extdecl;
+begin
+  handleExceptionBegin
+  AObj.Select(cert);
+  handleExceptionEnd
+end;
 
 exports
     {== TCefX509CertificateArray ==}
@@ -193,5 +200,7 @@ exports
     CefX509CertPrincipal_GetStreetAddresses,
     CefX509CertPrincipal_GetOrganizationNames,
     CefX509CertPrincipal_GetOrganizationUnitNames,
-    CefX509CertPrincipal_GetDomainComponents
+    CefX509CertPrincipal_GetDomainComponents,
+    {== ICefSelectClientCertificateCallback ==}
+    CefSelectClientCertificateCallback_Select
 ;
