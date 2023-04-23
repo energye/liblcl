@@ -175,6 +175,21 @@ begin
   handleExceptionEnd
 end;
 
+{== ICefSslInfo ==}
+function CefSslInfo_GetCertStatus(const AObj: ICefSslInfo): TCefCertStatus;
+begin
+  handleExceptionBegin
+  Result := AObj.GetCertStatus;
+  handleExceptionEnd
+end;
+
+procedure CefSslInfo_GetX509Certificate(const AObj: ICefSslInfo; var Result: ICefX509Certificate);
+begin
+  handleExceptionBegin
+  Result := AObj.GetX509Certificate();
+  handleExceptionEnd
+end;
+
 exports
     {== TCefX509CertificateArray ==}
     CefX509CertificateArray_Get,
@@ -202,5 +217,8 @@ exports
     CefX509CertPrincipal_GetOrganizationUnitNames,
     CefX509CertPrincipal_GetDomainComponents,
     {== ICefSelectClientCertificateCallback ==}
-    CefSelectClientCertificateCallback_Select
+    CefSelectClientCertificateCallback_Select,
+    {== ICefSslInfo ==}
+    CefSslInfo_GetCertStatus,
+    CefSslInfo_GetX509Certificate
 ;
