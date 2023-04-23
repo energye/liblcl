@@ -4,6 +4,15 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
+{== TCefBinaryValueArray ==}
+procedure CefBinaryValueArray_Get(const BinaryValueArray: PTCefBinaryValueArray; index: NativeUint; var Result: ICefBinaryValue); extdecl;
+begin
+  handleExceptionBegin
+  Result := BinaryValueArray^[index];
+  handleExceptionEnd
+end;
+
+{== ICefBinaryValue ==}
 procedure CefBinaryValueRef_New(const data: Pointer; dataSize: NativeUInt; var Result: ICefBinaryValue); extdecl;
 begin
   handleExceptionBegin
@@ -61,6 +70,9 @@ begin
 end;
 
 exports
+    {== TCefBinaryValueArray ==}
+    CefBinaryValueArray_Get,
+    {== ICefBinaryValue ==}
     CefBinaryValueRef_New,
     CefBinaryValueRef_Create,
     CefBinaryValueRef_UnWrap,

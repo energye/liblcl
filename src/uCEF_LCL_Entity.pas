@@ -293,6 +293,7 @@ type
     UserGesture: PBoolean;
   end;
 
+  PTCefBinaryValueArray = ^TCefBinaryValueArray;
   PTCefX509CertificateArray = ^TCefX509CertificateArray;
 
   PRTCefRect = ^RTCefRect;
