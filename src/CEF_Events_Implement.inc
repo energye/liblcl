@@ -485,16 +485,8 @@ begin
 end;
 
 procedure TLCLEvent.WindowComponent_OnGetInitialBounds(const Sender: TObject; const window: ICefWindow; var aResult : TCefRect);
-var
-  PRet : PRTCefRect;
 begin
-  PRet := new(PRTCefRect);
-  SendEvent([Sender, window, PRet]);
-  aResult.x := Integer(PRet^.x);
-  aResult.y := Integer(PRet^.y);
-  aResult.width := Integer(PRet^.width);
-  aResult.height := Integer(PRet^.height);
-  PRet := nil;
+  SendEvent([Sender, window, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnGetInitialShowState(const Sender: TObject; const window: ICefWindow; var aResult : TCefShowState);
