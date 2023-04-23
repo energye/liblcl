@@ -530,6 +530,59 @@ begin
     AObj.VirtualKeyboardRequestedPtr := AEventData;
 end;
 
+{== RequestHandler ==}
+procedure CefRequestHandlerRef_Create(var Result: TRequestHandlerRef); extdecl;
+begin
+  handleExceptionBegin
+  Result := TRequestHandlerRef.Create;
+  handleExceptionEnd
+end;
+
+procedure CefRequestHandler_OnBeforeBrowse(const AObj: TRequestHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.BeforeBrowsePtr := AEventData;
+end;
+
+procedure CefRequestHandler_OnOpenUrlFromTab(const AObj: TRequestHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.OpenUrlFromTabPtr := AEventData;
+end;
+
+procedure CefRequestHandler_GetResourceRequestHandler(const AObj: TRequestHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.GetResourceRequestHandlerPtr := AEventData;
+end;
+
+procedure CefRequestHandler_GetAuthCredentials(const AObj: TRequestHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.GetAuthCredentialsPtr := AEventData;
+end;
+
+procedure CefRequestHandler_OnCertificateError(const AObj: TRequestHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.CertificateErrorPtr := AEventData;
+end;
+
+procedure CefRequestHandler_OnSelectClientCertificate(const AObj: TRequestHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.SelectClientCertificatePtr := AEventData;
+end;
+
+procedure CefRequestHandler_OnRenderViewReady(const AObj: TRequestHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.RenderViewReadyPtr := AEventData;
+end;
+
+procedure CefRequestHandler_OnRenderProcessTerminated(const AObj: TRequestHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.RenderProcessTerminatedPtr := AEventData;
+end;
+
+procedure CefRequestHandler_OnDocumentAvailableInMainFrame(const AObj: TRequestHandlerRef; AEventData: Pointer); extdecl;
+begin
+    AObj.DocumentAvailableInMainFramePtr := AEventData;
+end;
+
 exports
   {== AudioHandler ==}
   CefAudioHandlerRef_Create,
@@ -642,5 +695,16 @@ exports
   CefRenderHandler_OnScrollOffsetChanged,
   CefRenderHandler_OnIMECompositionRangeChanged,
   CefRenderHandler_OnTextSelectionChanged,
-  CefRenderHandler_OnVirtualKeyboardRequested
+  CefRenderHandler_OnVirtualKeyboardRequested,
+  {== RequestHandler ==}
+  CefRequestHandlerRef_Create,
+  CefRequestHandler_OnBeforeBrowse,
+  CefRequestHandler_OnOpenUrlFromTab,
+  CefRequestHandler_GetResourceRequestHandler,
+  CefRequestHandler_GetAuthCredentials,
+  CefRequestHandler_OnCertificateError,
+  CefRequestHandler_OnSelectClientCertificate,
+  CefRequestHandler_OnRenderViewReady,
+  CefRequestHandler_OnRenderProcessTerminated,
+  CefRequestHandler_OnDocumentAvailableInMainFrame
 ;

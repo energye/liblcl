@@ -1547,7 +1547,6 @@ begin
   inherited Destroy;
 end;
 
-
 {== RequestHandler ==}
 function TRequestHandlerRef.OnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: boolean): boolean;
 begin
