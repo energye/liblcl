@@ -5,6 +5,406 @@
 //----------------------------------------
 
 {== chromium ==}
+procedure TLCLEvent.ChromiumEvent_OnAcceleratedPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; shared_handle: Pointer);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnAllConnectionsClosed(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnAudioStreamError(Sender: TObject; const browser: ICefBrowser; const message_: ustring);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnAudioStreamPacket(Sender: TObject; const browser: ICefBrowser; const Data: PPSingle; frames: integer; pts: int64);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnAudioStreamStarted(Sender: TObject; const browser: ICefBrowser; const params: TCefAudioParameters; channels: integer);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnAudioStreamStopped(Sender: TObject; const browser: ICefBrowser);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnAutoResize(Sender: TObject; const browser: ICefBrowser; const new_size: PCefSize; out Result: boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnBeforeUnloadDialog(Sender: TObject; const browser: ICefBrowser; const messageText: ustring; isReload: boolean; const callback: ICefJsDialogCallback; out Result: boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnCanDownload(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnCanSaveCookie(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie; var aResult: boolean);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnCanSendCookie(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnCertificateError(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnCertificateExceptionsCleared(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnChromeCommand(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnConsoleMessage(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnCursorChange(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDevToolsAgentAttached(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDevToolsAgentDetached(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDevToolsEvent(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDevToolsMessage(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDevToolsMethodRawResult(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDevToolsMethodResult(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDevToolsRawEvent(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDevToolsRawMessage(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDialogClosed(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDismissPermissionPrompt(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDocumentAvailableInMainFrame(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnDownloadImageFinished(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnExecuteTaskOnCefThread(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnFavIconUrlChange(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnFileDialog(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetAccessibilityHandler(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetAudioParameters(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetResourceHandler(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetResourceRequestHandlerReqCtxHdlr(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetResourceRequestHandlerReqHdlr(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetResourceResponseFilter(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetRootScreenRect(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetScreenInfo(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetScreenPoint(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetTouchHandleSize(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetViewRect(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGotFocus(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnHttpAuthCredentialsCleared(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnIMECompositionRangeChanged(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnJsDialog(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnMediaAccessChange(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnMediaRouteCreateFinished(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnMediaSinkDeviceInfo(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnPaint(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnPopupShow(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnPopupSize(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnPrefsAvailable(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnPrefsUpdated(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnPreKeyEvent(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnProtocolExecution(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnQuickMenuCommand(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnQuickMenuDismissed(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnRequestContextInitialized(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnRequestMediaAccessPermission(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnResetDialogState(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnResolvedHostAvailable(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnRouteMessageReceived(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnRoutes(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnRouteStateChanged(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnRunContextMenu(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnRunQuickMenu(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnSelectClientCertificate(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnSetFocus(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnShowPermissionPrompt(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnSinks(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnStartDragging(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnStatusMessage(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnTakeFocus(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnTextResultAvailable(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnTextSelectionChanged(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnTooltip(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnTouchHandleStateChanged(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnUpdateDragCursor(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnVirtualKeyboardRequested(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
 procedure TLCLEvent.ChromiumEvent_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   SendEvent([Sender, browser]);
