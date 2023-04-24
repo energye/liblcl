@@ -627,17 +627,17 @@ begin
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetResourceRequestHandlerReqCtxHdlr(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_OnGetResourceRequestHandler_ReqCtxHdlr(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnGetResourceRequestHandlerReqCtxHdlr}
-  {$DEFINE EventName := OnGetResourceRequestHandlerReqCtxHdlr}
+  {$DEFINE EventMethodName := ChromiumEvent_OnGetResourceRequestHandler_ReqCtxHdlr}
+  {$DEFINE EventName := OnGetResourceRequestHandler_ReqCtxHdlr}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetResourceRequestHandlerReqHdlr(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_OnGetResourceRequestHandler_ReqHdlr(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnGetResourceRequestHandlerReqHdlr}
-  {$DEFINE EventName := OnGetResourceRequestHandlerReqHdlr}
+  {$DEFINE EventMethodName := ChromiumEvent_OnGetResourceRequestHandler_ReqHdlr}
+  {$DEFINE EventName := OnGetResourceRequestHandler_ReqHdlr}
   EventMethodCode
 end;
 
@@ -729,6 +729,13 @@ procedure CEFChromium_OnMediaSinkDeviceInfo(const AObj: TChromium; AEventData: P
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnMediaSinkDeviceInfo}
   {$DEFINE EventName := OnMediaSinkDeviceInfo}
+  EventMethodCode
+end;
+
+procedure CEFChromium_OnNavigationVisitorResultAvailable(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnNavigationVisitorResultAvailable}
+  {$DEFINE EventName := OnNavigationVisitorResultAvailable}
   EventMethodCode
 end;
 
@@ -1040,21 +1047,13 @@ exports
    CEFChromium_OnDocumentAvailableInMainFrame,
    CEFChromium_OnDownloadImageFinished,
    CEFChromium_OnExecuteTaskOnCefThread,
-   CEFChromium_OnExtensionBeforeBackgroundBrowser,
-   CEFChromium_OnExtensionBeforeBrowser,
-   CEFChromium_OnExtensionCanAccessBrowser,
-   CEFChromium_OnExtensionGetActiveBrowser,
-   CEFChromium_OnExtensionGetExtensionResource,
-   CEFChromium_OnExtensionLoaded,
-   CEFChromium_OnExtensionLoadFailed,
-   CEFChromium_OnExtensionUnloaded,
    CEFChromium_OnFavIconUrlChange,
    CEFChromium_OnFileDialog,
    CEFChromium_OnGetAccessibilityHandler,
    CEFChromium_OnGetAudioParameters,
    CEFChromium_OnGetResourceHandler,
-   CEFChromium_OnGetResourceRequestHandlerReqCtxHdlr,
-   CEFChromium_OnGetResourceRequestHandlerReqHdlr,
+   CEFChromium_OnGetResourceRequestHandler_ReqCtxHdlr,
+   CEFChromium_OnGetResourceRequestHandler_ReqHdlr,
    CEFChromium_OnGetResourceResponseFilter,
    CEFChromium_OnGetRootScreenRect,
    CEFChromium_OnGetScreenInfo,
@@ -1068,6 +1067,7 @@ exports
    CEFChromium_OnMediaAccessChange,
    CEFChromium_OnMediaRouteCreateFinished,
    CEFChromium_OnMediaSinkDeviceInfo,
+   CEFChromium_OnNavigationVisitorResultAvailable,
    CEFChromium_OnPaint,
    CEFChromium_OnPdfPrintFinished,
    CEFChromium_OnPopupShow,
