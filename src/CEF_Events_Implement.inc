@@ -7,7 +7,7 @@
 {== chromium ==}
 procedure TLCLEvent.ChromiumEvent_OnAcceleratedPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; shared_handle: Pointer);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, type_, dirtyRectsCount, dirtyRects, shared_handle]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnAllConnectionsClosed(Sender: TObject);
@@ -17,52 +17,52 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnAudioStreamError(Sender: TObject; const browser: ICefBrowser; const message_: ustring);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, PChar(string(message_))]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnAudioStreamPacket(Sender: TObject; const browser: ICefBrowser; const Data: PPSingle; frames: integer; pts: int64);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, Data, frames, pts]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnAudioStreamStarted(Sender: TObject; const browser: ICefBrowser; const params: TCefAudioParameters; channels: integer);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, @params, channels]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnAudioStreamStopped(Sender: TObject; const browser: ICefBrowser);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnAutoResize(Sender: TObject; const browser: ICefBrowser; const new_size: PCefSize; out Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, new_size, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnBeforeUnloadDialog(Sender: TObject; const browser: ICefBrowser; const messageText: ustring; isReload: boolean; const callback: ICefJsDialogCallback; out Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, PChar(string(messageText)), isReload, callback, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCanDownload(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, PChar(string(url)), PChar(string(request_method)), @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCanSaveCookie(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame, request, response, cookie, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCanSendCookie(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie: PCefCookie; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame, request, cookie, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCertificateError(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, certError, PChar(string(requestUrl)), sslInfo, callback, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCertificateExceptionsCleared(Sender: TObject);
@@ -72,152 +72,152 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnChromeCommand(Sender: TObject; const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, command_id, disposition, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnConsoleMessage(Sender: TObject; const browser: ICefBrowser; level: TCefLogSeverity; const message, Source: ustring; line: integer; out Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, level, PChar(string(message)), PChar(string(Source)), line, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCursorChange(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, cursor_, CursorType, customCursorInfo, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsAgentAttached(Sender: TObject; const browser: ICefBrowser);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsAgentDetached(Sender: TObject; const browser: ICefBrowser);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsEvent(Sender: TObject; const browser: ICefBrowser; const method: ustring; const params: ICefValue);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, PChar(string(method)), params]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsMessage(Sender: TObject; const browser: ICefBrowser; const message_: ICefValue; var aHandled: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, message_, @aHandled]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsMethodRawResult(Sender: TObject; const browser: ICefBrowser; message_id: integer; success: boolean; const Result: Pointer; result_size: nativeuint);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, message_id, success, Result, result_size]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: integer; success: boolean; const Result: ICefValue);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, message_id, success, Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsRawEvent(Sender: TObject; const browser: ICefBrowser; const method: ustring; const params: Pointer; params_size: nativeuint);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, PChar(string(method)), params, params_size]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsRawMessage(Sender: TObject; const browser: ICefBrowser; const message_: Pointer; message_size: nativeuint; var aHandled: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, message_, message_size, @aHandled]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDialogClosed(Sender: TObject; const browser: ICefBrowser);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDismissPermissionPrompt(Sender: TObject; const browser: ICefBrowser; prompt_id: uint64; Result: TCefPermissionRequestResult);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, @prompt_id, Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDocumentAvailableInMainFrame(Sender: TObject; const browser: ICefBrowser);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDownloadImageFinished(Sender: TObject; const imageUrl: ustring; httpStatusCode: integer; const image: ICefImage);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, PChar(string(imageUrl)), httpStatusCode, image]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnExecuteTaskOnCefThread(Sender: TObject; aTaskID: cardinal);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, aTaskID]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnFavIconUrlChange(Sender: TObject; const browser: ICefBrowser; const iconUrls: TStrings);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, iconUrls]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnFileDialog(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback; var Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, mode, PChar(string(title)), PChar(string(defaultFilePath)), acceptFilters, callback, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetAccessibilityHandler(Sender: TObject; var aAccessibilityHandler: ICefAccessibilityHandler);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, @aAccessibilityHandler]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetAudioParameters(Sender: TObject; const browser: ICefBrowser; var params: TCefAudioParameters; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, @params, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetResourceHandler(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aResourceHandler: ICefResourceHandler);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame, request, @aResourceHandler]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetResourceRequestHandler_ReqCtxHdlr(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aExternalResourceRequestHandler: ICefResourceRequestHandler);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame, request, is_navigation, is_download, PChar(string(request_initiator)), @disable_default_handling, @aExternalResourceRequestHandler]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetResourceRequestHandler_ReqHdlr(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aExternalResourceRequestHandler: ICefResourceRequestHandler);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame, request, is_navigation, is_download, PChar(string(request_initiator)), @disable_default_handling, @aExternalResourceRequestHandler]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetResourceResponseFilter(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: ICefResponseFilter);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame, request, response, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetRootScreenRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect; out Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, @rect, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetScreenInfo(Sender: TObject; const browser: ICefBrowser; var screenInfo: TCefScreenInfo; out Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, @screenInfo, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetScreenPoint(Sender: TObject; const browser: ICefBrowser; viewX, viewY: integer; var screenX, screenY: integer; out Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, viewX, viewY, @screenX, @screenY, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetTouchHandleSize(Sender: TObject; const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, orientation, @size]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetViewRect(Sender: TObject; const browser: ICefBrowser; var rect: TCefRect);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, @rect]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGotFocus(Sender: TObject; const browser: ICefBrowser);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnHttpAuthCredentialsCleared(Sender: TObject);
@@ -227,52 +227,52 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnIMECompositionRangeChanged(Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: nativeuint; const character_bounds: PCefRect);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, selected_range, character_boundsCount, character_bounds]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnJsDialog(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: boolean; out Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, PChar(string(originUrl)), integer(dialogType), PChar(string(messageText)), PChar(string(defaultPromptText)), callback, @suppressMessage, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnMediaAccessChange(Sender: TObject; const browser: ICefBrowser; has_video_access, has_audio_access: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, has_video_access, has_audio_access]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnMediaRouteCreateFinished(Sender: TObject; Result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, integer(Result), PChar(string(error)), route]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnMediaSinkDeviceInfo(Sender: TObject; const ip_address: ustring; port: integer; const model_name: ustring);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, PChar(string(ip_address)), port, PChar(string(model_name))]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnNavigationVisitorResultAvailable(Sender: TObject; const entry: ICefNavigationEntry; current: boolean; index, total: integer; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, entry, current, index, total, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; const buffer: Pointer; Width, Height: integer);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, type_, dirtyRectsCount, dirtyRects, buffer, Width, Height]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnPopupShow(Sender: TObject; const browser: ICefBrowser; Show: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, Show]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnPopupSize(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, rect]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnPrefsAvailable(Sender: TObject; aResultOK: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, aResultOK]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnPrefsUpdated(Sender: TObject);
@@ -282,132 +282,138 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnPreKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: boolean; out Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, event, osEvent, @isKeyboardShortcut, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnProtocolExecution(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var allowOsExecution: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame, request, @allowOsExecution]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnQuickMenuCommand(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; command_id: integer; event_flags: TCefEventFlags; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame, command_id, event_flags, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnQuickMenuDismissed(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnRequestContextInitialized(Sender: TObject; const request_context: ICefRequestContext);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, request_context]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnRequestMediaAccessPermission(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame, PChar(string(requesting_origin)), requested_permissions, callback, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnResetDialogState(Sender: TObject; const browser: ICefBrowser);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnResolvedHostAvailable(Sender: TObject; Result: TCefErrorCode; const resolvedIps: TStrings);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, Integer(Result), resolvedIps]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnRouteMessageReceived(Sender: TObject; const route: ICefMediaRoute; const message_: ustring);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, route, PChar(string(message_))]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnRoutes(Sender: TObject; const routes: TCefMediaRouteArray);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, @routes, Length(routes)]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnRouteStateChanged(Sender: TObject; const route: ICefMediaRoute; state: TCefMediaRouteConnectionState);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, route, Integer(state)]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnRunContextMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame, params, model, callback, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnRunQuickMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; location: TCefPoint; size: TCefSize; edit_state_flags: TCefQuickMenuEditStateFlags; const callback: ICefRunQuickMenuCallback; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, frame, @location, @size, edit_state_flags, callback, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnSelectClientCertificate(Sender: TObject; const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: nativeuint; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, isProxy, PChar(string(host)), port, certificatesCount, @certificates, callback, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnSetFocus(Sender: TObject; const browser: ICefBrowser; Source: TCefFocusSource; out Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, integer(Source), @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnShowPermissionPrompt(Sender: TObject; const browser: ICefBrowser; prompt_id: uint64; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefPermissionPromptCallback; var aResult: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, @prompt_id, PChar(string(requesting_origin)), requested_permissions, callback, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnSinks(Sender: TObject; const sinks: TCefMediaSinkArray);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, @sinks, Length(sinks)]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnStartDragging(Sender: TObject; const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: integer; out Result: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, dragData, allowedOps, x, y, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnStatusMessage(Sender: TObject; const browser: ICefBrowser; const Value: ustring);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, PChar(string(Value))]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnTakeFocus(Sender: TObject; const browser: ICefBrowser; Next: boolean);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, Next]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnTextResultAvailable(Sender: TObject; const aText: ustring);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, PChar(string(aText))]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnTextSelectionChanged(Sender: TObject; const browser: ICefBrowser; const selected_text: ustring; const selected_range: PCefRange);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, PChar(string(selected_text)), selected_range]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnTooltip(Sender: TObject; const browser: ICefBrowser; var Text: ustring; out Result: boolean);
+var
+  PRetText: PChar;
 begin
-  SendEvent([Sender]);
+  PRetText := new(PChar);
+  SendEvent([Sender, browser, @PRetText, @Result]);
+  Text := PCharToUStr(PRetText);
+  if PRetText <> nil then
+     PRetText := nil;
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnTouchHandleStateChanged(Sender: TObject; const browser: ICefBrowser; const state: TCefTouchHandleState);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, @state]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnUpdateDragCursor(Sender: TObject; const browser: ICefBrowser; operation: TCefDragOperation);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, operation]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnVirtualKeyboardRequested(Sender: TObject; const browser: ICefBrowser; input_mode: TCefTextInpuMode);
 begin
-  SendEvent([Sender]);
+  SendEvent([Sender, browser, input_mode]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
