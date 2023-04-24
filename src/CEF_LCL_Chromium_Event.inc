@@ -389,581 +389,567 @@ begin
   EventMethodCode
 end;
 
-procedure CEFChromium_OnAcceleratedPaint(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnAcceleratedPaint(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnAcceleratedPaint}
   {$DEFINE EventName := OnAcceleratedPaint}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnAllConnectionsClosed(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnAllConnectionsClosed(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnAllConnectionsClosed}
   {$DEFINE EventName := OnAllConnectionsClosed}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnAudioStreamError(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnAudioStreamError(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnAudioStreamError}
   {$DEFINE EventName := OnAudioStreamError}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnAudioStreamPacket(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnAudioStreamPacket(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnAudioStreamPacket}
   {$DEFINE EventName := OnAudioStreamPacket}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnAudioStreamStarted(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnAudioStreamStarted(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnAudioStreamStarted}
   {$DEFINE EventName := OnAudioStreamStarted}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnAudioStreamStopped(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnAudioStreamStopped(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnAudioStreamStopped}
   {$DEFINE EventName := OnAudioStreamStopped}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnAutoResize(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnAutoResize(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnAutoResize}
   {$DEFINE EventName := OnAutoResize}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnBeforeUnloadDialog(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnBeforeUnloadDialog(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnBeforeUnloadDialog}
   {$DEFINE EventName := OnBeforeUnloadDialog}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnCanDownload(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnCanDownload(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnCanDownload}
   {$DEFINE EventName := OnCanDownload}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnCanSaveCookie(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnCanSaveCookie(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnCanSaveCookie}
   {$DEFINE EventName := OnCanSaveCookie}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnCanSendCookie(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnCanSendCookie(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnCanSendCookie}
   {$DEFINE EventName := OnCanSendCookie}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnCertificateError(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnCertificateError(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnCertificateError}
   {$DEFINE EventName := OnCertificateError}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnCertificateExceptionsCleared(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnCertificateExceptionsCleared(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnCertificateExceptionsCleared}
   {$DEFINE EventName := OnCertificateExceptionsCleared}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnChromeCommand(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnChromeCommand(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnChromeCommand}
   {$DEFINE EventName := OnChromeCommand}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnConsoleMessage(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnConsoleMessage(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnConsoleMessage}
   {$DEFINE EventName := OnConsoleMessage}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnCursorChange(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnCursorChange(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnCursorChange}
   {$DEFINE EventName := OnCursorChange}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDevToolsAgentAttached(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDevToolsAgentAttached(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDevToolsAgentAttached}
   {$DEFINE EventName := OnDevToolsAgentAttached}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDevToolsAgentDetached(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDevToolsAgentDetached(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDevToolsAgentDetached}
   {$DEFINE EventName := OnDevToolsAgentDetached}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDevToolsEvent(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDevToolsEvent(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDevToolsEvent}
   {$DEFINE EventName := OnDevToolsEvent}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDevToolsMessage(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDevToolsMessage(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDevToolsMessage}
   {$DEFINE EventName := OnDevToolsMessage}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDevToolsMethodRawResult(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDevToolsMethodRawResult(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDevToolsMethodRawResult}
   {$DEFINE EventName := OnDevToolsMethodRawResult}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDevToolsMethodResult(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDevToolsMethodResult(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDevToolsMethodResult}
   {$DEFINE EventName := OnDevToolsMethodResult}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDevToolsRawEvent(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDevToolsRawEvent(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDevToolsRawEvent}
   {$DEFINE EventName := OnDevToolsRawEvent}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDevToolsRawMessage(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDevToolsRawMessage(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDevToolsRawMessage}
   {$DEFINE EventName := OnDevToolsRawMessage}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDialogClosed(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDialogClosed(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDialogClosed}
   {$DEFINE EventName := OnDialogClosed}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDismissPermissionPrompt(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDismissPermissionPrompt(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDismissPermissionPrompt}
   {$DEFINE EventName := OnDismissPermissionPrompt}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDocumentAvailableInMainFrame(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDocumentAvailableInMainFrame(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDocumentAvailableInMainFrame}
   {$DEFINE EventName := OnDocumentAvailableInMainFrame}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnDownloadImageFinished(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnDownloadImageFinished(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnDownloadImageFinished}
   {$DEFINE EventName := OnDownloadImageFinished}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnExecuteTaskOnCefThread(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnExecuteTaskOnCefThread(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnExecuteTaskOnCefThread}
   {$DEFINE EventName := OnExecuteTaskOnCefThread}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnFavIconUrlChange(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnFavIconUrlChange(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnFavIconUrlChange}
   {$DEFINE EventName := OnFavIconUrlChange}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnFileDialog(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnFileDialog(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnFileDialog}
   {$DEFINE EventName := OnFileDialog}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetAccessibilityHandler(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGetAccessibilityHandler(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetAccessibilityHandler}
   {$DEFINE EventName := OnGetAccessibilityHandler}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetAudioParameters(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGetAudioParameters(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetAudioParameters}
   {$DEFINE EventName := OnGetAudioParameters}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetResourceHandler(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGetResourceHandler(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetResourceHandler}
   {$DEFINE EventName := OnGetResourceHandler}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetResourceRequestHandler_ReqCtxHdlr(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGetResourceRequestHandler_ReqCtxHdlr(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetResourceRequestHandler_ReqCtxHdlr}
   {$DEFINE EventName := OnGetResourceRequestHandler_ReqCtxHdlr}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetResourceRequestHandler_ReqHdlr(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGetResourceRequestHandler_ReqHdlr(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetResourceRequestHandler_ReqHdlr}
   {$DEFINE EventName := OnGetResourceRequestHandler_ReqHdlr}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetResourceResponseFilter(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGetResourceResponseFilter(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetResourceResponseFilter}
   {$DEFINE EventName := OnGetResourceResponseFilter}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetRootScreenRect(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGetRootScreenRect(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetRootScreenRect}
   {$DEFINE EventName := OnGetRootScreenRect}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetScreenInfo(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGetScreenInfo(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetScreenInfo}
   {$DEFINE EventName := OnGetScreenInfo}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetScreenPoint(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGetScreenPoint(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetScreenPoint}
   {$DEFINE EventName := OnGetScreenPoint}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetTouchHandleSize(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGetTouchHandleSize(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetTouchHandleSize}
   {$DEFINE EventName := OnGetTouchHandleSize}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGetViewRect(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGetViewRect(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetViewRect}
   {$DEFINE EventName := OnGetViewRect}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnGotFocus(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnGotFocus(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGotFocus}
   {$DEFINE EventName := OnGotFocus}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnHttpAuthCredentialsCleared(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnHttpAuthCredentialsCleared(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnHttpAuthCredentialsCleared}
   {$DEFINE EventName := OnHttpAuthCredentialsCleared}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnIMECompositionRangeChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnIMECompositionRangeChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnIMECompositionRangeChanged}
   {$DEFINE EventName := OnIMECompositionRangeChanged}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnJsDialog(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnJsDialog(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnJsDialog}
   {$DEFINE EventName := OnJsDialog}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnMediaAccessChange(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnMediaAccessChange(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnMediaAccessChange}
   {$DEFINE EventName := OnMediaAccessChange}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnMediaRouteCreateFinished(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnMediaRouteCreateFinished(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnMediaRouteCreateFinished}
   {$DEFINE EventName := OnMediaRouteCreateFinished}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnMediaSinkDeviceInfo(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnMediaSinkDeviceInfo(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnMediaSinkDeviceInfo}
   {$DEFINE EventName := OnMediaSinkDeviceInfo}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnNavigationVisitorResultAvailable(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnNavigationVisitorResultAvailable(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnNavigationVisitorResultAvailable}
   {$DEFINE EventName := OnNavigationVisitorResultAvailable}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnPaint(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnPaint(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnPaint}
   {$DEFINE EventName := OnPaint}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnPdfPrintFinished(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnPdfPrintFinished}
-  {$DEFINE EventName := OnPdfPrintFinished}
-  EventMethodCode
-end;
-
-procedure CEFChromium_OnPopupShow(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnPopupShow(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnPopupShow}
   {$DEFINE EventName := OnPopupShow}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnPopupSize(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnPopupSize(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnPopupSize}
   {$DEFINE EventName := OnPopupSize}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnPrefsAvailable(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnPrefsAvailable(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnPrefsAvailable}
   {$DEFINE EventName := OnPrefsAvailable}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnPrefsUpdated(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnPrefsUpdated(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnPrefsUpdated}
   {$DEFINE EventName := OnPrefsUpdated}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnPreKeyEvent(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnPreKeyEvent(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnPreKeyEvent}
   {$DEFINE EventName := OnPreKeyEvent}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnProtocolExecution(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnProtocolExecution(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnProtocolExecution}
   {$DEFINE EventName := OnProtocolExecution}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnQuickMenuCommand(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnQuickMenuCommand(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnQuickMenuCommand}
   {$DEFINE EventName := OnQuickMenuCommand}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnQuickMenuDismissed(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnQuickMenuDismissed(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnQuickMenuDismissed}
   {$DEFINE EventName := OnQuickMenuDismissed}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnRenderViewReady(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnRenderViewReady}
-  {$DEFINE EventName := OnRenderViewReady}
-  EventMethodCode
-end;
-
-procedure CEFChromium_OnRequestContextInitialized(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnRequestContextInitialized(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnRequestContextInitialized}
   {$DEFINE EventName := OnRequestContextInitialized}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnRequestMediaAccessPermission(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnRequestMediaAccessPermission(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnRequestMediaAccessPermission}
   {$DEFINE EventName := OnRequestMediaAccessPermission}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnResetDialogState(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnResetDialogState(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnResetDialogState}
   {$DEFINE EventName := OnResetDialogState}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnResolvedHostAvailable(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnResolvedHostAvailable(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnResolvedHostAvailable}
   {$DEFINE EventName := OnResolvedHostAvailable}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnRouteMessageReceived(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnRouteMessageReceived(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnRouteMessageReceived}
   {$DEFINE EventName := OnRouteMessageReceived}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnRoutes(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnRoutes(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnRoutes}
   {$DEFINE EventName := OnRoutes}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnRouteStateChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnRouteStateChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnRouteStateChanged}
   {$DEFINE EventName := OnRouteStateChanged}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnRunContextMenu(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnRunContextMenu(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnRunContextMenu}
   {$DEFINE EventName := OnRunContextMenu}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnRunQuickMenu(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnRunQuickMenu(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnRunQuickMenu}
   {$DEFINE EventName := OnRunQuickMenu}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnSelectClientCertificate(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnSelectClientCertificate(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnSelectClientCertificate}
   {$DEFINE EventName := OnSelectClientCertificate}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnSetFocus(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnSetFocus(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnSetFocus}
   {$DEFINE EventName := OnSetFocus}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnShowPermissionPrompt(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnShowPermissionPrompt(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnShowPermissionPrompt}
   {$DEFINE EventName := OnShowPermissionPrompt}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnSinks(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnSinks(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnSinks}
   {$DEFINE EventName := OnSinks}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnStartDragging(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnStartDragging(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnStartDragging}
   {$DEFINE EventName := OnStartDragging}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnStatusMessage(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnStatusMessage(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnStatusMessage}
   {$DEFINE EventName := OnStatusMessage}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnTakeFocus(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnTakeFocus(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnTakeFocus}
   {$DEFINE EventName := OnTakeFocus}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnTextResultAvailable(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnTextResultAvailable(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnTextResultAvailable}
   {$DEFINE EventName := OnTextResultAvailable}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnTextSelectionChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnTextSelectionChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnTextSelectionChanged}
   {$DEFINE EventName := OnTextSelectionChanged}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnTooltip(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnTooltip(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnTooltip}
   {$DEFINE EventName := OnTooltip}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnTouchHandleStateChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnTouchHandleStateChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnTouchHandleStateChanged}
   {$DEFINE EventName := OnTouchHandleStateChanged}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnUpdateDragCursor(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnUpdateDragCursor(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnUpdateDragCursor}
   {$DEFINE EventName := OnUpdateDragCursor}
   EventMethodCode
 end;
 
-procedure CEFChromium_OnVirtualKeyboardRequested(const AObj: TChromium; AEventData: Pointer); extdecl;
+procedure CEFChromium_SetOnVirtualKeyboardRequested(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnVirtualKeyboardRequested}
   {$DEFINE EventName := OnVirtualKeyboardRequested}
@@ -1018,88 +1004,94 @@ exports
    CEFChromium_SetOnFrameDetached,
    CEFChromium_SetOnMainFrameChanged,
    CEFChromium_SetOnGetAuthCredentials,
-   CEFChromium_OnAcceleratedPaint,
-   CEFChromium_OnAllConnectionsClosed,
-   CEFChromium_OnAudioStreamError,
-   CEFChromium_OnAudioStreamPacket,
-   CEFChromium_OnAudioStreamStarted,
-   CEFChromium_OnAudioStreamStopped,
-   CEFChromium_OnAutoResize,
-   CEFChromium_OnBeforeUnloadDialog,
-   CEFChromium_OnCanDownload,
-   CEFChromium_OnCanSaveCookie,
-   CEFChromium_OnCanSendCookie,
-   CEFChromium_OnCertificateError,
-   CEFChromium_OnCertificateExceptionsCleared,
-   CEFChromium_OnChromeCommand,
-   CEFChromium_OnConsoleMessage,
-   CEFChromium_OnCursorChange,
-   CEFChromium_OnDevToolsAgentAttached,
-   CEFChromium_OnDevToolsAgentDetached,
-   CEFChromium_OnDevToolsEvent,
-   CEFChromium_OnDevToolsMessage,
-   CEFChromium_OnDevToolsMethodRawResult,
-   CEFChromium_OnDevToolsMethodResult,
-   CEFChromium_OnDevToolsRawEvent,
-   CEFChromium_OnDevToolsRawMessage,
-   CEFChromium_OnDialogClosed,
-   CEFChromium_OnDismissPermissionPrompt,
-   CEFChromium_OnDocumentAvailableInMainFrame,
-   CEFChromium_OnDownloadImageFinished,
-   CEFChromium_OnExecuteTaskOnCefThread,
-   CEFChromium_OnFavIconUrlChange,
-   CEFChromium_OnFileDialog,
-   CEFChromium_OnGetAccessibilityHandler,
-   CEFChromium_OnGetAudioParameters,
-   CEFChromium_OnGetResourceHandler,
-   CEFChromium_OnGetResourceRequestHandler_ReqCtxHdlr,
-   CEFChromium_OnGetResourceRequestHandler_ReqHdlr,
-   CEFChromium_OnGetResourceResponseFilter,
-   CEFChromium_OnGetRootScreenRect,
-   CEFChromium_OnGetScreenInfo,
-   CEFChromium_OnGetScreenPoint,
-   CEFChromium_OnGetTouchHandleSize,
-   CEFChromium_OnGetViewRect,
-   CEFChromium_OnGotFocus,
-   CEFChromium_OnHttpAuthCredentialsCleared,
-   CEFChromium_OnIMECompositionRangeChanged,
-   CEFChromium_OnJsDialog,
-   CEFChromium_OnMediaAccessChange,
-   CEFChromium_OnMediaRouteCreateFinished,
-   CEFChromium_OnMediaSinkDeviceInfo,
-   CEFChromium_OnNavigationVisitorResultAvailable,
-   CEFChromium_OnPaint,
-   CEFChromium_OnPdfPrintFinished,
-   CEFChromium_OnPopupShow,
-   CEFChromium_OnPopupSize,
-   CEFChromium_OnPrefsAvailable,
-   CEFChromium_OnPrefsUpdated,
-   CEFChromium_OnPreKeyEvent,
-   CEFChromium_OnProtocolExecution,
-   CEFChromium_OnQuickMenuCommand,
-   CEFChromium_OnQuickMenuDismissed,
-   CEFChromium_OnRenderViewReady,
-   CEFChromium_OnRequestContextInitialized,
-   CEFChromium_OnRequestMediaAccessPermission,
-   CEFChromium_OnResetDialogState,
-   CEFChromium_OnResolvedHostAvailable,
-   CEFChromium_OnRouteMessageReceived,
-   CEFChromium_OnRoutes,
-   CEFChromium_OnRouteStateChanged,
-   CEFChromium_OnRunContextMenu,
-   CEFChromium_OnRunQuickMenu,
-   CEFChromium_OnSelectClientCertificate,
-   CEFChromium_OnSetFocus,
-   CEFChromium_OnShowPermissionPrompt,
-   CEFChromium_OnSinks,
-   CEFChromium_OnStartDragging,
-   CEFChromium_OnStatusMessage,
-   CEFChromium_OnTakeFocus,
-   CEFChromium_OnTextResultAvailable,
-   CEFChromium_OnTextSelectionChanged,
-   CEFChromium_OnTooltip,
-   CEFChromium_OnTouchHandleStateChanged,
-   CEFChromium_OnUpdateDragCursor,
-   CEFChromium_OnVirtualKeyboardRequested
+   CEFChromium_SetOnExtensionBeforeBackgroundBrowser,//
+   CEFChromium_SetOnExtensionBeforeBrowser,
+   CEFChromium_SetOnExtensionCanAccessBrowser,
+   CEFChromium_SetOnExtensionGetActiveBrowser,
+   CEFChromium_SetOnExtensionGetExtensionResource,
+   CEFChromium_SetOnExtensionLoaded,
+   CEFChromium_SetOnExtensionLoadFailed,
+   CEFChromium_SetOnExtensionUnloaded,
+   CEFChromium_SetOnAcceleratedPaint,
+   CEFChromium_SetOnAllConnectionsClosed,
+   CEFChromium_SetOnAudioStreamError,
+   CEFChromium_SetOnAudioStreamPacket,
+   CEFChromium_SetOnAudioStreamStarted,
+   CEFChromium_SetOnAudioStreamStopped,
+   CEFChromium_SetOnAutoResize,
+   CEFChromium_SetOnBeforeUnloadDialog,
+   CEFChromium_SetOnCanDownload,
+   CEFChromium_SetOnCanSaveCookie,
+   CEFChromium_SetOnCanSendCookie,
+   CEFChromium_SetOnCertificateError,
+   CEFChromium_SetOnCertificateExceptionsCleared,
+   CEFChromium_SetOnChromeCommand,
+   CEFChromium_SetOnConsoleMessage,
+   CEFChromium_SetOnCursorChange,
+   CEFChromium_SetOnDevToolsAgentAttached,
+   CEFChromium_SetOnDevToolsAgentDetached,
+   CEFChromium_SetOnDevToolsEvent,
+   CEFChromium_SetOnDevToolsMessage,
+   CEFChromium_SetOnDevToolsMethodRawResult,
+   CEFChromium_SetOnDevToolsMethodResult,
+   CEFChromium_SetOnDevToolsRawEvent,
+   CEFChromium_SetOnDevToolsRawMessage,
+   CEFChromium_SetOnDialogClosed,
+   CEFChromium_SetOnDismissPermissionPrompt,
+   CEFChromium_SetOnDocumentAvailableInMainFrame,
+   CEFChromium_SetOnDownloadImageFinished,
+   CEFChromium_SetOnExecuteTaskOnCefThread,
+   CEFChromium_SetOnFavIconUrlChange,
+   CEFChromium_SetOnFileDialog,
+   CEFChromium_SetOnGetAccessibilityHandler,
+   CEFChromium_SetOnGetAudioParameters,
+   CEFChromium_SetOnGetResourceHandler,
+   CEFChromium_SetOnGetResourceRequestHandler_ReqCtxHdlr,
+   CEFChromium_SetOnGetResourceRequestHandler_ReqHdlr,
+   CEFChromium_SetOnGetResourceResponseFilter,
+   CEFChromium_SetOnGetRootScreenRect,
+   CEFChromium_SetOnGetScreenInfo,
+   CEFChromium_SetOnGetScreenPoint,
+   CEFChromium_SetOnGetTouchHandleSize,
+   CEFChromium_SetOnGetViewRect,
+   CEFChromium_SetOnGotFocus,
+   CEFChromium_SetOnHttpAuthCredentialsCleared,
+   CEFChromium_SetOnIMECompositionRangeChanged,
+   CEFChromium_SetOnJsDialog,
+   CEFChromium_SetOnMediaAccessChange,
+   CEFChromium_SetOnMediaRouteCreateFinished,
+   CEFChromium_SetOnMediaSinkDeviceInfo,
+   CEFChromium_SetOnNavigationVisitorResultAvailable,
+   CEFChromium_SetOnPaint,
+   CEFChromium_SetOnPopupShow,
+   CEFChromium_SetOnPopupSize,
+   CEFChromium_SetOnPrefsAvailable,
+   CEFChromium_SetOnPrefsUpdated,
+   CEFChromium_SetOnPreKeyEvent,
+   CEFChromium_SetOnProtocolExecution,
+   CEFChromium_SetOnQuickMenuCommand,
+   CEFChromium_SetOnQuickMenuDismissed,
+   CEFChromium_SetOnRequestContextInitialized,
+   CEFChromium_SetOnRequestMediaAccessPermission,
+   CEFChromium_SetOnResetDialogState,
+   CEFChromium_SetOnResolvedHostAvailable,
+   CEFChromium_SetOnRouteMessageReceived,
+   CEFChromium_SetOnRoutes,
+   CEFChromium_SetOnRouteStateChanged,
+   CEFChromium_SetOnRunContextMenu,
+   CEFChromium_SetOnRunQuickMenu,
+   CEFChromium_SetOnSelectClientCertificate,
+   CEFChromium_SetOnSetFocus,
+   CEFChromium_SetOnShowPermissionPrompt,
+   CEFChromium_SetOnSinks,
+   CEFChromium_SetOnStartDragging,
+   CEFChromium_SetOnStatusMessage,
+   CEFChromium_SetOnTakeFocus,
+   CEFChromium_SetOnTextResultAvailable,
+   CEFChromium_SetOnTextSelectionChanged,
+   CEFChromium_SetOnTooltip,
+   CEFChromium_SetOnTouchHandleStateChanged,
+   CEFChromium_SetOnUpdateDragCursor,
+   CEFChromium_SetOnVirtualKeyboardRequested
 ;
 
