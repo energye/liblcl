@@ -51,13 +51,69 @@ begin
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCanSaveCookie(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie; var aResult: boolean);
+var
+  PInCookie: PRCefCookie;
+  name, value, domain, path: ustring;
 begin
-  SendEvent([Sender, browser, frame, request, response, cookie, @aResult]);
+  name := CefString(@cookie^.name);
+  value := CefString(@cookie^.value);
+  domain := CefString(@cookie^.domain);
+  path := CefString(@cookie^.path);
+  PInCookie := new(PRCefCookie);
+  PInCookie^.url := PChar('');
+  PInCookie^.Name := PChar(string(name));
+  PInCookie^.Value := PChar(string(value));
+  PInCookie^.domain := PChar(string(domain));
+  PInCookie^.path := PChar(string(path));
+  PInCookie^.secure := @cookie^.secure;
+  PInCookie^.httponly := @cookie^.httponly;
+  PInCookie^.hasExpires := @cookie^.has_expires;
+  PInCookie^.creation := @cookie^.creation;
+  PInCookie^.lastAccess := @cookie^.last_access;
+  PInCookie^.expires := @cookie^.expires;
+  PInCookie^.Count := PInteger(0);
+  PInCookie^.total := PInteger(0);
+  PInCookie^.aID := PInteger(0);
+  PInCookie^.sameSite := PInteger(integer(@cookie^.same_site));
+  PInCookie^.priority := PInteger(@cookie^.priority);
+  PInCookie^.setImmediately := @aResult;
+  PInCookie^.deleteCookie := PBoolean(False);
+  PInCookie^.Result := @aResult;
+  SendEvent([Sender, browser, frame, request, response, PInCookie, @aResult]);
+  PInCookie := nil;
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCanSendCookie(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie: PCefCookie; var aResult: boolean);
+var
+  PInCookie: PRCefCookie;
+  name, value, domain, path: ustring;
 begin
-  SendEvent([Sender, browser, frame, request, cookie, @aResult]);
+  name := CefString(@cookie^.name);
+  value := CefString(@cookie^.value);
+  domain := CefString(@cookie^.domain);
+  path := CefString(@cookie^.path);
+  PInCookie := new(PRCefCookie);
+  PInCookie^.url := PChar('');
+  PInCookie^.Name := PChar(string(name));
+  PInCookie^.Value := PChar(string(value));
+  PInCookie^.domain := PChar(string(domain));
+  PInCookie^.path := PChar(string(path));
+  PInCookie^.secure := @cookie^.secure;
+  PInCookie^.httponly := @cookie^.httponly;
+  PInCookie^.hasExpires := @cookie^.has_expires;
+  PInCookie^.creation := @cookie^.creation;
+  PInCookie^.lastAccess := @cookie^.last_access;
+  PInCookie^.expires := @cookie^.expires;
+  PInCookie^.Count := PInteger(0);
+  PInCookie^.total := PInteger(0);
+  PInCookie^.aID := PInteger(0);
+  PInCookie^.sameSite := PInteger(integer(@cookie^.same_site));
+  PInCookie^.priority := PInteger(@cookie^.priority);
+  PInCookie^.setImmediately := @aResult;
+  PInCookie^.deleteCookie := PBoolean(False);
+  PInCookie^.Result := @aResult;
+  SendEvent([Sender, browser, frame, request, PInCookie, @aResult]);
+  PInCookie := nil;
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCertificateError(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: boolean);

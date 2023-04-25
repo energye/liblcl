@@ -12,6 +12,7 @@ unit uCEF_LCL_ResourceRequestHandlerRef;
 interface
 
 uses
+  uCEFMiscFunctions,
   uCEFTypes, uCEFInterfaces, uCEFResourceRequestHandler, uCEFCookieAccessFilter, uCEFResourceHandler,
   uCEF_LCL_Entity, uCEF_LCL_EventCallback;
 
@@ -194,22 +195,78 @@ end;
 
 {== CookieAccessFilter ==}
 function TCookieAccessFilterRef.CanSendCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie: PCefCookie): boolean;
+var
+  PInCookie: PRCefCookie;
+  name, value, domain, path: ustring;
 begin
   Result := False;
   if (CanSendCookiePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(CanSendCookiePtr, [browser, frame, request, cookie, @Result]);
+    name := CefString(@cookie^.name);
+    value := CefString(@cookie^.value);
+    domain := CefString(@cookie^.domain);
+    path := CefString(@cookie^.path);
+    PInCookie := new(PRCefCookie);
+    PInCookie^.url := PChar('');
+    PInCookie^.Name := PChar(string(name));
+    PInCookie^.Value := PChar(string(value));
+    PInCookie^.domain := PChar(string(domain));
+    PInCookie^.path := PChar(string(path));
+    PInCookie^.secure := @cookie^.secure;
+    PInCookie^.httponly := @cookie^.httponly;
+    PInCookie^.hasExpires := @cookie^.has_expires;
+    PInCookie^.creation := @cookie^.creation;
+    PInCookie^.lastAccess := @cookie^.last_access;
+    PInCookie^.expires := @cookie^.expires;
+    PInCookie^.Count := PInteger(0);
+    PInCookie^.total := PInteger(0);
+    PInCookie^.aID := PInteger(0);
+    PInCookie^.sameSite := PInteger(integer(@cookie^.same_site));
+    PInCookie^.priority := PInteger(@cookie^.priority);
+    PInCookie^.setImmediately := @Result;
+    PInCookie^.deleteCookie := PBoolean(False);
+    PInCookie^.Result := @Result;
+    TCEFEventCallback.SendEvent(CanSendCookiePtr, [browser, frame, request, PInCookie, @Result]);
+    PInCookie := nil;
   end
   else
      Result := inherited CanSendCookie(browser, frame, request, cookie);
 end;
 
 function TCookieAccessFilterRef.CanSaveCookie(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie): boolean;
+var
+  PInCookie: PRCefCookie;
+  name, value, domain, path: ustring;
 begin
   Result := False;
   if (CanSaveCookiePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(CanSaveCookiePtr, [browser, frame, request, response, cookie, @Result]);
+    name := CefString(@cookie^.name);
+    value := CefString(@cookie^.value);
+    domain := CefString(@cookie^.domain);
+    path := CefString(@cookie^.path);
+    PInCookie := new(PRCefCookie);
+    PInCookie^.url := PChar('');
+    PInCookie^.Name := PChar(string(name));
+    PInCookie^.Value := PChar(string(value));
+    PInCookie^.domain := PChar(string(domain));
+    PInCookie^.path := PChar(string(path));
+    PInCookie^.secure := @cookie^.secure;
+    PInCookie^.httponly := @cookie^.httponly;
+    PInCookie^.hasExpires := @cookie^.has_expires;
+    PInCookie^.creation := @cookie^.creation;
+    PInCookie^.lastAccess := @cookie^.last_access;
+    PInCookie^.expires := @cookie^.expires;
+    PInCookie^.Count := PInteger(0);
+    PInCookie^.total := PInteger(0);
+    PInCookie^.aID := PInteger(0);
+    PInCookie^.sameSite := PInteger(integer(@cookie^.same_site));
+    PInCookie^.priority := PInteger(@cookie^.priority);
+    PInCookie^.setImmediately := @Result;
+    PInCookie^.deleteCookie := PBoolean(False);
+    PInCookie^.Result := @Result;
+    TCEFEventCallback.SendEvent(CanSaveCookiePtr, [browser, frame, request, response, PInCookie, @Result]);
+    PInCookie := nil;
   end
   else
      Result := inherited CanSaveCookie(browser, frame, request, response, cookie);
