@@ -55,7 +55,7 @@ end;
 function CefResponse_GetHeaderByName(const TObj: ICefResponse; name: PChar): PChar; extdecl;
 begin
   handleExceptionBegin
-  TObj.GetHeaderByName(PCharToUStr(name));
+  Result := PChar(string(TObj.GetHeaderByName(PCharToUStr(name))));
   handleExceptionEnd
 end;
 
