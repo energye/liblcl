@@ -4,21 +4,21 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefResponseFilterRef_Create(var Result: TResponseFilterRef); extdecl;
+procedure CefResponseFilterRef_Create(var Result: ICefResponseFilter); extdecl;
 begin
   handleExceptionBegin
   Result := TResponseFilterRef.Create;
   handleExceptionEnd
 end;
 
-procedure CefResponseFilter_InitFilter(const AObj: TResponseFilterRef; AEventData: Pointer); extdecl;
+procedure CefResponseFilter_InitFilter(const AObj: ICefResponseFilter; AEventData: Pointer); extdecl;
 begin
-    AObj.InitFilterPtr := AEventData;
+    (AObj as TResponseFilterRef).InitFilterPtr := AEventData;
 end;
 
-procedure CefResponseFilter_Filter(const AObj: TResponseFilterRef; AEventData: Pointer); extdecl;
+procedure CefResponseFilter_Filter(const AObj: ICefResponseFilter; AEventData: Pointer); extdecl;
 begin
-    AObj.FilterPtr := AEventData;
+    (AObj as TResponseFilterRef).FilterPtr := AEventData;
 end;
 
 exports

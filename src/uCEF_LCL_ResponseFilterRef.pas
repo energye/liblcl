@@ -55,11 +55,15 @@ end;
 constructor TResponseFilterRef.Create;
 begin
   inherited Create;
+  InitFilterPtr := nil;
+  FilterPtr := nil;
 end;
 
 destructor TResponseFilterRef.Destroy;
 begin
   inherited Destroy;
+  InitFilterPtr := nil;
+  FilterPtr := nil;
 end;
 
 end.
