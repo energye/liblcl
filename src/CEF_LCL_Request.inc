@@ -18,10 +18,24 @@ begin
   handleExceptionEnd
 end;
 
+function CefRequest_GetUrl(const TObj: ICefRequest): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(TObj.Url));
+  handleExceptionEnd
+end;
+
 procedure CefRequest_SetUrl(const TObj: ICefRequest; Url: PChar); extdecl;
 begin
   handleExceptionBegin
   TObj.SetUrl(PCharToUStr(Url));
+  handleExceptionEnd
+end;
+
+function CefRequest_GetMethod(const TObj: ICefRequest): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(TObj.Method));
   handleExceptionEnd
 end;
 
@@ -32,6 +46,13 @@ begin
   handleExceptionEnd
 end;
 
+function CefRequest_GetReferrerUrl(const TObj: ICefRequest): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(TObj.ReferrerUrl));
+  handleExceptionEnd
+end;
+
 procedure CefRequest_SetReferrer(const TObj: ICefRequest; referrerUrl: PChar; policy: Integer); extdecl;
 begin
   handleExceptionBegin
@@ -39,10 +60,32 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefRequest_SetFlags(const TObj: ICefRequest; flags: Cardinal); extdecl;
+function CefRequest_GetReferrerPolicy(const TObj: ICefRequest): Integer; extdecl;
+begin
+  handleExceptionBegin
+  // TCefReferrerPolicy
+  Result := Integer(TObj.ReferrerPolicy);
+  handleExceptionEnd
+end;
+
+function CefRequest_GetFlags(const TObj: ICefRequest): TCefUrlRequestFlags; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.Flags;
+  handleExceptionEnd
+end;
+
+procedure CefRequest_SetFlags(const TObj: ICefRequest; flags: TCefUrlRequestFlags); extdecl;
 begin
   handleExceptionBegin
   TObj.SetFlags(flags);
+  handleExceptionEnd
+end;
+
+function CefRequest_GetFirstPartyForCookies(const TObj: ICefRequest): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(TObj.FirstPartyForCookies));
   handleExceptionEnd
 end;
 
@@ -96,19 +139,51 @@ begin
   handleExceptionEnd
 end;
 
+function CefRequest_GetResourceType(const TObj: ICefRequest): Integer; extdecl;
+begin
+  handleExceptionBegin
+  //TCefResourceType
+  Result := Integer(TObj.ResourceType);
+  handleExceptionEnd
+end;
+
+function CefRequest_GetTransitionType(const TObj: ICefRequest): Integer; extdecl;
+begin
+  handleExceptionBegin
+  //TCefTransitionType
+  Result := Integer(TObj.TransitionType);
+  handleExceptionEnd
+end;
+
+procedure CefRequest_GetIdentifier(const TObj: ICefRequest; var Result: UInt64); extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.Identifier;
+  handleExceptionEnd
+end;
+
 
 exports
   CefRequestRef_UnWrap,
   CefRequest_IsReadOnly,
+  CefRequest_GetUrl,
   CefRequest_SetUrl,
+  CefRequest_GetMethod,
   CefRequest_SetMethod,
+  CefRequest_GetReferrerUrl,
   CefRequest_SetReferrer,
+  CefRequest_GetReferrerPolicy,
+  CefRequest_GetFlags,
   CefRequest_SetFlags,
+  CefRequest_GetFirstPartyForCookies,
   CefRequest_SetFirstPartyForCookies,
   CefRequest_GetHeaderByName,
   CefRequest_SetHeaderByName,
   CefRequest_GetHeaderMap,
   CefRequest_SetHeaderMap,
   CefRequest_GetPostData,
-  CefRequest_SetPostData
+  CefRequest_SetPostData,
+  CefRequest_GetResourceType,
+  CefRequest_GetTransitionType,
+  CefRequest_GetIdentifier
 ;

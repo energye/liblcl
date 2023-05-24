@@ -715,132 +715,29 @@ begin
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnBeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback; out Result: TCefReturnValue);
-var
-  rCefRequest: PRICefRequest;
-  identifier: UInt64;
 begin
-  rCefRequest := new(PRICefRequest);
-  rCefRequest^.Instance := @request;
-  rCefRequest^.Url := PChar(string(request.Url));
-  rCefRequest^.Method := PChar(string(request.Method));
-  rCefRequest^.ReferrerUrl := PChar(string(request.ReferrerUrl));
-  rCefRequest^.ReferrerPolicy := pinteger(integer(request.ReferrerPolicy));
-  rCefRequest^.Flags := PCardinal(request.Flags);
-  rCefRequest^.FirstPartyForCookies := PChar(string(request.FirstPartyForCookies));
-  rCefRequest^.ResourceType := pinteger(integer(request.ResourceType));
-  rCefRequest^.TransitionType := PCardinal(request.TransitionType);
-  identifier := request.Identifier;
-  rCefRequest^.Identifier := @identifier;
-
-  SendEvent([Sender, browser, frame, rCefRequest, callback, @Result]);
-
-  rCefRequest := nil;
+  SendEvent([Sender, browser, frame, request, callback, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnResourceResponse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; out Result: boolean);
-var
-  rCefRequest: PRICefRequest;
-  rCefResponse: PRICefResponse;
-  identifier: UInt64;
 begin
-  //request
-  rCefRequest := new(PRICefRequest);
-  rCefRequest^.Instance := @request;
-  rCefRequest^.Url := PChar(string(request.Url));
-  rCefRequest^.Method := PChar(string(request.Method));
-  rCefRequest^.ReferrerUrl := PChar(string(request.ReferrerUrl));
-  rCefRequest^.ReferrerPolicy := pinteger(integer(request.ReferrerPolicy));
-  rCefRequest^.Flags := PCardinal(request.Flags);
-  rCefRequest^.FirstPartyForCookies := PChar(string(request.FirstPartyForCookies));
-  rCefRequest^.ResourceType := pinteger(integer(request.ResourceType));
-  rCefRequest^.TransitionType := PCardinal(request.TransitionType);
-  identifier := request.Identifier;
-  rCefRequest^.Identifier := @identifier;
-  //response
-  rCefResponse := new(PRICefResponse);
-  rCefResponse^.Instance := @response;
-  rCefResponse^.Status := pinteger(integer(response.Status));
-  rCefResponse^.StatusText := PChar(string(response.StatusText));
-  rCefResponse^.MimeType := PChar(string(response.MimeType));
-  rCefResponse^.Charset := PChar(string(response.Charset));
-  rCefResponse^.Error := pinteger(integer(response.Error));;
-  rCefResponse^.URL := PChar(string(response.Url));
-
-  SendEvent([Sender, browser, frame, rCefRequest, rCefResponse, @Result]);
-
-  rCefRequest := nil;
-  rCefResponse := nil;
+  SendEvent([Sender, browser, frame, request, response, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnResourceRedirect(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var newUrl: ustring);
 var
-  rCefRequest: PRICefRequest;
-  rCefResponse: PRICefResponse;
-  identifier: UInt64;
   pNewUrl : PChar;
 begin
-  //request
-  rCefRequest := new(PRICefRequest);
-  rCefRequest^.Instance := @request;
-  rCefRequest^.Url := PChar(string(request.Url));
-  rCefRequest^.Method := PChar(string(request.Method));
-  rCefRequest^.ReferrerUrl := PChar(string(request.ReferrerUrl));
-  rCefRequest^.ReferrerPolicy := pinteger(integer(request.ReferrerPolicy));
-  rCefRequest^.Flags := PCardinal(request.Flags);
-  rCefRequest^.FirstPartyForCookies := PChar(string(request.FirstPartyForCookies));
-  rCefRequest^.ResourceType := pinteger(integer(request.ResourceType));
-  rCefRequest^.TransitionType := PCardinal(request.TransitionType);
-  identifier := request.Identifier;
-  rCefRequest^.Identifier := @identifier;
-  //response
-  rCefResponse := new(PRICefResponse);
-  rCefResponse^.Instance := @response;
-  rCefResponse^.Status := pinteger(integer(response.Status));
-  rCefResponse^.StatusText := PChar(string(response.StatusText));
-  rCefResponse^.MimeType := PChar(string(response.MimeType));
-  rCefResponse^.Charset := PChar(string(response.Charset));
-  rCefResponse^.Error := pinteger(integer(response.Error));;
-  rCefResponse^.URL := PChar(string(response.Url));
-
-  SendEvent([Sender, browser, frame, rCefRequest, rCefResponse, @pNewUrl]);
+  SendEvent([Sender, browser, frame, request, response, @pNewUrl]);
   newUrl := PCharToUStr(pNewUrl);
-  rCefRequest := nil;
-  rCefResponse := nil;
+  pNewUrl := nil;
 end;
 
 
 procedure TLCLEvent.ChromiumEvent_OnResourceLoadComplete(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse;
   status: TCefUrlRequestStatus; receivedContentLength: Int64);
-var
-  rCefRequest: PRICefRequest;
-  rCefResponse: PRICefResponse;
-  identifier: UInt64;
 begin
-  //request
-  rCefRequest := new(PRICefRequest);
-  rCefRequest^.Instance := @request;
-  rCefRequest^.Url := PChar(string(request.Url));
-  rCefRequest^.Method := PChar(string(request.Method));
-  rCefRequest^.ReferrerUrl := PChar(string(request.ReferrerUrl));
-  rCefRequest^.ReferrerPolicy := pinteger(integer(request.ReferrerPolicy));
-  rCefRequest^.Flags := PCardinal(request.Flags);
-  rCefRequest^.FirstPartyForCookies := PChar(string(request.FirstPartyForCookies));
-  rCefRequest^.ResourceType := pinteger(integer(request.ResourceType));
-  rCefRequest^.TransitionType := PCardinal(request.TransitionType);
-  identifier := request.Identifier;
-  rCefRequest^.Identifier := @identifier;
-  //response
-  rCefResponse := new(PRICefResponse);
-  rCefResponse^.Instance := @response;
-  rCefResponse^.Status := pinteger(integer(response.Status));
-  rCefResponse^.StatusText := PChar(string(response.StatusText));
-  rCefResponse^.MimeType := PChar(string(response.MimeType));
-  rCefResponse^.Charset := PChar(string(response.Charset));
-  rCefResponse^.Error := pinteger(integer(response.Error));;
-  rCefResponse^.URL := PChar(string(response.Url));
-  SendEvent([Sender, browser, frame, rCefRequest, rCefResponse, @integer(status), @receivedContentLength]);
-  rCefRequest := nil;
-  rCefResponse := nil;
+  SendEvent([Sender, browser, frame, request, response, @integer(status), @receivedContentLength]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnFrameAttached(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);

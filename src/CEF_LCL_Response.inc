@@ -18,10 +18,25 @@ begin
   handleExceptionEnd
 end;
 
+function CefResponse_GetError(const TObj: ICefResponse): Integer; extdecl;
+begin
+  handleExceptionBegin
+  // TCefErrorCode
+  Result := Integer(TObj.Error);
+  handleExceptionEnd
+end;
+
 procedure CefResponse_SetError(const TObj: ICefResponse; error: integer); extdecl;
 begin
   handleExceptionBegin
   TObj.SetError(error);
+  handleExceptionEnd
+end;
+
+function CefResponse_GetStatus(const TObj: ICefResponse): Integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.Status;
   handleExceptionEnd
 end;
 
@@ -32,16 +47,38 @@ begin
   handleExceptionEnd
 end;
 
+function CefResponse_GetStatusText(const TObj: ICefResponse): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(TObj.StatusText));
+  handleExceptionEnd
+end;
+
 procedure CefResponse_SetStatusText(const TObj: ICefResponse; statusText: PChar); extdecl;
 begin
   handleExceptionBegin
   TObj.SetStatusText(PCharToUStr(statusText));
   handleExceptionEnd
 end;
+
+function CefResponse_GetMimeType(const TObj: ICefResponse): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(TObj.MimeType));
+  handleExceptionEnd
+end;
+
 procedure CefResponse_SetMimeType(const TObj: ICefResponse; mimetype: PChar); extdecl;
 begin
   handleExceptionBegin
   TObj.SetMimeType(PCharToUStr(mimetype));
+  handleExceptionEnd
+end;
+
+function CefResponse_GetCharset(const TObj: ICefResponse): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(TObj.Charset));
   handleExceptionEnd
 end;
 
@@ -63,6 +100,13 @@ procedure CefResponse_SetHeaderByName(const TObj: ICefResponse; name, value: PCh
 begin
   handleExceptionBegin
   TObj.SetHeaderByName(PCharToUStr(name), PCharToUStr(value), overwrite);
+  handleExceptionEnd
+end;
+
+function CefResponse_GetURL(const TObj: ICefResponse): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(TObj.URL));
   handleExceptionEnd
 end;
 
@@ -91,13 +135,19 @@ end;
 exports
   CefResponseRef_UnWrap,
   CefResponse_IsReadOnly,
+  CefResponse_GetError,
   CefResponse_SetError,
+  CefResponse_GetStatus,
   CefResponse_SetStatus,
+  CefResponse_GetStatusText,
   CefResponse_SetStatusText,
+  CefResponse_GetMimeType,
   CefResponse_SetMimeType,
+  CefResponse_GetCharset,
   CefResponse_SetCharset,
   CefResponse_GetHeaderByName,
   CefResponse_SetHeaderByName,
+  CefResponse_GetURL,
   CefResponse_SetURL,
   CefResponse_GetHeaderMap,
   CefResponse_SetHeaderMap

@@ -256,33 +256,6 @@ type
     EditStateFlags: PCardinal;
   end;
 
-  PRICefRequest = ^RICefRequest;
-
-  RICefRequest = record
-    Instance: Pointer;
-    Url: PChar;
-    Method: PChar;
-    ReferrerUrl: PChar;
-    ReferrerPolicy: PInteger;
-    Flags: PCardinal;
-    FirstPartyForCookies: PChar;
-    ResourceType: PInteger;
-    TransitionType: PCardinal;
-    Identifier: Pointer;//uint64
-  end;
-
-  PRICefResponse = ^RICefResponse;
-
-  RICefResponse = record
-    Instance: Pointer;
-    Status: PInteger;
-    StatusText: PChar;
-    MimeType: PChar;
-    Charset: PChar;
-    Error: PInteger;
-    URL: PChar;
-  end;
-
   // BeforePopup
   PRBeforePopupInfo = ^RBeforePopupInfo;
 
