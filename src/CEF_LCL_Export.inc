@@ -35,6 +35,8 @@
 {$I CEF_LCL_Def.inc}
 {$I CEF_LCL_DictionaryValue.inc}
 {$I CEF_LCL_Display.inc}
+{$I CEF_LCL_DomDocument.inc}
+{$I CEF_LCL_DomVisitor.inc}
 {$I CEF_LCL_DownloadItem.inc}
 {$I CEF_LCL_DragData.inc}
 {$I CEF_LCL_Extension.inc}
