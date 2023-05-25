@@ -4,6 +4,13 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
+procedure CefResponseRef_New(var Result: ICefResponse); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefResponseRef.New;
+  handleExceptionEnd
+end;
+
 procedure CefResponseRef_UnWrap(const data: ICefResponse; var Result: ICefResponse); extdecl;
 begin
   handleExceptionBegin
@@ -133,6 +140,7 @@ begin
 end;
 
 exports
+  CefResponseRef_New,
   CefResponseRef_UnWrap,
   CefResponse_IsReadOnly,
   CefResponse_GetError,

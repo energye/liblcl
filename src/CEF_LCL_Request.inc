@@ -4,6 +4,13 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
+procedure CefRequestRef_New(var Result: ICefRequest); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefRequestRef.New;
+  handleExceptionEnd
+end;
+
 procedure CefRequestRef_UnWrap(const data: ICefRequest; var Result: ICefRequest); extdecl;
 begin
   handleExceptionBegin
@@ -164,6 +171,7 @@ end;
 
 
 exports
+  CefRequestRef_New,
   CefRequestRef_UnWrap,
   CefRequest_IsReadOnly,
   CefRequest_GetUrl,
