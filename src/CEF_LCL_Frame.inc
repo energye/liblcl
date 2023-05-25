@@ -163,6 +163,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFFrame_VisitDom(const TObj: ICefFrame; const visitor: ICefDomVisitor); extdecl;
+begin
+  handleExceptionBegin
+  TObj.VisitDom(visitor);
+  handleExceptionEnd
+end;
+
 procedure CEFFrame_Identifier(const TObj: ICefFrame; var Result: Int64); extdecl;
 begin
   handleExceptionBegin
@@ -219,6 +226,7 @@ exports
   CEFFrame_LoadRequest,
   CEFFrame_Browser,
   CEFFrame_GetV8Context,
+  CEFFrame_VisitDom,
   CEFFrame_Identifier,
   CEFFrame_Name,
   CEFFrame_Url,
