@@ -178,6 +178,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_ReloadIgnoreCache(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ReloadIgnoreCache;
+  handleExceptionEnd
+end;
+
 //停止加载
 procedure CEFChromium_StopLoad(const AObj: TChromium); extdecl;
 begin
@@ -1014,6 +1021,7 @@ exports
   CEFChromium_StartDownload,
   CEFChromium_DownloadImage,
   CEFChromium_Reload,
+  CEFChromium_ReloadIgnoreCache,
   CEFChromium_ResetZoomLevel,
   CEFChromium_StopLoad,
   CEFChromium_CloseAllBrowsers,

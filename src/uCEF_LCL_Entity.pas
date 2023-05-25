@@ -236,26 +236,6 @@ type
     CustomHeaderValue: PChar;
   end;
 
-  //context menu
-  PRContextMenuParams = ^RContextMenuParams;
-
-  RContextMenuParams = record
-    XCoord: PInteger;
-    YCoord: PInteger;
-    TypeFlags: PCardinal;
-    LinkUrl: PChar;
-    UnfilteredLinkUrl: PChar;
-    SourceUrl: PChar;
-    TitleText: PChar;
-    PageUrl: PChar;
-    FrameUrl: PChar;
-    FrameCharset: PChar;
-    MediaType: PInteger;
-    MediaStateFlags: PCardinal;
-    SelectionText: PChar;
-    EditStateFlags: PCardinal;
-  end;
-
   // BeforePopup
   PRBeforePopupInfo = ^RBeforePopupInfo;
 
