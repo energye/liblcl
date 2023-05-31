@@ -25,15 +25,18 @@ uses
 
 const
   //绑定变量事件类型
-  event_set = 0;
-  event_get = 1;
-  event_func = 2;
+  BE_SET = 0;
+  BE_GET = 1;
+  BE_FUNC = 2;
+
   //绑定变量对象类型
-  v8cobj = 'gocobj';// common key
-  v8obj = 'goobj'; // object key
+  v8BindCommon = 'gocobj';// common key
+  v8BindObject = 'goobj'; // object key
   v8EmitKey = 'ipc';//JS emit Go on event
+
   //区分64位系统和32位系统的整数大小
   intSize = SizeOf(nativeint);
+
   //窗口拖动消息名
   windowDrag: ustring = 'windowDrag';
   MoveDragDown: ustring = 'mousedown';
@@ -63,9 +66,10 @@ type
     GO_VALUE_SLICE,
     GO_VALUE_FUNC,
     GO_VALUE_PTR,
+    GO_VALUE_MAP,
     GO_VALUE_EXCEPTION,
     GO_VALUE_INVALID_TYPE, //无效类型
-    GO_VALUE_ARGUMENT,    //argument
+    GO_VALUE_ARGUMENT,     //argument
     GO_VALUE_DICTVALUE    //dictValue
     );
 
@@ -82,52 +86,18 @@ type
     Value: PChar;
   end;
 
-  {=====download begin======}
-  {RDownloadItem 下载-事件 信息}
-  PRDownloadItem = ^RDownloadItem;
+  // string header
+  PStringHeader = ^StringHeader;
 
-  RDownloadItem = record
-    Id: PInteger;
-    CurrentSpeed: PInt64;
-    PercentComplete: PInteger;
-    TotalBytes: PInt64;
-    ReceivedBytes: PInt64;
-    StartTime: Pointer;
-    EndTime: Pointer;
-    FullPath: PChar;
-    Url: PChar;
-    OriginalUrl: PChar;
-    SuggestedFileName: PChar;
-    ContentDisposition: PChar;
-    MimeType: PChar;
-    IsValid: PBoolean;
-    State: PInteger;
-    //下载状态 -1:下载之前 0:下载中 1:下载取消 2:下载完成
+  StringHeader = record
+    PValue: PChar;
+    ValueLength: nativeuint;
+    Value: string;
   end;
 
-  {RDownloadUpdate 下载更新-事件 信息}
-  PRDownloadUpdate = ^RDownloadUpdate;
-
-  RDownloadUpdate = record
-    BrowserId: Pinteger;
-    DownId: Pinteger;
-    State: Pinteger; //state 下载状态 0:下载中 1:下载取消 2:下载完成
-    FullPath: PChar;
-    PercentComplete: Pinteger;
-    ReceivedBytes: pint64;
-    TotalBytes: pint64;
-  end;
-
-  {BrowserDownload 下载项}
-  PBrowserDownload = ^BrowserDownload;
-
-  BrowserDownload = record
-    ItemCallback: ICefDownloadItemCallback;//下载更新时的回调
-  end;
-  {=====download end======}
-
-  PTCEFApplicationConfig = ^TCEFApplicationConfig;
   //CEF Application 配置
+  PTCEFApplicationConfig = ^TCEFApplicationConfig;
+
   TCEFApplicationConfig = record
     FrameworkDirPath: PChar;
     ResourcesDirPath: PChar;
@@ -170,8 +140,9 @@ type
 
   //TCEFv8Context
   RCEFV8Context = record
+    V8Context: ICefv8Context;
     Browser: ICefBrowser;
-    //Frame: ICefFrame;
+    Frame: ICefFrame;
     Global: ICefv8Value;
   end;
 
@@ -243,7 +214,7 @@ type
     secure, httponly, hasExpires: Pointer;//boolean
     creation, lastAccess, expires: Pointer;//double
     Count, total, aID, sameSite, priority: PInteger;//integer
-    aSetImmediately, aDeleteCookie, Result: Pointer;//boolean
+    setImmediately, deleteCookie, Result: Pointer;//boolean
   end;
 
   //Proxy
@@ -265,53 +236,6 @@ type
     CustomHeaderValue: PChar;
   end;
 
-  //context menu
-  PRContextMenuParams = ^RContextMenuParams;
-
-  RContextMenuParams = record
-    XCoord: PInteger;
-    YCoord: PInteger;
-    TypeFlags: PCardinal;
-    LinkUrl: PChar;
-    UnfilteredLinkUrl: PChar;
-    SourceUrl: PChar;
-    TitleText: PChar;
-    PageUrl: PChar;
-    FrameUrl: PChar;
-    FrameCharset: PChar;
-    MediaType: PInteger;
-    MediaStateFlags: PCardinal;
-    SelectionText: PChar;
-    EditStateFlags: PCardinal;
-  end;
-
-  PRICefRequest = ^RICefRequest;
-
-  RICefRequest = record
-    Instance: Pointer;
-    Url: PChar;
-    Method: PChar;
-    ReferrerUrl: PChar;
-    ReferrerPolicy: PInteger;
-    Flags: PCardinal;
-    FirstPartyForCookies: PChar;
-    ResourceType: PInteger;
-    TransitionType: PCardinal;
-    Identifier: Pointer;//uint64
-  end;
-
-  PRICefResponse = ^RICefResponse;
-
-  RICefResponse = record
-    Instance: Pointer;
-    Status: PInteger;
-    StatusText: PChar;
-    MimeType: PChar;
-    Charset: PChar;
-    Error: PInteger;
-    URL: PChar;
-  end;
-
   // BeforePopup
   PRBeforePopupInfo = ^RBeforePopupInfo;
 
@@ -321,6 +245,9 @@ type
     TargetDisposition: PInteger;
     UserGesture: PBoolean;
   end;
+
+  PTCefBinaryValueArray = ^TCefBinaryValueArray;
+  PTCefX509CertificateArray = ^TCefX509CertificateArray;
 
   PRTCefRect = ^RTCefRect;
 
@@ -381,6 +308,26 @@ type
     chrome_status_bubble: PInteger;
   end;
 
+  PRCefPdfPrintSettings = ^RCefPdfPrintSettings;
+
+  RCefPdfPrintSettings = record
+    landscape: PInteger;
+    print_background: PInteger;
+    scale: PDouble;
+    paper_width: PDouble;
+    paper_height: PDouble;
+    prefer_css_page_size: PInteger;
+    margin_type: PInteger;
+    margin_top: PDouble;
+    margin_right: PDouble;
+    margin_bottom: PDouble;
+    margin_left: PDouble;
+    page_ranges: PChar;
+    display_header_footer: PInteger;
+    header_template: PChar;
+    footer_template: PChar;
+  end;
+
   PRCefRequestContextSettings = ^RCefRequestContextSettings;
 
   RCefRequestContextSettings = record
@@ -407,6 +354,8 @@ type
     class procedure Remove(BrowserId: integer);
     class function Get(BrowserId: integer): TGoForm;
   end;
+
+function NewStringHeader(Data: ustring): PStringHeader;
 
 //string to hash
 function StrToHash(const SoureStr: string): cardinal;
@@ -471,6 +420,15 @@ var
 
 implementation
 
+function NewStringHeader(Data: ustring): PStringHeader;
+var
+  PH: PStringHeader;
+begin
+  PH^.Value := UTF8Encode(Data);
+  PH^.PValue := PChar(PH^.Value);
+  PH^.ValueLength := Length(PH^.PValue);
+  Result := PH;
+end;
 
 function ByteToInteger(const Data: array of byte; start: integer = 0): integer;
 var

@@ -18,7 +18,6 @@ uses
   uCEF_LCL_Entity;
 
 const
-  // call最长参数数，与导出的MySyscall一致，暂定为12个
   CEFCALL_MAX_PARAM = 12;
 
 
@@ -41,8 +40,6 @@ type //Window Bind
   public
     class constructor Create;
     class destructor Destroy;
-    //class procedure Add(AEventName: ustring; AEventData: Pointer);
-   // class function GetEventId(AEventName: ustring): nativeuint;
     class function SendEvent(const AEventName: ustring; AArgs: array of const): boolean;
     class function Size(): longint;
     class procedure Clear();
@@ -78,15 +75,6 @@ var
   GCEFWindowBindPtr: TCEFWindowBindPtr;
   //Application.QueueAsyncCall UI主程序异步调用回调指针
   GApplicationQueueAsyncCallPtr: ApplicationQueueAsyncCallPtr;
-
-  //GlobalCEFApp TCefv8ValueRef 普通变量属性的所属默认对象名称 默认值 v8
-  CommonRootName: ustring = v8cobj;
-  ObjectRootName: ustring = v8obj;
-
-  //Chromium Windows Comp Message
-  WidgetCompMsgPtr : TChromiumWindowsCompMsg;
-  RenderCompMsgPtr : TChromiumWindowsCompMsg;
-  BrowserCompMsgPtr: TChromiumWindowsCompMsg;
 
 implementation
 
@@ -204,7 +192,7 @@ end;
 
 class procedure ApplicationQueueAsyncCallEventClass.SendEvent(id: nativeuint);
 begin
-  if Assigned(GApplicationQueueAsyncCallPtr) and (id > 0) then
+  if Assigned(GApplicationQueueAsyncCallPtr) then
   begin
     GApplicationQueueAsyncCallPtr(id);
   end;
