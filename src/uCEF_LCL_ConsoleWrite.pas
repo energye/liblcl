@@ -8,7 +8,7 @@ unit uCEF_LCL_ConsoleWrite;
 
 {$mode objfpc}{$H+}
 {$I cef.inc}
-//{$APPTYPE CONSOLE}
+{$APPTYPE CONSOLE}
 
 interface
 

@@ -17,7 +17,7 @@
 {$Z4+}
 
 // 正式启用此定义，只是文件增大些而已，但通用性更强
-{$define UsehandleException}
+//{$define UsehandleException}
 
 // 异常宏定义
 {$ifdef UsehandleException}
