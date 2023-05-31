@@ -334,7 +334,7 @@ begin
   Result := False;
   if (ReadPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ReadPtr, [@data_out, bytes_to_read, @bytes_read, callback, @Result]);
+    TCEFEventCallback.SendEvent(ReadPtr, [data_out, bytes_to_read, @bytes_read, callback, @Result]);
   end
   else
     Result := inherited Read(data_out, bytes_to_read, bytes_read, callback);
@@ -356,7 +356,7 @@ begin
   Result := False;
   if (ReadResponsePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ReadResponsePtr, [@dataOut, bytesToRead, @bytesRead, callback, @Result]);
+    TCEFEventCallback.SendEvent(ReadResponsePtr, [dataOut, bytesToRead, @bytesRead, callback, @Result]);
   end
   else
     Result := inherited ReadResponse(dataOut, bytesToRead, bytesRead, callback);

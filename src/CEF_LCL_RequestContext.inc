@@ -102,7 +102,7 @@ end;
 function  RequestContext_ClearSchemeHandlerFactories(const TObj: ICefRequestContext): LongBool;  extdecl;
 begin
   handleExceptionBegin
-  TObj.ClearSchemeHandlerFactories;
+  Result := TObj.ClearSchemeHandlerFactories;
   handleExceptionEnd
 end;
 

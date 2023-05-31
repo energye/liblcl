@@ -72,17 +72,24 @@ begin
   handleExceptionEnd
 end;
 
-function Misc_CefRegisterSchemeHandlerFactory(const SchemeName, DomainName : PChar; const handler: TCefResourceHandlerClass): LongBool;
+function Misc_CefRegisterSchemeHandlerFactory(const SchemeName, DomainName : PChar; const handler: TCefResourceHandlerClass): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := CefRegisterSchemeHandlerFactory(StrPas(SchemeName), StrPas(DomainName), handler);
   handleExceptionEnd
 end;
 
-function Misc_CefClearSchemeHandlerFactories : LongBool;
+function Misc_CefClearSchemeHandlerFactories : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := CefClearSchemeHandlerFactories();
+  handleExceptionEnd
+end;
+
+function  Misc_CefGetMimeType(const extension: PChar): PChar; extdecl;
+begin
+  handleExceptionBegin
+  Result := PChar(string(CefGetMimeType(StrPas(extension))));
   handleExceptionEnd
 end;
 
@@ -96,6 +103,7 @@ exports
   Misc_CheckResources,
   Misc_CheckDLLs,
   Misc_CefRegisterSchemeHandlerFactory,
-  Misc_CefClearSchemeHandlerFactories
+  Misc_CefClearSchemeHandlerFactories,
+  Misc_CefGetMimeType
 ;
 
