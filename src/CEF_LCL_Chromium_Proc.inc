@@ -400,8 +400,17 @@ begin
   priority := TCefCookiePriority(Integer(CefCookie.priority));
   aSetImmediately := LongBool(PLongBool(CefCookie.setImmediately));
   aID := Integer(CefCookie.aID);
+  //WriteLn('pas= url:', url, ' name: ', name, ' value: ', value, ' domain: ', domain, ' path: ', path, ' secure: ', secure, ' httponly: ', httponly, ' hasExpires: ', hasExpires
+  //              , ' creation: ', creation, ' lastAccess: ', lastAccess, ' expires: ', expires, ' sameSite: ', sameSite, ' priority: ', priority, ' aSetImmediately: ', aSetImmediately, ' aID: ', aID);
   AObj.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, sameSite, priority, aSetImmediately, aID);
   CefCookie := nil;
+  handleExceptionEnd
+end;
+
+function CEFChromium_FlushCookieStore(const AObj: TChromium; flushImmediately: LongBool):LongBool ; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.FlushCookieStore(flushImmediately);
   handleExceptionEnd
 end;
 
@@ -1052,6 +1061,7 @@ exports
   CEFChromium_VisitAllCookies,
   CEFChromium_VisitURLCookies,
   CEFChromium_SetCookie,
+  CEFChromium_FlushCookieStore,
   CEFChromium_DeleteCookies,
   CEFChromium_SetProxy,
   CEFChromium_UpdatePreferences,
