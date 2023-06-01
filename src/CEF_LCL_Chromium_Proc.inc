@@ -1016,6 +1016,264 @@ begin
   handleExceptionEnd
 end;
 
+procedure   CEFChromium_SimulateMouseWheel(const AObj: TChromium; aDeltaX, aDeltaY : integer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.SimulateMouseWheel(aDeltaX, aDeltaY);
+  handleExceptionEnd
+end;
+
+function    CEFChromium_CloseAllConnections(const AObj: TChromium; aCloseImmediately : LongBool) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.CloseAllConnections(aCloseImmediately);
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_RetrieveHTMLByFrameName(const AObj: TChromium; const aFrameName : PChar); extdecl;
+begin
+  handleExceptionBegin
+  AObj.RetrieveHTML(PCharToUStr(aFrameName));
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_RetrieveHTMLByFrame(const AObj: TChromium; const aFrame : ICefFrame); extdecl;
+begin
+  handleExceptionBegin
+  AObj.RetrieveHTML(aFrame);
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_RetrieveHTMLByFrameIdentifier(const AObj: TChromium; const aFrameIdentifier : int64); extdecl;
+begin
+  handleExceptionBegin
+  AObj.RetrieveHTML(aFrameIdentifier);
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_RetrieveTextByFrameName(const AObj: TChromium; const aFrameName : PChar); extdecl;
+begin
+  handleExceptionBegin
+  AObj.RetrieveText(PCharToUStr(aFrameName));
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_RetrieveTextByFrame(const AObj: TChromium; const aFrame : ICefFrame); extdecl;
+begin
+  handleExceptionBegin
+  AObj.RetrieveText(aFrame);
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_RetrieveTextByFrameIdentifier(const AObj: TChromium; const aFrameIdentifier : int64); extdecl;
+begin
+  handleExceptionBegin
+  AObj.RetrieveText(aFrameIdentifier);
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ResolveHost(const AObj: TChromium; const aURL : PChar); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ResolveHost(PCharToUStr(aURL));
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_SetUserAgentOverride(const AObj: TChromium; const aUserAgent : PChar; const aAcceptLanguage : PChar; const aPlatform : PChar); extdecl;
+begin
+  handleExceptionBegin
+  AObj.SetUserAgentOverride(PCharToUStr(aUserAgent), PCharToUStr(aAcceptLanguage), PCharToUStr(aPlatform));
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ClearDataForOrigin(const AObj: TChromium; const aOrigin : PChar; aStorageTypes : Integer); extdecl;
+var
+  st: TCefClearDataStorageTypes;
+begin
+  handleExceptionBegin
+  st := cdstAll;
+  // TCefClearDataStorageTypes = default cdstAll
+  if aStorageTypes = 0 then
+    st := cdstAppCache
+  else if aStorageTypes = 1 then
+    st := cdstCookies
+  else if aStorageTypes = 2 then
+    st := cdstFileSystems
+  else if aStorageTypes = 3 then
+    st := cdstIndexeddb
+  else if aStorageTypes = 4 then
+    st := cdstLocalStorage
+  else if aStorageTypes = 5 then
+    st := cdstShaderCache
+  else if aStorageTypes = 6 then
+    st := cdstWebsql
+  else if aStorageTypes = 7 then
+    st := cdstServiceWorkers
+  else if aStorageTypes = 8 then
+    st := cdstCacheStorage
+  else if aStorageTypes = 9 then
+    st := cdstAll;
+  AObj.ClearDataForOrigin(PCharToUStr(aOrigin), st);
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ClearCache(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ClearCache();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ToggleAudioMuted(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ToggleAudioMuted();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ClipboardCopy(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ClipboardCopy();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ClipboardPaste(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ClipboardPaste();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ClipboardCut(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ClipboardCut();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ClipboardUndo(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ClipboardUndo();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ClipboardRedo(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ClipboardRedo();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ClipboardDel(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ClipboardDel();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_SelectAll(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.SelectAll();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_IncZoomStep(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.IncZoomStep();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_DecZoomStep(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.DecZoomStep();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_IncZoomPct(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.IncZoomPct();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_DecZoomPct(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.DecZoomPct();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ResetZoomStep(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ResetZoomStep();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ResetZoomPct(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ResetZoomPct();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_ReadZoom(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ReadZoom();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_WasResized(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.WasResized();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_WasHidden(const AObj: TChromium; hidden: LongBool); extdecl;
+begin
+  handleExceptionBegin
+  AObj.WasHidden(hidden);
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_NotifyScreenInfoChanged(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  AObj.NotifyScreenInfoChanged();
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_IMESetComposition(const AObj: TChromium; const text: PChar; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : PCefRange); extdecl;
+begin
+  handleExceptionBegin
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_IMECommitText(const AObj: TChromium; const text: PChar; const replacement_range : PCefRange; relative_cursor_pos : integer); extdecl;
+begin
+  handleExceptionBegin
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_IMEFinishComposingText(const AObj: TChromium; keep_selection : boolean); extdecl;
+begin
+  handleExceptionBegin
+  handleExceptionEnd
+end;
+
+procedure   CEFChromium_IMECancelComposition(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  handleExceptionEnd
+end;
+
 exports
   CEFChromium_Create,
   CEFChromium_Browser,
@@ -1138,6 +1396,40 @@ exports
   CEFChromium_SendProcessMessage,
   CEFChromium_SendProcessMessageForJSONBytes,
   CEFChromium_CefClient,
-  CEFChromium_SendProcessMessageForV8Value
+  CEFChromium_SendProcessMessageForV8Value,
+  CEFChromium_SimulateMouseWheel,
+  CEFChromium_CloseAllConnections,
+  CEFChromium_RetrieveHTMLByFrameName,
+  CEFChromium_RetrieveHTMLByFrame,
+  CEFChromium_RetrieveHTMLByFrameIdentifier,
+  CEFChromium_RetrieveTextByFrameName,
+  CEFChromium_RetrieveTextByFrame,
+  CEFChromium_RetrieveTextByFrameIdentifier,
+  CEFChromium_ResolveHost,
+  CEFChromium_SetUserAgentOverride,
+  CEFChromium_ClearDataForOrigin,
+  CEFChromium_ClearCache,
+  CEFChromium_ToggleAudioMuted,
+  CEFChromium_ClipboardCopy,
+  CEFChromium_ClipboardPaste,
+  CEFChromium_ClipboardCut,
+  CEFChromium_ClipboardUndo,
+  CEFChromium_ClipboardRedo,
+  CEFChromium_ClipboardDel,
+  CEFChromium_SelectAll,
+  CEFChromium_IncZoomStep,
+  CEFChromium_DecZoomStep,
+  CEFChromium_IncZoomPct,
+  CEFChromium_DecZoomPct,
+  CEFChromium_ResetZoomStep,
+  CEFChromium_ResetZoomPct,
+  CEFChromium_ReadZoom,
+  CEFChromium_WasResized,
+  CEFChromium_WasHidden,
+  CEFChromium_NotifyScreenInfoChanged,
+  CEFChromium_IMESetComposition,
+  CEFChromium_IMECommitText,
+  CEFChromium_IMEFinishComposingText,
+  CEFChromium_IMECancelComposition
 ;
 
