@@ -4,9 +4,9 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-function CEFVersion: PChar; extdecl;
+function LibVersion: PChar; extdecl;
 begin
-  Result := PChar('');
+  Result := PChar('2.0.1');
 end;
 
 function LibBuildVersion: PChar; extdecl;
@@ -159,7 +159,7 @@ begin
 end;
 
 exports
-  CEFVersion,
+  LibVersion,
   LibBuildVersion,
   { ====  go from begin ==== }
   CEF_AddGoForm,
