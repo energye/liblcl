@@ -6,7 +6,7 @@
 
 function CEFVersion: PChar; extdecl;
 begin
-  Result := PChar('1.109.18');
+  Result := PChar('');
 end;
 
 function LibBuildVersion: PChar; extdecl;
