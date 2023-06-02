@@ -1044,7 +1044,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_RetrieveHTMLByFrameIdentifier(const AObj: TChromium; const aFrameIdentifier : int64); extdecl;
+procedure   CEFChromium_RetrieveHTMLByFrameIdentifier(const AObj: TChromium; var aFrameIdentifier : int64); extdecl;
 begin
   handleExceptionBegin
   AObj.RetrieveHTML(aFrameIdentifier);
@@ -1065,7 +1065,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_RetrieveTextByFrameIdentifier(const AObj: TChromium; const aFrameIdentifier : int64); extdecl;
+procedure   CEFChromium_RetrieveTextByFrameIdentifier(const AObj: TChromium; var aFrameIdentifier : int64); extdecl;
 begin
   handleExceptionBegin
   AObj.RetrieveText(aFrameIdentifier);
@@ -1250,27 +1250,43 @@ begin
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_IMESetComposition(const AObj: TChromium; const text: PChar; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : PCefRange); extdecl;
+procedure   CEFChromium_IMESetComposition(const AObj: TChromium; const text: PChar; const replacement_range, selection_range : TCefRange; const PUnderlines : PTCefCompositionUnderlineDynArray; size: Integer); extdecl;
+var
+  i: integer;
+  underlines : TCefCompositionUnderlineDynArray;
 begin
   handleExceptionBegin
+  try
+    SetLength(underlines, size);
+    for i := 0 to  size - 1 do
+    begin
+      underlines[i] := PUnderlines^[i];
+    end;
+    AObj.IMESetComposition(PChar(text), underlines, @replacement_range, @selection_range);
+  finally
+    SetLength(underlines, 0);
+  end;
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_IMECommitText(const AObj: TChromium; const text: PChar; const replacement_range : PCefRange; relative_cursor_pos : integer); extdecl;
+procedure   CEFChromium_IMECommitText(const AObj: TChromium; const text: PChar; const replacement_range : TCefRange; relative_cursor_pos : integer); extdecl;
 begin
   handleExceptionBegin
+  AObj.IMECommitText(PChar(text), @replacement_range, relative_cursor_pos);
   handleExceptionEnd
 end;
 
 procedure   CEFChromium_IMEFinishComposingText(const AObj: TChromium; keep_selection : boolean); extdecl;
 begin
   handleExceptionBegin
+  AObj.IMEFinishComposingText(keep_selection);
   handleExceptionEnd
 end;
 
 procedure   CEFChromium_IMECancelComposition(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
+  AObj.IMECancelComposition();
   handleExceptionEnd
 end;
 

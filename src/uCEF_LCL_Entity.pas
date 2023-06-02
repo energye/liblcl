@@ -20,64 +20,11 @@ uses
   uCEF_LCL_ConsoleWrite,
   fgl,
   Classes, SysUtils, uGoForm,
-  uCEFTypes, uCEFInterfaces, uCEFChromium,
+  uCEFTypes, uCEFInterfaces,
   {$ifdef MSWINDOWS}uCEFWindowParent{$else}uCEFLinkedWindowParent{$endif};
 
-const
-  //绑定变量事件类型
-  BE_SET = 0;
-  BE_GET = 1;
-  BE_FUNC = 2;
-
-  //绑定变量对象类型
-  v8BindCommon = 'gocobj';// common key
-  v8BindObject = 'goobj'; // object key
-  v8EmitKey = 'ipc';//JS emit Go on event
-
-  //区分64位系统和32位系统的整数大小
-  intSize = SizeOf(nativeint);
-
-  //窗口拖动消息名
-  windowDrag: ustring = 'windowDrag';
-  MoveDragDown: ustring = 'mousedown';
-  MoveDragMove: ustring = 'mousemove';
-  MoveDragUp: ustring = 'mouseup';
 
 type
-  // Golang 的数据类型
-  GO_VALUE_TYPE = (
-    GO_VALUE_STRING,
-    GO_VALUE_INT,
-    GO_VALUE_INT8,
-    GO_VALUE_INT16,
-    GO_VALUE_INT32,
-    GO_VALUE_INT64,
-    GO_VALUE_UINT,
-    GO_VALUE_UINT8,
-    GO_VALUE_UINT16,
-    GO_VALUE_UINT32,
-    GO_VALUE_UINT64,
-    GO_VALUE_UINTPTR,
-    GO_VALUE_FLOAT32,
-    GO_VALUE_FLOAT64,
-    GO_VALUE_BOOL,
-    GO_VALUE_NIL,
-    GO_VALUE_STRUCT,
-    GO_VALUE_SLICE,
-    GO_VALUE_FUNC,
-    GO_VALUE_PTR,
-    GO_VALUE_MAP,
-    GO_VALUE_EXCEPTION,
-    GO_VALUE_INVALID_TYPE, //无效类型
-    GO_VALUE_ARGUMENT,     //argument
-    GO_VALUE_DICTVALUE    //dictValue
-    );
-
-  {CEF Interface Pointer}
-  PICefMenuModel = ^ICefMenuModel;
-  PICefCallback = ^ICefCallback;
-  PICefRequest = ^ICefRequest;
-
   PRFrameNames = ^RFrameNames;
   FrameNamesArray = array of PRFrameNames;
 
@@ -94,33 +41,6 @@ type
     ValueLength: nativeuint;
     Value: string;
   end;
-
-  //CEF Application 配置
-  PTCEFApplicationConfig = ^TCEFApplicationConfig;
-
-  TCEFApplicationConfig = record
-    FrameworkDirPath: PChar;
-    ResourcesDirPath: PChar;
-    LocalesDirPath: PChar;
-    Cache: PChar;
-    UserDataPath: PChar;
-    Language: PChar;
-    LocalesRequired: PChar;
-    LogFile: PChar;
-    MainBundlePath: PChar;
-    BrowserSubprocessPath: PChar;
-    LogSeverity: PUInt32;
-    NoSandbox: PBoolean;
-    DisableZygote: PBoolean;
-    EnableGPU: PBoolean;
-    SingleProcess: PBoolean;
-    UseMockKeyChain: PBoolean;
-    CheckCEFFiles: PBoolean;
-    RemoteDebuggingPort: PInteger;
-    ExternalMessagePump: PBoolean;
-    MultiThreadedMessageLoop: PBoolean;
-    ChromeRuntime: PBoolean;
-  end;//配置 end;
 
   //CEFChromium 配置
   TCEFChromiumConfig = record
@@ -246,6 +166,7 @@ type
     UserGesture: PBoolean;
   end;
 
+  PTCefCompositionUnderlineDynArray = ^TCefCompositionUnderlineDynArray;
   PTCefBinaryValueArray = ^TCefBinaryValueArray;
   PTCefX509CertificateArray = ^TCefX509CertificateArray;
 
