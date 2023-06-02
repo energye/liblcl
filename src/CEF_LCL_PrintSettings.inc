@@ -39,10 +39,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefPrintSettings_SetPrinterPrintableArea(const AObj: ICefPrintSettings; const physicalSizeDeviceUnits: PCefSize; const printableAreaDeviceUnits: PCefRect; landscapeNeedsFlip: LongBool); extdecl;
+procedure CefPrintSettings_SetPrinterPrintableArea(const AObj: ICefPrintSettings; const physicalSizeDeviceUnits: TCefSize; const printableAreaDeviceUnits: TCefRect; landscapeNeedsFlip: LongBool); extdecl;
 begin
   handleExceptionBegin
-  AObj.SetPrinterPrintableArea(physicalSizeDeviceUnits, printableAreaDeviceUnits, landscapeNeedsFlip);
+  AObj.SetPrinterPrintableArea(@physicalSizeDeviceUnits, @printableAreaDeviceUnits, landscapeNeedsFlip);
   handleExceptionEnd
 end;
 
@@ -74,10 +74,22 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefPrintSettings_SetPageRanges(const AObj: ICefPrintSettings; const ranges: TCefRangeArray); extdecl;
+procedure CefPrintSettings_SetPageRanges(const AObj: ICefPrintSettings; const PRanges: PTCefRangeArray; size: Integer); extdecl;
+var
+  i: Integer;
+  ranges: TCefRangeArray;
 begin
   handleExceptionBegin
-  AObj.SetPageRanges(ranges);
+  try
+    SetLength(ranges, size);
+    for i := 0 to  size - 1 do
+    begin
+      ranges[i] := PRanges^[i];
+    end;
+    AObj.SetPageRanges(ranges);
+  finally
+    SetLength(ranges, 0);
+  end;
   handleExceptionEnd
 end;
 
