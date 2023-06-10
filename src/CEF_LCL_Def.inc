@@ -309,19 +309,52 @@ begin
   EnterCriticalSection(CritSection);
 end;
 
-function  CEF_Win_EnumDisplayMonitors(hdc: HDC; lprcClip: PRect; lpfnEnum: MonitorEnumProc; dwData: LPARAM): LongBool; extdecl;
+function Internal_EnumDisplayMonitorsProc(hMonitor: HMONITOR; hdcMonitor: HDC; lprcMonitor: PRect; dwData: LPARAM): LongBool; extdecl;
 begin
-  Result := EnumDisplayMonitors(hdc,lprcClip, lpfnEnum, dwData);
+  Result := WinApiCallback.EnumDisplayMonitorsProc(hMonitor, hdcMonitor, lprcMonitor, dwData);
 end;
 
-function  CEF_Win_EnumFontFamilies(DC: HDC; Family: Pchar; EnumFontFamProc: FontEnumProc; LParam:Lparam):longint; extdecl;
+function  CEF_Win_EnumDisplayMonitors(hdc: HDC; lprcClip: PRect; callbackPtr: Pointer; dwData: LPARAM): LongBool; extdecl;
 begin
-  Result := EnumFontFamilies(DC,Family, EnumFontFamProc, LParam);
+  WinApiCallback.EnumDisplayMonitorsProcPtr := callbackPtr;
+  Result := EnumDisplayMonitors(hdc,lprcClip, Internal_EnumDisplayMonitorsProc, dwData);
 end;
 
-function  CEF_Win_EnumFontFamiliesEx(DC: HDC; lpLogFont:PLogFont; Callback: FontEnumExProc; Lparam:LParam; Flags: dword): longint; extdecl;
+function Internal_EnumFontFamiliesProc(var ELogFont: TEnumLogFont; var Metric: TNewTextMetric; FontType: longint; Data:LParam): longint; extdecl;
 begin
-  Result := EnumFontFamiliesEx(DC,lpLogFont, Callback, Lparam, Flags);
+  Result := WinApiCallback.EnumFontFamiliesProc(ELogFont, Metric, FontType, Data);
+end;
+
+function  CEF_Win_EnumFontFamilies(DC: HDC; Family: Pchar; callbackPtr: Pointer; LParam:Lparam):longint; extdecl;
+begin
+  WinApiCallback.EnumFontFamiliesProcPtr := callbackPtr;
+  Result := EnumFontFamilies(DC,Family, Internal_EnumFontFamiliesProc, LParam);
+end;
+
+function Internal_EnumFontFamiliesExProc(var ELogFont: TEnumLogFontEx; var Metric: TNewTextMetricEx; FontType: Longint; Data: LParam): Longint; extdecl;
+begin
+  Result := WinApiCallback.EnumFontFamiliesExProc(ELogFont, Metric, FontType, Data);
+end;
+
+function  CEF_Win_EnumFontFamiliesEx(DC: HDC; lpLogFont: PLogFont; callbackPtr: Pointer; Lparam: LParam; Flags: dword): longint; extdecl;
+begin
+  WinApiCallback.EnumFontFamiliesExProcPtr := callbackPtr;
+  Result := EnumFontFamiliesEx(DC,lpLogFont, Internal_EnumFontFamiliesExProc, Lparam, Flags);
+end;
+
+procedure CEF_Win_EnumDisplayMonitorsCallbackFree(); extdecl;
+begin
+  WinApiCallback.EnumDisplayMonitorsProcPtr := nil;
+end;
+
+procedure CEF_Win_EnumFontFamiliesCallbackFree(); extdecl;
+begin
+  WinApiCallback.EnumFontFamiliesProcPtr := nil;
+end;
+
+procedure CEF_Win_EnumFontFamiliesExCallbackFree(); extdecl;
+begin
+  WinApiCallback.EnumFontFamiliesExProcPtr := nil;
 end;
 
 function  CEF_Win_Ellipse(DC: HDC; x1, y1, x2, y2: Integer):  LongBool; extdecl;
@@ -539,9 +572,9 @@ begin
   Result := GetTextColor(DC);
 end;
 
-function  CEF_Win_GetTextExtentExPoint(DC: HDC; Str: PChar; Count, MaxWidth: Integer; MaxCount, PartialWidths: PInteger; var Size: TSize):  LongBool; extdecl;
+function  CEF_Win_GetTextExtentExPoint(DC: HDC; Str: PChar; Count, MaxWidth: Integer; MaxCount, PartialWidths: Integer; var Size: TSize):  LongBool; extdecl;
 begin
-  Result := GetTextExtentExPoint(DC,Str, Count, MaxWidth, MaxCount, PartialWidths, Size);
+  Result := GetTextExtentExPoint(DC,Str, Count, MaxWidth, @MaxCount, @PartialWidths, Size);
 end;
 
 function  CEF_Win_GetTextExtentPoint(DC: HDC; Str: PChar; Count: Integer; var Size: TSize):  LongBool; extdecl;
@@ -594,7 +627,7 @@ begin
   Result := GetWindowOrgEx(dc, P);
 end;
 
-function  CEF_Win_GradientFill(DC: HDC; Vertices: PTriVertex; NumVertices : Longint; Meshes: Pointer; NumMeshes : Longint; Mode : Longint):  LongBool; extdecl;
+function  CEF_Win_GradientFill(DC: HDC; Vertices: PTriVertex; NumVertices: Longint; Meshes: Pointer; NumMeshes: Longint; Mode: Longint):  LongBool; extdecl;
 begin
   Result := GradientFill(DC, Vertices, NumVertices, Meshes, NumMeshes, Mode);
 end;
@@ -1056,6 +1089,9 @@ exports
   CEF_Win_EnumDisplayMonitors,
   CEF_Win_EnumFontFamilies,
   CEF_Win_EnumFontFamiliesEx,
+  CEF_Win_EnumDisplayMonitorsCallbackFree,
+  CEF_Win_EnumFontFamiliesCallbackFree,
+  CEF_Win_EnumFontFamiliesExCallbackFree,
   CEF_Win_Ellipse,
   CEF_Win_EqualRgn,
   CEF_Win_ExcludeClipRect,
