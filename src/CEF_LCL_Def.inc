@@ -309,7 +309,7 @@ begin
   EnterCriticalSection(CritSection);
 end;
 
-function Internal_EnumDisplayMonitorsProc(hMonitor: HMONITOR; hdcMonitor: HDC; lprcMonitor: PRect; dwData: LPARAM): LongBool; extdecl;
+function Internal_EnumDisplayMonitorsProc(hMonitor: HMONITOR; hdcMonitor: HDC; lprcMonitor: PRect; dwData: LPARAM): LongBool; {$ifdef WinCE}cdecl{$else}stdcall{$endif};
 begin
   Result := WinApiCallback.EnumDisplayMonitorsProc(hMonitor, hdcMonitor, lprcMonitor, dwData);
 end;
@@ -320,7 +320,7 @@ begin
   Result := EnumDisplayMonitors(hdc, lprcClip, Internal_EnumDisplayMonitorsProc, dwData);
 end;
 
-function Internal_EnumFontFamiliesProc(var ELogFont: TEnumLogFont; var Metric: TNewTextMetric; FontType: longint; Data:LParam): longint; extdecl;
+function Internal_EnumFontFamiliesProc(var ELogFont: TEnumLogFont; var Metric: TNewTextMetric; FontType: longint; Data:LParam): longint; {$ifdef WinCE}cdecl{$else}stdcall{$endif};
 begin
   Result := WinApiCallback.EnumFontFamiliesProc(ELogFont, Metric, FontType, Data);
 end;
@@ -331,7 +331,7 @@ begin
   Result := EnumFontFamilies(DC,Family, Internal_EnumFontFamiliesProc, LParam);
 end;
 
-function Internal_EnumFontFamiliesExProc(var ELogFont: TEnumLogFontEx; var Metric: TNewTextMetricEx; FontType: Longint; Data: LParam): Longint; extdecl;
+function Internal_EnumFontFamiliesExProc(var ELogFont: TEnumLogFontEx; var Metric: TNewTextMetricEx; FontType: Longint; Data: LParam): Longint; {$ifdef WinCE}cdecl{$else}stdcall{$endif};
 begin
   Result := WinApiCallback.EnumFontFamiliesExProc(ELogFont, Metric, FontType, Data);
 end;
