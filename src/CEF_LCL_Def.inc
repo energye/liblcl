@@ -317,7 +317,7 @@ end;
 function  CEF_Win_EnumDisplayMonitors(hdc: HDC; lprcClip: PRect; callbackPtr: Pointer; dwData: LPARAM): LongBool; extdecl;
 begin
   WinApiCallback.EnumDisplayMonitorsProcPtr := callbackPtr;
-  Result := EnumDisplayMonitors(hdc,lprcClip, Internal_EnumDisplayMonitorsProc, dwData);
+  Result := EnumDisplayMonitors(hdc, lprcClip, Internal_EnumDisplayMonitorsProc, dwData);
 end;
 
 function Internal_EnumFontFamiliesProc(var ELogFont: TEnumLogFont; var Metric: TNewTextMetric; FontType: longint; Data:LParam): longint; extdecl;
