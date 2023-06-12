@@ -105,7 +105,7 @@ begin
   {$endif}
 end;
 
-function CEF_Win_CreateRoundRectRgn(_para1, _para2, _para3, _para4, _para5, _para6: longint):HRGN; extdecl;
+function CEF_Win_CreateRoundRectRgn(_para1, _para2, _para3, _para4, _para5, _para6: longint): HRGN; extdecl;
 begin
   Result := CreateRoundRectRgn(_para1, _para2, _para3, _para4, _para5, _para6);
 end;
@@ -1027,6 +1027,68 @@ begin
   Result := WindowFromPoint(Point);
 end;
 
+function CEF_Win_GetWindowLongPtr(hWnd: HWND; nIndex: LongInt): LONG_PTR; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := GetWindowLongPtr(hWnd, nIndex);
+  {$endif}
+end;
+
+function CEF_Win_SetWindowLongPtr(hWnd: HWND; nIndex: LongInt; dwNewLong: LONG_PTR):LONG_PTR; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := SetWindowLongPtr(hWnd, nIndex, dwNewLong);
+  {$endif}
+end;
+
+function CEF_Win_GetClassLongPtr(hWnd: HWND; nIndex: LongInt): LONG_PTR; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := GetClassLongPtr(hWnd, nIndex);
+  {$endif}
+end;
+
+function CEF_Win_SetClassLongPtr(hWnd: HWND; nIndex: LongInt; dwNewLong: LONG_PTR): LONG_PTR; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := SetClassLongPtr(hWnd, nIndex, dwNewLong);
+  {$endif}
+end;
+
+function CEF_Win_FindWindow(lpClassName: PChar; lpWindowName: PChar): HWND; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := FindWindow(LPCSTR(lpClassName), LPCSTR(lpWindowName));
+  {$endif}
+end;
+
+function CEF_Win_FindWindowEx(_para1: HWND; _para2: HWND; _para3: PChar; _para4: PChar): HWND; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := FindWindowEx(_para1,_para2, LPCSTR(_para3), LPCSTR(_para4));
+  {$endif}
+end;
+
+function CEF_Win_SetWindowText(hWnd: HWND; lpString: PChar): LongBool; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := SetWindowText(hWnd, LPCSTR(lpString));
+  {$endif}
+end;
+
+function CEF_Win_GetWindowText(hWnd: HWND; lpString: PChar; nMaxCount: LongInt): LongInt; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := GetWindowText(hWnd, LPCSTR(lpString), nMaxCount);
+  {$endif}
+end;
+
+function CEF_Win_GetWindowTextLength(hWnd: HWND): LongInt; extdecl;
+begin
+  {$ifdef MSWINDOWS}
+  Result := GetWindowTextLength(hWnd);
+  {$endif}
+end;
 
 
 exports
@@ -1224,5 +1286,14 @@ exports
   CEF_Win_SystemParametersInfo,
   CEF_Win_TextOut,
   CEF_Win_UpdateWindow,
-  CEF_Win_WindowFromPoint
+  CEF_Win_WindowFromPoint,
+  CEF_Win_GetWindowLongPtr,
+  CEF_Win_SetWindowLongPtr,
+  CEF_Win_GetClassLongPtr,
+  CEF_Win_SetClassLongPtr,
+  CEF_Win_FindWindow,
+  CEF_Win_FindWindowEx,
+  CEF_Win_SetWindowText,
+  CEF_Win_GetWindowText,
+  CEF_Win_GetWindowTextLength
 ;
