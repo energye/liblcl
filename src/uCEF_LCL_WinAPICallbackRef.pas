@@ -15,6 +15,7 @@ uses
 {$ifdef WINDOWS}
   windows,
 {$endif WINDOWS}
+  //LazUTF8, LConvEncoding,
   LCLType,
   uCEF_LCL_Entity,
   uCEF_LCL_EventCallback;
@@ -82,9 +83,9 @@ begin
   if (FEnumFontFamiliesProcPtr <> nil) then
   begin
     EnumLogFont.elfLogFont := @ELogFont.elfLogFont;
-    EnumLogFont.lfFaceName := @ELogFont.elfLogFont.lfFaceName[0];
-    EnumLogFont.elfFullName := @ELogFont.elfFullName[0];
-    EnumLogFont.elfStyle := @ELogFont.elfStyle[0];
+    EnumLogFont.lfFaceName := @ELogFont.elfLogFont.lfFaceName[0]; // 32
+    EnumLogFont.elfFullName := @ELogFont.elfFullName[0]; // 64
+    EnumLogFont.elfStyle := @ELogFont.elfStyle[0]; // 32
     TCEFEventCallback.SendEvent(FEnumFontFamiliesProcPtr, [@EnumLogFont, @Metric, FontType, Data, @Result]);
   end;
 end;
@@ -98,14 +99,14 @@ begin
   if (FEnumFontFamiliesExProcPtr <> nil) then
   begin
     EnumLogFont.elfLogFont := @ELogFont.elfLogFont;
-    EnumLogFont.lfFaceName := @ELogFont.elfLogFont.lfFaceName[0];
-    EnumLogFont.elfFullName := @ELogFont.elfFullName[0];
-    EnumLogFont.elfStyle := @ELogFont.elfStyle[0];
-    EnumLogFont.elfScript := @ELogFont.elfScript[0];
+    EnumLogFont.lfFaceName := @ELogFont.elfLogFont.lfFaceName[0]; // 32
+    EnumLogFont.elfFullName := @ELogFont.elfFullName[0]; // 64
+    EnumLogFont.elfStyle := @ELogFont.elfStyle[0]; // 32
+    EnumLogFont.elfScript := @ELogFont.elfScript[0]; // 32
     // ----
     NewTextMetricEx.ntmentm := @Metric.ntmentm;
-    FontSignature.fsUsb := @Metric.ntmeFontSignature.fsUsb[0];
-    FontSignature.fsCsb := @Metric.ntmeFontSignature.fsCsb[0];
+    FontSignature.fsUsb := @Metric.ntmeFontSignature.fsUsb[0]; // 4
+    FontSignature.fsCsb := @Metric.ntmeFontSignature.fsCsb[0]; // 2
     NewTextMetricEx.ntmeFontSignature := @FontSignature;
     TCEFEventCallback.SendEvent(FEnumFontFamiliesExProcPtr, [@EnumLogFont, @NewTextMetricEx, FontType, Data, @Result]);
   end;
