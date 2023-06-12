@@ -1357,6 +1357,13 @@ begin
    Result := PChar(string(GlobalCEFApp.LastErrorMessage));
 end;
 
+
+procedure CEFAppConfig_UpdateDeviceScaleFactor(); extdecl;
+begin
+   GlobalCEFApp.UpdateDeviceScaleFactor();
+end;
+
+
 exports
 //QueueAsyncCall
     CEFApplication_QueueAsyncCall,
@@ -1607,7 +1614,8 @@ exports
     CEFAppConfig_SetMustCreateBrowserProcessHandler,
     CEFAppConfig_SetMustCreateRenderProcessHandler,
     CEFAppConfig_SetMustCreateLoadHandler,
-    CEFAppConfig_SetMustFreeLibrary
+    CEFAppConfig_SetMustFreeLibrary,
+    CEFAppConfig_UpdateDeviceScaleFactor
 {end}
 ;
 

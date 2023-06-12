@@ -11,9 +11,6 @@ CEFChromium 组件单元
 {$ifdef DARWIN}
 uCEFLazarusCocoa,
 {$endif}
-{$ifdef Linux}
-//uCEF_LCL_GTK2_Interfaces, //注释掉占CPU
-{$endif}
 Messages, Variants, fpjson, jsonparser,
 uCEFBaseRefCounted, uCEFDownloadItemCallback, uCEFSchemeRegistrar,uCEFCommandLine, uCEFLibFunctions,
 uCEFStringMultimap, uCEFCallback, uCEFChromium, uCEFWindowParent, uCEFLinkedWindowParent, uCEFInterfaces, uCEFApplication, uCEFv8Interceptor, uCEFTypes, uCEFv8Value, uCEFBinaryValue, uCEFDictionaryValue, uCEFListValue, uCEFValue, uCEFFrame,

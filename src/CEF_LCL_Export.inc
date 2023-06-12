@@ -45,6 +45,7 @@
 {$I CEF_LCL_FileDialogCallback.inc}
 {$I CEF_LCL_Frame.inc}
 {$I CEF_LCL_GetExtensionResourceCallback.inc}
+{$I CEF_LCL_GTK3_Interfaces.inc}
 {$I CEF_LCL_Image.inc}
 {$I CEF_LCL_JsDialogCallback.inc}
 {$I CEF_LCL_LinkedWindowParent.inc}

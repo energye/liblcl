@@ -313,7 +313,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; const buffer: Pointer; Width, Height: integer);
 begin
-  SendEvent([Sender, browser, type_, dirtyRectsCount, dirtyRects, buffer, Width, Height]);
+  SendEvent([Sender, browser, type_, uint32(dirtyRectsCount), dirtyRects, buffer, Width, Height]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnPopupShow(Sender: TObject; const browser: ICefBrowser; Show: boolean);

@@ -17,6 +17,19 @@ begin
   Result := GlobalCEFWorkScheduler;
 end;
 
+procedure CEFWorkScheduler_CreateDelayed(out Result: TCEFWorkScheduler); extdecl;
+begin
+  if GlobalCEFWorkScheduler = nil then
+   GlobalCEFWorkScheduler := TCEFWorkScheduler.CreateDelayed;
+  Result := GlobalCEFWorkScheduler;
+end;
+
+procedure CEFWorkScheduler_CreateThread(); extdecl;
+begin
+  if GlobalCEFWorkScheduler <> nil then
+    GlobalCEFWorkScheduler.CreateThread;
+end;
+
 procedure CEFWorkScheduler_Destroy(); extdecl;
 begin
   DestroyGlobalCEFWorkScheduler;
@@ -25,6 +38,8 @@ end;
 exports
   CEFWorkScheduler_Stop,
   CEFWorkScheduler_Create,
+  CEFWorkScheduler_CreateDelayed,
+  CEFWorkScheduler_CreateThread,
   CEFWorkScheduler_Destroy
 ;
 
