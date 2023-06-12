@@ -22,6 +22,7 @@ interface
 uses
   uCEF_LCL_ConsoleWrite,
   SysUtils, Controls, uEventCallback, uCEF_LCL_EventCallback, uCEFSchemeRegistrar, uCEFPreferenceRegistrar,
+  uCEFWorkScheduler,
   uCEFInterfaces, uCEFv8Value, uCEFConstants, uCEFTypes,
   uCEF_LCL_Entity, uCEF_LCL_Event;
 
@@ -65,6 +66,9 @@ procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; is
 procedure GlobalCEFApp_OnRenderLoadStart(const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);
 procedure GlobalCEFApp_OnRenderLoadEnd(const browser: ICefBrowser; const frame: ICefFrame; httpStatusCode: integer);
 procedure GlobalCEFApp_OnRenderLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
+
+// ScheduleMessagePumpWork
+procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS: int64);
 
 var
   // 渲染进程回调事件函数指针
@@ -224,6 +228,18 @@ end;
 procedure GlobalCEFApp_OnRenderLoadError(const browser: ICefBrowser; const frame: ICefFrame; errorCode: TCefErrorCode; const errorText, failedUrl: ustring);
 begin
   TCEFEventCallback.SendEvent(OnRenderLoadError_DataPtr, [browser, frame, errorCode, PChar(string(errorText)), PChar(string(failedUrl))]);
+end;
+
+// ScheduleMessagePumpWork
+procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS: int64);
+begin
+  // callback ptr OnScheduleMessagePumpWork_DataPtr
+  if (GlobalCEFWorkScheduler <> nil) then
+  begin
+    GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
+    if OnScheduleMessagePumpWork_DataPtr <> nil then
+       TCEFEventCallback.SendEvent(OnScheduleMessagePumpWork_DataPtr, [aDelayMS]);
+  end;
 end;
 
 end.

@@ -58,12 +58,9 @@ end;
 procedure CEFApplication_Create(out Result: TCefApplication); extdecl;
 begin
   GlobalCEFApp := TCefApplication.Create;
-  {$IFDEF DARWIN}
-    GlobalCEFWorkScheduler                 := TCEFWorkScheduler.Create(nil);
-    GlobalCEFApp.OnScheduleMessagePumpWork := @GlobalCEFApp_OnScheduleMessagePumpWork;
-  {$ENDIF}
   Result := GlobalCEFApp;
 end;
+
 
 //释放 TCefApplication
 procedure CEFApplication_Free(); extdecl;
@@ -75,16 +72,7 @@ end;
 procedure CEFApplication_Destroy(); extdecl;
 begin
   DestroyGlobalCEFApp;
-  {$IFDEF MACOSX}
-  DestroyGlobalCEFWorkScheduler;
-  {$ENDIF}
-  halt(0); // exit the subprocess
-end;
-
-procedure CEFApplication_StopScheduler(); extdecl;
-begin
-  if GlobalCEFWorkScheduler <> nil then
-    GlobalCEFWorkScheduler.StopScheduler;
+  //halt(0); // exit the subprocess
 end;
 
 //start main process
@@ -1382,7 +1370,6 @@ exports
     CEFApplication_Create,
     CEFApplication_Free,
     CEFApplication_Destroy,
-    CEFApplication_StopScheduler,
     CEFStartMainProcess,
     CEFStartSubProcess,
 // 设置 TCefSettings (cef_settings_t) 属性

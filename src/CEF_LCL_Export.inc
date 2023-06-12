@@ -84,5 +84,6 @@
 {$I CEF_LCL_Window.inc}
 {$I CEF_LCL_WindowComponent.inc}
 {$I CEF_LCL_WindowParent.inc}
+{$I CEF_LCL_WorkScheduler.inc}
 {$I CEF_LCL_X509Certificate.inc}
 {$I Energy_Extend.inc}
