@@ -210,13 +210,17 @@ begin
 end;
 
 //创建浏览器
-function CEFChromium_CreateBrowser(const AObj: TChromium; window:{$IFDEF WINDOWS} TCEFWindowParent{$ELSE} TCEFLinkedWindowParent {$ENDIF}; const windowName: PChar; context: ICefRequestContext; const extraInfo : ICefDictionaryValue): LongBool; extdecl;
+function CEFChromium_CreateBrowser(const AObj: TChromium; window:{$IFDEF WINDOWS} TCEFWindowParent{$ELSE} TCEFLinkedWindowParent {$ENDIF}; const windowName: PChar; context: ICefRequestContext; const extraInfo: ICefDictionaryValue): LongBool; extdecl;
 begin
   handleExceptionBegin
   if window = nil then
-    Result := AObj.CreateBrowser(nil, PCharToUStr(windowName), context, extraInfo)
+  begin
+    Result := AObj.CreateBrowser(nil, PCharToUStr(windowName), context, extraInfo);
+  end
   else
+  begin
     Result := AObj.CreateBrowser(window.Handle, window.BoundsRect, PCharToUStr(windowName), context, extraInfo);
+  end;
   handleExceptionEnd
 end;
 

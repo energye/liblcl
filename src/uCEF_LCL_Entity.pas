@@ -373,11 +373,11 @@ end;
 
 //PChar 转 UnicodeString
 function PCharToUStr(const Value: PChar): unicodestring;
-var
-  val: string;
 begin
-  //关于PChar 默认编码不是UTF8
-  Result := StrToUStr(StrPas(Value));
+  Result := '';
+  if Value <> nil then
+    //关于PChar 默认编码不是UTF8
+    Result := StrToUStr(StrPas(Value));
 end;
 
 //String 转 UnicodeString
