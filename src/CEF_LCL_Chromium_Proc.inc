@@ -322,7 +322,12 @@ end;
 procedure CEFChromium_CloseBrowser(const AObj: TChromium; forceClose: LongBool); extdecl;
 begin
   handleExceptionBegin
-  AObj.CloseBrowser(forceClose);
+   try
+     AObj.CloseBrowser(forceClose);
+   except
+     on E: Exception do
+       CallException(E);
+   end;
   handleExceptionEnd
 end;
 
@@ -1311,6 +1316,13 @@ begin
   handleExceptionEnd
 end;
 
+function   CEFChromium_HasDevTools(const AObj: TChromium):LongBool ; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.HasDevTools;
+  handleExceptionEnd
+end;
+
 exports
   CEFChromium_Create,
   CEFChromium_Browser,
@@ -1468,6 +1480,7 @@ exports
   CEFChromium_IMESetComposition,
   CEFChromium_IMECommitText,
   CEFChromium_IMEFinishComposingText,
-  CEFChromium_IMECancelComposition
+  CEFChromium_IMECancelComposition,
+  CEFChromium_HasDevTools
 ;
 
