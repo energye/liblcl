@@ -358,11 +358,36 @@ begin
     begin
       devToolsWinName := DEVTOOLS_WINDOWNAME;
     end;
-    FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
-    WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect, devToolsWinName);
-    client := TCustomClientHandler.Create(Chromium, True);
-    FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
-    TObj.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
+
+    //try
+    //  try
+    //    WindowInfoAsPopUp(windowInfo, TObj.Host.WindowHandle, devToolsWinName);
+    //    client := TCustomClientHandler.Create(Chromium, True);
+    //    FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
+    //    TObj.Host.ShowDevTools(@windowInfo, client, @browserSettings, nil);
+    //  finally
+    //     client:=nil;
+    //  end;
+    //except
+    //  on E: Exception do
+    //    CallException(E);
+    //end;
+
+    try
+      try
+        FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
+        WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect);
+        client := TCustomClientHandler.Create(Chromium, True);
+        FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
+        TObj.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
+      finally
+        client := nil
+      end;
+    except
+      on E: Exception do
+        CallException(E);
+    end;
+
   end;
   handleExceptionEnd
 end;
