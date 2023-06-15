@@ -33,16 +33,24 @@ begin
 end;
 
 function StringMultimap_GetKey(const TObj: ICefStringMultimap; Index: NativeUInt): PChar; extdecl;
+var
+  key: string;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetKey(Index)));
+  key := string(TObj.GetKey(Index));
+  key := copy(key, 0, Length(key));
+  Result := PChar(key);
   handleExceptionEnd
 end;
 
 function StringMultimap_GetValue(const TObj: ICefStringMultimap; Index: NativeUInt): PChar; extdecl;
+var
+  value: string;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetValue(Index)));
+  value := string(TObj.GetValue(Index));
+  value := copy(value, 0, Length(value));
+  Result := PChar(value);
   handleExceptionEnd
 end;
 
