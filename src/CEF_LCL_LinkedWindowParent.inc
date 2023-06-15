@@ -221,6 +221,19 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFLinkedWindow_SetTag(const AObj: TCEFLinkedWindowParent; tag: Integer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.Tag := PtrInt(tag);
+  handleExceptionEnd
+end;
+
+function CEFLinkedWindow_GetTag(const AObj: TCEFLinkedWindowParent):Integer ; extdecl;
+begin
+  handleExceptionBegin
+  Result := Integer(AObj.Tag);
+  handleExceptionEnd
+end;
 
 //EVENT_TYPE:LinkedWindowEventOnEnter
 procedure CEFLinkedWindow_OnEnter(const AObj: TCEFLinkedWindowParent; AEventData: Pointer); extdecl;
@@ -269,5 +282,7 @@ exports
   CEFLinkedWindow_CreateHandle,
   CEFLinkedWindow_DestroyChildWindow,
   CEFLinkedWindow_OnEnter,
-  CEFLinkedWindow_OnExit
+  CEFLinkedWindow_OnExit,
+  CEFLinkedWindow_SetTag,
+  CEFLinkedWindow_GetTag
 ;

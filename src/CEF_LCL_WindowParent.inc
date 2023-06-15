@@ -213,11 +213,18 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFWindow_NIL();
+procedure CEFWindow_SetTag(const AObj: TCEFWindowParent; tag: Integer); extdecl;
 begin
-    //handleExceptionBegin
-    //TODO 没搞懂，要加一个空函数编译才不报错
-    //handleExceptionEnd
+  handleExceptionBegin
+  AObj.Tag := PtrInt(tag);
+  handleExceptionEnd
+end;
+
+function CEFWindow_GetTag(const AObj: TCEFWindowParent):Integer ; extdecl;
+begin
+  handleExceptionBegin
+  Result := Integer(AObj.Tag);
+  handleExceptionEnd
 end;
 
 //EVENT_TYPE:WindowEventOnEnter
@@ -267,5 +274,7 @@ exports
   CEFWindow_CreateHandle,
   CEFWindow_DestroyChildWindow,
   CEFWindow_OnEnter,
-  CEFWindow_OnExit
+  CEFWindow_OnExit,
+  CEFWindow_SetTag,
+  CEFWindow_GetTag
 ;
