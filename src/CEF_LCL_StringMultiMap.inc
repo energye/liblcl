@@ -25,32 +25,24 @@ begin
   handleExceptionEnd
 end;
 
-function StringMultimap_GetEnumerate(const TObj: ICefStringMultimap; Key: PChar; ValueIndex: NativeUInt): PChar; extdecl;
+function StringMultimap_GetEnumerate(const TObj: ICefStringMultimap; Key: PChar; ValueIndex: NativeUInt; const RetValue: TString): PChar; extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetEnumerate(PCharToUStr(Key), ValueIndex)));
+  RetValue.SetValue(string(TObj.GetEnumerate(PCharToUStr(Key), ValueIndex)));
   handleExceptionEnd
 end;
 
-function StringMultimap_GetKey(const TObj: ICefStringMultimap; Index: NativeUInt): PChar; extdecl;
-var
-  key: string;
+procedure StringMultimap_GetKey(const TObj: ICefStringMultimap; Index: NativeUInt; const RetValue: TString); extdecl;
 begin
   handleExceptionBegin
-  key := string(TObj.GetKey(Index));
-  key := copy(key, 0, Length(key));
-  Result := PChar(key);
+  RetValue.SetValue(string(TObj.GetKey(Index)));
   handleExceptionEnd
 end;
 
-function StringMultimap_GetValue(const TObj: ICefStringMultimap; Index: NativeUInt): PChar; extdecl;
-var
-  value: string;
+procedure StringMultimap_GetValue(const TObj: ICefStringMultimap; Index: NativeUInt; const RetValue: TString); extdecl;
 begin
   handleExceptionBegin
-  value := string(TObj.GetValue(Index));
-  value := copy(value, 0, Length(value));
-  Result := PChar(value);
+  RetValue.SetValue(string(TObj.GetValue(Index)));
   handleExceptionEnd
 end;
 

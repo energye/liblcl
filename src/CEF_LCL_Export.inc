@@ -73,6 +73,7 @@
 {$I CEF_LCL_StreamReader.inc}
 {$I CEF_LCL_StreamWriter.inc}
 {$I CEF_LCL_StringMultiMap.inc}
+{$I CEF_LCL_TString.inc}
 {$I CEF_LCL_v8Accessor.inc}
 {$I CEF_LCL_v8ArrayBufferReleaseCallback.inc}
 {$I CEF_LCL_v8Context.inc}

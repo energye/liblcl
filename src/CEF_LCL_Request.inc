@@ -25,10 +25,10 @@ begin
   handleExceptionEnd
 end;
 
-function CefRequest_GetUrl(const TObj: ICefRequest): PChar; extdecl;
+procedure CefRequest_GetUrl(const TObj: ICefRequest; const RetValue: TString); extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.Url));
+  RetValue.SetValue(string(TObj.Url));
   handleExceptionEnd
 end;
 
@@ -39,10 +39,10 @@ begin
   handleExceptionEnd
 end;
 
-function CefRequest_GetMethod(const TObj: ICefRequest): PChar; extdecl;
+procedure CefRequest_GetMethod(const TObj: ICefRequest; const RetValue: TString); extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.Method));
+  RetValue.SetValue(string(TObj.Method));
   handleExceptionEnd
 end;
 
@@ -53,10 +53,10 @@ begin
   handleExceptionEnd
 end;
 
-function CefRequest_GetReferrerUrl(const TObj: ICefRequest): PChar; extdecl;
+procedure CefRequest_GetReferrerUrl(const TObj: ICefRequest; const RetValue: TString); extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.ReferrerUrl));
+  RetValue.SetValue(string(TObj.ReferrerUrl));
   handleExceptionEnd
 end;
 
@@ -103,10 +103,10 @@ begin
   handleExceptionEnd
 end;
 
-function CefRequest_GetHeaderByName(const TObj: ICefRequest; name: PChar): PChar; extdecl;
+procedure CefRequest_GetHeaderByName(const TObj: ICefRequest; name: PChar; const RetValue: TString); extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetHeaderByName(PCharToUStr(name))));
+  RetValue.SetValue(string(TObj.GetHeaderByName(PCharToUStr(name))));
   handleExceptionEnd
 end;
 
@@ -118,10 +118,13 @@ begin
 end;
 
 procedure CefRequest_GetHeaderMap(const TObj: ICefRequest; var Result: ICefStringMultimap); extdecl;
+var
+  stringMultiMap: TCefStringMultimapOwn;
 begin
   handleExceptionBegin
-  Result := TCefStringMultimapOwn.Create();
-  TObj.GetHeaderMap(Result);
+  stringMultiMap := TCefStringMultimapOwn.Create();
+  TObj.GetHeaderMap(stringMultiMap);
+  Result := stringMultiMap;
   handleExceptionEnd
 end;
 
