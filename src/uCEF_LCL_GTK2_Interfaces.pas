@@ -18,7 +18,6 @@ procedure CustomWidgetSetFinalization;
 implementation
 
 uses
- uCEF_LCL_ConsoleWrite,
  {$IFNDEF EnableLibOverlay}
   gtk2DisableLibOverlay,
  {$ENDIF}

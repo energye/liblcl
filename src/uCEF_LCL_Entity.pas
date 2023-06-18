@@ -17,7 +17,6 @@ uses
 {$IFnDEF MSWINDOWS}LCLType,{$ENDIF}
 {$ENDIF}
 {$IFDEF MSWINDOWS}Windows,{$ENDIF}
-  uCEF_LCL_ConsoleWrite,
   fgl,
   Classes, SysUtils, uGoForm,
   uCEFTypes, uCEFInterfaces,

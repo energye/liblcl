@@ -20,7 +20,6 @@ unit uCEF_LCL_Application;
 interface
 
 uses
-  uCEF_LCL_ConsoleWrite,
   SysUtils, Controls, uEventCallback, uCEF_LCL_EventCallback, uCEFSchemeRegistrar, uCEFPreferenceRegistrar,
   uCEFWorkScheduler,
   uCEFInterfaces, uCEFv8Value, uCEFConstants, uCEFTypes,
