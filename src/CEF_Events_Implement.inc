@@ -923,3 +923,73 @@ begin
   SendEvent([Sender, @aChromeToolbarType]);
 end;
 
+{==TBufferPanel==}
+{$IFDEF MSWINDOWS}
+procedure TLCLEvent.BufferPanel_OnIMECancelComposition(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;
+
+procedure TLCLEvent.BufferPanel_OnIMECommitText(Sender: TObject; const aText : ustring; const replacement_range : PCefRange; relative_cursor_pos : integer);
+begin
+  SendEvent([Sender, PChar(string(aText)), replacement_range, relative_cursor_pos]);
+end;
+
+procedure TLCLEvent.BufferPanel_OnIMESetComposition(Sender: TObject; const aText : ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : TCefRange);
+begin
+  SendEvent([Sender, PChar(string(aText)), @underlines, Integer(Length(underlines)), @replacement_range, @selection_range]);
+end;
+
+procedure TLCLEvent.BufferPanel_OnCustomTouch(Sender: TObject; var aMessage: TMessage; var aHandled : boolean);
+var
+  MessageResult: LRESULT;
+begin
+  SendEvent([Sender]);
+  SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
+  if MessageResult > 0 then
+  begin
+    aMessage.Result := MessageResult;
+  end;
+end;
+
+procedure TLCLEvent.BufferPanel_OnPointerDown(Sender: TObject; var aMessage: TMessage; var aHandled : boolean);
+var
+  MessageResult: LRESULT;
+begin
+  SendEvent([Sender]);
+  SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
+  if MessageResult > 0 then
+  begin
+    aMessage.Result := MessageResult;
+  end;
+end;
+
+procedure TLCLEvent.BufferPanel_OnPointerUp(Sender: TObject; var aMessage: TMessage; var aHandled : boolean);
+var
+  MessageResult: LRESULT;
+begin
+  SendEvent([Sender]);
+  SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
+  if MessageResult > 0 then
+  begin
+    aMessage.Result := MessageResult;
+  end;
+end;
+
+procedure TLCLEvent.BufferPanel_OnPointerUpdate(Sender: TObject; var aMessage: TMessage; var aHandled : boolean);
+var
+  MessageResult: LRESULT;
+begin
+  SendEvent([Sender]);
+  SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
+  if MessageResult > 0 then
+  begin
+    aMessage.Result := MessageResult;
+  end;
+end;
+{$ENDIF}
+
+procedure TLCLEvent.BufferPanel_OnPaintParentBkg(Sender: TObject);
+begin
+  SendEvent([Sender]);
+end;

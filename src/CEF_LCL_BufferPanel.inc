@@ -1945,6 +1945,63 @@ begin
   handleExceptionEnd
 end;
 
+{$IFDEF MSWINDOWS}
+procedure BufferPanel_SetOnIMECancelComposition(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := BufferPanel_OnIMECancelComposition}
+  {$DEFINE EventName := OnIMECancelComposition}
+  EventMethodCode
+end;
+
+procedure BufferPanel_SetOnIMECommitText(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := BufferPanel_OnIMECommitText}
+  {$DEFINE EventName := OnIMECommitText}
+  EventMethodCode
+end;
+
+procedure BufferPanel_SetOnIMESetComposition(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := BufferPanel_OnIMESetComposition}
+  {$DEFINE EventName := OnIMESetComposition}
+  EventMethodCode
+end;
+
+procedure BufferPanel_SetOnCustomTouch(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := BufferPanel_OnCustomTouch}
+  {$DEFINE EventName := OnCustomTouch}
+  EventMethodCode
+end;
+
+procedure BufferPanel_SetOnPointerDown(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := BufferPanel_OnPointerDown}
+  {$DEFINE EventName := OnPointerDown}
+  EventMethodCode
+end;
+
+procedure BufferPanel_SetOnPointerUp(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := BufferPanel_OnPointerUp}
+  {$DEFINE EventName := OnPointerUp}
+  EventMethodCode
+end;
+
+procedure BufferPanel_SetOnPointerUpdate(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := BufferPanel_OnPointerUpdate}
+  {$DEFINE EventName := OnPointerUpdate}
+  EventMethodCode
+end;
+{$ENDIF}
+
+procedure BufferPanel_SetOnPaintParentBkg(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := BufferPanel_OnPaintParentBkg}
+  {$DEFINE EventName := OnPaintParentBkg}
+  EventMethodCode
+end;
 
 exports
   BufferPanel_Create,
@@ -2195,5 +2252,16 @@ exports
   BufferPanel_OrigPopupBufferWidth,
   BufferPanel_OrigPopupBufferHeight,
   BufferPanel_OrigPopupBufferBits,
-  BufferPanel_OrigPopupScanlineSize
+  BufferPanel_OrigPopupScanlineSize,
+  // event
+  {$IFDEF MSWINDOWS}
+  BufferPanel_SetOnIMECancelComposition,
+  BufferPanel_SetOnIMECommitText,
+  BufferPanel_SetOnIMESetComposition,
+  BufferPanel_SetOnCustomTouch,
+  BufferPanel_SetOnPointerDown,
+  BufferPanel_SetOnPointerUp,
+  BufferPanel_SetOnPointerUpdate,
+  {$ENDIF}
+  BufferPanel_SetOnPaintParentBkg
 ;
