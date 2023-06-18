@@ -93,6 +93,55 @@ begin
   handleExceptionEnd
 end;
 
+function  Misc_DeviceToLogicalInt32(aValue : integer; const aDeviceScaleFactor : PDouble) : integer; extdecl;
+begin
+  handleExceptionBegin
+  DeviceToLogical(aValue, Double(aDeviceScaleFactor^));
+  handleExceptionEnd
+end;
+
+procedure  Misc_DeviceToLogicalFloat32(aValue : PSingle; const aDeviceScaleFactor : PDouble; out Result: Single); extdecl;
+begin
+  handleExceptionBegin
+  Result := DeviceToLogical(Single(aValue^), Double(aDeviceScaleFactor^));
+  handleExceptionEnd
+end;
+
+procedure Misc_DeviceToLogicalMouse(var aEvent : TCEFMouseEvent; const aDeviceScaleFactor : PDouble); extdecl;
+begin
+  handleExceptionBegin
+  DeviceToLogical(aEvent, Double(aDeviceScaleFactor^));
+  handleExceptionEnd
+end;
+
+procedure Misc_DeviceToLogicalTouch(var aEvent : TCefTouchEvent; const aDeviceScaleFactor : PDouble); extdecl;
+begin
+  handleExceptionBegin
+  DeviceToLogical(aEvent, Double(aDeviceScaleFactor^));
+  handleExceptionEnd
+end;
+
+procedure Misc_DeviceToLogicalPoint(var aPoint : TPoint; const aDeviceScaleFactor : PDouble); extdecl;
+begin
+  handleExceptionBegin
+  DeviceToLogical(aPoint, Double(aDeviceScaleFactor^));
+  handleExceptionEnd
+end;
+
+function  Misc_LogicalToDeviceInt32(aValue : integer; const aDeviceScaleFactor : PDouble) : integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := LogicalToDevice(aValue, Double(aDeviceScaleFactor^));
+  handleExceptionEnd
+end;
+
+procedure Misc_LogicalToDeviceRect(var aRect : TCEFRect; const aDeviceScaleFactor : PDouble); extdecl;
+begin
+  handleExceptionBegin
+  LogicalToDevice(aRect, Double(aDeviceScaleFactor^));
+  handleExceptionEnd
+end;
+
 exports
   Misc_WindowInfoAsChild,
   Misc_WindowInfoAsPopUp,
@@ -104,6 +153,13 @@ exports
   Misc_CheckDLLs,
   Misc_CefRegisterSchemeHandlerFactory,
   Misc_CefClearSchemeHandlerFactories,
-  Misc_CefGetMimeType
+  Misc_CefGetMimeType,
+  Misc_DeviceToLogicalInt32,
+  Misc_DeviceToLogicalFloat32,
+  Misc_DeviceToLogicalMouse,
+  Misc_DeviceToLogicalTouch,
+  Misc_DeviceToLogicalPoint,
+  Misc_LogicalToDeviceInt32,
+  Misc_LogicalToDeviceRect
 ;
 

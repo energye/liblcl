@@ -67,7 +67,6 @@ begin
   handleExceptionEnd
 end;
 
-//创建 TChromium
 function CEFChromium_Create(const AOwner: TComponent; Config: TCEFChromiumConfig): TChromium; extdecl;
 begin
   handleExceptionBegin
@@ -76,7 +75,6 @@ begin
   handleExceptionEnd
 end;
 
-//获取 Browser
 procedure CEFChromium_Browser(const AObj: TChromium; var Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
@@ -84,7 +82,6 @@ begin
   handleExceptionEnd
 end;
 
-//根据 id 获取 Browser
 procedure CEFChromium_BrowserById(const AObj: TChromium; id: integer; var Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
@@ -98,7 +95,6 @@ begin
   handleExceptionEnd
 end;
 
-//根据 index 获取 browserId
 function CEFChromium_BrowserIdByIndex(const AObj: TChromium; index: integer): Integer; extdecl;
 begin
   handleExceptionBegin
@@ -106,7 +102,6 @@ begin
   handleExceptionEnd
 end;
 
-//获取 Browser 数量
 function CEFChromium_BrowserCount(const AObj: TChromium): Integer; extdecl;
 begin
   handleExceptionBegin
@@ -114,7 +109,6 @@ begin
   handleExceptionEnd
 end;
 
-//获取 BrowserId
 function CEFChromium_BrowserId(const AObj: TChromium): Integer; extdecl;
 begin
   handleExceptionBegin
@@ -122,7 +116,6 @@ begin
   handleExceptionEnd
 end;
 
-//设置 默认URL
 procedure CEFChromium_SetDefaultURL(const AObj: TChromium; AURL: PChar); extdecl;
 begin
   handleExceptionBegin
@@ -130,7 +123,6 @@ begin
   handleExceptionEnd
 end;
 
-//设置 MultiBrowserMode 模式
 procedure CEFChromium_SetMultiBrowserMode(const AObj: TChromium; AValue: LongBool); extdecl;
 begin
   handleExceptionBegin
@@ -138,7 +130,6 @@ begin
   handleExceptionEnd
 end;
 
-//加载URL
 procedure CEFChromium_LoadURL(const AObj: TChromium; AURL: PChar); extdecl;
 begin
   handleExceptionBegin
@@ -146,7 +137,6 @@ begin
   handleExceptionEnd
 end;
 
-//加载HTML
 procedure CEFChromium_LoadString(const AObj: TChromium; AHTML: PChar); extdecl;
 begin
   handleExceptionBegin
@@ -154,7 +144,6 @@ begin
   handleExceptionEnd
 end;
 
-//开始下载
 procedure CEFChromium_StartDownload(const AObj: TChromium; AURL: PChar); extdecl;
 begin
   handleExceptionBegin
@@ -162,7 +151,6 @@ begin
   handleExceptionEnd
 end;
 
-//下载图片
 procedure CEFChromium_DownloadImage(const AObj: TChromium; const imageUrl: PChar; isFavicon: LongBool; maxImageSize: integer; bypassCache: LongBool); extdecl;
 begin
   handleExceptionBegin
@@ -170,7 +158,6 @@ begin
   handleExceptionEnd
 end;
 
-//重新加载
 procedure CEFChromium_Reload(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
@@ -185,7 +172,6 @@ begin
   handleExceptionEnd
 end;
 
-//停止加载
 procedure CEFChromium_StopLoad(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
@@ -193,7 +179,6 @@ begin
   handleExceptionEnd
 end;
 
-//重置缩放级别
 procedure CEFChromium_ResetZoomLevel(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
@@ -201,7 +186,6 @@ begin
   handleExceptionEnd
 end;
 
-//关闭所有浏览器
 procedure CEFChromium_CloseAllBrowsers(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
@@ -209,7 +193,6 @@ begin
   handleExceptionEnd
 end;
 
-//创建浏览器
 function CEFChromium_CreateBrowser(const AObj: TChromium; window:{$IFDEF WINDOWS} TCEFWindowParent{$ELSE} TCEFLinkedWindowParent {$ENDIF}; const windowName: PChar; context: ICefRequestContext; const extraInfo: ICefDictionaryValue): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -224,7 +207,6 @@ begin
   handleExceptionEnd
 end;
 
-//创建浏览器
 function CEFChromium_CreateBrowserByWindow(const AObj: TChromium; window: TCEFWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -235,7 +217,6 @@ begin
   handleExceptionEnd
 end;
 
-//创建浏览器
 function CEFChromium_CreateBrowserByLinkedWindow(const AObj: TChromium; window: TCEFLinkedWindowParent): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -246,7 +227,6 @@ begin
   handleExceptionEnd
 end;
 
-//创建浏览器
 function CEFChromium_CreateBrowserByBrowserViewComponent(const AObj: TChromium; PHomePage: PChar; BrowserViewComponent: TCEFBrowserViewComponent): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -254,7 +234,6 @@ begin
   handleExceptionEnd
 end;
 
-//浏览器初始化
 function CEFChromium_Initialized(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -262,7 +241,6 @@ begin
   handleExceptionEnd
 end;
 
-//判断是否为当前浏览器
 function CEFChromium_IsSameBrowser(const AObj: TChromium; const that: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -270,7 +248,6 @@ begin
   handleExceptionEnd
 end;
 
-//导出PDF
 procedure CEFChromium_PrintToPDF(const AObj: TChromium; FilePath: PChar); extdecl;
 begin
   handleExceptionBegin
@@ -278,7 +255,6 @@ begin
   handleExceptionEnd
 end;
 
-//打印
 procedure CEFChromium_Print(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
@@ -286,7 +262,6 @@ begin
   handleExceptionEnd
 end;
 
-//zoom 页面，0恢复 1放大 2缩小
 procedure CEFChromium_BrowserZoom(const AObj: TChromium; Zoom: integer); extdecl;
 begin
   handleExceptionBegin
@@ -299,7 +274,6 @@ begin
   handleExceptionEnd
 end;
 
-//回退 & 前进
 procedure CEFChromium_GoBackForward(const AObj: TChromium; BackForward: integer); extdecl;
 begin
   handleExceptionBegin
@@ -310,7 +284,6 @@ begin
   handleExceptionEnd
 end;
 
-//移动窗口后选项 调用的 NotifyMoveOrResizeStarted
 procedure CEFChromium_NotifyMoveOrResizeStarted(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
@@ -318,7 +291,14 @@ begin
   handleExceptionEnd
 end;
 
-//关闭 CloseBrowser
+procedure CEFChromium_Invalidate(const AObj: TChromium; type_: Integer); extdecl;
+begin
+  handleExceptionBegin
+  // TCefPaintElementType
+  AObj.Invalidate(TCefPaintElementType(type_));
+  handleExceptionEnd
+end;
+
 procedure CEFChromium_CloseBrowser(const AObj: TChromium; forceClose: LongBool); extdecl;
 begin
   handleExceptionBegin
@@ -331,7 +311,6 @@ begin
   handleExceptionEnd
 end;
 
-//执行 JavaScript
 procedure CEFChromium_ExecuteJavaScript(const AObj: TChromium; aCode, aScriptURL : PChar; startLine: integer = 0); extdecl;
 var
   code, scriptURL : ustring;
@@ -347,7 +326,6 @@ begin
   handleExceptionEnd
 end;
 
-//开发者工具-单独只能弹出主浏览器的
 procedure CEFChromium_ShowDevTools(const AObj: TChromium); extdecl;
 var
   point: TPoint;
@@ -359,7 +337,6 @@ begin
   handleExceptionEnd
 end;
 
-//开发者工具-单独只能弹出主浏览器的
 procedure CEFChromium_ShowDevToolsByWindowParent(const AObj: TChromium; windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}); extdecl;
 var
   point: TPoint;
@@ -1323,6 +1300,15 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_InitializeDragAndDrop(const AObj: TChromium; const aDropTargetCtrl : TWinControl);
+begin
+  handleExceptionBegin
+  {$IFDEF MSWINDOWS}
+  AObj.InitializeDragAndDrop(aDropTargetCtrl);
+  {$ENDIF MSWINDOWS}
+  handleExceptionEnd
+end;
+
 exports
   CEFChromium_Create,
   CEFChromium_Browser,
@@ -1352,6 +1338,7 @@ exports
   CEFChromium_BrowserZoom,
   CEFChromium_GoBackForward,
   CEFChromium_NotifyMoveOrResizeStarted,
+  CEFChromium_Invalidate,
   CEFChromium_CloseBrowser,
   CEFChromium_ExecuteJavaScript,
   CEFChromium_ShowDevTools,
@@ -1481,6 +1468,7 @@ exports
   CEFChromium_IMECommitText,
   CEFChromium_IMEFinishComposingText,
   CEFChromium_IMECancelComposition,
-  CEFChromium_HasDevTools
+  CEFChromium_HasDevTools,
+  CEFChromium_InitializeDragAndDrop
 ;
 
