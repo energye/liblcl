@@ -2003,6 +2003,13 @@ begin
   EventMethodCode
 end;
 
+procedure BufferPanel_SetOnMouseWheel(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTMouseWheelEvent}
+  {$DEFINE EventName := OnMouseWheel}
+  EventMethodCode
+end;
+
 exports
   BufferPanel_Create,
   BufferPanel_Free,
@@ -2263,5 +2270,6 @@ exports
   BufferPanel_SetOnPointerUp,
   BufferPanel_SetOnPointerUpdate,
   {$ENDIF}
-  BufferPanel_SetOnPaintParentBkg
+  BufferPanel_SetOnPaintParentBkg,
+  BufferPanel_SetOnMouseWheel
 ;

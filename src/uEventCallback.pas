@@ -451,8 +451,7 @@ begin
   Key := Char(LKey);
 end;
 
-procedure TLCLEvent.OnTMouseEvent(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TLCLEvent.OnTMouseEvent(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
   SendEvent([Sender, Ord(Button), PWord(@Shift)^, X, Y]);
 end;
@@ -463,9 +462,7 @@ begin
   SendEvent([Sender, PWord(@Shift)^, X, Y]);
 end;
 
-procedure TLCLEvent.OnTMouseWheelEvent(Sender: TObject;
-  Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint;
-  var Handled: Boolean);
+procedure TLCLEvent.OnTMouseWheelEvent(Sender: TObject; Shift: TShiftState; WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
 begin
   SendEvent([Sender, PWord(@Shift)^, WheelDelta, MousePos.X, MousePos.Y, @Handled]);
 end;
