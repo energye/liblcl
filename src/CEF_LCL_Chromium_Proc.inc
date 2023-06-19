@@ -478,6 +478,48 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_SendExternalBeginFrame(const TObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  TObj.SendExternalBeginFrame();
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_SendKeyEvent(const TObj: TChromium; const event: PCefKeyEvent); extdecl;
+begin
+  handleExceptionBegin
+  TObj.SendKeyEvent(event);
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_SendMouseClickEvent(const TObj: TChromium; const event: PCefMouseEvent; type_: integer; mouseUp: LongBool; clickCount: Integer); extdecl;
+begin
+  handleExceptionBegin
+  TObj.SendMouseClickEvent(event, TCefMouseButtonType(type_), mouseUp, clickCount);
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_SendMouseMoveEvent(const TObj: TChromium; const event: PCefMouseEvent; mouseLeave: LongBool); extdecl;
+begin
+  handleExceptionBegin
+  TObj.SendMouseMoveEvent(event, mouseLeave);
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_SendMouseWheelEvent(const TObj: TChromium; const event: PCefMouseEvent; deltaX, deltaY: Integer); extdecl;
+begin
+  handleExceptionBegin
+  TObj.SendMouseWheelEvent(event, deltaX, deltaY);
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_SendTouchEvent(const TObj: TChromium; const event: PCefTouchEvent); extdecl;
+begin
+  handleExceptionBegin
+  TObj.SendTouchEvent(event);
+  handleExceptionEnd
+end;
+
 procedure CEFChromium_SendCaptureLostEvent(const AObj: TChromium);extdecl;
 begin
   handleExceptionBegin
@@ -1362,6 +1404,12 @@ exports
   CEFChromium_ExecuteDevToolsMethod,
   CEFChromium_CreateClientHandler,
   CEFChromium_SetFocus,
+  CEFChromium_SendExternalBeginFrame,
+  CEFChromium_SendKeyEvent,
+  CEFChromium_SendMouseClickEvent,
+  CEFChromium_SendMouseMoveEvent,
+  CEFChromium_SendMouseWheelEvent,
+  CEFChromium_SendTouchEvent,
   CEFChromium_SendCaptureLostEvent,
   CEFChromium_FrameIsFocused,
   CEFChromium_TryCloseBrowser,
