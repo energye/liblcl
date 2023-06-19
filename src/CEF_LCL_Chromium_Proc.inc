@@ -67,11 +67,10 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_Create(const AOwner: TComponent; Config: TCEFChromiumConfig): TChromium; extdecl;
+function CEFChromium_Create(const AOwner: TComponent): TChromium; extdecl;
 begin
   handleExceptionBegin
   Result := TChromium.Create(AOwner);
-  GChromiumConfig := Config;
   handleExceptionEnd
 end;
 

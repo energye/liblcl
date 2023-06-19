@@ -330,9 +330,6 @@ var
   //error message
   CVE_ERROR_FUNC_OUT_PAM: integer = 12;
 
-  //全局变量
-  GChromiumConfig: TCEFChromiumConfig;//chromium 全局配置
-
 
   {$ifdef MSWINDOWS}
 //拖拽区域
