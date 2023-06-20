@@ -2010,6 +2010,34 @@ begin
   EventMethodCode
 end;
 
+procedure BufferPanel_SetOnKeyDown(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTKeyEvent}
+  {$DEFINE EventName := OnKeyDown}
+  EventMethodCode
+end;
+
+procedure BufferPanel_SetOnKeyUp(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTKeyEvent}
+  {$DEFINE EventName := OnKeyUp}
+  EventMethodCode
+end;
+
+procedure BufferPanel_SetOnKeyPress(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTKeyPressEvent}
+  {$DEFINE EventName := OnKeyPress}
+  EventMethodCode
+end;
+
+procedure BufferPanel_SetOnUTF8KeyPress(AObj: TBufferPanel; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTUTF8KeyPressEvent}
+  {$DEFINE EventName := OnUTF8KeyPress}
+  EventMethodCode
+end;
+
 exports
   BufferPanel_Create,
   BufferPanel_Free,
@@ -2271,5 +2299,9 @@ exports
   BufferPanel_SetOnPointerUpdate,
   {$ENDIF}
   BufferPanel_SetOnPaintParentBkg,
-  BufferPanel_SetOnMouseWheel
+  BufferPanel_SetOnMouseWheel,
+  BufferPanel_SetOnKeyDown,
+  BufferPanel_SetOnKeyUp,
+  BufferPanel_SetOnKeyPress,
+  BufferPanel_SetOnUTF8KeyPress
 ;
