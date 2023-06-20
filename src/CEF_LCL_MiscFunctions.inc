@@ -96,7 +96,7 @@ end;
 function  Misc_DeviceToLogicalInt32(aValue : integer; const aDeviceScaleFactor : PDouble) : integer; extdecl;
 begin
   handleExceptionBegin
-  DeviceToLogical(aValue, Double(aDeviceScaleFactor^));
+  Result := DeviceToLogical(aValue, Double(aDeviceScaleFactor^));
   handleExceptionEnd
 end;
 
