@@ -448,13 +448,10 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnTooltip(Sender: TObject; const browser: ICefBrowser; var Text: ustring; out Result: boolean);
 var
-  PRetText: PChar;
+  PText: PChar;
 begin
-  PRetText := new(PChar);
-  SendEvent([Sender, browser, @PRetText, @Result]);
-  Text := PCharToUStr(PRetText);
-  if PRetText <> nil then
-     PRetText := nil;
+  PText := PChar(string(Text));
+  SendEvent([Sender, browser, @PText, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnTouchHandleStateChanged(Sender: TObject; const browser: ICefBrowser; const state: TCefTouchHandleState);
