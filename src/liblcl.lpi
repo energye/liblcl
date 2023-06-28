@@ -43,7 +43,7 @@
         <Item5 ID="316477307003" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
         <Item6 ID="411076831854" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
         <Item7 ID="184723594569" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
-        <Item8 ID="471587070140" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
+        <Item8 ID="471587070140" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
@@ -208,7 +208,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="C:\Users\Administrator\golcl\liblcl"/>
+      <Filename Value="${Home}\golcl\liblcl"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
