@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="5">
+    <Name Value="dcpcrypt_laz"/>
+    <Type Value="DesignTime"/>
+    <Author Value="David Barton, Barko &amp; Graeme Geldenhuys"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <OtherUnitFiles Value="Ciphers;Hashes;$(PkgOutDir)"/>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+      <Parsing>
+        <SyntaxOptions>
+          <SyntaxMode Value="Delphi"/>
+        </SyntaxOptions>
+      </Parsing>
+    </CompilerOptions>
+    <Description Value="DCPcrypt Cryptographic Component Library
+"/>
+    <License Value="DCPcrypt is open source software (released under the MIT license) and as such there is no charge for inclusion in other software.
+www.cityinthesky.co.uk/cryptography.html"/>
+    <Version Major="2" Release="4" Build="2"/>
+    <Files Count="1">
+      <Item1>
+        <Filename Value="dcpreg.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="DCPreg"/>
+      </Item1>
+    </Files>
+    <CompatibilityMode Value="True"/>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="dcpcrypt"/>
+        <MinVersion Major="2" Release="4" Valid="True"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="LCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>
