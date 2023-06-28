@@ -16,9 +16,20 @@ procedure CustomWidgetSetFinalization;
 implementation
 
 uses
-  {$IFDEF Windows}Win32Int,{$ENDIF}
-  {$IFDEF Linux}gtk3int, xlib, uCEFLinuxFunctions,{$ENDIF}
-  {$IFDEF DARWIN}CocoaInt,{$ENDIF}
+  {$IFDEF LCLWIN32}Win32Int,{$ENDIF}
+  {$IFDEF Linux}
+    {$IFDEF LCLGTK2}
+      {$IFNDEF EnableLibOverlay}
+        gtk2DisableLibOverlay,
+      {$ENDIF}
+      Gtk2Int,
+    {$ENDIF}
+    {$IFDEF LCLGTK3}
+      gtk3int,
+    {$ENDIF}
+    xlib, uCEFLinuxFunctions,
+  {$ENDIF}
+  {$IFDEF LCLCOCOA}CocoaInt,{$ENDIF}
   Forms;
 
 {$IFDEF Linux}
@@ -39,21 +50,32 @@ end;
 
 procedure CustomWidgetSetInitialization;
 begin
-  {$IFDEF Windows}
-  CreateWidgetset(TWin32WidgetSet);
+  {$IFDEF LCLWIN32}
+    CreateWidgetset(TWin32WidgetSet);
   {$ENDIF}
 
   {$IFDEF Linux}
-  //gdk_set_allowed_backends('X11');
-  CreateWidgetset(TGtk3WidgetSet);
-  // Install xlib error handlers so that the application won't be terminated
-  // on non-fatal errors. Must be done after initializing GTK.
-  XSetErrorHandler(@CustomX11ErrorHandler);
-  XSetIOErrorHandler(@CustomXIOErrorHandler);
+    {$IFDEF LCLGTK2}
+      //gdk_set_allowed_backends('X11');
+      CreateWidgetset(TGtk2WidgetSet);
+      // Install xlib error handlers so that the application won't be terminated
+      // on non-fatal errors. Must be done after initializing GTK.
+      XSetErrorHandler(@CustomX11ErrorHandler);
+      XSetIOErrorHandler(@CustomXIOErrorHandler);
+    {$ENDIF}
+
+    {$IFDEF LCLGTK3}
+      //gdk_set_allowed_backends('X11');
+      CreateWidgetset(TGtk3WidgetSet);
+      // Install xlib error handlers so that the application won't be terminated
+      // on non-fatal errors. Must be done after initializing GTK.
+      XSetErrorHandler(@CustomX11ErrorHandler);
+      XSetIOErrorHandler(@CustomXIOErrorHandler);
+    {$ENDIF}
   {$ENDIF}
 
-  {$IFDEF DARWIN}
-  CreateWidgetset(TCocoaWidgetSet);
+  {$IFDEF LCLCOCOA}
+    CreateWidgetset(TCocoaWidgetSet);
   {$ENDIF}
 end;
 
@@ -62,7 +84,7 @@ begin
   FreeWidgetSet;
 end;
 
-{$IFnDEF Linux}
+{$IFnDEF LCLGTK3}
 initialization
   begin
     CustomWidgetSetInitialization;

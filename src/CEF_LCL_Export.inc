@@ -34,6 +34,7 @@
 {$I CEF_LCL_ContextMenu.inc}
 {$I CEF_LCL_ContextMenuParams.inc}
 {$I CEF_LCL_CookieManager.inc}
+{$I CEF_LCL_CustomWidgetInterfaces.inc}
 {$I CEF_LCL_CookieCallbacks.inc}
 {$I CEF_LCL_Def.inc}
 {$I CEF_LCL_DictionaryValue.inc}
@@ -48,7 +49,6 @@
 {$I CEF_LCL_FileDialogCallback.inc}
 {$I CEF_LCL_Frame.inc}
 {$I CEF_LCL_GetExtensionResourceCallback.inc}
-{$I CEF_LCL_GTK3_Interfaces.inc}
 {$I CEF_LCL_Image.inc}
 {$I CEF_LCL_JsDialogCallback.inc}
 {$I CEF_LCL_LinkedWindowParent.inc}
