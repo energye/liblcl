@@ -130,15 +130,11 @@ begin
   handleExceptionEnd
 end;
 
-// TODO 待写回调函数
-procedure CEFBrowser_DownloadImage(const TObj: ICefBrowser; const PImageUrl: PChar; isFavicon: LongBool; maxImageSize: integer; bypassCache: LongBool); extdecl;
-var
-  callback: ICefDownloadImageCallback;
+procedure CEFBrowser_DownloadImage(const TObj: ICefBrowser; const PImageUrl: PChar; isFavicon: LongBool; maxImageSize: integer; bypassCache: LongBool; const callback: TDownloadImageCallbackRef); extdecl;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
   begin
-    callback := TCefDownloadImageCallbackOwn.Create;
     TObj.GetHost.DownloadImage(PCharToUStr(PImageUrl), isFavicon, maxImageSize, bypassCache, callback);
   end;
   handleExceptionEnd

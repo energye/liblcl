@@ -42,6 +42,7 @@
 {$I CEF_LCL_DomDocument.inc}
 {$I CEF_LCL_DomNode.inc}
 {$I CEF_LCL_DomVisitor.inc}
+{$I CEF_LCL_DownloadImageCallback.inc}
 {$I CEF_LCL_DownloadItem.inc}
 {$I CEF_LCL_DragData.inc}
 {$I CEF_LCL_Extension.inc}
