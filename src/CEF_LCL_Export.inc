@@ -31,7 +31,6 @@
 {$I CEF_LCL_ClientHandlers.inc}
 {$I CEF_LCL_CommandLine.inc}
 {$I CEF_LCL_CompletionCallback.inc}
-{$I CEF_LCL_ContextMenu.inc}
 {$I CEF_LCL_ContextMenuParams.inc}
 {$I CEF_LCL_CookieManager.inc}
 {$I CEF_LCL_CustomWidgetInterfaces.inc}
@@ -54,6 +53,7 @@
 {$I CEF_LCL_JsDialogCallback.inc}
 {$I CEF_LCL_LinkedWindowParent.inc}
 {$I CEF_LCL_MediaAccessCallback.inc}
+{$I CEF_LCL_MenuModel.inc}
 {$I CEF_LCL_MiscFunctions.inc}
 {$I CEF_LCL_PdfPrintCallback.inc}
 {$I CEF_LCL_PermissionPromptCallback.inc}
