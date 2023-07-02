@@ -4,6 +4,47 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
+
+procedure  RequestContextRef_Global(out Result: ICefRequestContext); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefRequestContextRef.Global();
+  handleExceptionEnd
+end;
+
+procedure  RequestContextRef_New(const PRequestContextSettings: PRCefRequestContextSettings; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
+var
+  requestContextSettings: PCefRequestContextSettings;
+begin
+  handleExceptionBegin
+  //ICefRequestContext
+  requestContextSettings := new(PCefRequestContextSettings);
+  requestContextSettings^.size := NativeUInt(PRequestContextSettings^.size);
+  requestContextSettings^.cache_path := CefString(PCharToUStr(PRequestContextSettings^.cachePath));
+  requestContextSettings^.persist_session_cookies := Integer(PRequestContextSettings^.persistSessionCookies);
+  requestContextSettings^.persist_user_preferences := Integer(PRequestContextSettings^.persistUserPreferences);
+  requestContextSettings^.accept_language_list := CefString(PCharToUStr(PRequestContextSettings^.acceptLanguageList));
+  requestContextSettings^.cookieable_schemes_list := CefString(PCharToUStr(PRequestContextSettings^.cookieableSchemesList));
+  requestContextSettings^.cookieable_schemes_exclude_defaults := Integer(PRequestContextSettings^.cookieableSchemesExcludeDefaults);
+
+  Result := TCefRequestContextRef.New(requestContextSettings, handler);
+  handleExceptionEnd
+end;
+
+procedure  RequestContextRef_NewTwo(const aCache, aAcceptLanguageList, aCookieableSchemesList : PChar; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : LongBool; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefRequestContextRef.New(PCharToUStr(aCache), PCharToUStr(aAcceptLanguageList), PCharToUStr(aCookieableSchemesList), aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences, handler);
+  handleExceptionEnd
+end;
+
+procedure  RequestContextRef_Shared(const other: ICefRequestContext; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefRequestContextRef.Shared(other, handler);
+  handleExceptionEnd
+end;
+
 function  RequestContext_HasPreference(const TObj: ICefRequestContext; const name: PChar): LongBool;  extdecl;
 begin
   handleExceptionBegin
@@ -177,6 +218,10 @@ end;
 
 
 exports
+    RequestContextRef_Global,
+    RequestContextRef_New,
+    RequestContextRef_NewTwo,
+    RequestContextRef_Shared,
     RequestContext_HasPreference,
     RequestContext_GetPreference,
     RequestContext_GetAllPreferences,
