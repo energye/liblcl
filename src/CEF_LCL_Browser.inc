@@ -112,16 +112,12 @@ begin
   handleExceptionEnd
 end;
 
-// TODO 待写回调函数
-procedure CEFBrowser_RunFileDialog(const TObj: ICefBrowser; mode: integer; const PTitle, PDefaultFilePath: PChar; const acceptFilters: TStrings); extdecl;
-var
-  callback: ICefRunFileDialogCallback;
+procedure CEFBrowser_RunFileDialog(const TObj: ICefBrowser; mode: integer; const PTitle, PDefaultFilePath: PChar; const acceptFilters: TStrings; const callback: TRunFileDialogCallbackRef); extdecl;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
   begin
-    callback := TCefRunFileDialogCallbackOwn.Create;
-    TObj.GetHost.RunFileDialog(mode, PCharToUStr(PTitle), PCharToUStr(PDefaultFilePath), acceptFilters, callback);
+     TObj.GetHost.RunFileDialog(mode, PCharToUStr(PTitle), PCharToUStr(PDefaultFilePath), acceptFilters, callback);
   end;
   handleExceptionEnd
 end;

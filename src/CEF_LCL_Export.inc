@@ -70,6 +70,7 @@
 {$I CEF_LCL_Response.inc}
 {$I CEF_LCL_ResponseFilter.inc}
 {$I CEF_LCL_RunContextMenuCallback.inc}
+{$I CEF_LCL_RunFileDialogCallback.inc}
 {$I CEF_LCL_RunQuickMenuCallback.inc}
 {$I CEF_LCL_SchemeHandlerFactory.inc}
 {$I CEF_LCL_SchemeRegistrarRef.inc}
