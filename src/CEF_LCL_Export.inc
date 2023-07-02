@@ -54,6 +54,7 @@
 {$I CEF_LCL_LinkedWindowParent.inc}
 {$I CEF_LCL_MediaAccessCallback.inc}
 {$I CEF_LCL_MenuModel.inc}
+{$I CEF_LCL_MenuModelDelegate.inc}
 {$I CEF_LCL_MiscFunctions.inc}
 {$I CEF_LCL_PdfPrintCallback.inc}
 {$I CEF_LCL_PermissionPromptCallback.inc}
