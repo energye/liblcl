@@ -941,7 +941,6 @@ procedure TLCLEvent.BufferPanel_OnCustomTouch(Sender: TObject; var aMessage: TMe
 var
   MessageResult: LRESULT;
 begin
-  SendEvent([Sender]);
   SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
   if MessageResult > 0 then
   begin
@@ -953,7 +952,6 @@ procedure TLCLEvent.BufferPanel_OnPointerDown(Sender: TObject; var aMessage: TMe
 var
   MessageResult: LRESULT;
 begin
-  SendEvent([Sender]);
   SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
   if MessageResult > 0 then
   begin
@@ -965,7 +963,6 @@ procedure TLCLEvent.BufferPanel_OnPointerUp(Sender: TObject; var aMessage: TMess
 var
   MessageResult: LRESULT;
 begin
-  SendEvent([Sender]);
   SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
   if MessageResult > 0 then
   begin
@@ -977,7 +974,6 @@ procedure TLCLEvent.BufferPanel_OnPointerUpdate(Sender: TObject; var aMessage: T
 var
   MessageResult: LRESULT;
 begin
-  SendEvent([Sender]);
   SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
   if MessageResult > 0 then
   begin
@@ -989,4 +985,55 @@ end;
 procedure TLCLEvent.BufferPanel_OnPaintParentBkg(Sender: TObject);
 begin
   SendEvent([Sender]);
+end;
+
+{==TCEFViewComponent==}
+procedure TLCLEvent.ViewComponent_OnGetPreferredSize(const Sender: TObject; const view: ICefView; var aResult : TCefSize);
+begin
+  SendEvent([Sender, view, @aResult]);
+end;
+
+procedure TLCLEvent.ViewComponent_OnGetMinimumSize(const Sender: TObject; const view: ICefView; var aResult : TCefSize);
+begin
+  SendEvent([Sender, view, @aResult]);
+end;
+
+procedure TLCLEvent.ViewComponent_OnGetMaximumSize(const Sender: TObject; const view: ICefView; var aResult : TCefSize);
+begin
+  SendEvent([Sender, view, @aResult]);
+end;
+
+procedure TLCLEvent.ViewComponent_OnGetHeightForWidth(const Sender: TObject; const view: ICefView; width: Integer; var aResult: Integer);
+begin
+  SendEvent([Sender, view, width, @aResult]);
+end;
+
+procedure TLCLEvent.ViewComponent_OnParentViewChanged(const Sender: TObject; const view: ICefView; added: boolean; const parent: ICefView);
+begin
+  SendEvent([Sender, view, added, parent]);
+end;
+
+procedure TLCLEvent.ViewComponent_OnChildViewChanged(const Sender: TObject; const view: ICefView; added: boolean; const child: ICefView);
+begin
+  SendEvent([Sender, view, child]);
+end;
+
+procedure TLCLEvent.ViewComponent_OnWindowChanged(const Sender: TObject; const view: ICefView; added: boolean);
+begin
+  SendEvent([Sender, view, added]);
+end;
+
+procedure TLCLEvent.ViewComponent_OnLayoutChanged(const Sender: TObject; const view: ICefView; new_bounds: TCefRect);
+begin
+  SendEvent([Sender, view, @new_bounds]);
+end;
+
+procedure TLCLEvent.ViewComponent_OnFocus(const Sender: TObject; const view: ICefView);
+begin
+  SendEvent([Sender, view]);
+end;
+
+procedure TLCLEvent.ViewComponent_OnBlur(const Sender: TObject; const view: ICefView);
+begin
+  SendEvent([Sender, view]);
 end;

@@ -182,3 +182,15 @@ procedure BufferPanel_OnPointerUpdate(Sender: TObject; var aMessage: TMessage; v
 {$ENDIF}
 procedure BufferPanel_OnPaintParentBkg(Sender: TObject);
 
+{==TCEFViewComponent==}
+procedure ViewComponent_OnGetPreferredSize(const Sender: TObject; const view: ICefView; var aResult : TCefSize);
+procedure ViewComponent_OnGetMinimumSize(const Sender: TObject; const view: ICefView; var aResult : TCefSize);
+procedure ViewComponent_OnGetMaximumSize(const Sender: TObject; const view: ICefView; var aResult : TCefSize);
+procedure ViewComponent_OnGetHeightForWidth(const Sender: TObject; const view: ICefView; width: Integer; var aResult: Integer);
+procedure ViewComponent_OnParentViewChanged(const Sender: TObject; const view: ICefView; added: boolean; const parent: ICefView);
+procedure ViewComponent_OnChildViewChanged(const Sender: TObject; const view: ICefView; added: boolean; const child: ICefView);
+procedure ViewComponent_OnWindowChanged(const Sender: TObject; const view: ICefView; added: boolean);
+procedure ViewComponent_OnLayoutChanged(const Sender: TObject; const view: ICefView; new_bounds: TCefRect);
+procedure ViewComponent_OnFocus(const Sender: TObject; const view: ICefView);
+procedure ViewComponent_OnBlur(const Sender: TObject; const view: ICefView);
+

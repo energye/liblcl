@@ -368,6 +368,76 @@ begin
   handleExceptionEnd
 end;
 
+procedure   ViewComponent_SetOnGetPreferredSize(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ViewComponent_OnGetPreferredSize}
+  {$DEFINE EventName := OnGetPreferredSize}
+  EventMethodCode
+end;
+
+procedure   ViewComponent_SetOnGetMinimumSize(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ViewComponent_OnGetMinimumSize}
+  {$DEFINE EventName := OnGetMinimumSize}
+  EventMethodCode
+end;
+
+procedure   ViewComponent_SetOnGetMaximumSize(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ViewComponent_OnGetMaximumSize}
+  {$DEFINE EventName := OnGetMaximumSize}
+  EventMethodCode
+end;
+
+procedure   ViewComponent_SetOnGetHeightForWidth(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ViewComponent_OnGetHeightForWidth}
+  {$DEFINE EventName := OnGetHeightForWidth}
+  EventMethodCode
+end;
+
+procedure   ViewComponent_SetOnParentViewChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ViewComponent_OnParentViewChanged}
+  {$DEFINE EventName := OnParentViewChanged}
+  EventMethodCode
+end;
+
+procedure   ViewComponent_SetOnChildViewChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ViewComponent_OnChildViewChanged}
+  {$DEFINE EventName := OnChildViewChanged}
+  EventMethodCode
+end;
+
+procedure   ViewComponent_SetOnWindowChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ViewComponent_OnWindowChanged}
+  {$DEFINE EventName := OnWindowChanged}
+  EventMethodCode
+end;
+
+procedure   ViewComponent_SetOnLayoutChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ViewComponent_OnLayoutChanged}
+  {$DEFINE EventName := OnLayoutChanged}
+  EventMethodCode
+end;
+
+procedure   ViewComponent_SetOnFocus(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ViewComponent_OnFocus}
+  {$DEFINE EventName := OnFocus}
+  EventMethodCode
+end;
+
+procedure   ViewComponent_SetOnBlur(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ViewComponent_OnBlur}
+  {$DEFINE EventName := OnBlur}
+  EventMethodCode
+end;
+
 
 exports
   ViewComponent_Create,
@@ -421,5 +491,15 @@ exports
   ViewComponent_GetPosition,
   ViewComponent_SetPosition,
   ViewComponent_GetTypeString,
-  ViewComponent_GetHeightForWidth
+  ViewComponent_GetHeightForWidth,
+  ViewComponent_SetOnGetPreferredSize,
+  ViewComponent_SetOnGetMinimumSize,
+  ViewComponent_SetOnGetMaximumSize,
+  ViewComponent_SetOnGetHeightForWidth,
+  ViewComponent_SetOnParentViewChanged,
+  ViewComponent_SetOnChildViewChanged,
+  ViewComponent_SetOnWindowChanged,
+  ViewComponent_SetOnLayoutChanged,
+  ViewComponent_SetOnFocus,
+  ViewComponent_SetOnBlur
 ;
