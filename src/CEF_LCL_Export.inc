@@ -23,7 +23,9 @@
 {$I CEF_LCL_BrowserViewComponent.inc}
 {$I CEF_LCL_BrowserViewDelegate.inc}
 {$I CEF_LCL_BufferPanel.inc}
+{$I CEF_LCL_Button.inc}
 {$I CEF_LCL_ButtonComponent.inc}
+{$I CEF_LCL_ButtonDelegate.inc}
 {$I CEF_LCL_Callback.inc}
 {$I CEF_LCL_Callback_Register.inc}
 {$I CEF_LCL_Chromium_Event.inc}

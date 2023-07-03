@@ -1014,61 +1014,61 @@ end;
 {==TCEFViewComponent==}
 procedure TLCLEvent.ViewComponent_OnGetPreferredSize(const Sender: TObject; const view: ICefView; var aResult : TCefSize);
 begin
-  SendEvent([Sender, view, @aResult]);
+  SendEvent([view, @aResult]);
 end;
 
 procedure TLCLEvent.ViewComponent_OnGetMinimumSize(const Sender: TObject; const view: ICefView; var aResult : TCefSize);
 begin
-  SendEvent([Sender, view, @aResult]);
+  SendEvent([view, @aResult]);
 end;
 
 procedure TLCLEvent.ViewComponent_OnGetMaximumSize(const Sender: TObject; const view: ICefView; var aResult : TCefSize);
 begin
-  SendEvent([Sender, view, @aResult]);
+  SendEvent([view, @aResult]);
 end;
 
 procedure TLCLEvent.ViewComponent_OnGetHeightForWidth(const Sender: TObject; const view: ICefView; width: Integer; var aResult: Integer);
 begin
-  SendEvent([Sender, view, width, @aResult]);
+  SendEvent([view, width, @aResult]);
 end;
 
 procedure TLCLEvent.ViewComponent_OnParentViewChanged(const Sender: TObject; const view: ICefView; added: boolean; const parent: ICefView);
 begin
-  SendEvent([Sender, view, added, parent]);
+  SendEvent([view, added, parent]);
 end;
 
 procedure TLCLEvent.ViewComponent_OnChildViewChanged(const Sender: TObject; const view: ICefView; added: boolean; const child: ICefView);
 begin
-  SendEvent([Sender, view, child]);
+  SendEvent([view, child]);
 end;
 
 procedure TLCLEvent.ViewComponent_OnWindowChanged(const Sender: TObject; const view: ICefView; added: boolean);
 begin
-  SendEvent([Sender, view, added]);
+  SendEvent([view, added]);
 end;
 
 procedure TLCLEvent.ViewComponent_OnLayoutChanged(const Sender: TObject; const view: ICefView; new_bounds: TCefRect);
 begin
-  SendEvent([Sender, view, @new_bounds]);
+  SendEvent([view, @new_bounds]);
 end;
 
 procedure TLCLEvent.ViewComponent_OnFocus(const Sender: TObject; const view: ICefView);
 begin
-  SendEvent([Sender, view]);
+  SendEvent([view]);
 end;
 
 procedure TLCLEvent.ViewComponent_OnBlur(const Sender: TObject; const view: ICefView);
 begin
-  SendEvent([Sender, view]);
+  SendEvent([view]);
 end;
 
 {==TCEFButtonComponent==}
 procedure TLCLEvent.ButtonComponent_OnButtonPressed(const Sender: TObject; const button: ICefButton);
 begin
-  SendEvent([Sender, button]);
+  SendEvent([button]);
 end;
 
 procedure TLCLEvent.ButtonComponent_OnButtonStateChanged(const Sender: TObject; const button: ICefButton);
 begin
-  SendEvent([Sender, button]);
+  SendEvent([button]);
 end;
