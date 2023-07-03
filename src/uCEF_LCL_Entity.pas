@@ -19,9 +19,8 @@ uses
 {$IFDEF MSWINDOWS}Windows,{$ENDIF}
   fgl,
   Classes, SysUtils, uGoForm,
-  uCEFTypes, uCEFInterfaces,
+  uCEFTypes, uCEFInterfaces, uCEFMiscFunctions,
   {$ifdef MSWINDOWS}uCEFWindowParent{$else}uCEFLinkedWindowParent{$endif};
-
 
 type
   PRFrameNames = ^RFrameNames;
@@ -297,6 +296,9 @@ procedure FreeArrayTVarRec(argsArray: array of TVarRec);
 //释放 PRCEFFrame
 procedure FreePRCEFFrame(frame: PRCEFFrame);
 
+function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): PRCefBrowserSettings;
+function GoBrowserSettingsToCefBrowserSettings(const settings: PRCefBrowserSettings): TCefBrowserSettings;
+
 //function GetCommonInstance(): CommonObject;
 
 var
@@ -492,6 +494,79 @@ begin
 end;
 
 
+function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): PRCefBrowserSettings;
+var
+  browserSettings: PRCefBrowserSettings;
+begin
+  browserSettings := new(PRCefBrowserSettings);
+  browserSettings^.size := @settings.size;
+  browserSettings^.windowless_frame_rate := @settings.windowless_frame_rate;
+  browserSettings^.standard_font_family := PChar(string(CefString(@settings.standard_font_family)));
+  browserSettings^.fixed_font_family := PChar(string(CefString(@settings.fixed_font_family)));
+  browserSettings^.serif_font_family := PChar(string(CefString(@settings.serif_font_family)));
+  browserSettings^.sans_serif_font_family := PChar(string(CefString(@settings.sans_serif_font_family)));
+  browserSettings^.cursive_font_family := PChar(string(CefString(@settings.cursive_font_family)));
+  browserSettings^.fantasy_font_family := PChar(string(CefString(@settings.fantasy_font_family)));
+  browserSettings^.default_font_size := @settings.default_font_size;
+  browserSettings^.default_fixed_font_size := @settings.default_fixed_font_size;
+  browserSettings^.minimum_font_size := @settings.minimum_font_size;
+  browserSettings^.minimum_logical_font_size := @settings.minimum_logical_font_size;
+  browserSettings^.default_encoding := PChar(string(CefString(@settings.default_encoding)));
+  browserSettings^.remote_fonts := @(integer(settings.remote_fonts));
+  browserSettings^.javascript := @(integer(settings.javascript));
+  browserSettings^.javascript_close_windows := @(integer(settings.javascript_close_windows));
+  browserSettings^.javascript_access_clipboard := @(integer(settings.javascript_access_clipboard));
+  browserSettings^.javascript_dom_paste := @(integer(settings.javascript_dom_paste));
+  browserSettings^.image_loading := @(integer(settings.image_loading));
+  browserSettings^.image_shrink_standalone_to_fit := @(integer(settings.image_shrink_standalone_to_fit));
+  browserSettings^.text_area_resize := @(integer(settings.text_area_resize));
+  browserSettings^.tab_to_links := @(integer(settings.tab_to_links));
+  browserSettings^.local_storage := @(integer(settings.local_storage));
+  browserSettings^.databases := @(integer(settings.databases));
+  browserSettings^.webgl := @(integer(settings.webgl));
+  browserSettings^.background_color := @(cardinal(settings.background_color));
+  browserSettings^.accept_language_list := PChar(string(CefString(@settings.accept_language_list)));
+  browserSettings^.chrome_status_bubble := @(integer(settings.chrome_status_bubble));
+  Result := browserSettings;
+end;
+
+function GoBrowserSettingsToCefBrowserSettings(const settings: PRCefBrowserSettings): TCefBrowserSettings;
+var
+  browserSettings: TCefBrowserSettings;
+begin
+  if settings <> nil then
+  begin
+    browserSettings.size := settings^.size^;
+    browserSettings.windowless_frame_rate := settings^.windowless_frame_rate^;
+    browserSettings.standard_font_family := CefString(PCharToUStr(settings^.standard_font_family));
+    browserSettings.fixed_font_family := CefString(PCharToUStr(settings^.fixed_font_family));
+    browserSettings.serif_font_family := CefString(PCharToUStr(settings^.serif_font_family));
+    browserSettings.sans_serif_font_family := CefString(PCharToUStr(settings^.sans_serif_font_family));
+    browserSettings.cursive_font_family := CefString(PCharToUStr(settings^.cursive_font_family));
+    browserSettings.fantasy_font_family := CefString(PCharToUStr(settings^.fantasy_font_family));
+    browserSettings.default_font_size := settings^.default_font_size^;
+    browserSettings.default_fixed_font_size := settings^.default_fixed_font_size^;
+    browserSettings.minimum_font_size := settings^.minimum_font_size^;
+    browserSettings.minimum_logical_font_size := settings^.minimum_logical_font_size^;
+    browserSettings.default_encoding := CefString(PCharToUStr(settings^.default_encoding));
+    browserSettings.remote_fonts := TCefState(settings^.remote_fonts^);
+    browserSettings.javascript := TCefState(settings^.javascript^);
+    browserSettings.javascript_close_windows := TCefState(settings^.javascript_close_windows^);
+    browserSettings.javascript_access_clipboard := TCefState(settings^.javascript_access_clipboard^);
+    browserSettings.javascript_dom_paste := TCefState(settings^.javascript_dom_paste^);
+    browserSettings.image_loading := TCefState(settings^.image_loading^);
+    browserSettings.image_shrink_standalone_to_fit := TCefState(settings^.image_shrink_standalone_to_fit^);
+    browserSettings.text_area_resize := TCefState(settings^.text_area_resize^);
+    browserSettings.tab_to_links := TCefState(settings^.tab_to_links^);
+    browserSettings.local_storage := TCefState(settings^.local_storage^);
+    browserSettings.databases := TCefState(settings^.databases^);
+    browserSettings.webgl := TCefState(settings^.webgl^);
+    browserSettings.background_color := TCefColor(settings^.background_color^);
+    browserSettings.accept_language_list := CefString(PCharToUStr(settings^.accept_language_list));
+    browserSettings.chrome_status_bubble := TCefState(settings^.chrome_status_bubble^);
+    Result := browserSettings;
+  end;
+end;
 
 class constructor TBrowserWindowClass.Create;
 begin
