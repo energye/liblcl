@@ -14,7 +14,6 @@ interface
 uses
   Classes, SysUtils, uCEFInterfaces, uCEFTypes,
   uCEF_LCL_Entity,
-  uCEFMiscFunctions,
   uCEFBrowserViewDelegate,
   uCEF_LCL_EventCallback;
 
