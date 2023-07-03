@@ -17,7 +17,7 @@ uCEFStringMultimap, uCEFCallback, uCEFChromium, uCEFWindowParent, uCEFLinkedWind
 uCEFConstants, uCEFWinControl, uCEFChromiumEvents, uCEFMiscFunctions, uCEFClient, uCEFProcessMessage, uCEFWorkScheduler, uCEFRunFileDialogCallback, uCEFDownloadImageCallBack, uCEFPostData, uCEFPostDataElement, uCEFDownLoadItem, uCEFRequest, uCEFResponse,
 uCEFPDFPrintCallback, uCEFv8Context, uCEFBrowser, uCEFBrowserView, uCEFBrowserViewComponent, uCEFWindowComponent, uCEFImage, uCEFRequestContext, uCEFRequestContextHandler, uCEFv8Accessor, uCEFv8Exception, uCEFPDFPrintOptions, uCEFExtensionHandler, uCEFStreamReader, uCEFStreamWriter,
 uCEFPrintSettings, uCEFCookieVisitor, uCEFSetCookieCallback, uCEFDeleteCookiesCallback, uCEFResourceRequestHandler, uCEFCookieAccessFilter, uCEFResourceHandler, uCEFSchemeHandlerFactory, uCEFResponseFilter, uCEFX509Certificate,
-uCEFMenuModel, uCEFMenuModelDelegate,
+uCEFMenuModel, uCEFMenuModelDelegate, uCEFViewComponent,
 uCEFButton, uCEFLabelButton,
 uCEFMenuButton, uCEFMenuButtonComponent, uCEFMenuButtonDelegate, uCEFMenuButtonPressedLock,
 uCEFButtonComponent, uCEFButtonDelegate,
