@@ -92,6 +92,7 @@
 {$I CEF_LCL_ValueConvert.inc}
 {$I CEF_LCL_View.inc}
 {$I CEF_LCL_ViewComponent.inc}
+{$I CEF_LCL_ViewDelegate.inc}
 {$I CEF_LCL_Window.inc}
 {$I CEF_LCL_WindowComponent.inc}
 {$I CEF_LCL_WindowParent.inc}
