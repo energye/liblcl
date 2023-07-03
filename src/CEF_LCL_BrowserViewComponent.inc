@@ -86,14 +86,14 @@ begin
 end;
 
 //property
-procedure CEFBrowserViewComponent_Browser(const TObj: TCEFBrowserViewComponent; var Result: ICefBrowser); extdecl;
+procedure CEFBrowserViewComponent_Browser(const TObj: TCEFBrowserViewComponent; out Result: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.Browser;
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_BrowserView(const TObj: TCEFBrowserViewComponent):ICefBrowserView ; extdecl;
+procedure CEFBrowserViewComponent_BrowserView(const TObj: TCEFBrowserViewComponent; out Result: ICefBrowserView) ; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.BrowserView;

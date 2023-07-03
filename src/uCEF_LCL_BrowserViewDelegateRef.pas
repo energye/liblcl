@@ -27,12 +27,12 @@ type
     PopupBrowserViewCreatedPtr: Pointer;
     constructor Create; override;
     destructor Destroy; override;
+    function  GetChromeToolbarType: TCefChromeToolbarType; override;
   protected
     procedure OnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser); override;
     procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser); override;
     procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult: ICefBrowserViewDelegate); override;
     procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult: boolean); override;
-    function  GetChromeToolbarType: TCefChromeToolbarType; override;
     procedure InitializeCEFMethods; override;
 
   end;
