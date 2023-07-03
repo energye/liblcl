@@ -194,3 +194,7 @@ procedure ViewComponent_OnLayoutChanged(const Sender: TObject; const view: ICefV
 procedure ViewComponent_OnFocus(const Sender: TObject; const view: ICefView);
 procedure ViewComponent_OnBlur(const Sender: TObject; const view: ICefView);
 
+{==TCEFButtonComponent==}
+procedure ButtonComponent_OnButtonPressed(const Sender: TObject; const button: ICefButton);
+procedure ButtonComponent_OnButtonStateChanged(const Sender: TObject; const button: ICefButton);
+

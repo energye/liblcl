@@ -1037,3 +1037,14 @@ procedure TLCLEvent.ViewComponent_OnBlur(const Sender: TObject; const view: ICef
 begin
   SendEvent([Sender, view]);
 end;
+
+{==TCEFButtonComponent==}
+procedure TLCLEvent.ButtonComponent_OnButtonPressed(const Sender: TObject; const button: ICefButton);
+begin
+  SendEvent([Sender, button]);
+end;
+
+procedure TLCLEvent.ButtonComponent_OnButtonStateChanged(const Sender: TObject; const button: ICefButton);
+begin
+  SendEvent([Sender, button]);
+end;
