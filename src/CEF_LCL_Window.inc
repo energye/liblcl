@@ -4,7 +4,14 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-//property
+
+procedure ICEFWindowRef_CreateTopLevel(const delegate: ICefWindowDelegate; out Result: ICefWindow); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefWindowRef.CreateTopLevel(delegate);
+  handleExceptionEnd
+end;
+
 procedure ICEFWindow_Show(const AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
@@ -345,7 +352,7 @@ begin
 end;
 
 exports
-  //property
+  ICEFWindowRef_CreateTopLevel,
   ICEFWindow_Show,
   ICEFWindow_Hide,
   ICEFWindow_CenterWindow,

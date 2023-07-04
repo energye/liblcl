@@ -5,7 +5,7 @@
 //----------------------------------------
 
 //function
-function CEFWindowComponent_Create(AOwner: TComponent):TCEFWindowComponent ; extdecl;
+function CEFWindowComponent_Create(AOwner: TComponent): TCEFWindowComponent ; extdecl;
 begin
     handleExceptionBegin
     Result := TCEFWindowComponent.Create(AOwner);
