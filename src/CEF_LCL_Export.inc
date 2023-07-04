@@ -59,6 +59,9 @@
 {$I CEF_LCL_LabelButtonComponent.inc}
 {$I CEF_LCL_LinkedWindowParent.inc}
 {$I CEF_LCL_MediaAccessCallback.inc}
+{$I CEF_LCL_MenuButton.inc}
+{$I CEF_LCL_MenuButtonDelegate.inc}
+{$I CEF_LCL_MenuButtonComponent.inc}
 {$I CEF_LCL_MenuModel.inc}
 {$I CEF_LCL_MenuModelDelegate.inc}
 {$I CEF_LCL_MiscFunctions.inc}

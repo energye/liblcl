@@ -1072,3 +1072,9 @@ procedure TLCLEvent.ButtonComponent_OnButtonStateChanged(const Sender: TObject; 
 begin
   SendEvent([button]);
 end;
+
+{==TCEFMenuButtonComponent==}
+procedure TLCLEvent.MenuButtonComponent_OnMenuButtonPressed(const Sender: TObject; const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
+begin
+  SendEvent([menu_button, @screen_point, button_pressed_lock]);
+end;

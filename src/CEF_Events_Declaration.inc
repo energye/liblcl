@@ -198,3 +198,6 @@ procedure ViewComponent_OnBlur(const Sender: TObject; const view: ICefView);
 procedure ButtonComponent_OnButtonPressed(const Sender: TObject; const button: ICefButton);
 procedure ButtonComponent_OnButtonStateChanged(const Sender: TObject; const button: ICefButton);
 
+{==TCEFMenuButtonComponent==}
+procedure MenuButtonComponent_OnMenuButtonPressed(const Sender: TObject; const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
+
