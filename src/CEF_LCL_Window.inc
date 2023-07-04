@@ -260,7 +260,7 @@ begin
   handleExceptionEnd
 end;
 
-function ICEFWindow_AddOverlayView(const AWindow: ICefWindow; const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController; extdecl;
+procedure ICEFWindow_AddOverlayView(const AWindow: ICefWindow; const view: ICefView; docking_mode: TCefDockingMode; out Result: ICefOverlayController); extdecl;
 begin
   handleExceptionBegin
   Result := AWindow.AddOverlayView(view, docking_mode);
