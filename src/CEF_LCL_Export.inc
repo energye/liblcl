@@ -55,6 +55,8 @@
 {$I CEF_LCL_GetExtensionResourceCallback.inc}
 {$I CEF_LCL_Image.inc}
 {$I CEF_LCL_JsDialogCallback.inc}
+{$I CEF_LCL_LabelButton.inc}
+{$I CEF_LCL_LabelButtonComponent.inc}
 {$I CEF_LCL_LinkedWindowParent.inc}
 {$I CEF_LCL_MediaAccessCallback.inc}
 {$I CEF_LCL_MenuModel.inc}
