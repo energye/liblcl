@@ -108,6 +108,13 @@ end;
 constructor TMenuModelDelegateRef.Create;
 begin
   inherited Create;
+  ExecuteCommandPtr := nil;
+  MouseOutsideMenuPtr := nil;
+  UnhandledOpenSubmenuPtr := nil;
+  UnhandledCloseSubmenuPtr := nil;
+  MenuWillShowPtr := nil;
+  MenuClosedPtr := nil;
+  FormatLabelPtr := nil;
 end;
 
 destructor TMenuModelDelegateRef.Destroy;
