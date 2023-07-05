@@ -49,19 +49,6 @@
     <PublishOptions>
       <Version Value="2"/>
     </PublishOptions>
-    <RunParams>
-      <local>
-        <HostApplicationFilename Value="E:\SWT\gopath\src\swt-lazarus\demo17-dll-load\demo-golang-dll-01-chromium\demo-golang-dll-01-chromium.exe"/>
-      </local>
-      <FormatVersion Value="2"/>
-      <Modes Count="1">
-        <Mode0 Name="default">
-          <local>
-            <HostApplicationFilename Value="E:\SWT\gopath\src\swt-lazarus\demo17-dll-load\demo-golang-dll-01-chromium\demo-golang-dll-01-chromium.exe"/>
-          </local>
-        </Mode0>
-      </Modes>
-    </RunParams>
     <RequiredPackages Count="8">
       <Item1>
         <PackageName Value="CEF4Delphi_Lazarus"/>
