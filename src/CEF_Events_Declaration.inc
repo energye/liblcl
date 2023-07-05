@@ -201,3 +201,6 @@ procedure ButtonComponent_OnButtonStateChanged(const Sender: TObject; const butt
 {==TCEFMenuButtonComponent==}
 procedure MenuButtonComponent_OnMenuButtonPressed(const Sender: TObject; const menu_button: ICefMenuButton; const screen_point: TCefPoint; const button_pressed_lock: ICefMenuButtonPressedLock);
 
+{==TCEFTextfieldComponent==}
+procedure TextfieldComponent_OnTextfieldKeyEvent(const Sender: TObject; const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
+procedure TextfieldComponent_OnAfterUserAction(const Sender: TObject; const textfield: ICefTextfield);

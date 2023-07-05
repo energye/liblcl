@@ -1078,3 +1078,14 @@ procedure TLCLEvent.MenuButtonComponent_OnMenuButtonPressed(const Sender: TObjec
 begin
   SendEvent([menu_button, @screen_point, button_pressed_lock]);
 end;
+
+{==TCEFTextfieldComponent==}
+procedure TLCLEvent.TextfieldComponent_OnTextfieldKeyEvent(const Sender: TObject; const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
+begin
+  SendEvent([textfield, @event, @aResult]);
+end;
+
+procedure TLCLEvent.TextfieldComponent_OnAfterUserAction(const Sender: TObject; const textfield: ICefTextfield);
+begin
+  SendEvent([textfield]);
+end;

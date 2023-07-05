@@ -94,6 +94,7 @@
 {$I CEF_LCL_StreamWriter.inc}
 {$I CEF_LCL_StringMultiMap.inc}
 {$I CEF_LCL_Textfield.inc}
+{$I CEF_LCL_TextfieldComponent.inc}
 {$I CEF_LCL_TString.inc}
 {$I CEF_LCL_v8Accessor.inc}
 {$I CEF_LCL_v8ArrayBufferReleaseCallback.inc}
