@@ -272,30 +272,18 @@ end;
 
 procedure CEFChromium_SetOnFrameAttached(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnFrameAttached}
-  {$DEFINE EventName := OnFrameAttached}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnFrameCreated(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnFrameCreated}
-  {$DEFINE EventName := OnFrameCreated}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnFrameDetached(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnFrameDetached}
-  {$DEFINE EventName := OnFrameDetached}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnMainFrameChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnMainFrameChanged}
-  {$DEFINE EventName := OnMainFrameChanged}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnBeforePopup(const AObj: TChromium; AEventData: Pointer); extdecl;
@@ -447,9 +435,6 @@ end;
 
 procedure CEFChromium_SetOnCanDownload(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnCanDownload}
-  {$DEFINE EventName := OnCanDownload}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnCanSaveCookie(const AObj: TChromium; AEventData: Pointer); extdecl;
@@ -482,9 +467,6 @@ end;
 
 procedure CEFChromium_SetOnChromeCommand(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnChromeCommand}
-  {$DEFINE EventName := OnChromeCommand}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnConsoleMessage(const AObj: TChromium; AEventData: Pointer); extdecl;
@@ -566,9 +548,6 @@ end;
 
 procedure CEFChromium_SetOnDismissPermissionPrompt(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnDismissPermissionPrompt}
-  {$DEFINE EventName := OnDismissPermissionPrompt}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnDocumentAvailableInMainFrame(const AObj: TChromium; AEventData: Pointer); extdecl;
@@ -671,9 +650,6 @@ end;
 
 procedure CEFChromium_SetOnGetTouchHandleSize(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnGetTouchHandleSize}
-  {$DEFINE EventName := OnGetTouchHandleSize}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnGetViewRect(const AObj: TChromium; AEventData: Pointer); extdecl;
@@ -713,9 +689,6 @@ end;
 
 procedure CEFChromium_SetOnMediaAccessChange(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnMediaAccessChange}
-  {$DEFINE EventName := OnMediaAccessChange}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnMediaRouteCreateFinished(const AObj: TChromium; AEventData: Pointer); extdecl;
@@ -769,9 +742,6 @@ end;
 
 procedure CEFChromium_SetOnPrefsUpdated(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnPrefsUpdated}
-  {$DEFINE EventName := OnPrefsUpdated}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnPreKeyEvent(const AObj: TChromium; AEventData: Pointer); extdecl;
@@ -790,16 +760,10 @@ end;
 
 procedure CEFChromium_SetOnQuickMenuCommand(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnQuickMenuCommand}
-  {$DEFINE EventName := OnQuickMenuCommand}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnQuickMenuDismissed(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnQuickMenuDismissed}
-  {$DEFINE EventName := OnQuickMenuDismissed}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnRequestContextInitialized(const AObj: TChromium; AEventData: Pointer); extdecl;
@@ -811,9 +775,6 @@ end;
 
 procedure CEFChromium_SetOnRequestMediaAccessPermission(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnRequestMediaAccessPermission}
-  {$DEFINE EventName := OnRequestMediaAccessPermission}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnResetDialogState(const AObj: TChromium; AEventData: Pointer); extdecl;
@@ -860,9 +821,6 @@ end;
 
 procedure CEFChromium_SetOnRunQuickMenu(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnRunQuickMenu}
-  {$DEFINE EventName := OnRunQuickMenu}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnSelectClientCertificate(const AObj: TChromium; AEventData: Pointer); extdecl;
@@ -881,9 +839,6 @@ end;
 
 procedure CEFChromium_SetOnShowPermissionPrompt(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnShowPermissionPrompt}
-  {$DEFINE EventName := OnShowPermissionPrompt}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnSinks(const AObj: TChromium; AEventData: Pointer); extdecl;
@@ -937,9 +892,6 @@ end;
 
 procedure CEFChromium_SetOnTouchHandleStateChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnTouchHandleStateChanged}
-  {$DEFINE EventName := OnTouchHandleStateChanged}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnUpdateDragCursor(const AObj: TChromium; AEventData: Pointer); extdecl;

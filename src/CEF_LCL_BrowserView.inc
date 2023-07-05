@@ -38,7 +38,6 @@ begin
   settings.webgl := TCefState(PBorwserSettings^.webgl) ;
   settings.background_color := TCefColor(PBorwserSettings^.background_color) ;
   settings.accept_language_list := CefString(PCharToUStr(PBorwserSettings^.accept_language_list)) ;
-  settings.chrome_status_bubble := TCefState(PBorwserSettings^.chrome_status_bubble) ;
 
   Result := TCefBrowserViewRef.CreateBrowserView(client, PCharToUStr(url), settings, extra_info, request_context, delegate);
   handleExceptionEnd
@@ -61,7 +60,6 @@ end;
 procedure CefBrowserView_ChromeToolbar(const TObj: ICefBrowserView; var Result: ICefView); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetChromeToolbar();
   handleExceptionEnd
 end;
 

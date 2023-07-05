@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFBrowserView;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -60,7 +60,6 @@ type
   TCefBrowserViewRef = class(TCefViewRef, ICefBrowserView)
     protected
       function  GetBrowser : ICefBrowser;
-      function  GetChromeToolbar : ICefView;
       procedure SetPreferAccelerators(prefer_accelerators: boolean);
 
     public
@@ -77,11 +76,6 @@ uses
 function TCefBrowserViewRef.GetBrowser : ICefBrowser;
 begin
   Result := TCefBrowserRef.UnWrap(PCefBrowserView(FData)^.get_browser(PCefBrowserView(FData)));
-end;
-
-function TCefBrowserViewRef.GetChromeToolbar : ICefView;
-begin
-  Result := TCefViewRef.UnWrap(PCefBrowserView(FData)^.get_chrome_toolbar(PCefBrowserView(FData)));
 end;
 
 procedure TCefBrowserViewRef.SetPreferAccelerators(prefer_accelerators: boolean);

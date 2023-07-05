@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFTask;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -219,19 +219,22 @@ type
       destructor  Destroy; override;
   end;
 
-  TCefSetAudioMutedTask = class(TCefTaskOwn)
+  TCefUpdateSizeTask = class(TCefTaskOwn)
     protected
       FEvents : Pointer;
-      FValue  : boolean;
+      FLeft   : integer;
+      FTop    : integer;
+      FWidth  : integer;
+      FHeight : integer;
 
       procedure Execute; override;
 
     public
-      constructor Create(const aEvents : IChromiumEvents; aValue : boolean); reintroduce;
+      constructor Create(const aEvents : IChromiumEvents; aLeft, aTop, aWidth, aHeight : integer); reintroduce;
       destructor  Destroy; override;
   end;
 
-  TCefToggleAudioMutedTask = class(TCefTaskOwn)
+  TCefSendCaptureLostEventTask = class(TCefTaskOwn)
     protected
       FEvents : Pointer;
 
@@ -241,6 +244,19 @@ type
       constructor Create(const aEvents : IChromiumEvents); reintroduce;
       destructor  Destroy; override;
   end;
+
+  TCefUpdateXWindowVisibilityTask = class(TCefTaskOwn)
+    protected
+      FEvents  : pointer;
+      FVisible : boolean;
+
+      procedure Execute; override;
+
+    public
+      constructor Create(const aEvents : IChromiumEvents; aVisible : boolean); reintroduce;
+      destructor  Destroy; override;
+  end;
+
 
 implementation
 
@@ -705,31 +721,34 @@ begin
 end;
 
 
-// TCefSetAudioMutedTask
+// TCefUpdateSizeTask
 
-procedure TCefSetAudioMutedTask.Execute;
+procedure TCefUpdateSizeTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doSetAudioMuted(FValue);
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doUpdateSize(FLeft, FTop, FWidth, FHeight);
     except
       on e : exception do
-        if CustomExceptionHandler('TCefSetAudioMutedTask.Execute', e) then raise;
+        if CustomExceptionHandler('TCefUpdateSizeTask.Execute', e) then raise;
     end;
   finally
     FEvents := nil;
   end;
 end;
 
-constructor TCefSetAudioMutedTask.Create(const aEvents : IChromiumEvents; aValue : boolean);
+constructor TCefUpdateSizeTask.Create(const aEvents : IChromiumEvents; aLeft, aTop, aWidth, aHeight : integer);
 begin
   inherited Create;
 
   FEvents := Pointer(aEvents);
-  FValue  := aValue;
+  FLeft   := aLeft;
+  FTop    := aTop;
+  FWidth  := aWidth;
+  FHeight := aHeight;
 end;
 
-destructor TCefSetAudioMutedTask.Destroy;
+destructor TCefUpdateSizeTask.Destroy;
 begin
   FEvents := nil;
 
@@ -737,30 +756,62 @@ begin
 end;
 
 
-// TCefToggleAudioMutedTask
+// TCefSendCaptureLostEventTask
 
-procedure TCefToggleAudioMutedTask.Execute;
+procedure TCefSendCaptureLostEventTask.Execute;
 begin
   try
     try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doToggleAudioMuted;
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doSendCaptureLostEvent;
     except
       on e : exception do
-        if CustomExceptionHandler('TCefToggleAudioMutedTask.Execute', e) then raise;
+        if CustomExceptionHandler('TCefSendCaptureLostEventTask.Execute', e) then raise;
     end;
   finally
     FEvents := nil;
   end;
 end;
 
-constructor TCefToggleAudioMutedTask.Create(const aEvents : IChromiumEvents);
+constructor TCefSendCaptureLostEventTask.Create(const aEvents : IChromiumEvents);
 begin
   inherited Create;
 
   FEvents := Pointer(aEvents);
 end;
 
-destructor TCefToggleAudioMutedTask.Destroy;
+destructor TCefSendCaptureLostEventTask.Destroy;
+begin
+  FEvents := nil;
+
+  inherited Destroy;
+end;
+
+
+// TCefUpdateXWindowVisibilityTask
+
+procedure TCefUpdateXWindowVisibilityTask.Execute;
+begin
+  try
+    try
+      if (FEvents <> nil) then IChromiumEvents(FEvents).doUpdateXWindowVisibility(FVisible);
+    except
+      on e : exception do
+        if CustomExceptionHandler('TCefUpdateXWindowVisibilityTask.Execute', e) then raise;
+    end;
+  finally
+    FEvents := nil;
+  end;
+end;
+
+constructor TCefUpdateXWindowVisibilityTask.Create(const aEvents : IChromiumEvents; aVisible : boolean);
+begin
+  inherited Create;
+
+  FEvents  := Pointer(aEvents);
+  FVisible := aVisible;
+end;
+
+destructor TCefUpdateXWindowVisibilityTask.Destroy;
 begin
   FEvents := nil;
 

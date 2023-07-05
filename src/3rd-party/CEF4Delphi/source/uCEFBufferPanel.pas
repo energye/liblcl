@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -67,14 +67,13 @@ type
   TOnHandledMessageEvent    = procedure(Sender: TObject; var aMessage: TMessage; var aHandled : boolean) of object;
   {$ENDIF}
 
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TBufferPanel = class(TCustomPanel)
     protected
       FScanlineSize            : integer;
       FTransparent             : boolean;
       FOnPaintParentBkg        : TNotifyEvent;
       FForcedDeviceScaleFactor : single;
-      FDeviceScaleFactor       : single;
       FCopyOriginalBuffer      : boolean;
       FMustInitBuffer          : boolean;
       FBuffer                  : TBitmap;
@@ -124,7 +123,6 @@ type
       {$IFDEF MSWINDOWS}
       procedure CreateParams(var Params: TCreateParams); override;
       procedure WndProc(var aMessage: TMessage); override;
-      procedure WMCEFInvalidate(var aMessage: TMessage); message CEF_INVALIDATE;
       procedure WMEraseBkgnd(var aMessage : TWMEraseBkgnd); message WM_ERASEBKGND;
       procedure WMTouch(var aMessage: TMessage); message WM_TOUCH;
       procedure WMPointerDown(var aMessage: TMessage); message WM_POINTERDOWN;
@@ -134,10 +132,6 @@ type
       procedure WMIMEEndComp(var aMessage: TMessage);
       procedure WMIMESetContext(var aMessage: TMessage);
       procedure WMIMEComposition(var aMessage: TMessage);
-
-      procedure DoOnIMECancelComposition; virtual;
-      procedure DoOnIMECommitText(const aText : ustring; const replacement_range : PCefRange; relative_cursor_pos : integer); virtual;
-      procedure DoOnIMESetComposition(const aText : ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : TCefRange); virtual;
       {$ENDIF}
 
     public
@@ -153,7 +147,6 @@ type
       function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;        
       function    UpdateOrigBufferDimensions(aWidth, aHeight : integer) : boolean;
       function    UpdateOrigPopupBufferDimensions(aWidth, aHeight : integer) : boolean;
-      procedure   UpdateDeviceScaleFactor;
       function    BufferIsResized(aUseMutex : boolean = True) : boolean;
       procedure   CreateIMEHandler;
       procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
@@ -277,10 +270,6 @@ type
       property OnMouseEnter;
       property OnMouseLeave;
       {$ENDIF}
-      {$IFDEF FPC}
-      property OnMouseEnter;
-      property OnMouseLeave;
-      {$ENDIF}
       {$IFDEF DELPHI12_UP}
       property ShowCaption;
       property ParentDoubleBuffered;
@@ -320,7 +309,6 @@ begin
   FOrigBuffer              := nil;
   FOrigPopupBuffer         := nil;
   FOrigPopupScanlineSize   := 0;
-  FDeviceScaleFactor       := 0;
 
   if (GlobalCEFApp <> nil) and (GlobalCEFApp.ForcedDeviceScaleFactor <> 0) then
     FForcedDeviceScaleFactor := GlobalCEFApp.ForcedDeviceScaleFactor
@@ -361,7 +349,6 @@ begin
   inherited AfterConstruction;
 
   CreateSyncObj;
-  UpdateDeviceScaleFactor;
 
   {$IFDEF MSWINDOWS}
     {$IFNDEF FPC}
@@ -489,10 +476,10 @@ end;
 function TBufferPanel.InvalidatePanel : boolean;
 begin
   {$IFDEF MSWINDOWS}
-  Result := HandleAllocated and PostMessage(Handle, CEF_INVALIDATE, 0, 0);
+  Result := HandleAllocated and PostMessage(Handle, CM_INVALIDATE, 0, 0);
   {$ELSE}
   Result := True;
-  TThread.ForceQueue(nil, @Invalidate);
+  TThread.Queue(nil, @Invalidate);
   {$ENDIF}
 end;
 
@@ -641,10 +628,6 @@ begin
         Canvas.Brush.Style := bsSolid;
         Canvas.FillRect(rect(0, 0, Width, Height));
       end;
-
-  {$IFDEF FPC}
-  if assigned(OnPaint) then OnPaint(Self);
-  {$ENDIF}
 end;
 
 {$IFDEF MSWINDOWS}
@@ -677,11 +660,6 @@ begin
 
     else inherited WndProc(aMessage);
   end;
-end;
-
-procedure TBufferPanel.WMCEFInvalidate(var aMessage: TMessage);
-begin
-  Invalidate;
 end;
 
 procedure TBufferPanel.WMEraseBkgnd(var aMessage : TWMEraseBkgnd);
@@ -749,7 +727,7 @@ end;
 
 procedure TBufferPanel.WMIMEEndComp(var aMessage: TMessage);
 begin
-  DoOnIMECancelComposition;
+  if assigned(FOnIMECancelComposition) then FOnIMECancelComposition(self);
 
   if (FIMEHandler <> nil) then
     begin
@@ -768,17 +746,6 @@ begin
 end;
 
 procedure TBufferPanel.WMIMEComposition(var aMessage: TMessage);
-const
-  // CEF uses UINT32_MAX to initialize the TCefRange parameters.
-  // FPC works fine with a high(integer) value but if we try to use
-  // integer(high(cardinal)) then it duplicates the result string.
-  // Delphi however works fine with integer(high(cardinal)) but it doesn't show
-  // any result string when we use high(integer)
-  {$IFDEF FPC}
-  UINT32_MAX = high(integer);
-  {$ELSE}
-  UINT32_MAX = integer(high(cardinal));
-  {$ENDIF}
 var
   TempText        : ustring;
   TempRange       : TCefRange;
@@ -797,10 +764,10 @@ begin
           begin
             if assigned(FOnIMECommitText) then
               begin
-                TempRange.from := UINT32_MAX;
-                TempRange.to_  := UINT32_MAX;
+                TempRange.from := high(Integer);
+                TempRange.to_  := high(Integer);
 
-                DoOnIMECommitText(TempText, @TempRange, 0);
+                FOnIMECommitText(self, TempText, @TempRange, 0);
               end;
 
             FIMEHandler.ResetComposition;
@@ -810,20 +777,20 @@ begin
           begin
             if assigned(FOnIMESetComposition) then
               begin
-                TempRange.from := UINT32_MAX;
-                TempRange.to_  := UINT32_MAX;
+                TempRange.from := high(Integer);
+                TempRange.to_  := high(Integer);
 
                 TempSelection.from := TempCompStart;
                 TempSelection.to_  := TempCompStart + length(TempText);
 
-                DoOnIMESetComposition(TempText, TempUnderlines, TempRange, TempSelection);
+                FOnIMESetComposition(self, TempText, TempUnderlines, TempRange, TempSelection);
               end;
 
             FIMEHandler.UpdateCaretPosition(pred(TempCompStart));
           end
          else
           begin
-            DoOnIMECancelComposition;
+            if assigned(FOnIMECancelComposition) then FOnIMECancelComposition(self);
 
             FIMEHandler.ResetComposition;
             FIMEHandler.DestroyImeWindow;
@@ -836,27 +803,6 @@ begin
         TempUnderlines := nil;
       end;
   end;
-end;
-
-procedure TBufferPanel.DoOnIMECancelComposition;
-begin
-  if assigned(FOnIMECancelComposition) then
-    FOnIMECancelComposition(Self);
-end;
-
-procedure TBufferPanel.DoOnIMECommitText(const aText: ustring;
-  const replacement_range: PCefRange; relative_cursor_pos: integer);
-begin
-  if assigned(FOnIMECommitText) then
-    FOnIMECommitText(Self, aText, replacement_range, relative_cursor_pos);
-end;
-
-procedure TBufferPanel.DoOnIMESetComposition(const aText: ustring;
-  const underlines: TCefCompositionUnderlineDynArray; const replacement_range,
-  selection_range: TCefRange);
-begin
-  if assigned(FOnIMESetComposition) then
-    FOnIMESetComposition(Self, aText, underlines, replacement_range, selection_range);
 end;
 {$ENDIF}
 
@@ -924,31 +870,20 @@ begin
     Result := 0;
 end;
 
-procedure TBufferPanel.UpdateDeviceScaleFactor;
-var
-  TempScale : single;
-begin
-  if GetRealScreenScale(TempScale) then
-    FDeviceScaleFactor := TempScale;
-end;
-
 function TBufferPanel.GetRealScreenScale(var aResultScale : single) : boolean;
-{$IFDEF MSWINDOWS}
 var
+  {$IFDEF MSWINDOWS}
   TempHandle : TCefWindowHandle;
   TempDC     : HDC;
   TempDPI    : UINT;
-{$ENDIF}
-{$IFDEF LINUX}{$IFDEF FPC}
-var
-  TempForm    : TCustomForm;
-  TempMonitor : TMonitor;
-{$ENDIF}{$ENDIF}
-{$IFDEF MACOSX}{$IFDEF FPC}
-var
-  TempForm    : TCustomForm;
-  TempMonitor : TMonitor;
-{$ENDIF}{$ENDIF}
+  {$ELSE}
+    {$IFDEF LINUX}
+      {$IFDEF FPC}
+      TempForm    : TCustomForm;
+      TempMonitor : TMonitor;
+      {$ENDIF}
+    {$ENDIF}
+  {$ENDIF}
 begin
   Result       := False;
   aResultScale := 1;
@@ -969,55 +904,38 @@ begin
           ReleaseDC(TempHandle, TempDC);
         end;
     end;
-  {$ENDIF}
+  {$ELSE}
+    {$IFDEF LINUX}
+      {$IFDEF FPC}
+      if (MainThreadID = GetCurrentThreadId()) then
+        begin
+          TempForm := GetParentForm(self, True);
 
-  {$IFDEF LINUX}
-    {$IFDEF FPC}
-    TempForm := GetParentForm(self, True);
+          if (TempForm <> nil) then
+            begin
+              TempMonitor := TempForm.Monitor;
 
-    if (TempForm <> nil) then
-      begin
-        TempMonitor := TempForm.Monitor;
-
-        if (TempMonitor <> nil) and (TempMonitor.PixelsPerInch > 0) then
-          begin
-            aResultScale := TempMonitor.PixelsPerInch / USER_DEFAULT_SCREEN_DPI;
-            Result       := True;
-          end;
-      end;
-    {$ELSE}
-    // TODO: Get the scale of the screen where the parent form is located in FMXLinux
-    {$ENDIF}
-  {$ENDIF}
-
-  {$IFDEF MACOSX}
-    {$IFDEF FPC}
-    TempForm := GetParentForm(self, True);
-
-    if (TempForm <> nil) then
-      begin
-        TempMonitor := TempForm.Monitor;
-
-        if (TempMonitor <> nil) and (TempMonitor.PixelsPerInch > 0) then
-          begin
-            aResultScale := TempMonitor.PixelsPerInch / USER_DEFAULT_SCREEN_DPI;
-            Result       := True;
-          end;
-      end;
-    {$ELSE}
-    Result       := True;
-    aResultScale := TMacWindowHandle(GetParentForm.Handle).Wnd.backingScaleFactor;
+              if (TempMonitor <> nil) then
+                begin
+                  aResultScale := TempMonitor.PixelsPerInch / USER_DEFAULT_SCREEN_DPI;
+                  Result       := True;
+                end;
+            end;
+        end;
+      {$ENDIF}
     {$ENDIF}
   {$ENDIF}
 end;
 
 function TBufferPanel.GetScreenScale : single;
+var
+  TempScale : single;
 begin
   if (FForcedDeviceScaleFactor <> 0) then
     Result := FForcedDeviceScaleFactor
    else
-    if (FDeviceScaleFactor <> 0) then
-      Result := FDeviceScaleFactor
+    if GetRealScreenScale(TempScale) then
+      Result := TempScale
      else
       if (GlobalCEFApp <> nil) then
         Result := GlobalCEFApp.DeviceScaleFactor
@@ -1078,14 +996,7 @@ end;
 
 procedure TBufferPanel.BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect);
 begin
-  if (FBuffer <> nil) and (aBitmap <> nil) then
-    begin
-      FBuffer.Canvas.Lock;
-      aBitmap.Canvas.Lock;
-      FBuffer.Canvas.CopyRect(aDstRect, aBitmap.Canvas, aSrcRect);
-      aBitmap.Canvas.UnLock;
-      FBuffer.Canvas.UnLock;
-    end;
+  if (FBuffer <> nil) then FBuffer.Canvas.CopyRect(aDstRect, aBitmap.Canvas, aSrcRect);
 end;
 
 function TBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;

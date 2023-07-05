@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,10 +37,10 @@
 
 unit uCEFFMXWindowParent;
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -49,41 +49,30 @@ uses
   {$IFDEF MSWINDOWS}
   WinApi.Windows,
   {$ENDIF}
-  FMX.Controls, FMX.Types, FMX.Forms,
-  uCEFConstants, uCEFFMXChromium;
+  FMX.Controls, FMX.Types, FMX.Forms;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TFMXWindowParent = class(TCommonCustomForm)
     protected
       {$IFDEF MSWINDOWS}
-      FChromium : TFMXChromium;
       function  GetChildWindowHandle : HWND;
+      procedure UpdateSize;
       {$ENDIF}
-      procedure Notification(AComponent: TComponent; Operation: TOperation); override;
-      {$IFDEF DELPHI17_UP}
       procedure Resize; override;
-      {$ENDIF}
+
     public
       {$IFDEF MSWINDOWS}
-      procedure Reparent(const aNewParentHandle : {$IFDEF DELPHI18_UP}TWindowHandle{$ELSE}TFmxHandle{$ENDIF});
-      procedure UpdateSize;
-      property  ChildWindowHandle : HWND          read GetChildWindowHandle;
-      property  Chromium          : TFMXChromium  read FChromium              write FChromium;
+      procedure Reparent(const aNewParentHandle : TWindowHandle);
+      property  ChildWindowHandle : HWND   read GetChildWindowHandle;
       {$ENDIF}
-      {$IFNDEF DELPHI17_UP}
-      procedure SetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
-      {$ENDIF}
-
 
     published
       property Visible;
       property Height;
       property Width;
-      {$IFDEF DELPHI17_UP}
       property Touch;
       property OnGesture;
-      {$ENDIF}
   end;
 
 implementation
@@ -95,10 +84,8 @@ implementation
 // It's also necessary to call "Reparent" to add this component as a child component to your form.
 
 uses
-  System.SysUtils, FMX.Platform, FMX.Platform.Win,
-  uCEFApplicationCore;
+  System.SysUtils, FMX.Platform, FMX.Platform.Win;
 
-{$IFDEF DELPHI17_UP}
 procedure TFMXWindowParent.Resize;
 begin
   inherited Resize;
@@ -107,16 +94,6 @@ begin
   UpdateSize;
   {$ENDIF}
 end;
-{$ELSE}
-procedure TFMXWindowParent.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
-begin
-  inherited SetBounds(ALeft, ATop, AWidth, AHeight);
-
-  {$IFDEF MSWINDOWS}
-  UpdateSize;
-  {$ENDIF}
-end;
-{$ENDIF}
 
 {$IFDEF MSWINDOWS}
 function TFMXWindowParent.GetChildWindowHandle : HWND;
@@ -132,7 +109,6 @@ var
   TempHWND, TempChildHWND : HWND;
   TempRect : System.Types.TRect;
   TempClientRect : TRectF;
-  TempScale : single;
 begin
   TempChildHWND := ChildWindowHandle;
   if (TempChildHWND = 0) then exit;
@@ -140,16 +116,11 @@ begin
   TempHWND := BeginDeferWindowPos(1);
 
   try
-    if assigned(FChromium) then
-      TempScale := FChromium.ScreenScale
-     else
-      TempScale := GlobalCEFApp.DeviceScaleFactor;
-
     TempClientRect  := ClientRect;
     TempRect.Left   := round(TempClientRect.Left);
     TempRect.Top    := round(TempClientRect.Top);
-    TempRect.Right  := round(TempClientRect.Right  * TempScale);
-    TempRect.Bottom := round(TempClientRect.Bottom * TempScale);
+    TempRect.Right  := round(TempClientRect.Right);
+    TempRect.Bottom := round(TempClientRect.Bottom);
 
     TempHWND := DeferWindowPos(TempHWND, TempChildHWND, HWND_TOP,
                                TempRect.left, TempRect.top, TempRect.right - TempRect.left, TempRect.bottom - TempRect.top,
@@ -159,15 +130,11 @@ begin
   end;
 end;
 
-procedure TFMXWindowParent.Reparent(const aNewParentHandle : {$IFDEF DELPHI18_UP}TWindowHandle{$ELSE}TFmxHandle{$ENDIF});
+procedure TFMXWindowParent.Reparent(const aNewParentHandle : TWindowHandle);
 var
   TempChildHandle, TempParentHandle : HWND;
 begin
-  {$IFDEF DELPHI18_UP}
   if (aNewParentHandle <> nil) then
-  {$ELSE}
-  if (aNewParentHandle <> 0) then
-  {$ENDIF}
     begin
       TempChildHandle  := FmxHandleToHWND(Handle);
       TempParentHandle := FmxHandleToHWND(aNewParentHandle);
@@ -180,13 +147,6 @@ begin
     end;
 end;
 {$ENDIF}
-
-procedure TFMXWindowParent.Notification(AComponent: TComponent; Operation: TOperation);
-begin
-  inherited Notification(AComponent, Operation);
-
-  if (Operation = opRemove) and (AComponent = FChromium) then FChromium := nil;
-end;
 
 
 end.

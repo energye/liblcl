@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,17 +37,14 @@
 
 unit uCEFMiscFunctions;
 
-{$I cef.inc}
-
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
-  {$IFDEF MACOSX}
-    {$ModeSwitch objectivec1}
-  {$ENDIF}
 {$ENDIF}
 
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 {$IFNDEF FPC}{$IFNDEF DELPHI12_UP}
   // Workaround for "Internal error" in old Delphi versions caused by uint64 handling
@@ -59,30 +56,53 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
-      WinApi.Windows, WinApi.ActiveX, Winapi.ShellApi,
+      WinApi.Windows, WinApi.ActiveX, {$IFDEF FMX}FMX.Types,{$ENDIF}
     {$ELSE}
-      {$IFDEF MACOSX}Macapi.Foundation, FMX.Helpers.Mac, Macapi.AppKit,{$ENDIF}
+      {$IFDEF MACOS}Macapi.Foundation, FMX.Helpers.Mac,{$ENDIF}
     {$ENDIF}
-    {$IFDEF FMX}FMX.Types, FMX.Platform,{$ENDIF} System.Types, System.IOUtils,
-    System.Classes, System.SysUtils, System.UITypes, System.Math,
+    System.Types, System.IOUtils, System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX, ShellApi,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF}
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
-    {$IFDEF FPC}LCLType, LazFileUtils,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
+    {$IFDEF FPC}LCLType,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FPC}
       ctypes, keysym, xf86keysym, x, xlib,
       {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
-      {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2, gtk3widgets,{$ENDIF}
     {$ENDIF}{$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
-  {$IFDEF LINUX}{$IFDEF FPC}uCEFLinuxFunctions,{$ENDIF}{$ENDIF} uCEFConstants;
+  uCEFRegisterCDMCallback, uCEFConstants;
 
 const
   Kernel32DLL = 'kernel32.dll';
   SHLWAPIDLL  = 'shlwapi.dll';
   NTDLL       = 'ntdll.dll';
   User32DLL   = 'User32.dll';
+
+type
+  TOSVersionInfoEx = record
+    dwOSVersionInfoSize: DWORD;
+    dwMajorVersion: DWORD;
+    dwMinorVersion: DWORD;
+    dwBuildNumber: DWORD;
+    dwPlatformId: DWORD;
+    szCSDVersion: array[0..127] of WideChar;
+    wServicePackMajor: WORD;
+    wServicePackMinor: WORD;
+    wSuiteMask: WORD;
+    wProductType: BYTE;
+    wReserved:BYTE;
+  end;
+  {$IFDEF DELPHI14_UP}
+  TDigitizerStatus = record
+    IntegratedTouch : boolean;
+    ExternalTouch   : boolean;
+    IntegratedPen   : boolean;
+    ExternalPen     : boolean;
+    MultiInput      : boolean;
+    Ready           : boolean;
+  end;
+  {$ENDIF}
 
 function CefColorGetA(color: TCefColor): Byte;
 function CefColorGetR(color: TCefColor): byte;
@@ -96,7 +116,7 @@ function CefInt64Set(int32_low, int32_high: Integer): Int64;
 function CefInt64GetLow(const int64_val: Int64): Integer;
 function CefInt64GetHigh(const int64_val: Int64): Integer;
 
-function CefGetObject(ptr: Pointer): TObject; {$IFNDEF CEF4DELHI_ALLOC_DEBUG}{$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}{$ENDIF}
+function CefGetObject(ptr: Pointer): TObject; {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
 function CefStringAlloc(const str: ustring): TCefString;
@@ -131,20 +151,6 @@ function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
 function FixCefTime(const dt : TCefTime): TCefTime;
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
-function DateTimeToCefBaseTime(dt: TDateTime): TCefBaseTime;
-function CefTimeToDouble(const dt: TCefTime): double;
-function DoubleToCefTime(const dt: double): TCefTime;
-function CefTimeToUnixTime(const dt: TCefTime): int64;
-function UnixTimeToCefTime(const dt: int64): TCefTime;
-function CefTimeNow: TCefTime;
-function DoubleTimeNow: double;
-function CefTimeDelta(const cef_time1, cef_time2: TCefTime): int64;
-function CefBaseTimeNow: TCefBaseTime;
-function CetTimeToCefBaseTime(const ct: TCefTime) : TCefBaseTime;
-function CetTimeFromCefBaseTime(const cbt: TCefBaseTime) : TCefTime;
-function CefBaseTimeToDateTime(const cbt: TCefBaseTime) : TDateTime;
-function GetTimeIntervalMilliseconds(const from_: TCefTime): integer;
-procedure InitializeCefTime(var aTime : TCefTime);
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
 function cef_string_utf8_copy(const src: PAnsiChar; src_len: NativeUInt; output: PCefStringUtf8): Integer;
@@ -157,7 +163,7 @@ procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWind
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
 {$ENDIF}
 
-{$IFDEF MACOSX}
+{$IFDEF MACOS}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aHidden : boolean = False);
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
@@ -170,22 +176,20 @@ procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCe
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
-function ProcessUnderWow64(hProcess: THandle; Wow64Process: PBOOL): BOOL; stdcall; external Kernel32DLL name 'IsWow64Process';
+function ProcessUnderWow64(hProcess: THandle; var Wow64Process: BOOL): BOOL; stdcall; external Kernel32DLL name 'IsWow64Process';
 function PathIsRelativeAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeA';
 function PathIsRelativeUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsRelativeW';
-function GetGlobalMemoryStatusEx(lpBuffer: LPMEMORYSTATUSEX): BOOL; stdcall; external Kernel32DLL name 'GlobalMemoryStatusEx';
+function GetGlobalMemoryStatusEx(var Buffer: TMyMemoryStatusEx): BOOL; stdcall; external Kernel32DLL name 'GlobalMemoryStatusEx';
 function PathCanonicalizeAnsi(pszBuf: LPSTR; pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathCanonicalizeA';
 function PathCanonicalizeUnicode(pszBuf: LPWSTR; pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathCanonicalizeW';
 function PathIsUNCAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsUNCA';
 function PathIsUNCUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsUNCW';
 function PathIsURLAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLA';
 function PathIsURLUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLW';
-function ShutdownBlockReasonCreate(hWnd: HWND; Reason: LPCWSTR): Bool; stdcall; external User32DLL;
-function ShutdownBlockReasonDestroy(hWnd: HWND): Bool; stdcall; external User32DLL;
 
 {$IFNDEF DELPHI12_UP}
 const
-  GWLP_WNDPROC    = GWL_WNDPROC;
+  GWLP_WNDPROC = GWL_WNDPROC;
   GWLP_HWNDPARENT = GWL_HWNDPARENT;
   {$IFDEF WIN64}
     function SetWindowLongPtr(hWnd: HWND; nIndex: Integer; dwNewLong: int64): int64; stdcall; external user32 name 'SetWindowLongPtrW';
@@ -225,6 +229,7 @@ function CefClearCrossOriginWhitelist: Boolean;
 procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
 {$IFDEF MSWINDOWS}
 function  GetExtendedFileVersion(const aFileName : ustring) : uint64;
+function  GetStringFileInfo(const aFileName, aField : ustring; var aValue : ustring) : boolean;
 function  GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;
 procedure OutputLastErrorMessage;
 {$ENDIF}
@@ -233,18 +238,16 @@ function SplitLongString(aSrcString : string) : string;
 function GetAbsoluteDirPath(const aSrcPath : string; var aRsltPath : string) : boolean;
 function CheckSubprocessPath(const aSubprocessPath : string; var aMissingFiles : string) : boolean;
 function CheckLocales(const aLocalesDirPath : string; var aMissingFiles : string; const aLocalesRequired : string = '') : boolean;
-function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string) : boolean;
+function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources: boolean = True; aCheckExtensions: boolean = True) : boolean;
 function CheckDLLs(const aFrameworkDirPath : string; var aMissingFiles : string) : boolean;
 {$IFDEF MSWINDOWS}
 function CheckDLLVersion(const aDLLFile : ustring; aMajor, aMinor, aRelease, aBuild : uint16) : boolean;
 function GetDLLHeaderMachine(const aDLLFile : ustring; var aMachine : integer) : boolean;
 {$ENDIF}
-function GetFileTypeDescription(const aExtension : ustring) : ustring;
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
 function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
 function Is32BitProcess : boolean;
 
-function  CefResolveUrl(const base_url, relative_url: ustring): ustring;
 function  CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
 function  CefCreateUrl(var parts: TUrlParts): ustring;
 function  CefFormatUrlForSecurityDisplay(const originUrl: string): string;
@@ -257,8 +260,6 @@ function CefUriEncode(const text: ustring; usePlus: Boolean): ustring;
 function CefUriDecode(const text: ustring; convertToUtf8: Boolean; unescapeRule: TCefUriUnescapeRule): ustring;
 
 function CefGetPath(const aPathKey : TCefPathKey) : ustring;
-
-function CefIsRTL : boolean;
 
 function CefCreateDirectory(const fullPath: ustring): Boolean;
 function CefGetTempDirectory(out tempDir: ustring): Boolean;
@@ -312,13 +313,21 @@ function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustri
 function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
 procedure InitializeWindowHandle(var aHandle : TCefWindowHandle);
 
-function GetCommandLineSwitchValue(const aKey : string; var aValue : ustring) : boolean;
+{$IFDEF LINUX}{$IFDEF FPC}{$IFDEF LCLGTK2}
+procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
+function  KeyboardCodeFromXKeysym(keysym : cuint) : integer;
+function  GetCefStateModifiers(state : cuint) : integer;
+function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
+function  GetWindowsKeyCodeWithoutLocation(key_code : integer) : integer;
+function  GetControlCharacter(windows_key_code : integer; shift : boolean) : integer;
+{$ENDIF}
+procedure ShowX11Message(const aMessage : string);
+{$ENDIF}{$ENDIF}
 
 implementation
 
 uses
-  {$IFDEF LINUX}{$IFDEF FMX}uCEFLinuxFunctions, Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
-  {$IFDEF MACOSX}{$IFDEF FPC}CocoaAll,{$ELSE}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
+  {$IFDEF LINUX}{$IFDEF FMX}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
   uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
   uCEFBinaryValue, uCEFStringList;
 
@@ -373,32 +382,6 @@ begin
     Result := '';
 end;
 
-{$IFDEF CEF4DELHI_ALLOC_DEBUG}
-function CefGetObject(ptr: Pointer): TObject;
-var
-  TempPointer : pointer;
-begin
-  Result := nil;
-
-  if (ptr <> nil) then
-    begin
-      Dec(PByte(ptr), SizeOf(Pointer));
-      TempPointer := ptr;
-
-      if (PPointer(ptr)^ <> nil) then
-        begin
-          Dec(PByte(TempPointer), SizeOf(Pointer) * 2);
-
-          if (PPointer(TempPointer)^ = CEF4DELPHI_ALLOC_PADDING) then
-            Result := TObject(PPointer(ptr)^)
-           else
-            CefDebugLog('Pointer to an unknown memory address!', CEF_LOG_SEVERITY_INFO);
-        end
-       else
-        CefDebugLog('Object pointer is NIL!', CEF_LOG_SEVERITY_INFO);
-    end;
-end;
-{$ELSE}
 function CefGetObject(ptr: Pointer): TObject; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
 begin
   if (ptr <> nil) then
@@ -409,7 +392,6 @@ begin
    else
     Result := nil;
 end;
-{$ENDIF}
 
 function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
 begin
@@ -627,131 +609,11 @@ begin
   Result.year         := TempYear;
   Result.month        := TempMonth;
   Result.day_of_week  := DayOfWeek(dt);
-  Result.day_of_month := TempDay;
+  Result.day_of_month := TempMonth;
   Result.hour         := TempHour;
   Result.minute       := TempMin;
   Result.second       := TempSec;
   Result.millisecond  := TempMSec;
-end;
-
-function DateTimeToCefBaseTime(dt: TDateTime): TCefBaseTime;
-begin
-  Result := CetTimeToCefBaseTime(DateTimeToCefTime(dt));
-end;
-
-function CefTimeToDouble(const dt: TCefTime): double;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_to_doublet(@dt, Result);
-end;
-
-function DoubleToCefTime(const dt: double): TCefTime;
-begin
-  FillChar(Result, SizeOf(TCefTime), #0);
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_from_doublet(dt, Result);
-end;
-
-function CefTimeToUnixTime(const dt: TCefTime): int64;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_to_timet(@dt, Result);
-end;
-
-function UnixTimeToCefTime(const dt: int64): TCefTime;
-begin                         
-  FillChar(Result, SizeOf(TCefTime), #0);
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_from_timet(dt, Result);
-end;
-
-function CefTimeNow: TCefTime;
-begin
-  FillChar(Result, SizeOf(TCefTime), #0);
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_now(Result);
-end;
-
-function DoubleTimeNow: double;
-var
-  TempTime : TCefTime;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    begin
-      FillChar(TempTime, SizeOf(TCefTime), #0);
-      if (cef_time_now(TempTime) <> 0) then
-        cef_time_to_doublet(@TempTime, Result);
-    end;
-end;
-
-function CefTimeDelta(const cef_time1, cef_time2: TCefTime): int64;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_delta(@cef_time1, @cef_time2, Result);
-end;
-
-function CefBaseTimeNow: TCefBaseTime;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    Result := cef_basetime_now();
-end;
-
-function CetTimeToCefBaseTime(const ct: TCefTime) : TCefBaseTime;
-var
-  TempResult : TCefBaseTime;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (cef_time_to_basetime(@ct, @TempResult) <> 0) then
-    Result := TempResult;
-end;
-
-function CetTimeFromCefBaseTime(const cbt: TCefBaseTime) : TCefTime;
-var
-  TempResult : TCefTime;
-begin
-  FillChar(Result, SizeOf(TCefTime), #0);
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (cef_time_from_basetime(cbt, @TempResult) <> 0) then
-    Result := TempResult;
-end;
-
-function CefBaseTimeToDateTime(const cbt: TCefBaseTime) : TDateTime;
-var
-  TempResult : TCefTime;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (cef_time_from_basetime(cbt, @TempResult) <> 0) then
-    Result := CefTimeToDateTime(TempResult);
-end;
-
-function GetTimeIntervalMilliseconds(const from_: TCefTime): integer;
-var
-  TempFrom : double;
-  TempDelay : integer;
-begin
-  Result   := -1;
-  TempFrom := CefTimeToDouble(from_);
-
-  if (TempFrom = 0) then exit;
-
-  TempDelay := ceil((TempFrom - DoubleTimeNow) * 1000);
-  Result    := max(0, TempDelay);
-end;
-
-procedure InitializeCefTime(var aTime : TCefTime);
-begin
-  aTime.year         := 0;
-  aTime.month        := 0;
-  aTime.day_of_week  := 0;
-  aTime.day_of_month := 0;
-  aTime.hour         := 0;
-  aTime.minute       := 0;
-  aTime.second       := 0;
-  aTime.millisecond  := 0;
 end;
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
@@ -792,10 +654,10 @@ begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.style                        := WS_CHILD or WS_VISIBLE or WS_CLIPCHILDREN or WS_CLIPSIBLINGS or WS_TABSTOP;
-  aWindowInfo.bounds.x                     := aRect.left;
-  aWindowInfo.bounds.y                     := aRect.top;
-  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
-  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
+  aWindowInfo.x                            := aRect.left;
+  aWindowInfo.y                            := aRect.top;
+  aWindowInfo.width                        := aRect.right  - aRect.left;
+  aWindowInfo.height                       := aRect.bottom - aRect.top;
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(False);
@@ -809,10 +671,10 @@ begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.style                        := WS_OVERLAPPEDWINDOW or WS_CLIPCHILDREN or WS_CLIPSIBLINGS or WS_VISIBLE;
-  aWindowInfo.bounds.x                     := integer(CW_USEDEFAULT);
-  aWindowInfo.bounds.y                     := integer(CW_USEDEFAULT);
-  aWindowInfo.bounds.width                 := integer(CW_USEDEFAULT);
-  aWindowInfo.bounds.height                := integer(CW_USEDEFAULT);
+  aWindowInfo.x                            := integer(CW_USEDEFAULT);
+  aWindowInfo.y                            := integer(CW_USEDEFAULT);
+  aWindowInfo.width                        := integer(CW_USEDEFAULT);
+  aWindowInfo.height                       := integer(CW_USEDEFAULT);
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(False);
@@ -826,10 +688,10 @@ begin
   aWindowInfo.ex_style                     := aExStyle;
   aWindowInfo.window_name                  := CefString(aWindowName);
   aWindowInfo.style                        := 0;
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
+  aWindowInfo.x                            := 0;
+  aWindowInfo.y                            := 0;
+  aWindowInfo.width                        := 0;
+  aWindowInfo.height                       := 0;
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.menu                         := 0;
   aWindowInfo.windowless_rendering_enabled := ord(True);
@@ -839,62 +701,50 @@ begin
 end;
 {$ENDIF}
 
-{$IFDEF MACOSX}
+{$IFDEF MACOS}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aHidden : boolean);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := aRect.left;
-  aWindowInfo.bounds.y                     := aRect.top;
-  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
-  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
+  aWindowInfo.x                            := aRect.left;
+  aWindowInfo.y                            := aRect.top;
+  aWindowInfo.width                        := aRect.right  - aRect.left;
+  aWindowInfo.height                       := aRect.bottom - aRect.top;
   aWindowInfo.hidden                       := Ord(aHidden);
   aWindowInfo.parent_view                  := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
-  {$IFDEF FPC}
   aWindowInfo.view                         := 0;
-  {$ELSE}
-  aWindowInfo.view                         := nil;
-  {$ENDIF}
 end;
 
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
+  aWindowInfo.x                            := 0;
+  aWindowInfo.y                            := 0;
+  aWindowInfo.width                        := 0;
+  aWindowInfo.height                       := 0;
   aWindowInfo.hidden                       := Ord(aHidden);
   aWindowInfo.parent_view                  := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
-  {$IFDEF FPC}
   aWindowInfo.view                         := 0;
-  {$ELSE}
-  aWindowInfo.view                         := nil;
-  {$ENDIF}
 end;
 
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
+  aWindowInfo.x                            := 0;
+  aWindowInfo.y                            := 0;
+  aWindowInfo.width                        := 0;
+  aWindowInfo.height                       := 0;
   aWindowInfo.hidden                       := Ord(aHidden);
   aWindowInfo.parent_view                  := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(True);
   aWindowInfo.shared_texture_enabled       := ord(False);
   aWindowInfo.external_begin_frame_enabled := ord(False);
-  {$IFDEF FPC}
   aWindowInfo.view                         := 0;
-  {$ELSE}
-  aWindowInfo.view                         := nil;
-  {$ENDIF}
 end;
 {$ENDIF}
 
@@ -903,23 +753,18 @@ procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWind
 var
   TempParent : TCefWindowHandle;
 begin
+  // TODO: Find a way to get the right "parent_window" in FMX
   TempParent := aParent;
   {$IFDEF FPC}
-    {$IFDEF LCLGTK2}
-    if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
-      TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
-    {$ENDIF}
-    {$IFDEF LCLGTK3}
-    if ValidCefWindowHandle(aParent) then
-      TempParent := gdk_x11_window_get_xid(TGtk3Container(aParent).Widget^.window);
-    {$ENDIF}
+  if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
+    TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
   {$ENDIF}
 
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := aRect.left;
-  aWindowInfo.bounds.y                     := aRect.top;
-  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
-  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
+  aWindowInfo.x                            := aRect.left;
+  aWindowInfo.y                            := aRect.top;
+  aWindowInfo.width                        := aRect.right  - aRect.left;
+  aWindowInfo.height                       := aRect.bottom - aRect.top;
   aWindowInfo.parent_window                := TempParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
@@ -932,10 +777,10 @@ end;
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
+  aWindowInfo.x                            := 0;
+  aWindowInfo.y                            := 0;
+  aWindowInfo.width                        := 0;
+  aWindowInfo.height                       := 0;
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(False);
   aWindowInfo.shared_texture_enabled       := ord(False);
@@ -946,10 +791,10 @@ end;
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
   aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
+  aWindowInfo.x                            := 0;
+  aWindowInfo.y                            := 0;
+  aWindowInfo.width                        := 0;
+  aWindowInfo.height                       := 0;
   aWindowInfo.parent_window                := aParent;
   aWindowInfo.windowless_rendering_enabled := ord(True);
   aWindowInfo.shared_texture_enabled       := ord(False);
@@ -1007,22 +852,16 @@ begin
     begin
       {$IFDEF MSWINDOWS}
         TempString := 'PID: ' + IntToStr(GetCurrentProcessID) + ', TID: ' + IntToStr(GetCurrentThreadID);
-      {$ENDIF}
-
-      {$IFDEF LINUX}
-        {$IFDEF FPC}
-        TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
+      {$ELSE}
+        {$IFDEF MACOS}
+        TempString := 'PID: ' + IntToStr(TNSProcessInfo.Wrap(TNSProcessInfo.OCClass.processInfo).processIdentifier) + ', TID: ' + IntToStr(TThread.Current.ThreadID);
         {$ELSE}
-          // TO-DO: Find the equivalent function to get the process ID in Delphi FMX for Linux
-        {$ENDIF}
-      {$ENDIF}
-
-      {$IFDEF MACOSX}
-        {$IFDEF FPC}
-          // TO-DO: Find the equivalent function to get the process ID in Lazarus/FPC for MacOS
-        {$ELSE}
-          TempString := 'PID: ' + IntToStr(TNSProcessInfo.Wrap(TNSProcessInfo.OCClass.processInfo).processIdentifier) +
-                        ', TID: ' + IntToStr(TThread.Current.ThreadID);
+          {$IFDEF FPC}
+          TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
+          {$ELSE}
+          // TODO: Find the equivalent function to get the process ID in Delphi FMX for Linux
+          // TempString := 'PID: ' + IntToStr(GetProcessID()) + ', TID: ' + IntToStr(GetCurrentThreadID());
+          {$ENDIF}
         {$ENDIF}
       {$ENDIF}
 
@@ -1092,21 +931,6 @@ begin
         FMX.Types.Log.d(aMessage);
       {$ELSE}
         OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(aMessage + chr(0)));
-      {$ENDIF}
-    {$ENDIF}
-
-    {$IFDEF LINUX}
-      {$IFDEF FPC}
-        // TO-DO: Find a way to write in the error console using Lazarus in Linux
-      {$ELSE}
-        FMX.Types.Log.d(aMessage);
-      {$ENDIF}
-    {$ENDIF}
-    {$IFDEF MACOSX}
-      {$IFDEF FPC}
-        // TO-DO: Find a way to write in the error console using Lazarus in MacOS
-      {$ELSE}
-        FMX.Types.Log.d(aMessage);
       {$ENDIF}
     {$ENDIF}
 
@@ -1335,7 +1159,7 @@ begin
   end;
 end;
 
-function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string) : boolean;
+function CheckResources(const aResourcesDirPath : string; var aMissingFiles : string; aCheckDevResources, aCheckExtensions: boolean) : boolean;
 var
   TempDir    : string;
   TempList   : TStringList;
@@ -1350,9 +1174,12 @@ begin
       TempList := TStringList.Create;
       TempList.Add(TempDir + 'snapshot_blob.bin');
       TempList.Add(TempDir + 'v8_context_snapshot.bin');
-      TempList.Add(TempDir + 'resources.pak');
-      TempList.Add(TempDir + 'chrome_100_percent.pak');
-      TempList.Add(TempDir + 'chrome_200_percent.pak');
+      TempList.Add(TempDir + 'cef.pak');
+      TempList.Add(TempDir + 'cef_100_percent.pak');
+      TempList.Add(TempDir + 'cef_200_percent.pak');
+
+      if aCheckExtensions   then TempList.Add(TempDir + 'cef_extensions.pak');
+      if aCheckDevResources then TempList.Add(TempDir + 'devtools_resources.pak');
 
       if TempExists then
         Result := CheckFilesExist(TempList, aMissingFiles)
@@ -1403,18 +1230,16 @@ begin
       {$IFDEF MSWINDOWS}
       TempList.Add(TempDir + CHROMEELF_DLL);
       TempList.Add(TempDir + 'd3dcompiler_47.dll');
-      TempList.Add(TempDir + 'vk_swiftshader.dll');
-      TempList.Add(TempDir + 'vk_swiftshader_icd.json');
-      TempList.Add(TempDir + 'vulkan-1.dll');
       TempList.Add(TempDir + 'libEGL.dll');
       TempList.Add(TempDir + 'libGLESv2.dll');
+      TempList.Add(TempDir + 'swiftshader\libEGL.dll');
+      TempList.Add(TempDir + 'swiftshader\libGLESv2.dll');
       {$ENDIF}
       {$IFDEF LINUX}
       TempList.Add(TempDir + 'libEGL.so');
       TempList.Add(TempDir + 'libGLESv2.so');
-      TempList.Add(TempDir + 'libvk_swiftshader.so');
-      TempList.Add(TempDir + 'vk_swiftshader_icd.json');
-      TempList.Add(TempDir + 'libvulkan.so.1');
+      TempList.Add(TempDir + 'swiftshader/libEGL.so');
+      TempList.Add(TempDir + 'swiftshader/libGLESv2.so');
       {$ENDIF}
       TempList.Add(TempDir + 'icudtl.dat');
 
@@ -1478,8 +1303,6 @@ var
 begin
   Result     := 0;
   TempBuffer := nil;
-  TempHandle := 0;
-  TempLen    := 0;
 
   try
     try
@@ -1513,6 +1336,96 @@ begin
   {$IFDEF DEBUG}
   OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(SysErrorMessage(GetLastError()) + chr(0)));
   {$ENDIF}
+end;
+
+function GetStringFileInfo(const aFileName, aField : ustring; var aValue : ustring) : boolean;
+type
+  PLangAndCodepage = ^TLangAndCodepage;
+  TLangAndCodepage = record
+    wLanguage : word;
+    wCodePage : word;
+  end;
+var
+  TempSize     : DWORD;
+  TempBuffer   : pointer;
+  TempHandle   : cardinal;
+  TempPointer  : pointer;
+  TempSubBlock : ustring;
+  TempLang     : PLangAndCodepage;
+  TempArray    : array of TLangAndCodepage;
+  i, j : DWORD;
+begin
+  Result     := False;
+  TempBuffer := nil;
+  TempArray  := nil;
+  aValue     := '';
+
+  try
+    try
+      TempSize := GetFileVersionInfoSizeW(PWideChar(aFileName), TempHandle);
+
+      if (TempSize > 0) then
+        begin
+          GetMem(TempBuffer, TempSize);
+
+          if GetFileVersionInfoW(PWideChar(aFileName), 0, TempSize, TempBuffer) then
+            begin
+              if VerQueryValue(TempBuffer, '\VarFileInfo\Translation\', Pointer(TempLang), TempSize) then
+                begin
+                  i := 0;
+                  j := TempSize div SizeOf(TLangAndCodepage);
+
+                  SetLength(TempArray, j);
+
+                  while (i < j) do
+                    begin
+                      TempArray[i].wLanguage := TempLang^.wLanguage;
+                      TempArray[i].wCodePage := TempLang^.wCodePage;
+                      inc(TempLang);
+                      inc(i);
+                    end;
+                end;
+
+              i := 0;
+              j := Length(TempArray);
+
+              while (i < j) and not(Result) do
+                begin
+                  TempSubBlock := '\StringFileInfo\' +
+                                  IntToHex(TempArray[i].wLanguage, 4) + IntToHex(TempArray[i].wCodePage, 4) +
+                                  '\' + aField;
+
+                  if VerQueryValueW(TempBuffer, PWideChar(TempSubBlock), TempPointer, TempSize) then
+                    begin
+                      aValue := trim(PChar(TempPointer));
+                      Result := (length(aValue) > 0);
+                    end;
+
+                  inc(i);
+                end;
+
+              // Adobe's flash player DLL uses a different codepage to store the StringFileInfo fields
+              if not(Result) and (j > 0) and (TempArray[0].wCodePage <> 1252) then
+                begin
+                  TempSubBlock := '\StringFileInfo\' +
+                                  IntToHex(TempArray[0].wLanguage, 4) + IntToHex(1252, 4) +
+                                  '\' + aField;
+
+                  if VerQueryValueW(TempBuffer, PWideChar(TempSubBlock), TempPointer, TempSize) then
+                    begin
+                      aValue := trim(PChar(TempPointer));
+                      Result := (length(aValue) > 0);
+                    end;
+                end;
+            end;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('GetStringFileInfo', e) then raise;
+    end;
+  finally
+    if (TempBuffer <> nil) then FreeMem(TempBuffer);
+  end;
 end;
 
 function GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;
@@ -1588,35 +1501,7 @@ begin
   finally
     if (TempStream <> nil) then FreeAndNil(TempStream);
   end;
-end;
-
-function GetFileTypeDescription(const aExtension : ustring) : ustring;
-var
-  TempInfo : SHFILEINFOW;
-  TempExt  : ustring;
-begin
-  Result := '';
-
-  if (length(aExtension) > 0) then
-    begin
-      if (aExtension[1] = '.') then
-        TempExt := aExtension
-       else
-        TempExt := '.' + aExtension;
-
-      if (SHGetFileInfoW(@TempExt[1],
-                         FILE_ATTRIBUTE_NORMAL,
-                         TempInfo,
-                         SizeOf(SHFILEINFO),
-                         SHGFI_TYPENAME or SHGFI_USEFILEATTRIBUTES) <> 0) then
-        Result := TempInfo.szTypeName;
-    end;
-end;
-{$ELSE}
-function GetFileTypeDescription(const aExtension : ustring) : ustring;
-begin
-  Result := uppercase(aExtension) + ' files';
-end;
+end;   
 {$ENDIF}
 
 function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string;
@@ -1632,8 +1517,7 @@ function Is32BitProcessRunningIn64BitOS : boolean;
 var
   TempResult : BOOL;
 begin
-  Result := ProcessUnderWow64(GetCurrentProcess, @TempResult) and
-            TempResult;
+  Result := ProcessUnderWow64(GetCurrentProcess, TempResult) and TempResult;
 end;
 {$ENDIF}
 
@@ -1748,51 +1632,13 @@ begin
 end;
 
 function GetModulePath : string;
-{$IFDEF MACOSX}
-const
-  MAC_APP_POSTFIX = '.app/';
-  MAC_APP_SUBPATH = 'Contents/MacOS/';
-{$ENDIF}
 begin
   {$IFDEF MSWINDOWS}
   Result := IncludeTrailingPathDelimiter(ExtractFileDir(GetModuleName(HINSTANCE{$IFDEF FPC}(){$ENDIF})));
-  {$ENDIF}
-
-  {$IFDEF LINUX}
-  Result := IncludeTrailingPathDelimiter(ExtractFileDir(ParamStr(0)));
-  {$ENDIF}
-
-  {$IFDEF MACOSX}
-  Result := IncludeTrailingPathDelimiter(ExtractFileDir(ParamStr(0)));
-
-  {$IFDEF FPC}
-  if copy(Result, Length(Result) + 1 - Length(MAC_APP_POSTFIX) - Length(MAC_APP_SUBPATH)) = MAC_APP_POSTFIX + MAC_APP_SUBPATH then
-    SetLength(Result, Length(Result) - Length(MAC_APP_SUBPATH));
-
-  Result := CreateAbsolutePath(Result, GetCurrentDirUTF8);
   {$ELSE}
-  if Result.Contains(MAC_APP_POSTFIX + MAC_APP_SUBPATH) then
-    Result := Result.Remove(Result.IndexOf(MAC_APP_SUBPATH));
-  {$ENDIF}
-  {$ENDIF}
-end;
-
-function CefResolveUrl(const base_url, relative_url: ustring): ustring;
-var
-  TempBaseURL, TempRelativeURL, TempResolvedURL : TCefString;
-begin
-  Result := '';
-
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    begin
-      TempBaseURL     := CefString(base_url);
-      TempRelativeURL := CefString(relative_url);
-
-      CefStringInitialize(@TempResolvedURL);
-
-      if (cef_resolve_url(@TempBaseURL, @TempRelativeURL, @TempResolvedURL) <> 0) then
-        Result := CefStringClearAndGet(@TempResolvedURL);
-    end;
+  // DLL filename not supported
+  Result := IncludeTrailingPathDelimiter(ExtractFileDir(ParamStr(0)));
+  {$ENDIF MSWINDOWS}
 end;
 
 function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
@@ -1946,13 +1792,6 @@ begin
     end
    else
     Result := '';
-end;
-
-function CefIsRTL : boolean;
-begin
-  Result := (GlobalCEFApp <> nil) and
-            GlobalCEFApp.LibLoaded and
-            (cef_is_rtl() <> 0);
 end;
 
 function CefCreateDirectory(const fullPath: ustring): Boolean;
@@ -2125,8 +1964,7 @@ begin
 
   case aWparam of
     VK_RETURN:
-      if (((aLparam shr 16) and KF_EXTENDED) <> 0) then
-        Result := Result or EVENTFLAG_IS_KEY_PAD;
+      if (((aLparam shr 16) and KF_EXTENDED) <> 0) then Result := Result or EVENTFLAG_IS_KEY_PAD;
 
     VK_INSERT,
     VK_DELETE,
@@ -2138,8 +1976,7 @@ begin
     VK_DOWN,
     VK_LEFT,
     VK_RIGHT :
-      if (((aLparam shr 16) and KF_EXTENDED) = 0) then
-        Result := Result or EVENTFLAG_IS_KEY_PAD;
+      if (((aLparam shr 16) and KF_EXTENDED) = 0) then Result := Result or EVENTFLAG_IS_KEY_PAD;
 
     VK_NUMLOCK,
     VK_NUMPAD0,
@@ -2329,7 +2166,7 @@ begin
 
   TempOS := TempOS + ' ' + inttostr(TempMajorVer) + '.' + inttostr(TempMinorVer);
 
-  if ProcessUnderWow64(GetCurrentProcess(), @Temp64bit) and Temp64bit then
+  if ProcessUnderWow64(GetCurrentProcess(), Temp64bit) and Temp64bit then
     TempOS := TempOS + '; WOW64';
 
   if (GlobalCEFApp <> nil) then
@@ -2427,22 +2264,17 @@ function GetScreenDPI : integer;
 {$IFDEF MSWINDOWS}
 var
   TempDC : HDC;
-{$ELSE}
-{$IFDEF FMX}
-var
-  TempService : IFMXScreenService;
-  TempWidth, TempWidthMM : integer;
-{$ENDIF}
 {$ENDIF}
 begin
   {$IFDEF MSWINDOWS}
   TempDC := GetDC(0);
   Result := GetDeviceCaps(TempDC, LOGPIXELSX);
   ReleaseDC(0, TempDC);
-  {$ENDIF}
-
-  {$IFDEF LINUX}
-    {$IFDEF FPC}
+  {$ELSE}
+    {$IFDEF MACOS}
+    Result := trunc(MainScreen.backingScaleFactor);
+    {$ELSE}
+      {$IFDEF FPC}
       if (Application                  <> nil) and
          (Application.MainForm         <> nil) and
          (Application.MainForm.Monitor <> nil) then
@@ -2457,59 +2289,17 @@ begin
           end
          else
           Result := USER_DEFAULT_SCREEN_DPI;
-    {$ELSE}
-    Result := -1;
-    if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, TempService) then
-      Result := round(TempService.GetScreenScale * USER_DEFAULT_SCREEN_DPI);
-
-    if (Result < 0) then
-      begin
-        Result := round(gdk_screen_get_resolution(gdk_screen_get_default));
-
-        if (Result < 0) then
-          begin
-            TempWidthMM := gdk_screen_width_mm;
-            TempWidth   := gdk_screen_width;
-
-            if (TempWidthMM > 0) and (TempWidth > 0) then
-              Result := round(TempWidth / (TempWidthMM / 25.4))
-             else
-              Result := USER_DEFAULT_SCREEN_DPI;
-          end;
-      end;
-    {$ENDIF}
-  {$ENDIF}
-
-  {$IFDEF MACOSX}
-    {$IFDEF FPC}
-    Result := round(NSScreen.mainScreen.backingScaleFactor * USER_DEFAULT_SCREEN_DPI);
-    {$ELSE}
-    if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, TempService) then
-      Result := round(TempService.GetScreenScale * USER_DEFAULT_SCREEN_DPI)
-     else
-      Result := round(TNSScreen.Wrap(TNSScreen.OCClass.mainScreen).backingScaleFactor * USER_DEFAULT_SCREEN_DPI);
+      {$ELSE}
+      // TODO: Find a way to get the screen scale in Delphi FMX for Linux
+      Result := USER_DEFAULT_SCREEN_DPI;
+      {$ENDIF}
     {$ENDIF}
   {$ENDIF}
 end;
 
 function GetDeviceScaleFactor : single;
-{$IFDEF MACOSX}{$IFDEF FMX}
-var
-  TempService: IFMXScreenService;
-{$ENDIF}{$ENDIF}
 begin
-  {$IFDEF MACOSX}
-    {$IFDEF FPC}
-    Result := NSScreen.mainScreen.backingScaleFactor;
-    {$ELSE}
-    if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, TempService) then
-      Result := TempService.GetScreenScale
-     else
-      Result := TNSScreen.Wrap(TNSScreen.OCClass.mainScreen).backingScaleFactor;
-    {$ENDIF}
-  {$ELSE}
   Result := GetScreenDPI / USER_DEFAULT_SCREEN_DPI;
-  {$ENDIF}
 end;
 
 function DeleteDirContents(const aDirectory : string; const aExcludeFiles : TStringList) : boolean;
@@ -2533,7 +2323,7 @@ begin
               if (TempRec.Name <> '.') and (TempRec.Name <> '..') then
                 begin
                   if DeleteDirContents(TempPath, aExcludeFiles) then
-                    Result := ((TempRec.Name = 'Network') or RemoveDir(TempPath)) and Result
+                    Result := RemoveDir(TempPath) and Result
                    else
                     Result := False;
                 end;
@@ -2659,29 +2449,545 @@ begin
   {$ENDIF}
 end;
 
-function GetCommandLineSwitchValue(const aKey : string; var aValue : ustring) : boolean;
-var
-  i, TempLen : integer;
-  TempKey : string;
+{$IFDEF LINUX}{$IFDEF FPC}{$IFDEF LCLGTK2}
+function KeyboardCodeFromXKeysym(keysym : cuint) : integer;
 begin
-  Result  := False;
-  TempKey := '--' + aKey + '=';
-  TempLen := length(TempKey);
-  i       := paramCount;
+  case keysym of
+    XK_BackSpace:
+      Result := VKEY_BACK;
+    XK_Delete,
+    XK_KP_Delete:
+      Result := VKEY_DELETE;
+    XK_Tab,
+    XK_KP_Tab,
+    XK_ISO_Left_Tab,
+    XK_3270_BackTab:
+      Result := VKEY_TAB;
+    XK_Linefeed,
+    XK_Return,
+    XK_KP_Enter,
+    XK_ISO_Enter:
+      Result := VKEY_Return;
+    XK_Clear,
+    XK_KP_Begin:
+      Result := VKEY_CLEAR;
+    XK_KP_Space,
+    XK_space:
+      Result := VKEY_SPACE;
+    XK_Home,
+    XK_KP_Home:
+      Result := VKEY_HOME;
+    XK_End,
+    XK_KP_End:
+      Result := VKEY_END;
+    XK_Page_Up,
+    XK_KP_Page_Up:
+      Result := VKEY_PRIOR;
+    XK_Page_Down,
+    XK_KP_Page_Down:
+      Result := VKEY_NEXT;
+    XK_Left,
+    XK_KP_Left:
+      Result := VKEY_LEFT;
+    XK_Right,
+    XK_KP_Right:
+      Result := VKEY_RIGHT;
+    XK_Down,
+    XK_KP_Down:
+      Result := VKEY_DOWN;
+    XK_Up,
+    XK_KP_Up:
+      Result := VKEY_UP;
+    XK_Escape:
+      Result := VKEY_ESCAPE;
+    XK_Kana_Lock,
+    XK_Kana_Shift:
+      Result := VKEY_KANA;
+    XK_Hangul:
+      Result := VKEY_HANGUL;
+    XK_Hangul_Hanja:
+      Result := VKEY_HANJA;
+    XK_Kanji:
+      Result := VKEY_KANJI;
+    XK_Henkan:
+      Result := VKEY_CONVERT;
+    XK_Muhenkan:
+      Result := VKEY_NONCONVERT;
+    XK_Zenkaku_Hankaku:
+      Result := VKEY_DBE_DBCSCHAR;
+    XKc_A,
+    XK_a:
+      Result := VKEY_A;
+    XKc_B,
+    XK_b:
+      Result :=  VKEY_B;
+    XKc_C,
+    XK_c:
+      Result :=  VKEY_C;
+    XKc_D,
+    XK_d:
+      Result :=  VKEY_D;
+    XKc_E,
+    XK_e:
+      Result :=  VKEY_E;
+    XKc_F,
+    XK_f:
+      Result :=  VKEY_F;
+    XKc_G,
+    XK_g:
+      Result :=  VKEY_G;
+    XKc_H,
+    XK_h:
+      Result :=  VKEY_H;
+    XKc_I,
+    XK_i:
+      Result :=  VKEY_I;
+    XKc_J,
+    XK_j:
+      Result :=  VKEY_J;
+    XKc_K,
+    XK_k:
+      Result :=  VKEY_K;
+    XKc_L,
+    XK_l:
+      Result :=  VKEY_L;
+    XKc_M,
+    XK_m:
+      Result :=  VKEY_M;
+    XKc_N,
+    XK_n:
+      Result :=  VKEY_N;
+    XKc_O,
+    XK_o:
+      Result :=  VKEY_O;
+    XKc_P,
+    XK_p:
+      Result :=  VKEY_P;
+    XKc_Q,
+    XK_q:
+      Result :=  VKEY_Q;
+    XKc_R,
+    XK_r:
+      Result :=  VKEY_R;
+    XKc_S,
+    XK_s:
+      Result :=  VKEY_S;
+    XKc_T,
+    XK_t:
+      Result :=  VKEY_T;
+    XKc_U,
+    XK_u:
+      Result :=  VKEY_U;
+    XKc_V,
+    XK_v:
+      Result :=  VKEY_V;
+    XKc_W,
+    XK_w:
+      Result :=  VKEY_W;
+    XKc_X,
+    XK_x:
+      Result :=  VKEY_X;
+    XKc_Y,
+    XK_y:
+      Result :=  VKEY_Y;
+    XKc_Z,
+    XK_z:
+      Result :=  VKEY_Z;
+    XK_0,
+    XK_1,
+    XK_2,
+    XK_3,
+    XK_4,
+    XK_5,
+    XK_6,
+    XK_7,
+    XK_8,
+    XK_9:
+      Result := VKEY_0 + (keysym - XK_0);
+    XK_parenright:
+      Result :=  VKEY_0;
+    XK_exclam:
+      Result :=  VKEY_1;
+    XK_at:
+      Result :=  VKEY_2;
+    XK_numbersign:
+      Result :=  VKEY_3;
+    XK_dollar:
+      Result :=  VKEY_4;
+    XK_percent:
+      Result :=  VKEY_5;
+    XK_asciicircum:
+      Result :=  VKEY_6;
+    XK_ampersand:
+      Result :=  VKEY_7;
+    XK_asterisk:
+      Result :=  VKEY_8;
+    XK_parenleft:
+      Result :=  VKEY_9;
+    XK_KP_0,
+    XK_KP_1,
+    XK_KP_2,
+    XK_KP_3,
+    XK_KP_4,
+    XK_KP_5,
+    XK_KP_6,
+    XK_KP_7,
+    XK_KP_8,
+    XK_KP_9:
+      Result :=  VKEY_NUMPAD0 + (keysym - XK_KP_0);
+    XK_multiply,
+    XK_KP_Multiply:
+      Result :=  VKEY_MULTIPLY;
+    XK_KP_Add:
+      Result :=  VKEY_ADD;
+    XK_KP_Separator:
+      Result :=  VKEY_SEPARATOR;
+    XK_KP_Subtract:
+      Result :=  VKEY_SUBTRACT;
+    XK_KP_Decimal:
+      Result :=  VKEY_DECIMAL;
+    XK_KP_Divide:
+      Result :=  VKEY_DIVIDE;
+    XK_KP_Equal,
+    XK_equal,
+    XK_plus:
+      Result :=  VKEY_OEM_PLUS;
+    XK_comma,
+    XK_less:
+      Result :=  VKEY_OEM_COMMA;
+    XK_minus,
+    XK_underscore:
+      Result :=  VKEY_OEM_MINUS;
+    XK_greater,
+    XK_period:
+      Result :=  VKEY_OEM_PERIOD;
+    XK_colon,
+    XK_semicolon:
+      Result :=  VKEY_OEM_1;
+    XK_question,
+    XK_slash:
+      Result :=  VKEY_OEM_2;
+    XK_asciitilde,
+    XK_quoteleft:
+      Result :=  VKEY_OEM_3;
+    XK_bracketleft,
+    XK_braceleft:
+      Result :=  VKEY_OEM_4;
+    XK_backslash,
+    XK_bar:
+      Result :=  VKEY_OEM_5;
+    XK_bracketright,
+    XK_braceright:
+      Result :=  VKEY_OEM_6;
+    XK_quoteright,
+    XK_quotedbl:
+      Result :=  VKEY_OEM_7;
+    XK_ISO_Level5_Shift:
+      Result :=  VKEY_OEM_8;
+    XK_Shift_L,
+    XK_Shift_R:
+      Result :=  VKEY_SHIFT;
+    XK_Control_L,
+    XK_Control_R:
+      Result :=  VKEY_CONTROL;
+    XK_Meta_L,
+    XK_Meta_R,
+    XK_Alt_L,
+    XK_Alt_R:
+      Result :=  VKEY_MENU;
+    XK_ISO_Level3_Shift:
+      Result :=  VKEY_ALTGR;
+    XK_Multi_key:
+      Result :=  VKEY_COMPOSE;
+    XK_Pause:
+      Result :=  VKEY_PAUSE;
+    XK_Caps_Lock:
+      Result :=  VKEY_CAPITAL;
+    XK_Num_Lock:
+      Result :=  VKEY_NUMLOCK;
+    XK_Scroll_Lock:
+      Result :=  VKEY_SCROLL;
+    XK_Select:
+      Result :=  VKEY_SELECT;
+    XK_Print:
+      Result :=  VKEY_PRINT;
+    XK_Execute:
+      Result :=  VKEY_EXECUTE;
+    XK_Insert,
+    XK_KP_Insert:
+      Result :=  VKEY_INSERT;
+    XK_Help:
+      Result :=  VKEY_HELP;
+    XK_Super_L:
+      Result :=  VKEY_LWIN;
+    XK_Super_R:
+      Result :=  VKEY_RWIN;
+    XK_Menu:
+      Result :=  VKEY_APPS;
+    XK_F1,
+    XK_F2,
+    XK_F3,
+    XK_F4,
+    XK_F5,
+    XK_F6,
+    XK_F7,
+    XK_F8,
+    XK_F9,
+    XK_F10,
+    XK_F11,
+    XK_F12,
+    XK_F13,
+    XK_F14,
+    XK_F15,
+    XK_F16,
+    XK_F17,
+    XK_F18,
+    XK_F19,
+    XK_F20,
+    XK_F21,
+    XK_F22,
+    XK_F23,
+    XK_F24:
+      Result := VKEY_F1 + (keysym - XK_F1);
+    XK_KP_F1,
+    XK_KP_F2,
+    XK_KP_F3,
+    XK_KP_F4:
+      Result := VKEY_F1 + (keysym - XK_KP_F1);
+    XK_guillemotleft,
+    XK_guillemotright,
+    XK_degree,
+    XK_ugrave,
+    XKc_Ugrave,
+    XK_brokenbar:
+      Result :=  VKEY_OEM_102;
+    XF86XK_Tools:
+      Result :=  VKEY_F13;
+    XF86XK_Launch5:
+      Result :=  VKEY_F14;
+    XF86XK_Launch6:
+      Result :=  VKEY_F15;
+    XF86XK_Launch7:
+      Result :=  VKEY_F16;
+    XF86XK_Launch8:
+      Result :=  VKEY_F17;
+    XF86XK_Launch9:
+      Result :=  VKEY_F18;
+    XF86XK_Refresh,
+    XF86XK_History,
+    XF86XK_OpenURL,
+    XF86XK_AddFavorite,
+    XF86XK_Go,
+    XF86XK_ZoomIn,
+    XF86XK_ZoomOut:
+      Result :=  VKEY_UNKNOWN;
+    XF86XK_Back:
+      Result :=  VKEY_BROWSER_BACK;
+    XF86XK_Forward:
+      Result :=  VKEY_BROWSER_FORWARD;
+    XF86XK_Reload:
+      Result :=  VKEY_BROWSER_REFRESH;
+    XF86XK_Stop:
+      Result :=  VKEY_BROWSER_STOP;
+    XF86XK_Search:
+      Result :=  VKEY_BROWSER_SEARCH;
+    XF86XK_Favorites:
+      Result :=  VKEY_BROWSER_FAVORITES;
+    XF86XK_HomePage:
+      Result :=  VKEY_BROWSER_HOME;
+    XF86XK_AudioMute:
+      Result :=  VKEY_VOLUME_MUTE;
+    XF86XK_AudioLowerVolume:
+      Result :=  VKEY_VOLUME_DOWN;
+    XF86XK_AudioRaiseVolume:
+      Result :=  VKEY_VOLUME_UP;
+    XF86XK_AudioNext:
+      Result :=  VKEY_MEDIA_NEXT_TRACK;
+    XF86XK_AudioPrev:
+      Result :=  VKEY_MEDIA_PREV_TRACK;
+    XF86XK_AudioStop:
+      Result :=  VKEY_MEDIA_STOP;
+    XF86XK_AudioPlay:
+      Result :=  VKEY_MEDIA_PLAY_PAUSE;
+    XF86XK_Mail:
+      Result :=  VKEY_MEDIA_LAUNCH_MAIL;
+    XF86XK_LaunchA:
+      Result :=  VKEY_MEDIA_LAUNCH_APP1;
+    XF86XK_LaunchB,
+    XF86XK_Calculator:
+      Result :=  VKEY_MEDIA_LAUNCH_APP2;
+    XF86XK_WLAN:
+      Result :=  VKEY_WLAN;
+    XF86XK_PowerOff:
+      Result :=  VKEY_POWER;
+    XF86XK_MonBrightnessDown:
+      Result :=  VKEY_BRIGHTNESS_DOWN;
+    XF86XK_MonBrightnessUp:
+      Result :=  VKEY_BRIGHTNESS_UP;
+    XF86XK_KbdBrightnessDown:
+      Result :=  VKEY_KBD_BRIGHTNESS_DOWN;
+    XF86XK_KbdBrightnessUp:
+      Result :=  VKEY_KBD_BRIGHTNESS_UP;
+    else Result :=  VKEY_UNKNOWN;
+  end;
+end;
 
-  while (i >= 1) do
-    if (CompareText(copy(paramstr(i), 1, TempLen), TempKey) = 0) then
-      begin
-        {$IFDEF FPC}
-        aValue := UTF8Decode(copy(paramstr(i), succ(TempLen), length(paramstr(i))));
-        {$ELSE}
-        aValue := copy(paramstr(i), succ(TempLen), length(paramstr(i)));
-        {$ENDIF}
-        Result := True;
-        break;
+function GetCefStateModifiers(state : cuint) : integer;
+begin
+  Result := EVENTFLAG_NONE;
+
+  if ((state and GDK_SHIFT_MASK) <> 0) then
+    Result := Result or EVENTFLAG_SHIFT_DOWN;
+
+  if ((state and GDK_LOCK_MASK) <> 0) then
+    Result := Result or EVENTFLAG_CAPS_LOCK_ON;
+
+  if ((state and GDK_CONTROL_MASK) <> 0) then
+    Result := Result or EVENTFLAG_CONTROL_DOWN;
+
+  if ((state and GDK_MOD1_MASK) <> 0) then
+    Result := Result or EVENTFLAG_ALT_DOWN;
+
+  if ((state and GDK_BUTTON1_MASK) <> 0) then
+    Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
+
+  if ((state and GDK_BUTTON2_MASK) <> 0) then
+    Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
+
+  if ((state and GDK_BUTTON3_MASK) <> 0) then
+    Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
+end;
+
+function GdkEventToWindowsKeyCode(event: PGdkEventKey) : integer;
+var
+  windows_key_code, keyval : integer;
+begin
+  windows_key_code := KeyboardCodeFromXKeysym(event^.keyval);
+  if (windows_key_code <> 0) then
+    begin
+      Result := windows_key_code;
+      exit;
+    end;
+
+  if (event^.hardware_keycode < length(kHardwareCodeToGDKKeyval)) then
+    begin
+      keyval := kHardwareCodeToGDKKeyval[event^.hardware_keycode];
+      if (keyval <> 0) then
+        begin
+          Result := KeyboardCodeFromXKeysym(keyval);
+          exit;
+        end;
+    end;
+
+  Result := KeyboardCodeFromXKeysym(event^.keyval);
+end;
+
+function GetWindowsKeyCodeWithoutLocation(key_code : integer) : integer;
+begin
+  case key_code of
+    VKEY_LCONTROL, VKEY_RCONTROL : Result := VKEY_CONTROL;
+    VKEY_LSHIFT, VKEY_RSHIFT     : Result := VKEY_SHIFT;
+    VKEY_LMENU, VKEY_RMENU       : Result := VKEY_MENU;
+    else                           Result := key_code;
+  end;
+end;
+
+function GetControlCharacter(windows_key_code : integer; shift : boolean) : integer;
+begin
+  if (windows_key_code >= VKEY_A) and (windows_key_code <= VKEY_Z) then
+    Result := windows_key_code - VKEY_A + 1
+   else
+    if shift then
+      case windows_key_code of
+        VKEY_2         : Result := 0;
+        VKEY_6         : Result := $1E;
+        VKEY_OEM_MINUS : Result := $1F;
+        else             Result := 0;
       end
      else
-      dec(i);
+      case windows_key_code of
+        VKEY_OEM_4  : Result := $1B;
+        VKEY_OEM_5  : Result := $1C;
+        VKEY_OEM_6  : Result := $1D;
+        VKEY_RETURN : Result := $0A;
+        else          Result := 0;
+      end;
 end;
+
+procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
+var
+  windows_key_code : integer;
+begin
+  windows_key_code                     := GdkEventToWindowsKeyCode(GdkEvent);
+  aCEFKeyEvent.windows_key_code        := GetWindowsKeyCodeWithoutLocation(windows_key_code);
+  aCEFKeyEvent.native_key_code         := GdkEvent^.hardware_keycode;
+  aCEFKeyEvent.modifiers               := GetCefStateModifiers(GdkEvent^.state);
+  aCEFKeyEvent.focus_on_editable_field := 0;
+
+  if (GdkEvent^.keyval >= GDK_KP_Space) and (GdkEvent^.keyval <= GDK_KP_9) then
+    aCEFKeyEvent.modifiers := aCEFKeyEvent.modifiers or EVENTFLAG_IS_KEY_PAD;
+
+  aCEFKeyEvent.is_system_key := ord((aCEFKeyEvent.modifiers and EVENTFLAG_ALT_DOWN) <> 0);
+
+  if (windows_key_code = VKEY_RETURN) then
+    aCEFKeyEvent.unmodified_character := #13
+   else
+    aCEFKeyEvent.unmodified_character := WideChar(gdk_keyval_to_unicode(GdkEvent^.keyval));
+
+  if ((aCEFKeyEvent.modifiers and EVENTFLAG_CONTROL_DOWN) <> 0) then
+    aCEFKeyEvent.character := WideChar(GetControlCharacter(windows_key_code, ((aCEFKeyEvent.modifiers and EVENTFLAG_SHIFT_DOWN) <> 0)))
+   else
+    aCEFKeyEvent.character := aCEFKeyEvent.unmodified_character;
+end;
+
+// This function is almost an identical copy of "ModalShowX11Window" available
+// at https://wiki.lazarus.freepascal.org/X11
+procedure ShowX11Message(const aMessage : string);
+var
+  TempDisplay : PDisplay;
+  TempWindow  : TWindow;
+  TempEvent   : TXEvent;
+  TempMessage : PChar;
+  TempScreen  : cint;
+begin
+  TempMessage := PChar(trim(copy(aMessage, 1, pred(pos(#13, aMessage)))));
+  TempDisplay := XOpenDisplay(nil);
+
+  if (TempDisplay = nil) then
+    begin
+      WriteLn(aMessage);
+      exit;
+    end;
+
+  TempScreen := DefaultScreen(TempDisplay);
+  TempWindow := XCreateSimpleWindow(TempDisplay,
+                                    RootWindow(TempDisplay, TempScreen),
+                                    10, 10, 200, 100, 1,
+                                    BlackPixel(TempDisplay, TempScreen),
+                                    WhitePixel(TempDisplay, TempScreen));
+
+  XSelectInput(TempDisplay, TempWindow, ExposureMask or KeyPressMask);
+
+  XMapWindow(TempDisplay, TempWindow);
+
+  while (True) do
+    begin
+      XNextEvent(TempDisplay, @TempEvent);
+
+      if (TempEvent._type = Expose) then
+        XDrawString(TempDisplay,
+                    TempWindow,
+                    DefaultGC(TempDisplay, TempScreen),
+                    40, 50,
+                    TempMessage,
+                    strlen(TempMessage));
+
+      if (TempEvent._type = KeyPress) then Break;
+    end;
+
+  XCloseDisplay(TempDisplay);
+end;
+
+{$ENDIF}{$ENDIF}{$ENDIF}
 
 end.

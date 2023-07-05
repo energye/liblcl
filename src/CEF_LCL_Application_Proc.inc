@@ -265,12 +265,11 @@ end;
 
 function CEFAppConfig_UserAgentProduct(): PChar; extdecl;
 begin
-  Result := PChar(string(GlobalCEFApp.UserAgentProduct));
+  Result := PChar(string(''));
 end;
 
 procedure CEFAppConfig_SetUserAgentProduct(value: PChar) ; extdecl;
 begin
-  GlobalCEFApp.UserAgentProduct := PCharToUStr(value);
 end;
 
 function CEFAppConfig_Locale(): PChar; extdecl;
@@ -395,22 +394,19 @@ end;
 
 function CEFAppConfig_CookieableSchemesList(): PChar; extdecl;
 begin
-  Result := PChar(string(GlobalCEFApp.CookieableSchemesList));
+  Result := PChar(string(''));
 end;
 
 procedure CEFAppConfig_SetCookieableSchemesList(value: PChar) ; extdecl;
 begin
-  GlobalCEFApp.CookieableSchemesList := PCharToUStr(value);
 end;
 
 function CEFAppConfig_CookieableSchemesExcludeDefaults(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.CookieableSchemesExcludeDefaults;
 end;
 
 procedure CEFAppConfig_SetCookieableSchemesExcludeDefaults(value: LongBool) ; extdecl;
 begin
-  GlobalCEFApp.CookieableSchemesExcludeDefaults := value;
 end;
 
 // 设置常用的命令行参数属性
@@ -626,12 +622,10 @@ end;
 
 function CEFAppConfig_DisableChromeLoginPrompt(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.DisableChromeLoginPrompt;
 end;
 
 procedure CEFAppConfig_SetDisableChromeLoginPrompt(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.DisableChromeLoginPrompt := value;
 end;
 
 function CEFAppConfig_DisableExtensions(): LongBool; extdecl;
@@ -924,126 +918,91 @@ end;
 
 function CEFAppConfig_UseMockKeyChain(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.UseMockKeyChain;
 end;
 
 procedure CEFAppConfig_SetUseMockKeyChain(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.UseMockKeyChain := value;
 end;
 
 function CEFAppConfig_DisableRequestHandlingForTesting(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.DisableRequestHandlingForTesting;
 end;
 
 procedure CEFAppConfig_SetDisableRequestHandlingForTesting(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.DisableRequestHandlingForTesting := value;
 end;
 
 function CEFAppConfig_DisablePopupBlocking(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.DisablePopupBlocking;
 end;
 
 procedure CEFAppConfig_SetDisablePopupBlocking(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.DisablePopupBlocking := value;
 end;
 
 function CEFAppConfig_DisableBackForwardCache(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.DisableBackForwardCache;
 end;
 
 procedure CEFAppConfig_SetDisableBackForwardCache(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.DisableBackForwardCache := value;
 end;
 
 function CEFAppConfig_DisableComponentUpdate(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.DisableComponentUpdate;
 end;
 
 procedure CEFAppConfig_SetDisableComponentUpdate(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.DisableComponentUpdate := value;
 end;
 
 function CEFAppConfig_AllowInsecureLocalhost(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.AllowInsecureLocalhost;
 end;
 
 procedure CEFAppConfig_SetAllowInsecureLocalhost(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.AllowInsecureLocalhost := value;
 end;
 
 function CEFAppConfig_KioskPrinting(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.KioskPrinting;
 end;
 
 procedure CEFAppConfig_SetKioskPrinting(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.KioskPrinting := value;
 end;
 
 function CEFAppConfig_TreatInsecureOriginAsSecure(): PChar; extdecl;
 begin
-  Result := PChar(string(GlobalCEFApp.TreatInsecureOriginAsSecure));
+  Result := PChar(string(''));
 end;
 
 procedure CEFAppConfig_SetTreatInsecureOriginAsSecure(value: PChar); extdecl;
 begin
-  GlobalCEFApp.TreatInsecureOriginAsSecure := PCharToUStr(value);
 end;
 
 function CEFAppConfig_NetLogEnabled(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.NetLogEnabled;
 end;
 
 procedure CEFAppConfig_SetNetLogEnabled(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.NetLogEnabled := value;
 end;
 
 function CEFAppConfig_NetLogFile(): PChar; extdecl;
 begin
-  Result := PChar(string(GlobalCEFApp.NetLogFile));
 end;
 
 procedure CEFAppConfig_SetNetLogFile(value: PChar); extdecl;
 begin
-  GlobalCEFApp.NetLogFile := PCharToUStr(value);
 end;
 
 function CEFAppConfig_NetLogCaptureMode(): Integer; extdecl;
 begin
-  // type = TCefNetLogCaptureMode
-  if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmDefault then
-     Result := 0
-  else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmIncludeSensitive then
-     Result := 1
-  else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmEverything then
-     Result := 2
-  else
-     Result := -1;
 end;
 
 procedure CEFAppConfig_SetNetLogCaptureMode(value: Integer); extdecl;
 begin
-  // type = TCefNetLogCaptureMode
-  if value = 0 then
-     GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmDefault
-  else if value = 1 then
-     GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmIncludeSensitive
-  else if value = 2 then
-     GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmEverything;
 end;
 
 function CEFAppConfig_EnableHighDPISupport(): LongBool; extdecl;
@@ -1220,10 +1179,6 @@ begin
       Result := 3
    else if GlobalCEFApp.ProcessType = TCefProcessType.ptUtility then
       Result := 4
-   else if GlobalCEFApp.ProcessType = TCefProcessType.ptBroker then
-      Result := 5
-   else if GlobalCEFApp.ProcessType = TCefProcessType.ptCrashpad then
-      Result := 6
    else if GlobalCEFApp.ProcessType = TCefProcessType.ptOther then
       Result := 7
    else
@@ -1339,22 +1294,18 @@ end;
 
 function CEFAppConfig_ApiHashUniversal(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.ApiHashUniversal));
 end;
 
 function CEFAppConfig_ApiHashPlatform(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.ApiHashPlatform));
 end;
 
 function CEFAppConfig_ApiHashCommit(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.ApiHashCommit));
 end;
 
 function CEFAppConfig_LastErrorMessage(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.LastErrorMessage));
 end;
 
 

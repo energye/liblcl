@@ -165,7 +165,6 @@ end;
 procedure CefDragData_ClearFilenames(const AObj: ICefDragData); extdecl;
 begin
   handleExceptionBegin
-  AObj.ClearFilenames;
   handleExceptionEnd
 end;
 

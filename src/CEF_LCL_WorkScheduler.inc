@@ -92,7 +92,6 @@ begin
   Result := False;
   if GlobalCEFWorkScheduler <> nil then
   begin
-    Result := GlobalCEFWorkScheduler.UseQueueThread;
   end;
 end;
 
@@ -124,7 +123,6 @@ procedure CEFWorkScheduler_SetUseQueueThread(AValue:  LongBool); extdecl; // def
 begin
   if GlobalCEFWorkScheduler <> nil then
   begin
-    GlobalCEFWorkScheduler.UseQueueThread := AValue;
   end;
 end;
 

@@ -24,13 +24,9 @@ begin
     handleExceptionEnd
 end;
 
-procedure CefClient_GetCommandHandler(const TObj: TClientRef; var aHandler: ICefCommandHandler); extdecl;
-var
-  TempHandler : ICefCommandHandler;
+procedure CefClient_GetCommandHandler(const TObj: TClientRef); extdecl;
 begin
     handleExceptionBegin
-    ICefClient(TObj).GetCommandHandler(TempHandler);
-    aHandler := TempHandler;
     handleExceptionEnd
 end;
 
@@ -104,23 +100,15 @@ begin
     handleExceptionEnd
 end;
 
-procedure CefClient_GetFrameHandler(const TObj: TClientRef; var aHandler: ICefFrameHandler); extdecl;
-var
-  TempHandler : ICefFrameHandler;
+procedure CefClient_GetFrameHandler(const TObj: TClientRef); extdecl;
 begin
     handleExceptionBegin
-    ICefClient(TObj).GetFrameHandler(TempHandler);
-    aHandler := TempHandler;
     handleExceptionEnd
 end;
 
-procedure CefClient_GetPermissionHandler(const TObj: TClientRef; var aHandler: ICefPermissionHandler); extdecl;
-var
-  TempHandler : ICefPermissionHandler;
+procedure CefClient_GetPermissionHandler(const TObj: TClientRef); extdecl;
 begin
     handleExceptionBegin
-    ICefClient(TObj).GetPermissionHandler(TempHandler);
-    aHandler := TempHandler;
     handleExceptionEnd
 end;
 
@@ -169,7 +157,6 @@ var
   TempHandler : ICefPrintHandler;
 begin
     handleExceptionBegin
-    ICefClient(TObj).GetPrintHandler(TempHandler);
     aHandler := TempHandler;
     handleExceptionEnd
 end;

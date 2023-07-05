@@ -27,7 +27,7 @@ type
     PopupBrowserViewCreatedPtr: Pointer;
     constructor Create; override;
     destructor Destroy; override;
-    function  GetChromeToolbarType: TCefChromeToolbarType; override;
+    function  GetChromeToolbarType: Integer;
   protected
     procedure OnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser); override;
     procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser); override;
@@ -78,9 +78,8 @@ begin
   end;
 end;
 
-function TBrowserViewDelegateRef.GetChromeToolbarType: TCefChromeToolbarType;
+function TBrowserViewDelegateRef.GetChromeToolbarType: Integer;
 begin
-  Result := inherited GetChromeToolbarType;
 end;
 
 procedure TBrowserViewDelegateRef.InitializeCEFMethods;

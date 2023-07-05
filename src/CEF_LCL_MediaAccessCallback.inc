@@ -4,17 +4,15 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefMediaAccessCallback_Cont(const AObj: ICefMediaAccessCallback; allowed_permissions: TCefMediaAccessPermissionTypes); extdecl;
+procedure CefMediaAccessCallback_Cont(); extdecl;
 begin
   handleExceptionBegin
-  AObj.cont(allowed_permissions);
   handleExceptionEnd
 end;
 
-procedure CefMediaAccessCallback_Cancel(const AObj: ICefMediaAccessCallback); extdecl;
+procedure CefMediaAccessCallback_Cancel(); extdecl;
 begin
   handleExceptionBegin
-  AObj.cancel;
   handleExceptionEnd
 end;
 

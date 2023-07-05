@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,17 +37,14 @@
 
 unit uCEFWinControl;
 
-{$I cef.inc}
-
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
-  {$IFDEF MACOSX}
-    {$ModeSwitch objectivec1}
-  {$ENDIF}
 {$ENDIF}
 
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -60,15 +57,12 @@ uses
     LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ENDIF}
   {$ENDIF}
-  {$IFDEF FPC}{$IFDEF MACOSX}
-  CocoaAll,
-  {$ENDIF}{$ENDIF}
   uCEFTypes, uCEFInterfaces;
 
 type
   TCEFWinControl = class(TWinControl)
     protected
-      function  GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle; virtual;
+      function  GetChildWindowHandle : THandle; virtual;
       procedure Resize; override;
 
     public
@@ -101,9 +95,6 @@ type
       property  OnDragOver;
       property  OnStartDrag;
       property  OnEndDrag;
-      {$IFNDEF FPC}
-      property  OnCanResize;
-      {$ENDIF}
       {$IFDEF DELPHI14_UP}
       property  Touch;
       property  OnGesture;
@@ -119,7 +110,7 @@ implementation
 uses
   uCEFMiscFunctions, uCEFClient, uCEFConstants;
 
-function TCEFWinControl.GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle;
+function TCEFWinControl.GetChildWindowHandle : THandle;
 begin
   {$IFDEF MSWINDOWS}
   if not(csDesigning in ComponentState) and HandleAllocated then
@@ -136,8 +127,7 @@ end;
 
 procedure TCEFWinControl.InvalidateChildren;
 begin
-  if HandleAllocated then
-    RedrawWindow(Handle, nil, 0, RDW_INVALIDATE or RDW_ALLCHILDREN);
+  if HandleAllocated then RedrawWindow(Handle, nil, 0, RDW_INVALIDATE or RDW_ALLCHILDREN);
 end;
 
 procedure TCEFWinControl.UpdateSize;
@@ -196,25 +186,12 @@ function TCEFWinControl.DestroyChildWindow : boolean;
 var
   TempHWND : HWND;
 {$ENDIF}
-{$IFDEF FPC}{$IFDEF MACOSX}
-var
-  ViewObj: NSObject;
-{$ENDIF}{$ENDIF}
 begin
   {$IFDEF MSWINDOWS}
   TempHWND := ChildWindowHandle;
   Result   := (TempHWND <> 0) and DestroyWindow(TempHWND);
   {$ELSE}
   Result := False;
-  {$IFDEF FPC}{$IFDEF MACOSX}
-  ViewObj := NSObject(ChildWindowHandle);
-  if ViewObj <> nil then begin
-    if ViewObj.isKindOfClass_(nsview) then begin
-      NSView(ViewObj).removeFromSuperview;
-      Result := True;
-    end;
-  end;
-  {$ENDIF}{$ENDIF}
   {$ENDIF}
 end;
 

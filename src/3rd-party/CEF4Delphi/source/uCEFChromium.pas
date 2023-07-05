@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFChromium;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -59,10 +59,10 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFConstants, uCEFTypes, uCEFInterfaces, uCEFChromiumCore;
+  uCEFTypes, uCEFInterfaces, uCEFChromiumCore;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TChromium = class(TChromiumCore)
     protected
       function  GetParentFormHandle : TCefWindowHandle; override;
@@ -84,7 +84,7 @@ type
       procedure SetFormTopTo(const y : Integer);
 
       function  CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
-      function  SaveAsBitmapStream(const aStream : TStream) : boolean;
+      function  SaveAsBitmapStream(var aStream : TStream) : boolean;
       function  TakeSnapshot(var aBitmap : TBitmap) : boolean;
   end;
 
@@ -190,10 +190,14 @@ begin
 end;
 
 function TChromium.GetParentFormHandle : TCefWindowHandle;
+{$IFDEF MSWINDOWS}
 var
   TempForm : TCustomForm;
+{$ENDIF}
 begin
-  Result   := inherited GetParentFormHandle;
+  Result := inherited GetParentFormHandle;
+
+  {$IFDEF MSWINDOWS}
   TempForm := GetParentForm;
 
   if (TempForm <> nil) and TempForm.HandleAllocated then
@@ -203,6 +207,7 @@ begin
        (Application.MainForm <> nil) and
        Application.MainForm.HandleAllocated then
       Result := Application.MainForm.Handle;
+  {$ENDIF}
 end;
 
 procedure TChromium.MoveFormTo(const x, y: Integer);
@@ -313,7 +318,7 @@ begin
   Result := inherited CreateBrowser(TempHandle, TempRect, aWindowName, aContext, aExtraInfo);
 end;
 
-function TChromium.SaveAsBitmapStream(const aStream : TStream) : boolean;
+function TChromium.SaveAsBitmapStream(var aStream : TStream) : boolean;
 {$IFDEF MSWINDOWS}
 var
   TempDC   : HDC;

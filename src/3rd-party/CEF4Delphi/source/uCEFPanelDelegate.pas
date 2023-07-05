@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFPanelDelegate;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -78,8 +78,6 @@ type
       procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); override;
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
-      procedure OnWindowChanged(const view: ICefView; added: boolean); override;
-      procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
 
@@ -189,28 +187,6 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomPanelDelegate.OnChildViewChanged', e) then raise;
-  end;
-end;
-
-procedure TCustomPanelDelegate.OnWindowChanged(const view: ICefView; added: boolean);
-begin
-  try
-    if (FEvents <> nil) then
-      ICefPanelDelegateEvents(FEvents).doOnWindowChanged(view, added);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomPanelDelegate.OnWindowChanged', e) then raise;
-  end;
-end;
-
-procedure TCustomPanelDelegate.OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
-begin
-  try
-    if (FEvents <> nil) then
-      ICefPanelDelegateEvents(FEvents).doOnLayoutChanged(view, new_bounds);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomPanelDelegate.OnLayoutChanged', e) then raise;
   end;
 end;
 

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFBrowserViewComponent;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -57,10 +57,10 @@ uses
     LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFViewsFrameworkEvents, uCEFViewComponent;
+  uCEFTypes, uCEFInterfaces, uCEFViewsFrameworkEvents, uCEFViewComponent;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFBrowserViewComponent = class(TCEFViewComponent, ICefBrowserViewDelegateEvents)
     protected
       FBrowserView                      : ICefBrowserView;
@@ -71,7 +71,6 @@ type
       FOnBrowserDestroyed               : TOnBrowserDestroyedEvent;
       FOnGetDelegateForPopupBrowserView : TOnGetDelegateForPopupBrowserViewEvent;
       FOnPopupBrowserViewCreated        : TOnPopupBrowserViewCreatedEvent;
-      FOnGetChromeToolbarType           : TOnGetChromeToolbarTypeEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -86,7 +85,6 @@ type
       procedure doOnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
       procedure doOnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
       procedure doOnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
-      procedure doOnGetChromeToolbarType(var aChromeToolbarType: TCefChromeToolbarType);
 
     public
       function  CreateBrowserView(const client: ICefClient; const url: ustring; const settings: TCefBrowserSettings; const extra_info: ICefDictionaryValue; const request_context: ICefRequestContext): boolean;
@@ -101,7 +99,6 @@ type
       property OnBrowserDestroyed                : TOnBrowserDestroyedEvent                read FOnBrowserDestroyed                write FOnBrowserDestroyed;
       property OnGetDelegateForPopupBrowserView  : TOnGetDelegateForPopupBrowserViewEvent  read FOnGetDelegateForPopupBrowserView  write FOnGetDelegateForPopupBrowserView;
       property OnPopupBrowserViewCreated         : TOnPopupBrowserViewCreatedEvent         read FOnPopupBrowserViewCreated         write FOnPopupBrowserViewCreated;
-      property OnGetChromeToolbarType            : TOnGetChromeToolbarTypeEvent            read FOnGetChromeToolbarType            write FOnGetChromeToolbarType;
   end;
 
 {$IFDEF FPC}
@@ -150,7 +147,6 @@ begin
   FOnBrowserDestroyed               := nil;
   FOnGetDelegateForPopupBrowserView := nil;
   FOnPopupBrowserViewCreated        := nil;
-  FOnGetChromeToolbarType           := nil;
 end;
 
 procedure TCEFBrowserViewComponent.DestroyView;
@@ -252,12 +248,6 @@ procedure TCEFBrowserViewComponent.doOnPopupBrowserViewCreated(const browser_vie
 begin
   if assigned(FOnPopupBrowserViewCreated) then
     FOnPopupBrowserViewCreated(self, browser_view, popup_browser_view, is_devtools, aResult);
-end;
-
-procedure TCEFBrowserViewComponent.doOnGetChromeToolbarType(var aChromeToolbarType: TCefChromeToolbarType);
-begin
-  if assigned(FOnGetChromeToolbarType) then
-    FOnGetChromeToolbarType(self, aChromeToolbarType);
 end;
 
 {$IFDEF FPC}

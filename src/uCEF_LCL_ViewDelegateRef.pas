@@ -38,8 +38,6 @@ type
     procedure OnGetHeightForWidth(const view: ICefView; Width: integer; var aResult: integer); override;
     procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
     procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
-    procedure OnWindowChanged(const view: ICefView; added: boolean); override;
-    procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
     procedure OnFocus(const view: ICefView); override;
     procedure OnBlur(const view: ICefView); override;
 
@@ -94,22 +92,6 @@ begin
   if (ChildViewChangedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(ChildViewChangedPtr, [view, added, child]);
-  end;
-end;
-
-procedure TViewDelegateRef.OnWindowChanged(const view: ICefView; added: boolean);
-begin
-  if (WindowChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(WindowChangedPtr, [view, added]);
-  end;
-end;
-
-procedure TViewDelegateRef.OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
-begin
-  if (LayoutChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(LayoutChangedPtr, [view, @new_bounds]);
   end;
 end;
 

@@ -26,8 +26,6 @@ begin
   requestContextSettings^.persist_session_cookies := Integer(PRequestContextSettings^.persistSessionCookies);
   requestContextSettings^.persist_user_preferences := Integer(PRequestContextSettings^.persistUserPreferences);
   requestContextSettings^.accept_language_list := CefString(PCharToUStr(PRequestContextSettings^.acceptLanguageList));
-  requestContextSettings^.cookieable_schemes_list := CefString(PCharToUStr(PRequestContextSettings^.cookieableSchemesList));
-  requestContextSettings^.cookieable_schemes_exclude_defaults := Integer(PRequestContextSettings^.cookieableSchemesExcludeDefaults);
   request_context := TCefRequestContextRef.New(requestContextSettings);
 
   //TCefBrowserSettings
@@ -58,7 +56,6 @@ begin
   settings.webgl := TCefState(PBorwserSettings^.webgl) ;
   settings.background_color := TCefColor(PBorwserSettings^.background_color) ;
   settings.accept_language_list := CefString(PCharToUStr(PBorwserSettings^.accept_language_list)) ;
-  settings.chrome_status_bubble := TCefState(PBorwserSettings^.chrome_status_bubble) ;
 
   Result := TObj.CreateBrowserView(client, PCharToUStr(PUrl), settings, extra_info, request_context);
   handleExceptionEnd
@@ -131,9 +128,6 @@ end;
 
 procedure CEFBrowserViewComponent_SetOnGetChromeToolbarType(const AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := BrowserViewComponent_OnGetChromeToolbarType}
-  {$DEFINE EventName := OnGetChromeToolbarType}
-  EventMethodCode
 end;
 
 

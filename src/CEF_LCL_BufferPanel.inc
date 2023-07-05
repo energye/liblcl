@@ -1173,17 +1173,11 @@ end;
 //EVENT_TYPE:TNotifyEvent
 procedure BufferPanel_SetOnMouseEnter(AObj: TBufferPanel; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := OnTNotifyEvent}
-  {$DEFINE EventName := OnMouseEnter}
-  EventMethodCode
 end;
 
 //EVENT_TYPE:TNotifyEvent
 procedure BufferPanel_SetOnMouseLeave(AObj: TBufferPanel; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := OnTNotifyEvent}
-  {$DEFINE EventName := OnMouseLeave}
-  EventMethodCode
 end;
 
 //EVENT_TYPE:TMouseMoveEvent
@@ -1787,7 +1781,6 @@ end;
 procedure   BufferPanel_UpdateDeviceScaleFactor(AObj: TBufferPanel) ; extdecl;
 begin
   handleExceptionBegin
-  AObj.UpdateDeviceScaleFactor;
   handleExceptionEnd
 end;
 

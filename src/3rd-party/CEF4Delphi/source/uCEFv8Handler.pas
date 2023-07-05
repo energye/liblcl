@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFv8Handler;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -83,11 +83,10 @@ type
 
       function GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret: TValue): Boolean;
       function SetValue(const v: TValue; var ret: ICefv8Value): Boolean;
-  {$IFDEF TARGET_64BITS}
+  {$IFDEF CPUX64}
       class function StrToPtr(const str: ustring): Pointer;
       class function PtrToStr(p: Pointer): ustring;
   {$ENDIF}
-      function HandleProperties(const name: ustring; const arguments: TCefv8ValueArray; var retval: ICefv8Value): boolean;
       function Execute(const name: ustring; const object_: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var exception: ustring): Boolean; override;
 
     public
@@ -421,7 +420,7 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
     begin
       ud := v.GetUserData;
       if (ud = nil) then Exit(False);
-{$IFDEF TARGET_64BITS}
+{$IFDEF CPUX64}
       rt := StrToPtr(ud.GetValueByIndex(0).GetStringValue);
 {$ELSE}
       rt := TRttiType(ud.GetValueByIndex(0).GetIntValue);
@@ -430,7 +429,7 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
 
       if (rt.TypeKind = tkClass) and td.ClassType.InheritsFrom(GetTypeData(pi).ClassType) then
       begin
-{$IFDEF TARGET_64BITS}
+{$IFDEF CPUX64}
         i := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
 {$ELSE}
         i := Pointer(ud.GetValueByIndex(1).GetIntValue);
@@ -454,7 +453,7 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
     begin
       ud := v.GetUserData;
       if (ud = nil) then Exit(False);
-{$IFDEF TARGET_64BITS}
+{$IFDEF CPUX64}
       rt := StrToPtr(ud.GetValueByIndex(0).GetStringValue);
 {$ELSE}
       rt := TRttiType(ud.GetValueByIndex(0).GetIntValue);
@@ -462,7 +461,7 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
 
       if (rt.TypeKind = tkClassRef) then
       begin
-{$IFDEF TARGET_64BITS}
+{$IFDEF CPUX64}
         i := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
 {$ELSE}
         i := Pointer(ud.GetValueByIndex(1).GetIntValue);
@@ -540,7 +539,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
   begin
     ud := TCefv8ValueRef.NewArray(1);
     rt := FCtx.GetType(v.TypeInfo);
-{$IFDEF TARGET_64BITS}
+{$IFDEF CPUX64}
     ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
 {$ELSE}
     ud.SetValueByIndex(0, TCefv8ValueRef.NewInt(Integer(rt)));
@@ -593,7 +592,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
     rt := FCtx.GetType(v.TypeInfo);
 
     ud := TCefv8ValueRef.NewArray(2);
-{$IFDEF TARGET_64BITS}
+{$IFDEF CPUX64}
     ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
     ud.SetValueByIndex(1, TCefv8ValueRef.NewString(PtrToStr(v.AsObject)));
 {$ELSE}
@@ -657,7 +656,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
     rt := FCtx.GetType(c);
 
     ud := TCefv8ValueRef.NewArray(2);
-{$IFDEF TARGET_64BITS}
+{$IFDEF CPUX64}
     ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
     ud.SetValueByIndex(1, TCefv8ValueRef.NewString(PtrToStr(c)));
 {$ELSE}
@@ -725,7 +724,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
 
 
       ud := TCefv8ValueRef.NewArray(2);
-  {$IFDEF TARGET_64BITS}
+  {$IFDEF CPUX64}
       ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
       ud.SetValueByIndex(1, TCefv8ValueRef.NewString(PtrToStr(Pointer(v.AsInterface))));
   {$ELSE}
@@ -793,7 +792,7 @@ begin
   end;
 end;
 
-{$IFDEF TARGET_64BITS}
+{$IFDEF CPUX64}
 class function TCefRTTIExtension.StrToPtr(const str: ustring): Pointer;
 begin
   HexToBin(PWideChar(str), @Result, SizeOf(Result));
@@ -805,19 +804,6 @@ begin
   BinToHex(@p, PWideChar(Result), SizeOf(p));
 end;
 {$ENDIF}
-
-function TCefRTTIExtension.HandleProperties(const name      : ustring;
-                                            const arguments : TCefv8ValueArray;
-                                            var   retval    : ICefv8Value): boolean;
-begin
-  Result := True;
-  if name = '$g' then
-    SetValue(FValue, retval)
-  else if name = '$s' then
-    GetValue(FValue.TypeInfo, arguments[0], FValue)
-  else
-    Result := False;
-end;
 
 function TCefRTTIExtension.Execute(const name      : ustring;
                                    const object_   : ICefv8Value;
@@ -839,17 +825,14 @@ var
   ret: TValue;
 begin
   Result := True;
-  if HandleProperties(name, arguments, retval) then
-    exit;
-
   p := PChar(name);
   m := nil;
-  if assigned(object_) and object_.IsValid then
+  if object_ <> nil then
   begin
     ud := object_.GetUserData;
     if ud <> nil then
     begin
-{$IFDEF TARGET_64BITS}
+{$IFDEF CPUX64}
       rt := StrToPtr(ud.GetValueByIndex(0).GetStringValue);
 {$ELSE}
       rt := TRttiType(ud.GetValueByIndex(0).GetIntValue);
@@ -857,7 +840,7 @@ begin
       case rt.TypeKind of
         tkClass:
           begin
-{$IFDEF TARGET_64BITS}
+{$IFDEF CPUX64}
             val := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
 {$ELSE}
             val := TObject(ud.GetValueByIndex(1).GetIntValue);
@@ -941,7 +924,7 @@ begin
         tkClassRef:
           begin
             val := nil;
-{$IFDEF TARGET_64BITS}
+{$IFDEF CPUX64}
             cls := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
 {$ELSE}
             cls := TClass(ud.GetValueByIndex(1).GetIntValue);
@@ -987,6 +970,16 @@ begin
             Exit(False);
       end else
         Exit(False);
+    end else
+    if p^ = '$' then
+    begin
+      inc(p);
+      case p^ of
+        'g': SetValue(FValue, retval);
+        's': GetValue(FValue.TypeInfo, arguments[0], FValue);
+      else
+        Exit(False);
+      end;
     end else
       Exit(False);
   end else

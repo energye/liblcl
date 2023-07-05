@@ -38,7 +38,7 @@ begin
   AObj.PopupBrowserViewCreatedPtr := AEvent;
 end;
 
-function BrowserViewDelegate_GetChromeToolbarType(const AObj: TBrowserViewDelegateRef): TCefChromeToolbarType; extdecl;
+function BrowserViewDelegate_GetChromeToolbarType(const AObj: TBrowserViewDelegateRef): Integer; extdecl;
 begin
   Result := AObj.GetChromeToolbarType;
 end;

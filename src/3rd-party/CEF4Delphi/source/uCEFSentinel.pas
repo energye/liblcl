@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -46,10 +46,10 @@ unit uCEFSentinel;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -65,7 +65,7 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFConstants;
+  uCEFTypes, uCEFInterfaces;
 
 const
   CEFSENTINEL_DEFAULT_DELAYPERPROCMS = 200;
@@ -77,7 +77,7 @@ const
 type
   TSentinelStatus = (ssIdle, ssInitialDelay, ssCheckingChildren, ssClosing);
 
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFSentinel = class(TComponent)
     protected
       {$IFDEF MSWINDOWS}
@@ -133,7 +133,7 @@ procedure Register;
 implementation
 
 uses
-  uCEFLibFunctions, uCEFApplicationCore, uCEFMiscFunctions;
+  uCEFLibFunctions, uCEFApplicationCore, uCEFMiscFunctions, uCEFConstants;
 
 constructor TCEFSentinel.Create(AOwner: TComponent);
 begin

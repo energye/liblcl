@@ -4,18 +4,15 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure RunQuickMenuCallback_Cont(const TObj: ICefRunQuickMenuCallback; commandId: Integer; eventFlags: Cardinal); extdecl;
+procedure RunQuickMenuCallback_Cont(); extdecl;
 begin
   handleExceptionBegin
-  // TCefEventFlags
-  TObj.Cont(commandId, TCefEventFlags(eventFlags));
   handleExceptionEnd
 end;
 
-procedure RunQuickMenuCallback_Cancel(const TObj: ICefRunQuickMenuCallback); extdecl;
+procedure RunQuickMenuCallback_Cancel(); extdecl;
 begin
   handleExceptionBegin
-  TObj.Cancel;
   handleExceptionEnd
 end;
 

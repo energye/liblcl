@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFApplication;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -60,11 +60,7 @@ uses
     {$ENDIF}
     System.Classes, System.UITypes,
   {$ELSE}
-    Forms,
-    {$IFDEF MSWINDOWS}Windows, ActiveX,{$ENDIF} Classes, Controls, {$IFDEF FPC}dynlibs,{$ENDIF}
-  {$ENDIF}
-  {$IFDEF FPC}
-  LCLProc,
+    {$IFDEF MSWINDOWS}Windows, Forms, ActiveX,{$ENDIF} Classes, Controls, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
   uCEFApplicationCore, uCEFTypes;
 
@@ -87,11 +83,6 @@ type
     protected
       FDestroyApplicationObject      : boolean;
       FDestroyAppWindows             : boolean;
-      {$IFDEF FPC}
-      FContextInitializedHandlers    : TMethodList;
-
-      procedure CallContextInitializedHandlers(Data: PtrInt);
-      {$ENDIF}
 
       procedure BeforeInitSubProcess; override;
 
@@ -100,15 +91,8 @@ type
       destructor  Destroy; override;
       procedure   UpdateDeviceScaleFactor; override;
 
-      property DestroyApplicationObject : boolean read FDestroyApplicationObject write FDestroyApplicationObject;
-      property DestroyAppWindows        : boolean read FDestroyAppWindows        write FDestroyAppWindows;
-
-      {$IFDEF FPC}
-      procedure Internal_OnContextInitialized; override; // In UI thread
-
-      Procedure AddContextInitializedHandler(AHandler: TNotifyEvent);
-      Procedure RemoveContextInitializedHandler(AHandler: TNotifyEvent);
-      {$ENDIF}
+      property DestroyApplicationObject: boolean read FDestroyApplicationObject write FDestroyApplicationObject;
+      property DestroyAppWindows       : boolean read FDestroyAppWindows        write FDestroyAppWindows;
   end;
 
   TCEFDirectoryDeleterThread = uCEFApplicationCore.TCEFDirectoryDeleterThread;
@@ -203,28 +187,18 @@ end;
 
 constructor TCefApplication.Create;
 begin
-  {$IFDEF FPC}
-  FContextInitializedHandlers := TMethodList.Create;
-  {$ENDIF}
-
   inherited Create;
-
-  if (GlobalCEFApp = nil) then
+  if GlobalCEFApp = nil then
     GlobalCEFApp := Self;
 
-  FDestroyApplicationObject := False;
-  FDestroyAppWindows        := True;
+  FDestroyApplicationObject      := False;
+  FDestroyAppWindows             := True;
 end;
 
 destructor TCefApplication.Destroy;
 begin
-  if (GlobalCEFApp = Self) then
+  if GlobalCEFApp = Self then
     GlobalCEFApp := nil;
-
-  {$IFDEF FPC}
-  FreeAndNil(FContextInitializedHandlers);
-  {$ENDIF}
-
   inherited Destroy;
 end;
 
@@ -264,36 +238,6 @@ begin
   {$ENDIF}
 end;
 
-{$IFDEF FPC}
-procedure TCefApplication.Internal_OnContextInitialized;
-begin
-  inherited Internal_OnContextInitialized;
-
-  Application.QueueAsyncCall(@CallContextInitializedHandlers, 0);
-end;
-
-procedure TCefApplication.AddContextInitializedHandler(AHandler: TNotifyEvent);
-begin
-  if FGlobalContextInitialized then
-    AHandler(Self)
-   else
-    if (FContextInitializedHandlers <> nil) then
-      FContextInitializedHandlers.Add(TMethod(AHandler));
-end;
-
-procedure TCefApplication.RemoveContextInitializedHandler(AHandler: TNotifyEvent);
-begin
-  if (FContextInitializedHandlers <> nil) then
-    FContextInitializedHandlers.Remove(TMethod(AHandler));
-end;
-
-procedure TCefApplication.CallContextInitializedHandlers(Data: PtrInt);
-begin
-  if (FContextInitializedHandlers <> nil) then
-    FContextInitializedHandlers.CallNotifyEvents(Self);
-end;
-{$ENDIF}
-
 procedure TCefApplication.BeforeInitSubProcess;
 {$IFNDEF FPC}
 {$IFNDEF FMX}
@@ -304,7 +248,7 @@ var
 begin
   {$IFNDEF FPC}
   {$IFNDEF FMX}
-  if (Application <> nil) then
+  if Application <> nil then
     begin
       if FDestroyApplicationObject then
         begin
@@ -338,8 +282,7 @@ begin
               if (Application.PopupControlWnd <> 0) then DeallocateHWnd(Application.PopupControlWnd);
               {$ENDIF}
             end;
-
-          if not(IsLibrary) then
+          if not IsLibrary then
             begin
               // Undo the OleInitialize from TApplication.Create. The sub-processes want a different
               // COM thread model and fail with an assertion if the Debug-DLLs are used.

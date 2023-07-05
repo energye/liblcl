@@ -24,8 +24,6 @@ begin
   requestContextSettings^.persist_session_cookies := Integer(PRequestContextSettings^.persistSessionCookies);
   requestContextSettings^.persist_user_preferences := Integer(PRequestContextSettings^.persistUserPreferences);
   requestContextSettings^.accept_language_list := CefString(PCharToUStr(PRequestContextSettings^.acceptLanguageList));
-  requestContextSettings^.cookieable_schemes_list := CefString(PCharToUStr(PRequestContextSettings^.cookieableSchemesList));
-  requestContextSettings^.cookieable_schemes_exclude_defaults := Integer(PRequestContextSettings^.cookieableSchemesExcludeDefaults);
 
   Result := TCefRequestContextRef.New(requestContextSettings, handler);
   handleExceptionEnd
@@ -34,7 +32,8 @@ end;
 procedure  RequestContextRef_NewTwo(const aCache, aAcceptLanguageList, aCookieableSchemesList : PChar; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : LongBool; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefRequestContextRef.New(PCharToUStr(aCache), PCharToUStr(aAcceptLanguageList), PCharToUStr(aCookieableSchemesList), aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences, handler);
+      //class function           New(const aCache, aAcceptLanguageList : ustring; aPersistSessionCookies, aPersistUserPreferences, aIgnoreCertificateErrors : boolean; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
+  //Result := TCefRequestContextRef.New(PCharToUStr(aCache), PCharToUStr(aAcceptLanguageList), aPersistSessionCookies, aPersistUserPreferences, PCharToUStr(aCookieableSchemesList), aCookieableSchemesExcludeDefaults, handler);
   handleExceptionEnd
 end;
 

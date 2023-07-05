@@ -38,16 +38,14 @@ begin
 end;
 
 {== CommandHandler ==}
-procedure CefCommandHandlerRef_Create(var Result: TCommandHandlerRef); extdecl;
+procedure CefCommandHandlerRef_Create(); extdecl;
 begin
   handleExceptionBegin
-  Result := TCommandHandlerRef.Create;
   handleExceptionEnd
 end;
 
-procedure CefCommandHandler_OnChromeCommand(const AObj: TCommandHandlerRef; AEventData: Pointer); extdecl;
+procedure CefCommandHandler_OnChromeCommand(); extdecl;
 begin
-    AObj.ChromeCommandPtr := AEventData;
 end;
 
 {== ContextMenuHandler ==}
@@ -247,54 +245,41 @@ begin
 end;
 
 {== FrameHandler ==}
-procedure CefFrameHandlerRef_Create(var Result: TFrameHandlerRef); extdecl;
+procedure CefFrameHandlerRef_Create(); extdecl;
 begin
   handleExceptionBegin
-  Result := TFrameHandlerRef.Create;
   handleExceptionEnd
 end;
 
-procedure CefFrameHandler_OnFrameCreated(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+procedure CefFrameHandler_OnFrameCreated(); extdecl;
 begin
-    AObj.FrameCreatedPtr := AEventData;
 end;
 
-procedure CefFrameHandler_OnFrameAttached(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+procedure CefFrameHandler_OnFrameAttached(); extdecl;
 begin
-    AObj.FrameAttachedPtr := AEventData;
 end;
 
-procedure CefFrameHandler_OnFrameDetached(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+procedure CefFrameHandler_OnFrameDetached(); extdecl;
 begin
-    AObj.FrameDetachedPtr := AEventData;
 end;
 
-procedure CefFrameHandler_OnMainFrameChanged(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+procedure CefFrameHandler_OnMainFrameChanged(); extdecl;
 begin
-    AObj.MainFrameChangedPtr := AEventData;
 end;
 
 {== PermissionHandler ==}
-procedure CefPermissionHandlerRef_Create(var Result: TPermissionHandlerRef); extdecl;
+procedure CefPermissionHandlerRef_Create(); extdecl;
 begin
   handleExceptionBegin
-  Result := TPermissionHandlerRef.Create;
   handleExceptionEnd
 end;
 
-procedure CefPermissionHandler_OnRequestMediaAccessPermission(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefPermissionHandler_OnRequestMediaAccessPermission(); extdecl;
 begin
-    AObj.RequestMediaAccessPermissionPtr := AEventData;
 end;
 
-procedure CefPermissionHandler_OnShowPermissionPrompt(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefPermissionHandler_OnDismissPermissionPrompt(); extdecl;
 begin
-    AObj.ShowPermissionPromptPtr := AEventData;
-end;
-
-procedure CefPermissionHandler_OnDismissPermissionPrompt(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
-begin
-    AObj.DismissPermissionPromptPtr := AEventData;
 end;
 
 {== JsDialogHandler ==}
@@ -497,7 +482,6 @@ end;
 
 procedure CefRenderHandler_OnTouchHandleStateChanged(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
 begin
-    AObj.TouchHandleStateChangedPtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnStartDragging(const AObj: TRenderHandlerRef; AEventData: Pointer); extdecl;
@@ -645,7 +629,6 @@ exports
   {== PermissionHandler ==}
   CefPermissionHandlerRef_Create,
   CefPermissionHandler_OnRequestMediaAccessPermission,
-  CefPermissionHandler_OnShowPermissionPrompt,
   CefPermissionHandler_OnDismissPermissionPrompt,
   {== JsDialogHandler ==}
   CefJsDialogHandlerRef_Create,

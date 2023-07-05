@@ -34,14 +34,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure  CefX509Certificate_GetValidStart(const AObj: ICefX509Certificate; var Result: TCefBaseTime); extdecl;
+procedure  CefX509Certificate_GetValidStart(const AObj: ICefX509Certificate; var Result: TCefTime); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.GetValidStart;
   handleExceptionEnd
 end;
 
-procedure  CefX509Certificate_GetValidExpiry(const AObj: ICefX509Certificate; var Result: TCefBaseTime); extdecl;
+procedure  CefX509Certificate_GetValidExpiry(const AObj: ICefX509Certificate; var Result: TCefTime); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.GetValidExpiry;
@@ -51,14 +51,12 @@ end;
 procedure  CefX509Certificate_GetValidStartAsDateTime(const AObj: ICefX509Certificate; var Result: TDateTime); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.GetValidStartAsDateTime;
   handleExceptionEnd
 end;
 
 procedure  CefX509Certificate_GetValidExpiryAsDateTime(const AObj: ICefX509Certificate; var Result: TDateTime); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.GetValidExpiryAsDateTime;
   handleExceptionEnd
 end;
 
