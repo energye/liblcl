@@ -7,14 +7,14 @@
 procedure Interface_CustomWidgetSetInitialization(); extdecl;
 begin
   {$IFDEF Linux}
-  CustomWidgetSetInitialization();
+  //CustomWidgetSetInitialization();
   {$ENDIF}
 end;
 
 procedure Interface_CustomWidgetSetFinalization(); extdecl;
 begin
   {$IFDEF Linux}
-  CustomWidgetSetFinalization();
+  //CustomWidgetSetFinalization();
   {$ENDIF}
 end;
 
