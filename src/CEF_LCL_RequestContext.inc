@@ -126,13 +126,6 @@ begin
   handleExceptionEnd
 end;
 
-// GetCookieManager
-//procedure  RequestContext_GetCookieManagerProc(const TObj: ICefRequestContext; const callback: TCefCompletionCallbackProc; var Result: ICefCookieManager);  extdecl;
-//begin
-//  handleExceptionBegin
-//  handleExceptionEnd
-//end;
-
 function  RequestContext_RegisterSchemeHandlerFactory(const TObj: ICefRequestContext; const schemeName, domainName: PChar; const factory: TSchemeHandlerFactoryRef): LongBool;  extdecl;
 begin
   handleExceptionBegin
@@ -233,7 +226,6 @@ exports
     RequestContext_GetHandler,
     RequestContext_GetCachePath,
     RequestContext_GetCookieManager,
-    //RequestContext_GetCookieManagerProc,
     RequestContext_RegisterSchemeHandlerFactory,
     RequestContext_ClearSchemeHandlerFactories,
     RequestContext_ClearCertificateExceptions,

@@ -4,73 +4,73 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefExtensionHandlerRef_CreateForChromium(const Chromium: TChromium; var Result: TCustomExtensionHandler); extdecl;
+procedure CefExtensionHandlerRef_CreateForChromium(const Chromium: TChromium; var Result: ICefExtensionHandler); extdecl;
 begin
   handleExceptionBegin
   Result := TCustomExtensionHandler.Create(Chromium);
   handleExceptionEnd
 end;
 
-procedure CefExtensionHandlerRef_Create(var Result: TExtensionHandlerRef); extdecl;
+procedure CefExtensionHandlerRef_Create(var Result: ICefExtensionHandler); extdecl;
 begin
   handleExceptionBegin
   Result := TExtensionHandlerRef.Create;
   handleExceptionEnd
 end;
 
-procedure CefExtensionHandler_OnExtensionLoadFailed(const TObj: TExtensionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefExtensionHandler_OnExtensionLoadFailed(const TObj: ICefExtensionHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  TObj.ExtensionLoadFailedPtr := AEventData;
+  (TObj as TExtensionHandlerRef).ExtensionLoadFailedPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure CefExtensionHandler_OnExtensionLoaded(const TObj: TExtensionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefExtensionHandler_OnExtensionLoaded(const TObj: ICefExtensionHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  TObj.ExtensionLoadedPtr := AEventData;
+  (TObj as TExtensionHandlerRef).ExtensionLoadedPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure CefExtensionHandler_OnExtensionUnloaded(const TObj: TExtensionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefExtensionHandler_OnExtensionUnloaded(const TObj: ICefExtensionHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  TObj.ExtensionUnloadedPtr := AEventData;
+  (TObj as TExtensionHandlerRef).ExtensionUnloadedPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure CefExtensionHandler_OnBeforeBackgroundBrowser(const TObj: TExtensionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefExtensionHandler_OnBeforeBackgroundBrowser(const TObj: ICefExtensionHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  TObj.BeforeBackgroundBrowserPtr := AEventData;
+  (TObj as TExtensionHandlerRef).BeforeBackgroundBrowserPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure CefExtensionHandler_OnBeforeBrowser(const TObj: TExtensionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefExtensionHandler_OnBeforeBrowser(const TObj: ICefExtensionHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  TObj.BeforeBrowserPtr := AEventData;
+  (TObj as TExtensionHandlerRef).BeforeBrowserPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure CefExtensionHandler_GetActiveBrowser(const TObj: TExtensionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefExtensionHandler_GetActiveBrowser(const TObj: ICefExtensionHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  TObj.GetActiveBrowserPtr := AEventData;
+  (TObj as TExtensionHandlerRef).GetActiveBrowserPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure CefExtensionHandler_CanAccessBrowser(const TObj: TExtensionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefExtensionHandler_CanAccessBrowser(const TObj: ICefExtensionHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  TObj.CanAccessBrowserPtr := AEventData;
+  (TObj as TExtensionHandlerRef).CanAccessBrowserPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure CefExtensionHandler_GetExtensionResource(const TObj: TExtensionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefExtensionHandler_GetExtensionResource(const TObj: ICefExtensionHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  TObj.GetExtensionResourcePtr := AEventData;
+  (TObj as TExtensionHandlerRef).GetExtensionResourcePtr := AEventData;
   handleExceptionEnd
 end;
 

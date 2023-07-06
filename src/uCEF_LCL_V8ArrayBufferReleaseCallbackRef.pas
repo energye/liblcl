@@ -21,7 +21,7 @@ type
   public
     ReleaseBufferPtr: Pointer;
     constructor Create();
-    destructor Destroy;
+    destructor Destroy; override;
   protected
     procedure ReleaseBuffer(buffer: Pointer); override;
   end;

@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure MenuButtonDelegateRef_Create(out Result: TMenuButtonDelegateRef); extdecl;
+procedure MenuButtonDelegateRef_Create(out Result: ICefMenuButtonDelegate); extdecl;
 begin
   handleExceptionBegin
   Result := TMenuButtonDelegateRef.Create;
@@ -18,10 +18,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure MenuButtonDelegate_SetOnMenuButtonPressed(const AObj: TMenuButtonDelegateRef; const AEvent: Pointer); extdecl;
+procedure MenuButtonDelegate_SetOnMenuButtonPressed(const AObj: ICefMenuButtonDelegate; const AEvent: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.MenuButtonPressedPtr := AEvent;
+  (AObj as TMenuButtonDelegateRef).MenuButtonPressedPtr := AEvent;
   handleExceptionEnd
 end;
 

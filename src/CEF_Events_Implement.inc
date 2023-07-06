@@ -582,7 +582,7 @@ begin
     // settings
     browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
     //event
-    SendEvent([Sender, browser, frame, beforePopupInfo, @windowInfo, @client, browserSettings, @extra_info, @noJavascriptAccess, @Result]);
+    SendEvent([Sender, browser, frame, beforePopupInfo, @windowInfo, client, browserSettings, @extra_info, @noJavascriptAccess, @Result]);
     settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
   finally
     //free beforePopupInfo

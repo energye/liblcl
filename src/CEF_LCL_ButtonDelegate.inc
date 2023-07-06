@@ -18,17 +18,17 @@ begin
   handleExceptionEnd
 end;
 
-procedure ButtonDelegate_SetOnButtonPressed(const AObj: TButtonDelegateRef; const AEvent: Pointer);  extdecl;
+procedure ButtonDelegate_SetOnButtonPressed(const AObj: ICefButtonDelegate; const AEvent: Pointer);  extdecl;
 begin
   handleExceptionBegin
-  AObj.ButtonPressedPtr := AEvent;
+  (AObj as TButtonDelegateRef).ButtonPressedPtr := AEvent;
   handleExceptionEnd
 end;
 
-procedure ButtonDelegate_SetOnButtonStateChanged(const AObj: TButtonDelegateRef; const AEvent: Pointer);  extdecl;
+procedure ButtonDelegate_SetOnButtonStateChanged(const AObj: ICefButtonDelegate; const AEvent: Pointer);  extdecl;
 begin
   handleExceptionBegin
-  AObj.ButtonStateChangedPtr := AEvent;
+  (AObj as TButtonDelegateRef).ButtonStateChangedPtr := AEvent;
   handleExceptionEnd
 end;
 

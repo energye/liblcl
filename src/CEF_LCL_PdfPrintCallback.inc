@@ -4,16 +4,16 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefPdfPrintCallback_Create(var Result: TPdfPrintCallbackRef); extdecl;
+procedure CefPdfPrintCallback_Create(var Result: ICefPdfPrintCallback); extdecl;
 begin
   handleExceptionBegin
   Result := TPdfPrintCallbackRef.Create;
   handleExceptionEnd
 end;
 
-procedure CefPdfPrintCallback_OnPdfPrintFinished(const AObj: TPdfPrintCallbackRef; AEventData: Pointer); extdecl;
+procedure CefPdfPrintCallback_OnPdfPrintFinished(const AObj: ICefPdfPrintCallback; AEventData: Pointer); extdecl;
 begin
-    AObj.PdfPrintFinishedPtr := AEventData;
+    (AObj as TPdfPrintCallbackRef).PdfPrintFinishedPtr := AEventData;
 end;
 
 exports

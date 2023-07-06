@@ -20,9 +20,6 @@ type
 
   {== Client ==}
   TClientRef = class(TCefClientOwn)
-  public
-    constructor Create; override;
-    destructor Destroy; override;
   protected
     FAudioHandler: ICefAudioHandler;
     FCommandHandler: ICefCommandHandler;
@@ -42,6 +39,7 @@ type
     FPrintHandler: ICefPrintHandler;
     FFrameHandler: ICefFrameHandler;
     FPermissionHandler: ICefPermissionHandler;
+  public
 
     procedure GetAudioHandler(var aHandler: ICefAudioHandler); override;
     procedure GetCommandHandler(var aHandler: ICefCommandHandler); override;
@@ -64,6 +62,8 @@ type
     function OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_: ICefProcessMessage): boolean; override;
 
     procedure RemoveReferences; override;
+    constructor Create; override;
+    destructor Destroy; override;
   end;
 
 implementation

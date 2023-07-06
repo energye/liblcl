@@ -4,26 +4,26 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefV8Accessor_Create(var Result: TV8AccessorRef); extdecl;
+procedure CefV8Accessor_Create(var Result: ICefV8Accessor); extdecl;
 begin
   handleExceptionBegin
   Result := TV8AccessorRef.Create;
   handleExceptionEnd
 end;
 
-procedure CefV8Accessor_Get(const AObj: TV8AccessorRef; AEventData: Pointer); extdecl;
+procedure CefV8Accessor_Get(const AObj: ICefV8Accessor; AEventData: Pointer); extdecl;
 begin
-    AObj.GetPtr := AEventData;
+    (AObj as TV8AccessorRef).GetPtr := AEventData;
 end;
 
-procedure CefV8Accessor_Set(const AObj: TV8AccessorRef; AEventData: Pointer); extdecl;
+procedure CefV8Accessor_Set(const AObj: ICefV8Accessor; AEventData: Pointer); extdecl;
 begin
-    AObj.SetPtr := AEventData;
+    (AObj as TV8AccessorRef).SetPtr := AEventData;
 end;
 
-procedure CefV8Accessor_Destroy(const AObj: TV8AccessorRef); extdecl;
+procedure CefV8Accessor_Destroy(const AObj: ICefV8Accessor); extdecl;
 begin
-    AObj.Destroy;
+    (AObj as TV8AccessorRef).Destroy;
 end;
 
 exports

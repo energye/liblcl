@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure  ViewDelegateRef_Create(out Result: TViewDelegateRef); extdecl;
+procedure  ViewDelegateRef_Create(out Result: ICefViewDelegate); extdecl;
 begin
   handleExceptionBegin
   Result := TViewDelegateRef.Create;
@@ -18,54 +18,54 @@ begin
   handleExceptionEnd
 end;
 
-procedure  ViewDelegate_SetOnGetPreferredSize(const AObj: TViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure  ViewDelegate_SetOnGetPreferredSize(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.GetPreferredSizePtr := AEvent;
+  (AObj as TViewDelegateRef).GetPreferredSizePtr := AEvent;
 end;
 
-procedure  ViewDelegate_SetOnGetMinimumSize(const AObj: TViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure  ViewDelegate_SetOnGetMinimumSize(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.GetMinimumSizePtr := AEvent;
+  (AObj as TViewDelegateRef).GetMinimumSizePtr := AEvent;
 end;
 
-procedure  ViewDelegate_SetOnGetMaximumSize(const AObj: TViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure  ViewDelegate_SetOnGetMaximumSize(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.GetMaximumSizePtr := AEvent;
+  (AObj as TViewDelegateRef).GetMaximumSizePtr := AEvent;
 end;
 
-procedure  ViewDelegate_SetOnGetHeightForWidth(const AObj: TViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure  ViewDelegate_SetOnGetHeightForWidth(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.GetHeightForWidthPtr := AEvent;
+  (AObj as TViewDelegateRef).GetHeightForWidthPtr := AEvent;
 end;
 
-procedure  ViewDelegate_SetOnParentViewChanged(const AObj: TViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure  ViewDelegate_SetOnParentViewChanged(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.ParentViewChangedPtr := AEvent;
+  (AObj as TViewDelegateRef).ParentViewChangedPtr := AEvent;
 end;
 
-procedure  ViewDelegate_SetOnChildViewChanged(const AObj: TViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure  ViewDelegate_SetOnChildViewChanged(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.ChildViewChangedPtr := AEvent;
+  (AObj as TViewDelegateRef).ChildViewChangedPtr := AEvent;
 end;
 
-procedure  ViewDelegate_SetOnWindowChanged(const AObj: TViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure  ViewDelegate_SetOnWindowChanged(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.WindowChangedPtr := AEvent;
+  (AObj as TViewDelegateRef).WindowChangedPtr := AEvent;
 end;
 
-procedure  ViewDelegate_SetOnLayoutChanged(const AObj: TViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure  ViewDelegate_SetOnLayoutChanged(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.LayoutChangedPtr := AEvent;
+  (AObj as TViewDelegateRef).LayoutChangedPtr := AEvent;
 end;
 
-procedure  ViewDelegate_SetOnFocus(const AObj: TViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure  ViewDelegate_SetOnFocus(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.FocusPtr := AEvent;
+  (AObj as TViewDelegateRef).FocusPtr := AEvent;
 end;
 
-procedure  ViewDelegate_SetOnBlur(const AObj: TViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure  ViewDelegate_SetOnBlur(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.BlurPtr := AEvent;
+  (AObj as TViewDelegateRef).BlurPtr := AEvent;
 end;
 
 

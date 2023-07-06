@@ -12,7 +12,7 @@ unit uCEF_LCL_AccessibilityHandlerRef;
 interface
 
 uses
-  uCEFTypes, uCEFInterfaces, uCEFAccessibilityHandler,
+  uCEFInterfaces, uCEFAccessibilityHandler,
   uCEF_LCL_EventCallback;
 
 type

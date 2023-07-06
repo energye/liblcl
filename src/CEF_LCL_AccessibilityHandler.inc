@@ -4,24 +4,24 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefAccessibilityHandlerRef_Create(var Result: TAccessibilityHandlerRef); extdecl;
+procedure CefAccessibilityHandlerRef_Create(var Result: ICefAccessibilityHandler); extdecl;
 begin
   handleExceptionBegin
   Result := TAccessibilityHandlerRef.Create();
   handleExceptionEnd
 end;
 
-procedure CefAccessibilityHandler_OnAccessibilityTreeChange(const TObj: TAccessibilityHandlerRef; AEventData: Pointer); extdecl;
+procedure CefAccessibilityHandler_OnAccessibilityTreeChange(const TObj: ICefAccessibilityHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  TObj.AccessibilityTreeChangePtr := AEventData;
+  (TObj as TAccessibilityHandlerRef).AccessibilityTreeChangePtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure CefAccessibilityHandler_OnAccessibilityLocationChange(const TObj: TAccessibilityHandlerRef; AEventData: Pointer); extdecl;
+procedure CefAccessibilityHandler_OnAccessibilityLocationChange(const TObj: ICefAccessibilityHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  TObj.AccessibilityLocationChangePtr := AEventData;
+  (TObj as TAccessibilityHandlerRef).AccessibilityLocationChangePtr := AEventData;
   handleExceptionEnd
 end;
 
