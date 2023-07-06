@@ -880,7 +880,7 @@ begin
       beforePopupInfo^.TargetDisposition := PInteger(integer(targetDisposition));
       beforePopupInfo^.UserGesture := @userGesture;
       //event
-      TCEFEventCallback.SendEvent(BeforePopupPtr, [browser, frame, beforePopupInfo, @windowInfo, @client, @settings, @extra_info, @noJavascriptAccess, @Result]);
+      TCEFEventCallback.SendEvent(BeforePopupPtr, [browser, frame, beforePopupInfo, @windowInfo, client, @settings, @extra_info, @noJavascriptAccess, @Result]);
     finally
       //free beforePopupInfo
       beforePopupInfo^.TargetUrl := nil;

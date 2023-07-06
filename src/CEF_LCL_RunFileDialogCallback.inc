@@ -4,17 +4,17 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure RunFileDialogCallbackRef_Create(var Result: TRunFileDialogCallbackRef); extdecl;
+procedure RunFileDialogCallbackRef_Create(var Result: ICefRunFileDialogCallback); extdecl;
 begin
   handleExceptionBegin
   Result := TRunFileDialogCallbackRef.Create;
   handleExceptionEnd
 end;
 
-procedure RunFileDialogCallback_OnFileDialogDismissed(const AObj: TRunFileDialogCallbackRef; AEventData: Pointer); extdecl;
+procedure RunFileDialogCallback_OnFileDialogDismissed(const AObj: ICefRunFileDialogCallback; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.FileDialogDismissedPtr := AEventData;
+  (AObj as TRunFileDialogCallbackRef).FileDialogDismissedPtr := AEventData;
   handleExceptionEnd
 end;
 

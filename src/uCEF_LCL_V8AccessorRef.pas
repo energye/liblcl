@@ -21,8 +21,8 @@ type
   public
     GetPtr: Pointer;
     SetPtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     function Get(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean; override;
     function Set_(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean; override;

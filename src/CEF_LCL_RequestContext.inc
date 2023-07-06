@@ -32,8 +32,7 @@ end;
 procedure  RequestContextRef_NewTwo(const aCache, aAcceptLanguageList, aCookieableSchemesList : PChar; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : LongBool; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
 begin
   handleExceptionBegin
-      //class function           New(const aCache, aAcceptLanguageList : ustring; aPersistSessionCookies, aPersistUserPreferences, aIgnoreCertificateErrors : boolean; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
-  //Result := TCefRequestContextRef.New(PCharToUStr(aCache), PCharToUStr(aAcceptLanguageList), aPersistSessionCookies, aPersistUserPreferences, PCharToUStr(aCookieableSchemesList), aCookieableSchemesExcludeDefaults, handler);
+  Result := TCefRequestContextRef.New(PCharToUStr(aCache), PCharToUStr(aAcceptLanguageList), aPersistSessionCookies, aPersistUserPreferences, false, handler);
   handleExceptionEnd
 end;
 
@@ -124,13 +123,6 @@ begin
   Result := TObj.GetCookieManager(callback);
   handleExceptionEnd
 end;
-
-// GetCookieManager
-//procedure  RequestContext_GetCookieManagerProc(const TObj: ICefRequestContext; const callback: TCefCompletionCallbackProc; var Result: ICefCookieManager);  extdecl;
-//begin
-//  handleExceptionBegin
-//  handleExceptionEnd
-//end;
 
 function  RequestContext_RegisterSchemeHandlerFactory(const TObj: ICefRequestContext; const schemeName, domainName: PChar; const factory: TSchemeHandlerFactoryRef): LongBool;  extdecl;
 begin
@@ -232,7 +224,6 @@ exports
     RequestContext_GetHandler,
     RequestContext_GetCachePath,
     RequestContext_GetCookieManager,
-    //RequestContext_GetCookieManagerProc,
     RequestContext_RegisterSchemeHandlerFactory,
     RequestContext_ClearSchemeHandlerFactories,
     RequestContext_ClearCertificateExceptions,

@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure BrowserViewDelegateRef_Create(out Result: TBrowserViewDelegateRef) ; extdecl;
+procedure BrowserViewDelegateRef_Create(out Result: ICefBrowserViewDelegate) ; extdecl;
 begin
   handleExceptionBegin
   Result := TBrowserViewDelegateRef.Create();
@@ -18,29 +18,29 @@ begin
   handleExceptionEnd
 end;
 
-procedure BrowserViewDelegate_SetOnBrowserCreated(const AObj: TBrowserViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure BrowserViewDelegate_SetOnBrowserCreated(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.BrowserCreatedPtr := AEvent;
+  (AObj as TBrowserViewDelegateRef).BrowserCreatedPtr := AEvent;
 end;
 
-procedure BrowserViewDelegate_SetOnBrowserDestroyed(const AObj: TBrowserViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure BrowserViewDelegate_SetOnBrowserDestroyed(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.BrowserDestroyedPtr := AEvent;
+  (AObj as TBrowserViewDelegateRef).BrowserDestroyedPtr := AEvent;
 end;
 
-procedure BrowserViewDelegate_SetOnGetDelegateForPopupBrowserView(const AObj: TBrowserViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure BrowserViewDelegate_SetOnGetDelegateForPopupBrowserView(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.GetDelegateForPopupBrowserViewPtr := AEvent;
+  (AObj as TBrowserViewDelegateRef).GetDelegateForPopupBrowserViewPtr := AEvent;
 end;
 
-procedure BrowserViewDelegate_SetOnPopupBrowserViewCreated(const AObj: TBrowserViewDelegateRef; const AEvent: Pointer); extdecl;
+procedure BrowserViewDelegate_SetOnPopupBrowserViewCreated(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  AObj.PopupBrowserViewCreatedPtr := AEvent;
+  (AObj as TBrowserViewDelegateRef).PopupBrowserViewCreatedPtr := AEvent;
 end;
 
-function BrowserViewDelegate_GetChromeToolbarType(const AObj: TBrowserViewDelegateRef): Integer; extdecl;
+function BrowserViewDelegate_GetChromeToolbarType(const AObj: ICefBrowserViewDelegate): Integer; extdecl;
 begin
-  Result := AObj.GetChromeToolbarType;
+  Result := (AObj as TBrowserViewDelegateRef).GetChromeToolbarType;
 end;
 
 

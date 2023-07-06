@@ -5,22 +5,22 @@
 //----------------------------------------
 
 {== CookieVisitor ==}
-procedure CefCookieVisitorRef_Create(var Result: TCookieVisitorRef); extdecl;
+procedure CefCookieVisitorRef_Create(var Result: ICefCookieVisitor); extdecl;
 begin
   handleExceptionBegin
   Result := TCookieVisitorRef.Create;
   handleExceptionEnd
 end;
 
-procedure CefCookieVisitor_OnVisit(const AObj: TCookieVisitorRef; AEventData: Pointer); extdecl;
+procedure CefCookieVisitor_OnVisit(const AObj: ICefCookieVisitor; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.visitPtr := AEventData;
+  (AObj as TCookieVisitorRef).visitPtr := AEventData;
   handleExceptionEnd
 end;
 
 {== SetCookieCallback ==}
-procedure CefSetCookieCallbackRef_Create(var Result: TSetCookieCallbackRef); extdecl;
+procedure CefSetCookieCallbackRef_Create(var Result: ICefSetCookieCallback); extdecl;
 begin
   handleExceptionBegin
   Result := TSetCookieCallbackRef.Create;
@@ -34,15 +34,15 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefSetCookieCallback_OnComplete(const AObj: TSetCookieCallbackRef; AEventData: Pointer); extdecl;
+procedure CefSetCookieCallback_OnComplete(const AObj: ICefSetCookieCallback; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.CompletePtr := AEventData;
+  (AObj as TSetCookieCallbackRef).CompletePtr := AEventData;
   handleExceptionEnd
 end;
 
 {== DeleteCookiesCallback ==}
-procedure CefDeleteCookiesCallbackRef_Create(var Result: TDeleteCookiesCallbackRef); extdecl;
+procedure CefDeleteCookiesCallbackRef_Create(var Result: ICefDeleteCookiesCallback); extdecl;
 begin
   handleExceptionBegin
   Result := TDeleteCookiesCallbackRef.Create;
@@ -56,10 +56,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefDeleteCookiesCallback_OnComplete(const AObj: TDeleteCookiesCallbackRef; AEventData: Pointer); extdecl;
+procedure CefDeleteCookiesCallback_OnComplete(const AObj: ICefDeleteCookiesCallback; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.CompletePtr := AEventData;
+  (AObj as TDeleteCookiesCallbackRef).CompletePtr := AEventData;
   handleExceptionEnd
 end;
 

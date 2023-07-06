@@ -4,16 +4,16 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefCompletionCallbackRef_Create(var Result: TCompletionCallbackRef); extdecl;
+procedure CefCompletionCallbackRef_Create(out Result: ICefCompletionCallback); extdecl;
 begin
   handleExceptionBegin
   Result := TCompletionCallbackRef.Create;
   handleExceptionEnd
 end;
 
-procedure CefCompletionCallback_OnComplete(const AObj: TCompletionCallbackRef; AEventData: Pointer); extdecl;
+procedure CefCompletionCallback_OnComplete(const AObj: ICefCompletionCallback; AEventData: Pointer); extdecl;
 begin
-    AObj.CompletionCallbackPtr := AEventData;
+    (AObj as TCompletionCallbackRef).CompletionCallbackPtr := AEventData;
 end;
 
 exports

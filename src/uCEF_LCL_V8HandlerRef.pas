@@ -20,8 +20,8 @@ type
   TV8HandlerRef = class(TCefv8HandlerOwn)
   public
     ExecutePtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     function Execute(const Name: ustring; const object_: ICefv8Value; const arguments: TCefv8ValueArray; var retval: ICefv8Value; var Exception: ustring): boolean; override;
   end;

@@ -4,21 +4,21 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefV8Handler_Create(var Result: TV8HandlerRef); extdecl;
+procedure CefV8Handler_Create(var Result: ICefv8Handler); extdecl;
 begin
   handleExceptionBegin
   Result := TV8HandlerRef.Create;
   handleExceptionEnd
 end;
 
-procedure CefV8Handler_Execute(const AObj: TV8HandlerRef; AEventData: Pointer); extdecl;
+procedure CefV8Handler_Execute(const AObj: ICefv8Handler; AEventData: Pointer); extdecl;
 begin
-    AObj.ExecutePtr := AEventData;
+    (AObj as TV8HandlerRef).ExecutePtr := AEventData;
 end;
 
-procedure CefV8Handler_Destroy(const AObj: TV8HandlerRef); extdecl;
+procedure CefV8Handler_Destroy(const AObj: ICefv8Handler); extdecl;
 begin
-    AObj.Destroy();
+    (AObj as TV8HandlerRef).Destroy();
 end;
 
 exports

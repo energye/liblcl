@@ -4,17 +4,17 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure DownloadImageCallbackRef_Create(var Result: TDownloadImageCallbackRef); extdecl;
+procedure DownloadImageCallbackRef_Create(var Result: ICefDownloadImageCallback); extdecl;
 begin
   handleExceptionBegin
   Result := TDownloadImageCallbackRef.Create;
   handleExceptionEnd
 end;
 
-procedure DownloadImageCallback_OnDownloadImageFinished(const AObj: TDownloadImageCallbackRef; AEventData: Pointer); extdecl;
+procedure DownloadImageCallback_OnDownloadImageFinished(const AObj: ICefDownloadImageCallback; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.DownloadImageFinishedPtr := AEventData;
+  (AObj as TDownloadImageCallbackRef).DownloadImageFinishedPtr := AEventData;
   handleExceptionEnd
 end;
 

@@ -5,7 +5,7 @@
 //----------------------------------------
 
 {== ResourceRequestHandler ==}
-procedure ResourceRequestHandlerRef_Create(var Result: TResourceRequestHandlerRef); extdecl;
+procedure ResourceRequestHandlerRef_Create(var Result: ICefResourceRequestHandler); extdecl;
 begin
   handleExceptionBegin
   Result := TResourceRequestHandlerRef.Create;
@@ -19,64 +19,64 @@ begin
   handleExceptionEnd
 end;
 
-procedure ResourceRequestHandler_GetCookieAccessFilter(const AObj: TResourceRequestHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceRequestHandler_GetCookieAccessFilter(const AObj: ICefResourceRequestHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.GetCookieAccessFilterPtr := AEventData;
+  (AObj as TResourceRequestHandlerRef).GetCookieAccessFilterPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceRequestHandler_OnBeforeResourceLoad(const AObj: TResourceRequestHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceRequestHandler_OnBeforeResourceLoad(const AObj: ICefResourceRequestHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.BeforeResourceLoadPtr := AEventData;
+  (AObj as TResourceRequestHandlerRef).BeforeResourceLoadPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceRequestHandler_GetResourceHandler(const AObj: TResourceRequestHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceRequestHandler_GetResourceHandler(const AObj: ICefResourceRequestHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.GetResourceHandlerPtr := AEventData;
+  (AObj as TResourceRequestHandlerRef).GetResourceHandlerPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceRequestHandler_OnResourceRedirect(const AObj: TResourceRequestHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceRequestHandler_OnResourceRedirect(const AObj: ICefResourceRequestHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.ResourceRedirectPtr := AEventData;
+  (AObj as TResourceRequestHandlerRef).ResourceRedirectPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceRequestHandler_OnResourceResponse(const AObj: TResourceRequestHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceRequestHandler_OnResourceResponse(const AObj: ICefResourceRequestHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.ResourceResponsePtr := AEventData;
+  (AObj as TResourceRequestHandlerRef).ResourceResponsePtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceRequestHandler_GetResourceResponseFilter(const AObj: TResourceRequestHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceRequestHandler_GetResourceResponseFilter(const AObj: ICefResourceRequestHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.GetResourceResponseFilterPtr := AEventData;
+  (AObj as TResourceRequestHandlerRef).GetResourceResponseFilterPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceRequestHandler_OnResourceLoadComplete(const AObj: TResourceRequestHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceRequestHandler_OnResourceLoadComplete(const AObj: ICefResourceRequestHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.ResourceLoadCompletePtr := AEventData;
+  (AObj as TResourceRequestHandlerRef).ResourceLoadCompletePtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceRequestHandler_OnProtocolExecution(const AObj: TResourceRequestHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceRequestHandler_OnProtocolExecution(const AObj: ICefResourceRequestHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.ProtocolExecutionPtr := AEventData;
+  (AObj as TResourceRequestHandlerRef).ProtocolExecutionPtr := AEventData;
   handleExceptionEnd
 end;
 
 {== CookieAccessFilter ==}
-procedure CookieAccessFilterRef_Create(var Result: TCookieAccessFilterRef); extdecl;
+procedure CookieAccessFilterRef_Create(var Result: ICefCookieAccessFilter); extdecl;
 begin
   handleExceptionBegin
   Result := TCookieAccessFilterRef.Create;
@@ -90,74 +90,74 @@ begin
   handleExceptionEnd
 end;
 
-procedure CookieAccessFilter_CanSendCookie(const AObj: TCookieAccessFilterRef; AEventData: Pointer); extdecl;
+procedure CookieAccessFilter_CanSendCookie(const AObj: ICefCookieAccessFilter; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.CanSendCookiePtr := AEventData;
+  (AObj as TCookieAccessFilterRef).CanSendCookiePtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure CookieAccessFilter_CanSaveCookie(const AObj: TCookieAccessFilterRef; AEventData: Pointer); extdecl;
+procedure CookieAccessFilter_CanSaveCookie(const AObj: ICefCookieAccessFilter; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.CanSaveCookiePtr := AEventData;
+  (AObj as TCookieAccessFilterRef).CanSaveCookiePtr := AEventData;
   handleExceptionEnd
 end;
 
 {== ResourceHandler ==}
-procedure ResourceHandlerRef_Create(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: PChar; const request: ICefRequest; var Result: TResourceHandlerRef); extdecl;
+procedure ResourceHandlerRef_Create(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: PChar; const request: ICefRequest; var Result: ICefResourceHandler); extdecl;
 begin
   handleExceptionBegin
   Result := TResourceHandlerRef.Create(browser, frame, PCharToUStr(schemeName), request);
   handleExceptionEnd
 end;
 
-procedure ResourceHandler_Open(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceHandler_Open(const AObj: ICefResourceHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.OpenPtr := AEventData;
+  (AObj as TResourceHandlerRef).OpenPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceHandler_GetResponseHeaders(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceHandler_GetResponseHeaders(const AObj: ICefResourceHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.GetResponseHeadersPtr := AEventData;
+  (AObj as TResourceHandlerRef).GetResponseHeadersPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceHandler_Skip(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceHandler_Skip(const AObj: ICefResourceHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.skipPtr := AEventData;
+  (AObj as TResourceHandlerRef).skipPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceHandler_Read(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceHandler_Read(const AObj: ICefResourceHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.ReadPtr := AEventData;
+  (AObj as TResourceHandlerRef).ReadPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceHandler_ProcessRequest(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceHandler_ProcessRequest(const AObj: ICefResourceHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.ProcessRequestPtr := AEventData;
+  (AObj as TResourceHandlerRef).ProcessRequestPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceHandler_ReadResponse(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceHandler_ReadResponse(const AObj: ICefResourceHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.ReadResponsePtr := AEventData;
+  (AObj as TResourceHandlerRef).ReadResponsePtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure ResourceHandler_Cancel(const AObj: TResourceHandlerRef; AEventData: Pointer); extdecl;
+procedure ResourceHandler_Cancel(const AObj: ICefResourceHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.CancelPtr := AEventData;
+  (AObj as TResourceHandlerRef).CancelPtr := AEventData;
   handleExceptionEnd
 end;
 

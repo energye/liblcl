@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure TextfieldDelegate_Create(out Result: TTextfieldDelegateRef) ; extdecl;
+procedure TextfieldDelegate_Create(out Result: ICefTextfieldDelegate) ; extdecl;
 begin
     handleExceptionBegin
     Result := TTextfieldDelegateRef.Create();
@@ -18,14 +18,14 @@ begin
     handleExceptionEnd
 end;
 
-procedure  TextfieldDelegate_SetOnKeyEvent(const AObj: TTextfieldDelegateRef; AEventData: Pointer); extdecl;
+procedure  TextfieldDelegate_SetOnKeyEvent(const AObj: ICefTextfieldDelegate; AEventData: Pointer); extdecl;
 begin
-    AObj.KeyEventPtr := AEventData;
+    (AObj as TTextfieldDelegateRef).KeyEventPtr := AEventData;
 end;
 
-procedure  TextfieldDelegate_SetOnAfterUserAction(const AObj: TTextfieldDelegateRef; AEventData: Pointer); extdecl;
+procedure  TextfieldDelegate_SetOnAfterUserAction(const AObj: ICefTextfieldDelegate; AEventData: Pointer); extdecl;
 begin
-    AObj.AfterUserActionPtr := AEventData;
+    (AObj as TTextfieldDelegateRef).AfterUserActionPtr := AEventData;
 end;
 
 exports

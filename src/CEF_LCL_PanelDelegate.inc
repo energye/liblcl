@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure PanelDelegateRef_Create(out Result: TPanelDelegateRef); extdecl;
+procedure PanelDelegateRef_Create(out Result: ICefPanelDelegate); extdecl;
 begin
   handleExceptionBegin
   Result := TPanelDelegateRef.Create;

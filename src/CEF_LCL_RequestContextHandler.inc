@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure RequestContextHandlerRef_Create(var Result: TRequestContextHandlerRef); extdecl;
+procedure RequestContextHandlerRef_Create(var Result: ICefRequestContextHandler); extdecl;
 begin
   handleExceptionBegin
   Result := TRequestContextHandlerRef.Create;
@@ -18,17 +18,17 @@ begin
   handleExceptionEnd
 end;
 
-procedure RequestContextHandler_OnRequestContextInitialized(const AObj: TRequestContextHandlerRef; AEventData: Pointer); extdecl;
+procedure RequestContextHandler_OnRequestContextInitialized(const AObj: ICefRequestContextHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.RequestContextInitializedPtr := AEventData;
+  (AObj as TRequestContextHandlerRef).RequestContextInitializedPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure RequestContextHandler_GetResourceRequestHandler(const AObj: TRequestContextHandlerRef; AEventData: Pointer); extdecl;
+procedure RequestContextHandler_GetResourceRequestHandler(const AObj: ICefRequestContextHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.GetResourceRequestHandlerPtr := AEventData;
+  (AObj as TRequestContextHandlerRef).GetResourceRequestHandlerPtr := AEventData;
   handleExceptionEnd
 end;
 

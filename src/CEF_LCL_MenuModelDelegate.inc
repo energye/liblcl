@@ -4,59 +4,59 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure MenuModelDelegateRef_Create(var Result: TMenuModelDelegateRef); extdecl;
+procedure MenuModelDelegateRef_Create(var Result: ICefMenuModelDelegate); extdecl;
 begin
   handleExceptionBegin
   Result := TMenuModelDelegateRef.Create;
   handleExceptionEnd
 end;
 
-procedure MenuModelDelegate_ExecuteCommand(const AObj: TMenuModelDelegateRef; AEventData: Pointer); extdecl;
+procedure MenuModelDelegate_ExecuteCommand(const AObj: ICefMenuModelDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.ExecuteCommandPtr := AEventData;
+  (AObj as TMenuModelDelegateRef).ExecuteCommandPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure MenuModelDelegate_MouseOutsideMenu(const AObj: TMenuModelDelegateRef; AEventData: Pointer); extdecl;
+procedure MenuModelDelegate_MouseOutsideMenu(const AObj: ICefMenuModelDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.MouseOutsideMenuPtr := AEventData;
+  (AObj as TMenuModelDelegateRef).MouseOutsideMenuPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure MenuModelDelegate_UnhandledOpenSubmenu(const AObj: TMenuModelDelegateRef; AEventData: Pointer); extdecl;
+procedure MenuModelDelegate_UnhandledOpenSubmenu(const AObj: ICefMenuModelDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.UnhandledOpenSubmenuPtr := AEventData;
+  (AObj as TMenuModelDelegateRef).UnhandledOpenSubmenuPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure MenuModelDelegate_UnhandledCloseSubmenu(const AObj: TMenuModelDelegateRef; AEventData: Pointer); extdecl;
+procedure MenuModelDelegate_UnhandledCloseSubmenu(const AObj: ICefMenuModelDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.UnhandledCloseSubmenuPtr := AEventData;
+  (AObj as TMenuModelDelegateRef).UnhandledCloseSubmenuPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure MenuModelDelegate_MenuWillShow(const AObj: TMenuModelDelegateRef; AEventData: Pointer); extdecl;
+procedure MenuModelDelegate_MenuWillShow(const AObj: ICefMenuModelDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.MenuWillShowPtr := AEventData;
+  (AObj as TMenuModelDelegateRef).MenuWillShowPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure MenuModelDelegate_MenuClosed(const AObj: TMenuModelDelegateRef; AEventData: Pointer); extdecl;
+procedure MenuModelDelegate_MenuClosed(const AObj: ICefMenuModelDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.MenuClosedPtr := AEventData;
+  (AObj as TMenuModelDelegateRef).MenuClosedPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure MenuModelDelegate_FormatLabel(const AObj: TMenuModelDelegateRef; AEventData: Pointer); extdecl;
+procedure MenuModelDelegate_FormatLabel(const AObj: ICefMenuModelDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  AObj.FormatLabelPtr := AEventData;
+  (AObj as TMenuModelDelegateRef).FormatLabelPtr := AEventData;
   handleExceptionEnd
 end;
 
