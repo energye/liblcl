@@ -17,7 +17,7 @@
 //{$endif windows}
 
 {$I MyLCL_SpinEdit.inc}  //BASECLASS:TWinControl
-{$I MyLCL_MiniWebview.inc}  //BASECLASS:TWinControl
+//{$I MyLCL_MiniWebview.inc}  //BASECLASS:TWinControl
 {$I MyLCL_Canvas.inc}  //BASECLASS:TObject
 {$I MyLCL_Object.inc}  //BASECLASS:TObject
 {$I MyLCL_Graphic.inc}  //BASECLASS:TGraphic

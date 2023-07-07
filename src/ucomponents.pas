@@ -53,7 +53,7 @@ begin
       TCheckListBox,TGauge,TImageButton,TFontDialog,TFindDialog,TReplaceDialog,
       TPageSetupDialog,TPrinterSetupDialog, TSelectDirectoryDialog,TStringGrid,
       TDrawGrid, TValueListEditor, THeaderControl,TLabeledEdit,TBoundLabel,
-      TFlowPanel,TCoolBar, TSpinEdit,TMiniWebview,TTaskDialog, TCalendar,
+      TFlowPanel,TCoolBar, TSpinEdit,TTaskDialog, TCalendar,
       TComboBoxEx,TXButton, TCheckGroup, TToggleBox
   ]);
 end;
