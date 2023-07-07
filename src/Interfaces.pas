@@ -27,7 +27,7 @@ uses
     {$IFDEF LCLGTK3}
       gtk3int,
     {$ENDIF}
-    xlib, uCEFLinuxFunctions,
+    xlib,
   {$ENDIF}
   {$IFDEF LCLCOCOA}CocoaInt,{$ENDIF}
   Forms;
@@ -60,8 +60,8 @@ begin
       CreateWidgetset(TGtk2WidgetSet);
       // Install xlib error handlers so that the application won't be terminated
       // on non-fatal errors. Must be done after initializing GTK.
-      XSetErrorHandler(@CustomX11ErrorHandler);
-      XSetIOErrorHandler(@CustomXIOErrorHandler);
+      //XSetErrorHandler(@CustomX11ErrorHandler);
+      //XSetIOErrorHandler(@CustomXIOErrorHandler);
     {$ENDIF}
 
     {$IFDEF LCLGTK3}
@@ -84,6 +84,7 @@ begin
   FreeWidgetSet;
 end;
 
+//{$IF Defined(LCLGTK2) or Defined(LCLGTK3)}
 {$IFnDEF LCLGTK3}
 initialization
   begin
