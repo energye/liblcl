@@ -83,6 +83,7 @@ end;
 function CEFBrowser_TryCloseBrowser(const TObj: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
+  Result := False;
   if TObj.GetHost <> nil then
      Result := TObj.GetHost.TryCloseBrowser();
   handleExceptionEnd
@@ -112,12 +113,12 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_RunFileDialog(const TObj: ICefBrowser; mode: integer; const PTitle, PDefaultFilePath: PChar; const acceptFilters: TStrings; const callback: TRunFileDialogCallbackRef); extdecl;
+procedure CEFBrowser_RunFileDialog(const TObj: ICefBrowser; mode: integer; const PTitle, PDefaultFilePath: PChar; const acceptFilters: TStrings; const callback: ICefRunFileDialogCallback); extdecl;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
   begin
-     TObj.GetHost.RunFileDialog(mode, PCharToUStr(PTitle), PCharToUStr(PDefaultFilePath), acceptFilters, acceptFilters.Count , callback);
+    TObj.GetHost.RunFileDialog(mode, PCharToUStr(PTitle), PCharToUStr(PDefaultFilePath), acceptFilters, acceptFilters.Count , callback);
   end;
   handleExceptionEnd
 end;
@@ -130,7 +131,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_DownloadImage(const TObj: ICefBrowser; const PImageUrl: PChar; isFavicon: LongBool; maxImageSize: integer; bypassCache: LongBool; const callback: TDownloadImageCallbackRef); extdecl;
+procedure CEFBrowser_DownloadImage(const TObj: ICefBrowser; const PImageUrl: PChar; isFavicon: LongBool; maxImageSize: integer; bypassCache: LongBool; const callback: ICefDownloadImageCallback); extdecl;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
@@ -307,6 +308,7 @@ end;
 function CEFBrowser_IsAudioMuted(const TObj: ICefBrowser) : LongBool; extdecl;
 begin
   handleExceptionBegin
+  Result := False;
   if TObj.GetHost <> nil then
      Result := TObj.GetHost.IsAudioMuted;
   handleExceptionEnd
@@ -565,6 +567,4 @@ exports
   CEFBrowser_Find,
   CEFBrowser_StopFinding,
   CEFBrowser_GetRequestContext,
-  CEFBrowserRef_UnWrap
-;
-
+  CEFBrowserRef_UnWrap;

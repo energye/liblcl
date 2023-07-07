@@ -19,7 +19,7 @@ type
     FSize: NativeInt;
   public
     constructor Create;
-    destructor Destroy;
+    destructor Destroy; override;
     procedure SetValue(Value: string);
     function GetValue(): string;
     function GetSize(): NativeInt;

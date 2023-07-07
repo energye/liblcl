@@ -53,6 +53,7 @@ var
   PName: PChar;
   PException: PChar;
 begin
+  Result := False;
   if (SetPtr <> nil) then
   begin
     PName := PChar(string(Name));

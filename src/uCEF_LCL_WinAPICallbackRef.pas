@@ -70,6 +70,7 @@ implementation
 
 function TWinApiCallback.EnumDisplayMonitorsProc(hMonitor: HMONITOR; hdcMonitor: HDC; lprcMonitor: PRect; dwData: LPARAM): longbool;
 begin
+  Result := False;
   if (EnumDisplayMonitorsProcPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(EnumDisplayMonitorsProcPtr, [hMonitor, hdcMonitor, lprcMonitor, dwData, @Result]);
@@ -80,6 +81,7 @@ function TWinApiCallback.EnumFontFamiliesProc(var ELogFont: TEnumLogFont; var Me
 var
   EnumLogFont: REnumLogFont;
 begin
+  Result := 0;
   if (FEnumFontFamiliesProcPtr <> nil) then
   begin
     EnumLogFont.elfLogFont := @ELogFont.elfLogFont;
@@ -96,6 +98,7 @@ var
   NewTextMetricEx: RNewTextMetricEx;
   FontSignature: RFontSignature;
 begin
+  Result := 0;
   if (FEnumFontFamiliesExProcPtr <> nil) then
   begin
     EnumLogFont.elfLogFont := @ELogFont.elfLogFont;

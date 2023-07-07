@@ -55,19 +55,19 @@ begin
   //  CEF_ALPHA_TYPE_POSTMULTIPLIED
   //);
   if colorType = 0 then
-     ct := TCefColorType.CEF_COLOR_TYPE_RGBA_8888
+  ct := TCefColorType.CEF_COLOR_TYPE_RGBA_8888
   else if colorType = 1 then
-     ct := TCefColorType.CEF_COLOR_TYPE_BGRA_8888
+  ct := TCefColorType.CEF_COLOR_TYPE_BGRA_8888
   else
-     ct := TCefColorType.CEF_COLOR_TYPE_RGBA_8888;
+  ct := TCefColorType.CEF_COLOR_TYPE_RGBA_8888;
   if alphaType = 0 then
-     at := TCefAlphaType.CEF_ALPHA_TYPE_OPAQUE
+  at := TCefAlphaType.CEF_ALPHA_TYPE_OPAQUE
   else if alphaType = 1 then
-     at := TCefAlphaType.CEF_ALPHA_TYPE_PREMULTIPLIED
+  at := TCefAlphaType.CEF_ALPHA_TYPE_PREMULTIPLIED
   else if alphaType = 1 then
-     at := TCefAlphaType.CEF_ALPHA_TYPE_POSTMULTIPLIED
+  at := TCefAlphaType.CEF_ALPHA_TYPE_POSTMULTIPLIED
   else
-     at := TCefAlphaType.CEF_ALPHA_TYPE_OPAQUE;
+  at := TCefAlphaType.CEF_ALPHA_TYPE_OPAQUE;
   Result := TObj.AddBitmap(Single(scaleFactor^), pixelWidth, pixelHeight, ct, at, pixelData, pixelDataSize);
   handleExceptionEnd
 end;
@@ -109,19 +109,19 @@ begin
   //  CEF_ALPHA_TYPE_POSTMULTIPLIED
   //);
   if colorType = 0 then
-     ct := TCefColorType.CEF_COLOR_TYPE_RGBA_8888
+  ct := TCefColorType.CEF_COLOR_TYPE_RGBA_8888
   else if colorType = 1 then
-     ct := TCefColorType.CEF_COLOR_TYPE_BGRA_8888
+  ct := TCefColorType.CEF_COLOR_TYPE_BGRA_8888
   else
-     ct := TCefColorType.CEF_COLOR_TYPE_RGBA_8888;
+  ct := TCefColorType.CEF_COLOR_TYPE_RGBA_8888;
   if alphaType = 0 then
-     at := TCefAlphaType.CEF_ALPHA_TYPE_OPAQUE
+  at := TCefAlphaType.CEF_ALPHA_TYPE_OPAQUE
   else if alphaType = 1 then
-     at := TCefAlphaType.CEF_ALPHA_TYPE_PREMULTIPLIED
+  at := TCefAlphaType.CEF_ALPHA_TYPE_PREMULTIPLIED
   else if alphaType = 1 then
-     at := TCefAlphaType.CEF_ALPHA_TYPE_POSTMULTIPLIED
+  at := TCefAlphaType.CEF_ALPHA_TYPE_POSTMULTIPLIED
   else
-     at := TCefAlphaType.CEF_ALPHA_TYPE_OPAQUE;
+  at := TCefAlphaType.CEF_ALPHA_TYPE_OPAQUE;
   Result := TObj.GetAsBitmap(Single(scaleFactor^), ct, at, pixelWidth, pixelHeight);
   handleExceptionEnd
 end;
@@ -153,6 +153,4 @@ exports
   CEFImage_GetRepresentationInfo,
   CEFImage_GetAsBitmap,
   CEFImage_GetAsPng,
-  CEFImage_GetAsJpeg
-;
-
+  CEFImage_GetAsJpeg;

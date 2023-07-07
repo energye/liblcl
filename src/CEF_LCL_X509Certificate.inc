@@ -189,34 +189,28 @@ begin
 end;
 
 exports
-    {== TCefX509CertificateArray ==}
-    CefX509CertificateArray_Get,
-    {== ICefX509Certificate ==}
-    CefX509Certificate_GetSubject,
-    CefX509Certificate_GetIssuer,
-    CefX509Certificate_GetSerialNumber,
-    CefX509Certificate_GetValidStart,
-    CefX509Certificate_GetValidExpiry,
-    CefX509Certificate_GetValidStartAsDateTime,
-    CefX509Certificate_GetValidExpiryAsDateTime,
-    CefX509Certificate_GetDerEncoded,
-    CefX509Certificate_GetPemEncoded,
-    CefX509Certificate_GetIssuerChainSize,
-    CefX509Certificate_GetDEREncodedIssuerChain,
-    CefX509Certificate_GetPEMEncodedIssuerChain,
-    {== ICefX509CertPrincipal ==}
-    CefX509CertPrincipal_GetDisplayName,
-    CefX509CertPrincipal_GetCommonName,
-    CefX509CertPrincipal_GetLocalityName,
-    CefX509CertPrincipal_GetStateOrProvinceName,
-    CefX509CertPrincipal_GetCountryName,
-    CefX509CertPrincipal_GetStreetAddresses,
-    CefX509CertPrincipal_GetOrganizationNames,
-    CefX509CertPrincipal_GetOrganizationUnitNames,
-    CefX509CertPrincipal_GetDomainComponents,
-    {== ICefSelectClientCertificateCallback ==}
-    CefSelectClientCertificateCallback_Select,
-    {== ICefSslInfo ==}
-    CefSslInfo_GetCertStatus,
-    CefSslInfo_GetX509Certificate
-;
+  CefX509CertificateArray_Get,
+  CefX509Certificate_GetSubject,
+  CefX509Certificate_GetIssuer,
+  CefX509Certificate_GetSerialNumber,
+  CefX509Certificate_GetValidStart,
+  CefX509Certificate_GetValidExpiry,
+  CefX509Certificate_GetValidStartAsDateTime,
+  CefX509Certificate_GetValidExpiryAsDateTime,
+  CefX509Certificate_GetDerEncoded,
+  CefX509Certificate_GetPemEncoded,
+  CefX509Certificate_GetIssuerChainSize,
+  CefX509Certificate_GetDEREncodedIssuerChain,
+  CefX509Certificate_GetPEMEncodedIssuerChain,
+  CefX509CertPrincipal_GetDisplayName,
+  CefX509CertPrincipal_GetCommonName,
+  CefX509CertPrincipal_GetLocalityName,
+  CefX509CertPrincipal_GetStateOrProvinceName,
+  CefX509CertPrincipal_GetCountryName,
+  CefX509CertPrincipal_GetStreetAddresses,
+  CefX509CertPrincipal_GetOrganizationNames,
+  CefX509CertPrincipal_GetOrganizationUnitNames,
+  CefX509CertPrincipal_GetDomainComponents,
+  CefSelectClientCertificateCallback_Select,
+  CefSslInfo_GetCertStatus,
+  CefSslInfo_GetX509Certificate;

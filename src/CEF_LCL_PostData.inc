@@ -76,5 +76,4 @@ exports
   CefPostData_GetElements,
   CefPostData_RemoveElement,
   CefPostData_AddElement,
-  CefPostData_RemoveElements
-;
+  CefPostData_RemoveElements;

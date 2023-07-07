@@ -12,5 +12,4 @@ begin
 end;
 
 exports
-    CefJsDialogCallback_Cont
-;
+  CefJsDialogCallback_Cont;

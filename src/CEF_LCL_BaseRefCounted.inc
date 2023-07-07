@@ -15,6 +15,5 @@ begin
 end;
 
 exports
-    CefBaseRefCounted_Wrap,
-    CefBaseRefCounted_Free
-;
+  CefBaseRefCounted_Wrap,
+  CefBaseRefCounted_Free;

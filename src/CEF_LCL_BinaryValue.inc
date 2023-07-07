@@ -70,15 +70,12 @@ begin
 end;
 
 exports
-    {== TCefBinaryValueArray ==}
-    CefBinaryValueArray_Get,
-    {== ICefBinaryValue ==}
-    CefBinaryValueRef_New,
-    CefBinaryValueRef_Create,
-    CefBinaryValueRef_UnWrap,
-    CefBinaryValue_IsValid,
-    CefBinaryValue_IsOwned,
-    CefBinaryValue_Copy,
-    CefBinaryValue_GetSize,
-    CefBinaryValue_GetData
-;
+  CefBinaryValueArray_Get,
+  CefBinaryValueRef_New,
+  CefBinaryValueRef_Create,
+  CefBinaryValueRef_UnWrap,
+  CefBinaryValue_IsValid,
+  CefBinaryValue_IsOwned,
+  CefBinaryValue_Copy,
+  CefBinaryValue_GetSize,
+  CefBinaryValue_GetData;

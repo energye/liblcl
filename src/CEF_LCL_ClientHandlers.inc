@@ -124,17 +124,17 @@ end;
 
 procedure CefDisplayHandler_OnFaviconUrlChange(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).FaviconUrlChangePtr := AEventData;
+  (AObj as TDisplayHandlerRef).FaviconUrlChangePtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnFullScreenModeChange(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).FullScreenModeChangePtr := AEventData;
+  (AObj as TDisplayHandlerRef).FullScreenModeChangePtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnTooltip(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).TooltipPtr := AEventData;
+  (AObj as TDisplayHandlerRef).TooltipPtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnStatusMessage(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
@@ -162,13 +162,13 @@ begin
     (AObj as TDisplayHandlerRef).CursorChangePtr := AEventData;
 end;
 
-procedure CefDisplayHandler_OnMediaAccessChange(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
+procedure CefDisplayHandler_OnMediaAccessChange(const AObj: TDisplayHandlerRef; AEventData: Pointer); extdecl;
 begin
     (AObj as TDisplayHandlerRef).MediaAccessChangePtr := AEventData;
 end;
 
 {== DownloadHandler ==}
-procedure CefDownloadHandlerRef_Create(var Result: ICefDownloadHandler); extdecl;
+procedure CefDownloadHandlerRef_Create(var Result: TDownloadHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TDownloadHandlerRef.Create;
@@ -191,7 +191,7 @@ begin
 end;
 
 {== DragHandler ==}
-procedure CefDragHandlerRef_Create(var Result: ICefDragHandler); extdecl;
+procedure CefDragHandlerRef_Create(var Result: TDragHandlerRef); extdecl;
 begin
   handleExceptionBegin
   Result := TDragHandlerRef.Create;
@@ -247,8 +247,6 @@ end;
 {== FrameHandler ==}
 procedure CefFrameHandlerRef_Create(); extdecl;
 begin
-  handleExceptionBegin
-  handleExceptionEnd
 end;
 
 procedure CefFrameHandler_OnFrameCreated(); extdecl;
@@ -568,17 +566,14 @@ begin
 end;
 
 exports
-  {== AudioHandler ==}
   CefAudioHandlerRef_Create,
   CefAudioHandler_OnGetAudioParameters,
   CefAudioHandler_OnAudioStreamStarted,
   CefAudioHandler_OnAudioStreamPacket,
   CefAudioHandler_OnAudioStreamStopped,
   CefAudioHandler_OnAudioStreamError,
-  {== CommandHandler ==}
   CefCommandHandlerRef_Create,
   CefCommandHandler_OnChromeCommand,
-  {== ContextMenuHandler ==}
   CefContextMenuHandlerRef_Create,
   CefContextMenuHandler_OnBeforeContextMenu,
   CefContextMenuHandler_RunContextMenu,
@@ -587,10 +582,8 @@ exports
   CefContextMenuHandler_RunQuickMenu,
   CefContextMenuHandler_OnQuickMenuCommand,
   CefContextMenuHandler_OnQuickMenuDismissed,
-  {== DialogHandler ==}
   CefDialogHandlerRef_Create,
   CefDialogHandler_OnFileDialog,
-  {== DisplayHandler ==}
   CefDisplayHandlerRef_Create,
   CefDisplayHandler_OnAddressChange,
   CefDisplayHandler_OnTitleChange,
@@ -603,56 +596,45 @@ exports
   CefDisplayHandler_OnLoadingProgressChange,
   CefDisplayHandler_OnCursorChange,
   CefDisplayHandler_OnMediaAccessChange,
-  {== DownloadHandler ==}
   CefDownloadHandlerRef_Create,
   CefDownloadHandler_CanDownload,
   CefDownloadHandler_OnBeforeDownload,
   CefDownloadHandler_OnDownloadUpdated,
-  {== DragHandler ==}
   CefDragHandlerRef_Create,
   CefDragHandler_OnDragEnter,
   CefDragHandler_OnDraggableRegionsChanged,
-  {== FindHandler ==}
   CefFindHandlerRef_Create,
   CefFindHandler_OnFindResult,
-  {== FocusHandler ==}
   CefFocusHandlerRef_Create,
   CefFocusHandler_OnTakeFocus,
   CefFocusHandler_OnSetFocus,
   CefFocusHandler_OnGotFocus,
-  {== FrameHandler ==}
   CefFrameHandlerRef_Create,
   CefFrameHandler_OnFrameCreated,
   CefFrameHandler_OnFrameAttached,
   CefFrameHandler_OnFrameDetached,
   CefFrameHandler_OnMainFrameChanged,
-  {== PermissionHandler ==}
   CefPermissionHandlerRef_Create,
   CefPermissionHandler_OnRequestMediaAccessPermission,
   CefPermissionHandler_OnDismissPermissionPrompt,
-  {== JsDialogHandler ==}
   CefJsDialogHandlerRef_Create,
   CefJsDialogHandler_OnJsdialog,
   CefJsDialogHandler_OnBeforeUnloadDialog,
   CefJsDialogHandler_OnResetDialogState,
   CefJsDialogHandler_OnDialogClosed,
-  {== KeyboardHandler ==}
   CefKeyboardHandlerRef_Create,
   CefKeyboardHandler_OnPreKeyEvent,
   CefKeyboardHandler_OnKeyEvent,
-  {== LifeSpanHandler ==}
   CefLifeSpanHandlerRef_Create,
   CefLifeSpanHandler_OnBeforePopup,
   CefLifeSpanHandler_OnAfterCreated,
   CefLifeSpanHandler_DoClose,
   CefLifeSpanHandler_OnBeforeClose,
-  {== LoadHandler ==}
   CefLoadHandlerRef_Create,
   CefLoadHandler_OnLoadingStateChange,
   CefLoadHandler_OnLoadStart,
   CefLoadHandler_OnLoadEnd,
   CefLoadHandler_OnLoadError,
-  {== PrintHandler ==}
   CefPrintHandlerRef_Create,
   CefPrintHandler_OnPrintStart,
   CefPrintHandler_OnPrintSettings,
@@ -660,7 +642,6 @@ exports
   CefPrintHandler_OnPrintJob,
   CefPrintHandler_OnPrintReset,
   CefPrintHandler_GetPDFPaperSize,
-  {== RenderHandler ==}
   CefRenderHandlerRef_Create,
   CefRenderHandler_GetAccessibilityHandler,
   CefRenderHandler_GetRootScreenRect,
@@ -679,7 +660,6 @@ exports
   CefRenderHandler_OnIMECompositionRangeChanged,
   CefRenderHandler_OnTextSelectionChanged,
   CefRenderHandler_OnVirtualKeyboardRequested,
-  {== RequestHandler ==}
   CefRequestHandlerRef_Create,
   CefRequestHandler_OnBeforeBrowse,
   CefRequestHandler_OnOpenUrlFromTab,
@@ -689,5 +669,4 @@ exports
   CefRequestHandler_OnSelectClientCertificate,
   CefRequestHandler_OnRenderViewReady,
   CefRequestHandler_OnRenderProcessTerminated,
-  CefRequestHandler_OnDocumentAvailableInMainFrame
-;
+  CefRequestHandler_OnDocumentAvailableInMainFrame;

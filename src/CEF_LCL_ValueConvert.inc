@@ -37,13 +37,13 @@ begin
   ValueArray := TValueConvert.BytesToV8ValueArray(Data, dataSize);
   if ValueArray = nil then
   begin
-    Result := nil;
-    ResultLength := 0;
+  Result := nil;
+  ResultLength := 0;
   end
   else
   begin
-    Result := ValueArray;
-    ResultLength := Length(ValueArray);
+  Result := ValueArray;
+  ResultLength := Length(ValueArray);
   end;
 handleExceptionEnd
 end;
@@ -65,10 +65,9 @@ begin
 end;
 
 exports
-    ValueConvert_BytesToProcessMessage,
-    ValueConvert_BytesToListValue,
-    ValueConvert_BytesToDictionaryValue,
-    ValueConvert_BytesToV8ValueArray,
-    ValueConvert_BytesToV8Array,
-    ValueConvert_BytesToV8Object
-;
+  ValueConvert_BytesToProcessMessage,
+  ValueConvert_BytesToListValue,
+  ValueConvert_BytesToDictionaryValue,
+  ValueConvert_BytesToV8ValueArray,
+  ValueConvert_BytesToV8Array,
+  ValueConvert_BytesToV8Object;

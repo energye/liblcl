@@ -9,11 +9,11 @@ begin
   handleExceptionBegin
   if AClass <> nil then
   begin
-       Result := TSchemeHandlerFactoryRef.Create(AClass);
+   Result := TSchemeHandlerFactoryRef.Create(AClass);
   end
   else
   begin
-       Result := TSchemeHandlerFactoryRef.Create(nil);
+   Result := TSchemeHandlerFactoryRef.Create(nil);
   end;
   handleExceptionEnd
 end;
@@ -27,5 +27,4 @@ end;
 
 exports
   SchemeHandlerFactoryRef_Create,
-  SchemeHandlerFactory_New
-;
+  SchemeHandlerFactory_New;

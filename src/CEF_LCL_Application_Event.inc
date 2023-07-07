@@ -135,27 +135,24 @@ begin
 end;
 
 exports
-    CEFGlobalApp_SetOnRegCustomSchemes,
-    CEFGlobalApp_SetOnRegisterCustomPreferences,
-    CEFGlobalApp_SetOnContextInitialized,
-    CEFGlobalApp_SetOnBeforeChildProcessLaunch,
-    CEFGlobalApp_SetOnGetDefaultClient,
-    CEFGlobalApp_SetOnGetLocalizedString,
-    CEFGlobalApp_SetOnGetDataResource,
-    CEFGlobalApp_SetOnGetDataResourceForScale,
-    CEFGlobalApp_SetOnWebKitInitialized,
-    CEFGlobalApp_SetOnBrowserCreated,
-    CEFGlobalApp_SetOnBrowserDestroyed,
-    CEFGlobalApp_SetOnContextCreated,
-    CEFGlobalApp_SetOnContextReleased,
-    CEFGlobalApp_SetOnUncaughtException,
-    CEFGlobalApp_SetOnFocusedNodeChanged,
-    CEFGlobalApp_SetOnProcessMessageReceived,
-    CEFGlobalApp_SetOnRenderLoadingStateChange,
-    CEFGlobalApp_SetOnRenderLoadStart,
-    CEFGlobalApp_SetOnRenderLoadEnd,
-    CEFGlobalApp_SetOnRenderLoadError,
-    CEFGlobalApp_SetOnScheduleMessagePumpWork
-{end}
-;
-
+  CEFGlobalApp_SetOnRegCustomSchemes,
+  CEFGlobalApp_SetOnRegisterCustomPreferences,
+  CEFGlobalApp_SetOnContextInitialized,
+  CEFGlobalApp_SetOnBeforeChildProcessLaunch,
+  CEFGlobalApp_SetOnGetDefaultClient,
+  CEFGlobalApp_SetOnGetLocalizedString,
+  CEFGlobalApp_SetOnGetDataResource,
+  CEFGlobalApp_SetOnGetDataResourceForScale,
+  CEFGlobalApp_SetOnWebKitInitialized,
+  CEFGlobalApp_SetOnBrowserCreated,
+  CEFGlobalApp_SetOnBrowserDestroyed,
+  CEFGlobalApp_SetOnContextCreated,
+  CEFGlobalApp_SetOnContextReleased,
+  CEFGlobalApp_SetOnUncaughtException,
+  CEFGlobalApp_SetOnFocusedNodeChanged,
+  CEFGlobalApp_SetOnProcessMessageReceived,
+  CEFGlobalApp_SetOnRenderLoadingStateChange,
+  CEFGlobalApp_SetOnRenderLoadStart,
+  CEFGlobalApp_SetOnRenderLoadEnd,
+  CEFGlobalApp_SetOnRenderLoadError,
+  CEFGlobalApp_SetOnScheduleMessagePumpWork;

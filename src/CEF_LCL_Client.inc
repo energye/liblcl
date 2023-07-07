@@ -6,12 +6,12 @@
 
 procedure CefClientRef_Create(var Result: ICefClient); extdecl;
 begin
-    Result := TClientRef.Create;
+  Result := TClientRef.Create;
 end;
 
 procedure CefClientRef_CreateForChromium(const Chromium: TChromium; aDevToolsClient : boolean; var Result: ICefClient); extdecl;
 begin
-    Result := TCustomClientHandler.Create(Chromium, aDevToolsClient);
+  Result := TCustomClientHandler.Create(Chromium, aDevToolsClient);
 end;
 
 procedure CefClient_GetAudioHandler(const TObj: ICefClient; var aHandler: ICefAudioHandler); extdecl;
@@ -151,26 +151,25 @@ begin
 end;
 
 exports
-    CefClientRef_Create,
-    CefClientRef_CreateForChromium,
-    CefClient_GetAudioHandler,
-    CefClient_GetCommandHandler,
-    CefClient_GetContextMenuHandler,
-    CefClient_GetDialogHandler,
-    CefClient_GetDisplayHandler,
-    CefClient_GetDownloadHandler,
-    CefClient_GetDragHandler,
-    CefClient_GetFindHandler,
-    CefClient_GetFocusHandler,
-    CefClient_GetFrameHandler,
-    CefClient_GetPermissionHandler,
-    CefClient_GetJsdialogHandler,
-    CefClient_GetKeyboardHandler,
-    CefClient_GetLifeSpanHandler,
-    CefClient_GetLoadHandler,
-    CefClient_GetPrintHandler,
-    CefClient_GetRenderHandler,
-    CefClient_GetRequestHandler,
-    CefClient_OnProcessMessageReceived,
-    CefClient_RemoveReferences
-;
+  CefClientRef_Create,
+  CefClientRef_CreateForChromium,
+  CefClient_GetAudioHandler,
+  CefClient_GetCommandHandler,
+  CefClient_GetContextMenuHandler,
+  CefClient_GetDialogHandler,
+  CefClient_GetDisplayHandler,
+  CefClient_GetDownloadHandler,
+  CefClient_GetDragHandler,
+  CefClient_GetFindHandler,
+  CefClient_GetFocusHandler,
+  CefClient_GetFrameHandler,
+  CefClient_GetPermissionHandler,
+  CefClient_GetJsdialogHandler,
+  CefClient_GetKeyboardHandler,
+  CefClient_GetLifeSpanHandler,
+  CefClient_GetLoadHandler,
+  CefClient_GetPrintHandler,
+  CefClient_GetRenderHandler,
+  CefClient_GetRequestHandler,
+  CefClient_OnProcessMessageReceived,
+  CefClient_RemoveReferences;

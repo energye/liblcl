@@ -20,5 +20,4 @@ end;
 
 exports
   CefV8ArrayBufferReleaseCallback_Create,
-  CefV8ArrayBufferReleaseCallback_ReleaseBuffer
-;
+  CefV8ArrayBufferReleaseCallback_ReleaseBuffer;

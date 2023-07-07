@@ -21,6 +21,5 @@ end;
 
 
 exports
-   RunContextMenuCallback_Cont,
-   RunContextMenuCallback_Cancel
-;
+  RunContextMenuCallback_Cont,
+  RunContextMenuCallback_Cancel;

@@ -60,7 +60,7 @@ begin
   handleExceptionEnd
 end;
 
-function   LabelButtonComponent_GetText(const AObj: TCEFLabelButtonComponent): PChar; extdecl;
+function  LabelButtonComponent_GetText(const AObj: TCEFLabelButtonComponent): PChar; extdecl;
 begin
   handleExceptionBegin
   Result := PChar(string(AObj.Text));
@@ -109,5 +109,4 @@ exports
   LabelButtonComponent_SetText,
   LabelButtonComponent_GetImage,
   LabelButtonComponent_SetImage,
-  LabelButtonComponent_AsMenuButton
-;
+  LabelButtonComponent_AsMenuButton;

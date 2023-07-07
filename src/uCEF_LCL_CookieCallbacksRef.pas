@@ -22,7 +22,7 @@ type
   public
     visitPtr: Pointer;
     constructor Create; override;
-    destructor Destroy;
+    destructor Destroy; override;
   protected
     function visit(const Name, Value, domain, path: ustring; secure, httponly, hasExpires: boolean; const creation, lastAccess, expires: TDateTime; Count, total: integer; same_site: TCefCookieSameSite; priority: TCefCookiePriority; out deleteCookie: boolean): boolean; override;
   end;
@@ -32,7 +32,7 @@ type
   public
     CompletePtr: Pointer;
     constructor Create; override;
-    destructor Destroy;
+    destructor Destroy; override;
   protected
    procedure OnComplete(success: Boolean); override;
   end;
@@ -42,7 +42,7 @@ type
   public
     CompletePtr: Pointer;
     constructor Create; override;
-    destructor Destroy;
+    destructor Destroy; override;
   protected
    procedure OnComplete(numDeleted: Integer); override;
   end;

@@ -20,5 +20,4 @@ end;
 
 exports
   DownloadImageCallbackRef_Create,
-  DownloadImageCallback_OnDownloadImageFinished
-;
+  DownloadImageCallback_OnDownloadImageFinished;

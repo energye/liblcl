@@ -20,5 +20,4 @@ end;
 
 exports
   CefPrintDialogCallback_Cont,
-  CefPrintDialogCallback_Cancel
-;
+  CefPrintDialogCallback_Cancel;

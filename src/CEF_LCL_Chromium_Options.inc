@@ -124,6 +124,4 @@ exports
   ChromiumOptions_SetBackgroundColor,
   ChromiumOptions_SetAcceptLanguageList,
   ChromiumOptions_SetWindowlessFrameRate,
-  ChromiumOptions_SetChromeStatusBubble
-;
-
+  ChromiumOptions_SetChromeStatusBubble;

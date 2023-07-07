@@ -37,10 +37,9 @@ begin
 end;
 
 exports
-    CefV8InterceptorRef_Create,
-    CefV8Interceptor_GetByName,
-    CefV8Interceptor_GetByIndex,
-    CefV8Interceptor_SetByName,
-    CefV8Interceptor_SetByIndex,
-    CefV8Interceptor_Destroy
-;
+  CefV8InterceptorRef_Create,
+  CefV8Interceptor_GetByName,
+  CefV8Interceptor_GetByIndex,
+  CefV8Interceptor_SetByName,
+  CefV8Interceptor_SetByIndex,
+  CefV8Interceptor_Destroy;

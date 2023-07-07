@@ -52,5 +52,4 @@ exports
   Button_GetState,
   Button_SetInkDropEnabled,
   Button_SetTooltipText,
-  Button_SetAccessibleName
-;
+  Button_SetAccessibleName;

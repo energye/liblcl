@@ -84,5 +84,4 @@ exports
   PostDataElement_GetType,
   PostDataElement_GetFile,
   PostDataElement_GetBytesCount,
-  PostDataElement_GetBytes
-;
+  PostDataElement_GetBytes;

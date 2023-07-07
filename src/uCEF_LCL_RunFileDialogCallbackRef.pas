@@ -22,7 +22,7 @@ type
   public
     FileDialogDismissedPtr: Pointer;
     constructor Create;
-    destructor Destroy;
+    destructor Destroy; override;
   protected
     procedure OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings); override;
 

@@ -76,5 +76,4 @@ exports
   ButtonComponent_GetState,
   ButtonComponent_SetState,
   ButtonComponent_SetOnButtonPressed,
-  ButtonComponent_SetOnButtonStateChanged
-;
+  ButtonComponent_SetOnButtonStateChanged;

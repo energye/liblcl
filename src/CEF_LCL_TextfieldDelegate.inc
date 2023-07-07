@@ -6,16 +6,16 @@
 
 procedure TextfieldDelegate_Create(out Result: ICefTextfieldDelegate) ; extdecl;
 begin
-    handleExceptionBegin
-    Result := TTextfieldDelegateRef.Create();
-    handleExceptionEnd
+  handleExceptionBegin
+  Result := TTextfieldDelegateRef.Create();
+  handleExceptionEnd
 end;
 
 procedure TextfieldDelegate_CreateForCustom(const events: ICefTextfieldDelegateEvents; out Result: ICefTextfieldDelegate) ; extdecl;
 begin
-    handleExceptionBegin
-    Result := TCustomTextfieldDelegate.Create(events);
-    handleExceptionEnd
+  handleExceptionBegin
+  Result := TCustomTextfieldDelegate.Create(events);
+  handleExceptionEnd
 end;
 
 procedure  TextfieldDelegate_SetOnKeyEvent(const AObj: ICefTextfieldDelegate; AEventData: Pointer); extdecl;
@@ -32,6 +32,4 @@ exports
   TextfieldDelegate_Create,
   TextfieldDelegate_CreateForCustom,
   TextfieldDelegate_SetOnKeyEvent,
-  TextfieldDelegate_SetOnAfterUserAction
-;
-
+  TextfieldDelegate_SetOnAfterUserAction;

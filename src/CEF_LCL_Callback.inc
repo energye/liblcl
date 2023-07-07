@@ -22,5 +22,4 @@ end;
 
 exports
   cefCallback_Cont,
-  cefCallback_Cancel
-;
+  cefCallback_Cancel;

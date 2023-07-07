@@ -17,6 +17,5 @@ begin
 end;
 
 exports
-    CefPdfPrintCallback_Create,
-    CefPdfPrintCallback_OnPdfPrintFinished
-;
+  CefPdfPrintCallback_Create,
+  CefPdfPrintCallback_OnPdfPrintFinished;

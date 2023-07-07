@@ -158,5 +158,4 @@ exports
   CefResponse_GetURL,
   CefResponse_SetURL,
   CefResponse_GetHeaderMap,
-  CefResponse_SetHeaderMap
-;
+  CefResponse_SetHeaderMap;

@@ -25,7 +25,7 @@ begin
   handleExceptionEnd
 end;
 
-function StringMultimap_GetEnumerate(const TObj: ICefStringMultimap; Key: PChar; ValueIndex: NativeUInt; const RetValue: TString): PChar; extdecl;
+procedure StringMultimap_GetEnumerate(const TObj: ICefStringMultimap; Key: PChar; ValueIndex: NativeUInt; const RetValue: TString); extdecl;
 begin
   handleExceptionBegin
   RetValue.SetValue(string(TObj.GetEnumerate(PCharToUStr(Key), ValueIndex)));
@@ -68,5 +68,4 @@ exports
   StringMultimap_GetKey,
   StringMultimap_GetValue,
   StringMultimap_Append,
-  StringMultimap_Clear
-;
+  StringMultimap_Clear;

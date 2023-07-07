@@ -603,7 +603,7 @@ var
   I, keysSize: integer;
   dataValue: ICefv8Value;
   keys: TStrings;
-  key: string;
+  key: ustring;
 begin
   try
     message := TCefProcessMessageRef.New(Name);
@@ -635,7 +635,7 @@ begin
         else
           message.ArgumentList.SetNull(I);
         Inc(I);
-        TCefv8ValueRef(dataValue).Free;
+        (dataValue as TCefv8ValueRef).Free;
       end;
     end
     else if Value.IsObject then
@@ -664,7 +664,7 @@ begin
         else
           message.ArgumentList.SetNull(I);
         Inc(I);
-        TCefv8ValueRef(dataValue).Free;
+        (dataValue as TCefv8ValueRef).Free;
       end;
       keys.Free;
     end
@@ -687,7 +687,7 @@ begin
   except
     on E: Exception do
   end;
-  TCefv8ValueRef(Value).Free;
+  (Value as TCefv8ValueRef).Free;
 end;
 
 
@@ -721,7 +721,7 @@ begin
       else
         ListValue.SetNull(I);
       Inc(I);
-      TCefv8ValueRef(dataValue).Free;
+      (dataValue as TCefv8ValueRef).Free;
     end;
   except
     on E: Exception do
@@ -735,7 +735,7 @@ var
   I, keysSize: integer;
   dataValue: ICefv8Value;
   keys: TStrings;
-  key: string;
+  key: ustring;
 begin
   try
     DictionaryValue := TCefDictionaryValueRef.New;
@@ -764,7 +764,7 @@ begin
         else
           DictionaryValue.SetNull(key);
         Inc(I);
-        TCefv8ValueRef(dataValue).Free;
+        (dataValue as TCefv8ValueRef).Free;
       end;
       Result := DictionaryValue;
     except

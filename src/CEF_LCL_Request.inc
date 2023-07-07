@@ -196,5 +196,4 @@ exports
   CefRequest_SetPostData,
   CefRequest_GetResourceType,
   CefRequest_GetTransitionType,
-  CefRequest_GetIdentifier
-;
+  CefRequest_GetIdentifier;

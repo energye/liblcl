@@ -64,15 +64,11 @@ begin
 end;
 
 exports
-  {== CookieVisitor ==}
   CefCookieVisitorRef_Create,
   CefCookieVisitor_OnVisit,
-  {== SetCookieCallback ==}
   CefSetCookieCallbackRef_Create,
   CefSetCookieCallbackRef_CreateForChromium,
   CefSetCookieCallback_OnComplete,
-  {== DeleteCookiesCallback ==}
   CefDeleteCookiesCallbackRef_Create,
   CefDeleteCookiesCallbackRef_CreateForChromium,
-  CefDeleteCookiesCallback_OnComplete
-;
+  CefDeleteCookiesCallback_OnComplete;

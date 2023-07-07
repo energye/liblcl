@@ -17,6 +17,5 @@ begin
 end;
 
 exports
-    CefCompletionCallbackRef_Create,
-    CefCompletionCallback_OnComplete
-;
+  CefCompletionCallbackRef_Create,
+  CefCompletionCallback_OnComplete;

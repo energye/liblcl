@@ -11,5 +11,4 @@ begin
 end;
 
 exports
-    CefPermissionPromptCallback_Cont
-;
+  CefPermissionPromptCallback_Cont;

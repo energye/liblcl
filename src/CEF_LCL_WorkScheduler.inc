@@ -7,20 +7,20 @@
 procedure CEFWorkScheduler_StopScheduler(); extdecl;
 begin
   if GlobalCEFWorkScheduler <> nil then
-     GlobalCEFWorkScheduler.StopScheduler;
+    GlobalCEFWorkScheduler.StopScheduler;
 end;
 
 procedure CEFWorkScheduler_Create(const AOwner: TComponent; out Result: TCEFWorkScheduler); extdecl;
 begin
   if GlobalCEFWorkScheduler = nil then
-   GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(AOwner);
+    GlobalCEFWorkScheduler := TCEFWorkScheduler.Create(AOwner);
   Result := GlobalCEFWorkScheduler;
 end;
 
 procedure CEFWorkScheduler_CreateDelayed(out Result: TCEFWorkScheduler); extdecl;
 begin
   if GlobalCEFWorkScheduler = nil then
-   GlobalCEFWorkScheduler := TCEFWorkScheduler.CreateDelayed;
+    GlobalCEFWorkScheduler := TCEFWorkScheduler.CreateDelayed;
   Result := GlobalCEFWorkScheduler;
 end;
 
@@ -35,7 +35,7 @@ begin
   DestroyGlobalCEFWorkScheduler;
 end;
 
-function CEFWorkScheduler_GetPriority(): TThreadPriority; // default  tpNormal;
+function CEFWorkScheduler_GetPriority(): TThreadPriority; extdecl;// default  tpNormal;
 begin
   Result := tpNormal;
 {$IFDEF MSWINDOWS}
@@ -48,7 +48,7 @@ begin
 {$ENDIF}
 end;
 
-procedure CEFWorkScheduler_SetPriority(AValue: Integer); // default  tpNormal;
+procedure CEFWorkScheduler_SetPriority(AValue: Integer); extdecl;// default  tpNormal;
 begin
 {$IFDEF MSWINDOWS}
 {$WARN SYMBOL_PLATFORM OFF}
@@ -141,6 +141,4 @@ exports
   CEFWorkScheduler_SetDefaultInterval,
   CEFWorkScheduler_SetDepleteWorkCycles,
   CEFWorkScheduler_SetDepleteWorkDelay,
-  CEFWorkScheduler_SetUseQueueThread
-;
-
+  CEFWorkScheduler_SetUseQueueThread;

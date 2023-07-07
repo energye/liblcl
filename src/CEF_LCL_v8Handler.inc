@@ -22,7 +22,6 @@ begin
 end;
 
 exports
-    CefV8Handler_Create,
-    CefV8Handler_Execute,
-    CefV8Handler_Destroy
-;
+  CefV8Handler_Create,
+  CefV8Handler_Execute,
+  CefV8Handler_Destroy;

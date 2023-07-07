@@ -4,7 +4,6 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-{== ResourceSkipCallback ==}
 procedure ResourceSkipCallback_Cont(const callback: ICefResourceSkipCallback; var bytes_skipped: int64); extdecl;
 begin
   handleExceptionBegin
@@ -12,7 +11,6 @@ begin
   handleExceptionEnd
 end;
 
-{== ResourceReadCallback ==}
 procedure ResourceReadCallback_Cont(const callback: ICefResourceReadCallback; var bytes_read: int64); extdecl;
 begin
   handleExceptionBegin
@@ -22,8 +20,5 @@ end;
 
 
 exports
-  {== ResourceSkipCallback ==}
   ResourceSkipCallback_Cont,
-  {== ResourceReadCallback ==}
-  ResourceReadCallback_Cont
-;
+  ResourceReadCallback_Cont;

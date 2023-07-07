@@ -100,7 +100,7 @@ var
   RetNames: TStrings;
 begin
   handleExceptionBegin
-  RetNames := TStrings.Create;
+  RetNames := TStringList.Create;
   Result := AObj.GetFileNames(RetNames);
   names := RetNames;
   handleExceptionEnd
@@ -215,5 +215,4 @@ exports
   CefDragData_ClearFilenames,
   CefDragData_GetImage,
   CefDragData_GetImageHotspot,
-  CefDragData_HasImage
-;
+  CefDragData_HasImage;

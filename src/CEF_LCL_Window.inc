@@ -190,24 +190,24 @@ var
 {$endif}
   icon: ICefImage;
 begin
-    handleExceptionBegin
-    icon := TCefImageRef.New;
-    {$ifdef DARWIN}
-    if dataSize >0 then
-    begin
-      try
-        SetLength(tmpData, dataSize);
-        Move(data[0], tmpData[0], dataSize);
-        icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
-      finally
-        SetLength(tmpData, 0);
-      end;
-    end;
-    {$else}
-    icon.AddPng(scaleFactor^, @data[0], length(data));
-    {$endif}
-    AWindow.WindowIcon := icon;
-    handleExceptionEnd
+  handleExceptionBegin
+  icon := TCefImageRef.New;
+  {$ifdef DARWIN}
+  if dataSize >0 then
+  begin
+  try
+  SetLength(tmpData, dataSize);
+  Move(data[0], tmpData[0], dataSize);
+  icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
+  finally
+  SetLength(tmpData, 0);
+  end;
+  end;
+  {$else}
+  icon.AddPng(scaleFactor^, @data[0], length(data));
+  {$endif}
+  AWindow.WindowIcon := icon;
+  handleExceptionEnd
 end;
 
 procedure ICEFWindow_GetWindowIcon(const AWindow: ICefWindow; var Result: Pointer); extdecl;
@@ -218,7 +218,7 @@ begin
   icon := AWindow.WindowIcon;
   if (icon <> nil) and not(icon.IsEmpty) then
   begin
-    Result := icon.Wrap;
+  Result := icon.Wrap;
   end;
   handleExceptionEnd
 end;
@@ -233,24 +233,24 @@ var
 {$endif}
   icon: ICefImage;
 begin
-    handleExceptionBegin
-    icon := TCefImageRef.New;
-    {$ifdef DARWIN}
-    if dataSize >0 then
-    begin
-      try
-        SetLength(tmpData, dataSize);
-        Move(data[0], tmpData[0], dataSize);
-        icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
-      finally
-        SetLength(tmpData, 0);
-      end;
-    end;
-    {$else}
-    icon.AddPng(scaleFactor^, @data[0], length(data));
-    {$endif}
-    AWindow.WindowAppIcon := icon;
-    handleExceptionEnd
+  handleExceptionBegin
+  icon := TCefImageRef.New;
+  {$ifdef DARWIN}
+  if dataSize >0 then
+  begin
+  try
+  SetLength(tmpData, dataSize);
+  Move(data[0], tmpData[0], dataSize);
+  icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
+  finally
+  SetLength(tmpData, 0);
+  end;
+  end;
+  {$else}
+  icon.AddPng(scaleFactor^, @data[0], length(data));
+  {$endif}
+  AWindow.WindowAppIcon := icon;
+  handleExceptionEnd
 end;
 
 procedure ICEFWindow_GetWindowAppIcon(const AWindow: ICefWindow; var Result: ICefImage); extdecl;
@@ -392,5 +392,4 @@ exports
   ICEFWindow_SendMouseEvents,
   ICEFWindow_SetAccelerator,
   ICEFWindow_RemoveAccelerator,
-  ICEFWindow_RemoveAllAccelerators
-;
+  ICEFWindow_RemoveAllAccelerators;

@@ -20,5 +20,4 @@ end;
 
 exports
   RunFileDialogCallbackRef_Create,
-  RunFileDialogCallback_OnFileDialogDismissed
-;
+  RunFileDialogCallback_OnFileDialogDismissed;

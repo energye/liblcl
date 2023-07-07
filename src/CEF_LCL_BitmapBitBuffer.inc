@@ -82,16 +82,16 @@ begin
 end;
 
 exports
-    BitmapBitBuffer_Create,
-    BitmapBitBuffer_Free,
-    BitmapBitBuffer_UpdateSize,
-    BitmapBitBuffer_Width,
-    BitmapBitBuffer_Height,
-    BitmapBitBuffer_BufferLength,
-    BitmapBitBuffer_Empty,
-    BitmapBitBuffer_Scanline,
-    BitmapBitBuffer_ScanlineSize,
-    BitmapBitBuffer_BufferScanlineSize,
-    BitmapBitBuffer_BufferBits
+  BitmapBitBuffer_Create,
+  BitmapBitBuffer_Free,
+  BitmapBitBuffer_UpdateSize,
+  BitmapBitBuffer_Width,
+  BitmapBitBuffer_Height,
+  BitmapBitBuffer_BufferLength,
+  BitmapBitBuffer_Empty,
+  BitmapBitBuffer_Scanline,
+  BitmapBitBuffer_ScanlineSize,
+  BitmapBitBuffer_BufferScanlineSize,
+  BitmapBitBuffer_BufferBits
 
 ;
