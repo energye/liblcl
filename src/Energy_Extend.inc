@@ -61,13 +61,6 @@ begin
   Result := PChar(Ret);
 end;
 
-procedure Ext_NIL();
-begin
-    //handleExceptionBegin
-    //TODO 没搞懂，要加一个空函数编译才不报错
-    //handleExceptionEnd
-end;
-
 
 exports
   Ext_Panel_GetBevelColor,

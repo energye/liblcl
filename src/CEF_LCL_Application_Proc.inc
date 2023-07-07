@@ -16,7 +16,7 @@ end;
 
 procedure AddCustomCommandLine(CommandLine, Value: PChar); extdecl;
 begin
-  GlobalCEFApp.AddCustomCommandLine(PCharToUStr(CommandLine), PCharToUStr(Value));
+  GlobalCEFApp.AddCustomCommandLine(CommandLine, Value);
 end;
 
 procedure SetMacOSXCommandLine(PCommandLine: PChar); extdecl;

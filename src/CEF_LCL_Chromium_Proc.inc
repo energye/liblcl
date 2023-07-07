@@ -539,6 +539,8 @@ begin
   handleExceptionBegin
   {$ifdef mswindows}
   Result:= AObj.BrowserHandle;
+  {$else}
+  Result := 0;
   {$endif}
   handleExceptionEnd
 end;
@@ -548,6 +550,8 @@ begin
   handleExceptionBegin
   {$ifdef mswindows}
   Result:= AObj.WidgetHandle;
+  {$else}
+  Result := 0;
   {$endif}
   handleExceptionEnd
 end;
@@ -557,6 +561,8 @@ begin
   handleExceptionBegin
   {$ifdef mswindows}
   Result:= AObj.RenderHandle;
+  {$else}
+  Result := 0;
   {$endif}
   handleExceptionEnd
 end;

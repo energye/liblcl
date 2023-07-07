@@ -283,8 +283,6 @@ function StrToHash(const SoureStr: string): cardinal;
 function PCharToUStr(const Value: PChar): unicodestring;
 //String 转 UnicodeString
 function StrToUStr(const Value: string): unicodestring;
-//错误信息转换
-function ErrorCodeToMessage(const Code: integer): unicodestring;
 
 function ByteToInteger(const Data: array of byte; start: integer = 0): integer;
 //复制Byte数组到Dest
@@ -344,6 +342,7 @@ function NewStringHeader(Data: ustring): PStringHeader;
 var
   PH: PStringHeader;
 begin
+  PH := new(PStringHeader);
   PH^.Value := UTF8Encode(Data);
   PH^.PValue := PChar(PH^.Value);
   PH^.ValueLength := Length(PH^.PValue);
@@ -406,28 +405,6 @@ begin
       Result := (Result xor (Temp shr cThreeFourths)) and (not cHighBits);
     Dec(I);
     Inc(P);
-  end;
-end;
-
-//错误信息转换
-function ErrorCodeToMessage(const Code: integer): unicodestring;
-begin
-  case Code of
-    0: Result := ' successful';
-    1: Result := ' Field not found';
-    2: Result := ' Function not found';
-    3: Result :=
-        ' The variable type is not supported. Only the variable type is supported [string int double bool null undefined]';
-    4: Result := ' The field or value of type [array, object, function] cannot be changed';
-    5: Result := ' Type is invalid';
-    6: Result := ' Failed to get string';
-    7: Result := ' Failed to get int';
-    8: Result := ' Failed to get a double';
-    9: Result := ' Failed to get a boolean';
-    10: Result := ' The type is incorrect or the number of parameters is greater than 9';
-    11: Result := ' The input parameter type is incorrect [string int double boolean]';
-    12: Result :=
-        ' The parameter type is incorrect and can only be [string int double boolean]';
   end;
 end;
 
@@ -564,8 +541,8 @@ begin
     browserSettings.background_color := TCefColor(settings^.background_color^);
     browserSettings.accept_language_list := CefString(PCharToUStr(settings^.accept_language_list));
     browserSettings.chrome_status_bubble := TCefState(settings^.chrome_status_bubble^);
-    Result := browserSettings;
   end;
+  Result := browserSettings;
 end;
 
 class constructor TBrowserWindowClass.Create;

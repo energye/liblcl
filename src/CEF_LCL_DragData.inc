@@ -100,7 +100,7 @@ var
   RetNames: TStrings;
 begin
   handleExceptionBegin
-  RetNames := TStrings.Create;
+  RetNames := TStringList.Create;
   Result := AObj.GetFileNames(RetNames);
   names := RetNames;
   handleExceptionEnd

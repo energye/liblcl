@@ -95,6 +95,8 @@ function CEF_Win_DefWindowProc(hWnd: HWND; Msg: UINT; wParam: WPARAM; lParam: LP
 begin
   {$ifdef MSWINDOWS}
   Result := DefWindowProc(hWnd, Msg, wParam, lParam);
+  {$else}
+  Result := 0;
   {$endif}
 end;
 
@@ -102,6 +104,8 @@ function CEF_Win_DefSubclassProc(hWnd: HWND; uMsg: UINT; wParam: WPARAM; lParam:
 begin
   {$ifdef MSWINDOWS}
   Result := DefSubclassProc(hWnd, uMsg, wParam, lParam);
+  {$else}
+  Result := 0;
   {$endif}
 end;
 
@@ -1269,8 +1273,7 @@ exports
   CEF_Win_TextOut,
   CEF_Win_UpdateWindow,
   CEF_Win_WindowFromPoint
-{$ifdef MSWINDOWS}
-  ,
+{$ifdef MSWINDOWS},
   CEF_Win_GetWindowLongPtr,
   CEF_Win_SetWindowLongPtr,
   CEF_Win_GetClassLongPtr,

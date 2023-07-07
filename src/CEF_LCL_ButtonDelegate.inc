@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure  ButtonDelegateRef_Create(out Result: TButtonDelegateRef);  extdecl;
+procedure  ButtonDelegateRef_Create(out Result: ICefButtonDelegate);  extdecl;
 begin
   handleExceptionBegin
   Result := TButtonDelegateRef.Create;

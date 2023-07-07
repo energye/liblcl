@@ -27,8 +27,8 @@ type
     GetActiveBrowserPtr: Pointer;
     CanAccessBrowserPtr: Pointer;
     GetExtensionResourcePtr: Pointer;
-    constructor Create;
-    destructor Destroy;
+    constructor Create; override;
+    destructor Destroy; override;
   protected
     procedure OnExtensionLoadFailed(Result: TCefErrorcode); override;
     procedure OnExtensionLoaded(const extension: ICefExtension); override;

@@ -25,7 +25,7 @@ begin
   handleExceptionEnd
 end;
 
-function Misc_CefRegisterExtension(const name, code: PChar; const Handler: TV8HandlerRef): LongBool; extdecl;
+function Misc_CefRegisterExtension(const name, code: PChar; const Handler: ICefv8Handler): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := CefRegisterExtension(PCharToUStr(name), PCharToUStr(code), Handler);

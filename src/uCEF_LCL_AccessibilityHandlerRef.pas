@@ -22,7 +22,7 @@ type
     AccessibilityTreeChangePtr: Pointer;
     AccessibilityLocationChangePtr: Pointer;
     constructor Create; override;
-    destructor Destroy;
+    destructor Destroy; override;
   protected
     procedure OnAccessibilityTreeChange(const Value: ICefValue); override;
     procedure OnAccessibilityLocationChange(const Value: ICefValue); override;

@@ -1039,7 +1039,7 @@ end;
 
 procedure TLCLEvent.ViewComponent_OnChildViewChanged(const Sender: TObject; const view: ICefView; added: boolean; const child: ICefView);
 begin
-  SendEvent([view, child]);
+  SendEvent([view, added, child]);
 end;
 
 procedure TLCLEvent.ViewComponent_OnWindowChanged(const Sender: TObject; const view: ICefView; added: boolean);

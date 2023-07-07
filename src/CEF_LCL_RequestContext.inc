@@ -119,14 +119,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure  RequestContext_GetCookieManager(const TObj: ICefRequestContext; const callback: TCompletionCallbackRef; var Result: ICefCookieManager);  extdecl;
+procedure  RequestContext_GetCookieManager(const TObj: ICefRequestContext; const callback: ICefCompletionCallback; var Result: ICefCookieManager);  extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetCookieManager(callback);
   handleExceptionEnd
 end;
 
-function  RequestContext_RegisterSchemeHandlerFactory(const TObj: ICefRequestContext; const schemeName, domainName: PChar; const factory: TSchemeHandlerFactoryRef): LongBool;  extdecl;
+function  RequestContext_RegisterSchemeHandlerFactory(const TObj: ICefRequestContext; const schemeName, domainName: PChar; const factory: ICefSchemeHandlerFactory): LongBool;  extdecl;
 begin
   handleExceptionBegin
   Result := TObj.RegisterSchemeHandlerFactory(PCharToUStr(schemeName), PCharToUStr(domainName), factory);
@@ -140,21 +140,21 @@ begin
   handleExceptionEnd
 end;
 
-procedure RequestContext_ClearCertificateExceptions(const TObj: ICefRequestContext; const callback: TCompletionCallbackRef);  extdecl;
+procedure RequestContext_ClearCertificateExceptions(const TObj: ICefRequestContext; const callback: ICefCompletionCallback);  extdecl;
 begin
   handleExceptionBegin
   TObj.ClearCertificateExceptions(callback);
   handleExceptionEnd
 end;
 
-procedure RequestContext_ClearHttpAuthCredentials(const TObj: ICefRequestContext; const callback: TCompletionCallbackRef);  extdecl;
+procedure RequestContext_ClearHttpAuthCredentials(const TObj: ICefRequestContext; const callback: ICefCompletionCallback);  extdecl;
 begin
   handleExceptionBegin
   TObj.ClearHttpAuthCredentials(callback);
   handleExceptionEnd
 end;
 
-procedure RequestContext_CloseAllConnections(const TObj: ICefRequestContext; const callback: TCompletionCallbackRef);  extdecl;
+procedure RequestContext_CloseAllConnections(const TObj: ICefRequestContext; const callback: ICefCompletionCallback);  extdecl;
 begin
   handleExceptionBegin
   TObj.CloseAllConnections(callback);
@@ -168,7 +168,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure RequestContext_LoadExtension(const TObj: ICefRequestContext; const root_directory: PChar; const manifest: ICefDictionaryValue; const handler: TExtensionHandlerRef);  extdecl;
+procedure RequestContext_LoadExtension(const TObj: ICefRequestContext; const root_directory: PChar; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);  extdecl;
 begin
   handleExceptionBegin
   TObj.LoadExtension(PCharToUStr(root_directory), manifest, handler);
@@ -206,6 +206,7 @@ end;
 procedure  RequestContext_GetMediaRouter(const TObj: ICefRequestContext; const callback: ICefCompletionCallback; var Result: ICefMediaRouter);  extdecl;
 begin
   handleExceptionBegin
+  Result := TObj.GetMediaRouter(callback);
   handleExceptionEnd
 end;
 
