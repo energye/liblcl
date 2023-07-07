@@ -573,24 +573,24 @@ var
   browserSettings: PRCefBrowserSettings;
 begin
   try
-    //popup info
-    beforePopupInfo := new(PRBeforePopupInfo);
-    beforePopupInfo^.TargetUrl := PChar(string(targetUrl));
-    beforePopupInfo^.TargetFrameName := PChar(string(targetFrameName));
-    beforePopupInfo^.TargetDisposition := PInteger(Integer(targetDisposition));
-    beforePopupInfo^.UserGesture := @userGesture;
-    // settings
-    browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-    //event
-    SendEvent([Sender, browser, frame, beforePopupInfo, @windowInfo, client, browserSettings, @extra_info, @noJavascriptAccess, @Result]);
-    settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
+  //popup info
+  beforePopupInfo := new(PRBeforePopupInfo);
+  beforePopupInfo^.TargetUrl := PChar(string(targetUrl));
+  beforePopupInfo^.TargetFrameName := PChar(string(targetFrameName));
+  beforePopupInfo^.TargetDisposition := PInteger(Integer(targetDisposition));
+  beforePopupInfo^.UserGesture := @userGesture;
+  // settings
+  browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
+  //event
+  SendEvent([Sender, browser, frame, beforePopupInfo, @windowInfo, client, browserSettings, @extra_info, @noJavascriptAccess, @Result]);
+  settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
   finally
-    //free beforePopupInfo
-    beforePopupInfo^.TargetUrl := nil;
-    beforePopupInfo^.TargetFrameName := nil;
-    beforePopupInfo^.UserGesture := nil;
-    beforePopupInfo := nil;
-    browserSettings := nil;
+  //free beforePopupInfo
+  beforePopupInfo^.TargetUrl := nil;
+  beforePopupInfo^.TargetFrameName := nil;
+  beforePopupInfo^.UserGesture := nil;
+  beforePopupInfo := nil;
+  browserSettings := nil;
   end;
 end;
 
@@ -613,7 +613,7 @@ begin
   SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
   if MessageResult > 0 then
   begin
-    aMessage.Result := MessageResult;
+  aMessage.Result := MessageResult;
   end;
 end;
 
@@ -625,7 +625,7 @@ begin
   SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
   if MessageResult > 0 then
   begin
-    aMessage.Result := MessageResult;
+  aMessage.Result := MessageResult;
   end;
 end;
 
@@ -637,7 +637,7 @@ begin
   SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
   if MessageResult > 0 then
   begin
-    aMessage.Result := MessageResult;
+  aMessage.Result := MessageResult;
   end;
 end;
 
@@ -774,7 +774,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetAuthCredentials(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback; out Result: Boolean);
 begin
-   SendEvent([Sender, browser, PChar(string(originUrl)), isProxy, PChar(string(host)), port, PChar(string(realm)), PChar(string(scheme)), callback, @Result]);
+  SendEvent([Sender, browser, PChar(string(originUrl)), isProxy, PChar(string(host)), port, PChar(string(realm)), PChar(string(scheme)), callback, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnExtensionBeforeBackgroundBrowser(Sender: TObject; const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings; var aResult: boolean);
@@ -782,11 +782,11 @@ var
   browserSettings: PRCefBrowserSettings;
 begin
   try
-    browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-    SendEvent([extension, PChar(string(url)), @client, browserSettings, @aResult]);
-    settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
+  browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
+  SendEvent([extension, PChar(string(url)), @client, browserSettings, @aResult]);
+  settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
   finally
-    browserSettings := nil;
+  browserSettings := nil;
   end;
 end;
 
@@ -795,11 +795,11 @@ var
   browserSettings: PRCefBrowserSettings;
 begin
   try
-    browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-    SendEvent([extension, browser, active_browser, index, PChar(string(url)), active, @windowInfo, @client, browserSettings, @aResult]);
-    settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
+  browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
+  SendEvent([extension, browser, active_browser, index, PChar(string(url)), active, @windowInfo, @client, browserSettings, @aResult]);
+  settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
   finally
-    browserSettings := nil;
+  browserSettings := nil;
   end;
 end;
 
@@ -927,10 +927,10 @@ var
   browserSettings: PRCefBrowserSettings;
 begin
   try
-    browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-    SendEvent([Sender, browser_view, browserSettings, client, is_devtools, @aResult]);
+  browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
+  SendEvent([Sender, browser_view, browserSettings, client, is_devtools, @aResult]);
   finally
-    browserSettings := nil;
+  browserSettings := nil;
   end;
 end;
 
@@ -968,7 +968,7 @@ begin
   SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
   if MessageResult > 0 then
   begin
-    aMessage.Result := MessageResult;
+  aMessage.Result := MessageResult;
   end;
 end;
 
@@ -979,7 +979,7 @@ begin
   SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
   if MessageResult > 0 then
   begin
-    aMessage.Result := MessageResult;
+  aMessage.Result := MessageResult;
   end;
 end;
 
@@ -990,7 +990,7 @@ begin
   SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
   if MessageResult > 0 then
   begin
-    aMessage.Result := MessageResult;
+  aMessage.Result := MessageResult;
   end;
 end;
 
@@ -1001,7 +1001,7 @@ begin
   SendEvent([Sender, @aMessage, @MessageResult, @aHandled]);
   if MessageResult > 0 then
   begin
-    aMessage.Result := MessageResult;
+  aMessage.Result := MessageResult;
   end;
 end;
 {$ENDIF}

@@ -68,5 +68,4 @@ exports
   CefV8Exception_StartPosition,
   CefV8Exception_EndPosition,
   CefV8Exception_StartColumn,
-  CefV8Exception_EndColumn
-;
+  CefV8Exception_EndColumn;

@@ -104,18 +104,17 @@ begin
 end;
 
 exports
-   CefDomDocument_GetDocType,
-   CefDomDocument_GetDocument,
-   CefDomDocument_GetBody,
-   CefDomDocument_GetHead,
-   CefDomDocument_GetTitle,
-   CefDomDocument_GetElementById,
-   CefDomDocument_GetFocusedNode,
-   CefDomDocument_HasSelection,
-   CefDomDocument_GetSelectionStartOffset,
-   CefDomDocument_GetSelectionEndOffset,
-   CefDomDocument_GetSelectionAsMarkup,
-   CefDomDocument_GetSelectionAsText,
-   CefDomDocument_GetBaseUrl,
-   CefDomDocument_GetCompleteUrl
-;
+  CefDomDocument_GetDocType,
+  CefDomDocument_GetDocument,
+  CefDomDocument_GetBody,
+  CefDomDocument_GetHead,
+  CefDomDocument_GetTitle,
+  CefDomDocument_GetElementById,
+  CefDomDocument_GetFocusedNode,
+  CefDomDocument_HasSelection,
+  CefDomDocument_GetSelectionStartOffset,
+  CefDomDocument_GetSelectionEndOffset,
+  CefDomDocument_GetSelectionAsMarkup,
+  CefDomDocument_GetSelectionAsText,
+  CefDomDocument_GetBaseUrl,
+  CefDomDocument_GetCompleteUrl;

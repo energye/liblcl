@@ -28,9 +28,9 @@ var
 {$endif}
 begin
   {$ifdef DARWIN}
-    //argc:longint;
-    //argv:PPchar;
-    //envp:PPchar;
+  //argc:longint;
+  //argv:PPchar;
+  //envp:PPchar;
   MyPArgs := PCommandLine;
   MyArgsStr := strpas(MyPArgs);
   CmdLine := PCommandLine;
@@ -39,7 +39,7 @@ begin
   SetLength(MyArgv, MacOSXCommandCount);
   for i:=0 to MacOSXCommandCount -1 do
   begin
-    myArgv[i] := PChar(MacOSXCommandLine[i]);
+  myArgv[i] := PChar(MacOSXCommandLine[i]);
   end;
   argc := MacOSXCommandCount;
   argv := PPAnsiChar(@myArgv[0]);
@@ -50,7 +50,7 @@ end;
 procedure CEF_AddCrDelegate(); extdecl;
 begin
   {$IFDEF DARWIN}
-    AddCrDelegate;
+  AddCrDelegate;
   {$ENDIF}
 end;
 
@@ -81,9 +81,9 @@ begin
   Result := GlobalCEFApp.StartMainProcess;
   if Result then
   begin
-    {$ifdef Linux}
-    //CustomWidgetSetInitialization();
-    {$endif}
+  {$ifdef Linux}
+  //CustomWidgetSetInitialization();
+  {$endif}
   end;
 end;
 
@@ -96,9 +96,9 @@ begin
   Result := GlobalCEFApp.StartSubProcess;
   if Result then
   begin
-    {$ifdef Linux}
-    //CustomWidgetSetInitialization();
-    {$endif}
+  {$ifdef Linux}
+  //CustomWidgetSetInitialization();
+  {$endif}
   end;
 end;
 
@@ -646,30 +646,30 @@ end;
 
 function CEFAppConfig_AutoplayPolicy(): Integer; extdecl;
 begin
-   // type = TCefAutoplayPolicy
+  // type = TCefAutoplayPolicy
   if GlobalCEFApp.AutoplayPolicy = TCefAutoplayPolicy.appDefault then
-     Result := 0
+  Result := 0
   else if GlobalCEFApp.AutoplayPolicy = TCefAutoplayPolicy.appDocumentUserActivationRequired then
-     Result := 1
+  Result := 1
   else if GlobalCEFApp.AutoplayPolicy = TCefAutoplayPolicy.appNoUserGestureRequired then
-     Result := 2
+  Result := 2
   else if GlobalCEFApp.AutoplayPolicy = TCefAutoplayPolicy.appUserGestureRequired then
-     Result := 3
+  Result := 3
   else
-     Result := -1;
+  Result := -1;
 end;
 
 procedure CEFAppConfig_SetAutoplayPolicy(value: Integer); extdecl;
 begin
   // type = TCefAutoplayPolicy
   if value = 0 then
-     GlobalCEFApp.AutoplayPolicy := TCefAutoplayPolicy.appDefault
+  GlobalCEFApp.AutoplayPolicy := TCefAutoplayPolicy.appDefault
   else if value = 1 then
-     GlobalCEFApp.AutoplayPolicy := TCefAutoplayPolicy.appDocumentUserActivationRequired
+  GlobalCEFApp.AutoplayPolicy := TCefAutoplayPolicy.appDocumentUserActivationRequired
   else if value = 2 then
-     GlobalCEFApp.AutoplayPolicy := TCefAutoplayPolicy.appNoUserGestureRequired
+  GlobalCEFApp.AutoplayPolicy := TCefAutoplayPolicy.appNoUserGestureRequired
   else if value = 3 then
-     GlobalCEFApp.AutoplayPolicy := TCefAutoplayPolicy.appUserGestureRequired
+  GlobalCEFApp.AutoplayPolicy := TCefAutoplayPolicy.appUserGestureRequired
 end;
 
 function CEFAppConfig_DisableBackgroundNetworking(): LongBool; extdecl;
@@ -1026,24 +1026,24 @@ function CEFAppConfig_NetLogCaptureMode(): Integer; extdecl;
 begin
   // type = TCefNetLogCaptureMode
   if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmDefault then
-     Result := 0
+  Result := 0
   else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmIncludeSensitive then
-     Result := 1
+  Result := 1
   else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmEverything then
-     Result := 2
+  Result := 2
   else
-     Result := -1;
+  Result := -1;
 end;
 
 procedure CEFAppConfig_SetNetLogCaptureMode(value: Integer); extdecl;
 begin
   // type = TCefNetLogCaptureMode
   if value = 0 then
-     GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmDefault
+  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmDefault
   else if value = 1 then
-     GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmIncludeSensitive
+  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmIncludeSensitive
   else if value = 2 then
-     GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmEverything;
+  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmEverything;
 end;
 
 function CEFAppConfig_EnableHighDPISupport(): LongBool; extdecl;
@@ -1064,558 +1064,550 @@ end;
 // 自定义属性
 function CEFAppConfig_DeleteCache(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.DeleteCache;
+  Result := GlobalCEFApp.DeleteCache;
 end;
 
 procedure CEFAppConfig_SetDeleteCache(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.DeleteCache := value;
+  GlobalCEFApp.DeleteCache := value;
 end;
 
 function CEFAppConfig_DeleteCookies(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.DeleteCookies;
+  Result := GlobalCEFApp.DeleteCookies;
 end;
 
 procedure CEFAppConfig_SetDeleteCookies(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.DeleteCookies := value;
+  GlobalCEFApp.DeleteCookies := value;
 end;
 
 function CEFAppConfig_CheckCEFFiles(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.CheckCEFFiles;
+  Result := GlobalCEFApp.CheckCEFFiles;
 end;
 
 procedure CEFAppConfig_SetCheckCEFFiles(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.CheckCEFFiles := value;
+  GlobalCEFApp.CheckCEFFiles := value;
 end;
 
 function CEFAppConfig_ShowMessageDlg(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.ShowMessageDlg;
+  Result := GlobalCEFApp.ShowMessageDlg;
 end;
 
 procedure CEFAppConfig_SetShowMessageDlg(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.ShowMessageDlg := value;
+  GlobalCEFApp.ShowMessageDlg := value;
 end;
 
 function CEFAppConfig_MissingBinariesException(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.MissingBinariesException;
+  Result := GlobalCEFApp.MissingBinariesException;
 end;
 
 procedure CEFAppConfig_SetMissingBinariesException(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.MissingBinariesException := value;
+  GlobalCEFApp.MissingBinariesException := value;
 end;
 
 function CEFAppConfig_SetCurrentDir(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.SetCurrentDir;
+  Result := GlobalCEFApp.SetCurrentDir;
 end;
 
 procedure CEFAppConfig_SetSetCurrentDir(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.SetCurrentDir := value;
+  GlobalCEFApp.SetCurrentDir := value;
 end;
 
 function CEFAppConfig_GlobalContextInitialized(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.GlobalContextInitialized;
+  Result := GlobalCEFApp.GlobalContextInitialized;
 end;
 
 function CEFAppConfig_ChromeMajorVer(): uint16; extdecl;
 begin
-   Result := GlobalCEFApp.ChromeMajorVer;
+  Result := GlobalCEFApp.ChromeMajorVer;
 end;
 
 function CEFAppConfig_ChromeMinorVer(): uint16; extdecl;
 begin
-   Result := GlobalCEFApp.ChromeMinorVer;
+  Result := GlobalCEFApp.ChromeMinorVer;
 end;
 
 function CEFAppConfig_ChromeRelease(): uint16; extdecl;
 begin
-   Result := GlobalCEFApp.ChromeRelease;
+  Result := GlobalCEFApp.ChromeRelease;
 end;
 
 function CEFAppConfig_ChromeBuild(): uint16; extdecl;
 begin
-   Result := GlobalCEFApp.ChromeBuild;
+  Result := GlobalCEFApp.ChromeBuild;
 end;
 
 function CEFAppConfig_ChromeVersion(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.ChromeVersion));
+  Result := PChar(string(GlobalCEFApp.ChromeVersion));
 end;
 
 function CEFAppConfig_LibCefVersion(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.LibCefVersion));
+  Result := PChar(string(GlobalCEFApp.LibCefVersion));
 end;
 
 function CEFAppConfig_LibCefPath(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.LibCefPath));
+  Result := PChar(string(GlobalCEFApp.LibCefPath));
 end;
 
 function CEFAppConfig_ChromeElfPath(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.ChromeElfPath));
+  Result := PChar(string(GlobalCEFApp.ChromeElfPath));
 end;
 
 function CEFAppConfig_LibLoaded(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.LibLoaded;
+  Result := GlobalCEFApp.LibLoaded;
 end;
 
 function CEFAppConfig_LogProcessInfo(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.LogProcessInfo;
+  Result := GlobalCEFApp.LogProcessInfo;
 end;
 
 procedure CEFAppConfig_SetLogProcessInfo(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.LogProcessInfo := value;
+  GlobalCEFApp.LogProcessInfo := value;
 end;
 
 function CEFAppConfig_ReRaiseExceptions(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.ReRaiseExceptions;
+  Result := GlobalCEFApp.ReRaiseExceptions;
 end;
 
 procedure CEFAppConfig_SetReRaiseExceptions(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.ReRaiseExceptions := value;
+  GlobalCEFApp.ReRaiseExceptions := value;
 end;
 
 procedure CEFAppConfig_DeviceScaleFactor(out Result: single); extdecl;
 begin
-   Result := GlobalCEFApp.DeviceScaleFactor;
+  Result := GlobalCEFApp.DeviceScaleFactor;
 end;
 
 function CEFAppConfig_LocalesRequired(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.LocalesRequired));
+  Result := PChar(string(GlobalCEFApp.LocalesRequired));
 end;
 
 procedure CEFAppConfig_SetLocalesRequired(value: PChar); extdecl;
 begin
-   GlobalCEFApp.LocalesRequired := PCharToUStr(value);
+  GlobalCEFApp.LocalesRequired := PCharToUStr(value);
 end;
 
 function CEFAppConfig_ProcessType(): integer; extdecl;
 begin
   // type = TCefProcessType = ptBrowser, ptRenderer, ptZygote, ptGPU, ptUtility, ptBroker, ptCrashpad, ptOther
-   if GlobalCEFApp.ProcessType = TCefProcessType.ptBrowser then
-      Result := 0
-   else if GlobalCEFApp.ProcessType = TCefProcessType.ptRenderer then
-      Result := 1
-   else if GlobalCEFApp.ProcessType = TCefProcessType.ptZygote then
-      Result := 2
-   else if GlobalCEFApp.ProcessType = TCefProcessType.ptGPU then
-      Result := 3
-   else if GlobalCEFApp.ProcessType = TCefProcessType.ptUtility then
-      Result := 4
-   else if GlobalCEFApp.ProcessType = TCefProcessType.ptBroker then
-      Result := 5
-   else if GlobalCEFApp.ProcessType = TCefProcessType.ptCrashpad then
-      Result := 6
-   else if GlobalCEFApp.ProcessType = TCefProcessType.ptOther then
-      Result := 7
-   else
-      Result := 0;
+  if GlobalCEFApp.ProcessType = TCefProcessType.ptBrowser then
+  Result := 0
+  else if GlobalCEFApp.ProcessType = TCefProcessType.ptRenderer then
+  Result := 1
+  else if GlobalCEFApp.ProcessType = TCefProcessType.ptZygote then
+  Result := 2
+  else if GlobalCEFApp.ProcessType = TCefProcessType.ptGPU then
+  Result := 3
+  else if GlobalCEFApp.ProcessType = TCefProcessType.ptUtility then
+  Result := 4
+  else if GlobalCEFApp.ProcessType = TCefProcessType.ptBroker then
+  Result := 5
+  else if GlobalCEFApp.ProcessType = TCefProcessType.ptCrashpad then
+  Result := 6
+  else if GlobalCEFApp.ProcessType = TCefProcessType.ptOther then
+  Result := 7
+  else
+  Result := 0;
 end;
 
 function CEFAppConfig_MustCreateResourceBundleHandler(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.MustCreateResourceBundleHandler;
+  Result := GlobalCEFApp.MustCreateResourceBundleHandler;
 end;
 
 procedure CEFAppConfig_SetMustCreateResourceBundleHandler(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.MustCreateResourceBundleHandler := value;
+  GlobalCEFApp.MustCreateResourceBundleHandler := value;
 end;
 
 function CEFAppConfig_MustCreateBrowserProcessHandler(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.MustCreateBrowserProcessHandler;
+  Result := GlobalCEFApp.MustCreateBrowserProcessHandler;
 end;
 
 procedure CEFAppConfig_SetMustCreateBrowserProcessHandler(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.MustCreateBrowserProcessHandler := value;
+  GlobalCEFApp.MustCreateBrowserProcessHandler := value;
 end;
 
 function CEFAppConfig_MustCreateRenderProcessHandler(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.MustCreateRenderProcessHandler;
+  Result := GlobalCEFApp.MustCreateRenderProcessHandler;
 end;
 
 procedure CEFAppConfig_SetMustCreateRenderProcessHandler(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.MustCreateRenderProcessHandler := value;
+  GlobalCEFApp.MustCreateRenderProcessHandler := value;
 end;
 
 function CEFAppConfig_MustCreateLoadHandler(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.MustCreateLoadHandler;
+  Result := GlobalCEFApp.MustCreateLoadHandler;
 end;
 
 procedure CEFAppConfig_SetMustCreateLoadHandler(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.MustCreateLoadHandler := value;
+  GlobalCEFApp.MustCreateLoadHandler := value;
 end;
 
 function CEFAppConfig_Status(): Integer; extdecl;
 begin
-   // type = TCefAplicationStatus = asLoading asLoaded asInitialized asShuttingDown asUnloaded asErrorMissingFiles asErrorDLLVersion asErrorLoadingLibrary asErrorInitializingLibrary asErrorExecutingProcess
-   if GlobalCEFApp.Status = TCefAplicationStatus.asLoading then
-      Result := 0
-   else if GlobalCEFApp.Status = TCefAplicationStatus.asLoaded then
-      Result := 1
-   else if GlobalCEFApp.Status = TCefAplicationStatus.asInitialized then
-      Result := 2
-   else if GlobalCEFApp.Status = TCefAplicationStatus.asShuttingDown then
-      Result := 3
-   else if GlobalCEFApp.Status = TCefAplicationStatus.asUnloaded then
-      Result := 4
-   else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorMissingFiles then
-      Result := 5
-   else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorDLLVersion then
-      Result := 6
-   else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorLoadingLibrary then
-      Result := 7
-   else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorInitializingLibrary then
-      Result := 8
-   else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorExecutingProcess then
-      Result := 9
-   else
-      Result := 0;
+  // type = TCefAplicationStatus = asLoading asLoaded asInitialized asShuttingDown asUnloaded asErrorMissingFiles asErrorDLLVersion asErrorLoadingLibrary asErrorInitializingLibrary asErrorExecutingProcess
+  if GlobalCEFApp.Status = TCefAplicationStatus.asLoading then
+  Result := 0
+  else if GlobalCEFApp.Status = TCefAplicationStatus.asLoaded then
+  Result := 1
+  else if GlobalCEFApp.Status = TCefAplicationStatus.asInitialized then
+  Result := 2
+  else if GlobalCEFApp.Status = TCefAplicationStatus.asShuttingDown then
+  Result := 3
+  else if GlobalCEFApp.Status = TCefAplicationStatus.asUnloaded then
+  Result := 4
+  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorMissingFiles then
+  Result := 5
+  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorDLLVersion then
+  Result := 6
+  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorLoadingLibrary then
+  Result := 7
+  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorInitializingLibrary then
+  Result := 8
+  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorExecutingProcess then
+  Result := 9
+  else
+  Result := 0;
 end;
 
 function CEFAppConfig_MissingLibFiles(): PChar; extdecl;
 begin
-   Result := PChar(GlobalCEFApp.MissingLibFiles);
+  Result := PChar(GlobalCEFApp.MissingLibFiles);
 end;
 
 function CEFAppConfig_MustFreeLibrary(): LongBool; extdecl;
 begin
-   Result := GlobalCEFApp.MustFreeLibrary;
+  Result := GlobalCEFApp.MustFreeLibrary;
 end;
 
 procedure CEFAppConfig_SetMustFreeLibrary(value: LongBool); extdecl;
 begin
-   GlobalCEFApp.MustFreeLibrary := value;
+  GlobalCEFApp.MustFreeLibrary := value;
 end;
 
 function CEFAppConfig_ChildProcessesCount(): integer; extdecl;
 begin
-   Result := GlobalCEFApp.ChildProcessesCount;
+  Result := GlobalCEFApp.ChildProcessesCount;
 end;
 
 function CEFAppConfig_UsedMemory(): uint64; extdecl;
 begin
-   Result := GlobalCEFApp.UsedMemory;
+  Result := GlobalCEFApp.UsedMemory;
 end;
 
 function CEFAppConfig_TotalSystemMemory(): uint64; extdecl;
 begin
-   Result := GlobalCEFApp.TotalSystemMemory;
+  Result := GlobalCEFApp.TotalSystemMemory;
 end;
 
 function CEFAppConfig_AvailableSystemMemory(): uint64; extdecl;
 begin
-   Result := GlobalCEFApp.AvailableSystemMemory;
+  Result := GlobalCEFApp.AvailableSystemMemory;
 end;
 
 function CEFAppConfig_SystemMemoryLoad(): cardinal; extdecl;
 begin
-   Result := GlobalCEFApp.SystemMemoryLoad;
+  Result := GlobalCEFApp.SystemMemoryLoad;
 end;
 
 function CEFAppConfig_ApiHashUniversal(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.ApiHashUniversal));
+  Result := PChar(string(GlobalCEFApp.ApiHashUniversal));
 end;
 
 function CEFAppConfig_ApiHashPlatform(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.ApiHashPlatform));
+  Result := PChar(string(GlobalCEFApp.ApiHashPlatform));
 end;
 
 function CEFAppConfig_ApiHashCommit(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.ApiHashCommit));
+  Result := PChar(string(GlobalCEFApp.ApiHashCommit));
 end;
 
 function CEFAppConfig_LastErrorMessage(): PChar; extdecl;
 begin
-   Result := PChar(string(GlobalCEFApp.LastErrorMessage));
+  Result := PChar(string(GlobalCEFApp.LastErrorMessage));
 end;
 
 
 procedure CEFAppConfig_UpdateDeviceScaleFactor(); extdecl;
 begin
-   GlobalCEFApp.UpdateDeviceScaleFactor();
+  GlobalCEFApp.UpdateDeviceScaleFactor();
 end;
 
 
 exports
-//QueueAsyncCall
-    CEFApplication_QueueAsyncCall,
-    SetApplicationQueueAsyncCallFunc,
-    AddCustomCommandLine,
-    CEF_AddCrDelegate,
-    SetMacOSXCommandLine,
-//Application
-    CEFApplication_RunMessageLoop,
-    CEFApplication_QuitMessageLoop,
-    CEFApplication_Create,
-    CEFApplication_Free,
-    CEFApplication_Destroy,
-    CEFStartMainProcess,
-    CEFStartSubProcess,
-// 设置 TCefSettings (cef_settings_t) 属性
-    CEFAppConfig_NoSandbox,
-    CEFAppConfig_SetNoSandbox,
-    CEFAppConfig_BrowserSubprocessPath,
-    CEFAppConfig_SetBrowserSubprocessPath,
-    CEFAppConfig_FrameworkDirPath,
-    CEFAppConfig_SetFrameworkDirPath,
-    CEFAppConfig_MainBundlePath,
-    CEFAppConfig_SetMainBundlePath,
-    CEFAppConfig_ChromeRuntime,
-    CEFAppConfig_SetChromeRuntime,
-    CEFAppConfig_MultiThreadedMessageLoop,
-    CEFAppConfig_SetMultiThreadedMessageLoop,
-    CEFAppConfig_ExternalMessagePump,
-    CEFAppConfig_SetExternalMessagePump,
-    CEFAppConfig_WindowlessRenderingEnabled,
-    CEFAppConfig_SetWindowlessRenderingEnabled,
-    CEFAppConfig_CommandLineArgsDisabled,
-    CEFAppConfig_SetCommandLineArgsDisabled,
-    CEFAppConfig_Cache,
-    CEFAppConfig_SetCache,
-    CEFAppConfig_RootCache,
-    CEFAppConfig_SetRootCache,
-    CEFAppConfig_UserDataPath,
-    CEFAppConfig_SetUserDataPath,
-    CEFAppConfig_PersistSessionCookies,
-    CEFAppConfig_SetPersistSessionCookies,
-    CEFAppConfig_PersistUserPreferences,
-    CEFAppConfig_SetPersistUserPreferences,
-    CEFAppConfig_UserAgent,
-    CEFAppConfig_SetUserAgent,
-    CEFAppConfig_UserAgentProduct,
-    CEFAppConfig_SetUserAgentProduct,
-    CEFAppConfig_Locale,
-    CEFAppConfig_SetLocale,
-    CEFAppConfig_LogFile,
-    CEFAppConfig_SetLogFile,
-    CEFAppConfig_LogSeverity,
-    CEFAppConfig_SetLogSeverity,
-    CEFAppConfig_JavaScriptFlags,
-    CEFAppConfig_SetJavaScriptFlags,
-    CEFAppConfig_ResourcesDirPath,
-    CEFAppConfig_SetResourcesDirPath,
-    CEFAppConfig_LocalesDirPath,
-    CEFAppConfig_SetLocalesDirPath,
-    CEFAppConfig_PackLoadingDisabled,
-    CEFAppConfig_SetPackLoadingDisabled,
-    CEFAppConfig_RemoteDebuggingPort,
-    CEFAppConfig_SetRemoteDebuggingPort,
-    CEFAppConfig_UncaughtExceptionStackSize,
-    CEFAppConfig_SetUncaughtExceptionStackSize,
-    CEFAppConfig_IgnoreCertificateErrors,
-    CEFAppConfig_SetIgnoreCertificateErrors,
-    CEFAppConfig_BackgroundColor,
-    CEFAppConfig_SetBackgroundColor,
-    CEFAppConfig_AcceptLanguageList,
-    CEFAppConfig_SetAcceptLanguageList,
-    CEFAppConfig_CookieableSchemesList,
-    CEFAppConfig_SetCookieableSchemesList,
-    CEFAppConfig_CookieableSchemesExcludeDefaults,
-    CEFAppConfig_SetCookieableSchemesExcludeDefaults,
-// 设置常用的命令行参数属性
-    CEFAppConfig_SingleProcess,
-    CEFAppConfig_SetSingleProcess,
-    CEFAppConfig_EnableMediaStream,
-    CEFAppConfig_SetEnableMediaStream,
-    CEFAppConfig_EnableSpeechInput,
-    CEFAppConfig_SetEnableSpeechInput,
-    CEFAppConfig_UseFakeUIForMediaStream,
-    CEFAppConfig_SetUseFakeUIForMediaStream,
-    CEFAppConfig_EnableUsermediaScreenCapturing,
-    CEFAppConfig_SetEnableUsermediaScreenCapturing,
-    CEFAppConfig_EnableGPU,
-    CEFAppConfig_SetEnableGPU,
-    CEFAppConfig_EnableFeatures,
-    CEFAppConfig_SetEnableFeatures,
-    CEFAppConfig_DisableFeatures,
-    CEFAppConfig_SetDisableFeatures,
-    CEFAppConfig_EnableBlinkFeatures,
-    CEFAppConfig_SetEnableBlinkFeatures,
-    CEFAppConfig_DisableBlinkFeatures,
-    CEFAppConfig_SetDisableBlinkFeatures,
-    CEFAppConfig_BlinkSettings,
-    CEFAppConfig_SetBlinkSettings,
-    CEFAppConfig_ForceFieldTrials,
-    CEFAppConfig_SetForceFieldTrials,
-    CEFAppConfig_ForceFieldTrialParams,
-    CEFAppConfig_SetForceFieldTrialParams,
-    CEFAppConfig_SmoothScrolling,
-    CEFAppConfig_SetSmoothScrolling,
-    CEFAppConfig_FastUnload,
-    CEFAppConfig_SetFastUnload,
-    CEFAppConfig_DisableSafeBrowsing,
-    CEFAppConfig_SetDisableSafeBrowsing,
-    CEFAppConfig_MuteAudio,
-    CEFAppConfig_SetMuteAudio,
-    CEFAppConfig_SitePerProcess,
-    CEFAppConfig_SetSitePerProcess,
-    CEFAppConfig_DisableWebSecurity,
-    CEFAppConfig_SetDisableWebSecurity,
-    CEFAppConfig_DisablePDFExtension,
-    CEFAppConfig_SetDisablePDFExtension,
-    CEFAppConfig_DisableSiteIsolationTrials,
-    CEFAppConfig_SetDisableSiteIsolationTrials,
-    CEFAppConfig_DisableChromeLoginPrompt,
-    CEFAppConfig_SetDisableChromeLoginPrompt,
-    CEFAppConfig_DisableExtensions,
-    CEFAppConfig_SetDisableExtensions,
-    CEFAppConfig_AutoplayPolicy,
-    CEFAppConfig_SetAutoplayPolicy,
-    CEFAppConfig_DisableBackgroundNetworking,
-    CEFAppConfig_SetDisableBackgroundNetworking,
-    CEFAppConfig_MetricsRecordingOnly,
-    CEFAppConfig_SetMetricsRecordingOnly,
-    CEFAppConfig_AllowFileAccessFromFiles,
-    CEFAppConfig_SetAllowFileAccessFromFiles,
-    CEFAppConfig_AllowRunningInsecureContent,
-    CEFAppConfig_SetAllowRunningInsecureContent,
-    CEFAppConfig_EnablePrintPreview,
-    CEFAppConfig_SetEnablePrintPreview,
-    CEFAppConfig_DefaultEncoding,
-    CEFAppConfig_SetDefaultEncoding,
-    CEFAppConfig_DisableJavascript,
-    CEFAppConfig_SetDisableJavascript,
-    CEFAppConfig_DisableJavascriptCloseWindows,
-    CEFAppConfig_SetDisableJavascriptCloseWindows,
-    CEFAppConfig_DisableJavascriptAccessClipboard,
-    CEFAppConfig_SetDisableJavascriptAccessClipboard,
-    CEFAppConfig_DisableJavascriptDomPaste,
-    CEFAppConfig_SetDisableJavascriptDomPaste,
-    CEFAppConfig_AllowUniversalAccessFromFileUrls,
-    CEFAppConfig_SetAllowUniversalAccessFromFileUrls,
-    CEFAppConfig_DisableImageLoading,
-    CEFAppConfig_SetDisableImageLoading,
-    CEFAppConfig_ImageShrinkStandaloneToFit,
-    CEFAppConfig_SetImageShrinkStandaloneToFit,
-    CEFAppConfig_DisableTextAreaResize,
-    CEFAppConfig_SetDisableTextAreaResize,
-    CEFAppConfig_DisableTabToLinks,
-    CEFAppConfig_SetDisableTabToLinks,
-    CEFAppConfig_EnableProfanityFilter,
-    CEFAppConfig_SetEnableProfanityFilter,
-    CEFAppConfig_DisableSpellChecking,
-    CEFAppConfig_SetDisableSpellChecking,
-    CEFAppConfig_OverrideSpellCheckLang,
-    CEFAppConfig_SetOverrideSpellCheckLang,
-    CEFAppConfig_TouchEvents,
-    CEFAppConfig_SetTouchEvents,
-    CEFAppConfig_DisableReadingFromCanvas,
-    CEFAppConfig_SetDisableReadingFromCanvas,
-    CEFAppConfig_HyperlinkAuditing,
-    CEFAppConfig_SetHyperlinkAuditing,
-    CEFAppConfig_DisableNewBrowserInfoTimeout,
-    CEFAppConfig_SetDisableNewBrowserInfoTimeout,
-    CEFAppConfig_DevToolsProtocolLogFile,
-    CEFAppConfig_SetDevToolsProtocolLogFile,
-    CEFAppConfig_ForcedDeviceScaleFactor,
-    CEFAppConfig_SetForcedDeviceScaleFactor,
-    CEFAppConfig_DisableZygote,
-    CEFAppConfig_SetDisableZygote,
-    CEFAppConfig_UseMockKeyChain,
-    CEFAppConfig_SetUseMockKeyChain,
-    CEFAppConfig_DisableRequestHandlingForTesting,
-    CEFAppConfig_SetDisableRequestHandlingForTesting,
-    CEFAppConfig_DisablePopupBlocking,
-    CEFAppConfig_SetDisablePopupBlocking,
-    CEFAppConfig_DisableBackForwardCache,
-    CEFAppConfig_SetDisableBackForwardCache,
-    CEFAppConfig_DisableComponentUpdate,
-    CEFAppConfig_SetDisableComponentUpdate,
-    CEFAppConfig_AllowInsecureLocalhost,
-    CEFAppConfig_SetAllowInsecureLocalhost,
-    CEFAppConfig_KioskPrinting,
-    CEFAppConfig_SetKioskPrinting,
-    CEFAppConfig_TreatInsecureOriginAsSecure,
-    CEFAppConfig_SetTreatInsecureOriginAsSecure,
-    CEFAppConfig_NetLogEnabled,
-    CEFAppConfig_SetNetLogEnabled,
-    CEFAppConfig_NetLogFile,
-    CEFAppConfig_SetNetLogFile,
-    CEFAppConfig_NetLogCaptureMode,
-    CEFAppConfig_SetNetLogCaptureMode,
-    CEFAppConfig_EnableHighDPISupport,
-    CEFAppConfig_SetEnableHighDPISupport,
-// 自定义属性
-    CEFAppConfig_DeleteCache,
-    CEFAppConfig_DeleteCookies,
-    CEFAppConfig_CheckCEFFiles,
-    CEFAppConfig_ShowMessageDlg,
-    CEFAppConfig_MissingBinariesException,
-    CEFAppConfig_SetCurrentDir,
-    CEFAppConfig_GlobalContextInitialized,
-    CEFAppConfig_ChromeMajorVer,
-    CEFAppConfig_ChromeMinorVer,
-    CEFAppConfig_ChromeRelease,
-    CEFAppConfig_ChromeBuild,
-    CEFAppConfig_ChromeVersion,
-    CEFAppConfig_LibCefVersion,
-    CEFAppConfig_LibCefPath,
-    CEFAppConfig_ChromeElfPath,
-    CEFAppConfig_LibLoaded,
-    CEFAppConfig_LogProcessInfo,
-    CEFAppConfig_ReRaiseExceptions,
-    CEFAppConfig_DeviceScaleFactor,
-    CEFAppConfig_LocalesRequired,
-    CEFAppConfig_ProcessType,
-    CEFAppConfig_MustCreateResourceBundleHandler,
-    CEFAppConfig_MustCreateBrowserProcessHandler,
-    CEFAppConfig_MustCreateRenderProcessHandler,
-    CEFAppConfig_MustCreateLoadHandler,
-    CEFAppConfig_Status,
-    CEFAppConfig_MissingLibFiles,
-    CEFAppConfig_MustFreeLibrary,
-    CEFAppConfig_ChildProcessesCount,
-    CEFAppConfig_UsedMemory,
-    CEFAppConfig_TotalSystemMemory,
-    CEFAppConfig_AvailableSystemMemory,
-    CEFAppConfig_SystemMemoryLoad,
-    CEFAppConfig_ApiHashUniversal,
-    CEFAppConfig_ApiHashPlatform,
-    CEFAppConfig_ApiHashCommit,
-    CEFAppConfig_LastErrorMessage,
-    CEFAppConfig_SetDeleteCache,
-    CEFAppConfig_SetDeleteCookies,
-    CEFAppConfig_SetCheckCEFFiles,
-    CEFAppConfig_SetShowMessageDlg,
-    CEFAppConfig_SetMissingBinariesException,
-    CEFAppConfig_SetSetCurrentDir,
-    CEFAppConfig_SetLogProcessInfo,
-    CEFAppConfig_SetReRaiseExceptions,
-    CEFAppConfig_SetLocalesRequired,
-    CEFAppConfig_SetMustCreateResourceBundleHandler,
-    CEFAppConfig_SetMustCreateBrowserProcessHandler,
-    CEFAppConfig_SetMustCreateRenderProcessHandler,
-    CEFAppConfig_SetMustCreateLoadHandler,
-    CEFAppConfig_SetMustFreeLibrary,
-    CEFAppConfig_UpdateDeviceScaleFactor
-{end}
-;
-
+  CEFApplication_QueueAsyncCall,
+  SetApplicationQueueAsyncCallFunc,
+  AddCustomCommandLine,
+  CEF_AddCrDelegate,
+  SetMacOSXCommandLine,
+  CEFApplication_RunMessageLoop,
+  CEFApplication_QuitMessageLoop,
+  CEFApplication_Create,
+  CEFApplication_Free,
+  CEFApplication_Destroy,
+  CEFStartMainProcess,
+  CEFStartSubProcess,
+  CEFAppConfig_NoSandbox,
+  CEFAppConfig_SetNoSandbox,
+  CEFAppConfig_BrowserSubprocessPath,
+  CEFAppConfig_SetBrowserSubprocessPath,
+  CEFAppConfig_FrameworkDirPath,
+  CEFAppConfig_SetFrameworkDirPath,
+  CEFAppConfig_MainBundlePath,
+  CEFAppConfig_SetMainBundlePath,
+  CEFAppConfig_ChromeRuntime,
+  CEFAppConfig_SetChromeRuntime,
+  CEFAppConfig_MultiThreadedMessageLoop,
+  CEFAppConfig_SetMultiThreadedMessageLoop,
+  CEFAppConfig_ExternalMessagePump,
+  CEFAppConfig_SetExternalMessagePump,
+  CEFAppConfig_WindowlessRenderingEnabled,
+  CEFAppConfig_SetWindowlessRenderingEnabled,
+  CEFAppConfig_CommandLineArgsDisabled,
+  CEFAppConfig_SetCommandLineArgsDisabled,
+  CEFAppConfig_Cache,
+  CEFAppConfig_SetCache,
+  CEFAppConfig_RootCache,
+  CEFAppConfig_SetRootCache,
+  CEFAppConfig_UserDataPath,
+  CEFAppConfig_SetUserDataPath,
+  CEFAppConfig_PersistSessionCookies,
+  CEFAppConfig_SetPersistSessionCookies,
+  CEFAppConfig_PersistUserPreferences,
+  CEFAppConfig_SetPersistUserPreferences,
+  CEFAppConfig_UserAgent,
+  CEFAppConfig_SetUserAgent,
+  CEFAppConfig_UserAgentProduct,
+  CEFAppConfig_SetUserAgentProduct,
+  CEFAppConfig_Locale,
+  CEFAppConfig_SetLocale,
+  CEFAppConfig_LogFile,
+  CEFAppConfig_SetLogFile,
+  CEFAppConfig_LogSeverity,
+  CEFAppConfig_SetLogSeverity,
+  CEFAppConfig_JavaScriptFlags,
+  CEFAppConfig_SetJavaScriptFlags,
+  CEFAppConfig_ResourcesDirPath,
+  CEFAppConfig_SetResourcesDirPath,
+  CEFAppConfig_LocalesDirPath,
+  CEFAppConfig_SetLocalesDirPath,
+  CEFAppConfig_PackLoadingDisabled,
+  CEFAppConfig_SetPackLoadingDisabled,
+  CEFAppConfig_RemoteDebuggingPort,
+  CEFAppConfig_SetRemoteDebuggingPort,
+  CEFAppConfig_UncaughtExceptionStackSize,
+  CEFAppConfig_SetUncaughtExceptionStackSize,
+  CEFAppConfig_IgnoreCertificateErrors,
+  CEFAppConfig_SetIgnoreCertificateErrors,
+  CEFAppConfig_BackgroundColor,
+  CEFAppConfig_SetBackgroundColor,
+  CEFAppConfig_AcceptLanguageList,
+  CEFAppConfig_SetAcceptLanguageList,
+  CEFAppConfig_CookieableSchemesList,
+  CEFAppConfig_SetCookieableSchemesList,
+  CEFAppConfig_CookieableSchemesExcludeDefaults,
+  CEFAppConfig_SetCookieableSchemesExcludeDefaults,
+  CEFAppConfig_SingleProcess,
+  CEFAppConfig_SetSingleProcess,
+  CEFAppConfig_EnableMediaStream,
+  CEFAppConfig_SetEnableMediaStream,
+  CEFAppConfig_EnableSpeechInput,
+  CEFAppConfig_SetEnableSpeechInput,
+  CEFAppConfig_UseFakeUIForMediaStream,
+  CEFAppConfig_SetUseFakeUIForMediaStream,
+  CEFAppConfig_EnableUsermediaScreenCapturing,
+  CEFAppConfig_SetEnableUsermediaScreenCapturing,
+  CEFAppConfig_EnableGPU,
+  CEFAppConfig_SetEnableGPU,
+  CEFAppConfig_EnableFeatures,
+  CEFAppConfig_SetEnableFeatures,
+  CEFAppConfig_DisableFeatures,
+  CEFAppConfig_SetDisableFeatures,
+  CEFAppConfig_EnableBlinkFeatures,
+  CEFAppConfig_SetEnableBlinkFeatures,
+  CEFAppConfig_DisableBlinkFeatures,
+  CEFAppConfig_SetDisableBlinkFeatures,
+  CEFAppConfig_BlinkSettings,
+  CEFAppConfig_SetBlinkSettings,
+  CEFAppConfig_ForceFieldTrials,
+  CEFAppConfig_SetForceFieldTrials,
+  CEFAppConfig_ForceFieldTrialParams,
+  CEFAppConfig_SetForceFieldTrialParams,
+  CEFAppConfig_SmoothScrolling,
+  CEFAppConfig_SetSmoothScrolling,
+  CEFAppConfig_FastUnload,
+  CEFAppConfig_SetFastUnload,
+  CEFAppConfig_DisableSafeBrowsing,
+  CEFAppConfig_SetDisableSafeBrowsing,
+  CEFAppConfig_MuteAudio,
+  CEFAppConfig_SetMuteAudio,
+  CEFAppConfig_SitePerProcess,
+  CEFAppConfig_SetSitePerProcess,
+  CEFAppConfig_DisableWebSecurity,
+  CEFAppConfig_SetDisableWebSecurity,
+  CEFAppConfig_DisablePDFExtension,
+  CEFAppConfig_SetDisablePDFExtension,
+  CEFAppConfig_DisableSiteIsolationTrials,
+  CEFAppConfig_SetDisableSiteIsolationTrials,
+  CEFAppConfig_DisableChromeLoginPrompt,
+  CEFAppConfig_SetDisableChromeLoginPrompt,
+  CEFAppConfig_DisableExtensions,
+  CEFAppConfig_SetDisableExtensions,
+  CEFAppConfig_AutoplayPolicy,
+  CEFAppConfig_SetAutoplayPolicy,
+  CEFAppConfig_DisableBackgroundNetworking,
+  CEFAppConfig_SetDisableBackgroundNetworking,
+  CEFAppConfig_MetricsRecordingOnly,
+  CEFAppConfig_SetMetricsRecordingOnly,
+  CEFAppConfig_AllowFileAccessFromFiles,
+  CEFAppConfig_SetAllowFileAccessFromFiles,
+  CEFAppConfig_AllowRunningInsecureContent,
+  CEFAppConfig_SetAllowRunningInsecureContent,
+  CEFAppConfig_EnablePrintPreview,
+  CEFAppConfig_SetEnablePrintPreview,
+  CEFAppConfig_DefaultEncoding,
+  CEFAppConfig_SetDefaultEncoding,
+  CEFAppConfig_DisableJavascript,
+  CEFAppConfig_SetDisableJavascript,
+  CEFAppConfig_DisableJavascriptCloseWindows,
+  CEFAppConfig_SetDisableJavascriptCloseWindows,
+  CEFAppConfig_DisableJavascriptAccessClipboard,
+  CEFAppConfig_SetDisableJavascriptAccessClipboard,
+  CEFAppConfig_DisableJavascriptDomPaste,
+  CEFAppConfig_SetDisableJavascriptDomPaste,
+  CEFAppConfig_AllowUniversalAccessFromFileUrls,
+  CEFAppConfig_SetAllowUniversalAccessFromFileUrls,
+  CEFAppConfig_DisableImageLoading,
+  CEFAppConfig_SetDisableImageLoading,
+  CEFAppConfig_ImageShrinkStandaloneToFit,
+  CEFAppConfig_SetImageShrinkStandaloneToFit,
+  CEFAppConfig_DisableTextAreaResize,
+  CEFAppConfig_SetDisableTextAreaResize,
+  CEFAppConfig_DisableTabToLinks,
+  CEFAppConfig_SetDisableTabToLinks,
+  CEFAppConfig_EnableProfanityFilter,
+  CEFAppConfig_SetEnableProfanityFilter,
+  CEFAppConfig_DisableSpellChecking,
+  CEFAppConfig_SetDisableSpellChecking,
+  CEFAppConfig_OverrideSpellCheckLang,
+  CEFAppConfig_SetOverrideSpellCheckLang,
+  CEFAppConfig_TouchEvents,
+  CEFAppConfig_SetTouchEvents,
+  CEFAppConfig_DisableReadingFromCanvas,
+  CEFAppConfig_SetDisableReadingFromCanvas,
+  CEFAppConfig_HyperlinkAuditing,
+  CEFAppConfig_SetHyperlinkAuditing,
+  CEFAppConfig_DisableNewBrowserInfoTimeout,
+  CEFAppConfig_SetDisableNewBrowserInfoTimeout,
+  CEFAppConfig_DevToolsProtocolLogFile,
+  CEFAppConfig_SetDevToolsProtocolLogFile,
+  CEFAppConfig_ForcedDeviceScaleFactor,
+  CEFAppConfig_SetForcedDeviceScaleFactor,
+  CEFAppConfig_DisableZygote,
+  CEFAppConfig_SetDisableZygote,
+  CEFAppConfig_UseMockKeyChain,
+  CEFAppConfig_SetUseMockKeyChain,
+  CEFAppConfig_DisableRequestHandlingForTesting,
+  CEFAppConfig_SetDisableRequestHandlingForTesting,
+  CEFAppConfig_DisablePopupBlocking,
+  CEFAppConfig_SetDisablePopupBlocking,
+  CEFAppConfig_DisableBackForwardCache,
+  CEFAppConfig_SetDisableBackForwardCache,
+  CEFAppConfig_DisableComponentUpdate,
+  CEFAppConfig_SetDisableComponentUpdate,
+  CEFAppConfig_AllowInsecureLocalhost,
+  CEFAppConfig_SetAllowInsecureLocalhost,
+  CEFAppConfig_KioskPrinting,
+  CEFAppConfig_SetKioskPrinting,
+  CEFAppConfig_TreatInsecureOriginAsSecure,
+  CEFAppConfig_SetTreatInsecureOriginAsSecure,
+  CEFAppConfig_NetLogEnabled,
+  CEFAppConfig_SetNetLogEnabled,
+  CEFAppConfig_NetLogFile,
+  CEFAppConfig_SetNetLogFile,
+  CEFAppConfig_NetLogCaptureMode,
+  CEFAppConfig_SetNetLogCaptureMode,
+  CEFAppConfig_EnableHighDPISupport,
+  CEFAppConfig_SetEnableHighDPISupport,
+  CEFAppConfig_DeleteCache,
+  CEFAppConfig_DeleteCookies,
+  CEFAppConfig_CheckCEFFiles,
+  CEFAppConfig_ShowMessageDlg,
+  CEFAppConfig_MissingBinariesException,
+  CEFAppConfig_SetCurrentDir,
+  CEFAppConfig_GlobalContextInitialized,
+  CEFAppConfig_ChromeMajorVer,
+  CEFAppConfig_ChromeMinorVer,
+  CEFAppConfig_ChromeRelease,
+  CEFAppConfig_ChromeBuild,
+  CEFAppConfig_ChromeVersion,
+  CEFAppConfig_LibCefVersion,
+  CEFAppConfig_LibCefPath,
+  CEFAppConfig_ChromeElfPath,
+  CEFAppConfig_LibLoaded,
+  CEFAppConfig_LogProcessInfo,
+  CEFAppConfig_ReRaiseExceptions,
+  CEFAppConfig_DeviceScaleFactor,
+  CEFAppConfig_LocalesRequired,
+  CEFAppConfig_ProcessType,
+  CEFAppConfig_MustCreateResourceBundleHandler,
+  CEFAppConfig_MustCreateBrowserProcessHandler,
+  CEFAppConfig_MustCreateRenderProcessHandler,
+  CEFAppConfig_MustCreateLoadHandler,
+  CEFAppConfig_Status,
+  CEFAppConfig_MissingLibFiles,
+  CEFAppConfig_MustFreeLibrary,
+  CEFAppConfig_ChildProcessesCount,
+  CEFAppConfig_UsedMemory,
+  CEFAppConfig_TotalSystemMemory,
+  CEFAppConfig_AvailableSystemMemory,
+  CEFAppConfig_SystemMemoryLoad,
+  CEFAppConfig_ApiHashUniversal,
+  CEFAppConfig_ApiHashPlatform,
+  CEFAppConfig_ApiHashCommit,
+  CEFAppConfig_LastErrorMessage,
+  CEFAppConfig_SetDeleteCache,
+  CEFAppConfig_SetDeleteCookies,
+  CEFAppConfig_SetCheckCEFFiles,
+  CEFAppConfig_SetShowMessageDlg,
+  CEFAppConfig_SetMissingBinariesException,
+  CEFAppConfig_SetSetCurrentDir,
+  CEFAppConfig_SetLogProcessInfo,
+  CEFAppConfig_SetReRaiseExceptions,
+  CEFAppConfig_SetLocalesRequired,
+  CEFAppConfig_SetMustCreateResourceBundleHandler,
+  CEFAppConfig_SetMustCreateBrowserProcessHandler,
+  CEFAppConfig_SetMustCreateRenderProcessHandler,
+  CEFAppConfig_SetMustCreateLoadHandler,
+  CEFAppConfig_SetMustFreeLibrary,
+  CEFAppConfig_UpdateDeviceScaleFactor;

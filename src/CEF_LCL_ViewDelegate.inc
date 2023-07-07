@@ -81,5 +81,4 @@ exports
   ViewDelegate_SetOnWindowChanged,
   ViewDelegate_SetOnLayoutChanged,
   ViewDelegate_SetOnFocus,
-  ViewDelegate_SetOnBlur
-;
+  ViewDelegate_SetOnBlur;

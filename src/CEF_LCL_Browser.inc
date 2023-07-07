@@ -17,10 +17,10 @@ begin
   Result := TObj.GetFocusedFrame;
   if Result = nil then
   begin
-     exit;
+  exit;
   end;
   if not Result.IsValid then
-     Result := nil;
+  Result := nil;
   handleExceptionEnd
 end;
 
@@ -30,10 +30,10 @@ begin
   Result := TObj.GetMainFrame;
   if Result = nil then
   begin
-     exit;
+  exit;
   end;
   if not Result.IsValid then
-     Result := nil;
+  Result := nil;
   handleExceptionEnd
 end;
 
@@ -43,10 +43,10 @@ begin
   Result := TObj.GetFrameByident(FrameId^);
   if Result = nil then
   begin
-     exit;
+  exit;
   end;
   if not Result.IsValid then
-     Result := nil;
+  Result := nil;
   handleExceptionEnd
 end;
 
@@ -56,10 +56,10 @@ begin
   Result := TObj.GetFrame(PCharToUStr(PName));
   if Result = nil then
   begin
-     exit;
+  exit;
   end;
   if not Result.IsValid then
-     Result := nil;
+  Result := nil;
   handleExceptionEnd
 end;
 
@@ -68,7 +68,7 @@ begin
   handleExceptionBegin
   Result := 0;
   if TObj.GetHost <> nil then
-     Result := TObj.GetHost.GetWindowHandle();
+  Result := TObj.GetHost.GetWindowHandle();
   handleExceptionEnd
 end;
 
@@ -76,7 +76,7 @@ procedure CEFBrowser_CloseBrowser(const TObj: ICefBrowser; forceClose: LongBool)
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.CloseBrowser(forceClose);
+  TObj.GetHost.CloseBrowser(forceClose);
   handleExceptionEnd
 end;
 
@@ -84,7 +84,7 @@ function CEFBrowser_TryCloseBrowser(const TObj: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     Result := TObj.GetHost.TryCloseBrowser();
+  Result := TObj.GetHost.TryCloseBrowser();
   handleExceptionEnd
 end;
 
@@ -92,7 +92,7 @@ procedure CEFBrowser_SetFocus(const TObj: ICefBrowser; focus: LongBool); extdecl
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.SetFocus(focus);
+  TObj.GetHost.SetFocus(focus);
   handleExceptionEnd
 end;
 
@@ -100,7 +100,7 @@ procedure CEFBrowser_GetZoomLevel(const TObj: ICefBrowser; var Result: Double); 
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     Result := TObj.GetHost.GetZoomLevel();
+  Result := TObj.GetHost.GetZoomLevel();
   handleExceptionEnd
 end;
 
@@ -108,7 +108,7 @@ procedure CEFBrowser_SetZoomLevel(const TObj: ICefBrowser; const zoomLevel: Poin
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.SetZoomLevel(Double(PDouble(zoomLevel)^));
+  TObj.GetHost.SetZoomLevel(Double(PDouble(zoomLevel)^));
   handleExceptionEnd
 end;
 
@@ -117,7 +117,7 @@ begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
   begin
-     TObj.GetHost.RunFileDialog(mode, PCharToUStr(PTitle), PCharToUStr(PDefaultFilePath), acceptFilters, callback);
+  TObj.GetHost.RunFileDialog(mode, PCharToUStr(PTitle), PCharToUStr(PDefaultFilePath), acceptFilters, callback);
   end;
   handleExceptionEnd
 end;
@@ -126,7 +126,7 @@ procedure CEFBrowser_StartDownload(const TObj: ICefBrowser; const PUrl: PChar); 
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.StartDownload(PCharToUStr(PUrl));
+  TObj.GetHost.StartDownload(PCharToUStr(PUrl));
   handleExceptionEnd
 end;
 
@@ -135,7 +135,7 @@ begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
   begin
-    TObj.GetHost.DownloadImage(PCharToUStr(PImageUrl), isFavicon, maxImageSize, bypassCache, callback);
+  TObj.GetHost.DownloadImage(PCharToUStr(PImageUrl), isFavicon, maxImageSize, bypassCache, callback);
   end;
   handleExceptionEnd
 end;
@@ -144,7 +144,7 @@ procedure CEFBrowser_Print(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.Print();
+  TObj.GetHost.Print();
   handleExceptionEnd
 end;
 
@@ -163,46 +163,46 @@ begin
   settings := nil;
   if TObj.GetHost <> nil then
   begin
-    if PSettings <> nil then
-    begin
-      settings := new(PCefPdfPrintSettings);
-      margin_type := Integer(PSettings.margin_type);
-      if margin_type = 0 then
-         settings.margin_type := TCefPdfPrintMarginType.PDF_PRINT_MARGIN_DEFAULT
-      else if margin_type = 1 then
-         settings.margin_type := TCefPdfPrintMarginType.PDF_PRINT_MARGIN_NONE
-      else if margin_type = 2 then
-         settings.margin_type := TCefPdfPrintMarginType.PDF_PRINT_MARGIN_CUSTOM;
-      if PSettings.landscape <> nil then
-         settings.landscape := Integer(PSettings.landscape);
-      if PSettings.print_background <> nil then
-         settings.print_background := Integer(PSettings.print_background);
-      if PSettings.scale <> nil then
-         settings.scale := Double(PSettings.scale^);
-      if PSettings.paper_width <> nil then
-         settings.paper_width := Double(PSettings.paper_width^);
-      if PSettings.paper_height <> nil then
-         settings.paper_height := Double(PSettings.paper_height^);
-      if PSettings.prefer_css_page_size <> nil then
-         settings.prefer_css_page_size := Integer(PSettings.prefer_css_page_size);
-      if PSettings.margin_top <> nil then
-         settings.margin_top := Double(PSettings.margin_top^);
-      if PSettings.margin_right <> nil then
-         settings.margin_right := Double(PSettings.margin_right^);
-      if PSettings.margin_bottom <> nil then
-         settings.margin_bottom := Double(PSettings.margin_bottom^);
-      if PSettings.margin_left <> nil then
-         settings.margin_left := Double(PSettings.margin_left^);
-      if PSettings.page_ranges <> nil then
-         settings.page_ranges := CefString(PCharToUStr(PSettings.page_ranges));
-      if PSettings.display_header_footer <> nil then
-         settings.display_header_footer := Integer(PSettings.display_header_footer);
-      if PSettings.header_template <> nil then
-         settings.header_template := CefString(PCharToUStr(PSettings.header_template));
-      if PSettings.footer_template <> nil then
-         settings.footer_template := CefString(PCharToUStr(PSettings.footer_template));
-    end;
-    TObj.GetHost.PrintToPdf(PCharToUStr(PPath), settings, callback)
+  if PSettings <> nil then
+  begin
+  settings := new(PCefPdfPrintSettings);
+  margin_type := Integer(PSettings.margin_type);
+  if margin_type = 0 then
+   settings.margin_type := TCefPdfPrintMarginType.PDF_PRINT_MARGIN_DEFAULT
+  else if margin_type = 1 then
+   settings.margin_type := TCefPdfPrintMarginType.PDF_PRINT_MARGIN_NONE
+  else if margin_type = 2 then
+   settings.margin_type := TCefPdfPrintMarginType.PDF_PRINT_MARGIN_CUSTOM;
+  if PSettings.landscape <> nil then
+   settings.landscape := Integer(PSettings.landscape);
+  if PSettings.print_background <> nil then
+   settings.print_background := Integer(PSettings.print_background);
+  if PSettings.scale <> nil then
+   settings.scale := Double(PSettings.scale^);
+  if PSettings.paper_width <> nil then
+   settings.paper_width := Double(PSettings.paper_width^);
+  if PSettings.paper_height <> nil then
+   settings.paper_height := Double(PSettings.paper_height^);
+  if PSettings.prefer_css_page_size <> nil then
+   settings.prefer_css_page_size := Integer(PSettings.prefer_css_page_size);
+  if PSettings.margin_top <> nil then
+   settings.margin_top := Double(PSettings.margin_top^);
+  if PSettings.margin_right <> nil then
+   settings.margin_right := Double(PSettings.margin_right^);
+  if PSettings.margin_bottom <> nil then
+   settings.margin_bottom := Double(PSettings.margin_bottom^);
+  if PSettings.margin_left <> nil then
+   settings.margin_left := Double(PSettings.margin_left^);
+  if PSettings.page_ranges <> nil then
+   settings.page_ranges := CefString(PCharToUStr(PSettings.page_ranges));
+  if PSettings.display_header_footer <> nil then
+   settings.display_header_footer := Integer(PSettings.display_header_footer);
+  if PSettings.header_template <> nil then
+   settings.header_template := CefString(PCharToUStr(PSettings.header_template));
+  if PSettings.footer_template <> nil then
+   settings.footer_template := CefString(PCharToUStr(PSettings.footer_template));
+  end;
+  TObj.GetHost.PrintToPdf(PCharToUStr(PPath), settings, callback)
   end;
   handleExceptionEnd
 end;
@@ -212,7 +212,7 @@ begin
   handleExceptionBegin
   Result := False;
   if TObj.GetHost <> nil then
-     Result := TObj.GetHost.SendDevToolsMessage(PCharToUStr(message_));
+  Result := TObj.GetHost.SendDevToolsMessage(PCharToUStr(message_));
   handleExceptionEnd
 end;
 
@@ -221,7 +221,7 @@ begin
   handleExceptionBegin
   Result := 0;
   if TObj.GetHost <> nil then
-     Result := TObj.GetHost.ExecuteDevToolsMethod(messageId, PCharToUStr(PMethod), dictionaryValue);
+  Result := TObj.GetHost.ExecuteDevToolsMethod(messageId, PCharToUStr(PMethod), dictionaryValue);
   handleExceptionEnd
 end;
 
@@ -229,7 +229,7 @@ procedure CEFBrowser_SendKeyEvent(const TObj: ICefBrowser; const event: PCefKeyE
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.SendKeyEvent(event);
+  TObj.GetHost.SendKeyEvent(event);
   handleExceptionEnd
 end;
 
@@ -237,7 +237,7 @@ procedure CEFBrowser_SendMouseClickEvent(const TObj: ICefBrowser; const event: P
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.SendMouseClickEvent(event, TCefMouseButtonType(type_), mouseUp, clickCount);
+  TObj.GetHost.SendMouseClickEvent(event, TCefMouseButtonType(type_), mouseUp, clickCount);
   handleExceptionEnd
 end;
 
@@ -245,7 +245,7 @@ procedure CEFBrowser_SendMouseMoveEvent(const TObj: ICefBrowser; const event: PC
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.SendMouseMoveEvent(event, mouseLeave);
+  TObj.GetHost.SendMouseMoveEvent(event, mouseLeave);
   handleExceptionEnd
 end;
 
@@ -253,7 +253,7 @@ procedure CEFBrowser_SendMouseWheelEvent(const TObj: ICefBrowser; const event: P
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.SendMouseWheelEvent(event, deltaX, deltaY);
+  TObj.GetHost.SendMouseWheelEvent(event, deltaX, deltaY);
   handleExceptionEnd
 end;
 
@@ -261,7 +261,7 @@ procedure CEFBrowser_SendTouchEvent(const TObj: ICefBrowser; const event: PCefTo
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.SendTouchEvent(event);
+  TObj.GetHost.SendTouchEvent(event);
   handleExceptionEnd
 end;
 
@@ -269,7 +269,7 @@ procedure CEFBrowser_SendCaptureLostEvent(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.SendCaptureLostEvent;
+  TObj.GetHost.SendCaptureLostEvent;
   handleExceptionEnd
 end;
 
@@ -277,7 +277,7 @@ procedure CEFBrowser_NotifyMoveOrResizeStarted(const TObj: ICefBrowser); extdecl
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.NotifyMoveOrResizeStarted;
+  TObj.GetHost.NotifyMoveOrResizeStarted;
   handleExceptionEnd
 end;
 
@@ -285,7 +285,7 @@ procedure CEFBrowser_NotifyScreenInfoChanged(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.NotifyScreenInfoChanged;
+  TObj.GetHost.NotifyScreenInfoChanged;
   handleExceptionEnd
 end;
 
@@ -293,7 +293,7 @@ procedure CEFBrowser_SetAccessibilityState(const TObj: ICefBrowser; accessibilit
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.SetAccessibilityState(TCefState(accessibilityState));
+  TObj.GetHost.SetAccessibilityState(TCefState(accessibilityState));
   handleExceptionEnd
 end;
 
@@ -301,7 +301,7 @@ procedure CEFBrowser_SetAutoResizeEnabled(const TObj: ICefBrowser; enabled: Long
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.SetAutoResizeEnabled(enabled, min_size, max_size);
+  TObj.GetHost.SetAutoResizeEnabled(enabled, min_size, max_size);
   handleExceptionEnd
 end;
 
@@ -310,7 +310,7 @@ begin
   handleExceptionBegin
   Result := False;
   if TObj.GetHost <> nil then
-     Result := TObj.GetHost.IsBackgroundHost;
+  Result := TObj.GetHost.IsBackgroundHost;
   handleExceptionEnd
 end;
 
@@ -318,7 +318,7 @@ procedure CEFBrowser_SetAudioMuted(const TObj: ICefBrowser; mute: LongBool); ext
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.SetAudioMuted(mute);
+  TObj.GetHost.SetAudioMuted(mute);
   handleExceptionEnd
 end;
 
@@ -326,7 +326,7 @@ function CEFBrowser_IsAudioMuted(const TObj: ICefBrowser) : LongBool; extdecl;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     Result := TObj.GetHost.IsAudioMuted;
+  Result := TObj.GetHost.IsAudioMuted;
   handleExceptionEnd
 end;
 
@@ -340,45 +340,45 @@ begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
   begin
-    if PDevToolsWinName <> nil then
-    begin
-      devToolsWinName := PCharToUStr(PDevToolsWinName);
-      if devToolsWinName = '' then
-         devToolsWinName := DEVTOOLS_WINDOWNAME;
-    end
-    else
-    begin
-      devToolsWinName := DEVTOOLS_WINDOWNAME;
-    end;
+  if PDevToolsWinName <> nil then
+  begin
+  devToolsWinName := PCharToUStr(PDevToolsWinName);
+  if devToolsWinName = '' then
+   devToolsWinName := DEVTOOLS_WINDOWNAME;
+  end
+  else
+  begin
+  devToolsWinName := DEVTOOLS_WINDOWNAME;
+  end;
 
-    //try
-    //  try
-    //    WindowInfoAsPopUp(windowInfo, TObj.Host.WindowHandle, devToolsWinName);
-    //    client := TCustomClientHandler.Create(Chromium, True);
-    //    FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
-    //    TObj.Host.ShowDevTools(@windowInfo, client, @browserSettings, nil);
-    //  finally
-    //     client:=nil;
-    //  end;
-    //except
-    //  on E: Exception do
-    //    CallException(E);
-    //end;
+  //try
+  //  try
+  //  WindowInfoAsPopUp(windowInfo, TObj.Host.WindowHandle, devToolsWinName);
+  //  client := TCustomClientHandler.Create(Chromium, True);
+  //  FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
+  //  TObj.Host.ShowDevTools(@windowInfo, client, @browserSettings, nil);
+  //  finally
+  //  client:=nil;
+  //  end;
+  //except
+  //  on E: Exception do
+  //  CallException(E);
+  //end;
 
-    try
-      try
-        FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
-        WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect);
-        client := TCustomClientHandler.Create(Chromium, True);
-        FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
-        TObj.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
-      finally
-        client := nil
-      end;
-    except
-      on E: Exception do
-        CallException(E);
-    end;
+  try
+  try
+  FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
+  WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect);
+  client := TCustomClientHandler.Create(Chromium, True);
+  FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
+  TObj.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
+  finally
+  client := nil
+  end;
+  except
+  on E: Exception do
+  CallException(E);
+  end;
 
   end;
   handleExceptionEnd
@@ -388,7 +388,7 @@ procedure CEFBrowser_CloseDevTools(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.CloseDevTools;
+  TObj.GetHost.CloseDevTools;
   handleExceptionEnd
 end;
 
@@ -397,7 +397,7 @@ begin
   handleExceptionBegin
   Result := False;
   if TObj.GetHost <> nil then
-     Result := TObj.GetHost.HasView;
+  Result := TObj.GetHost.HasView;
   handleExceptionEnd
 end;
 
@@ -406,7 +406,7 @@ begin
   handleExceptionBegin
   Result := False;
   if TObj.GetHost <> nil then
-     Result := TObj.GetHost.HasDevTools;
+  Result := TObj.GetHost.HasDevTools;
   handleExceptionEnd
 end;
 
@@ -482,22 +482,22 @@ var
 begin
   handleExceptionBegin
   try
-    frameNames := TStringList.Create;
-    TObj.GetFrameNames(frameNames);
-    resultSize := frameNames.Count;
-    SetLength(resultArr, resultSize);
-    for idx := 0 to resultSize - 1 do
-    begin
-      frameNames.GetNameValue(idx, name, value);
-      resultArr[idx] := new(PRFrameNames);
-      resultArr[idx]^.Name := PChar(name);
-      resultArr[idx]^.Value := PChar(value);
-    end;
-    Result := @resultArr[0];
+  frameNames := TStringList.Create;
+  TObj.GetFrameNames(frameNames);
+  resultSize := frameNames.Count;
+  SetLength(resultArr, resultSize);
+  for idx := 0 to resultSize - 1 do
+  begin
+  frameNames.GetNameValue(idx, name, value);
+  resultArr[idx] := new(PRFrameNames);
+  resultArr[idx]^.Name := PChar(name);
+  resultArr[idx]^.Value := PChar(value);
+  end;
+  Result := @resultArr[0];
   finally
-    frameNames.Clear;
-    frameNames.Free;
-    SetLength(resultArr, 0);
+  frameNames.Clear;
+  frameNames.Free;
+  SetLength(resultArr, 0);
   end;
   handleExceptionEnd
 end;
@@ -506,7 +506,7 @@ procedure CEFBrowser_Find(const TObj: ICefBrowser; PSearchText: PChar; forward_,
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.Find(PCharToUStr(PSearchText), forward_, matchCase, findNext);
+  TObj.GetHost.Find(PCharToUStr(PSearchText), forward_, matchCase, findNext);
   handleExceptionEnd
 end;
 
@@ -514,7 +514,7 @@ procedure CEFBrowser_StopFinding(const TObj: ICefBrowser; clearSelection: LongBo
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-     TObj.GetHost.StopFinding(clearSelection);
+  TObj.GetHost.StopFinding(clearSelection);
   handleExceptionEnd
 end;
 
@@ -523,7 +523,7 @@ begin
   handleExceptionBegin
   Result := nil;
   if TObj.GetHost <> nil then
-     Result := TObj.GetHost.GetRequestContext();
+  Result := TObj.GetHost.GetRequestContext();
   handleExceptionEnd
 end;
 
@@ -583,6 +583,4 @@ exports
   CEFBrowser_Find,
   CEFBrowser_StopFinding,
   CEFBrowser_GetRequestContext,
-  CEFBrowserRef_UnWrap
-;
-
+  CEFBrowserRef_UnWrap;

@@ -68,13 +68,12 @@ begin
 end;
 
 exports
-    CefStreamReaderRef_UnWrap,
-    CefStreamReaderRef_CreateForFile,
-    CefStreamReaderRef_CreateForStream,
-    CefStreamReaderRef_CreateForData,
-    CefStreamReader_Read,
-    CefStreamReader_Seek,
-    CefStreamReader_Tell,
-    CefStreamReader_Eof,
-    CefStreamReader_MayBlock
-;
+  CefStreamReaderRef_UnWrap,
+  CefStreamReaderRef_CreateForFile,
+  CefStreamReaderRef_CreateForStream,
+  CefStreamReaderRef_CreateForData,
+  CefStreamReader_Read,
+  CefStreamReader_Seek,
+  CefStreamReader_Tell,
+  CefStreamReader_Eof,
+  CefStreamReader_MayBlock;

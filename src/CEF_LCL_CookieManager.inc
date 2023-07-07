@@ -64,5 +64,4 @@ exports
   CefCookieManager_VisitUrlCookies,
   CefCookieManager_SetCookie,
   CefCookieManager_DeleteCookies,
-  CefCookieManager_FlushStore
-;
+  CefCookieManager_FlushStore;

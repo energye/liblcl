@@ -116,22 +116,20 @@ begin
   handleExceptionEnd
 end;
 
-
 exports
-    CefExtension_GetIdentifier,
-    CefExtension_GetPath,
-    CefExtension_GetManifest,
-    CefExtension_IsSame,
-    CefExtension_GetHandler,
-    CefExtension_GetLoaderContext,
-    CefExtension_IsLoaded,
-    CefExtension_unload,
-    CefExtension_GetBrowserActionPopup,
-    CefExtension_GetBrowserActionIcon,
-    CefExtension_GetPageActionPopup,
-    CefExtension_GetPageActionIcon,
-    CefExtension_GetOptionsPage,
-    CefExtension_GetOptionsUIPage,
-    CefExtension_GetBackgroundPage,
-    CefExtension_GetURL
-;
+  CefExtension_GetIdentifier,
+  CefExtension_GetPath,
+  CefExtension_GetManifest,
+  CefExtension_IsSame,
+  CefExtension_GetHandler,
+  CefExtension_GetLoaderContext,
+  CefExtension_IsLoaded,
+  CefExtension_unload,
+  CefExtension_GetBrowserActionPopup,
+  CefExtension_GetBrowserActionIcon,
+  CefExtension_GetPageActionPopup,
+  CefExtension_GetPageActionIcon,
+  CefExtension_GetOptionsPage,
+  CefExtension_GetOptionsUIPage,
+  CefExtension_GetBackgroundPage,
+  CefExtension_GetURL;

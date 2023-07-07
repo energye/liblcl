@@ -117,5 +117,4 @@ exports
   PanelComponent_RemoveAllChildViews,
   PanelComponent_GetChildViewCount,
   PanelComponent_GetChildViewAt,
-  PanelComponent_AsWindow
-;
+  PanelComponent_AsWindow;

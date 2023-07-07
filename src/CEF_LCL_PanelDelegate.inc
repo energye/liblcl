@@ -20,5 +20,4 @@ end;
 
 exports
   PanelDelegateRef_Create,
-  PanelDelegateRef_CreateForCustom
-;
+  PanelDelegateRef_CreateForCustom;

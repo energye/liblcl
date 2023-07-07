@@ -73,9 +73,8 @@ begin
 end;
 
 exports
-    CefBrowserViewRef_Create,
-    CefBrowserViewRef_GetForBrowser,
-    CefBrowserView_Browser,
-    CefBrowserView_ChromeToolbar,
-    CefBrowserView_SetPreferAccelerators
-;
+  CefBrowserViewRef_Create,
+  CefBrowserViewRef_GetForBrowser,
+  CefBrowserView_Browser,
+  CefBrowserView_ChromeToolbar,
+  CefBrowserView_SetPreferAccelerators;

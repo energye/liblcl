@@ -19,6 +19,5 @@ begin
 end;
 
 exports
-    CefGetExtensionResourceCallback_Cont,
-    CefGetExtensionResourceCallback_Cancel
-;
+  CefGetExtensionResourceCallback_Cont,
+  CefGetExtensionResourceCallback_Cancel;

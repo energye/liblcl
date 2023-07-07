@@ -51,6 +51,4 @@ exports
   BrowserViewDelegate_SetOnBrowserDestroyed,
   BrowserViewDelegate_SetOnGetDelegateForPopupBrowserView,
   BrowserViewDelegate_SetOnPopupBrowserViewCreated,
-  BrowserViewDelegate_GetChromeToolbarType
-;
-
+  BrowserViewDelegate_GetChromeToolbarType;

@@ -284,5 +284,4 @@ exports
   CEFLinkedWindow_OnEnter,
   CEFLinkedWindow_OnExit,
   CEFLinkedWindow_SetTag,
-  CEFLinkedWindow_GetTag
-;
+  CEFLinkedWindow_GetTag;

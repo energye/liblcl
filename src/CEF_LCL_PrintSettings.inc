@@ -81,14 +81,14 @@ var
 begin
   handleExceptionBegin
   try
-    SetLength(ranges, size);
-    for i := 0 to  size - 1 do
-    begin
-      ranges[i] := PRanges^[i];
-    end;
-    AObj.SetPageRanges(ranges);
+  SetLength(ranges, size);
+  for i := 0 to  size - 1 do
+  begin
+  ranges[i] := PRanges^[i];
+  end;
+  AObj.SetPageRanges(ranges);
   finally
-    SetLength(ranges, 0);
+  SetLength(ranges, 0);
   end;
   handleExceptionEnd
 end;
@@ -182,27 +182,26 @@ begin
 end;
 
 exports
-    CefPrintSettingsRef_Create,
-    CefPrintSettings_IsValid,
-    CefPrintSettings_IsReadOnly,
-    CefPrintSettings_SetOrientation,
-    CefPrintSettings_IsLandscape,
-    CefPrintSettings_SetPrinterPrintableArea,
-    CefPrintSettings_SetDeviceName,
-    CefPrintSettings_GetDeviceName,
-    CefPrintSettings_SetDpi,
-    CefPrintSettings_GetDpi,
-    CefPrintSettings_SetPageRanges,
-    CefPrintSettings_GetPageRangesCount,
-    CefPrintSettings_GetPageRanges,
-    CefPrintSettings_SetSelectionOnly,
-    CefPrintSettings_IsSelectionOnly,
-    CefPrintSettings_SetCollate,
-    CefPrintSettings_WillCollate,
-    CefPrintSettings_SetColorModel,
-    CefPrintSettings_GetColorModel,
-    CefPrintSettings_SetCopies,
-    CefPrintSettings_GetCopies,
-    CefPrintSettings_SetDuplexMode,
-    CefPrintSettings_GetDuplexMode
-;
+  CefPrintSettingsRef_Create,
+  CefPrintSettings_IsValid,
+  CefPrintSettings_IsReadOnly,
+  CefPrintSettings_SetOrientation,
+  CefPrintSettings_IsLandscape,
+  CefPrintSettings_SetPrinterPrintableArea,
+  CefPrintSettings_SetDeviceName,
+  CefPrintSettings_GetDeviceName,
+  CefPrintSettings_SetDpi,
+  CefPrintSettings_GetDpi,
+  CefPrintSettings_SetPageRanges,
+  CefPrintSettings_GetPageRangesCount,
+  CefPrintSettings_GetPageRanges,
+  CefPrintSettings_SetSelectionOnly,
+  CefPrintSettings_IsSelectionOnly,
+  CefPrintSettings_SetCollate,
+  CefPrintSettings_WillCollate,
+  CefPrintSettings_SetColorModel,
+  CefPrintSettings_GetColorModel,
+  CefPrintSettings_SetCopies,
+  CefPrintSettings_GetCopies,
+  CefPrintSettings_SetDuplexMode,
+  CefPrintSettings_GetDuplexMode;

@@ -20,6 +20,5 @@ begin
 end;
 
 exports
-   FileDialogCallback_Cont,
-   FileDialogCallback_Cancel
-;
+  FileDialogCallback_Cont,
+  FileDialogCallback_Cancel;

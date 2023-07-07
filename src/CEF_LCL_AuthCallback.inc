@@ -19,6 +19,5 @@ begin
 end;
 
 exports
-    CefAuthCallback_Cont,
-    CefAuthCallback_Cancel
-;
+  CefAuthCallback_Cont,
+  CefAuthCallback_Cancel;

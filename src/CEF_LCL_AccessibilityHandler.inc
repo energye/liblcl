@@ -28,5 +28,4 @@ end;
 exports
   CefAccessibilityHandlerRef_Create,
   CefAccessibilityHandler_OnAccessibilityTreeChange,
-  CefAccessibilityHandler_OnAccessibilityLocationChange
-;
+  CefAccessibilityHandler_OnAccessibilityLocationChange;

@@ -36,5 +36,4 @@ exports
   RequestContextHandlerRef_Create,
   RequestContextHandlerRef_CreateForChromium,
   RequestContextHandler_OnRequestContextInitialized,
-  RequestContextHandler_GetResourceRequestHandler
-;
+  RequestContextHandler_GetResourceRequestHandler;

@@ -68,5 +68,4 @@ exports
   MenuModelDelegate_UnhandledCloseSubmenu,
   MenuModelDelegate_MenuWillShow,
   MenuModelDelegate_MenuClosed,
-  MenuModelDelegate_FormatLabel
-;
+  MenuModelDelegate_FormatLabel;

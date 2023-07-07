@@ -11,427 +11,427 @@ begin
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_Free(const AObj: TCEFViewComponent); extdecl;
+procedure  ViewComponent_Free(const AObj: TCEFViewComponent); extdecl;
 begin
   handleExceptionBegin
   AObj.Free;
   handleExceptionEnd
 end;
 
-function    ViewComponent_ToStringEx(const AObj: TCEFViewComponent; include_children: LongBool): PChar; extdecl;
+function  ViewComponent_ToStringEx(const AObj: TCEFViewComponent; include_children: LongBool): PChar; extdecl;
 begin
   handleExceptionBegin
   Result := PChar(string(AObj.ToStringEx(include_children)));
   handleExceptionEnd
 end;
 
-function    ViewComponent_IsSame(const AObj: TCEFViewComponent; const that: ICefView): LongBool; extdecl;
+function  ViewComponent_IsSame(const AObj: TCEFViewComponent; const that: ICefView): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.IsSame(that);
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_SizeToPreferredSize(const AObj: TCEFViewComponent); extdecl;
+procedure  ViewComponent_SizeToPreferredSize(const AObj: TCEFViewComponent); extdecl;
 begin
   handleExceptionBegin
   AObj.SizeToPreferredSize;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_InvalidateLayout(const AObj: TCEFViewComponent); extdecl;
+procedure  ViewComponent_InvalidateLayout(const AObj: TCEFViewComponent); extdecl;
 begin
   handleExceptionBegin
   AObj.InvalidateLayout;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_RequestFocus(const AObj: TCEFViewComponent); extdecl;
+procedure  ViewComponent_RequestFocus(const AObj: TCEFViewComponent); extdecl;
 begin
   handleExceptionBegin
   AObj.RequestFocus;
   handleExceptionEnd
 end;
 
-function    ViewComponent_ConvertPointToScreen(const AObj: TCEFViewComponent; var point: TCefPoint): LongBool; extdecl;
+function  ViewComponent_ConvertPointToScreen(const AObj: TCEFViewComponent; var point: TCefPoint): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ConvertPointToScreen(point);
   handleExceptionEnd
 end;
 
-function    ViewComponent_ConvertPointFromScreen(const AObj: TCEFViewComponent; var point: TCefPoint): LongBool; extdecl;
+function  ViewComponent_ConvertPointFromScreen(const AObj: TCEFViewComponent; var point: TCefPoint): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ConvertPointFromScreen(point);
   handleExceptionEnd
 end;
 
-function    ViewComponent_ConvertPointToWindow(const AObj: TCEFViewComponent; var point: TCefPoint): LongBool; extdecl;
+function  ViewComponent_ConvertPointToWindow(const AObj: TCEFViewComponent; var point: TCefPoint): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ConvertPointToWindow(point);
   handleExceptionEnd
 end;
 
-function    ViewComponent_ConvertPointFromWindow(const AObj: TCEFViewComponent; var point: TCefPoint): LongBool; extdecl;
+function  ViewComponent_ConvertPointFromWindow(const AObj: TCEFViewComponent; var point: TCefPoint): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ConvertPointFromWindow(point);
   handleExceptionEnd
 end;
 
-function    ViewComponent_ConvertPointToView(const AObj: TCEFViewComponent; const view : ICefView; var point: TCefPoint): LongBool; extdecl;
+function  ViewComponent_ConvertPointToView(const AObj: TCEFViewComponent; const view : ICefView; var point: TCefPoint): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ConvertPointToView(view, point);
   handleExceptionEnd
 end;
 
-function    ViewComponent_ConvertPointFromView(const AObj: TCEFViewComponent; const view : ICefView; var point: TCefPoint): LongBool; extdecl;
+function  ViewComponent_ConvertPointFromView(const AObj: TCEFViewComponent; const view : ICefView; var point: TCefPoint): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ConvertPointFromView(view, point);
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetInitialized(const AObj: TCEFViewComponent) : LongBool;  extdecl;
+function  ViewComponent_GetInitialized(const AObj: TCEFViewComponent) : LongBool;  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Initialized;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_GetAsView(const AObj: TCEFViewComponent; out Result: ICefView);  extdecl;
+procedure  ViewComponent_GetAsView(const AObj: TCEFViewComponent; out Result: ICefView);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.AsView;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetAsBrowserView(const AObj: TCEFViewComponent; out Result: ICefBrowserView);  extdecl;
+procedure  ViewComponent_GetAsBrowserView(const AObj: TCEFViewComponent; out Result: ICefBrowserView);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.AsBrowserView;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetAsButton(const AObj: TCEFViewComponent; out Result: ICefButton);  extdecl;
+procedure  ViewComponent_GetAsButton(const AObj: TCEFViewComponent; out Result: ICefButton);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.AsButton;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetAsPanel(const AObj: TCEFViewComponent; out Result: ICefPanel);  extdecl;
+procedure  ViewComponent_GetAsPanel(const AObj: TCEFViewComponent; out Result: ICefPanel);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.AsPanel;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetAsScrollView(const AObj: TCEFViewComponent; out Result: ICefScrollView);  extdecl;
+procedure  ViewComponent_GetAsScrollView(const AObj: TCEFViewComponent; out Result: ICefScrollView);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.AsScrollView;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetAsTextfield(const AObj: TCEFViewComponent; out Result: ICefTextfield);  extdecl;
+procedure  ViewComponent_GetAsTextfield(const AObj: TCEFViewComponent; out Result: ICefTextfield);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.AsTextfield;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetViewForID(const AObj: TCEFViewComponent; id_: Integer; out Result: ICefView);  extdecl;
+procedure  ViewComponent_GetViewForID(const AObj: TCEFViewComponent; id_: Integer; out Result: ICefView);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ViewForID[id_];
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetValid(const AObj: TCEFViewComponent) : LongBool;  extdecl;
+function  ViewComponent_GetValid(const AObj: TCEFViewComponent) : LongBool;  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Valid;
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetAttached(const AObj: TCEFViewComponent) : LongBool;  extdecl;
+function  ViewComponent_GetAttached(const AObj: TCEFViewComponent) : LongBool;  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Attached;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetDelegate(const AObj: TCEFViewComponent; out Result: ICefViewDelegate);  extdecl;
+procedure  ViewComponent_GetDelegate(const AObj: TCEFViewComponent; out Result: ICefViewDelegate);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Delegate;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetWindow(const AObj: TCEFViewComponent; out Result: ICefWindow);  extdecl;
+procedure  ViewComponent_GetWindow(const AObj: TCEFViewComponent; out Result: ICefWindow);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Window;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetParentView(const AObj: TCEFViewComponent; out Result: ICefView);  extdecl;
+procedure  ViewComponent_GetParentView(const AObj: TCEFViewComponent; out Result: ICefView);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ParentView;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetBoundsInScreen(const AObj: TCEFViewComponent; out Result: TCefRect);  extdecl;
+procedure  ViewComponent_GetBoundsInScreen(const AObj: TCEFViewComponent; out Result: TCefRect);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.BoundsInScreen;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetPreferredSize(const AObj: TCEFViewComponent; out Result: TCefSize);  extdecl;
+procedure  ViewComponent_GetPreferredSize(const AObj: TCEFViewComponent; out Result: TCefSize);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.PreferredSize;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetMinimumSize(const AObj: TCEFViewComponent; out Result: TCefSize);  extdecl;
+procedure  ViewComponent_GetMinimumSize(const AObj: TCEFViewComponent; out Result: TCefSize);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.MinimumSize;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetMaximumSize(const AObj: TCEFViewComponent; out Result: TCefSize);  extdecl;
+procedure  ViewComponent_GetMaximumSize(const AObj: TCEFViewComponent; out Result: TCefSize);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.MaximumSize;
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetVisible(const AObj: TCEFViewComponent) : LongBool;  extdecl;
+function  ViewComponent_GetVisible(const AObj: TCEFViewComponent) : LongBool;  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Visible;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_SetVisible(const AObj: TCEFViewComponent; visible_: LongBool);  extdecl;
+procedure  ViewComponent_SetVisible(const AObj: TCEFViewComponent; visible_: LongBool);  extdecl;
 begin
   handleExceptionBegin
   AObj.Visible := visible_;
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetDrawn(const AObj: TCEFViewComponent) : LongBool;  extdecl;
+function  ViewComponent_GetDrawn(const AObj: TCEFViewComponent) : LongBool;  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Drawn;
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetEnabled(const AObj: TCEFViewComponent) : LongBool;  extdecl;
+function  ViewComponent_GetEnabled(const AObj: TCEFViewComponent) : LongBool;  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Enabled;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_SetEnabled(const AObj: TCEFViewComponent; enabled_: LongBool);  extdecl;
+procedure  ViewComponent_SetEnabled(const AObj: TCEFViewComponent; enabled_: LongBool);  extdecl;
 begin
   handleExceptionBegin
   AObj.Enabled := enabled_;
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetFocusable(const AObj: TCEFViewComponent) : LongBool;  extdecl;
+function  ViewComponent_GetFocusable(const AObj: TCEFViewComponent) : LongBool;  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Focusable;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_SetFocusable(const AObj: TCEFViewComponent; focusable_: LongBool);  extdecl;
+procedure  ViewComponent_SetFocusable(const AObj: TCEFViewComponent; focusable_: LongBool);  extdecl;
 begin
   handleExceptionBegin
   AObj.Focusable := focusable_;
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetAccessibilityFocusable(const AObj: TCEFViewComponent) : LongBool;  extdecl;
+function  ViewComponent_GetAccessibilityFocusable(const AObj: TCEFViewComponent) : LongBool;  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.AccessibilityFocusable;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetBackgroundColor(const AObj: TCEFViewComponent; out Result: TCefColor);  extdecl;
+procedure  ViewComponent_GetBackgroundColor(const AObj: TCEFViewComponent; out Result: TCefColor);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.BackgroundColor;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_SetBackgroundColor(const AObj: TCEFViewComponent; color: TCefColor);  extdecl;
+procedure  ViewComponent_SetBackgroundColor(const AObj: TCEFViewComponent; color: TCefColor);  extdecl;
 begin
   handleExceptionBegin
   AObj.BackgroundColor := color;
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetID(const AObj: TCEFViewComponent) : integer;  extdecl;
+function  ViewComponent_GetID(const AObj: TCEFViewComponent) : integer;  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ID;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_SetID(const AObj: TCEFViewComponent; id_: Integer);  extdecl;
+procedure  ViewComponent_SetID(const AObj: TCEFViewComponent; id_: Integer);  extdecl;
 begin
   handleExceptionBegin
   AObj.ID := id_;
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetGroupID(const AObj: TCEFViewComponent) : integer;  extdecl;
+function  ViewComponent_GetGroupID(const AObj: TCEFViewComponent) : integer;  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.GroupID;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_SetGroupID(const AObj: TCEFViewComponent; group_id: Integer);  extdecl;
+procedure  ViewComponent_SetGroupID(const AObj: TCEFViewComponent; group_id: Integer);  extdecl;
 begin
   handleExceptionBegin
   AObj.GroupID := group_id;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetBounds(const AObj: TCEFViewComponent; out Result: TCefRect);  extdecl;
+procedure  ViewComponent_GetBounds(const AObj: TCEFViewComponent; out Result: TCefRect);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Bounds;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_SetBounds(const AObj: TCEFViewComponent; const bounds_: TCefRect);  extdecl;
+procedure  ViewComponent_SetBounds(const AObj: TCEFViewComponent; const bounds_: TCefRect);  extdecl;
 begin
   handleExceptionBegin
   AObj.Bounds := bounds_;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetSize(const AObj: TCEFViewComponent; out Result: TCefSize);  extdecl;
+procedure  ViewComponent_GetSize(const AObj: TCEFViewComponent; out Result: TCefSize);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Size;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_SetSize(const AObj: TCEFViewComponent; const size_: TCefSize);  extdecl;
+procedure  ViewComponent_SetSize(const AObj: TCEFViewComponent; const size_: TCefSize);  extdecl;
 begin
   handleExceptionBegin
   AObj.Size := size_;
   handleExceptionEnd
 end;
 
-procedure    ViewComponent_GetPosition(const AObj: TCEFViewComponent; out Result: TCefPoint);  extdecl;
+procedure  ViewComponent_GetPosition(const AObj: TCEFViewComponent; out Result: TCefPoint);  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Position;
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_SetPosition(const AObj: TCEFViewComponent; const position_: TCefPoint);  extdecl;
+procedure  ViewComponent_SetPosition(const AObj: TCEFViewComponent; const position_: TCefPoint);  extdecl;
 begin
   handleExceptionBegin
   AObj.Position := position_;
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetTypeString(const AObj: TCEFViewComponent) : PChar;  extdecl;
+function  ViewComponent_GetTypeString(const AObj: TCEFViewComponent) : PChar;  extdecl;
 begin
   handleExceptionBegin
   Result := PChar(string(AObj.TypeString));
   handleExceptionEnd
 end;
 
-function    ViewComponent_GetHeightForWidth(const AObj: TCEFViewComponent; width: Integer) : Integer;  extdecl;
+function  ViewComponent_GetHeightForWidth(const AObj: TCEFViewComponent; width: Integer) : Integer;  extdecl;
 begin
   handleExceptionBegin
   Result := AObj.HeightForWidth[width];
   handleExceptionEnd
 end;
 
-procedure   ViewComponent_SetOnGetPreferredSize(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+procedure  ViewComponent_SetOnGetPreferredSize(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ViewComponent_OnGetPreferredSize}
   {$DEFINE EventName := OnGetPreferredSize}
   EventMethodCode
 end;
 
-procedure   ViewComponent_SetOnGetMinimumSize(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+procedure  ViewComponent_SetOnGetMinimumSize(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ViewComponent_OnGetMinimumSize}
   {$DEFINE EventName := OnGetMinimumSize}
   EventMethodCode
 end;
 
-procedure   ViewComponent_SetOnGetMaximumSize(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+procedure  ViewComponent_SetOnGetMaximumSize(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ViewComponent_OnGetMaximumSize}
   {$DEFINE EventName := OnGetMaximumSize}
   EventMethodCode
 end;
 
-procedure   ViewComponent_SetOnGetHeightForWidth(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+procedure  ViewComponent_SetOnGetHeightForWidth(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ViewComponent_OnGetHeightForWidth}
   {$DEFINE EventName := OnGetHeightForWidth}
   EventMethodCode
 end;
 
-procedure   ViewComponent_SetOnParentViewChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+procedure  ViewComponent_SetOnParentViewChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ViewComponent_OnParentViewChanged}
   {$DEFINE EventName := OnParentViewChanged}
   EventMethodCode
 end;
 
-procedure   ViewComponent_SetOnChildViewChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+procedure  ViewComponent_SetOnChildViewChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ViewComponent_OnChildViewChanged}
   {$DEFINE EventName := OnChildViewChanged}
   EventMethodCode
 end;
 
-procedure   ViewComponent_SetOnWindowChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+procedure  ViewComponent_SetOnWindowChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ViewComponent_OnWindowChanged}
   {$DEFINE EventName := OnWindowChanged}
   EventMethodCode
 end;
 
-procedure   ViewComponent_SetOnLayoutChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+procedure  ViewComponent_SetOnLayoutChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ViewComponent_OnLayoutChanged}
   {$DEFINE EventName := OnLayoutChanged}
   EventMethodCode
 end;
 
-procedure   ViewComponent_SetOnFocus(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+procedure  ViewComponent_SetOnFocus(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ViewComponent_OnFocus}
   {$DEFINE EventName := OnFocus}
   EventMethodCode
 end;
 
-procedure   ViewComponent_SetOnBlur(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+procedure  ViewComponent_SetOnBlur(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ViewComponent_OnBlur}
   {$DEFINE EventName := OnBlur}
@@ -501,5 +501,4 @@ exports
   ViewComponent_SetOnWindowChanged,
   ViewComponent_SetOnLayoutChanged,
   ViewComponent_SetOnFocus,
-  ViewComponent_SetOnBlur
-;
+  ViewComponent_SetOnBlur;

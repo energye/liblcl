@@ -162,7 +162,6 @@ begin
 end;
 
 exports
-  {== ResourceRequestHandler ==}
   ResourceRequestHandlerRef_Create,
   ResourceRequestHandlerRef_CreateForChromium,
   ResourceRequestHandler_GetCookieAccessFilter,
@@ -173,12 +172,10 @@ exports
   ResourceRequestHandler_GetResourceResponseFilter,
   ResourceRequestHandler_OnResourceLoadComplete,
   ResourceRequestHandler_OnProtocolExecution,
-  {== CookieAccessFilter ==}
   CookieAccessFilterRef_Create,
   CookieAccessFilterRef_CreateForChromium,
   CookieAccessFilter_CanSendCookie,
   CookieAccessFilter_CanSaveCookie,
-  {== ResourceHandler ==}
   ResourceHandlerRef_Create,
   ResourceHandler_Open,
   ResourceHandler_GetResponseHeaders,
@@ -186,5 +183,4 @@ exports
   ResourceHandler_Read,
   ResourceHandler_ProcessRequest,
   ResourceHandler_ReadResponse,
-  ResourceHandler_Cancel
-;
+  ResourceHandler_Cancel;

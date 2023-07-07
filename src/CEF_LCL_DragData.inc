@@ -216,5 +216,4 @@ exports
   CefDragData_ClearFilenames,
   CefDragData_GetImage,
   CefDragData_GetImageHotspot,
-  CefDragData_HasImage
-;
+  CefDragData_HasImage;

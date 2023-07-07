@@ -86,15 +86,14 @@ begin
 end;
 
 exports
-    CefV8Context_Eval,
-    CefV8Context_Enter,
-    CefV8Context_Exit,
-    CefV8Context_IsSame,
-    CefV8Context_Browser,
-    CefV8Context_Frame,
-    CefV8Context_Global,
-    CefV8Context_Free,
-    CefV8ContextRef_Current,
-    CefV8ContextRef_Entered,
-    CefV8ContextRef_UnWrap
-;
+  CefV8Context_Eval,
+  CefV8Context_Enter,
+  CefV8Context_Exit,
+  CefV8Context_IsSame,
+  CefV8Context_Browser,
+  CefV8Context_Frame,
+  CefV8Context_Global,
+  CefV8Context_Free,
+  CefV8ContextRef_Current,
+  CefV8ContextRef_Entered,
+  CefV8ContextRef_UnWrap;

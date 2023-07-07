@@ -21,6 +21,5 @@ end;
 
 
 exports
-   RunQuickMenuCallback_Cont,
-   RunQuickMenuCallback_Cancel
-;
+  RunQuickMenuCallback_Cont,
+  RunQuickMenuCallback_Cancel;

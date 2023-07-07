@@ -246,14 +246,12 @@ end;
 
 
 exports
-//ICefProcessMessage
   CefProcessMessageRef_New,
   CefProcessMessageRef_UnWrap,
   CefProcessMessage_ArgumentList,
   CefProcessMessage_IsValid,
   CefProcessMessage_Copy,
   CefProcessMessage_Name,
-//ICefListValue
   CefListValueRef_New,
   CefListValueRef_UnWrap,
   CefListValue_IsValid,
@@ -281,5 +279,4 @@ exports
   CefListValue_SetString,
   CefListValue_SetBinary,
   CefListValue_SetDictionary,
-  CefListValue_SetList
-;
+  CefListValue_SetList;

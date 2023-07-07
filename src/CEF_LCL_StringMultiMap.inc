@@ -68,5 +68,4 @@ exports
   StringMultimap_GetKey,
   StringMultimap_GetValue,
   StringMultimap_Append,
-  StringMultimap_Clear
-;
+  StringMultimap_Clear;

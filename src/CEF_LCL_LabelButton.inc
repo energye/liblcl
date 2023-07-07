@@ -101,5 +101,4 @@ exports
   LabelButton_SetFontList,
   LabelButton_SetHorizontalAlignment,
   LabelButton_SetMinimumSize,
-  LabelButton_SetMaximumSize
-;
+  LabelButton_SetMaximumSize;

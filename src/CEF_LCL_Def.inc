@@ -66,17 +66,17 @@ begin
   count := Integer(regionsCount);
   for idx := 0 to count do
   begin
-    dragRegion := regions[idx];
-    region := CreateRectRgn(dragRegion.bounds.x, dragRegion.bounds.y, dragRegion.bounds.x + dragRegion.bounds.width, dragRegion.bounds.y + dragRegion.bounds.height);
-    if dragRegion.draggable = 1 then
-    begin
-        CombineRgn(draggable_region, draggable_region, region, RGN_OR);
-    end
-    else
-    begin
-        CombineRgn(draggable_region, draggable_region, region, RGN_DIFF);
-    end;
-    DeleteObject(region);
+  dragRegion := regions[idx];
+  region := CreateRectRgn(dragRegion.bounds.x, dragRegion.bounds.y, dragRegion.bounds.x + dragRegion.bounds.width, dragRegion.bounds.y + dragRegion.bounds.height);
+  if dragRegion.draggable = 1 then
+  begin
+  CombineRgn(draggable_region, draggable_region, region, RGN_OR);
+  end
+  else
+  begin
+  CombineRgn(draggable_region, draggable_region, region, RGN_DIFF);
+  end;
+  DeleteObject(region);
   end;
   {$endif}
 end;
@@ -1078,10 +1078,8 @@ end;
 exports
   LibVersion,
   LibBuildVersion,
-  { ====  go from begin ==== }
   CEF_AddGoForm,
   CEF_RemoveGoForm,
-  { ====  go from end ==== }
   CEF_Win_CreateRectRgn,
   CEF_Win_SetRectRgn,
   CEF_Win_DeleteObject,
@@ -1282,5 +1280,4 @@ exports
   CEF_Win_SetWindowText,
   CEF_Win_GetWindowText,
   CEF_Win_GetWindowTextLength
-{$endif}
-;
+{$endif};

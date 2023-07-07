@@ -12,5 +12,4 @@ begin
 end;
 
 exports
-  SchemeRegistrarRef_AddCustomScheme
-;
+  SchemeRegistrarRef_AddCustomScheme;

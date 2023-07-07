@@ -13,10 +13,9 @@ end;
 
 procedure CefPdfPrintCallback_OnPdfPrintFinished(const AObj: ICefPdfPrintCallback; AEventData: Pointer); extdecl;
 begin
-    (AObj as TPdfPrintCallbackRef).PdfPrintFinishedPtr := AEventData;
+  (AObj as TPdfPrintCallbackRef).PdfPrintFinishedPtr := AEventData;
 end;
 
 exports
-    CefPdfPrintCallback_Create,
-    CefPdfPrintCallback_OnPdfPrintFinished
-;
+  CefPdfPrintCallback_Create,
+  CefPdfPrintCallback_OnPdfPrintFinished;

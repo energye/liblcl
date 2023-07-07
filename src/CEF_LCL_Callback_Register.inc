@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-//IPC事件回调函数注册
+//IPC event callback
 procedure SetCEFIPCCallbackFunc(APtr: Pointer); extdecl;
 begin
   handleExceptionBegin
@@ -12,7 +12,7 @@ begin
   handleExceptionEnd
 end;
 
-//WindowBind事件回调函数注册
+//WindowBind event callback
 procedure SetCEFWindowBindCallbackFunc(APtr: Pointer); extdecl;
 begin
   handleExceptionBegin
@@ -22,7 +22,5 @@ end;
 
 
 exports
-    SetCEFIPCCallbackFunc,
-    SetCEFWindowBindCallbackFunc
-;
-
+  SetCEFIPCCallbackFunc,
+  SetCEFWindowBindCallbackFunc;

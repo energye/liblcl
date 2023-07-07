@@ -13,10 +13,9 @@ end;
 
 procedure CefCompletionCallback_OnComplete(const AObj: ICefCompletionCallback; AEventData: Pointer); extdecl;
 begin
-    (AObj as TCompletionCallbackRef).CompletionCallbackPtr := AEventData;
+  (AObj as TCompletionCallbackRef).CompletionCallbackPtr := AEventData;
 end;
 
 exports
-    CefCompletionCallbackRef_Create,
-    CefCompletionCallback_OnComplete
-;
+  CefCompletionCallbackRef_Create,
+  CefCompletionCallback_OnComplete;

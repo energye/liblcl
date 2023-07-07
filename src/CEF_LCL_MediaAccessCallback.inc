@@ -19,6 +19,5 @@ begin
 end;
 
 exports
-    CefMediaAccessCallback_Cont,
-    CefMediaAccessCallback_Cancel
-;
+  CefMediaAccessCallback_Cont,
+  CefMediaAccessCallback_Cancel;

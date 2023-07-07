@@ -61,12 +61,11 @@ begin
 end;
 
 exports
-    CefStreamWriterRef_UnWrap,
-    CefStreamWriterRef_CreateForFile,
-    CefStreamWriterRef_CreateForHandler,
-    CefStreamWriter_Write,
-    CefStreamWriter_Seek,
-    CefStreamWriter_Tell,
-    CefStreamWriter_Flush,
-    CefStreamWriter_MayBlock
-;
+  CefStreamWriterRef_UnWrap,
+  CefStreamWriterRef_CreateForFile,
+  CefStreamWriterRef_CreateForHandler,
+  CefStreamWriter_Write,
+  CefStreamWriter_Seek,
+  CefStreamWriter_Tell,
+  CefStreamWriter_Flush,
+  CefStreamWriter_MayBlock;

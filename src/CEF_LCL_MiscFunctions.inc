@@ -160,6 +160,4 @@ exports
   Misc_DeviceToLogicalTouch,
   Misc_DeviceToLogicalPoint,
   Misc_LogicalToDeviceInt32,
-  Misc_LogicalToDeviceRect
-;
-
+  Misc_LogicalToDeviceRect;

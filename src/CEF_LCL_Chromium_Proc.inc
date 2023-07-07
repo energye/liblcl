@@ -87,10 +87,10 @@ begin
   Result := AObj.BrowserById[id];
   if Result = nil then
   begin
-     exit;
+    exit;
   end;
   if not Result.IsValid then
-     Result := nil;
+    Result := nil;
   handleExceptionEnd
 end;
 
@@ -210,9 +210,9 @@ function CEFChromium_CreateBrowserByWindow(const AObj: TChromium; window: TCEFWi
 begin
   handleExceptionBegin
   if window = nil then
-    Result := AObj.CreateBrowser(nil, '')
+  Result := AObj.CreateBrowser(nil, '')
   else
-    Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
+  Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
   handleExceptionEnd
 end;
 
@@ -220,9 +220,9 @@ function CEFChromium_CreateBrowserByLinkedWindow(const AObj: TChromium; window: 
 begin
   handleExceptionBegin
   if window = nil then
-    Result := AObj.CreateBrowser(nil, '')
+  Result := AObj.CreateBrowser(nil, '')
   else
-    Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
+  Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
   handleExceptionEnd
 end;
 
@@ -265,11 +265,11 @@ procedure CEFChromium_BrowserZoom(const AObj: TChromium; Zoom: integer); extdecl
 begin
   handleExceptionBegin
   if Zoom = 0 then
-       AObj.ResetZoomLevel
+   AObj.ResetZoomLevel
   else if Zoom = 1 then
-       AObj.IncZoomStep
+   AObj.IncZoomStep
   else if Zoom = 2 then
-       AObj.DecZoomStep;
+   AObj.DecZoomStep;
   handleExceptionEnd
 end;
 
@@ -277,9 +277,9 @@ procedure CEFChromium_GoBackForward(const AObj: TChromium; BackForward: integer)
 begin
   handleExceptionBegin
   if BackForward = 0 then
-     AObj.GoBack
+  AObj.GoBack
   else if BackForward = 1 then
-     AObj.GoForward;
+  AObj.GoForward;
   handleExceptionEnd
 end;
 
@@ -301,12 +301,12 @@ end;
 procedure CEFChromium_CloseBrowser(const AObj: TChromium; forceClose: LongBool); extdecl;
 begin
   handleExceptionBegin
-   try
-     AObj.CloseBrowser(forceClose);
-   except
-     on E: Exception do
-       CallException(E);
-   end;
+  try
+  AObj.CloseBrowser(forceClose);
+  except
+  on E: Exception do
+   CallException(E);
+  end;
   handleExceptionEnd
 end;
 
@@ -319,7 +319,7 @@ begin
   scriptURL := PCharToUStr(aScriptURL);
   if scriptURL = '' then
   begin
-    scriptURL := 'about:blank';
+  scriptURL := 'about:blank';
   end;
   AObj.ExecuteJavaScript(code, scriptURL, startLine);
   handleExceptionEnd
@@ -402,8 +402,6 @@ begin
   priority := TCefCookiePriority(Integer(CefCookie.priority));
   aSetImmediately := LongBool(PLongBool(CefCookie.setImmediately));
   aID := Integer(CefCookie.aID);
-  //WriteLn('pas= url:', url, ' name: ', name, ' value: ', value, ' domain: ', domain, ' path: ', path, ' secure: ', secure, ' httponly: ', httponly, ' hasExpires: ', hasExpires
-  //              , ' creation: ', creation, ' lastAccess: ', lastAccess, ' expires: ', expires, ' sameSite: ', sameSite, ' priority: ', priority, ' aSetImmediately: ', aSetImmediately, ' aID: ', aID);
   AObj.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, sameSite, priority, aSetImmediately, aID);
   CefCookie := nil;
   handleExceptionEnd
@@ -430,22 +428,18 @@ end;
 
 //cookie end
 
-//设置proxy
 procedure CEFChromium_SetProxy(const AObj: TChromium; const proxy: PRChromiumProxy); extdecl;
 begin
   handleExceptionBegin
-  AObj.ProxyType              := Integer(proxy.ProxyType);
-  AObj.ProxyScheme            := TCefProxyScheme(Integer(proxy.ProxyScheme));
-  AObj.ProxyServer            := PCharToUStr(proxy.ProxyServer);
-  AObj.ProxyPort              := Integer(proxy.ProxyPort);
-  AObj.ProxyUsername          := PCharToUStr(proxy.ProxyUsername);
-  AObj.ProxyPassword          := PCharToUStr(proxy.ProxyPassword);
-  AObj.ProxyScriptURL         := PCharToUStr(proxy.ProxyScriptURL);
-  AObj.ProxyByPassList        := PCharToUStr(proxy.ProxyByPassList);
+  AObj.ProxyType := Integer(proxy.ProxyType);
+  AObj.ProxyScheme := TCefProxyScheme(Integer(proxy.ProxyScheme));
+  AObj.ProxyServer := PCharToUStr(proxy.ProxyServer);
+  AObj.ProxyPort := Integer(proxy.ProxyPort);
+  AObj.ProxyUsername := PCharToUStr(proxy.ProxyUsername);
+  AObj.ProxyPassword := PCharToUStr(proxy.ProxyPassword);
+  AObj.ProxyScriptURL := PCharToUStr(proxy.ProxyScriptURL);
+  AObj.ProxyByPassList := PCharToUStr(proxy.ProxyByPassList);
   AObj.MaxConnectionsPerProxy := Integer(proxy.MaxConnectionsPerProxy);
-  //WriteLn('SetProxy: ', Integer(proxy.ProxyType), ' ProxyScheme: ', TCefProxyScheme(Integer(proxy.ProxyScheme)), ' ProxyServer: ', PCharToUStr(proxy.ProxyServer), ' ProxyPort: ', Integer(proxy.ProxyPort),
-  //' ProxyUsername: ', PCharToUStr(proxy.ProxyUsername), ' ProxyPassword: ', PCharToUStr(proxy.ProxyPassword),
-  //' ProxyScriptURL: ', PCharToUStr(proxy.ProxyScriptURL),' ProxyByPassList: ', PCharToUStr(proxy.ProxyByPassList),' MaxConnectionsPerProxy ', Integer(proxy.MaxConnectionsPerProxy));
   handleExceptionEnd
 end;
 
@@ -456,7 +450,6 @@ begin
   handleExceptionEnd
 end;
 
-//执行开发者工具方法
 procedure CEFChromium_ExecuteDevToolsMethod(const AObj: TChromium; messageId: integer; PMethodName: PChar; const dictionaryValue: ICefDictionaryValue); extdecl;
 begin
   handleExceptionBegin
@@ -1054,83 +1047,83 @@ begin
   message_ := TValueConvert.V8ValueToProcessMessage(PCharToUStr(PName), arguments);
   if message_ <> nil then
   begin
-    AObj.SendProcessMessage(TCefProcessId(targetProcess), message_);
-    message_.ArgumentList.Clear;
+  AObj.SendProcessMessage(TCefProcessId(targetProcess), message_);
+  message_.ArgumentList.Clear;
   end;
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_SimulateMouseWheel(const AObj: TChromium; aDeltaX, aDeltaY : integer); extdecl;
+procedure  CEFChromium_SimulateMouseWheel(const AObj: TChromium; aDeltaX, aDeltaY : integer); extdecl;
 begin
   handleExceptionBegin
   AObj.SimulateMouseWheel(aDeltaX, aDeltaY);
   handleExceptionEnd
 end;
 
-function    CEFChromium_CloseAllConnections(const AObj: TChromium; aCloseImmediately : LongBool) : LongBool; extdecl;
+function  CEFChromium_CloseAllConnections(const AObj: TChromium; aCloseImmediately : LongBool) : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.CloseAllConnections(aCloseImmediately);
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_RetrieveHTMLByFrameName(const AObj: TChromium; const aFrameName : PChar); extdecl;
+procedure  CEFChromium_RetrieveHTMLByFrameName(const AObj: TChromium; const aFrameName : PChar); extdecl;
 begin
   handleExceptionBegin
   AObj.RetrieveHTML(PCharToUStr(aFrameName));
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_RetrieveHTMLByFrame(const AObj: TChromium; const aFrame : ICefFrame); extdecl;
+procedure  CEFChromium_RetrieveHTMLByFrame(const AObj: TChromium; const aFrame : ICefFrame); extdecl;
 begin
   handleExceptionBegin
   AObj.RetrieveHTML(aFrame);
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_RetrieveHTMLByFrameIdentifier(const AObj: TChromium; var aFrameIdentifier : int64); extdecl;
+procedure  CEFChromium_RetrieveHTMLByFrameIdentifier(const AObj: TChromium; var aFrameIdentifier : int64); extdecl;
 begin
   handleExceptionBegin
   AObj.RetrieveHTML(aFrameIdentifier);
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_RetrieveTextByFrameName(const AObj: TChromium; const aFrameName : PChar); extdecl;
+procedure  CEFChromium_RetrieveTextByFrameName(const AObj: TChromium; const aFrameName : PChar); extdecl;
 begin
   handleExceptionBegin
   AObj.RetrieveText(PCharToUStr(aFrameName));
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_RetrieveTextByFrame(const AObj: TChromium; const aFrame : ICefFrame); extdecl;
+procedure  CEFChromium_RetrieveTextByFrame(const AObj: TChromium; const aFrame : ICefFrame); extdecl;
 begin
   handleExceptionBegin
   AObj.RetrieveText(aFrame);
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_RetrieveTextByFrameIdentifier(const AObj: TChromium; var aFrameIdentifier : int64); extdecl;
+procedure  CEFChromium_RetrieveTextByFrameIdentifier(const AObj: TChromium; var aFrameIdentifier : int64); extdecl;
 begin
   handleExceptionBegin
   AObj.RetrieveText(aFrameIdentifier);
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ResolveHost(const AObj: TChromium; const aURL : PChar); extdecl;
+procedure  CEFChromium_ResolveHost(const AObj: TChromium; const aURL : PChar); extdecl;
 begin
   handleExceptionBegin
   AObj.ResolveHost(PCharToUStr(aURL));
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_SetUserAgentOverride(const AObj: TChromium; const aUserAgent : PChar; const aAcceptLanguage : PChar; const aPlatform : PChar); extdecl;
+procedure  CEFChromium_SetUserAgentOverride(const AObj: TChromium; const aUserAgent : PChar; const aAcceptLanguage : PChar; const aPlatform : PChar); extdecl;
 begin
   handleExceptionBegin
   AObj.SetUserAgentOverride(PCharToUStr(aUserAgent), PCharToUStr(aAcceptLanguage), PCharToUStr(aPlatform));
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ClearDataForOrigin(const AObj: TChromium; const aOrigin : PChar; aStorageTypes : Integer); extdecl;
+procedure  CEFChromium_ClearDataForOrigin(const AObj: TChromium; const aOrigin : PChar; aStorageTypes : Integer); extdecl;
 var
   st: TCefClearDataStorageTypes;
 begin
@@ -1138,203 +1131,203 @@ begin
   st := cdstAll;
   // TCefClearDataStorageTypes = default cdstAll
   if aStorageTypes = 0 then
-    st := cdstAppCache
+  st := cdstAppCache
   else if aStorageTypes = 1 then
-    st := cdstCookies
+  st := cdstCookies
   else if aStorageTypes = 2 then
-    st := cdstFileSystems
+  st := cdstFileSystems
   else if aStorageTypes = 3 then
-    st := cdstIndexeddb
+  st := cdstIndexeddb
   else if aStorageTypes = 4 then
-    st := cdstLocalStorage
+  st := cdstLocalStorage
   else if aStorageTypes = 5 then
-    st := cdstShaderCache
+  st := cdstShaderCache
   else if aStorageTypes = 6 then
-    st := cdstWebsql
+  st := cdstWebsql
   else if aStorageTypes = 7 then
-    st := cdstServiceWorkers
+  st := cdstServiceWorkers
   else if aStorageTypes = 8 then
-    st := cdstCacheStorage
+  st := cdstCacheStorage
   else if aStorageTypes = 9 then
-    st := cdstAll;
+  st := cdstAll;
   AObj.ClearDataForOrigin(PCharToUStr(aOrigin), st);
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ClearCache(const AObj: TChromium); extdecl;
+procedure  CEFChromium_ClearCache(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ClearCache();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ToggleAudioMuted(const AObj: TChromium); extdecl;
+procedure  CEFChromium_ToggleAudioMuted(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ToggleAudioMuted();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ClipboardCopy(const AObj: TChromium); extdecl;
+procedure  CEFChromium_ClipboardCopy(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ClipboardCopy();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ClipboardPaste(const AObj: TChromium); extdecl;
+procedure  CEFChromium_ClipboardPaste(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ClipboardPaste();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ClipboardCut(const AObj: TChromium); extdecl;
+procedure  CEFChromium_ClipboardCut(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ClipboardCut();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ClipboardUndo(const AObj: TChromium); extdecl;
+procedure  CEFChromium_ClipboardUndo(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ClipboardUndo();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ClipboardRedo(const AObj: TChromium); extdecl;
+procedure  CEFChromium_ClipboardRedo(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ClipboardRedo();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ClipboardDel(const AObj: TChromium); extdecl;
+procedure  CEFChromium_ClipboardDel(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ClipboardDel();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_SelectAll(const AObj: TChromium); extdecl;
+procedure  CEFChromium_SelectAll(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.SelectAll();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_IncZoomStep(const AObj: TChromium); extdecl;
+procedure  CEFChromium_IncZoomStep(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.IncZoomStep();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_DecZoomStep(const AObj: TChromium); extdecl;
+procedure  CEFChromium_DecZoomStep(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.DecZoomStep();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_IncZoomPct(const AObj: TChromium); extdecl;
+procedure  CEFChromium_IncZoomPct(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.IncZoomPct();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_DecZoomPct(const AObj: TChromium); extdecl;
+procedure  CEFChromium_DecZoomPct(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.DecZoomPct();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ResetZoomStep(const AObj: TChromium); extdecl;
+procedure  CEFChromium_ResetZoomStep(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ResetZoomStep();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ResetZoomPct(const AObj: TChromium); extdecl;
+procedure  CEFChromium_ResetZoomPct(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ResetZoomPct();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_ReadZoom(const AObj: TChromium); extdecl;
+procedure  CEFChromium_ReadZoom(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ReadZoom();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_WasResized(const AObj: TChromium); extdecl;
+procedure  CEFChromium_WasResized(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.WasResized();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_WasHidden(const AObj: TChromium; hidden: LongBool); extdecl;
+procedure  CEFChromium_WasHidden(const AObj: TChromium; hidden: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.WasHidden(hidden);
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_NotifyScreenInfoChanged(const AObj: TChromium); extdecl;
+procedure  CEFChromium_NotifyScreenInfoChanged(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.NotifyScreenInfoChanged();
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_IMESetComposition(const AObj: TChromium; const text: PChar; const replacement_range, selection_range : TCefRange; const PUnderlines : PTCefCompositionUnderlineDynArray; size: Integer); extdecl;
+procedure  CEFChromium_IMESetComposition(const AObj: TChromium; const text: PChar; const replacement_range, selection_range : TCefRange; const PUnderlines : PTCefCompositionUnderlineDynArray; size: Integer); extdecl;
 var
   i: integer;
   underlines : TCefCompositionUnderlineDynArray;
 begin
   handleExceptionBegin
   try
-    SetLength(underlines, size);
-    for i := 0 to  size - 1 do
-    begin
-      underlines[i] := PUnderlines^[i];
-    end;
-    AObj.IMESetComposition(PChar(text), underlines, @replacement_range, @selection_range);
+  SetLength(underlines, size);
+  for i := 0 to  size - 1 do
+  begin
+  underlines[i] := PUnderlines^[i];
+  end;
+  AObj.IMESetComposition(PChar(text), underlines, @replacement_range, @selection_range);
   finally
-    SetLength(underlines, 0);
+  SetLength(underlines, 0);
   end;
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_IMECommitText(const AObj: TChromium; const text: PChar; const replacement_range : TCefRange; relative_cursor_pos : integer); extdecl;
+procedure  CEFChromium_IMECommitText(const AObj: TChromium; const text: PChar; const replacement_range : TCefRange; relative_cursor_pos : integer); extdecl;
 begin
   handleExceptionBegin
   AObj.IMECommitText(PChar(text), @replacement_range, relative_cursor_pos);
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_IMEFinishComposingText(const AObj: TChromium; keep_selection : boolean); extdecl;
+procedure  CEFChromium_IMEFinishComposingText(const AObj: TChromium; keep_selection : boolean); extdecl;
 begin
   handleExceptionBegin
   AObj.IMEFinishComposingText(keep_selection);
   handleExceptionEnd
 end;
 
-procedure   CEFChromium_IMECancelComposition(const AObj: TChromium); extdecl;
+procedure  CEFChromium_IMECancelComposition(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.IMECancelComposition();
   handleExceptionEnd
 end;
 
-function   CEFChromium_HasDevTools(const AObj: TChromium):LongBool ; extdecl;
+function  CEFChromium_HasDevTools(const AObj: TChromium):LongBool ; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.HasDevTools;
@@ -1516,6 +1509,4 @@ exports
   CEFChromium_IMEFinishComposingText,
   CEFChromium_IMECancelComposition,
   CEFChromium_HasDevTools,
-  CEFChromium_InitializeDragAndDrop
-;
-
+  CEFChromium_InitializeDragAndDrop;

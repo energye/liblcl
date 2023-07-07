@@ -12,5 +12,4 @@ begin
 end;
 
 exports
-  CefPrintJobCallback_Cont
-;
+  CefPrintJobCallback_Cont;

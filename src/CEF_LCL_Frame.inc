@@ -136,8 +136,8 @@ begin
   message_ := TValueConvert.V8ValueToProcessMessage(PCharToUStr(PName), arguments);
   if message_ <> nil then
   begin
-    AObj.SendProcessMessage(TCefProcessId(targetProcess), message_);
-    message_.ArgumentList.Clear;
+  AObj.SendProcessMessage(TCefProcessId(targetProcess), message_);
+  message_.ArgumentList.Clear;
   end;
   handleExceptionEnd
 end;
@@ -205,7 +205,6 @@ begin
   handleExceptionEnd
 end;
 
-{exports}
 exports
   CEFFrame_Undo,
   CEFFrame_Redo,
@@ -231,7 +230,4 @@ exports
   CEFFrame_Name,
   CEFFrame_Url,
   CEFFrame_Parent,
-  CEFFrameRef_UnWrap
-{end}
-;
-
+  CEFFrameRef_UnWrap;

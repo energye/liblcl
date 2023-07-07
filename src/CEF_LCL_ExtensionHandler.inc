@@ -75,14 +75,13 @@ begin
 end;
 
 exports
-    CefExtensionHandlerRef_CreateForChromium,
-    CefExtensionHandlerRef_Create,
-    CefExtensionHandler_OnExtensionLoadFailed,
-    CefExtensionHandler_OnExtensionLoaded,
-    CefExtensionHandler_OnExtensionUnloaded,
-    CefExtensionHandler_OnBeforeBackgroundBrowser,
-    CefExtensionHandler_OnBeforeBrowser,
-    CefExtensionHandler_GetActiveBrowser,
-    CefExtensionHandler_CanAccessBrowser,
-    CefExtensionHandler_GetExtensionResource
-;
+  CefExtensionHandlerRef_CreateForChromium,
+  CefExtensionHandlerRef_Create,
+  CefExtensionHandler_OnExtensionLoadFailed,
+  CefExtensionHandler_OnExtensionLoaded,
+  CefExtensionHandler_OnExtensionUnloaded,
+  CefExtensionHandler_OnBeforeBackgroundBrowser,
+  CefExtensionHandler_OnBeforeBrowser,
+  CefExtensionHandler_GetActiveBrowser,
+  CefExtensionHandler_CanAccessBrowser,
+  CefExtensionHandler_GetExtensionResource;

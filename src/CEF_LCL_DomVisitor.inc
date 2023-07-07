@@ -19,6 +19,5 @@ begin
 end;
 
 exports
-   CefDomVisitorRef_Create,
-   CefDomVisitor_Visit
-;
+  CefDomVisitorRef_Create,
+  CefDomVisitor_Visit;

@@ -14,27 +14,27 @@ end;
 
 procedure CefAudioHandler_OnGetAudioParameters(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TAudioHandlerRef).GetAudioParametersPtr := AEventData;
+  (AObj as TAudioHandlerRef).GetAudioParametersPtr := AEventData;
 end;
 
 procedure CefAudioHandler_OnAudioStreamStarted(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TAudioHandlerRef).AudioStreamStartedPtr := AEventData;
+  (AObj as TAudioHandlerRef).AudioStreamStartedPtr := AEventData;
 end;
 
 procedure CefAudioHandler_OnAudioStreamPacket(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TAudioHandlerRef).AudioStreamPacketPtr := AEventData;
+  (AObj as TAudioHandlerRef).AudioStreamPacketPtr := AEventData;
 end;
 
 procedure CefAudioHandler_OnAudioStreamStopped(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TAudioHandlerRef).AudioStreamStoppedPtr := AEventData;
+  (AObj as TAudioHandlerRef).AudioStreamStoppedPtr := AEventData;
 end;
 
 procedure CefAudioHandler_OnAudioStreamError(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TAudioHandlerRef).AudioStreamErrorPtr := AEventData;
+  (AObj as TAudioHandlerRef).AudioStreamErrorPtr := AEventData;
 end;
 
 {== CommandHandler ==}
@@ -47,7 +47,7 @@ end;
 
 procedure CefCommandHandler_OnChromeCommand(const AObj: ICefCommandHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TCommandHandlerRef).ChromeCommandPtr := AEventData;
+  (AObj as TCommandHandlerRef).ChromeCommandPtr := AEventData;
 end;
 
 {== ContextMenuHandler ==}
@@ -60,37 +60,37 @@ end;
 
 procedure CefContextMenuHandler_OnBeforeContextMenu(const AObj: ICefContextMenuHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TContextMenuHandlerRef).BeforeContextMenuPtr := AEventData;
+  (AObj as TContextMenuHandlerRef).BeforeContextMenuPtr := AEventData;
 end;
 
 procedure CefContextMenuHandler_RunContextMenu(const AObj: ICefContextMenuHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TContextMenuHandlerRef).RunContextMenuPtr := AEventData;
+  (AObj as TContextMenuHandlerRef).RunContextMenuPtr := AEventData;
 end;
 
 procedure CefContextMenuHandler_OnContextMenuCommand(const AObj: ICefContextMenuHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TContextMenuHandlerRef).ContextMenuCommandPtr := AEventData;
+  (AObj as TContextMenuHandlerRef).ContextMenuCommandPtr := AEventData;
 end;
 
 procedure CefContextMenuHandler_OnContextMenuDismissed(const AObj: ICefContextMenuHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TContextMenuHandlerRef).ContextMenuDismissedPtr := AEventData;
+  (AObj as TContextMenuHandlerRef).ContextMenuDismissedPtr := AEventData;
 end;
 
 procedure CefContextMenuHandler_RunQuickMenu(const AObj: ICefContextMenuHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TContextMenuHandlerRef).RunQuickMenuPtr := AEventData;
+  (AObj as TContextMenuHandlerRef).RunQuickMenuPtr := AEventData;
 end;
 
 procedure CefContextMenuHandler_OnQuickMenuCommand(const AObj: ICefContextMenuHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TContextMenuHandlerRef).QuickMenuCommandPtr := AEventData;
+  (AObj as TContextMenuHandlerRef).QuickMenuCommandPtr := AEventData;
 end;
 
 procedure CefContextMenuHandler_OnQuickMenuDismissed(const AObj: ICefContextMenuHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TContextMenuHandlerRef).QuickMenuDismissedPtr := AEventData;
+  (AObj as TContextMenuHandlerRef).QuickMenuDismissedPtr := AEventData;
 end;
 
 {== DialogHandler ==}
@@ -103,7 +103,7 @@ end;
 
 procedure CefDialogHandler_OnFileDialog(const AObj: ICefDialogHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDialogHandlerRef).FileDialogPtr := AEventData;
+  (AObj as TDialogHandlerRef).FileDialogPtr := AEventData;
 end;
 
 {== DisplayHandler ==}
@@ -116,57 +116,57 @@ end;
 
 procedure CefDisplayHandler_OnAddressChange(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).AddressChangePtr := AEventData;
+  (AObj as TDisplayHandlerRef).AddressChangePtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnTitleChange(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).TitleChangePtr := AEventData;
+  (AObj as TDisplayHandlerRef).TitleChangePtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnFaviconUrlChange(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).FaviconUrlChangePtr := AEventData;
+  (AObj as TDisplayHandlerRef).FaviconUrlChangePtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnFullScreenModeChange(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).FullScreenModeChangePtr := AEventData;
+  (AObj as TDisplayHandlerRef).FullScreenModeChangePtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnTooltip(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).TooltipPtr := AEventData;
+  (AObj as TDisplayHandlerRef).TooltipPtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnStatusMessage(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).StatusMessagePtr := AEventData;
+  (AObj as TDisplayHandlerRef).StatusMessagePtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnConsoleMessage(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).ConsoleMessagePtr := AEventData;
+  (AObj as TDisplayHandlerRef).ConsoleMessagePtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnAutoResize(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).AutoResizePtr := AEventData;
+  (AObj as TDisplayHandlerRef).AutoResizePtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnLoadingProgressChange(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).LoadingProgressChangePtr := AEventData;
+  (AObj as TDisplayHandlerRef).LoadingProgressChangePtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnCursorChange(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).CursorChangePtr := AEventData;
+  (AObj as TDisplayHandlerRef).CursorChangePtr := AEventData;
 end;
 
 procedure CefDisplayHandler_OnMediaAccessChange(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDisplayHandlerRef).MediaAccessChangePtr := AEventData;
+  (AObj as TDisplayHandlerRef).MediaAccessChangePtr := AEventData;
 end;
 
 {== DownloadHandler ==}
@@ -179,17 +179,17 @@ end;
 
 procedure CefDownloadHandler_CanDownload(const AObj: ICefDownloadHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDownloadHandlerRef).CanDownloadPtr := AEventData;
+  (AObj as TDownloadHandlerRef).CanDownloadPtr := AEventData;
 end;
 
 procedure CefDownloadHandler_OnBeforeDownload(const AObj: ICefDownloadHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDownloadHandlerRef).BeforeDownloadPtr := AEventData;
+  (AObj as TDownloadHandlerRef).BeforeDownloadPtr := AEventData;
 end;
 
 procedure CefDownloadHandler_OnDownloadUpdated(const AObj: ICefDownloadHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDownloadHandlerRef).DownloadUpdatedPtr := AEventData;
+  (AObj as TDownloadHandlerRef).DownloadUpdatedPtr := AEventData;
 end;
 
 {== DragHandler ==}
@@ -202,12 +202,12 @@ end;
 
 procedure CefDragHandler_OnDragEnter(const AObj: ICefDragHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDragHandlerRef).DragEnterPtr := AEventData;
+  (AObj as TDragHandlerRef).DragEnterPtr := AEventData;
 end;
 
 procedure CefDragHandler_OnDraggableRegionsChanged(const AObj: ICefDragHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TDragHandlerRef).DraggableRegionsChangedPtr := AEventData;
+  (AObj as TDragHandlerRef).DraggableRegionsChangedPtr := AEventData;
 end;
 
 {== FindHandler ==}
@@ -220,7 +220,7 @@ end;
 
 procedure CefFindHandler_OnFindResult(const AObj: ICefFindHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TFindHandlerRef).FindResultPtr := AEventData;
+  (AObj as TFindHandlerRef).FindResultPtr := AEventData;
 end;
 
 {== FocusHandler ==}
@@ -233,17 +233,17 @@ end;
 
 procedure CefFocusHandler_OnTakeFocus(const AObj: ICefFocusHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TFocusHandlerRef).TakeFocusPtr := AEventData;
+  (AObj as TFocusHandlerRef).TakeFocusPtr := AEventData;
 end;
 
 procedure CefFocusHandler_OnSetFocus(const AObj: ICefFocusHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TFocusHandlerRef).SetFocusPtr := AEventData;
+  (AObj as TFocusHandlerRef).SetFocusPtr := AEventData;
 end;
 
 procedure CefFocusHandler_OnGotFocus(const AObj: ICefFocusHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TFocusHandlerRef).GotFocusPtr := AEventData;
+  (AObj as TFocusHandlerRef).GotFocusPtr := AEventData;
 end;
 
 {== FrameHandler ==}
@@ -256,22 +256,22 @@ end;
 
 procedure CefFrameHandler_OnFrameCreated(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
 begin
-    AObj.FrameCreatedPtr := AEventData;
+  AObj.FrameCreatedPtr := AEventData;
 end;
 
 procedure CefFrameHandler_OnFrameAttached(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
 begin
-    AObj.FrameAttachedPtr := AEventData;
+  AObj.FrameAttachedPtr := AEventData;
 end;
 
 procedure CefFrameHandler_OnFrameDetached(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
 begin
-    AObj.FrameDetachedPtr := AEventData;
+  AObj.FrameDetachedPtr := AEventData;
 end;
 
 procedure CefFrameHandler_OnMainFrameChanged(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
 begin
-    AObj.MainFrameChangedPtr := AEventData;
+  AObj.MainFrameChangedPtr := AEventData;
 end;
 
 {== PermissionHandler ==}
@@ -284,17 +284,17 @@ end;
 
 procedure CefPermissionHandler_OnRequestMediaAccessPermission(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
 begin
-    AObj.RequestMediaAccessPermissionPtr := AEventData;
+  AObj.RequestMediaAccessPermissionPtr := AEventData;
 end;
 
 procedure CefPermissionHandler_OnShowPermissionPrompt(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
 begin
-    AObj.ShowPermissionPromptPtr := AEventData;
+  AObj.ShowPermissionPromptPtr := AEventData;
 end;
 
 procedure CefPermissionHandler_OnDismissPermissionPrompt(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
 begin
-    AObj.DismissPermissionPromptPtr := AEventData;
+  AObj.DismissPermissionPromptPtr := AEventData;
 end;
 
 {== JsDialogHandler ==}
@@ -307,22 +307,22 @@ end;
 
 procedure CefJsDialogHandler_OnJsdialog(const AObj: ICefJsDialogHandler; AEventData: Pointer); extdecl;
 begin
-   (AObj as TJsDialogHandlerRef).JsdialogPtr := AEventData;
+  (AObj as TJsDialogHandlerRef).JsdialogPtr := AEventData;
 end;
 
 procedure CefJsDialogHandler_OnBeforeUnloadDialog(const AObj: ICefJsDialogHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TJsDialogHandlerRef).BeforeUnloadDialogPtr := AEventData;
+  (AObj as TJsDialogHandlerRef).BeforeUnloadDialogPtr := AEventData;
 end;
 
 procedure CefJsDialogHandler_OnResetDialogState(const AObj: ICefJsDialogHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TJsDialogHandlerRef).ResetDialogStatePtr := AEventData;
+  (AObj as TJsDialogHandlerRef).ResetDialogStatePtr := AEventData;
 end;
 
 procedure CefJsDialogHandler_OnDialogClosed(const AObj: ICefJsDialogHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TJsDialogHandlerRef).DialogClosedPtr := AEventData;
+  (AObj as TJsDialogHandlerRef).DialogClosedPtr := AEventData;
 end;
 
 {== KeyboardHandler ==}
@@ -335,12 +335,12 @@ end;
 
 procedure CefKeyboardHandler_OnPreKeyEvent(const AObj: ICefKeyboardHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TKeyboardHandlerRef).PreKeyEventPtr := AEventData;
+  (AObj as TKeyboardHandlerRef).PreKeyEventPtr := AEventData;
 end;
 
 procedure CefKeyboardHandler_OnKeyEvent(const AObj: ICefKeyboardHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TKeyboardHandlerRef).KeyEventPtr := AEventData;
+  (AObj as TKeyboardHandlerRef).KeyEventPtr := AEventData;
 end;
 
 {== LifeSpanHandler ==}
@@ -353,22 +353,22 @@ end;
 
 procedure CefLifeSpanHandler_OnBeforePopup(const AObj: ICefLifeSpanHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TLifeSpanHandlerRef).BeforePopupPtr := AEventData;
+  (AObj as TLifeSpanHandlerRef).BeforePopupPtr := AEventData;
 end;
 
 procedure CefLifeSpanHandler_OnAfterCreated(const AObj: ICefLifeSpanHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TLifeSpanHandlerRef).AfterCreatedPtr := AEventData;
+  (AObj as TLifeSpanHandlerRef).AfterCreatedPtr := AEventData;
 end;
 
 procedure CefLifeSpanHandler_DoClose(const AObj: ICefLifeSpanHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TLifeSpanHandlerRef).DoClosePtr := AEventData;
+  (AObj as TLifeSpanHandlerRef).DoClosePtr := AEventData;
 end;
 
 procedure CefLifeSpanHandler_OnBeforeClose(const AObj: ICefLifeSpanHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TLifeSpanHandlerRef).BeforeClosePtr := AEventData;
+  (AObj as TLifeSpanHandlerRef).BeforeClosePtr := AEventData;
 end;
 
 {== LoadHandler ==}
@@ -381,22 +381,22 @@ end;
 
 procedure CefLoadHandler_OnLoadingStateChange(const AObj: ICefLoadHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TLoadHandlerRef).LoadingStateChangePtr := AEventData;
+  (AObj as TLoadHandlerRef).LoadingStateChangePtr := AEventData;
 end;
 
 procedure CefLoadHandler_OnLoadStart(const AObj: ICefLoadHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TLoadHandlerRef).LoadStartPtr := AEventData;
+  (AObj as TLoadHandlerRef).LoadStartPtr := AEventData;
 end;
 
 procedure CefLoadHandler_OnLoadEnd(const AObj: ICefLoadHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TLoadHandlerRef).LoadEndPtr := AEventData;
+  (AObj as TLoadHandlerRef).LoadEndPtr := AEventData;
 end;
 
 procedure CefLoadHandler_OnLoadError(const AObj: ICefLoadHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TLoadHandlerRef).LoadErrorPtr := AEventData;
+  (AObj as TLoadHandlerRef).LoadErrorPtr := AEventData;
 end;
 
 {== PrintHandler ==}
@@ -409,32 +409,32 @@ end;
 
 procedure CefPrintHandler_OnPrintStart(const AObj: ICefPrintHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TPrintHandlerRef).PrintStartPtr := AEventData;
+  (AObj as TPrintHandlerRef).PrintStartPtr := AEventData;
 end;
 
 procedure CefPrintHandler_OnPrintSettings(const AObj: ICefPrintHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TPrintHandlerRef).PrintSettingsPtr := AEventData;
+  (AObj as TPrintHandlerRef).PrintSettingsPtr := AEventData;
 end;
 
 procedure CefPrintHandler_OnPrintDialog(const AObj: ICefPrintHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TPrintHandlerRef).PrintDialogPtr := AEventData;
+  (AObj as TPrintHandlerRef).PrintDialogPtr := AEventData;
 end;
 
 procedure CefPrintHandler_OnPrintJob(const AObj: ICefPrintHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TPrintHandlerRef).PrintJobPtr := AEventData;
+  (AObj as TPrintHandlerRef).PrintJobPtr := AEventData;
 end;
 
 procedure CefPrintHandler_OnPrintReset(const AObj: ICefPrintHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TPrintHandlerRef).PrintResetPtr := AEventData;
+  (AObj as TPrintHandlerRef).PrintResetPtr := AEventData;
 end;
 
 procedure CefPrintHandler_GetPDFPaperSize(const AObj: ICefPrintHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TPrintHandlerRef).PDFPaperSizePtr := AEventData;
+  (AObj as TPrintHandlerRef).PDFPaperSizePtr := AEventData;
 end;
 
 {== RenderHandler ==}
@@ -447,87 +447,87 @@ end;
 
 procedure CefRenderHandler_GetAccessibilityHandler(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).AccessibilityHandlerPtr := AEventData;
+  (AObj as TRenderHandlerRef).AccessibilityHandlerPtr := AEventData;
 end;
 
 procedure CefRenderHandler_GetRootScreenRect(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).RootScreenRectPtr := AEventData;
+  (AObj as TRenderHandlerRef).RootScreenRectPtr := AEventData;
 end;
 
 procedure CefRenderHandler_GetViewRect(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).ViewRectPtr := AEventData;
+  (AObj as TRenderHandlerRef).ViewRectPtr := AEventData;
 end;
 
 procedure CefRenderHandler_GetScreenPoint(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).ScreenPointPtr := AEventData;
+  (AObj as TRenderHandlerRef).ScreenPointPtr := AEventData;
 end;
 
 procedure CefRenderHandler_GetScreenInfo(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).ScreenInfoPtr := AEventData;
+  (AObj as TRenderHandlerRef).ScreenInfoPtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnPopupShow(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).PopupShowPtr := AEventData;
+  (AObj as TRenderHandlerRef).PopupShowPtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnPopupSize(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).PopupSizePtr := AEventData;
+  (AObj as TRenderHandlerRef).PopupSizePtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnPaint(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).PaintPtr := AEventData;
+  (AObj as TRenderHandlerRef).PaintPtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnAcceleratedPaint(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).AcceleratedPaintPtr := AEventData;
+  (AObj as TRenderHandlerRef).AcceleratedPaintPtr := AEventData;
 end;
 
 procedure CefRenderHandler_GetTouchHandleSize(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).TouchHandleSizePtr := AEventData;
+  (AObj as TRenderHandlerRef).TouchHandleSizePtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnTouchHandleStateChanged(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).TouchHandleStateChangedPtr := AEventData;
+  (AObj as TRenderHandlerRef).TouchHandleStateChangedPtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnStartDragging(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).StartDraggingPtr := AEventData;
+  (AObj as TRenderHandlerRef).StartDraggingPtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnUpdateDragCursor(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).UpdateDragCursorPtr := AEventData;
+  (AObj as TRenderHandlerRef).UpdateDragCursorPtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnScrollOffsetChanged(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).ScrollOffsetChangedPtr := AEventData;
+  (AObj as TRenderHandlerRef).ScrollOffsetChangedPtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnIMECompositionRangeChanged(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).IMECompositionRangeChangedPtr := AEventData;
+  (AObj as TRenderHandlerRef).IMECompositionRangeChangedPtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnTextSelectionChanged(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).TextSelectionChangedPtr := AEventData;
+  (AObj as TRenderHandlerRef).TextSelectionChangedPtr := AEventData;
 end;
 
 procedure CefRenderHandler_OnVirtualKeyboardRequested(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRenderHandlerRef).VirtualKeyboardRequestedPtr := AEventData;
+  (AObj as TRenderHandlerRef).VirtualKeyboardRequestedPtr := AEventData;
 end;
 
 {== RequestHandler ==}
@@ -540,61 +540,58 @@ end;
 
 procedure CefRequestHandler_OnBeforeBrowse(const AObj: ICefRequestHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRequestHandlerRef).BeforeBrowsePtr := AEventData;
+  (AObj as TRequestHandlerRef).BeforeBrowsePtr := AEventData;
 end;
 
 procedure CefRequestHandler_OnOpenUrlFromTab(const AObj: ICefRequestHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRequestHandlerRef).OpenUrlFromTabPtr := AEventData;
+  (AObj as TRequestHandlerRef).OpenUrlFromTabPtr := AEventData;
 end;
 
 procedure CefRequestHandler_GetResourceRequestHandler(const AObj: ICefRequestHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRequestHandlerRef).GetResourceRequestHandlerPtr := AEventData;
+  (AObj as TRequestHandlerRef).GetResourceRequestHandlerPtr := AEventData;
 end;
 
 procedure CefRequestHandler_GetAuthCredentials(const AObj: ICefRequestHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRequestHandlerRef).GetAuthCredentialsPtr := AEventData;
+  (AObj as TRequestHandlerRef).GetAuthCredentialsPtr := AEventData;
 end;
 
 procedure CefRequestHandler_OnCertificateError(const AObj: ICefRequestHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRequestHandlerRef).CertificateErrorPtr := AEventData;
+  (AObj as TRequestHandlerRef).CertificateErrorPtr := AEventData;
 end;
 
 procedure CefRequestHandler_OnSelectClientCertificate(const AObj: ICefRequestHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRequestHandlerRef).SelectClientCertificatePtr := AEventData;
+  (AObj as TRequestHandlerRef).SelectClientCertificatePtr := AEventData;
 end;
 
 procedure CefRequestHandler_OnRenderViewReady(const AObj: ICefRequestHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRequestHandlerRef).RenderViewReadyPtr := AEventData;
+  (AObj as TRequestHandlerRef).RenderViewReadyPtr := AEventData;
 end;
 
 procedure CefRequestHandler_OnRenderProcessTerminated(const AObj: ICefRequestHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRequestHandlerRef).RenderProcessTerminatedPtr := AEventData;
+  (AObj as TRequestHandlerRef).RenderProcessTerminatedPtr := AEventData;
 end;
 
 procedure CefRequestHandler_OnDocumentAvailableInMainFrame(const AObj: ICefRequestHandler; AEventData: Pointer); extdecl;
 begin
-    (AObj as TRequestHandlerRef).DocumentAvailableInMainFramePtr := AEventData;
+  (AObj as TRequestHandlerRef).DocumentAvailableInMainFramePtr := AEventData;
 end;
 
 exports
-  {== AudioHandler ==}
   CefAudioHandlerRef_Create,
   CefAudioHandler_OnGetAudioParameters,
   CefAudioHandler_OnAudioStreamStarted,
   CefAudioHandler_OnAudioStreamPacket,
   CefAudioHandler_OnAudioStreamStopped,
   CefAudioHandler_OnAudioStreamError,
-  {== CommandHandler ==}
   CefCommandHandlerRef_Create,
   CefCommandHandler_OnChromeCommand,
-  {== ContextMenuHandler ==}
   CefContextMenuHandlerRef_Create,
   CefContextMenuHandler_OnBeforeContextMenu,
   CefContextMenuHandler_RunContextMenu,
@@ -603,10 +600,8 @@ exports
   CefContextMenuHandler_RunQuickMenu,
   CefContextMenuHandler_OnQuickMenuCommand,
   CefContextMenuHandler_OnQuickMenuDismissed,
-  {== DialogHandler ==}
   CefDialogHandlerRef_Create,
   CefDialogHandler_OnFileDialog,
-  {== DisplayHandler ==}
   CefDisplayHandlerRef_Create,
   CefDisplayHandler_OnAddressChange,
   CefDisplayHandler_OnTitleChange,
@@ -619,57 +614,46 @@ exports
   CefDisplayHandler_OnLoadingProgressChange,
   CefDisplayHandler_OnCursorChange,
   CefDisplayHandler_OnMediaAccessChange,
-  {== DownloadHandler ==}
   CefDownloadHandlerRef_Create,
   CefDownloadHandler_CanDownload,
   CefDownloadHandler_OnBeforeDownload,
   CefDownloadHandler_OnDownloadUpdated,
-  {== DragHandler ==}
   CefDragHandlerRef_Create,
   CefDragHandler_OnDragEnter,
   CefDragHandler_OnDraggableRegionsChanged,
-  {== FindHandler ==}
   CefFindHandlerRef_Create,
   CefFindHandler_OnFindResult,
-  {== FocusHandler ==}
   CefFocusHandlerRef_Create,
   CefFocusHandler_OnTakeFocus,
   CefFocusHandler_OnSetFocus,
   CefFocusHandler_OnGotFocus,
-  {== FrameHandler ==}
   CefFrameHandlerRef_Create,
   CefFrameHandler_OnFrameCreated,
   CefFrameHandler_OnFrameAttached,
   CefFrameHandler_OnFrameDetached,
   CefFrameHandler_OnMainFrameChanged,
-  {== PermissionHandler ==}
   CefPermissionHandlerRef_Create,
   CefPermissionHandler_OnRequestMediaAccessPermission,
   CefPermissionHandler_OnShowPermissionPrompt,
   CefPermissionHandler_OnDismissPermissionPrompt,
-  {== JsDialogHandler ==}
   CefJsDialogHandlerRef_Create,
   CefJsDialogHandler_OnJsdialog,
   CefJsDialogHandler_OnBeforeUnloadDialog,
   CefJsDialogHandler_OnResetDialogState,
   CefJsDialogHandler_OnDialogClosed,
-  {== KeyboardHandler ==}
   CefKeyboardHandlerRef_Create,
   CefKeyboardHandler_OnPreKeyEvent,
   CefKeyboardHandler_OnKeyEvent,
-  {== LifeSpanHandler ==}
   CefLifeSpanHandlerRef_Create,
   CefLifeSpanHandler_OnBeforePopup,
   CefLifeSpanHandler_OnAfterCreated,
   CefLifeSpanHandler_DoClose,
   CefLifeSpanHandler_OnBeforeClose,
-  {== LoadHandler ==}
   CefLoadHandlerRef_Create,
   CefLoadHandler_OnLoadingStateChange,
   CefLoadHandler_OnLoadStart,
   CefLoadHandler_OnLoadEnd,
   CefLoadHandler_OnLoadError,
-  {== PrintHandler ==}
   CefPrintHandlerRef_Create,
   CefPrintHandler_OnPrintStart,
   CefPrintHandler_OnPrintSettings,
@@ -677,7 +661,6 @@ exports
   CefPrintHandler_OnPrintJob,
   CefPrintHandler_OnPrintReset,
   CefPrintHandler_GetPDFPaperSize,
-  {== RenderHandler ==}
   CefRenderHandlerRef_Create,
   CefRenderHandler_GetAccessibilityHandler,
   CefRenderHandler_GetRootScreenRect,
@@ -696,7 +679,6 @@ exports
   CefRenderHandler_OnIMECompositionRangeChanged,
   CefRenderHandler_OnTextSelectionChanged,
   CefRenderHandler_OnVirtualKeyboardRequested,
-  {== RequestHandler ==}
   CefRequestHandlerRef_Create,
   CefRequestHandler_OnBeforeBrowse,
   CefRequestHandler_OnOpenUrlFromTab,
@@ -706,5 +688,4 @@ exports
   CefRequestHandler_OnSelectClientCertificate,
   CefRequestHandler_OnRenderViewReady,
   CefRequestHandler_OnRenderProcessTerminated,
-  CefRequestHandler_OnDocumentAvailableInMainFrame
-;
+  CefRequestHandler_OnDocumentAvailableInMainFrame;

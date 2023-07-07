@@ -1721,224 +1721,224 @@ begin
   handleExceptionEnd
 end;
 
-function    BufferPanel_SaveToFile(AObj: TBufferPanel; const PFilename : PChar) : LongBool; extdecl;
+function  BufferPanel_SaveToFile(AObj: TBufferPanel; const PFilename : PChar) : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.SaveToFile(StrPas(PFilename));
   handleExceptionEnd
 end;
 
-function    BufferPanel_InvalidatePanel(AObj: TBufferPanel) : LongBool; extdecl;
+function  BufferPanel_InvalidatePanel(AObj: TBufferPanel) : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.InvalidatePanel;
   handleExceptionEnd
 end;
 
-function    BufferPanel_BeginBufferDraw(AObj: TBufferPanel)  : LongBool; extdecl;
+function  BufferPanel_BeginBufferDraw(AObj: TBufferPanel)  : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.BeginBufferDraw;
   handleExceptionEnd
 end;
 
-procedure   BufferPanel_EndBufferDraw(AObj: TBufferPanel) ; extdecl;
+procedure  BufferPanel_EndBufferDraw(AObj: TBufferPanel) ; extdecl;
 begin
   handleExceptionBegin
   AObj.EndBufferDraw;
   handleExceptionEnd
 end;
 
-procedure   BufferPanel_BufferDrawPoint(AObj: TBufferPanel; x, y : integer; const aBitmap : TBitmap); extdecl;
+procedure  BufferPanel_BufferDrawPoint(AObj: TBufferPanel; x, y : integer; const aBitmap : TBitmap); extdecl;
 begin
   handleExceptionBegin
   AObj.BufferDraw(x, y, aBitmap);
   handleExceptionEnd
 end;
 
-procedure   BufferPanel_BufferDrawRect(AObj: TBufferPanel; const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect); extdecl;
+procedure  BufferPanel_BufferDrawRect(AObj: TBufferPanel; const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect); extdecl;
 begin
   handleExceptionBegin
   AObj.BufferDraw(aBitmap, aSrcRect, aDstRect);
   handleExceptionEnd
 end;
 
-function    BufferPanel_UpdateBufferDimensions(AObj: TBufferPanel; aWidth, aHeight : integer) : LongBool; extdecl;
+function  BufferPanel_UpdateBufferDimensions(AObj: TBufferPanel; aWidth, aHeight : integer) : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.UpdateBufferDimensions(aWidth, aHeight);
   handleExceptionEnd
 end;
 
-function    BufferPanel_UpdateOrigBufferDimensions(AObj: TBufferPanel; aWidth, aHeight : integer) : LongBool; extdecl;
+function  BufferPanel_UpdateOrigBufferDimensions(AObj: TBufferPanel; aWidth, aHeight : integer) : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.UpdateOrigBufferDimensions(aWidth, aHeight);
   handleExceptionEnd
 end;
 
-function    BufferPanel_UpdateOrigPopupBufferDimensions(AObj: TBufferPanel; aWidth, aHeight : integer) : LongBool; extdecl;
+function  BufferPanel_UpdateOrigPopupBufferDimensions(AObj: TBufferPanel; aWidth, aHeight : integer) : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.UpdateOrigPopupBufferDimensions(aWidth, aHeight);
   handleExceptionEnd
 end;
 
-procedure   BufferPanel_UpdateDeviceScaleFactor(AObj: TBufferPanel) ; extdecl;
+procedure  BufferPanel_UpdateDeviceScaleFactor(AObj: TBufferPanel) ; extdecl;
 begin
   handleExceptionBegin
   AObj.UpdateDeviceScaleFactor;
   handleExceptionEnd
 end;
 
-function    BufferPanel_BufferIsResized(AObj: TBufferPanel; aUseMutex : LongBool) : LongBool; extdecl;
+function  BufferPanel_BufferIsResized(AObj: TBufferPanel; aUseMutex : LongBool) : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.BufferIsResized(aUseMutex);
   handleExceptionEnd
 end;
 
-procedure   BufferPanel_CreateIMEHandler(AObj: TBufferPanel) ; extdecl;
+procedure  BufferPanel_CreateIMEHandler(AObj: TBufferPanel) ; extdecl;
 begin
   handleExceptionBegin
   AObj.CreateIMEHandler();
   handleExceptionEnd
 end;
 
-procedure   BufferPanel_ChangeCompositionRange(AObj: TBufferPanel; const selection_range : TCefRange; const character_bounds : TCefRectDynArray); extdecl;
+procedure  BufferPanel_ChangeCompositionRange(AObj: TBufferPanel; const selection_range : TCefRange; const character_bounds : TCefRectDynArray); extdecl;
 begin
   handleExceptionBegin
   AObj.ChangeCompositionRange(selection_range, character_bounds);
   handleExceptionEnd
 end;
 
-procedure   BufferPanel_DrawOrigPopupBuffer(AObj: TBufferPanel; const aSrcRect, aDstRect : TRect); extdecl;
+procedure  BufferPanel_DrawOrigPopupBuffer(AObj: TBufferPanel; const aSrcRect, aDstRect : TRect); extdecl;
 begin
   handleExceptionBegin
   AObj.DrawOrigPopupBuffer(aSrcRect, aDstRect);
   handleExceptionEnd
 end;
 
-function    BufferPanel_ScanlineSize(AObj: TBufferPanel) : integer; extdecl;
+function  BufferPanel_ScanlineSize(AObj: TBufferPanel) : integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ScanlineSize;
   handleExceptionEnd
 end;
 
-function    BufferPanel_BufferWidth(AObj: TBufferPanel) : integer; extdecl;
+function  BufferPanel_BufferWidth(AObj: TBufferPanel) : integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.BufferWidth;
   handleExceptionEnd
 end;
 
-function    BufferPanel_BufferHeight(AObj: TBufferPanel) : integer; extdecl;
+function  BufferPanel_BufferHeight(AObj: TBufferPanel) : integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.BufferHeight;
   handleExceptionEnd
 end;
 
-function    BufferPanel_BufferBits(AObj: TBufferPanel) : pointer; extdecl;
+function  BufferPanel_BufferBits(AObj: TBufferPanel) : pointer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.BufferBits;
   handleExceptionEnd
 end;
 
-procedure    BufferPanel_ScreenScale(AObj: TBufferPanel; out Result: Single); extdecl;
+procedure  BufferPanel_ScreenScale(AObj: TBufferPanel; out Result: Single); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ScreenScale;
   handleExceptionEnd
 end;
 
-procedure    BufferPanel_GetForcedDeviceScaleFactor(AObj: TBufferPanel; out Result: Single); extdecl;
+procedure  BufferPanel_GetForcedDeviceScaleFactor(AObj: TBufferPanel; out Result: Single); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.ForcedDeviceScaleFactor;
   handleExceptionEnd
 end;
 
-procedure   BufferPanel_SetForcedDeviceScaleFactor(AObj: TBufferPanel; Value: PSingle); extdecl;
+procedure  BufferPanel_SetForcedDeviceScaleFactor(AObj: TBufferPanel; Value: PSingle); extdecl;
 begin
   handleExceptionBegin
   AObj.ForcedDeviceScaleFactor := Single(Value^);
   handleExceptionEnd
 end;
 
-function    BufferPanel_GetMustInitBuffer(AObj: TBufferPanel) : LongBool; extdecl;
+function  BufferPanel_GetMustInitBuffer(AObj: TBufferPanel) : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.MustInitBuffer;
   handleExceptionEnd
 end;
 
-procedure    BufferPanel_SetMustInitBuffer(AObj: TBufferPanel; Value: LongBool); extdecl;
+procedure  BufferPanel_SetMustInitBuffer(AObj: TBufferPanel; Value: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.MustInitBuffer := Value;
   handleExceptionEnd
 end;
 
-procedure    BufferPanel_Buffer(AObj: TBufferPanel; out Result: TBitmap); extdecl;
+procedure  BufferPanel_Buffer(AObj: TBufferPanel; out Result: TBitmap); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Buffer;
   handleExceptionEnd
 end;
 
-procedure    BufferPanel_OrigBuffer(AObj: TBufferPanel; out Result: TCEFBitmapBitBuffer); extdecl;
+procedure  BufferPanel_OrigBuffer(AObj: TBufferPanel; out Result: TCEFBitmapBitBuffer); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.OrigBuffer;
   handleExceptionEnd
 end;
 
-function    BufferPanel_OrigBufferWidth(AObj: TBufferPanel) : integer; extdecl;
+function  BufferPanel_OrigBufferWidth(AObj: TBufferPanel) : integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.OrigBufferWidth;
   handleExceptionEnd
 end;
 
-function    BufferPanel_OrigBufferHeight(AObj: TBufferPanel) : integer; extdecl;
+function  BufferPanel_OrigBufferHeight(AObj: TBufferPanel) : integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.OrigBufferHeight;
   handleExceptionEnd
 end;
 
-procedure    BufferPanel_OrigPopupBuffer(AObj: TBufferPanel; out Result: TCEFBitmapBitBuffer); extdecl;
+procedure  BufferPanel_OrigPopupBuffer(AObj: TBufferPanel; out Result: TCEFBitmapBitBuffer); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.OrigPopupBuffer;
   handleExceptionEnd
 end;
 
-function    BufferPanel_OrigPopupBufferWidth(AObj: TBufferPanel) : integer; extdecl;
+function  BufferPanel_OrigPopupBufferWidth(AObj: TBufferPanel) : integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.OrigPopupBufferWidth;
   handleExceptionEnd
 end;
 
-function    BufferPanel_OrigPopupBufferHeight(AObj: TBufferPanel) : integer; extdecl;
+function  BufferPanel_OrigPopupBufferHeight(AObj: TBufferPanel) : integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.OrigPopupBufferHeight;
   handleExceptionEnd
 end;
 
-function    BufferPanel_OrigPopupBufferBits(AObj: TBufferPanel) : pointer; extdecl;
+function  BufferPanel_OrigPopupBufferBits(AObj: TBufferPanel) : pointer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.OrigPopupBufferBits;
   handleExceptionEnd
 end;
 
-function    BufferPanel_OrigPopupScanlineSize(AObj: TBufferPanel) : integer; extdecl;
+function  BufferPanel_OrigPopupScanlineSize(AObj: TBufferPanel) : integer; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.OrigPopupScanlineSize;
@@ -2303,5 +2303,4 @@ exports
   BufferPanel_SetOnKeyDown,
   BufferPanel_SetOnKeyUp,
   BufferPanel_SetOnKeyPress,
-  BufferPanel_SetOnUTF8KeyPress
-;
+  BufferPanel_SetOnUTF8KeyPress;

@@ -138,20 +138,15 @@ end;
 
 
 exports
-//function
   CEFBrowserViewComponent_Create,
   CEFBrowserViewComponent_CreateBrowserView,
   CEFBrowserViewComponent_GetForBrowser,
   CEFBrowserViewComponent_SetPreferAccelerators,
   CEFBrowserViewComponent_RequestFocus,
-//property
   CEFBrowserViewComponent_Browser,
   CEFBrowserViewComponent_BrowserView,
-//event
   CEFBrowserViewComponent_SetOnBrowserCreated,
   CEFBrowserViewComponent_SetOnBrowserDestroyed,
   CEFBrowserViewComponent_SetOnGetDelegateForPopupBrowserView,
   CEFBrowserViewComponent_SetOnPopupBrowserViewCreated,
-  CEFBrowserViewComponent_SetOnGetChromeToolbarType
-;
-
+  CEFBrowserViewComponent_SetOnGetChromeToolbarType;

@@ -276,5 +276,4 @@ exports
   CEFWindow_OnEnter,
   CEFWindow_OnExit,
   CEFWindow_SetTag,
-  CEFWindow_GetTag
-;
+  CEFWindow_GetTag;

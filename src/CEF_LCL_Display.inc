@@ -7,45 +7,43 @@
 //property
 procedure CEFDisplay_ID(const ADisplay: ICefDisplay; var Result: int64) ; extdecl;
 begin
-    handleExceptionBegin
-    Result := ADisplay.ID;
-    handleExceptionEnd
+  handleExceptionBegin
+  Result := ADisplay.ID;
+  handleExceptionEnd
 end;
 
 procedure CEFDisplay_DeviceScaleFactor(const ADisplay: ICefDisplay; var Result: Single) ; extdecl;
 begin
-    handleExceptionBegin
-    Result := ADisplay.DeviceScaleFactor;
-    handleExceptionEnd
+  handleExceptionBegin
+  Result := ADisplay.DeviceScaleFactor;
+  handleExceptionEnd
 end;
 
 function CEFDisplay_Rotation(const ADisplay: ICefDisplay): Integer ; extdecl;
 begin
-    handleExceptionBegin
-    Result := ADisplay.Rotation;
-    handleExceptionEnd
+  handleExceptionBegin
+  Result := ADisplay.Rotation;
+  handleExceptionEnd
 end;
 
 procedure CEFDisplay_Bounds(const ADisplay: ICefDisplay; var Result: TCefRect); extdecl;
 begin
-    handleExceptionBegin
-    Result := ADisplay.Bounds;
-    handleExceptionEnd
+  handleExceptionBegin
+  Result := ADisplay.Bounds;
+  handleExceptionEnd
 end;
 
 procedure CEFDisplay_WorkArea(const ADisplay: ICefDisplay; var Result: TCefRect); extdecl;
 begin
-    handleExceptionBegin
-    Result := ADisplay.WorkArea;
-    handleExceptionEnd
+  handleExceptionBegin
+  Result := ADisplay.WorkArea;
+  handleExceptionEnd
 end;
 
 
 exports
-    //property
-    CEFDisplay_ID,
-    CEFDisplay_DeviceScaleFactor,
-    CEFDisplay_Rotation,
-    CEFDisplay_Bounds,
-    CEFDisplay_WorkArea
-;
+  CEFDisplay_ID,
+  CEFDisplay_DeviceScaleFactor,
+  CEFDisplay_Rotation,
+  CEFDisplay_Bounds,
+  CEFDisplay_WorkArea;

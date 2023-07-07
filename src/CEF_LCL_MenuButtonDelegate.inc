@@ -28,5 +28,4 @@ end;
 exports
   MenuButtonDelegateRef_Create,
   MenuButtonDelegateRef_CreateForCustom,
-  MenuButtonDelegate_SetOnMenuButtonPressed
-;
+  MenuButtonDelegate_SetOnMenuButtonPressed;

@@ -38,5 +38,4 @@ exports
   TString_Create,
   TString_Free,
   TString_SetValue,
-  TString_GetValue
-;
+  TString_GetValue;

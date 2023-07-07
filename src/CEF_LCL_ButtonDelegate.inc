@@ -36,5 +36,4 @@ exports
   ButtonDelegateRef_Create,
   ButtonDelegateRef_CreateForCustom,
   ButtonDelegate_SetOnButtonPressed,
-  ButtonDelegate_SetOnButtonStateChanged
-;
+  ButtonDelegate_SetOnButtonStateChanged;

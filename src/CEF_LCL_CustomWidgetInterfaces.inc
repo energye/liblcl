@@ -20,5 +20,4 @@ end;
 
 exports
   Interface_CustomWidgetSetInitialization,
-  Interface_CustomWidgetSetFinalization
-;
+  Interface_CustomWidgetSetFinalization;
