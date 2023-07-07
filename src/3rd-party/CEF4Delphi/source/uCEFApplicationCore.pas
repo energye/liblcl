@@ -56,6 +56,7 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}WinApi.Windows,{$ENDIF} System.Classes, System.UITypes,
+    {$IFDEF FMX}uCEFLinuxTypes,{$ENDIF}
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
@@ -74,12 +75,25 @@ const
   CEF_CHROMEELF_VERSION_BUILD   = 141;
 
   {$IFDEF MSWINDOWS}
-  LIBCEF_DLL                    = 'libcef.dll';
-  CHROMEELF_DLL                 = 'chrome_elf.dll';
-  {$ELSE}
-  LIBCEF_DLL                    = 'libcef.so';
-  CHROMEELF_DLL                 = '';
+  LIBCEF_DLL     = 'libcef.dll';
+  CHROMEELF_DLL  = 'chrome_elf.dll';
   {$ENDIF}
+
+  {$IFDEF MACOSX}
+  LIBCEF_DLL     = 'Chromium Embedded Framework';
+  LIBCEF_PREFIX  = 'Contents/Frameworks/Chromium Embedded Framework.framework/';
+  CHROMEELF_DLL  = '';
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+  LIBCEF_DLL     = 'libcef.so';
+  CHROMEELF_DLL  = '';
+  {$ENDIF}
+
+  // for InitLibLocationFromArgs
+  LIBCEF_PAK         = 'cef.pak';
+  LIBCEF_LOCALE_DIR  = 'locales';
+  LIBCEF_LOCALE_ENUS = 'en-US.pak';
 
 type
   TCefApplicationCore = class
@@ -93,7 +107,6 @@ type
       FLocalesRequired                   : ustring;
       FLogFile                           : ustring;
       FBrowserSubprocessPath             : ustring;
-      FCustomFlashPath                   : ustring;
       FFrameworkDirPath                  : ustring;
       FMainBundlePath                    : ustring; // Only used in macOS
       FChromeRuntime                     : boolean;
@@ -121,7 +134,6 @@ type
       FDeleteCookies                     : boolean;
       FCustomCommandLines                : TStringList;
       FCustomCommandLineValues           : TStringList;
-      FFlashEnabled                      : boolean;
       FEnableMediaStream                 : boolean;
       FEnableSpeechInput                 : boolean;
       FUseFakeUIForMediaStream           : boolean;
@@ -144,6 +156,7 @@ type
       FDisablePDFExtension               : boolean;
       FLogProcessInfo                    : boolean;
       FDisableSiteIsolationTrials        : boolean;
+      FDisableChromeLoginPrompt          : boolean;
       FEnableFeatures                    : ustring;
       FDisableFeatures                   : ustring;
       FEnableBlinkFeatures               : ustring;
@@ -178,6 +191,7 @@ type
       FDeviceScaleFactor                 : single;
       FForcedDeviceScaleFactor           : single;
       FDisableZygote                     : boolean;
+      FUseMockKeyChain                   : boolean;
 
       FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : ustring;
@@ -257,6 +271,8 @@ type
       function  GetLibCefVersion : ustring;
       function  GetLibCefPath : ustring;
       function  GetChromeElfPath : ustring;
+      function  GetLocalesDirPath: ustring;
+      function  GetResourcesDirPath: ustring;
       function  GetMustCreateResourceBundleHandler : boolean; virtual;
       function  GetMustCreateBrowserProcessHandler : boolean; virtual;
       function  GetMustCreateRenderProcessHandler : boolean; virtual;
@@ -336,17 +352,19 @@ type
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
       procedure BeforeInitSubProcess; virtual;
+      function  CheckCEFResources : boolean;
+      {$IFDEF MSWINDOWS}
+      function  CheckCEFDLL : boolean;
+      {$ENDIF}
       function  CheckCEFLibrary : boolean;
       procedure RegisterWidevineCDM;
-      {$IFDEF MSWINDOWS}
-      function  FindFlashDLL(var aFileName : ustring) : boolean;
-      {$ENDIF}
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       procedure UpdateSupportedSchemes(aIncludeDefaults : boolean = True); virtual;
       function  ParseProcessType : TCefProcessType;
       procedure AddCustomCommandLineSwitches(var aKeys, aValues : TStringList); virtual;
       procedure AppendSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
       procedure ReplaceSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
+      procedure CleanupFeatures(var aKeys, aValues : TStringList; const aEnableKey, aDisableKey : string);
 
     public
       constructor Create;
@@ -355,6 +373,9 @@ type
       procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
+      {$IFDEF MACOSX}
+      procedure   InitLibLocationFromArgs;
+      {$ENDIF}
 
       procedure   DoMessageLoopWork;
       procedure   RunMessageLoop;
@@ -415,8 +436,8 @@ type
       property LogFile                           : ustring                             read FLogFile                           write FLogFile;
       property LogSeverity                       : TCefLogSeverity                     read FLogSeverity                       write FLogSeverity;
       property JavaScriptFlags                   : ustring                             read FJavaScriptFlags                   write FJavaScriptFlags;
-      property ResourcesDirPath                  : ustring                             read FResourcesDirPath                  write SetResourcesDirPath;
-      property LocalesDirPath                    : ustring                             read FLocalesDirPath                    write SetLocalesDirPath;
+      property ResourcesDirPath                  : ustring                             read GetResourcesDirPath                  write SetResourcesDirPath;
+      property LocalesDirPath                    : ustring                             read GetLocalesDirPath                    write SetLocalesDirPath;
       property PackLoadingDisabled               : Boolean                             read FPackLoadingDisabled               write FPackLoadingDisabled;
       property RemoteDebuggingPort               : Integer                             read FRemoteDebuggingPort               write FRemoteDebuggingPort;
       property UncaughtExceptionStackSize        : Integer                             read FUncaughtExceptionStackSize        write FUncaughtExceptionStackSize;
@@ -427,7 +448,6 @@ type
 
       // Properties used to set command line switches
       property SingleProcess                     : Boolean                             read FSingleProcess                     write FSingleProcess;                    // --single-process
-      property FlashEnabled                      : boolean                             read FFlashEnabled                      write FFlashEnabled;                     // --enable-system-flash
       property EnableMediaStream                 : boolean                             read FEnableMediaStream                 write FEnableMediaStream;                // --enable-media-stream
       property EnableSpeechInput                 : boolean                             read FEnableSpeechInput                 write FEnableSpeechInput;                // --enable-speech-input
       property UseFakeUIForMediaStream           : boolean                             read FUseFakeUIForMediaStream           write FUseFakeUIForMediaStream;          // --use-fake-ui-for-media-stream
@@ -448,6 +468,7 @@ type
       property DisableWebSecurity                : boolean                             read FDisableWebSecurity                write FDisableWebSecurity;               // --disable-web-security
       property DisablePDFExtension               : boolean                             read FDisablePDFExtension               write FDisablePDFExtension;              // --disable-pdf-extension
       property DisableSiteIsolationTrials        : boolean                             read FDisableSiteIsolationTrials        write FDisableSiteIsolationTrials;       // --disable-site-isolation-trials
+      property DisableChromeLoginPrompt          : boolean                             read FDisableChromeLoginPrompt          write FDisableChromeLoginPrompt;         // --disable-chrome-login-prompt
       property DisableExtensions                 : boolean                             read FDisableExtensions                 write FDisableExtensions;                // --disable-extensions
       property AutoplayPolicy                    : TCefAutoplayPolicy                  read FAutoplayPolicy                    write FAutoplayPolicy;                   // --autoplay-policy
       property DisableBackgroundNetworking       : boolean                             read FDisableBackgroundNetworking       write FDisableBackgroundNetworking;      // --disable-background-networking
@@ -477,6 +498,7 @@ type
       property DevToolsProtocolLogFile           : ustring                             read FDevToolsProtocolLogFile           write FDevToolsProtocolLogFile;          // --devtools-protocol-log-file
       property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;          // --device-scale-factor
       property DisableZygote                     : boolean                             read FDisableZygote                     write FDisableZygote;                    // --no-zygote
+      property UseMockKeyChain                   : boolean                             read FUseMockKeyChain                   write FUseMockKeyChain;                  // --use-mock-keychain
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
@@ -504,7 +526,6 @@ type
       property DeviceScaleFactor                 : single                              read FDeviceScaleFactor;
       property CheckDevToolsResources            : boolean                             read FCheckDevToolsResources            write FCheckDevToolsResources;
       property LocalesRequired                   : ustring                             read FLocalesRequired                   write FLocalesRequired;
-      property CustomFlashPath                   : ustring                             read FCustomFlashPath                   write FCustomFlashPath;
       property ProcessType                       : TCefProcessType                     read FProcessType;
       property MustCreateResourceBundleHandler   : boolean                             read GetMustCreateResourceBundleHandler write FMustCreateResourceBundleHandler;
       property MustCreateBrowserProcessHandler   : boolean                             read GetMustCreateBrowserProcessHandler write FMustCreateBrowserProcessHandler;
@@ -620,11 +641,12 @@ uses
     System.Math, System.IOUtils, System.SysUtils,
     {$IFDEF MSWINDOWS}WinApi.TlHelp32, WinApi.PSAPI,{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FMX}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
+    {$IFDEF MACOS}Posix.Stdio,{$ENDIF}
   {$ELSE}
     Math, {$IFDEF DELPHI14_UP}IOUtils,{$ENDIF} SysUtils,
     {$IFDEF FPC}
       {$IFDEF MSWINDOWS}jwatlhelp32, jwapsapi,{$ENDIF}
-      {$IFDEF LINUX}lcltype, Forms, InterfaceBase,{$ENDIF}
+      {$IFDEF LINUX}lcltype, Forms, InterfaceBase, uCEFLinuxFunctions,{$ENDIF}
     {$ELSE}
       TlHelp32, {$IFDEF MSWINDOWS}PSAPI,{$ENDIF}
     {$ENDIF}
@@ -655,9 +677,12 @@ begin
   FLocale                            := '';
   FLogFile                           := '';
   FBrowserSubprocessPath             := '';
-  FCustomFlashPath                   := '';
   FFrameworkDirPath                  := '';
+  {$IFDEF MACOSX}
+  FMainBundlePath                    := GetModulePath;
+  {$ELSE}
   FMainBundlePath                    := '';
+  {$ENDIF}
   FChromeRuntime                     := False;
   FLogSeverity                       := LOGSEVERITY_DISABLE;
   FJavaScriptFlags                   := '';
@@ -681,15 +706,18 @@ begin
   FExternalMessagePump               := False;
   FDeleteCache                       := False;
   FDeleteCookies                     := False;
-  FFlashEnabled                      := True;
   FEnableMediaStream                 := True;
-  FEnableSpeechInput                 := True;
+  FEnableSpeechInput                 := False;
   FUseFakeUIForMediaStream           := False;
   FEnableUsermediaScreenCapturing    := False;
   FEnableGPU                         := False;
   FCustomCommandLines                := nil;
   FCustomCommandLineValues           := nil;
+  {$IFDEF MACOSX}
+  FCheckCEFFiles                     := False;
+  {$ELSE}
   FCheckCEFFiles                     := True;
+  {$ENDIF}
   FSmoothScrolling                   := STATE_DEFAULT;
   FFastUnload                        := False;
   FDisableSafeBrowsing               := False;
@@ -700,6 +728,7 @@ begin
   FDisableWebSecurity                := False;
   FDisablePDFExtension               := False;
   FDisableSiteIsolationTrials        := False;
+  FDisableChromeLoginPrompt          := False;
   FLogProcessInfo                    := False;
   FReRaiseExceptions                 := False;
   FLibLoaded                         := False;
@@ -851,6 +880,69 @@ begin
   if (FCustomCommandLineValues <> nil) then FCustomCommandLineValues.Add(aValue);
 end;
 
+{$IFDEF MACOSX}
+{$WARN SYMBOL_PLATFORM OFF}
+// This function checks if argv contains
+// --framework-dir-path=
+// --main-bundle-path=
+// It sets the corresponding fields in the config
+// This params are passed on Mac.
+// The values can also be calculated, instead of calling this procedure
+procedure TCefApplicationCore.InitLibLocationFromArgs;
+const
+  PARAM_FRAME_PATH  = '--framework-dir-path';
+  PARAM_BUNDLE_PATH = '--main-bundle-path';
+type
+  PCharArray = Array of PAnsiChar;
+var
+  i, l : Integer;
+  MBPath : ustring;
+  {$IFDEF FPC}
+  p             : PChar;
+  TempArgCount  : longint;
+  TempArgValues : PPChar;
+  {$ELSE}
+  p             : PAnsiChar;
+  TempArgCount  : integer;
+  TempArgValues : PCharArray;
+  {$ENDIF}
+begin
+  {$IFDEF FPC}
+  TempArgCount  := argc;
+  TempArgValues := argv;
+  {$ELSE}
+  TempArgCount  := ArgCount;
+  TempArgValues := PCharArray(ArgValues^);
+  {$ENDIF}
+  for i := 0 to TempArgCount - 1 do
+    begin
+      p := strscan(TempArgValues[i], '=');
+      if p = nil then continue;
+      l := p - TempArgValues[i];
+
+      if (l = Length(PARAM_FRAME_PATH)) and
+         (strlcomp(TempArgValues[i], PAnsiChar(PARAM_FRAME_PATH), Length(PARAM_FRAME_PATH)) = 0) then
+        FrameworkDirPath := PChar(TempArgValues[i] + Length(PARAM_FRAME_PATH) + 1);
+
+      if (l = Length(PARAM_BUNDLE_PATH)) and
+         (strlcomp(TempArgValues[i], PAnsiChar(PARAM_BUNDLE_PATH), Length(PARAM_BUNDLE_PATH)) = 0) then
+        begin
+          MBPath := PChar(TempArgValues[i] + Length(PARAM_BUNDLE_PATH) + 1);
+          MainBundlePath := MBPath;
+        end;
+    end;
+
+  if (MBPath <> '') and (FrameworkDirPath = '') then
+    begin
+      MBPath := IncludeTrailingPathDelimiter(MBPath) + LIBCEF_PREFIX;
+
+      if FileExists(MBPath + LIBCEF_DLL) then
+        FrameworkDirPath := MBPath;
+    end;
+end;
+{$WARN SYMBOL_PLATFORM ON}
+{$ENDIF}
+
 // This function must only be called by the main executable when the application
 // is configured to use a different executable for the subprocesses.
 // The process calling ths function must be the browser process.
@@ -943,7 +1035,11 @@ begin
       {$IFDEF LINUX}
       Result := GetModulePath + LIBCEF_DLL;
       {$ELSE}
-      Result := LIBCEF_DLL;
+        {$IFDEF MACOSX}
+        Result := GetModulePath + LIBCEF_PREFIX + LIBCEF_DLL;
+        {$ELSE}
+        Result := LIBCEF_DLL;
+        {$ENDIF}
       {$ENDIF}
     end;
 end;
@@ -954,6 +1050,30 @@ begin
     Result := IncludeTrailingPathDelimiter(FFrameworkDirPath) + CHROMEELF_DLL
    else
     Result := CHROMEELF_DLL;
+end;
+
+function TCefApplicationCore.GetLocalesDirPath: ustring;
+begin
+  Result := FLocalesDirPath;
+  {$IFNDEF MACOSX}
+  if (Result = '') and (FrameworkDirPath <> '') then
+    begin
+      if FileExists(IncludeTrailingPathDelimiter(FrameworkDirPath + LIBCEF_LOCALE_DIR) + LIBCEF_LOCALE_ENUS) then
+        Result := FrameworkDirPath + LIBCEF_LOCALE_DIR;
+    end;
+  {$ENDIF}
+end;
+
+function TCefApplicationCore.GetResourcesDirPath: ustring;
+begin
+  Result := FResourcesDirPath;
+  {$IFNDEF MACOSX}
+  if (Result = '') and (FrameworkDirPath <> '') then
+    begin
+      if FileExists(IncludeTrailingPathDelimiter(FrameworkDirPath) + LIBCEF_PAK) then
+        Result := FrameworkDirPath;
+    end;
+  {$ENDIF}
 end;
 
 procedure TCefApplicationCore.SetCache(const aValue : ustring);
@@ -996,119 +1116,130 @@ begin
   FLocalesDirPath := CustomAbsolutePath(aValue, True);
 end;
 
-function TCefApplicationCore.CheckCEFLibrary : boolean;
+function TCefApplicationCore.CheckCEFResources : boolean;
 var
-  TempString, TempOldDir : string;
+  TempString : string;
   TempMissingFrm, TempMissingRsc, TempMissingLoc, TempMissingSubProc : boolean;
-  {$IFDEF MSWINDOWS}
-  TempMachine : integer;
-  TempVersionInfo : TFileVersionInfo;
-  {$ENDIF}
 begin
   Result := False;
 
-  if not(FCheckCEFFiles) or (FProcessType <> ptBrowser) then
-    Result := True
-   else
+  TempMissingSubProc := not(CheckSubprocessPath(FBrowserSubprocessPath, FMissingLibFiles));
+  TempMissingFrm     := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
+  TempMissingRsc     := not(CheckResources(ResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, not(FDisableExtensions)));
+  TempMissingLoc     := not(CheckLocales(LocalesDirPath, FMissingLibFiles, FLocalesRequired));
+
+  if TempMissingFrm or TempMissingRsc or TempMissingLoc or TempMissingSubProc then
     begin
-      if FSetCurrentDir then
-        begin
-          TempOldDir := GetCurrentDir;
-          chdir(GetModulePath);
-        end;
-      try
-        TempMissingSubProc := not(CheckSubprocessPath(FBrowserSubprocessPath, FMissingLibFiles));
-        TempMissingFrm     := not(CheckDLLs(FFrameworkDirPath, FMissingLibFiles));
-        TempMissingRsc     := not(CheckResources(FResourcesDirPath, FMissingLibFiles, FCheckDevToolsResources, not(FDisableExtensions)));
-        TempMissingLoc     := not(CheckLocales(FLocalesDirPath, FMissingLibFiles, FLocalesRequired));
+      FStatus    := asErrorMissingFiles;
+      TempString := 'CEF binaries missing !';
 
-        if TempMissingFrm or TempMissingRsc or TempMissingLoc or TempMissingSubProc then
-          begin
-            FStatus    := asErrorMissingFiles;
-            TempString := 'CEF binaries missing !';
+      if (length(FMissingLibFiles) > 0) then
+        TempString := TempString + CRLF + CRLF +
+                      'The missing files are :' + CRLF +
+                      trim(FMissingLibFiles);
 
-            if (length(FMissingLibFiles) > 0) then
-              TempString := TempString + CRLF + CRLF +
-                            'The missing files are :' + CRLF +
-                            trim(FMissingLibFiles);
+      ShowErrorMessageDlg(TempString);
+    end
+   else
+    Result := True;
+end;
 
-            ShowErrorMessageDlg(TempString);
-          end
-         else
-          {$IFDEF MSWINDOWS}
-          if CheckDLLVersion(LibCefPath,
-                             CEF_SUPPORTED_VERSION_MAJOR,
-                             CEF_SUPPORTED_VERSION_MINOR,
-                             CEF_SUPPORTED_VERSION_RELEASE,
-                             CEF_SUPPORTED_VERSION_BUILD) then
-            begin
-              if GetDLLHeaderMachine(LibCefPath, TempMachine) then
-                case TempMachine of
-                  CEF_IMAGE_FILE_MACHINE_I386 :
-                    if Is32BitProcess then
-                      Result := True
-                     else
-                      begin
-                        FStatus    := asErrorDLLVersion;
-                        TempString := 'Wrong CEF binaries !' +
-                                      CRLF + CRLF +
-                                      'Use the 32 bit CEF binaries with 32 bits applications only.';
+{$IFDEF MSWINDOWS}
+function TCefApplicationCore.CheckCEFDLL : boolean;
+var
+  TempString : string;
+  TempMachine : integer;
+  TempVersionInfo : TFileVersionInfo;
+begin
+  Result := False;
 
-                        ShowErrorMessageDlg(TempString);
-                      end;
+  if CheckDLLVersion(LibCefPath,
+                     CEF_SUPPORTED_VERSION_MAJOR,
+                     CEF_SUPPORTED_VERSION_MINOR,
+                     CEF_SUPPORTED_VERSION_RELEASE,
+                     CEF_SUPPORTED_VERSION_BUILD) then
+    begin
+      if GetDLLHeaderMachine(LibCefPath, TempMachine) then
+        case TempMachine of
+          CEF_IMAGE_FILE_MACHINE_I386 :
+            if Is32BitProcess then
+              Result := True
+             else
+              begin
+                FStatus    := asErrorDLLVersion;
+                TempString := 'Wrong CEF binaries !' +
+                              CRLF + CRLF +
+                              'Use the 32 bit CEF binaries with 32 bits applications only.';
 
-                  CEF_IMAGE_FILE_MACHINE_AMD64 :
-                    if not(Is32BitProcess) then
-                      Result := True
-                     else
+                ShowErrorMessageDlg(TempString);
+              end;
 
-                      begin
-                        FStatus    := asErrorDLLVersion;
-                        TempString := 'Wrong CEF binaries !' +
-                                      CRLF + CRLF +
-                                      'Use the 64 bit CEF binaries with 64 bits applications only.';
+          CEF_IMAGE_FILE_MACHINE_AMD64 :
+            if not(Is32BitProcess) then
+              Result := True
+             else
 
-                        ShowErrorMessageDlg(TempString);
-                      end;
+              begin
+                FStatus    := asErrorDLLVersion;
+                TempString := 'Wrong CEF binaries !' +
+                              CRLF + CRLF +
+                              'Use the 64 bit CEF binaries with 64 bits applications only.';
 
-                  else
-                    begin
-                      FStatus    := asErrorDLLVersion;
-                      TempString := 'Unknown CEF binaries !' +
-                                    CRLF + CRLF +
-                                    'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
-                                    CEF4DELPHI_URL;
+                ShowErrorMessageDlg(TempString);
+              end;
 
-                      ShowErrorMessageDlg(TempString);
-                    end;
-                end
-               else
-                Result := True;
-            end
-           else
+          else
             begin
               FStatus    := asErrorDLLVersion;
-              TempString := 'Unsupported CEF version !' +
+              TempString := 'Unknown CEF binaries !' +
                             CRLF + CRLF +
                             'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
                             CEF4DELPHI_URL;
 
-              if GetDLLVersion(LibCefPath, TempVersionInfo) then
-                TempString := TempString + CRLF + CRLF +
-                              'Expected ' + LIBCEF_DLL + ' version : ' + LibCefVersion + CRLF +
-                              'Found ' + LIBCEF_DLL + ' version : ' + FileVersionInfoToString(TempVersionInfo);
-
               ShowErrorMessageDlg(TempString);
             end;
-          {$ELSE}
-            begin
-              Result := True;
-            end;
-          {$ENDIF}
-      finally
-        if FSetCurrentDir then chdir(TempOldDir);
-      end;
+        end
+       else
+        Result := True;
+    end
+   else
+    begin
+      FStatus    := asErrorDLLVersion;
+      TempString := 'Unsupported CEF version !' +
+                    CRLF + CRLF +
+                    'Use only the CEF binaries specified in the CEF4Delphi Readme.md file at ' +
+                    CEF4DELPHI_URL;
+
+      if GetDLLVersion(LibCefPath, TempVersionInfo) then
+        TempString := TempString + CRLF + CRLF +
+                      'Expected ' + LIBCEF_DLL + ' version : ' + LibCefVersion + CRLF +
+                      'Found ' + LIBCEF_DLL + ' version : ' + FileVersionInfoToString(TempVersionInfo);
+
+      ShowErrorMessageDlg(TempString);
     end;
+end;
+{$ENDIF}
+
+function TCefApplicationCore.CheckCEFLibrary : boolean;
+var
+  TempOldDir : string;
+begin
+  if not(FCheckCEFFiles) or (FProcessType <> ptBrowser) then
+    begin
+      Result := True;
+      exit;
+    end;
+
+  if FSetCurrentDir then
+    begin
+      TempOldDir := GetCurrentDir;
+      chdir(GetModulePath);
+    end;
+
+  Result := CheckCEFResources
+            {$IFDEF MSWINDOWS}and CheckCEFDLL{$ENDIF};
+
+  if FSetCurrentDir then chdir(TempOldDir);
 end;
 
 function TCefApplicationCore.StartMainProcess : boolean;
@@ -1116,10 +1247,14 @@ begin
   if (FStatus <> asLoading) then
     Result := False
    else
+    {$IFDEF MACOSX}
+    Result := MultiExeProcessing;
+    {$ELSE}
     if not(FSingleProcess) and (length(FBrowserSubprocessPath) > 0) then
       Result := MultiExeProcessing
      else
       Result := SingleExeProcessing;
+    {$ENDIF}
 end;
 
 // This function can only be called by the executable used for the subprocesses.
@@ -1233,23 +1368,12 @@ begin
         {$IFDEF MSWINDOWS}
           TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
         {$ELSE}
-          {$IFDEF LINUX}
-            {$IFDEF FPC}
-            TempArgs.argc := argc;
-            TempArgs.argv := argv;
-            {$ELSE}
-            TempArgs.argc := ArgCount;
-            TempArgs.argv := PPWideChar(ArgValues);
-            {$ENDIF}
+          {$IFDEF FPC}
+          TempArgs.argc := argc;
+          TempArgs.argv := argv;
           {$ELSE}
-            // TODO: Find a way to pass the arguments in MacOS
-            {$IFDEF FPC}
-            TempArgs.argc := 0;
-            TempArgs.argv := 0;
-            {$ELSE}
-            TempArgs.argc := 0;
-            TempArgs.argv := 0;
-            {$ENDIF}
+          TempArgs.argc := ArgCount;
+          TempArgs.argv := PPWideChar(ArgValues);
           {$ENDIF}
         {$ENDIF}
         {$WARN SYMBOL_PLATFORM ON}
@@ -1287,8 +1411,8 @@ begin
   aSettings.log_file                                := CefString(FLogFile);
   aSettings.log_severity                            := FLogSeverity;
   aSettings.javascript_flags                        := CefString(FJavaScriptFlags);
-  aSettings.resources_dir_path                      := CefString(FResourcesDirPath);
-  aSettings.locales_dir_path                        := CefString(FLocalesDirPath);
+  aSettings.resources_dir_path                      := CefString(ResourcesDirPath);
+  aSettings.locales_dir_path                        := CefString(LocalesDirPath);
   aSettings.pack_loading_disabled                   := Ord(FPackLoadingDisabled);
   aSettings.remote_debugging_port                   := FRemoteDebuggingPort;
   aSettings.uncaught_exception_stack_size           := FUncaughtExceptionStackSize;
@@ -1325,7 +1449,6 @@ begin
             TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
           {$ELSE}
             {$WARN SYMBOL_PLATFORM OFF}
-            {$IFDEF LINUX}
               {$IFDEF FPC}
               TempArgs.argc := argc;
               TempArgs.argv := argv;
@@ -1333,16 +1456,6 @@ begin
               TempArgs.argc := ArgCount;
               TempArgs.argv := PPWideChar(ArgValues);
               {$ENDIF}
-            {$ELSE}
-              // TODO: Find a way to pass the arguments in MacOS
-              {$IFDEF FPC}
-              TempArgs.argc := 0;
-              TempArgs.argv := 0;
-              {$ELSE}
-              TempArgs.argc := 0;
-              TempArgs.argv := 0;
-              {$ENDIF}
-            {$ENDIF}
             {$WARN SYMBOL_PLATFORM ON}
           {$ENDIF}
 
@@ -1486,42 +1599,6 @@ begin
   end;
 end;
 
-{$IFDEF MSWINDOWS}
-function TCefApplicationCore.FindFlashDLL(var aFileName : ustring) : boolean;
-var
-  TempSearchRec : TSearchRec;
-  TempProductName, TempPath : ustring;
-begin
-  Result    := False;
-  aFileName := '';
-
-  try
-    if (length(FCustomFlashPath) > 0) then
-      begin
-        TempPath := IncludeTrailingPathDelimiter(FCustomFlashPath);
-
-        if (FindFirst(TempPath + '*.dll', faAnyFile, TempSearchRec) = 0) then
-          begin
-            repeat
-              if (TempSearchRec.Attr <> faDirectory) and
-                 GetStringFileInfo(TempPath + TempSearchRec.Name, 'ProductName', TempProductName) and
-                 (CompareText(TempProductName, 'Shockwave Flash') = 0) then
-                begin
-                  aFileName := TempPath + TempSearchRec.Name;
-                  Result    := True;
-                end;
-            until Result or (FindNext(TempSearchRec) <> 0);
-
-            FindClose(TempSearchRec);
-          end;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplicationCore.FindFlashDLL', e) then raise;
-  end;
-end;
-{$ENDIF}
-
 procedure TCefApplicationCore.ShowErrorMessageDlg(const aError : string);
 begin
   OutputDebugMessage(aError);
@@ -1595,7 +1672,10 @@ begin
                 if (CompareText(TempValue, 'utility') = 0) then
                   Result := ptUtility
                  else
-                  Result := ptOther;
+                  if (CompareText(TempValue, 'broker') = 0) then
+                    Result := ptBroker
+                   else
+                    Result := ptOther;
         end;
 
       dec(i);
@@ -1786,47 +1866,137 @@ end;
 
 procedure TCefApplicationCore.AppendSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
 var
-  TempKey : ustring;
+  TempKey, TempHyphenatedKey : ustring;
   i : integer;
 begin
   if (copy(aNewKey, 1, 2) = '--') then
-    TempKey := copy(aNewKey, 3, length(aNewKey))
+    begin
+      TempHyphenatedKey := aNewKey;
+      TempKey           := copy(aNewKey, 3, length(aNewKey));
+    end
    else
-    TempKey := aNewKey;
+    begin
+      TempHyphenatedKey := '--' + aNewKey;
+      TempKey           := aNewKey;
+    end;
 
   i := aKeys.IndexOf(TempKey);
 
   if (i < 0) then
     begin
-      aKeys.Add(aNewKey);
-      aValues.Add(aNewValue);
+      i := aKeys.IndexOf(TempHyphenatedKey);
+
+      if (i < 0) then
+        begin
+          aKeys.Add(aNewKey);
+          aValues.Add(aNewValue);
+          exit;
+        end;
+    end;
+
+  if (length(aNewValue) > 0) then
+    begin
+      if (length(aValues[i]) > 0) then
+        aValues[i] := aValues[i] + ',' + aNewValue
+       else
+        aValues[i] := aNewValue;
+    end;
+end;
+
+procedure TCefApplicationCore.CleanupFeatures(var aKeys, aValues : TStringList; const aEnableKey, aDisableKey : string);
+var
+  i, j, k, n : integer;
+  TempEnabledValues, TempDisabledValues : TStringList;
+  TempEnableKey, TempHyphenatedEnableKey, TempDisableKey, TempHyphenatedDisableKey : ustring;
+begin
+  if (copy(aEnableKey, 1, 2) = '--') then
+    begin
+      TempHyphenatedEnableKey := aEnableKey;
+      TempEnableKey           := copy(aEnableKey, 3, length(aEnableKey));
     end
    else
-    if (length(aNewValue) > 0) then
-      begin
-        if (length(aValues[i]) > 0) then
-          aValues[i] := aValues[i] + ',' + aNewValue
-         else
-          aValues[i] := aNewValue;
-      end;
+    begin
+      TempHyphenatedEnableKey := '--' + aEnableKey;
+      TempEnableKey           := aEnableKey;
+    end;
+
+  if (copy(aDisableKey, 1, 2) = '--') then
+    begin
+      TempHyphenatedDisableKey := aDisableKey;
+      TempDisableKey           := copy(aDisableKey, 3, length(aDisableKey));
+    end
+   else
+    begin
+      TempHyphenatedDisableKey := '--' + aDisableKey;
+      TempDisableKey           := aDisableKey;
+    end;
+
+  i := aKeys.IndexOf(TempEnableKey);
+  if (i < 0) then i := aKeys.IndexOf(TempHyphenatedEnableKey);
+
+  j := aKeys.IndexOf(TempDisableKey);
+  if (j < 0) then j := aKeys.IndexOf(TempHyphenatedDisableKey);
+
+  if (i < 0) or (j < 0) then exit;
+
+  TempEnabledValues            := TStringList.Create;
+  TempDisabledValues           := TStringList.Create;
+  TempEnabledValues.CommaText  := aValues[i];
+  TempDisabledValues.CommaText := aValues[j];
+
+  k := 0;
+  while (k < TempDisabledValues.Count) do
+    begin
+      if (length(TempDisabledValues[k]) > 0) then
+        begin
+          n := TempEnabledValues.IndexOf(TempDisabledValues[k]);
+          if (n >= 0) then TempEnabledValues.Delete(n);
+        end;
+
+      inc(k);
+    end;
+
+  if (TempEnabledValues.Count > 0) then
+    aValues[i] := TempEnabledValues.CommaText
+   else
+    begin
+      aKeys.Delete(i);
+      aValues.Delete(i);
+    end;
+
+  FreeAndNil(TempEnabledValues);
+  FreeAndNil(TempDisabledValues);
 end;
 
 procedure TCefApplicationCore.ReplaceSwitch(var aKeys, aValues : TStringList; const aNewKey, aNewValue : ustring);
 var
-  TempKey : ustring;
+  TempKey, TempHyphenatedKey : ustring;
   i : integer;
 begin
   if (copy(aNewKey, 1, 2) = '--') then
-    TempKey := copy(aNewKey, 3, length(aNewKey))
+    begin
+      TempHyphenatedKey := aNewKey;
+      TempKey           := copy(aNewKey, 3, length(aNewKey));
+    end
    else
-    TempKey := aNewKey;
+    begin
+      TempHyphenatedKey := '--' + aNewKey;
+      TempKey           := aNewKey;
+    end;
 
   i := aKeys.IndexOf(TempKey);
 
   if (i < 0) then
     begin
-      aKeys.Add(aNewKey);
-      aValues.Add(aNewValue);
+      i := aKeys.IndexOf(TempHyphenatedKey);
+
+      if (i < 0) then
+        begin
+          aKeys.Add(aNewKey);
+          aValues.Add(aNewValue);
+        end
+       else
+        aValues[i] := aNewValue;
     end
    else
     aValues[i] := aNewValue;
@@ -1836,33 +2006,11 @@ procedure TCefApplicationCore.AddCustomCommandLineSwitches(var aKeys, aValues : 
 var
   i : integer;
   TempFormatSettings : TFormatSettings;
-  {$IFDEF MSWINDOWS}
-  TempVersionInfo : TFileVersionInfo;
-  TempFileName : ustring;
-  {$ENDIF}
 begin
-  {$IFDEF MSWINDOWS}
-  if FindFlashDLL(TempFileName) and
-     GetDLLVersion(TempFileName, TempVersionInfo) then
-    begin
-      if FEnableGPU then ReplaceSwitch(aKeys, aValues, '--enable-gpu-plugin');
-
-      ReplaceSwitch(aKeys, aValues, '--enable-accelerated-plugins');
-      ReplaceSwitch(aKeys, aValues, '--ppapi-flash-path', TempFileName);
-      ReplaceSwitch(aKeys, aValues, '--ppapi-flash-version', FileVersionInfoToString(TempVersionInfo));
-    end
-   else
-   {$ENDIF}
-    if FFlashEnabled then
-      begin
-        if FEnableGPU then ReplaceSwitch(aKeys, aValues, '--enable-gpu-plugin');
-
-        ReplaceSwitch(aKeys, aValues, '--enable-accelerated-plugins');
-        ReplaceSwitch(aKeys, aValues, '--enable-system-flash');
-      end;
-
   ReplaceSwitch(aKeys, aValues, '--enable-media-stream', IntToStr(Ord(FEnableMediaStream)));
-  ReplaceSwitch(aKeys, aValues, '--enable-speech-input', IntToStr(Ord(FEnableSpeechInput)));
+
+  if FEnableSpeechInput then
+    ReplaceSwitch(aKeys, aValues, '--enable-speech-input');
 
   if FUseFakeUIForMediaStream then
     ReplaceSwitch(aKeys, aValues, '--use-fake-ui-for-media-stream');
@@ -1930,6 +2078,9 @@ begin
 
   if FDisableSiteIsolationTrials then
     ReplaceSwitch(aKeys, aValues, '--disable-site-isolation-trials');
+
+  if FDisableChromeLoginPrompt then
+    ReplaceSwitch(aKeys, aValues, '--disable-chrome-login-prompt');
 
   if FSitePerProcess then
     ReplaceSwitch(aKeys, aValues, '--site-per-process');
@@ -2028,6 +2179,9 @@ begin
   if FDisableZygote then
     ReplaceSwitch(aKeys, aValues, '--no-zygote');
 
+  if FUseMockKeyChain then
+    ReplaceSwitch(aKeys, aValues, '--use-mock-keychain');
+
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
   if (length(FEnableFeatures) > 0) then
@@ -2038,6 +2192,8 @@ begin
   if (length(FDisableFeatures) > 0) then
     AppendSwitch(aKeys, aValues, '--disable-features', FDisableFeatures);
 
+  CleanupFeatures(aKeys, aValues, '--enable-features', '--disable-features');
+
   // The list of Blink features you can enable is here :
   // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
   if (length(FEnableBlinkFeatures) > 0) then
@@ -2047,6 +2203,8 @@ begin
   // https://cs.chromium.org/chromium/src/third_party/blink/renderer/platform/runtime_enabled_features.json5
   if (length(FDisableBlinkFeatures) > 0) then
     AppendSwitch(aKeys, aValues, '--disable-blink-features', FDisableBlinkFeatures);
+
+  CleanupFeatures(aKeys, aValues, '--enable-blink-features', '--disable-blink-features');
 
   // The list of Blink settings you can modify is here :
   // https://source.chromium.org/chromium/chromium/src/+/master:third_party/blink/renderer/core/frame/settings.json5
@@ -2127,7 +2285,7 @@ end;
 
 function TCefApplicationCore.GetMustCreateResourceBundleHandler : boolean;
 begin
-  Result := ((FSingleProcess or (FProcessType in [ptBrowser, ptRenderer])) and
+  Result := ((FSingleProcess or (FProcessType in [ptBrowser, ptRenderer, ptZygote])) and
              (FMustCreateResourceBundleHandler or
               assigned(FOnGetLocalizedString)  or
               assigned(FOnGetDataResource)     or
@@ -2148,7 +2306,7 @@ end;
 
 function TCefApplicationCore.GetMustCreateRenderProcessHandler : boolean;
 begin
-  Result := ((FSingleProcess or (FProcessType = ptRenderer)) and
+  Result := ((FSingleProcess or (FProcessType in [ptRenderer, ptZygote])) and
              (FMustCreateRenderProcessHandler     or
               MustCreateLoadHandler               or
               assigned(FOnWebKitInitialized)      or
@@ -2163,7 +2321,7 @@ end;
 
 function TCefApplicationCore.GetMustCreateLoadHandler : boolean;
 begin
-  Result := ((FSingleProcess or (FProcessType = ptRenderer)) and
+  Result := ((FSingleProcess or (FProcessType in [ptRenderer, ptZygote])) and
              (FMustCreateLoadHandler          or
               assigned(FOnLoadingStateChange) or
               assigned(FOnLoadStart)          or

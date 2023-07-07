@@ -1,20 +1,21 @@
 # CEF4Delphi [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Use%20CEF4Delphi%20to%20embed%20Chromium-based%20browsers%20in%20your%20application&url=https://github.com/salvadordf/CEF4Delphi&via=briskbard&hashtags=cef4delphi,delphi,lazarus,fpc)
-CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with [Delphi](https://www.embarcadero.com/products/delphi/starter) or [Lazarus/FPC](https://www.lazarus-ide.org/) for Windows and Linux.
+CEF4Delphi is an open source project created by Salvador Díaz Fau to embed Chromium-based browsers in applications made with [Delphi](https://www.embarcadero.com/products/delphi/starter) or [Lazarus/FPC](https://www.lazarus-ide.org/) for Windows, Linux and MacOS.
 
-CEF4Delphi is based on DCEF3, made by Henri Gourvest. The original license of DCEF3 still applies to CEF4Delphi. Read the license terms in the first lines of any *.pas file.
+CEF4Delphi is based on DCEF3 and fpCEF3. The original license of those projects still applies to CEF4Delphi. Read the license terms in the first lines of any *.pas file.
 
-CEF4Delphi uses CEF 87.1.13 which includes Chromium 87.0.4280.141. 
+CEF4Delphi uses CEF 88.2.9 which includes Chromium 88.0.4324.182. 
 The CEF binaries used by CEF4Delphi are available for download at spotify :
-* [Windows 32 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.13%2Bg481a82a%2Bchromium-87.0.4280.141_windows32.tar.bz2)
-* [Windows 64 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.13%2Bg481a82a%2Bchromium-87.0.4280.141_windows64.tar.bz2)
-* [Linux x86 32 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.13%2Bg481a82a%2Bchromium-87.0.4280.141_linux32.tar.bz2)
-* [Linux x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.13%2Bg481a82a%2Bchromium-87.0.4280.141_linux64.tar.bz2)
-* [Linux ARM 32 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.13%2Bg481a82a%2Bchromium-87.0.4280.141_linuxarm.tar.bz2)
-* [Linux ARM 64 bits](https://cef-builds.spotifycdn.com/cef_binary_87.1.13%2Bg481a82a%2Bchromium-87.0.4280.141_linuxarm64.tar.bz2)
+* [Windows 32 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.9%2Bg5c8711a%2Bchromium-88.0.4324.182_windows32.tar.bz2)
+* [Windows 64 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.9%2Bg5c8711a%2Bchromium-88.0.4324.182_windows64.tar.bz2)
+* [Linux x86 32 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.9%2Bg5c8711a%2Bchromium-88.0.4324.182_linux32.tar.bz2)
+* [Linux x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.9%2Bg5c8711a%2Bchromium-88.0.4324.182_linux64.tar.bz2)
+* [Linux ARM 32 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.9%2Bg5c8711a%2Bchromium-88.0.4324.182_linuxarm.tar.bz2)
+* [Linux ARM 64 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.9%2Bg5c8711a%2Bchromium-88.0.4324.182_linuxarm64.tar.bz2)
+* [MacOS x86 64 bits](https://cef-builds.spotifycdn.com/cef_binary_88.2.9%2Bg5c8711a%2Bchromium-88.0.4324.182_macosx64.tar.bz2)
 
-CEF4Delphi was developed and tested on Delphi 10.4.1 and it has been tested in Delphi 7, Delphi XE, Delphi 10, Delphi 10.2, Delphi 10.3 and Lazarus 2.0.10/FPC 3.2.0. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
+CEF4Delphi was developed and tested on Delphi 10.4.2 and it has been tested in Delphi 7, Delphi XE, Delphi 10, Delphi 10.2, Delphi 10.3 and Lazarus 2.0.12/FPC 3.2.0. CEF4Delphi includes VCL, FireMonkey (FMX) and Lazarus components.
 
-CEF4Delphi demos have been tested in Windows 7, Windows 10, Linux Mint 20 and Raspberry Pi OS.
+CEF4Delphi demos have been tested in Windows 7, Windows 10, Linux Mint 20.1 and Raspberry Pi OS. The MacOS demos are considered in experimental state.
 
 ## Links
 * [Installation instructions and more information about CEF4Delphi](https://www.briskbard.com/index.php?lang=en&pageid=cef)
@@ -39,6 +40,7 @@ Delphinus-Support
 ## Attribution
 Other projects :
 * [DCEF3](https://github.com/hgourvest/dcef3) 
+* [fpCEF3](https://github.com/dliw/fpCEF3)
 * [CEF](https://bitbucket.org/chromiumembedded/cef/)
 * [DCPcrypt](http://www.cityinthesky.co.uk/opensource/dcpcrypt/)
 * [Chromium](https://chromium.googlesource.com/chromium/src/)
@@ -51,3 +53,6 @@ Some icons used in this project belong to these icon packages :
 ## Other resources
 * [Learn Delphi](https://learndelphi.org/)
 * [Essential Pascal by Marco Cantù](https://www.marcocantu.com/epascal/)
+* [FreePascal from Square One by Jeff Duntemann](http://www.copperwood.com/pub/FreePascalFromSquareOne.pdf)
+* [Pascal and Lazarus Books and Magazines](https://wiki.freepascal.org/Pascal_and_Lazarus_Books_and_Magazines)
+* [Lazarus Documentation](https://wiki.freepascal.org/Lazarus_Documentation)

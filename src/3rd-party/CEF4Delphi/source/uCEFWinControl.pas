@@ -37,14 +37,17 @@
 
 unit uCEFWinControl;
 
+{$I cef.inc}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
+  {$IFDEF MACOSX}
+    {$ModeSwitch objectivec1}
+  {$ENDIF}
 {$ENDIF}
 
 {$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
-
-{$I cef.inc}
 
 interface
 
@@ -57,12 +60,15 @@ uses
     LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ENDIF}
   {$ENDIF}
+  {$IFDEF FPC}{$IFDEF MACOSX}
+  CocoaAll,
+  {$ENDIF}{$ENDIF}
   uCEFTypes, uCEFInterfaces;
 
 type
   TCEFWinControl = class(TWinControl)
     protected
-      function  GetChildWindowHandle : THandle; virtual;
+      function  GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle; virtual;
       procedure Resize; override;
 
     public
@@ -110,7 +116,7 @@ implementation
 uses
   uCEFMiscFunctions, uCEFClient, uCEFConstants;
 
-function TCEFWinControl.GetChildWindowHandle : THandle;
+function TCEFWinControl.GetChildWindowHandle : {$IFNDEF MSWINDOWS}{$IFDEF FPC}LclType.{$ENDIF}{$ENDIF}THandle;
 begin
   {$IFDEF MSWINDOWS}
   if not(csDesigning in ComponentState) and HandleAllocated then
@@ -186,12 +192,25 @@ function TCEFWinControl.DestroyChildWindow : boolean;
 var
   TempHWND : HWND;
 {$ENDIF}
+{$IFDEF FPC}{$IFDEF MACOSX}
+var
+  ViewObj: NSObject;
+{$ENDIF}{$ENDIF}
 begin
   {$IFDEF MSWINDOWS}
   TempHWND := ChildWindowHandle;
   Result   := (TempHWND <> 0) and DestroyWindow(TempHWND);
   {$ELSE}
   Result := False;
+  {$IFDEF FPC}{$IFDEF MACOSX}
+  ViewObj := NSObject(ChildWindowHandle);
+  if ViewObj <> nil then begin
+    if ViewObj.isKindOfClass_(nsview) then begin
+      NSView(ViewObj).removeFromSuperview;
+      Result := True;
+    end;
+  end;
+  {$ENDIF}{$ENDIF}
   {$ENDIF}
 end;
 

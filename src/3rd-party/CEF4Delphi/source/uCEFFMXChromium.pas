@@ -128,8 +128,15 @@ begin
 end;
 
 procedure TFMXChromium.InitializeDevToolsWindowInfo;
+var
+  TempHandle : TCefWindowHandle;
 begin
-  DefaultInitializeDevToolsWindowInfo(0, Rect(0, 0, 0, 0), '');
+  {$IFDEF MACOS}
+  TempHandle := nil;
+  {$ELSE}
+  TempHandle := 0;
+  {$ENDIF}
+  DefaultInitializeDevToolsWindowInfo(TempHandle, Rect(0, 0, 0, 0), '');
 end;
 
 procedure TFMXChromium.ShowDevTools(inspectElementAt: TPoint);

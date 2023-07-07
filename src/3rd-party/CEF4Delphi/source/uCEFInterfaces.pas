@@ -352,7 +352,7 @@ type
     function  doOnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message, source: ustring; line: Integer): Boolean;
     function  doOnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
     procedure doOnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
-    procedure doOnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
+    procedure doOnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
 
     // ICefDownloadHandler
     procedure doOnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
@@ -485,9 +485,6 @@ type
     procedure doMediaRouteCreateFinished(result: TCefMediaRouterCreateResult; const error: ustring; const route: ICefMediaRoute);
     procedure doOnMediaSinkDeviceInfo(const ip_address: ustring; port: integer; const model_name: ustring);
     procedure doBrowserNavigation(aTask : TCefBrowserNavigation);
-    procedure doUpdateSize(aLeft, aTop, aWidth, aHeight : integer);
-    procedure doSendCaptureLostEvent;
-    procedure doUpdateXWindowVisibility(aVisible : boolean);
     function  MustCreateAudioHandler : boolean;
     function  MustCreateLoadHandler : boolean;
     function  MustCreateFocusHandler : boolean;
@@ -1967,7 +1964,7 @@ type
     function  OnConsoleMessage(const browser: ICefBrowser; level: TCefLogSeverity; const message_, source: ustring; line: Integer): Boolean;
     function  OnAutoResize(const browser: ICefBrowser; const new_size: PCefSize): Boolean;
     procedure OnLoadingProgressChange(const browser: ICefBrowser; const progress: double);
-    procedure OnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
+    procedure OnCursorChange(const browser: ICefBrowser; cursor_: TCefCursorHandle; CursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean);
 
     procedure RemoveReferences; // custom procedure to clear all references
   end;
