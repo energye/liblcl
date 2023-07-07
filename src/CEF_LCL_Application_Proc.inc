@@ -9,7 +9,6 @@ begin
   Application.QueueAsyncCall(TCEFApplicationClass.ApplicationQueueAsyncCall, EventId);
 end;
 
-//Application.QueueAsyncCall UI主程序异步调用回调指针
 procedure SetApplicationQueueAsyncCallFunc(APtr: Pointer); extdecl;
 begin
   GApplicationQueueAsyncCallPtr := ApplicationQueueAsyncCallPtr(APtr);
@@ -20,7 +19,6 @@ begin
   GlobalCEFApp.AddCustomCommandLine(PCharToUStr(CommandLine), PCharToUStr(Value));
 end;
 
-//macos 需要在go程序中单独设置 args 命令行参数, 原因是调用动态链接库启动获取不到args
 procedure SetMacOSXCommandLine(PCommandLine: PChar); extdecl;
 {$ifdef DARWIN}
 var
@@ -54,15 +52,12 @@ begin
   {$ENDIF}
 end;
 
-//创建 TCefApplication
 procedure CEFApplication_Create(out Result: TCefApplication); extdecl;
 begin
   GlobalCEFApp := TCefApplication.Create;
   Result := GlobalCEFApp;
 end;
 
-
-//释放 TCefApplication
 procedure CEFApplication_Free(); extdecl;
 begin
   GlobalCEFApp.Free;
@@ -79,12 +74,6 @@ end;
 function CEFStartMainProcess(): LongBool; extdecl;
 begin
   Result := GlobalCEFApp.StartMainProcess;
-  if Result then
-  begin
-  {$ifdef Linux}
-  //CustomWidgetSetInitialization();
-  {$endif}
-  end;
 end;
 
 //start sub process
@@ -94,12 +83,6 @@ begin
   GlobalCEFApp.InitLibLocationFromArgs;
   {$ENDIF}
   Result := GlobalCEFApp.StartSubProcess;
-  if Result then
-  begin
-  {$ifdef Linux}
-  //CustomWidgetSetInitialization();
-  {$endif}
-  end;
 end;
 
 procedure CEFApplication_RunMessageLoop(); extdecl;
@@ -112,7 +95,6 @@ begin
   GlobalCEFApp.QuitMessageLoop;
 end;
 
-// 设置 TCefSettings (cef_settings_t) 属性
 function CEFAppConfig_NoSandbox(): LongBool; extdecl;
 begin
   Result := GlobalCEFApp.NoSandbox;
@@ -413,7 +395,6 @@ begin
   GlobalCEFApp.CookieableSchemesExcludeDefaults := value;
 end;
 
-// 设置常用的命令行参数属性
 function CEFAppConfig_SingleProcess(): LongBool; extdecl;
 begin
   Result := GlobalCEFApp.SingleProcess;
@@ -1061,7 +1042,6 @@ begin
   {$ENDIF}
 end;
 
-// 自定义属性
 function CEFAppConfig_DeleteCache(): LongBool; extdecl;
 begin
   Result := GlobalCEFApp.DeleteCache;
