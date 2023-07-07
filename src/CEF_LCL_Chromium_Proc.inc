@@ -224,10 +224,10 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_CreateBrowserByBrowserViewComponent(const AObj: TChromium; PHomePage: PChar; BrowserViewComponent: TCEFBrowserViewComponent): LongBool; extdecl;
+function CEFChromium_CreateBrowserByBrowserViewComponent(const AObj: TChromium; PHomePage: PChar; BrowserViewComponent: TCEFBrowserViewComponent; const aContext : ICefRequestContext; const aExtraInfo : ICefDictionaryValue): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.CreateBrowser(PCharToUStr(PHomePage), BrowserViewComponent);
+  Result := AObj.CreateBrowser(PCharToUStr(PHomePage), BrowserViewComponent, aContext, aExtraInfo);
   handleExceptionEnd
 end;
 
