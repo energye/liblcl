@@ -320,10 +320,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Value_GetFunctionHandler(const TObj: ICefv8Value; var Result: TV8HandlerRef); extdecl;
+procedure CefV8Value_GetFunctionHandler(const TObj: ICefv8Value; var Result: ICefv8Handler); extdecl;
 begin
   handleExceptionBegin
-  Result := TV8HandlerRef(TObj.GetFunctionHandler());
+  Result := TObj.GetFunctionHandler();
   handleExceptionEnd
 end;
 

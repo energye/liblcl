@@ -75,7 +75,7 @@ end;
 function Misc_CefRegisterSchemeHandlerFactory(const SchemeName, DomainName : PChar; const handler: TCefResourceHandlerClass): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := CefRegisterSchemeHandlerFactory(StrPas(SchemeName), StrPas(DomainName), handler);
+  Result := CefRegisterSchemeHandlerFactory(PCharToUStr(SchemeName), PCharToUStr(DomainName), handler);
   handleExceptionEnd
 end;
 
@@ -89,7 +89,7 @@ end;
 function  Misc_CefGetMimeType(const extension: PChar): PChar; extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(CefGetMimeType(StrPas(extension))));
+  Result := PChar(string(CefGetMimeType(PCharToUStr(extension))));
   handleExceptionEnd
 end;
 

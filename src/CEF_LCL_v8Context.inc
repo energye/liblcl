@@ -53,7 +53,7 @@ end;
 
 procedure CefV8Context_Free(var data: ICefv8Context); extdecl;
 begin
-  TCefv8ContextRef(data).Free;
+  (data as TCefv8ContextRef).Free;
   data := nil;
 end;
 

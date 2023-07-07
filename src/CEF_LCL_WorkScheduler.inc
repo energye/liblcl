@@ -35,7 +35,7 @@ begin
   DestroyGlobalCEFWorkScheduler;
 end;
 
-function CEFWorkScheduler_GetPriority(): TThreadPriority; // default  tpNormal;
+function CEFWorkScheduler_GetPriority(): TThreadPriority; extdecl;// default  tpNormal;
 begin
   Result := tpNormal;
 {$IFDEF MSWINDOWS}
@@ -48,7 +48,7 @@ begin
 {$ENDIF}
 end;
 
-procedure CEFWorkScheduler_SetPriority(AValue: Integer); // default  tpNormal;
+procedure CEFWorkScheduler_SetPriority(AValue: Integer); extdecl;// default  tpNormal;
 begin
 {$IFDEF MSWINDOWS}
 {$WARN SYMBOL_PLATFORM OFF}
