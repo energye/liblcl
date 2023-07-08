@@ -1030,16 +1030,10 @@ end;
 function CEFAppConfig_EnableHighDPISupport(): LongBool; extdecl;
 begin
   Result := False;
-  {$IFDEF MSWINDOWS}
-  //Result := GlobalCEFApp.EnableHighDPISupport;
-  {$ENDIF}
 end;
 
 procedure CEFAppConfig_SetEnableHighDPISupport(value: LongBool); extdecl;
 begin
-  {$IFDEF MSWINDOWS}
-  //GlobalCEFApp.EnableHighDPISupport := value;
-  {$ENDIF}
 end;
 
 function CEFAppConfig_DeleteCache(): LongBool; extdecl;
