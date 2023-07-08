@@ -31,7 +31,7 @@ implementation
 
 function TSchemeHandlerFactoryRef.New(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: ustring; const request: ICefRequest): ICefResourceHandler;
 var
-  RetResourceHandler: TResourceHandlerRef;
+  RetResourceHandler: ICefResourceHandler;
 begin
   if (NewPtr <> nil) then
   begin
