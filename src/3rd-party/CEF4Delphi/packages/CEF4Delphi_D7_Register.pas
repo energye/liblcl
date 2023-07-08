@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,56 +35,37 @@
  *
  *)
 
-unit uCEFSharedMemoryRegion;
+unit CEF4Delphi_D7_Register;
 
-{$IFDEF FPC}
-  {$MODE OBJFPC}{$H+}
-{$ENDIF}
+{$R res\chromium.dcr}
 
 {$I cef.inc}
 
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
-
 interface
 
-uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
-
-type
-  TCefSharedMemoryRegionRef = class(TCefBaseRefCountedRef, ICefSharedMemoryRegion)
-    protected
-      function IsValid: boolean;
-      function Size: NativeUInt;
-      function Memory: pointer;
-
-    public
-      class function UnWrap(data: Pointer): ICefSharedMemoryRegion;
-  end;
+procedure Register;
 
 implementation
 
-function TCefSharedMemoryRegionRef.IsValid: Boolean;
-begin
-  Result := PCefSharedMemoryRegion(FData)^.is_valid(PCefSharedMemoryRegion(FData)) <> 0;
-end;
+uses
+  Classes,
+  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel, uCEFWorkScheduler,
+  uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent, uCEFSentinel, 
+  uCEFBrowserViewComponent, uCEFLabelButtonComponent,
+  uCEFMenuButtonComponent, uCEFPanelComponent, uCEFTextfieldComponent,
+  uCEFScrollViewComponent, uCEFWindowComponent;
 
-function TCefSharedMemoryRegionRef.Size: NativeUInt;
+procedure Register;
 begin
-  Result := PCefSharedMemoryRegion(FData)^.Size(PCefSharedMemoryRegion(FData));
-end;
+  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow, TBufferPanel,
+                                  TCEFWorkScheduler, TCEFServerComponent, TCEFLinkedWindowParent,
+				  TCEFUrlRequestClientComponent, TCEFSentinel]);
 
-function TCefSharedMemoryRegionRef.Memory: pointer;
-begin
-  Result := PCefSharedMemoryRegion(FData)^.Memory(PCefSharedMemoryRegion(FData));
-end;
-
-class function TCefSharedMemoryRegionRef.UnWrap(data: Pointer): ICefSharedMemoryRegion;
-begin
-  if (data <> nil) then
-    Result := Create(data) as ICefSharedMemoryRegion
-   else
-    Result := nil;
+  RegisterComponents('Chromium Views Framework',
+                     [TCEFBrowserViewComponent, TCEFLabelButtonComponent,
+                      TCEFMenuButtonComponent, TCEFPanelComponent,
+                      TCEFTextfieldComponent, TCEFScrollViewComponent,
+                      TCEFWindowComponent]);
 end;
 
 end.

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,42 +35,53 @@
  *
  *)
 
-unit CEF4DelphiVCLFMX_Register;
+unit uCEFRequestCallback;
 
-{$R res\chromium.dcr}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
-procedure Register;
+uses
+  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+
+type
+  TCefRequestCallbackRef = class(TCefBaseRefCountedRef, ICefRequestCallback)
+    protected
+      procedure Cont(allow: Boolean);
+      procedure Cancel;
+
+    public
+      class function UnWrap(data: Pointer): ICefRequestCallback;
+  end;
 
 implementation
 
 uses
-  System.Classes,
-  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
-  uCEFWorkScheduler, uCEFFMXBufferPanel, uCEFFMXChromium, uCEFFMXWorkScheduler,
-  uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent,
-  uCEFSentinel, uCEFBrowserViewComponent, uCEFLabelButtonComponent,
-  uCEFMenuButtonComponent, uCEFPanelComponent, uCEFTextfieldComponent,
-  uCEFScrollViewComponent, uCEFWindowComponent;
+  uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure Register;
+procedure TCefRequestCallbackRef.Cont(allow: Boolean);
 begin
-  RegisterComponents('Chromium',
-                     [TChromium, TCEFWindowParent, TChromiumWindow,
-                      TBufferPanel, TFMXBufferPanel, TFMXChromium,
-                      TFMXWorkScheduler, TCEFWorkScheduler,
-                      TCEFServerComponent, TCEFLinkedWindowParent,
-                      TCEFUrlRequestClientComponent,
-                      TCEFSentinel]);
+  PCefRequestCallback(FData)^.cont(PCefRequestCallback(FData), Ord(allow));
+end;
 
-  RegisterComponents('Chromium Views Framework',
-                     [TCEFBrowserViewComponent, TCEFLabelButtonComponent,
-                      TCEFMenuButtonComponent, TCEFPanelComponent,
-                      TCEFTextfieldComponent, TCEFScrollViewComponent,
-                      TCEFWindowComponent]);
+procedure TCefRequestCallbackRef.Cancel;
+begin
+  PCefRequestCallback(FData)^.cancel(PCefRequestCallback(FData));
+end;
+
+class function TCefRequestCallbackRef.UnWrap(data: Pointer): ICefRequestCallback;
+begin
+  if (data <> nil) then
+    Result := Create(data) as ICefRequestCallback
+   else
+    Result := nil;
 end;
 
 end.

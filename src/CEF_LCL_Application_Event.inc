@@ -14,8 +14,6 @@ end;
 // ICefBrowserProcessHandler
 procedure CEFGlobalApp_SetOnRegisterCustomPreferences(AEventData: Pointer); extdecl;
 begin
-  OnRegisterCustomPreferences_DataPtr := AEventData;
-  GlobalCEFApp.OnRegisterCustomPreferences := GlobalCEFApp_OnRegisterCustomPreferences;
 end;
 
 procedure CEFGlobalApp_SetOnContextInitialized(AEventData: Pointer); extdecl;

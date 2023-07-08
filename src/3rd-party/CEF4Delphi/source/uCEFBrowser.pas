@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFBrowser;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -97,15 +97,15 @@ type
       function  GetRequestContext: ICefRequestContext;
       function  GetZoomLevel: Double;
       procedure SetZoomLevel(const zoomLevel: Double);
-      procedure RunFileDialog(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefRunFileDialogCallback);
-      procedure RunFileDialogProc(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: TCefRunFileDialogCallbackProc);
+      procedure RunFileDialog(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefRunFileDialogCallback);
+      procedure RunFileDialogProc(mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: TCefRunFileDialogCallbackProc);
       procedure StartDownload(const url: ustring);
       procedure DownloadImage(const imageUrl: ustring; isFavicon: Boolean; maxImageSize: Cardinal; bypassCache: Boolean; const callback: ICefDownloadImageCallback);
       procedure DownloadImageProc(const imageUrl: ustring; isFavicon: Boolean; maxImageSize: Cardinal; bypassCache: Boolean; const callback: TOnDownloadImageFinishedProc);
       procedure Print;
       procedure PrintToPdf(const path: ustring; settings: PCefPdfPrintSettings; const callback: ICefPdfPrintCallback);
       procedure PrintToPdfProc(const path: ustring; settings: PCefPdfPrintSettings; const callback: TOnPdfPrintFinishedProc);
-      procedure Find(const searchText: ustring; forward_, matchCase, findNext: Boolean);
+      procedure Find(identifier: Integer; const searchText: ustring; forward_, matchCase, findNext: Boolean);
       procedure StopFinding(clearSelection: Boolean);
       procedure ShowDevTools(const windowInfo: PCefWindowInfo; const client: ICefClient; const settings: PCefBrowserSettings; inspectElementAt: PCefPoint);
       procedure CloseDevTools;
@@ -128,6 +128,7 @@ type
       procedure SendMouseMoveEvent(const event: PCefMouseEvent; mouseLeave: Boolean);
       procedure SendMouseWheelEvent(const event: PCefMouseEvent; deltaX, deltaY: Integer);
       procedure SendTouchEvent(const event: PCefTouchEvent);
+      procedure SendFocusEvent(aSetFocus: Boolean);
       procedure SendCaptureLostEvent;
       procedure NotifyMoveOrResizeStarted;
       function  GetWindowlessFrameRate : Integer;
@@ -411,12 +412,12 @@ begin
   PCefBrowserHost(FData)^.drag_target_drop(PCefBrowserHost(FData), event);
 end;
 
-procedure TCefBrowserHostRef.Find(const searchText: ustring; forward_, matchCase, findNext: Boolean);
+procedure TCefBrowserHostRef.Find(identifier: Integer; const searchText: ustring; forward_, matchCase, findNext: Boolean);
 var
   TempText : TCefString;
 begin
   TempText := CefString(searchText);
-  PCefBrowserHost(FData)^.find(PCefBrowserHost(FData), @TempText, Ord(forward_), Ord(matchCase), Ord(findNext));
+  PCefBrowserHost(FData)^.find(PCefBrowserHost(FData), identifier, @TempText, Ord(forward_), Ord(matchCase), Ord(findNext));
 end;
 
 function TCefBrowserHostRef.GetBrowser: ICefBrowser;
@@ -458,6 +459,7 @@ procedure TCefBrowserHostRef.RunFileDialog(      mode                 : TCefFile
                                            const title                : ustring;
                                            const defaultFilePath      : ustring;
                                            const acceptFilters        : TStrings;
+                                                 selectedAcceptFilter : Integer;
                                            const callback             : ICefRunFileDialogCallback);
 var
   TempTitle, TempPath : TCefString;
@@ -475,6 +477,7 @@ begin
                                             @TempTitle,
                                             @TempPath,
                                             TempAcceptFilters.Handle,
+                                            selectedAcceptFilter,
                                             CefGetData(callback));
   finally
     TempAcceptFilters := nil;
@@ -485,9 +488,10 @@ procedure TCefBrowserHostRef.RunFileDialogProc(      mode                 : TCef
                                                const title                : ustring;
                                                const defaultFilePath      : ustring;
                                                const acceptFilters        : TStrings;
+                                                     selectedAcceptFilter : Integer;
                                                const callback             : TCefRunFileDialogCallbackProc);
 begin
-  RunFileDialog(mode, title, defaultFilePath, acceptFilters, TCefFastRunFileDialogCallback.Create(callback));
+  RunFileDialog(mode, title, defaultFilePath, acceptFilters, selectedAcceptFilter, TCefFastRunFileDialogCallback.Create(callback));
 end;
 
 procedure TCefBrowserHostRef.AddWordToDictionary(const word: ustring);
@@ -506,6 +510,11 @@ end;
 procedure TCefBrowserHostRef.SendCaptureLostEvent;
 begin
   PCefBrowserHost(FData)^.send_capture_lost_event(PCefBrowserHost(FData));
+end;
+
+procedure TCefBrowserHostRef.SendFocusEvent(aSetFocus: Boolean);
+begin
+  PCefBrowserHost(FData)^.send_focus_event(PCefBrowserHost(FData), Ord(aSetFocus));
 end;
 
 procedure TCefBrowserHostRef.SendKeyEvent(const event: PCefKeyEvent);

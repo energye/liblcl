@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFClient;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -55,7 +55,6 @@ type
   TCefClientRef = class(TCefBaseRefCountedRef, ICefClient)
     protected
       procedure GetAudioHandler(var aHandler : ICefAudioHandler); virtual;
-      procedure GetCommandHandler(var aHandler : ICefCommandHandler); virtual;
       procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); virtual;
       procedure GetDialogHandler(var aHandler : ICefDialogHandler); virtual;
       procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); virtual;
@@ -64,7 +63,6 @@ type
       procedure GetFindHandler(var aHandler : ICefFindHandler); virtual;
       procedure GetFocusHandler(var aHandler : ICefFocusHandler); virtual;
       procedure GetFrameHandler(var aHandler : ICefFrameHandler); virtual;
-      procedure GetPermissionHandler(var aHandler: ICefPermissionHandler); virtual;
       procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); virtual;
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); virtual;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); virtual;
@@ -83,7 +81,6 @@ type
   TCefClientOwn = class(TCefBaseRefCountedOwn, ICefClient)
     protected
       procedure GetAudioHandler(var aHandler : ICefAudioHandler); virtual;
-      procedure GetCommandHandler(var aHandler : ICefCommandHandler); virtual;
       procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); virtual;
       procedure GetDialogHandler(var aHandler : ICefDialogHandler); virtual;
       procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); virtual;
@@ -92,7 +89,6 @@ type
       procedure GetFindHandler(var aHandler : ICefFindHandler); virtual;
       procedure GetFocusHandler(var aHandler : ICefFocusHandler); virtual;
       procedure GetFrameHandler(var aHandler : ICefFrameHandler); virtual;
-      procedure GetPermissionHandler(var aHandler: ICefPermissionHandler); virtual;
       procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); virtual;
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); virtual;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); virtual;
@@ -112,7 +108,6 @@ type
     protected
       FEvents             : Pointer;
       FAudioHandler       : ICefAudioHandler;
-      FCommandHandler     : ICefCommandHandler;
       FLoadHandler        : ICefLoadHandler;
       FFocusHandler       : ICefFocusHandler;
       FContextMenuHandler : ICefContextMenuHandler;
@@ -128,10 +123,8 @@ type
       FFindHandler        : ICefFindHandler;
       FPrintHandler       : ICefPrintHandler;
       FFrameHandler       : ICefFrameHandler;
-      FPermissionHandler  : ICefPermissionHandler;
 
       procedure GetAudioHandler(var aHandler : ICefAudioHandler); override;
-      procedure GetCommandHandler(var aHandler : ICefCommandHandler); override;
       procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); override;
       procedure GetDialogHandler(var aHandler : ICefDialogHandler); override;
       procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); override;
@@ -140,7 +133,6 @@ type
       procedure GetFindHandler(var aHandler : ICefFindHandler); override;
       procedure GetFocusHandler(var aHandler : ICefFocusHandler); override;
       procedure GetFrameHandler(var aHandler : ICefFrameHandler); override;
-      procedure GetPermissionHandler(var aHandler: ICefPermissionHandler); override;
       procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); override;
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); override;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); override;
@@ -171,7 +163,7 @@ uses
   uCEFDisplayHandler, uCEFDownloadHandler, uCEFJsDialogHandler,
   uCEFLifeSpanHandler, uCEFRequestHandler, uCEFRenderHandler, uCEFDragHandler,
   uCEFFindHandler, uCEFConstants, uCEFApplicationCore, uCEFFrame, uCEFAudioHandler,
-  uCEFPrintHandler, uCEFFrameHandler, uCEFCommandHandler, uCEFPermissionHandler;
+  uCEFPrintHandler, uCEFFrameHandler;
 
 
 // ******************************************************
@@ -187,11 +179,6 @@ begin
 end;
 
 procedure TCefClientRef.GetAudioHandler(var aHandler : ICefAudioHandler);
-begin
-  aHandler := nil;
-end;
-
-procedure TCefClientRef.GetCommandHandler(var aHandler : ICefCommandHandler);
 begin
   aHandler := nil;
 end;
@@ -232,11 +219,6 @@ begin
 end;
 
 procedure TCefClientRef.GetFrameHandler(var aHandler : ICefFrameHandler);
-begin
-  aHandler := nil;
-end;
-
-procedure TCefClientRef.GetPermissionHandler(var aHandler: ICefPermissionHandler);
 begin
   aHandler := nil;
 end;
@@ -303,23 +285,6 @@ begin
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
       TCefClientOwn(TempObject).GetAudioHandler(TempHandler);
-      if (TempHandler <> nil) then Result := TempHandler.Wrap;
-    finally
-      TempHandler := nil;
-    end;
-end;
-
-function cef_client_own_get_command_handler(self: PCefClient): PCefCommandHandler; stdcall;
-var
-  TempObject  : TObject;
-  TempHandler : ICefCommandHandler;
-begin
-  Result      := nil;
-  TempObject  := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
-    try
-      TCefClientOwn(TempObject).GetCommandHandler(TempHandler);
       if (TempHandler <> nil) then Result := TempHandler.Wrap;
     finally
       TempHandler := nil;
@@ -582,24 +547,6 @@ begin
     end;
 end;
 
-function cef_client_own_get_permission_handler(self: PCefClient): PCefPermissionHandler; stdcall;
-var
-  TempObject  : TObject;
-  TempHandler : ICefPermissionHandler;
-begin
-  Result     := nil;
-  TempObject := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
-    try
-      TempHandler := nil;
-      TCefClientOwn(TempObject).GetPermissionHandler(TempHandler);
-      if (TempHandler <> nil) then Result := TempHandler.Wrap;
-    finally
-      TempHandler := nil;
-    end;
-end;
-
 function cef_client_own_on_process_message_received(self           : PCefClient;
                                                     browser        : PCefBrowser;
                                                     frame          : PCefFrame;
@@ -625,7 +572,6 @@ begin
   with PCefClient(FData)^ do
     begin
       get_audio_handler           := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_audio_handler;
-      get_command_handler         := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_command_handler;
       get_context_menu_handler    := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_context_menu_handler;
       get_dialog_handler          := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_dialog_handler;
       get_display_handler         := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_display_handler;
@@ -634,7 +580,6 @@ begin
       get_find_handler            := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_find_handler;
       get_focus_handler           := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_focus_handler;
       get_frame_handler           := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_frame_handler;
-      get_permission_handler      := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_permission_handler;
       get_jsdialog_handler        := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_jsdialog_handler;
       get_keyboard_handler        := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_keyboard_handler;
       get_life_span_handler       := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_life_span_handler;
@@ -647,11 +592,6 @@ begin
 end;
 
 procedure TCefClientOwn.GetAudioHandler(var aHandler : ICefAudioHandler);
-begin
-  aHandler := nil;
-end;
-
-procedure TCefClientOwn.GetCommandHandler(var aHandler : ICefCommandHandler);
 begin
   aHandler := nil;
 end;
@@ -692,11 +632,6 @@ begin
 end;
 
 procedure TCefClientOwn.GetFrameHandler(var aHandler : ICefFrameHandler);
-begin
-  aHandler := nil;
-end;
-
-procedure TCefClientOwn.GetPermissionHandler(var aHandler: ICefPermissionHandler);
 begin
   aHandler := nil;
 end;
@@ -772,7 +707,6 @@ begin
        else
         begin
           if events.MustCreateAudioHandler       then FAudioHandler       := TCustomAudioHandler.Create(events);
-          if events.MustCreateCommandHandler     then FCommandHandler     := TCustomCommandHandler.Create(events);
           if events.MustCreateLoadHandler        then FLoadHandler        := TCustomLoadHandler.Create(events);
           if events.MustCreateFocusHandler       then FFocusHandler       := TCustomFocusHandler.Create(events);
           if events.MustCreateContextMenuHandler then FContextMenuHandler := TCustomContextMenuHandler.Create(events);
@@ -788,7 +722,6 @@ begin
           if events.MustCreateFindHandler        then FFindHandler        := TCustomFindHandler.Create(events);
           if events.MustCreatePrintHandler       then FPrintHandler       := TCustomPrintHandler.Create(events);
           if events.MustCreateFrameHandler       then FFrameHandler       := TCustomFrameHandler.Create(events);
-          if events.MustCreatePermissionHandler  then FPermissionHandler  := TCustomPermissionHandler.Create(events);
         end;
     end;
 end;
@@ -805,7 +738,6 @@ begin
   FEvents := nil;
 
   if (FAudioHandler       <> nil) then FAudioHandler.RemoveReferences;
-  if (FCommandHandler     <> nil) then FCommandHandler.RemoveReferences;
   if (FLoadHandler        <> nil) then FLoadHandler.RemoveReferences;
   if (FFocusHandler       <> nil) then FFocusHandler.RemoveReferences;
   if (FContextMenuHandler <> nil) then FContextMenuHandler.RemoveReferences;
@@ -821,13 +753,11 @@ begin
   if (FFindHandler        <> nil) then FFindHandler.RemoveReferences;
   if (FPrintHandler       <> nil) then FPrintHandler.RemoveReferences;
   if (FFrameHandler       <> nil) then FFrameHandler.RemoveReferences;
-  if (FPermissionHandler  <> nil) then FPermissionHandler.RemoveReferences;
 end;
 
 procedure TCustomClientHandler.InitializeVars;
 begin
   FAudioHandler       := nil;
-  FCommandHandler     := nil;
   FLoadHandler        := nil;
   FFocusHandler       := nil;
   FContextMenuHandler := nil;
@@ -843,7 +773,6 @@ begin
   FFindHandler        := nil;
   FPrintHandler       := nil;
   FFrameHandler       := nil;
-  FPermissionHandler  := nil;
   FEvents             := nil;
 end;
 
@@ -851,14 +780,6 @@ procedure TCustomClientHandler.GetAudioHandler(var aHandler : ICefAudioHandler);
 begin
   if (FAudioHandler <> nil) then
     aHandler := FAudioHandler
-   else
-    aHandler := nil;
-end;
-
-procedure TCustomClientHandler.GetCommandHandler(var aHandler : ICefCommandHandler);
-begin
-  if (FCommandHandler <> nil) then
-    aHandler := FCommandHandler
    else
     aHandler := nil;
 end;
@@ -923,14 +844,6 @@ procedure TCustomClientHandler.GetFrameHandler(var aHandler : ICefFrameHandler);
 begin
   if (FFrameHandler <> nil) then
     aHandler := FFrameHandler
-   else
-    aHandler := nil;
-end;
-
-procedure TCustomClientHandler.GetPermissionHandler(var aHandler: ICefPermissionHandler);
-begin
-  if (FPermissionHandler <> nil) then
-    aHandler := FPermissionHandler
    else
     aHandler := nil;
 end;

@@ -22,7 +22,6 @@ type
   TClientRef = class(TCefClientOwn)
   protected
     FAudioHandler: ICefAudioHandler;
-    FCommandHandler: ICefCommandHandler;
     FLoadHandler: ICefLoadHandler;
     FFocusHandler: ICefFocusHandler;
     FContextMenuHandler: ICefContextMenuHandler;
@@ -38,11 +37,9 @@ type
     FFindHandler: ICefFindHandler;
     FPrintHandler: ICefPrintHandler;
     FFrameHandler: ICefFrameHandler;
-    FPermissionHandler: ICefPermissionHandler;
   public
 
     procedure GetAudioHandler(var aHandler: ICefAudioHandler); override;
-    procedure GetCommandHandler(var aHandler: ICefCommandHandler); override;
     procedure GetContextMenuHandler(var aHandler: ICefContextMenuHandler); override;
     procedure GetDialogHandler(var aHandler: ICefDialogHandler); override;
     procedure GetDisplayHandler(var aHandler: ICefDisplayHandler); override;
@@ -51,7 +48,6 @@ type
     procedure GetFindHandler(var aHandler: ICefFindHandler); override;
     procedure GetFocusHandler(var aHandler: ICefFocusHandler); override;
     procedure GetFrameHandler(var aHandler: ICefFrameHandler); override;
-    procedure GetPermissionHandler(var aHandler: ICefPermissionHandler); override;
     procedure GetJsdialogHandler(var aHandler: ICefJsdialogHandler); override;
     procedure GetKeyboardHandler(var aHandler: ICefKeyboardHandler); override;
     procedure GetLifeSpanHandler(var aHandler: ICefLifeSpanHandler); override;
@@ -76,15 +72,6 @@ begin
     FAudioHandler := TAudioHandlerRef.Create;
   end;
   aHandler := FAudioHandler;
-end;
-
-procedure TClientRef.GetCommandHandler(var aHandler: ICefCommandHandler);
-begin
-  if FCommandHandler = nil then
-  begin
-    FCommandHandler := TCommandHandlerRef.Create;
-  end;
-  aHandler := FCommandHandler;
 end;
 
 procedure TClientRef.GetContextMenuHandler(var aHandler: ICefContextMenuHandler);
@@ -159,15 +146,6 @@ begin
   aHandler := FFrameHandler;
 end;
 
-procedure TClientRef.GetPermissionHandler(var aHandler: ICefPermissionHandler);
-begin
-  if FPermissionHandler = nil then
-  begin
-    FPermissionHandler := TPermissionHandlerRef.Create;
-  end;
-  aHandler := FPermissionHandler;
-end;
-
 procedure TClientRef.GetJsdialogHandler(var aHandler: ICefJsdialogHandler);
 begin
   if FJsDialogHandler = nil then
@@ -239,7 +217,6 @@ end;
 procedure TClientRef.RemoveReferences;
 begin
   if (FAudioHandler <> nil) then FAudioHandler.RemoveReferences;
-  if (FCommandHandler <> nil) then FCommandHandler.RemoveReferences;
   if (FLoadHandler <> nil) then FLoadHandler.RemoveReferences;
   if (FFocusHandler <> nil) then FFocusHandler.RemoveReferences;
   if (FContextMenuHandler <> nil) then FContextMenuHandler.RemoveReferences;
@@ -255,9 +232,7 @@ begin
   if (FFindHandler <> nil) then FFindHandler.RemoveReferences;
   if (FPrintHandler <> nil) then FPrintHandler.RemoveReferences;
   if (FFrameHandler <> nil) then FFrameHandler.RemoveReferences;
-  if (FPermissionHandler <> nil) then FPermissionHandler.RemoveReferences;
   FAudioHandler := nil;
-  FCommandHandler := nil;
   FContextMenuHandler := nil;
   FDialogHandler := nil;
   FDisplayHandler := nil;
@@ -266,7 +241,6 @@ begin
   FFindHandler := nil;
   FFocusHandler := nil;
   FFrameHandler := nil;
-  FPermissionHandler := nil;
   FJsDialogHandler := nil;
   FKeyboardHandler := nil;
   FLifeSpanHandler := nil;
@@ -281,7 +255,6 @@ constructor TClientRef.Create;
 begin
   inherited Create;
   FAudioHandler := nil;
-  FCommandHandler := nil;
   FContextMenuHandler := nil;
   FDialogHandler := nil;
   FDisplayHandler := nil;
@@ -290,7 +263,6 @@ begin
   FFindHandler := nil;
   FFocusHandler := nil;
   FFrameHandler := nil;
-  FPermissionHandler := nil;
   FJsDialogHandler := nil;
   FKeyboardHandler := nil;
   FLifeSpanHandler := nil;

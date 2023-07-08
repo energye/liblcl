@@ -98,7 +98,7 @@ end;
 function CefV8Value_IsPromise(const TObj: ICefv8Value): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.IsPromise;
+  Result := False;
   handleExceptionEnd
 end;
 
@@ -388,14 +388,14 @@ end;
 function CefV8Value_ResolvePromise(const TObj: ICefv8Value; const arg: ICefv8Value): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.ResolvePromise(arg);
+  Result := False;
   handleExceptionEnd
 end;
 
 function CefV8Value_RejectPromise(const TObj: ICefv8Value; const errorMsg: PChar): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.RejectPromise(PCharToUStr(errorMsg));
+  Result := False;
   handleExceptionEnd
 end;
 
@@ -495,7 +495,7 @@ end;
 procedure CefV8ValueRef_NewPromise(var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefv8ValueRef.NewPromise();
+  Result := nil;
   handleExceptionEnd
 end;
 

@@ -152,10 +152,10 @@ begin
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_AddOverlayView(const TObj: TCEFWindowComponent; const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController; extdecl;
+function CEFWindowComponent_AddOverlayView(const TObj: TCEFWindowComponent; const view: ICefView; docking_mode: Integer): Pointer; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.AddOverlayView(view, docking_mode);
+  Result := nil;
   handleExceptionEnd
 end;
 
@@ -352,9 +352,6 @@ end;
 
 procedure CEFWindowComponent_SetOnWindowActivationChanged(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := WindowComponent_OnWindowActivationChanged}
-  {$DEFINE EventName := OnWindowActivationChanged}
-  EventMethodCode
 end;
 
 procedure CEFWindowComponent_SetOnGetParentWindow(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
@@ -373,9 +370,6 @@ end;
 
 procedure CEFWindowComponent_SetOnGetInitialShowState(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := WindowComponent_OnGetInitialShowState}
-  {$DEFINE EventName := OnGetInitialShowState}
-  EventMethodCode
 end;
 
 procedure CEFWindowComponent_SetOnIsFrameless(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;

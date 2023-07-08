@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFFileDialogCallback;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -59,7 +59,7 @@ uses
 type
   TCefFileDialogCallbackRef = class(TCefBaseRefCountedRef, ICefFileDialogCallback)
   protected
-    procedure Cont(const filePaths: TStrings);
+    procedure Cont(selectedAcceptFilter: Integer; const filePaths: TStrings);
     procedure Cancel;
   public
     class function UnWrap(data: Pointer): ICefFileDialogCallback;
@@ -75,7 +75,7 @@ begin
   PCefFileDialogCallback(FData)^.cancel(FData);
 end;
 
-procedure TCefFileDialogCallbackRef.Cont(const filePaths: TStrings);
+procedure TCefFileDialogCallbackRef.Cont(selectedAcceptFilter: Integer; const filePaths: TStrings);
 var
   TempSL : ICefStringList;
 begin
@@ -84,6 +84,7 @@ begin
     TempSL.AddStrings(filePaths);
 
     PCefFileDialogCallback(FData)^.cont(PCefFileDialogCallback(FData),
+                                        selectedAcceptFilter,
                                         TempSL.Handle);
   finally
     TempSL := nil;

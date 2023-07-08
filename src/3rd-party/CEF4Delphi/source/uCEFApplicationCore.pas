@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFApplicationCore;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 {$IFNDEF FPC}{$IFNDEF DELPHI12_UP}
   // Workaround for "Internal error" in old Delphi versions caused by uint64 handling
@@ -60,22 +60,19 @@ uses
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes, {$IFDEF FPC}dynlibs,{$ENDIF}
   {$ENDIF}
-  {$IFDEF LINUX}
-    {$IFDEF FPC}xlib,{$ENDIF} uCEFArgCopy,
-  {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFApplicationEvents, uCEFBaseRefCounted,
-  uCEFSchemeRegistrar, uCEFPreferenceRegistrar;
+  {$IFDEF LINUX}{$IFDEF FPC}xlib,{$ENDIF}{$ENDIF}
+  uCEFTypes, uCEFInterfaces, uCEFBaseRefCounted, uCEFSchemeRegistrar;
 
 const
-  CEF_SUPPORTED_VERSION_MAJOR   = 109;
+  CEF_SUPPORTED_VERSION_MAJOR   = 93;
   CEF_SUPPORTED_VERSION_MINOR   = 1;
-  CEF_SUPPORTED_VERSION_RELEASE = 18;
+  CEF_SUPPORTED_VERSION_RELEASE = 14;
   CEF_SUPPORTED_VERSION_BUILD   = 0;
 
-  CEF_CHROMEELF_VERSION_MAJOR   = CEF_SUPPORTED_VERSION_MAJOR;
+  CEF_CHROMEELF_VERSION_MAJOR   = 93;
   CEF_CHROMEELF_VERSION_MINOR   = 0;
-  CEF_CHROMEELF_VERSION_RELEASE = 5414;
-  CEF_CHROMEELF_VERSION_BUILD   = 120;
+  CEF_CHROMEELF_VERSION_RELEASE = 4577;
+  CEF_CHROMEELF_VERSION_BUILD   = 82;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -132,6 +129,7 @@ type
       FAcceptLanguageList                : ustring;
       FCookieableSchemesList             : ustring;
       FCookieableSchemesExcludeDefaults  : boolean;
+      FApplicationClientID               : ustring;
 
       // Fields used to set command line switches
       FSingleProcess                     : boolean;
@@ -163,6 +161,7 @@ type
       FAllowFileAccessFromFiles          : boolean;
       FAllowRunningInsecureContent       : boolean;
       FEnablePrintPreview                : boolean;
+      FPluginPolicy                      : TCefPluginPolicySwitch;
       FDefaultEncoding                   : ustring;
       FDisableJavascript                 : boolean;
       FDisableJavascriptCloseWindows     : boolean;
@@ -173,6 +172,7 @@ type
       FImageShrinkStandaloneToFit        : boolean;
       FDisableTextAreaResize             : boolean;
       FDisableTabToLinks                 : boolean;
+      FDisablePlugins                    : boolean;
       FEnableProfanityFilter             : boolean;
       FDisableSpellChecking              : boolean;
       FOverrideSpellCheckLang            : ustring;
@@ -188,22 +188,10 @@ type
       FDisablePopupBlocking              : boolean;
       FDisableBackForwardCache           : boolean;
       FDisableComponentUpdate            : boolean;
-      FAllowInsecureLocalhost            : boolean;
-      FKioskPrinting                     : boolean;
-      FTreatInsecureOriginAsSecure       : ustring;
-      FNetLogEnabled                     : boolean;
-      FNetLogFile                        : ustring;
-      FNetLogCaptureMode                 : TCefNetLogCaptureMode;
-
 
       // Fields used during the CEF initialization
       FWindowsSandboxInfo                : pointer;
-      {$IFDEF MSWINDOWS}
       FEnableHighDPISupport              : boolean;
-      {$ENDIF}
-      {$IFDEF LINUX}
-      FArgCopy                           : TCEFArgCopy;
-      {$ENDIF}
 
       // Fields used by custom properties
       FDeleteCache                       : boolean;
@@ -240,7 +228,6 @@ type
       FOnRegisterCustomSchemes           : TOnRegisterCustomSchemesEvent;
 
       // ICefBrowserProcessHandler
-      FOnRegisterCustomPreferences       : TOnRegisterCustomPreferencesEvent;
       FOnContextInitialized              : TOnContextInitializedEvent;
       FOnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent;
       FOnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent;
@@ -274,10 +261,7 @@ type
       procedure SetFrameworkDirPath(const aValue : ustring);
       procedure SetResourcesDirPath(const aValue : ustring);
       procedure SetLocalesDirPath(const aValue : ustring);
-      {$IFDEF MSWINDOWS}
       procedure SetOsmodalLoop(aValue : boolean);
-      {$ENDIF}
-      procedure SetKioskPrinting(aValue : boolean);
 
       function  GetChromeVersion : ustring;
       function  GetLibCefVersion : ustring;
@@ -300,28 +284,23 @@ type
       function  GetApiHashCommit : ustring;
       {$IFDEF LINUX}
       function  GetXDisplay : PXDisplay;
-      function  GetArgc : longint;
-      function  GetArgv : PPAnsiChar;
       {$ENDIF}
 
       function  LoadCEFlibrary : boolean; virtual;
       function  Load_cef_api_hash_h : boolean;
       function  Load_cef_app_capi_h : boolean;
-      function  Load_cef_app_win_h : boolean;
       function  Load_cef_browser_capi_h : boolean;
       function  Load_cef_command_line_capi_h : boolean;
       function  Load_cef_cookie_capi_h : boolean;
       function  Load_cef_crash_util_h : boolean;
       function  Load_cef_drag_data_capi_h : boolean;
       function  Load_cef_file_util_capi_h : boolean;
-      function  Load_cef_i18n_util_capi_h : boolean;
       function  Load_cef_image_capi_h : boolean;
       function  Load_cef_menu_model_capi_h : boolean;
       function  Load_cef_media_router_capi_h : boolean;
       function  Load_cef_origin_whitelist_capi_h : boolean;
       function  Load_cef_parser_capi_h : boolean;
       function  Load_cef_path_util_capi_h : boolean;
-      function  Load_cef_preference_capi_h : boolean;
       function  Load_cef_print_settings_capi_h : boolean;
       function  Load_cef_process_message_capi_h : boolean;
       function  Load_cef_process_util_capi_h : boolean;
@@ -329,9 +308,8 @@ type
       function  Load_cef_request_context_capi_h : boolean;
       function  Load_cef_resource_bundle_capi_h : boolean;
       function  Load_cef_response_capi_h : boolean;
-      function  Load_cef_scheme_capi_h : boolean;
       function  Load_cef_server_capi_h : boolean;
-      function  Load_cef_shared_process_message_builder_capi_h : boolean;
+      function  Load_cef_scheme_capi_h : boolean;
       function  Load_cef_ssl_info_capi_h : boolean;
       function  Load_cef_stream_capi_h : boolean;
       function  Load_cef_task_capi_h : boolean;
@@ -341,6 +319,7 @@ type
       function  Load_cef_v8_capi_h : boolean;
       function  Load_cef_values_capi_h : boolean;
       function  Load_cef_waitable_event_capi_h : boolean;
+      function  Load_cef_web_plugin_capi_h : boolean;
       function  Load_cef_xml_reader_capi_h : boolean;
       function  Load_cef_zip_reader_capi_h : boolean;
       function  Load_cef_logging_internal_h : boolean;
@@ -359,12 +338,10 @@ type
       function  Load_cef_textfield_capi_h : boolean;
       function  Load_cef_window_capi_h : boolean;
       function  Load_cef_types_linux_h : boolean;
-      function  Load_cef_time_h : boolean;
 
       procedure ShutDown;
       procedure FreeLibcefLibrary;
       function  ExecuteProcess(const aApp : ICefApp) : integer;
-      procedure InitializeCefMainArgs(var aCefMainArgs : TCefMainArgs);
       procedure InitializeSettings(var aSettings : TCefSettings);
       function  InitializeLibrary(const aApp : ICefApp) : boolean;
       procedure RenameAndDeleteDir(const aDirectory : string; aKeepCookies : boolean = False);
@@ -374,24 +351,23 @@ type
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
       procedure BeforeInitSubProcess; virtual;
-      function  CheckCEFResources : boolean; virtual;
+      function  CheckCEFResources : boolean;
       {$IFDEF MSWINDOWS}
-      function  CheckCEFDLL : boolean; virtual;
+      function  CheckCEFDLL : boolean;
       {$ENDIF}
+      function  CheckCEFLibrary : boolean;
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
       procedure AddCustomCommandLineSwitches(var aKeys, aValues : TStringList); virtual;
       procedure AppendSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
       procedure ReplaceSwitch(var aKeys, aValues : TStringList; const aNewKey : ustring; const aNewValue : ustring = '');
       procedure CleanupFeatures(var aKeys, aValues : TStringList; const aEnableKey, aDisableKey : string);
-      procedure ClearSchemeHandlerFactories;
 
     public
       constructor Create;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
       procedure   AddCustomCommandLine(const aCommandLine : string; const aValue : string = '');
-      function    CheckCEFLibrary : boolean;
       function    StartMainProcess : boolean;
       function    StartSubProcess : boolean;
 
@@ -409,7 +385,6 @@ type
       // ICefLoadHandler should use them.
       procedure   Internal_OnBeforeCommandLineProcessing(const processType: ustring; const commandLine: ICefCommandLine);
       procedure   Internal_OnRegisterCustomSchemes(const registrar: TCefSchemeRegistrarRef);
-      procedure   Internal_OnRegisterCustomPreferences(type_: TCefPreferencesType; const registrar: TCefPreferenceRegistrarRef);
       procedure   Internal_OnContextInitialized; virtual;
       procedure   Internal_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
       procedure   Internal_OnScheduleMessagePumpWork(const delayMs: Int64);
@@ -461,6 +436,7 @@ type
       property AcceptLanguageList                : ustring                             read FAcceptLanguageList                write FAcceptLanguageList;
       property CookieableSchemesList             : ustring                             read FCookieableSchemesList             write FCookieableSchemesList;
       property CookieableSchemesExcludeDefaults  : boolean                             read FCookieableSchemesExcludeDefaults  write FCookieableSchemesExcludeDefaults;
+      property ApplicationClientID               : ustring                             read FApplicationClientID               write FApplicationClientID;
 
       // Properties used to set command line switches
       property SingleProcess                     : Boolean                             read FSingleProcess                     write FSingleProcess;                    // --single-process
@@ -492,6 +468,7 @@ type
       property AllowFileAccessFromFiles          : boolean                             read FAllowFileAccessFromFiles          write FAllowFileAccessFromFiles;         // --allow-file-access-from-files
       property AllowRunningInsecureContent       : boolean                             read FAllowRunningInsecureContent       write FAllowRunningInsecureContent;      // --allow-running-insecure-content
       property EnablePrintPreview                : boolean                             read FEnablePrintPreview                write FEnablePrintPreview;               // --enable-print-preview
+      property PluginPolicy                      : TCefPluginPolicySwitch              read FPluginPolicy                      write FPluginPolicy;                     // --plugin-policy
       property DefaultEncoding                   : ustring                             read FDefaultEncoding                   write FDefaultEncoding;                  // --default-encoding
       property DisableJavascript                 : boolean                             read FDisableJavascript                 write FDisableJavascript;                // --disable-javascript
       property DisableJavascriptCloseWindows     : boolean                             read FDisableJavascriptCloseWindows     write FDisableJavascriptCloseWindows;    // --disable-javascript-close-windows
@@ -502,6 +479,7 @@ type
       property ImageShrinkStandaloneToFit        : boolean                             read FImageShrinkStandaloneToFit        write FImageShrinkStandaloneToFit;       // --image-shrink-standalone-to-fit
       property DisableTextAreaResize             : boolean                             read FDisableTextAreaResize             write FDisableTextAreaResize;            // --disable-text-area-resize
       property DisableTabToLinks                 : boolean                             read FDisableTabToLinks                 write FDisableTabToLinks;                // --disable-tab-to-links
+      property DisablePlugins                    : boolean                             read FDisablePlugins                    write FDisablePlugins;                   // --disable-plugins
       property EnableProfanityFilter             : boolean                             read FEnableProfanityFilter             write FEnableProfanityFilter;            // --enable-profanity-filter
       property DisableSpellChecking              : boolean                             read FDisableSpellChecking              write FDisableSpellChecking;             // --disable-spell-checking
       property OverrideSpellCheckLang            : ustring                             read FOverrideSpellCheckLang            write FOverrideSpellCheckLang;           // --override-spell-check-lang
@@ -510,29 +488,17 @@ type
       property HyperlinkAuditing                 : boolean                             read FHyperlinkAuditing                 write FHyperlinkAuditing;                // --no-pings
       property DisableNewBrowserInfoTimeout      : boolean                             read FDisableNewBrowserInfoTimeout      write FDisableNewBrowserInfoTimeout;     // --disable-new-browser-info-timeout
       property DevToolsProtocolLogFile           : ustring                             read FDevToolsProtocolLogFile           write FDevToolsProtocolLogFile;          // --devtools-protocol-log-file
-      property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;          // --force-device-scale-factor
+      property ForcedDeviceScaleFactor           : single                              read FForcedDeviceScaleFactor           write FForcedDeviceScaleFactor;          // --device-scale-factor
       property DisableZygote                     : boolean                             read FDisableZygote                     write FDisableZygote;                    // --no-zygote
       property UseMockKeyChain                   : boolean                             read FUseMockKeyChain                   write FUseMockKeyChain;                  // --use-mock-keychain
       property DisableRequestHandlingForTesting  : boolean                             read FDisableRequestHandlingForTesting  write FDisableRequestHandlingForTesting; // --disable-request-handling-for-testing
       property DisablePopupBlocking              : boolean                             read FDisablePopupBlocking              write FDisablePopupBlocking;             // --disable-popup-blocking
       property DisableBackForwardCache           : boolean                             read FDisableBackForwardCache           write FDisableBackForwardCache;          // --disable-back-forward-cache
       property DisableComponentUpdate            : boolean                             read FDisableComponentUpdate            write FDisableComponentUpdate;           // --disable-component-update
-      property AllowInsecureLocalhost            : boolean                             read FAllowInsecureLocalhost            write FAllowInsecureLocalhost;           // --allow-insecure-localhost
-      property KioskPrinting                     : boolean                             read FKioskPrinting                     write SetKioskPrinting;                  // --kiosk-printing
-      property TreatInsecureOriginAsSecure       : ustring                             read FTreatInsecureOriginAsSecure       write FTreatInsecureOriginAsSecure;      // --unsafely-treat-insecure-origin-as-secure
-      property NetLogEnabled                     : boolean                             read FNetLogEnabled                     write FNetLogEnabled;                    // --log-net-log
-      property NetLogFile                        : ustring                             read FNetLogFile                        write FNetLogFile;                       // --log-net-log
-      property NetLogCaptureMode                 : TCefNetLogCaptureMode               read FNetLogCaptureMode                 write FNetLogCaptureMode;                // --net-log-capture-mode
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
-      {$IFDEF MSWINDOWS}
       property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
-      {$ENDIF}
-      {$IFDEF LINUX}
-      property argcCopy                          : longint                             read GetArgc;
-      property argvCopy                          : PPAnsiChar                          read GetArgv;
-      {$ENDIF}
 
       // Custom properties
       property DeleteCache                       : boolean                             read FDeleteCache                       write FDeleteCache;
@@ -560,9 +526,7 @@ type
       property MustCreateBrowserProcessHandler   : boolean                             read GetMustCreateBrowserProcessHandler write FMustCreateBrowserProcessHandler;
       property MustCreateRenderProcessHandler    : boolean                             read GetMustCreateRenderProcessHandler  write FMustCreateRenderProcessHandler;
       property MustCreateLoadHandler             : boolean                             read GetMustCreateLoadHandler           write FMustCreateLoadHandler;
-      {$IFDEF MSWINDOWS}
       property OsmodalLoop                       : boolean                                                                     write SetOsmodalLoop;
-      {$ENDIF}
       property Status                            : TCefAplicationStatus                read FStatus;
       property MissingLibFiles                   : string                              read FMissingLibFiles;
       property MustFreeLibrary                   : boolean                             read FMustFreeLibrary                   write FMustFreeLibrary;
@@ -583,7 +547,6 @@ type
       property OnRegCustomSchemes                : TOnRegisterCustomSchemesEvent       read FOnRegisterCustomSchemes           write FOnRegisterCustomSchemes;
 
       // ICefBrowserProcessHandler
-      property OnRegisterCustomPreferences       : TOnRegisterCustomPreferencesEvent   read FOnRegisterCustomPreferences       write FOnRegisterCustomPreferences;
       property OnContextInitialized              : TOnContextInitializedEvent          read FOnContextInitialized              write FOnContextInitialized;
       property OnBeforeChildProcessLaunch        : TOnBeforeChildProcessLaunchEvent    read FOnBeforeChildProcessLaunch        write FOnBeforeChildProcessLaunch;
       property OnScheduleMessagePumpWork         : TOnScheduleMessagePumpWorkEvent     read FOnScheduleMessagePumpWork         write FOnScheduleMessagePumpWork;
@@ -717,10 +680,11 @@ begin
   FAcceptLanguageList                := '';
   FCookieableSchemesList             := '';
   FCookieableSchemesExcludeDefaults  := False;
+  FApplicationClientID               := '';
 
   // Fields used to set command line switches
   FSingleProcess                     := False;
-  FEnableMediaStream                 := False;
+  FEnableMediaStream                 := True;
   FEnableSpeechInput                 := False;
   FUseFakeUIForMediaStream           := False;
   FEnableUsermediaScreenCapturing    := False;
@@ -748,6 +712,7 @@ begin
   FAllowFileAccessFromFiles          := False;
   FAllowRunningInsecureContent       := False;
   FEnablePrintPreview                := False;
+  FPluginPolicy                      := PLUGIN_POLICY_SWITCH_ALLOW;
   FDefaultEncoding                   := '';
   FDisableJavascript                 := False;
   FDisableJavascriptCloseWindows     := False;
@@ -758,6 +723,7 @@ begin
   FImageShrinkStandaloneToFit        := False;
   FDisableTextAreaResize             := False;
   FDisableTabToLinks                 := False;
+  FDisablePlugins                    := False;
   FEnableProfanityFilter             := False;
   FDisableSpellChecking              := False;
   FOverrideSpellCheckLang            := '';
@@ -773,21 +739,10 @@ begin
   FDisablePopupBlocking              := False;
   FDisableBackForwardCache           := False;
   FDisableComponentUpdate            := False;
-  FAllowInsecureLocalhost            := False;
-  FKioskPrinting                     := False;
-  FTreatInsecureOriginAsSecure       := '';
-  FNetLogEnabled                     := False;
-  FNetLogFile                        := '';
-  FNetLogCaptureMode                 := nlcmDefault;
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
-  {$IFDEF MSWINDOWS}
   FEnableHighDPISupport              := False;
-  {$ENDIF}
-  {$IFDEF LINUX}
-  FArgCopy                           := TCEFArgCopy.Create;
-  {$ENDIF}
 
   // Fields used by custom properties
   FDeleteCache                       := False;
@@ -816,18 +771,8 @@ begin
   FMustFreeLibrary                   := False;
   FLastErrorMessage                  := '';
   {$IFDEF MSWINDOWS}
-  case FProcessType of
-    ptBrowser  : GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
-    ptCrashpad :
-      // The crashpad handler process must be the last one to be closed
-      SetProcessShutdownParameters($100, SHUTDOWN_NORETRY);
-    else
-      // Subprocesses will be the last to be notified about the Windows shutdown.
-      // The main browser process will receive WM_QUERYENDSESSION before the subprocesses
-      // and that allows to close the application in the right order.
-      // See the MiniBrowser demo for all the details.
-      SetProcessShutdownParameters(CHROMIUM_NONBROWSERSHUTDOWNPRIORITY - 1, SHUTDOWN_NORETRY);
-  end;
+  if (FProcessType = ptBrowser) then
+    GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
   {$ENDIF}
 
   // Internal filelds
@@ -842,7 +787,6 @@ begin
   FOnRegisterCustomSchemes           := nil;
 
   // ICefBrowserProcessHandler
-  FOnRegisterCustomPreferences       := nil;
   FOnContextInitialized              := nil;
   FOnBeforeChildProcessLaunch        := nil;
   FOnScheduleMessagePumpWork         := nil;
@@ -877,7 +821,8 @@ end;
 destructor TCefApplicationCore.Destroy;
 begin
   try
-    ClearSchemeHandlerFactories;
+    if FLibLoaded then
+      cef_clear_scheme_handler_factories();
 
     if (GlobalCEFApp = Self) then
       GlobalCEFApp := nil;
@@ -887,24 +832,10 @@ begin
 
     FreeLibcefLibrary;
 
-    {$IFDEF LINUX}
-    if (FArgCopy                 <> nil) then FreeAndNil(FArgCopy);
-    {$ENDIF}
     if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
     if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
   finally
     inherited Destroy;
-  end;
-end;
-
-procedure TCefApplicationCore.ClearSchemeHandlerFactories;
-begin
-  try
-    if FLibLoaded then
-      cef_clear_scheme_handler_factories();
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplicationCore.ClearSchemeHandlerFactories', e) then raise;
   end;
 end;
 
@@ -1104,8 +1035,7 @@ begin
   FFrameworkDirPath := CustomAbsolutePath(aValue, True);
 
   {$IFDEF MSWINDOWS}
-  if (FProcessType = ptBrowser) then
-    GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
+  if (FProcessType = ptBrowser) then GetDLLVersion(ChromeElfPath, FChromeVersionInfo);
   {$ENDIF}
 end;
 
@@ -1314,22 +1244,9 @@ begin
     cef_quit_message_loop();
 end;
 
-{$IFDEF MSWINDOWS}
 procedure TCefApplicationCore.SetOsmodalLoop(aValue : boolean);
 begin
   if (FStatus = asInitialized) then cef_set_osmodal_loop(Ord(aValue));
-end;
-{$ENDIF}
-
-procedure TCefApplicationCore.SetKioskPrinting(aValue : boolean);
-begin
-  if (FKioskPrinting <> aValue) then
-    begin
-      FKioskPrinting := aValue;
-
-      if FKioskPrinting then
-        FEnablePrintPreview := True;
-    end;
 end;
 
 procedure TCefApplicationCore.UpdateDeviceScaleFactor;
@@ -1370,41 +1287,6 @@ begin
   end;
 end;
 
-{$WARN SYMBOL_PLATFORM OFF}
-procedure TCefApplicationCore.InitializeCefMainArgs(var aCefMainArgs : TCefMainArgs);
-begin
-  {$IFDEF MSWINDOWS}
-  aCefMainArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
-  {$ENDIF}
-
-  {$IFDEF LINUX}
-    // Create a copy of argv on Linux because Chromium mangles the value internally (see CEF issue #620).
-    // https://bitbucket.org/chromiumembedded/cef/issues/620/cef3-linux-crash-when-passing-command-line
-    if (FArgCopy.argv = nil) then
-      begin
-        {$IFDEF FPC}
-        FArgCopy.CopyFromArgs(argc, argv);
-        {$ELSE}
-        FArgCopy.CopyFromArgs(ArgCount, ArgValues);
-        {$ENDIF}
-      end;
-
-    aCefMainArgs.argc := FArgCopy.argc;
-    aCefMainArgs.argv := FArgCopy.argv;
-  {$ENDIF}
-
-  {$IFDEF MACOSX}
-    {$IFDEF FPC}
-    aCefMainArgs.argc := argc;
-    aCefMainArgs.argv := argv;
-    {$ELSE}
-    aCefMainArgs.argc := ArgCount;
-    aCefMainArgs.argv := ArgValues;
-    {$ENDIF}
-  {$ENDIF}
-end;
-{$WARN SYMBOL_PLATFORM ON}
-
 function TCefApplicationCore.ExecuteProcess(const aApp : ICefApp) : integer;
 var
   TempArgs : TCefMainArgs;
@@ -1413,7 +1295,19 @@ begin
   try
     if (aApp <> nil) then
       begin
-        InitializeCefMainArgs(TempArgs);
+        {$WARN SYMBOL_PLATFORM OFF}
+        {$IFDEF MSWINDOWS}
+          TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
+        {$ELSE}
+          {$IFDEF FPC}
+          TempArgs.argc := argc;
+          TempArgs.argv := argv;
+          {$ELSE}
+          TempArgs.argc := ArgCount;
+          TempArgs.argv := PPWideChar(ArgValues);
+          {$ENDIF}
+        {$ENDIF}
+        {$WARN SYMBOL_PLATFORM ON}
         Result := cef_execute_process(@TempArgs, aApp.Wrap, FWindowsSandboxInfo);
       end;
   except
@@ -1453,10 +1347,12 @@ begin
   aSettings.pack_loading_disabled                   := Ord(FPackLoadingDisabled);
   aSettings.remote_debugging_port                   := FRemoteDebuggingPort;
   aSettings.uncaught_exception_stack_size           := FUncaughtExceptionStackSize;
+  aSettings.ignore_certificate_errors               := Ord(FIgnoreCertificateErrors);
   aSettings.background_color                        := FBackgroundColor;
   aSettings.accept_language_list                    := CefString(FAcceptLanguageList);
   aSettings.cookieable_schemes_list                 := CefString(FCookieableSchemesList);
   aSettings.cookieable_schemes_exclude_defaults     := Ord(FCookieableSchemesExcludeDefaults);
+  aSettings.application_client_id_for_file_scanning := CefString(FApplicationClientID);
 end;
 
 function TCefApplicationCore.InitializeLibrary(const aApp : ICefApp) : boolean;
@@ -1473,13 +1369,26 @@ begin
             RenameAndDeleteDir(FCache)
            else
             if FDeleteCookies then
-              DeleteCookiesDB(IncludeTrailingPathDelimiter(FCache) + 'Network')
+              DeleteCookiesDB(FCache)
              else
               if FDeleteCache then
                 RenameAndDeleteDir(FCache, True);
 
           InitializeSettings(FAppSettings);
-          InitializeCefMainArgs(TempArgs);
+
+          {$IFDEF MSWINDOWS}
+            TempArgs.instance := HINSTANCE{$IFDEF FPC}(){$ENDIF};
+          {$ELSE}
+            {$WARN SYMBOL_PLATFORM OFF}
+              {$IFDEF FPC}
+              TempArgs.argc := argc;
+              TempArgs.argv := argv;
+              {$ELSE}
+              TempArgs.argc := ArgCount;
+              TempArgs.argv := PPWideChar(ArgValues);
+              {$ENDIF}
+            {$WARN SYMBOL_PLATFORM ON}
+          {$ENDIF}
 
           if (cef_initialize(@TempArgs, @FAppSettings, aApp.Wrap, FWindowsSandboxInfo) <> 0) then
             begin
@@ -1532,23 +1441,14 @@ end;
 procedure TCefApplicationCore.MoveCookiesDB(const aSrcDirectory, aDstDirectory : string);
 var
   TempFiles : TStringList;
-  TempSrc, TempDst : string;
 begin
   TempFiles := TStringList.Create;
 
   try
-    TempFiles.Add('LocalPrefs.json');
-
-    MoveFileList(TempFiles, aSrcDirectory, aDstDirectory);
-
-    TempSrc := IncludeTrailingPathDelimiter(aSrcDirectory) + 'Network';
-    TempDst := IncludeTrailingPathDelimiter(aDstDirectory) + 'Network';
-
-    TempFiles.Clear;
     TempFiles.Add('Cookies');
     TempFiles.Add('Cookies-journal');
 
-    MoveFileList(TempFiles, TempSrc, TempDst);
+    MoveFileList(TempFiles, aSrcDirectory, aDstDirectory);
   finally
     FreeAndNil(TempFiles);
   end;
@@ -1572,7 +1472,7 @@ begin
 
         repeat
           inc(i);
-          TempNewDir := TempOldDir + '_' + inttostr(i);
+          TempNewDir := TempOldDir + '(' + inttostr(i) + ')';
         until not(DirectoryExists(TempNewDir));
 
         if RenameFile(TempOldDir, TempNewDir) then
@@ -1662,10 +1562,7 @@ begin
               if (CompareText(TempValue, 'broker') = 0) then
                 Result := ptBroker
                else
-                if (CompareText(TempValue, 'crashpad-handler') = 0) then
-                  Result := ptCrashpad
-                 else
-                  Result := ptOther;
+                Result := ptOther;
     end
    else
     Result := ptBrowser;
@@ -1947,8 +1844,7 @@ var
   i : integer;
   TempFormatSettings : TFormatSettings;
 begin
-  if FEnableMediaStream then
-    ReplaceSwitch(aKeys, aValues, '--enable-media-stream');
+  ReplaceSwitch(aKeys, aValues, '--enable-media-stream', IntToStr(Ord(FEnableMediaStream)));
 
   if FEnableSpeechInput then
     ReplaceSwitch(aKeys, aValues, '--enable-speech-input');
@@ -2041,9 +1937,6 @@ begin
   if FAllowRunningInsecureContent then
     ReplaceSwitch(aKeys, aValues, '--allow-running-insecure-content');
 
-  if FKioskPrinting then
-    ReplaceSwitch(aKeys, aValues, '--kiosk-printing');
-
   if FEnablePrintPreview then
     ReplaceSwitch(aKeys, aValues, '--enable-print-preview');
 
@@ -2052,6 +1945,11 @@ begin
 
   if (length(FDevToolsProtocolLogFile) > 0) then
     ReplaceSwitch(aKeys, aValues, '--devtools-protocol-log-file', FDevToolsProtocolLogFile);
+
+  case FPluginPolicy of
+    PLUGIN_POLICY_SWITCH_DETECT : ReplaceSwitch(aKeys, aValues, '--plugin-policy', 'detect');
+    PLUGIN_POLICY_SWITCH_BLOCK  : ReplaceSwitch(aKeys, aValues, '--plugin-policy', 'block');
+  end;
 
   if (length(FDefaultEncoding) > 0) then
     ReplaceSwitch(aKeys, aValues, '--default-encoding', FDefaultEncoding);
@@ -2083,6 +1981,9 @@ begin
   if FDisableTabToLinks then
     ReplaceSwitch(aKeys, aValues, '--disable-tab-to-links');
 
+  if FDisablePlugins then
+    ReplaceSwitch(aKeys, aValues, '--disable-plugins');
+
   if FEnableProfanityFilter then
     ReplaceSwitch(aKeys, aValues, '--enable-profanity-filter');
 
@@ -2092,6 +1993,8 @@ begin
   if (length(FOverrideSpellCheckLang) > 0) then
     ReplaceSwitch(aKeys, aValues, '--override-spell-check-lang', FOverrideSpellCheckLang);
 
+  // This is a workaround for the CEF issue #2899
+  // https://bitbucket.org/chromiumembedded/cef/issues/2899/cefsettingsignore_certificate_errors-true
   if FIgnoreCertificateErrors then
     ReplaceSwitch(aKeys, aValues, '--ignore-certificate-errors');
 
@@ -2128,34 +2031,13 @@ begin
   if FDisableComponentUpdate then
     ReplaceSwitch(aKeys, aValues, '--disable-component-update');
 
-  if FAllowInsecureLocalhost then
-    ReplaceSwitch(aKeys, aValues, '--allow-insecure-localhost');
-
-  if (length(FTreatInsecureOriginAsSecure) > 0) then
-    ReplaceSwitch(aKeys, aValues, '--unsafely-treat-insecure-origin-as-secure', FTreatInsecureOriginAsSecure);
-
-  if FNetLogEnabled then
-    begin
-      ReplaceSwitch(aKeys, aValues, '--log-net-log', FNetLogFile);
-
-      case FNetLogCaptureMode of
-        nlcmDefault          : ReplaceSwitch(aKeys, aValues, '--net-log-capture-mode', 'Default');
-        nlcmIncludeSensitive : ReplaceSwitch(aKeys, aValues, '--net-log-capture-mode', 'IncludeSensitive');
-        nlcmEverything       : ReplaceSwitch(aKeys, aValues, '--net-log-capture-mode', 'Everything');
-      end;
-    end;
-
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
-  // https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/content_features.cc
-  // https://source.chromium.org/search?q=base::Feature
   if (length(FEnableFeatures) > 0) then
     AppendSwitch(aKeys, aValues, '--enable-features', FEnableFeatures);
 
   // The list of features you can disable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
-  // https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/content_features.cc
-  // https://source.chromium.org/search?q=base::Feature
   if (length(FDisableFeatures) > 0) then
     AppendSwitch(aKeys, aValues, '--disable-features', FDisableFeatures);
 
@@ -2248,13 +2130,6 @@ procedure TCefApplicationCore.Internal_OnRegisterCustomSchemes(const registrar: 
 begin
   if assigned(FOnRegisterCustomSchemes) then
     FOnRegisterCustomSchemes(registrar);
-end;
-
-procedure TCefApplicationCore.Internal_OnRegisterCustomPreferences(      type_     : TCefPreferencesType;
-                                                                   const registrar : TCefPreferenceRegistrarRef);
-begin
-  if assigned(FOnRegisterCustomPreferences) then
-    FOnRegisterCustomPreferences(type_, registrar);
 end;
 
 function TCefApplicationCore.GetMustCreateResourceBundleHandler : boolean;
@@ -2383,13 +2258,13 @@ begin
             TempProcHWND := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, False, TempProcess.th32ProcessID);
 
             if (TempProcHWND <> 0) then
-              try
+              begin
                 ZeroMemory(@TempMemCtrs, SizeOf(TProcessMemoryCounters));
                 TempMemCtrs.cb := SizeOf(TProcessMemoryCounters);
 
                 if GetProcessMemoryInfo(TempProcHWND, {$IFNDEF FPC}@{$ENDIF}TempMemCtrs, TempMemCtrs.cb) then
                   inc(Result, TempMemCtrs.WorkingSetSize);
-              finally
+
                 CloseHandle(TempProcHWND);
               end;
           end;
@@ -2410,7 +2285,7 @@ begin
   {$IFDEF MSWINDOWS}
   ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
   TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
-  if GetGlobalMemoryStatusEx(@TempMemStatus) then
+  if GetGlobalMemoryStatusEx(TempMemStatus) then
     Result := TempMemStatus.ullTotalPhys;
   {$ENDIF}
 end;
@@ -2425,7 +2300,7 @@ begin
   {$IFDEF MSWINDOWS}
   ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
   TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
-  if GetGlobalMemoryStatusEx(@TempMemStatus) then
+  if GetGlobalMemoryStatusEx(TempMemStatus) then
     Result := TempMemStatus.ullAvailPhys;
   {$ENDIF}
 end;
@@ -2441,8 +2316,7 @@ begin
   {$IFDEF MSWINDOWS}
   ZeroMemory(@TempMemStatus, SizeOf(TMyMemoryStatusEx));
   TempMemStatus.dwLength := SizeOf(TMyMemoryStatusEx);
-  if GetGlobalMemoryStatusEx(@TempMemStatus) then
-    Result := TempMemStatus.dwMemoryLoad;
+  if GetGlobalMemoryStatusEx(TempMemStatus) then Result := TempMemStatus.dwMemoryLoad;
   {$ENDIF}
 end;
 
@@ -2491,22 +2365,6 @@ begin
   // This property can only be called in the CEF UI thread.
   if FLibLoaded then
     Result := cef_get_xdisplay{$IFDEF FPC}(){$ENDIF}
-   else
-    Result := nil;
-end;
-
-function TCefApplicationCore.GetArgc : longint;
-begin
-  if (FArgCopy <> nil) then
-    Result := FArgCopy.argc
-   else
-    Result := 0;
-end;
-
-function TCefApplicationCore.GetArgv : PPAnsiChar;
-begin
-  if (FArgCopy <> nil) then
-    Result := FArgCopy.argv
    else
     Result := nil;
 end;
@@ -2566,21 +2424,18 @@ begin
 
   if Load_cef_api_hash_h and
      Load_cef_app_capi_h and
-     Load_cef_app_win_h and
      Load_cef_browser_capi_h and
      Load_cef_command_line_capi_h and
      Load_cef_cookie_capi_h and
      Load_cef_crash_util_h and
      Load_cef_drag_data_capi_h and
      Load_cef_file_util_capi_h and
-     Load_cef_i18n_util_capi_h and
      Load_cef_image_capi_h and
      Load_cef_menu_model_capi_h and
      Load_cef_media_router_capi_h and
      Load_cef_origin_whitelist_capi_h and
      Load_cef_parser_capi_h and
      Load_cef_path_util_capi_h and
-     Load_cef_preference_capi_h and
      Load_cef_print_settings_capi_h and
      Load_cef_process_message_capi_h and
      Load_cef_process_util_capi_h and
@@ -2588,9 +2443,8 @@ begin
      Load_cef_request_context_capi_h and
      Load_cef_resource_bundle_capi_h and
      Load_cef_response_capi_h and
-     Load_cef_scheme_capi_h and
      Load_cef_server_capi_h and
-     Load_cef_shared_process_message_builder_capi_h and
+     Load_cef_scheme_capi_h and
      Load_cef_ssl_info_capi_h and
      Load_cef_stream_capi_h and
      Load_cef_task_capi_h and
@@ -2600,6 +2454,7 @@ begin
      Load_cef_v8_capi_h and
      Load_cef_values_capi_h and
      Load_cef_waitable_event_capi_h and
+     Load_cef_web_plugin_capi_h and
      Load_cef_xml_reader_capi_h and
      Load_cef_zip_reader_capi_h and
      Load_cef_logging_internal_h and
@@ -2617,18 +2472,14 @@ begin
      Load_cef_scroll_view_capi_h and
      Load_cef_textfield_capi_h and
      Load_cef_window_capi_h and
-     Load_cef_types_linux_h and
-     Load_cef_time_h then
+     Load_cef_types_linux_h then
     begin
       FStatus    := asLoaded;
       FLibLoaded := True;
       Result     := True;
 
-      if FLogProcessInfo then CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);
-
-      {$IFDEF MSWINDOWS}
+      if FLogProcessInfo       then CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);
       if FEnableHighDPISupport then cef_enable_highdpi_support();
-      {$ENDIF}
     end
    else
     begin
@@ -2659,26 +2510,17 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_do_message_loop_work{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_do_message_loop_work');
   {$IFDEF FPC}Pointer({$ENDIF}cef_run_message_loop{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_run_message_loop');
   {$IFDEF FPC}Pointer({$ENDIF}cef_quit_message_loop{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_quit_message_loop');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_set_osmodal_loop{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_set_osmodal_loop');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_enable_highdpi_support{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_enable_highdpi_support');
 
   Result := assigned(cef_initialize) and
             assigned(cef_shutdown) and
             assigned(cef_execute_process) and
             assigned(cef_do_message_loop_work) and
             assigned(cef_run_message_loop) and
-            assigned(cef_quit_message_loop);
-end;
-
-function TCefApplicationCore.Load_cef_app_win_h : boolean;
-begin
-  {$IFDEF MSWINDOWS}
-    {$IFDEF FPC}Pointer({$ENDIF}cef_set_osmodal_loop{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_set_osmodal_loop');
-    {$IFDEF FPC}Pointer({$ENDIF}cef_enable_highdpi_support{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_enable_highdpi_support');
-
-    Result := assigned(cef_set_osmodal_loop) and
-              assigned(cef_enable_highdpi_support);
-  {$ELSE}
-    Result := True;
-  {$ENDIF}
+            assigned(cef_quit_message_loop) and
+            assigned(cef_set_osmodal_loop) and
+            assigned(cef_enable_highdpi_support);
 end;
 
 function TCefApplicationCore.Load_cef_browser_capi_h : boolean;
@@ -2743,13 +2585,6 @@ begin
             assigned(cef_load_crlsets_file);
 end;
 
-function TCefApplicationCore.Load_cef_i18n_util_capi_h : boolean;
-begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_is_rtl{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_is_rtl');
-
-  Result := assigned(cef_is_rtl);
-end;
-
 function TCefApplicationCore.Load_cef_image_capi_h : boolean;
 begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_image_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_image_create');
@@ -2784,7 +2619,6 @@ end;
 
 function TCefApplicationCore.Load_cef_parser_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_resolve_url{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_resolve_url');
   {$IFDEF FPC}Pointer({$ENDIF}cef_parse_url{$IFDEF FPC}){$ENDIF}                       := GetProcAddress(FLibHandle, 'cef_parse_url');
   {$IFDEF FPC}Pointer({$ENDIF}cef_create_url{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_create_url');
   {$IFDEF FPC}Pointer({$ENDIF}cef_format_url_for_security_display{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_format_url_for_security_display');
@@ -2799,8 +2633,7 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_parse_jsonand_return_error{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_parse_jsonand_return_error');
   {$IFDEF FPC}Pointer({$ENDIF}cef_write_json{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_write_json');
 
-  Result := assigned(cef_resolve_url) and
-            assigned(cef_parse_url) and
+  Result := assigned(cef_parse_url) and
             assigned(cef_create_url) and
             assigned(cef_format_url_for_security_display) and
             assigned(cef_get_mime_type) and
@@ -2820,13 +2653,6 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_get_path{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_get_path');
 
   Result := assigned(cef_get_path);
-end;
-
-function TCefApplicationCore.Load_cef_preference_capi_h : boolean;
-begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_preference_manager_get_global{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_preference_manager_get_global');
-
-  Result := assigned(cef_preference_manager_get_global);
 end;
 
 function TCefApplicationCore.Load_cef_print_settings_capi_h : boolean;
@@ -2886,15 +2712,6 @@ begin
   Result := assigned(cef_response_create);
 end;
 
-function TCefApplicationCore.Load_cef_scheme_capi_h : boolean;
-begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_register_scheme_handler_factory{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_register_scheme_handler_factory');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_clear_scheme_handler_factories{$IFDEF FPC}){$ENDIF}  := GetProcAddress(FLibHandle, 'cef_clear_scheme_handler_factories');
-
-  Result := assigned(cef_register_scheme_handler_factory) and
-            assigned(cef_clear_scheme_handler_factories);
-end;
-
 function TCefApplicationCore.Load_cef_server_capi_h : boolean;
 begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_server_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_server_create');
@@ -2902,11 +2719,13 @@ begin
   Result := assigned(cef_server_create);
 end;
 
-function TCefApplicationCore.Load_cef_shared_process_message_builder_capi_h : boolean;
+function TCefApplicationCore.Load_cef_scheme_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_shared_process_message_builder_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_shared_process_message_builder_create');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_register_scheme_handler_factory{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_register_scheme_handler_factory');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_clear_scheme_handler_factories{$IFDEF FPC}){$ENDIF}  := GetProcAddress(FLibHandle, 'cef_clear_scheme_handler_factories');
 
-  Result := assigned(cef_shared_process_message_builder_create);
+  Result := assigned(cef_register_scheme_handler_factory) and
+            assigned(cef_clear_scheme_handler_factories);
 end;
 
 function TCefApplicationCore.Load_cef_ssl_info_capi_h : boolean;
@@ -2988,7 +2807,6 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_v8value_create_array');
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array_buffer{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_v8value_create_array_buffer');
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_function{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_v8value_create_function');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_promise{$IFDEF FPC}){$ENDIF}        := GetProcAddress(FLibHandle, 'cef_v8value_create_promise');
   {$IFDEF FPC}Pointer({$ENDIF}cef_v8stack_trace_get_current{$IFDEF FPC}){$ENDIF}     := GetProcAddress(FLibHandle, 'cef_v8stack_trace_get_current');
   {$IFDEF FPC}Pointer({$ENDIF}cef_register_extension{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_register_extension');
 
@@ -3007,7 +2825,6 @@ begin
             assigned(cef_v8value_create_array) and
             assigned(cef_v8value_create_array_buffer) and
             assigned(cef_v8value_create_function) and
-            assigned(cef_v8value_create_promise) and
             assigned(cef_v8stack_trace_get_current) and
             assigned(cef_register_extension);
 end;
@@ -3030,6 +2847,21 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_waitable_event_create{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_waitable_event_create');
 
   Result := assigned(cef_waitable_event_create);
+end;
+
+function TCefApplicationCore.Load_cef_web_plugin_capi_h : boolean;
+begin
+  {$IFDEF FPC}Pointer({$ENDIF}cef_visit_web_plugin_info{$IFDEF FPC}){$ENDIF}          := GetProcAddress(FLibHandle, 'cef_visit_web_plugin_info');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_refresh_web_plugins{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_refresh_web_plugins');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_unregister_internal_web_plugin{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_unregister_internal_web_plugin');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_register_web_plugin_crash{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_register_web_plugin_crash');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_is_web_plugin_unstable{$IFDEF FPC}){$ENDIF}         := GetProcAddress(FLibHandle, 'cef_is_web_plugin_unstable');
+
+  Result := assigned(cef_visit_web_plugin_info) and
+            assigned(cef_refresh_web_plugins) and
+            assigned(cef_unregister_internal_web_plugin) and
+            assigned(cef_register_web_plugin_crash) and
+            assigned(cef_is_web_plugin_unstable);
 end;
 
 function TCefApplicationCore.Load_cef_xml_reader_capi_h : boolean;
@@ -3218,25 +3050,17 @@ end;
 
 function TCefApplicationCore.Load_cef_display_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_primary{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_display_get_primary');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_nearest_point{$IFDEF FPC}){$ENDIF}                := GetProcAddress(FLibHandle, 'cef_display_get_nearest_point');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_matching_bounds{$IFDEF FPC}){$ENDIF}              := GetProcAddress(FLibHandle, 'cef_display_get_matching_bounds');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_count{$IFDEF FPC}){$ENDIF}                        := GetProcAddress(FLibHandle, 'cef_display_get_count');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_alls{$IFDEF FPC}){$ENDIF}                         := GetProcAddress(FLibHandle, 'cef_display_get_alls');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_convert_screen_point_to_pixels{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_display_convert_screen_point_to_pixels');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_convert_screen_point_from_pixels{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_display_convert_screen_point_from_pixels');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_convert_screen_rect_to_pixels{$IFDEF FPC}){$ENDIF}    := GetProcAddress(FLibHandle, 'cef_display_convert_screen_rect_to_pixels');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_display_convert_screen_rect_from_pixels{$IFDEF FPC}){$ENDIF}  := GetProcAddress(FLibHandle, 'cef_display_convert_screen_rect_from_pixels');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_primary{$IFDEF FPC}){$ENDIF}         := GetProcAddress(FLibHandle, 'cef_display_get_primary');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_nearest_point{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_display_get_nearest_point');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_matching_bounds{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_display_get_matching_bounds');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_count{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_display_get_count');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_display_get_alls{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_display_get_alls');
 
   Result := assigned(cef_display_get_primary) and
             assigned(cef_display_get_nearest_point) and
             assigned(cef_display_get_matching_bounds) and
             assigned(cef_display_get_count) and
-            assigned(cef_display_get_alls) and
-            assigned(cef_display_convert_screen_point_to_pixels) and
-            assigned(cef_display_convert_screen_point_from_pixels) and
-            assigned(cef_display_convert_screen_rect_to_pixels) and
-            assigned(cef_display_convert_screen_rect_from_pixels);
+            assigned(cef_display_get_alls);
 end;
 
 function TCefApplicationCore.Load_cef_label_button_capi_h : boolean;
@@ -3292,29 +3116,6 @@ begin
   {$ENDIF}
 end;
 
-function TCefApplicationCore.Load_cef_time_h : boolean;
-begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_to_timet{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_time_to_timet');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_from_timet{$IFDEF FPC}){$ENDIF}    := GetProcAddress(FLibHandle, 'cef_time_from_timet');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_to_doublet{$IFDEF FPC}){$ENDIF}    := GetProcAddress(FLibHandle, 'cef_time_to_doublet');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_from_doublet{$IFDEF FPC}){$ENDIF}  := GetProcAddress(FLibHandle, 'cef_time_from_doublet');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_now{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_time_now');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_delta{$IFDEF FPC}){$ENDIF}         := GetProcAddress(FLibHandle, 'cef_time_delta');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_basetime_now{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_basetime_now');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_to_basetime{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_time_to_basetime');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_time_from_basetime{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_time_from_basetime');
-
-
-  Result := assigned(cef_time_to_timet) and
-            assigned(cef_time_from_timet) and
-            assigned(cef_time_to_doublet) and
-            assigned(cef_time_from_doublet) and
-            assigned(cef_time_now) and
-            assigned(cef_time_delta) and
-            assigned(cef_basetime_now) and
-            assigned(cef_time_to_basetime) and
-            assigned(cef_time_from_basetime);
-end;
 
 // TCEFDirectoryDeleterThread
 

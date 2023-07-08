@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,53 +35,42 @@
  *
  *)
 
- unit uCEFMediaAccessCallback;
+unit CEF4Delphi_FMX_Register;
 
-{$IFDEF FPC}
-  {$MODE OBJFPC}{$H+}
-{$ENDIF}
+{$R res\chromium.dcr}
 
 {$I cef.inc}
 
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
-
 interface
 
-uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
-
-type
-  TCefMediaAccessCallbackRef = class(TCefBaseRefCountedRef, ICefMediaAccessCallback)
-    protected
-      procedure cont(allowed_permissions: TCefMediaAccessPermissionTypes);
-      procedure cancel;
-
-    public
-      class function UnWrap(data: Pointer): ICefMediaAccessCallback;
-  end;
+procedure Register;
 
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  System.Classes,
+  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
+  uCEFWorkScheduler, uCEFFMXBufferPanel, uCEFFMXChromium, uCEFFMXWorkScheduler,
+  uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent,
+  uCEFSentinel, uCEFBrowserViewComponent, uCEFLabelButtonComponent,
+  uCEFMenuButtonComponent, uCEFPanelComponent, uCEFTextfieldComponent,
+  uCEFScrollViewComponent, uCEFWindowComponent;
 
-procedure TCefMediaAccessCallbackRef.cont(allowed_permissions: TCefMediaAccessPermissionTypes);
+procedure Register;
 begin
-  PCefMediaAccessCallback(FData)^.cont(PCefMediaAccessCallback(FData), allowed_permissions);
-end;
+  RegisterComponents('Chromium',
+                     [TChromium, TCEFWindowParent, TChromiumWindow,
+                      TBufferPanel, TFMXBufferPanel, TFMXChromium,
+                      TFMXWorkScheduler, TCEFWorkScheduler,
+                      TCEFServerComponent, TCEFLinkedWindowParent,
+                      TCEFUrlRequestClientComponent,
+                      TCEFSentinel]);
 
-procedure TCefMediaAccessCallbackRef.cancel;
-begin
-  PCefMediaAccessCallback(FData)^.cancel(PCefMediaAccessCallback(FData));
-end;
-
-class function TCefMediaAccessCallbackRef.UnWrap(data: Pointer): ICefMediaAccessCallback;
-begin
-  if (data <> nil) then
-    Result := Create(data) as ICefMediaAccessCallback
-   else
-    Result := nil;
+  RegisterComponents('Chromium Views Framework',
+                     [TCEFBrowserViewComponent, TCEFLabelButtonComponent,
+                      TCEFMenuButtonComponent, TCEFPanelComponent,
+                      TCEFTextfieldComponent, TCEFScrollViewComponent,
+                      TCEFWindowComponent]);
 end;
 
 end.

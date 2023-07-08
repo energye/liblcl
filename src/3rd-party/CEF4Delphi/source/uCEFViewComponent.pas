@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFViewComponent;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -70,7 +70,6 @@ type
       FOnParentViewChanged       : TOnParentViewChangedEvent;
       FOnChildViewChanged        : TOnChildViewChangedEvent;
       FOnWindowChanged           : TOnWindowChangedEvent;
-      FOnLayoutChanged           : TOnLayoutChangedEvent;
       FOnFocus                   : TOnFocusEvent;
       FOnBlur                    : TOnBlurEvent;
 
@@ -127,7 +126,6 @@ type
       procedure doOnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); virtual;
       procedure doOnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); virtual;
       procedure doOnWindowChanged(const view: ICefView; added: boolean); virtual;
-      procedure doOnLayoutChanged(const view: ICefView; new_bounds: TCefRect); virtual;
       procedure doOnFocus(const view: ICefView); virtual;
       procedure doOnBlur(const view: ICefView); virtual;
       procedure doCreateCustomView; virtual;
@@ -188,7 +186,6 @@ type
       property OnParentViewChanged            : TOnParentViewChangedEvent  read FOnParentViewChanged           write FOnParentViewChanged;
       property OnChildViewChanged             : TOnChildViewChangedEvent   read FOnChildViewChanged            write FOnChildViewChanged;
       property OnWindowChanged                : TOnWindowChangedEvent      read FOnWindowChanged               write FOnWindowChanged;
-      property OnLayoutChanged                : TOnLayoutChangedEvent      read FOnLayoutChanged               write FOnLayoutChanged;
       property OnFocus                        : TOnFocusEvent              read FOnFocus                       write FOnFocus;
       property OnBlur                         : TOnBlurEvent               read FOnBlur                        write FOnBlur;
   end;
@@ -248,7 +245,6 @@ begin
   FOnParentViewChanged := nil;
   FOnChildViewChanged  := nil;
   FOnWindowChanged     := nil;
-  FOnLayoutChanged     := nil;
   FOnFocus             := nil;
   FOnBlur              := nil;
 end;
@@ -707,12 +703,6 @@ procedure TCEFViewComponent.doOnWindowChanged(const view  : ICefView;
 begin
   if assigned(FOnWindowChanged) then
     FOnWindowChanged(self, view, added);
-end;
-
-procedure TCEFViewComponent.doOnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
-begin
-  if assigned(FOnLayoutChanged) then
-    FOnLayoutChanged(self, view, new_bounds);
 end;
 
 procedure TCEFViewComponent.doOnFocus(const view: ICefView);

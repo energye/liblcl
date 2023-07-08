@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFProcessMessage;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -59,7 +59,6 @@ type
       function Copy: ICefProcessMessage;
       function GetName: ustring;
       function GetArgumentList: ICefListValue;
-      function GetSharedMemoryRegion: ICefSharedMemoryRegion;
 
     public
       class function UnWrap(data: Pointer): ICefProcessMessage;
@@ -69,7 +68,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFListValue, uCEFSharedMemoryRegion;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFListValue;
 
 function TCefProcessMessageRef.Copy: ICefProcessMessage;
 begin
@@ -79,11 +78,6 @@ end;
 function TCefProcessMessageRef.GetArgumentList: ICefListValue;
 begin
   Result := TCefListValueRef.UnWrap(PCefProcessMessage(FData)^.get_argument_list(PCefProcessMessage(FData)));
-end;
-
-function TCefProcessMessageRef.GetSharedMemoryRegion: ICefSharedMemoryRegion;
-begin
-  Result := TCefSharedMemoryRegionRef.UnWrap(PCefProcessMessage(FData)^.get_shared_memory_region(PCefProcessMessage(FData)));
 end;
 
 function TCefProcessMessageRef.GetName: ustring;

@@ -24,20 +24,20 @@ type
     constructor Create;
     destructor Destroy; override;
   protected
-    procedure OnFileDialogDismissed(const filePaths: TStrings); override;
+    procedure OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings); override;
 
   end;
 
 implementation
 
-procedure TRunFileDialogCallbackRef.OnFileDialogDismissed(const filePaths: TStrings);
+procedure TRunFileDialogCallbackRef.OnFileDialogDismissed(selectedAcceptFilter: Integer; const filePaths: TStrings);
 begin
   if (FileDialogDismissedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(FileDialogDismissedPtr, [filePaths]);
   end
   else
-    inherited OnFileDialogDismissed(filePaths);
+    inherited OnFileDialogDismissed(selectedAcceptFilter, filePaths);
 end;
 
 constructor TRunFileDialogCallbackRef.Create;

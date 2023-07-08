@@ -419,9 +419,6 @@ end;
 
 procedure  ViewComponent_SetOnLayoutChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ViewComponent_OnLayoutChanged}
-  {$DEFINE EventName := OnLayoutChanged}
-  EventMethodCode
 end;
 
 procedure  ViewComponent_SetOnFocus(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;

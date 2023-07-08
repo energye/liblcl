@@ -21,10 +21,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefClient_GetCommandHandler(const TObj: ICefClient; var aHandler: ICefCommandHandler); extdecl;
+procedure CefClient_GetCommandHandler(const TObj: ICefClient; var aHandler: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetCommandHandler(aHandler);
+  aHandler := nil;
   handleExceptionEnd
 end;
 
@@ -84,10 +84,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefClient_GetPermissionHandler(const TObj: ICefClient; var aHandler: ICefPermissionHandler); extdecl;
+procedure CefClient_GetPermissionHandler(const TObj: ICefClient; var aHandler: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetPermissionHandler(aHandler);
+  aHandler := nil;
   handleExceptionEnd
 end;
 

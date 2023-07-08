@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -48,16 +48,16 @@ uses
   System.SyncObjs,
   {$ENDIF}
   System.Classes, System.UIConsts, System.Types, System.UITypes,
-  {$IFDEF DELPHI19_UP}
+  {$IFDEF DELPHI17_UP}
   FMX.Graphics,
   {$ENDIF}
   FMX.Types, FMX.Controls, FMX.Forms,
-  uCEFTypes, uCEFConstants;
+  uCEFTypes;
 
 type
   TDialogKeyEvent = procedure(Sender: TObject; var Key: Word; Shift: TShiftState) of object;
 
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TFMXBufferPanel = class(TControl)
     protected
       {$IFDEF MSWINDOWS}
@@ -123,6 +123,7 @@ type
       property HighSpeedDrawing : boolean            read FHighSpeedDrawing write FHighSpeedDrawing default True;
 
       {$IFDEF DELPHI17_UP}
+      property TabStop;
       property CanFocus;
       property CanParentFocus;
       property Height;
@@ -134,12 +135,7 @@ type
       property RotationAngle;
       property RotationCenter;
       property Scale;
-      {$ENDIF}
-      {$IFDEF DELPHI18_UP}
-      property TabStop;
       property Size;
-      {$ENDIF}
-      {$IFDEF DELPHI25_UP}
       property OnResized;
       {$ENDIF}
       {$IFNDEF DELPHI23_UP}
@@ -166,7 +162,7 @@ implementation
 
 uses
   System.SysUtils, System.Math,
-  {$IFDEF MSWINDOWS}{$IFDEF DELPHI24_UP}FMX.Helpers.Win,{$ENDIF}{$ENDIF}
+  {$IFDEF MSWINDOWS}FMX.Helpers.Win,{$ENDIF}
   FMX.Platform, {$IFDEF MACOS}FMX.Platform.Mac,{$ENDIF}
   uCEFMiscFunctions, uCEFApplicationCore;
 
@@ -417,12 +413,9 @@ begin
   {$ENDIF}
 
   {$IFDEF LINUX}
-  if (Screen.DisplayCount = 1) then
-    aResultScale := Screen.Displays[0].Scale
-   else
-    aResultScale := Screen.DisplayFromForm(GetParentForm).Scale;
-
-  Result := True;
+  // TODO: Get the scale of the screen where the parent form is located in FMXLinux
+  Result       := False;
+  aResultScale := 1;
   {$ENDIF}
 
   {$IFDEF MACOS}
@@ -475,27 +468,21 @@ begin
 end;
 
 function TFMXBufferPanel.UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
-{$IFDEF DELPHI18_UP}
 var
   TempScale : single;
-{$ENDIF}
 begin
   Result    := False;
-  {$IFDEF DELPHI18_UP}
   TempScale := ScreenScale;
-  {$ENDIF}
 
   if ((FBuffer             =  nil)       or
-      {$IFDEF DELPHI18_UP}
       (FBuffer.BitmapScale <> TempScale) or
-      {$ENDIF}
       (FBuffer.Width       <> aWidth)    or
       (FBuffer.Height      <> aHeight))  then
     begin
       if (FBuffer <> nil) then FreeAndNil(FBuffer);
 
       FBuffer             := TBitmap.Create(aWidth, aHeight);
-      {$IFDEF DELPHI18_UP}
+      {$IFDEF DELPHI17_UP}
       FBuffer.BitmapScale := TempScale;
       FScanlineSize       := FBuffer.BytesPerLine;
       {$ELSE}
@@ -519,9 +506,7 @@ begin
       TempHeight := round(Height * TempScale);
 
       Result := (FBuffer <> nil) and
-                {$IFDEF DELPHI18_UP}
                 (FBuffer.BitmapScale = TempScale) and
-                {$ENDIF}
                 (FBuffer.Width       = TempWidth) and
                 (FBuffer.Height      = TempHeight);
 

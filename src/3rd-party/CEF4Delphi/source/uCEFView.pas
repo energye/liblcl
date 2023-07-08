@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFView;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -84,8 +84,6 @@ type
       function  GetSize : TCefSize;
       procedure SetPosition(const position_: TCefPoint);
       function  GetPosition : TCefPoint;
-      procedure SetInsets(const insets: TCefInsets);
-      function  GetInsets: TCefInsets;
       function  GetPreferredSize : TCefSize;
       procedure SizeToPreferredSize;
       function  GetMinimumSize : TCefSize;
@@ -243,16 +241,6 @@ end;
 function TCefViewRef.GetPosition : TCefPoint;
 begin
   Result := PCefView(FData)^.get_position(PCefView(FData));
-end;
-
-procedure TCefViewRef.SetInsets(const insets: TCefInsets);
-begin
-  PCefView(FData)^.set_insets(PCefView(FData), @insets);
-end;
-
-function TCefViewRef.GetInsets: TCefInsets;
-begin
-  Result := PCefView(FData)^.get_insets(PCefView(FData));
 end;
 
 function TCefViewRef.GetPreferredSize : TCefSize;

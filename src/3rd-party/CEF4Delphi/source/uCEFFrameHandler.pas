@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFFrameHandler;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -55,7 +55,7 @@ type
   TCefFrameHandlerOwn = class(TCefBaseRefCountedOwn, ICefFrameHandler)
     protected
       procedure OnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame); virtual;
-      procedure OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean); virtual;
+      procedure OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame); virtual;
       procedure OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame); virtual;
       procedure OnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame); virtual;
 
@@ -70,7 +70,7 @@ type
       FEvents : Pointer;
 
       procedure OnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame); override;
-      procedure OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean); override;
+      procedure OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame); override;
       procedure OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame); override;
       procedure OnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame); override;
 
@@ -105,7 +105,7 @@ begin
                                                    TCefFrameRef.UnWrap(frame));
 end;
 
-procedure cef_frame_handler_on_frame_attached(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame; reattached: integer); stdcall;
+procedure cef_frame_handler_on_frame_attached(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
 var
   TempObject : TObject;
 begin
@@ -113,8 +113,7 @@ begin
 
   if (TempObject <> nil) and (TempObject is TCefFrameHandlerOwn) then
     TCefFrameHandlerOwn(TempObject).OnFrameAttached(TCefBrowserRef.UnWrap(browser),
-                                                    TCefFrameRef.UnWrap(frame),
-                                                    reattached <> 0);
+                                                    TCefFrameRef.UnWrap(frame));
 end;
 
 procedure cef_frame_handler_on_frame_detached(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
@@ -158,7 +157,7 @@ begin
   //
 end;
 
-procedure TCefFrameHandlerOwn.OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
+procedure TCefFrameHandlerOwn.OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame);
 begin
   //
 end;
@@ -206,10 +205,10 @@ begin
     IChromiumEvents(FEvents).doOnFrameCreated(browser, frame);
 end;
 
-procedure TCustomFrameHandler.OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
+procedure TCustomFrameHandler.OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame);
 begin
   if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnFrameAttached(browser, frame, reattached);
+    IChromiumEvents(FEvents).doOnFrameAttached(browser, frame);
 end;
 
 procedure TCustomFrameHandler.OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);

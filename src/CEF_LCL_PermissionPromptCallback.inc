@@ -4,11 +4,8 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefPermissionPromptCallback_Cont(const AObj: ICefPermissionPromptCallback; result: TCefPermissionRequestResult); extdecl;
+procedure CefPermissionPromptCallback_Cont(const AObj: Pointer; result: Pointer); extdecl;
 begin
-  handleExceptionBegin
-  AObj.cont(result);
-  handleExceptionEnd
 end;
 
 exports

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFDragData;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -81,7 +81,6 @@ type
     procedure SetFragmentBaseUrl(const baseUrl: ustring);
     procedure ResetFileContents;
     procedure AddFile(const path, displayName: ustring);
-    procedure ClearFilenames;
     function  GetImage : ICefImage;
     function  GetImageHotspot : TCefPoint;
     function  HasImage : boolean;
@@ -102,11 +101,6 @@ begin
   TempPath := CefString(path);
   TempName := CefString(displayName);
   PCefDragData(FData)^.add_file(FData, @TempPath, @TempName);
-end;
-
-procedure TCefDragDataRef.ClearFilenames;
-begin
-  PCefDragData(FData)^.clear_filenames(FData);
 end;
 
 function TCefDragDataRef.GetImage : ICefImage;

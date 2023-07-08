@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,42 +35,42 @@
  *
  *)
 
-unit uCEFPreferenceRegistrar;
+unit CEF4Delphi_Register;
 
-{$IFDEF FPC}
-  {$MODE OBJFPC}{$H+}
-{$ENDIF}
+{$R res\chromium.dcr}
 
 {$I cef.inc}
 
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
-
 interface
 
-uses
-  uCEFBaseScopedWrapper, uCEFTypes, uCEFInterfaces;
-
-type
-  TCefPreferenceRegistrarRef = class(TCEFBaseScopedWrapperRef)
-    public
-      function AddPreference(const name: ustring; const default_value: ICefValue): Boolean;
-  end;
+procedure Register;
 
 implementation
 
 uses
-  uCEFMiscFunctions;
+  {$IFDEF DELPHI16_UP}
+  System.Classes,
+  {$ELSE}
+  Classes,
+  {$ENDIF}
+  uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
+  uCEFWorkScheduler, uCEFServerComponent, uCEFLinkedWindowParent,
+  uCEFUrlRequestClientComponent, uCEFSentinel, uCEFBrowserViewComponent, 
+  uCEFLabelButtonComponent, uCEFMenuButtonComponent, uCEFPanelComponent, 
+  uCEFTextfieldComponent, uCEFScrollViewComponent, uCEFWindowComponent;
 
-function TCefPreferenceRegistrarRef.AddPreference(const name          : ustring;
-                                                  const default_value : ICefValue): Boolean;
-var
-  TempName : TCefString;
+procedure Register;
 begin
-  TempName := CefString(name);
-  Result   := PCefPreferenceRegistrar(FData)^.add_preference(PCefPreferenceRegistrar(FData),
-                                                             @TempName,
-                                                             CefGetData(default_value)) <> 0;
+  RegisterComponents('Chromium', [TChromium, TCEFWindowParent, TChromiumWindow,
+                                  TBufferPanel, TCEFWorkScheduler,
+                                  TCEFServerComponent, TCEFLinkedWindowParent,
+                        	  TCEFUrlRequestClientComponent, TCEFSentinel]);
+
+  RegisterComponents('Chromium Views Framework',
+                     [TCEFBrowserViewComponent, TCEFLabelButtonComponent,
+                      TCEFMenuButtonComponent, TCEFPanelComponent,
+                      TCEFTextfieldComponent, TCEFScrollViewComponent,
+                      TCEFWindowComponent]);
 end;
 
 end.

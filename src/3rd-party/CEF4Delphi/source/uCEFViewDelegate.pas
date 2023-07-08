@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFViewDelegate;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -66,7 +66,6 @@ type
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
       procedure OnWindowChanged(const view: ICefView; added: boolean);
-      procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
       procedure OnFocus(const view: ICefView);
       procedure OnBlur(const view: ICefView);
 
@@ -83,7 +82,6 @@ type
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); virtual;
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); virtual;
       procedure OnWindowChanged(const view: ICefView; added: boolean); virtual;
-      procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); virtual;
       procedure OnFocus(const view: ICefView); virtual;
       procedure OnBlur(const view: ICefView); virtual;
 
@@ -103,7 +101,6 @@ type
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
       procedure OnWindowChanged(const view: ICefView; added: boolean); override;
-      procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
 
@@ -165,13 +162,6 @@ begin
   PCefViewDelegate(FData)^.on_window_changed(PCefViewDelegate(FData),
                                              CefGetData(view),
                                              ord(added));
-end;
-
-procedure TCefViewDelegateRef.OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
-begin
-  PCefViewDelegate(FData)^.on_layout_changed(PCefViewDelegate(FData),
-                                             CefGetData(view),
-                                             @new_bounds);
 end;
 
 procedure TCefViewDelegateRef.OnFocus(const view: ICefView);
@@ -302,17 +292,6 @@ begin
                                                     added <> 0);
 end;
 
-procedure cef_view_delegate_on_layout_changed(self: PCefViewDelegate; view: PCefView; const new_bounds: PCefRect); stdcall;
-var
-  TempObject : TObject;
-begin
-  TempObject := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefViewDelegateOwn) then
-    TCefViewDelegateOwn(TempObject).OnLayoutChanged(TCefViewRef.UnWrap(view),
-                                                    new_bounds^);
-end;
-
 procedure cef_view_delegate_on_focus(self: PCefViewDelegate; view: PCefView); stdcall;
 var
   TempObject : TObject;
@@ -348,7 +327,7 @@ begin
       // https://github.com/salvadordf/CEF4Delphi/issues/278
       // The TCefRect return type seems to be messing the stack and the other parameters
       // are assigned wrong addresses.
-      {$IFDEF TARGET_64BITS}
+      {$IFDEF CPUX64}
       get_preferred_size      := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_get_preferred_size;
       get_minimum_size        := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_get_minimum_size;
       get_maximum_size        := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_get_maximum_size;
@@ -361,7 +340,6 @@ begin
       on_parent_view_changed  := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_parent_view_changed;
       on_child_view_changed   := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_child_view_changed;
       on_window_changed       := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_window_changed;
-      on_layout_changed       := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_layout_changed;
       on_focus                := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_focus;
       on_blur                 := {$IFDEF FPC}@{$ENDIF}cef_view_delegate_on_blur;
     end;
@@ -398,11 +376,6 @@ begin
 end;
 
 procedure TCefViewDelegateOwn.OnWindowChanged(const view: ICefView; added: boolean);
-begin
-  //
-end;
-
-procedure TCefViewDelegateOwn.OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
 begin
   //
 end;
@@ -510,17 +483,6 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomViewDelegate.OnWindowChanged', e) then raise;
-  end;
-end;
-
-procedure TCustomViewDelegate.OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
-begin
-  try
-    if (FEvents <> nil) then
-      ICefViewDelegateEvents(FEvents).doOnLayoutChanged(view, new_bounds);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomViewDelegate.OnLayoutChanged', e) then raise;
   end;
 end;
 

@@ -8,7 +8,7 @@ procedure FileDialogCallback_Cont(const TObj: ICefFileDialogCallback; const file
 begin
   handleExceptionBegin
   // TCefEventFlags
-  TObj.Cont(filePaths);
+  TObj.Cont(filePaths.Count, filePaths);
   handleExceptionEnd
 end;
 

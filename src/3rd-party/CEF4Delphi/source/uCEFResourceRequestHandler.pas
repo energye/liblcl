@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFResourceRequestHandler;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -55,7 +55,7 @@ type
   TCefResourceRequestHandlerRef = class(TCefBaseRefCountedRef, ICefResourceRequestHandler)
     protected
       procedure GetCookieAccessFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aFilter: ICefCookieAccessFilter);
-      function  OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback): TCefReturnValue;
+      function  OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback): TCefReturnValue;
       procedure GetResourceHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aResourceHandler : ICefResourceHandler);
       procedure OnResourceRedirect(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var newUrl: ustring);
       function  OnResourceResponse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): Boolean;
@@ -71,7 +71,7 @@ type
   TCefResourceRequestHandlerOwn = class(TCefBaseRefCountedOwn, ICefResourceRequestHandler)
     protected
       procedure GetCookieAccessFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aFilter: ICefCookieAccessFilter); virtual;
-      function  OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback): TCefReturnValue; virtual;
+      function  OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback): TCefReturnValue; virtual;
       procedure GetResourceHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aResourceHandler : ICefResourceHandler); virtual;
       procedure OnResourceRedirect(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var newUrl: ustring); virtual;
       function  OnResourceResponse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): Boolean; virtual;
@@ -91,7 +91,7 @@ type
       FCookieAccessFilter : ICefCookieAccessFilter;
 
       procedure GetCookieAccessFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aFilter: ICefCookieAccessFilter); override;
-      function  OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback): TCefReturnValue; override;
+      function  OnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback): TCefReturnValue; override;
       procedure GetResourceHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var aResourceHandler : ICefResourceHandler);  override;
       procedure OnResourceRedirect(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; var newUrl: ustring); override;
       function  OnResourceResponse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): Boolean; override;
@@ -115,7 +115,7 @@ uses
   {$ELSE}
   SysUtils,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFCallback,
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFFrame, uCEFRequest, uCEFRequestCallback,
   uCEFResponse, uCEFResponseFilter, uCEFCookieAccessFilter, uCEFResourceHandler;
 
 
@@ -149,7 +149,7 @@ function cef_resource_request_handler_on_before_resource_load(self     : PCefRes
                                                               browser  : PCefBrowser;
                                                               frame    : PCefFrame;
                                                               request  : PCefRequest;
-                                                              callback : PCefCallback): TCefReturnValue; stdcall;
+                                                              callback : PCefRequestCallback): TCefReturnValue; stdcall;
 var
   TempObject : TObject;
 begin
@@ -160,7 +160,7 @@ begin
     Result := TCefResourceRequestHandlerOwn(TempObject).OnBeforeResourceLoad(TCefBrowserRef.UnWrap(browser),
                                                                              TCefFrameRef.UnWrap(frame),
                                                                              TCefRequestRef.UnWrap(request),
-                                                                             TCefCallbackRef.UnWrap(callback));
+                                                                             TcefRequestCallbackRef.UnWrap(callback));
 end;
 
 function cef_resource_request_handler_get_resource_handler(self    : PCefResourceRequestHandler;
@@ -325,7 +325,7 @@ end;
 function TCefResourceRequestHandlerOwn.OnBeforeResourceLoad(const browser  : ICefBrowser;
                                                             const frame    : ICefFrame;
                                                             const request  : ICefRequest;
-                                                            const callback : ICefCallback): TCefReturnValue;
+                                                            const callback : ICefRequestCallback): TCefReturnValue;
 begin
   Result := RV_CONTINUE;
 end;
@@ -419,7 +419,7 @@ end;
 function TCefResourceRequestHandlerRef.OnBeforeResourceLoad(const browser  : ICefBrowser;
                                                             const frame    : ICefFrame;
                                                             const request  : ICefRequest;
-                                                            const callback : ICefCallback): TCefReturnValue;
+                                                            const callback : ICefRequestCallback): TCefReturnValue;
 begin
   Result := PCefResourceRequestHandler(FData)^.on_before_resource_load(PCefResourceRequestHandler(FData),
                                                                        CefGetData(browser),
@@ -582,7 +582,7 @@ end;
 function TCustomResourceRequestHandler.OnBeforeResourceLoad(const browser  : ICefBrowser;
                                                             const frame    : ICefFrame;
                                                             const request  : ICefRequest;
-                                                            const callback : ICefCallback): TCefReturnValue;
+                                                            const callback : ICefRequestCallback): TCefReturnValue;
 begin
   Result := RV_CONTINUE;
 

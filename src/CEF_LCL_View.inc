@@ -182,14 +182,12 @@ end;
 procedure View_SetInsets(const AObj: ICefView; const insets: TCefInsets); extdecl;
 begin
   handleExceptionBegin
-  AObj.SetInsets(insets);
   handleExceptionEnd
 end;
 
 procedure  View_GetInsets(const AObj: ICefView; out Result: TCefInsets); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.GetInsets;
   handleExceptionEnd
 end;
 

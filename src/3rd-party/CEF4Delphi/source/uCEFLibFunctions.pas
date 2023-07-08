@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFLibFunctions;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -80,6 +80,8 @@ var
   cef_do_message_loop_work   : procedure; cdecl;
   cef_run_message_loop       : procedure; cdecl;
   cef_quit_message_loop      : procedure; cdecl;
+  cef_set_osmodal_loop       : procedure(osModalLoop: Integer); cdecl;
+  cef_enable_highdpi_support : procedure; cdecl;
 
   // /include/capi/cef_browser_capi.h
   cef_browser_host_create_browser      : function(const windowInfo: PCefWindowInfo; client: PCefClient; const url: PCefString; const settings: PCefBrowserSettings; extra_info: PCefDictionaryValue; request_context: PCefRequestContext): Integer; cdecl;
@@ -109,9 +111,6 @@ var
   cef_zip_directory                      : function(const src_dir, dest_file : PCefString; include_hidden_files : integer): Integer; cdecl;
   cef_load_crlsets_file                  : procedure(const path : PCefString); cdecl;
 
-  // / include/capi/cef_i18n_util_capi.h
-  cef_is_rtl                             : function : Integer; cdecl;
-
   // /include/capi/cef_image_capi.h
   cef_image_create : function : PCefImage; cdecl;
 
@@ -127,7 +126,6 @@ var
   cef_clear_cross_origin_whitelist        : function : Integer; cdecl;
 
   // /include/capi/cef_parser_capi.h
-  cef_resolve_url                     : function(const base_url, relative_url: PCefString; resolved_url: PCefString): Integer; cdecl;
   cef_parse_url                       : function(const url: PCefString; var parts: TCefUrlParts): Integer; cdecl;
   cef_create_url                      : function(const parts: PCefUrlParts; url: PCefString): Integer; cdecl;
   cef_format_url_for_security_display : function(const origin_url: PCefString): PCefStringUserFree; cdecl;
@@ -144,9 +142,6 @@ var
 
   // /include/capi/cef_path_util_capi.h
   cef_get_path : function(key: TCefPathKey; path: PCefString): Integer; cdecl;
-
-  // /include/capi/cef_preference_capi.h
-  cef_preference_manager_get_global : function : PCefPreferenceManager; cdecl;
 
   // /include/capi/cef_print_settings_capi.h
   cef_print_settings_create : function : PCefPrintSettings; cdecl;
@@ -179,9 +174,6 @@ var
 
   // /include/capi/cef_server_capi.h
   cef_server_create : procedure(const address: PCefString; port: uint16; backlog: Integer; handler: PCefServerHandler); cdecl;
-
-  // /include/capi/cef_shared_process_message_builder_capi.h
-  cef_shared_process_message_builder_create : function(const name: PCefString; byte_size: NativeUInt) : PCefSharedProcessMessageBuilder; cdecl;
 
   // /include/capi/cef_ssl_info_capi.h
   cef_is_cert_status_error       : function(status : TCefCertStatus) : integer; cdecl;
@@ -221,13 +213,12 @@ var
   cef_v8value_create_int            : function(value: Integer): PCefv8Value; cdecl;
   cef_v8value_create_uint           : function(value: Cardinal): PCefv8Value; cdecl;
   cef_v8value_create_double         : function(value: Double): PCefv8Value; cdecl;
-  cef_v8value_create_date           : function(value: TCefBaseTime): PCefv8Value; cdecl;
+  cef_v8value_create_date           : function(const value: PCefTime): PCefv8Value; cdecl;
   cef_v8value_create_string         : function(const value: PCefString): PCefv8Value; cdecl;
   cef_v8value_create_object         : function(accessor: PCefV8Accessor; interceptor: PCefV8Interceptor): PCefv8Value; cdecl;
   cef_v8value_create_array          : function(length: Integer): PCefv8Value; cdecl;
   cef_v8value_create_array_buffer   : function(buffer : Pointer; length: NativeUInt; release_callback : PCefv8ArrayBufferReleaseCallback): PCefv8Value; cdecl;
   cef_v8value_create_function       : function(const name: PCefString; handler: PCefv8Handler): PCefv8Value; cdecl;
-  cef_v8value_create_promise        : function : PCefv8Value; cdecl;
   cef_v8stack_trace_get_current     : function(frame_limit: Integer): PCefV8StackTrace; cdecl;
   cef_register_extension            : function(const extension_name, javascript_code: PCefString; handler: PCefv8Handler): Integer; cdecl;
 
@@ -239,6 +230,13 @@ var
 
   // /include/capi/cef_waitable_event_capi.h
   cef_waitable_event_create : function(automatic_reset, initially_signaled : integer): PCefWaitableEvent; cdecl;
+
+  // /include/capi/cef_web_plugin_capi.h
+  cef_visit_web_plugin_info          : procedure(visitor: PCefWebPluginInfoVisitor); cdecl;
+  cef_refresh_web_plugins            : procedure; cdecl;
+  cef_unregister_internal_web_plugin : procedure(const path: PCefString); cdecl;
+  cef_register_web_plugin_crash      : procedure(const path: PCefString); cdecl;
+  cef_is_web_plugin_unstable         : procedure(const path: PCefString; callback: PCefWebPluginUnstableCallback); cdecl;
 
   // /include/capi/cef_xml_reader_capi.h
   cef_xml_reader_create : function(stream: PCefStreamReader; encodingType: TCefXmlEncodingType; const URI: PCefString): PCefXmlReader; cdecl;
@@ -257,15 +255,11 @@ var
   cef_browser_view_get_for_browser : function(browser: PCefBrowser): PCefBrowserView; cdecl;
 
   // /include/capi/views/cef_display_capi.h
-  cef_display_get_primary                      : function : PCefDisplay; cdecl;
-  cef_display_get_nearest_point                : function(const point: PCefPoint; input_pixel_coords: Integer): PCefDisplay; cdecl;
-  cef_display_get_matching_bounds              : function(const bounds: PCefRect; input_pixel_coords: Integer): PCefDisplay; cdecl;
-  cef_display_get_count                        : function : NativeUInt; cdecl;
-  cef_display_get_alls                         : procedure(displaysCount: PNativeUInt; displays: PPCefDisplay); cdecl;
-  cef_display_convert_screen_point_to_pixels   : function(const point: PCefPoint): TCefPoint; cdecl;
-  cef_display_convert_screen_point_from_pixels : function(const point: PCefPoint): TCefPoint; cdecl;
-  cef_display_convert_screen_rect_to_pixels    : function(const rect: PCefRect): TCefRect; cdecl;
-  cef_display_convert_screen_rect_from_pixels  : function(const rect: PCefRect): TCefRect; cdecl;
+  cef_display_get_primary         : function : PCefDisplay; cdecl;
+  cef_display_get_nearest_point   : function(const point: PCefPoint; input_pixel_coords: Integer): PCefDisplay; cdecl;
+  cef_display_get_matching_bounds : function(const bounds: PCefRect; input_pixel_coords: Integer): PCefDisplay; cdecl;
+  cef_display_get_count           : function : NativeUInt; cdecl;
+  cef_display_get_alls            : procedure(displaysCount: PNativeUInt; displays: PPCefDisplay); cdecl;
 
   // /include/capi/views/cef_label_button_capi.h
   cef_label_button_create         : function(delegate: PCefButtonDelegate; const text: PCefString): PCefLabelButton; cdecl;
@@ -290,10 +284,6 @@ var
   // *********************************
   // *********** INTERNAL ************
   // *********************************
-
-  // /include/internal/cef_app_win.h
-  cef_set_osmodal_loop       : procedure(osModalLoop: Integer); cdecl;
-  cef_enable_highdpi_support : procedure; cdecl;
 
   // /include/internal/cef_logging_internal.h
   cef_get_min_log_level : function : Integer; cdecl;
@@ -360,17 +350,6 @@ var
   // /include/internal/cef_thread_internal.h
   cef_get_current_platform_thread_id     : function : TCefPlatformThreadId; cdecl;
   cef_get_current_platform_thread_handle : function : TCefPlatformThreadHandle; cdecl;
-
-  // /include/internal/cef_time.h
-  cef_time_to_timet         : function(const cef_time: PCefTime; out time_: Int64): integer; cdecl;
-  cef_time_from_timet       : function(time_: int64; out cef_time: TCefTime): integer; cdecl;
-  cef_time_to_doublet       : function(const cef_time: PCefTime; out time_: double): integer; cdecl;
-  cef_time_from_doublet     : function(time: double; out cef_time: TCefTime): integer; cdecl;
-  cef_time_now              : function(out cef_time: TCefTime): integer; cdecl;
-  cef_basetime_now          : function : TCefBaseTime; cdecl;
-  cef_time_delta            : function(const cef_time1, cef_time2: PCefTime; out delta: int64): integer; cdecl;
-  cef_time_to_basetime      : function(const from: PCefTime; to_: PCefBaseTime) : integer; cdecl;
-  cef_time_from_basetime    : function(const from: TCefBaseTime; to_: PCefTime) : integer; cdecl;
 
   // /include/internal/cef_trace_event_internal.h
   cef_trace_event_instant         : procedure(const category, name, arg1_name: PAnsiChar; arg1_val: uint64; const arg2_name: PAnsiChar; arg2_val: UInt64; copy: Integer); cdecl;

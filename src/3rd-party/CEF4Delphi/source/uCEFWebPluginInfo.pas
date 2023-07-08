@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,16 +35,16 @@
  *
  *)
 
-unit uCEFRunQuickMenuCallback;
+unit uCEFWebPluginInfo;
 
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -52,33 +52,46 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefRunQuickMenuCallbackRef = class(TCefBaseRefCountedRef, ICefRunQuickMenuCallback)
-  protected
-    procedure Cont(command_id: Integer; event_flags: TCefEventFlags);
-    procedure Cancel;
-  public
-    class function UnWrap(data: Pointer): ICefRunQuickMenuCallback;
+  TCefWebPluginInfoRef = class(TCefBaseRefCountedRef, ICefWebPluginInfo)
+    protected
+      function GetName: ustring;
+      function GetPath: ustring;
+      function GetVersion: ustring;
+      function GetDescription: ustring;
+
+    public
+      class function UnWrap(data: Pointer): ICefWebPluginInfo;
   end;
 
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions;
+  uCEFMiscFunctions;
 
-procedure TCefRunQuickMenuCallbackRef.Cont(command_id: Integer; event_flags: TCefEventFlags);
+function TCefWebPluginInfoRef.GetDescription: ustring;
 begin
-  PCefRunQuickMenuCallback(FData)^.cont(PCefRunQuickMenuCallback(FData), command_id, event_flags);
+  Result := CefStringFreeAndGet(PCefWebPluginInfo(FData)^.get_description(PCefWebPluginInfo(FData)));
 end;
 
-procedure TCefRunQuickMenuCallbackRef.Cancel;
+function TCefWebPluginInfoRef.GetName: ustring;
 begin
-  PCefRunQuickMenuCallback(FData)^.cancel(PCefRunQuickMenuCallback(FData));
+  Result := CefStringFreeAndGet(PCefWebPluginInfo(FData)^.get_name(PCefWebPluginInfo(FData)));
 end;
 
-class function TCefRunQuickMenuCallbackRef.UnWrap(data: Pointer): ICefRunQuickMenuCallback;
+function TCefWebPluginInfoRef.GetPath: ustring;
+begin
+  Result := CefStringFreeAndGet(PCefWebPluginInfo(FData)^.get_path(PCefWebPluginInfo(FData)));
+end;
+
+function TCefWebPluginInfoRef.GetVersion: ustring;
+begin
+  Result := CefStringFreeAndGet(PCefWebPluginInfo(FData)^.get_version(PCefWebPluginInfo(FData)));
+end;
+
+class function TCefWebPluginInfoRef.UnWrap(data: Pointer): ICefWebPluginInfo;
 begin
   if (data <> nil) then
-    Result := Create(data) as ICefRunQuickMenuCallback
+    Result := Create(data) as ICefWebPluginInfo
    else
     Result := nil;
 end;

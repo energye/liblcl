@@ -34,7 +34,7 @@ end;
 procedure  RequestContextRef_NewTwo(const aCache, aAcceptLanguageList, aCookieableSchemesList : PChar; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : LongBool; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefRequestContextRef.New(PCharToUStr(aCache), PCharToUStr(aAcceptLanguageList), PCharToUStr(aCookieableSchemesList), aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences, handler);
+  Result := TCefRequestContextRef.New(PCharToUStr(aCache), PCharToUStr(aAcceptLanguageList), PCharToUStr(aCookieableSchemesList), aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences, False, handler);
   handleExceptionEnd
 end;
 

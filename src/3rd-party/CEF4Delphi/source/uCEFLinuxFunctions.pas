@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,10 +41,10 @@ unit uCEFLinuxFunctions;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -52,8 +52,7 @@ uses
   {$IFDEF LINUX}
     {$IFDEF FPC}
       ctypes, keysym, xf86keysym, x, xlib,
-      {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}         
-      {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3objects, gtk3procs,{$ENDIF}
+      {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
     {$ENDIF}
   {$ENDIF}
   uCEFLinuxTypes, uCEFTypes;
@@ -65,7 +64,6 @@ function  GetCefStateModifiers(state : uint32) : integer;
 function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
 function  GetWindowsKeyCodeWithoutLocation(key_code : integer) : integer;
 function  GetControlCharacter(windows_key_code : integer; shift : boolean) : integer;
-
 {$IFDEF FMX}
 type
    TXErrorHandler   = function (para1:PDisplay; para2:PXErrorEvent):longint; cdecl;
@@ -84,11 +82,6 @@ function gdk_screen_get_default:PGdkScreen; cdecl; external 'libgdk-3.so';
 function gdk_screen_get_resolution(screen:PGdkScreen):gdouble; cdecl; external 'libgdk-3.so';
 {$ENDIF}
 {$IFDEF FPC}
-{$IFDEF LCLGTK3}
-function gdk_x11_window_get_xid(window: PGdkWindow): TWindow; cdecl; external Gdk3_library;
-function gdk_x11_get_default_xdisplay: PDisplay; cdecl; external Gdk3_library;
-procedure gdk_set_allowed_backends(const backends: PGchar); cdecl; external Gdk3_library;
-{$ENDIF}
 procedure ShowX11Message(const aMessage : string);
 {$ENDIF}{$ENDIF}
 

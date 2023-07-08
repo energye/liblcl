@@ -20,7 +20,7 @@ unit uCEF_LCL_Application;
 interface
 
 uses
-  SysUtils, Controls, uEventCallback, uCEF_LCL_EventCallback, uCEFSchemeRegistrar, uCEFPreferenceRegistrar,
+  SysUtils, Controls, uEventCallback, uCEF_LCL_EventCallback, uCEFSchemeRegistrar,
   uCEFWorkScheduler,
   uCEFInterfaces, uCEFv8Value, uCEFConstants, uCEFTypes,
   uCEF_LCL_Entity, uCEF_LCL_Event;
@@ -40,7 +40,6 @@ type
 procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 
 // ICefBrowserProcessHandler
-procedure GlobalCEFApp_OnRegisterCustomPreferences(type_: TCefPreferencesType; const registrar: TCefPreferenceRegistrarRef);
 procedure GlobalCEFApp_OnContextInitialized;
 procedure GlobalCEFApp_OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
 procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
@@ -115,19 +114,6 @@ end;
 procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
 begin
   TCEFEventCallback.SendEvent(OnRegCustomSchemes_DataPtr, [registrar]);
-end;
-
-// ICefBrowserProcessHandler
-procedure GlobalCEFApp_OnRegisterCustomPreferences(type_: TCefPreferencesType; const registrar: TCefPreferenceRegistrarRef);
-var
-  t: integer;
-begin
-  t := 0;
-  if type_ = TCefPreferencesType.CEF_PREFERENCES_TYPE_GLOBAL then
-     t := 0
-  else if type_ = TCefPreferencesType.CEF_PREFERENCES_TYPE_REQUEST_CONTEXT then
-     t := 1;
-  TCEFEventCallback.SendEvent(OnRegisterCustomPreferences_DataPtr, [t, registrar]);
 end;
 
 procedure GlobalCEFApp_OnContextInitialized;

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -92,7 +92,7 @@ type
       procedure GetCompositionInfo(imc : HIMC; aParam : LPARAM; var composition_text : ustring; var underlines : TCefCompositionUnderlineDynArray; var composition_start : integer);
       function  GetString(imc : HIMC; aParam : WParam; aType : integer; var aResult : ustring) : boolean;
       {$IFDEF MSWINDOWS}
-      function  IsSelectionAttribute(aAttribute : AnsiChar) : boolean;
+      function  IsSelectionAttribute(aAttribute : byte) : boolean;
       {$ENDIF}
       procedure GetCompositionSelectionRange(imc : HIMC; var target_start, target_end : integer);
       procedure GetCompositionUnderlines(imc : HIMC; target_start, target_end : integer; var underlines : TCefCompositionUnderlineDynArray);
@@ -124,12 +124,6 @@ type
       property    Initialized     : boolean   read GetInitialized;
 
   end;
-
-// Original Chromium source code :
-// https://source.chromium.org/chromium/chromium/src/+/main:ui/base/ime/win/imm32_manager.cc
-
-// Original CEF source code :
-// https://bitbucket.org/chromiumembedded/cef/src/master/tests/cefclient/browser/osr_ime_handler_win.cc
 
 implementation
 
@@ -215,7 +209,10 @@ procedure TCEFOSRIMEHandler.GetCompositionInfo(    imc               : HIMC;
                                                var underlines        : TCefCompositionUnderlineDynArray;
                                                var composition_start : integer);
 var
-  TempTargetStart, TempTargetEnd, TempLen, i : integer;
+  TempStart  : integer;
+  TempEnd    : integer;
+  TempLen    : integer;
+  i          : integer;
 begin
   if (underlines <> nil) then
     begin
@@ -223,13 +220,13 @@ begin
       underlines := nil;
     end;
 
-  TempLen         := length(composition_text);
-  TempTargetStart := TempLen;
-  TempTargetEnd   := TempLen;
+  TempLen   := length(composition_text);
+  TempStart := TempLen;
+  TempEnd   := TempLen;
 
   {$IFDEF MSWINDOWS}
   if ((aParam and GCS_COMPATTR) <> 0) then
-    GetCompositionSelectionRange(imc, TempTargetStart, TempTargetEnd);
+    GetCompositionSelectionRange(imc, TempStart, TempEnd);
 
   if ((aParam and CS_NOMOVECARET) = 0) and ((aParam and GCS_CURSORPOS) <> 0) then
     composition_start := ImmGetCompositionString(imc, GCS_CURSORPOS, nil, 0)
@@ -237,51 +234,51 @@ begin
     composition_start := 0;
 
   if ((aParam and GCS_COMPCLAUSE) <> 0) then
-    GetCompositionUnderlines(imc, TempTargetStart, TempTargetEnd, underlines);
+    GetCompositionUnderlines(imc, TempStart, TempEnd, underlines);
   {$ENDIF}
 
   if (underlines = nil) or (length(underlines) = 0) then
     begin
       i := 0;
 
-      if (TempTargetStart > 0)             then inc(i);
-      if (TempTargetEnd > TempTargetStart) then inc(i);
-      if (TempTargetEnd < TempLen)         then inc(i);
+      if (TempStart > 0)       then inc(i);
+      if (TempEnd > TempStart) then inc(i);
+      if (TempEnd < TempLen)   then inc(i);
 
       if (i > 0) then
         begin
           SetLength(underlines, i);
           i := 0;
 
-          if (TempTargetStart > 0) then
+          if (TempStart > 0) then
             begin
               underlines[i].color            := DEFAULT_BLINK_UNDERLINE_COLOR;
               underlines[i].background_color := DEFAULT_BLINK_BACKGROUND_COLOR;
               underlines[i].range.from       := 0;
-              underlines[i].range.to_        := TempTargetStart;
+              underlines[i].range.to_        := TempStart;
               underlines[i].thick            := 0;
               underlines[i].style            := DEFAULT_BLINK_UNDERLINE_STYLE;
 
               inc(i);
             end;
 
-          if (TempTargetEnd > TempTargetStart) then
+          if (TempEnd > TempStart) then
             begin
               underlines[i].color            := DEFAULT_BLINK_UNDERLINE_COLOR;
               underlines[i].background_color := DEFAULT_BLINK_BACKGROUND_COLOR;
-              underlines[i].range.from       := TempTargetStart;
-              underlines[i].range.to_        := TempTargetEnd;
+              underlines[i].range.from       := TempStart;
+              underlines[i].range.to_        := TempEnd;
               underlines[i].thick            := 1;
               underlines[i].style            := DEFAULT_BLINK_UNDERLINE_STYLE;
 
               inc(i);
             end;
 
-          if (TempTargetEnd < TempLen) then
+          if (TempEnd < TempLen) then
             begin
               underlines[i].color            := DEFAULT_BLINK_UNDERLINE_COLOR;
               underlines[i].background_color := DEFAULT_BLINK_BACKGROUND_COLOR;
-              underlines[i].range.from       := TempTargetEnd;
+              underlines[i].range.from       := TempEnd;
               underlines[i].range.to_        := TempLen;
               underlines[i].thick            := 0;
               underlines[i].style            := DEFAULT_BLINK_UNDERLINE_STYLE;
@@ -290,89 +287,103 @@ begin
     end;
 end;
 
-function TCEFOSRIMEHandler.GetString(    imc     : HIMC;
-                                         aParam  : WParam;
-                                         aType   : integer;
-                                     var aResult : ustring) : boolean;
-{$IFDEF MSWINDOWS}
+function TCEFOSRIMEHandler.GetString(imc : HIMC; aParam : WParam; aType : integer; var aResult : ustring) : boolean;
 var
-  TempStringSize : integer;
-  TempBuffer : PWideChar;
-{$ENDIF}
+  TempBufferLen : integer;
+  TempBuffer    : PWChar;
 begin
   Result := False;
-  {$IFDEF MSWINDOWS}
+
   if ((aParam and aType) = 0) then exit;
 
-  TempStringSize := ImmGetCompositionStringW(imc, aType, nil, 0);
+  {$IFDEF MSWINDOWS}
+  {$IFDEF FPC}
+  TempBufferLen := ImmGetCompositionStringW(imc, aType, nil, 0);
+  {$ELSE}
+  TempBufferLen := ImmGetCompositionString(imc, aType, nil, 0);
+  {$ENDIF}
 
-  if (TempStringSize <= 0) then exit;
+  if (GetLastError <> 0) or (TempBufferLen <= 0) then exit;
+  {$ENDIF}
 
-  TempStringSize := TempStringSize + SizeOf(WideChar);
-  TempBuffer     := nil;
+  TempBuffer    := nil;
+  TempBufferLen := TempBufferLen + SizeOf(wchar);
 
   try
     try
-      GetMem(TempBuffer, TempStringSize);
-      FillChar(TempBuffer^, TempStringSize, 0);
-      ImmGetCompositionStringW(imc, aType, TempBuffer, TempStringSize);
-      aResult := TempBuffer;
-      Result  := True;
+      GetMem(TempBuffer, TempBufferLen);
+      FillChar(TempBuffer^, TempBufferLen, 0);
+
+      {$IFDEF MSWINDOWS}
+      {$IFDEF FPC}
+      TempBufferLen := ImmGetCompositionStringW(imc, aType, TempBuffer, TempBufferLen);
+      {$ELSE}
+      TempBufferLen := ImmGetCompositionString(imc, aType, TempBuffer, TempBufferLen);
+      {$ENDIF}
+      {$ENDIF}
+
+      if (TempBufferLen > 0) then
+        begin
+          aResult := TempBuffer;
+          Result  := True;
+        end;
     except
       on e : exception do
         if CustomExceptionHandler('TCEFOSRIMEHandler.GetString', e) then raise;
     end;
   finally
-    if (TempBuffer <> nil) then
-      FreeMem(TempBuffer);
+    if (TempBuffer <> nil) then FreeMem(TempBuffer);
   end;
-  {$ENDIF}
 end;
 
 {$IFDEF MSWINDOWS}
-function TCEFOSRIMEHandler.IsSelectionAttribute(aAttribute : AnsiChar) : boolean;
+function TCEFOSRIMEHandler.IsSelectionAttribute(aAttribute : byte) : boolean;
 begin
-  Result := (ord(aAttribute) = ATTR_TARGET_CONVERTED) or
-            (ord(aAttribute) = ATTR_TARGET_NOTCONVERTED);
+  Result := (aAttribute = ATTR_TARGET_CONVERTED) or
+            (aAttribute = ATTR_TARGET_NOTCONVERTED);
 end;
 {$ENDIF}
 
 procedure TCEFOSRIMEHandler.GetCompositionSelectionRange(imc : HIMC; var target_start, target_end : integer);
-{$IFDEF MSWINDOWS}
 var
-  i, TempStart, TempEnd, TempBufferLen : integer;
-  TempBuffer : array of AnsiChar;
-{$ENDIF}
+  i             : integer;
+  TempBufferLen : integer;
+  TempBuffer    : array of byte;
 begin
-  {$IFDEF MSWINDOWS}
   TempBuffer := nil;
+  {$IFDEF MSWINDOWS}
   try
     try
-      TempBufferLen := ImmGetCompositionStringW(imc, GCS_COMPATTR, nil, 0);
+      TempBufferLen := ImmGetCompositionString(imc, GCS_COMPATTR, nil, 0);
 
-      if (TempBufferLen > 0) then
+      if (GetLastError = 0) and (TempBufferLen > 0) then
         begin
           SetLength(TempBuffer, TempBufferLen);
-          for i := 0 to pred(TempBufferLen) do TempBuffer[i] := #0;
+          for i := 0 to pred(TempBufferLen) do TempBuffer[i] := 0;
 
-          TempBufferLen := ImmGetCompositionStringW(imc, GCS_COMPATTR, @TempBuffer[0], TempBufferLen);
+          TempBufferLen := ImmGetCompositionString(imc, GCS_COMPATTR, @TempBuffer[0], TempBufferLen);
 
-          TempStart := 0;
-          while (TempStart < TempBufferLen) do
-            if IsSelectionAttribute(TempBuffer[TempStart]) then
-              break
-             else
-              inc(TempStart);
+          if (TempBufferLen > 0) then
+            begin
+              i := 0;
+              while (i < TempBufferLen) do
+                if IsSelectionAttribute(TempBuffer[i]) then
+                  begin
+                    target_start := i;
+                    break;
+                  end
+                 else
+                  inc(i);
 
-          TempEnd := TempStart;
-          while (TempEnd < TempBufferLen) do
-            if not(IsSelectionAttribute(TempBuffer[TempEnd])) then
-              break
-             else
-              inc(TempEnd);
-
-          target_start := TempStart;
-          target_end   := TempEnd;
+              while (i < TempBufferLen) do
+                if not(IsSelectionAttribute(TempBuffer[i])) then
+                  begin
+                    target_end := i;
+                    break;
+                  end
+                 else
+                  inc(i);
+            end;
         end;
     except
       on e : exception do
@@ -392,52 +403,57 @@ procedure TCEFOSRIMEHandler.GetCompositionUnderlines(    imc          : HIMC;
                                                          target_start : integer;
                                                          target_end   : integer;
                                                      var underlines   : TCefCompositionUnderlineDynArray);
-{$IFDEF MSWINDOWS}
 var
   i, j, TempSize : integer;
   TempUndLen     : integer;
-  TempLen        : integer;
+  TempBufferLen  : integer;
   TempBuffer     : array of cardinal;
-{$ENDIF}
 begin
-  {$IFDEF MSWINDOWS}
   TempBuffer := nil;
+
+  {$IFDEF MSWINDOWS}
   try
     try
-      TempSize := ImmGetCompositionStringW(imc, GCS_COMPCLAUSE, nil, 0);
-      TempLen  := TempSize div SizeOf(cardinal);
+      TempBufferLen := ImmGetCompositionString(imc, GCS_COMPCLAUSE, nil, 0);
 
-      if (TempLen > 0) then
+      if (GetLastError = 0) and (TempBufferLen > 0) then
         begin
-          SetLength(TempBuffer, TempLen);
-          for i := 0 to pred(TempLen) do TempBuffer[i] := 0;
+          TempSize := TempBufferLen div SizeOf(cardinal);
+          SetLength(TempBuffer, TempSize);
+          for i := 0 to pred(TempSize) do TempBuffer[i] := 0;
 
-          ImmGetCompositionStringW(imc, GCS_COMPCLAUSE, @TempBuffer[0], TempSize);
+          TempBufferLen := ImmGetCompositionString(imc, GCS_COMPCLAUSE, @TempBuffer[0], TempBufferLen);
 
-          if (underlines <> nil) then
-            TempUndLen := length(underlines)
-           else
-            TempUndLen := 0;
-
-          SetLength(underlines, TempUndLen + pred(TempSize));
-          i := 0;
-          while (i < pred(TempLen)) do
+          if (TempBufferLen > 0) then
             begin
-              j := i + TempUndLen;
+              TempSize := TempBufferLen div SizeOf(cardinal);
 
-              underlines[j].range.from       := TempBuffer[i];
-              underlines[j].range.to_        := TempBuffer[succ(i)];
-              underlines[j].color            := DEFAULT_BLINK_UNDERLINE_COLOR;
-              underlines[j].background_color := DEFAULT_BLINK_BACKGROUND_COLOR;
-              underlines[j].style            := DEFAULT_BLINK_UNDERLINE_STYLE;
-
-              if (underlines[j].range.from >= target_start) and
-                 (underlines[j].range.to_  <= target_end)   then
-                underlines[j].thick := 1
+              if (underlines <> nil) then
+                TempUndLen := length(underlines)
                else
-                underlines[j].thick := 0;
+                TempUndLen := 0;
 
-              inc(i);
+              SetLength(underlines, TempUndLen + pred(TempSize));
+              i := 0;
+
+              while (i < pred(TempSize)) do
+                begin
+                  j := i + TempUndLen;
+
+                  underlines[j].range.from       := TempBuffer[i];
+                  underlines[j].range.to_        := TempBuffer[succ(i)];
+                  underlines[j].color            := DEFAULT_BLINK_UNDERLINE_COLOR;
+                  underlines[j].background_color := DEFAULT_BLINK_BACKGROUND_COLOR;
+                  underlines[j].style            := DEFAULT_BLINK_UNDERLINE_STYLE;
+
+                  if (underlines[j].range.from >= target_start) and
+                     (underlines[j].range.to_  <= target_end)   then
+                    underlines[j].thick := 1
+                   else
+                    underlines[j].thick := 0;
+
+                  inc(i);
+                end;
             end;
         end;
     except
@@ -663,11 +679,10 @@ end;
 procedure TCEFOSRIMEHandler.MoveImeWindow;
 {$IFDEF MSWINDOWS}
 var
-  TempRect         : TCefRect;
-  TempLocation     : integer;
-  TempIMC          : HIMC;
-  TempCandidatePos : TCandidateForm;
-  TempCandidateExc : TCandidateForm;
+  TempRect        : TCefRect;
+  TempLocation    : integer;
+  TempIMC         : HIMC;
+  TempCandidate   : TCandidateForm;
 const
   CARET_MARGIN = 1;
 {$ENDIF}
@@ -702,16 +717,16 @@ begin
     try
       if (PrimaryLangID = LANG_CHINESE) then
         begin
-          TempCandidatePos.dwIndex        := 0;
-          TempCandidatePos.dwStyle        := CFS_CANDIDATEPOS;
-          TempCandidatePos.ptCurrentPos.X := TempRect.x;
-          TempCandidatePos.ptCurrentPos.Y := TempRect.y;
-          TempCandidatePos.rcArea.Left    := 0;
-          TempCandidatePos.rcArea.Top     := 0;
-          TempCandidatePos.rcArea.Right   := 0;
-          TempCandidatePos.rcArea.Bottom  := 0;
+          TempCandidate.dwIndex        := 0;
+          TempCandidate.dwStyle        := CFS_CANDIDATEPOS;
+          TempCandidate.ptCurrentPos.X := TempRect.x;
+          TempCandidate.ptCurrentPos.Y := TempRect.y;
+          TempCandidate.rcArea.Left    := 0;
+          TempCandidate.rcArea.Top     := 0;
+          TempCandidate.rcArea.Right   := 0;
+          TempCandidate.rcArea.Bottom  := 0;
 
-          ImmSetCandidateWindow(TempIMC, @TempCandidatePos);
+          ImmSetCandidateWindow(TempIMC, @TempCandidate);
         end;
 
       if FSystemCaret then
@@ -720,19 +735,20 @@ begin
           else            SetCaretPos(TempRect.x, TempRect.y);
         end;
 
+
       if (PrimaryLangID = LANG_KOREAN) then
         TempRect.y := TempRect.y + CARET_MARGIN;
 
-      TempCandidateExc.dwIndex        := 0;
-      TempCandidateExc.dwStyle        := CFS_EXCLUDE;
-      TempCandidateExc.ptCurrentPos.X := TempRect.x;
-      TempCandidateExc.ptCurrentPos.Y := TempRect.y;
-      TempCandidateExc.rcArea.Left    := TempRect.x;
-      TempCandidateExc.rcArea.Top     := TempRect.y;
-      TempCandidateExc.rcArea.Right   := TempRect.x + TempRect.width;
-      TempCandidateExc.rcArea.Bottom  := TempRect.y + TempRect.height;
+      TempCandidate.dwIndex        := 0;
+      TempCandidate.dwStyle        := CFS_EXCLUDE;
+      TempCandidate.ptCurrentPos.X := TempRect.x;
+      TempCandidate.ptCurrentPos.Y := TempRect.y;
+      TempCandidate.rcArea.Left    := TempRect.x;
+      TempCandidate.rcArea.Top     := TempRect.y;
+      TempCandidate.rcArea.Right   := TempRect.x + TempRect.width;
+      TempCandidate.rcArea.Bottom  := TempRect.y + TempRect.height;
 
-      ImmSetCandidateWindow(TempIMC, @TempCandidateExc);
+      ImmSetCandidateWindow(TempIMC, @TempCandidate);
     finally
       ImmReleaseContext(FHWND, TempIMC);
     end;

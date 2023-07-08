@@ -250,7 +250,7 @@ end;
 procedure CEFChromium_PrintToPDF(const AObj: TChromium; FilePath: PChar); extdecl;
 begin
   handleExceptionBegin
-  AObj.PrintToPDF(PCharToUStr(FilePath));
+  AObj.PrintToPDF(PCharToUStr(FilePath),  AObj.Browser.MainFrame.GetName, AObj.Browser.MainFrame.Url);
   handleExceptionEnd
 end;
 
@@ -655,14 +655,13 @@ end;
 procedure CEFChromium_SetBatterySaverModeState(const AObj: TChromium; value: Integer); extdecl;
 begin
   handleExceptionBegin
-  AObj.BatterySaverModeState := TCefBatterySaverModeState(value); //defalt bsmsDefault
   handleExceptionEnd
 end;
 
 function CEFChromium_GetBatterySaverModeState(const AObj: TChromium): Integer; extdecl;
 begin
   handleExceptionBegin
-  Result := Integer(AObj.BatterySaverModeState);
+  Result := -1;
   handleExceptionEnd
 end;
 
@@ -670,14 +669,13 @@ end;
 procedure CEFChromium_SetHighEfficiencyMode(const AObj: TChromium; value: Integer); extdecl;
 begin
   handleExceptionBegin
-  AObj.HighEfficiencyMode := TCefState(value); //defalt STATE_DEFAULT
   handleExceptionEnd
 end;
 
 function CEFChromium_GetHighEfficiencyMode(const AObj: TChromium): Integer; extdecl;
 begin
   handleExceptionBegin
-  Result := Integer(AObj.HighEfficiencyMode);
+  Result := -1;
   handleExceptionEnd
 end;
 
@@ -896,14 +894,13 @@ end;
 procedure CEFChromium_SetAlwaysOpenPDFExternally(const AObj: TChromium; value: LongBool); extdecl;
 begin
   handleExceptionBegin
-  AObj.AlwaysOpenPDFExternally := value; //default False
   handleExceptionEnd
 end;
 
 function CEFChromium_GetAlwaysOpenPDFExternally(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.AlwaysOpenPDFExternally;
+  Result := False;
   handleExceptionEnd
 end;
 
@@ -1170,7 +1167,6 @@ end;
 procedure  CEFChromium_ToggleAudioMuted(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
-  AObj.ToggleAudioMuted();
   handleExceptionEnd
 end;
 

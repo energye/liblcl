@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,10 +37,10 @@
 
 unit uCEFFMXChromium;
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -49,14 +49,11 @@ uses
   {$IFDEF MSWINDOWS}
   WinApi.Windows, WinApi.Messages, FMX.Platform.Win,
   {$ENDIF}
-  FMX.Types, FMX.Platform, FMX.Forms, FMX.Controls,
-  {$IFDEF DELPHI19_UP}
-  FMX.Graphics,
-  {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFChromiumCore;
+  FMX.Types, FMX.Platform, FMX.Forms, FMX.Controls, FMX.Graphics,
+  uCEFTypes, uCEFInterfaces, uCEFChromiumCore;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TFMXChromium = class(TChromiumCore, IChromiumEvents)
     protected
       function  GetParentFormHandle : TCefWindowHandle; override;
@@ -112,7 +109,7 @@ type
 implementation
 
 uses
-  {$IFDEF MSWINDOWS}{$IFDEF DELPHI24_UP}FMX.Helpers.Win,{$ENDIF}{$ENDIF}
+  {$IFDEF MSWINDOWS}FMX.Helpers.Win,{$ENDIF}
   System.SysUtils, System.Math,
   uCEFApplicationCore;
 
@@ -215,12 +212,12 @@ end;
 procedure TFMXChromium.MoveFormTo(const x, y: Integer);
 var
   TempForm : TCustomForm;
-  {$IFDEF DELPHI21_UP}
+  {$IFDEF DELPHI17_UP}
   TempRect : TRect;
   {$ENDIF}
 begin
   TempForm := GetParentForm;
-  {$IFDEF DELPHI21_UP}
+  {$IFDEF DELPHI17_UP}
   if (TempForm <> nil) then
     begin
       TempRect.Left   := min(max(x, max(round(screen.DesktopLeft), 0)), round(screen.DesktopWidth)  - TempForm.Width);
@@ -238,12 +235,12 @@ end;
 procedure TFMXChromium.MoveFormBy(const x, y: Integer);
 var
   TempForm : TCustomForm;
-  {$IFDEF DELPHI21_UP}
+  {$IFDEF DELPHI17_UP}
   TempRect : TRect;
   {$ENDIF}
 begin
   TempForm := GetParentForm;
-  {$IFDEF DELPHI21_UP}
+  {$IFDEF DELPHI17_UP}
   if (TempForm <> nil) then
     begin
       TempRect.Left   := min(max(TempForm.Left + x, max(round(screen.DesktopLeft), 0)), round(screen.DesktopWidth)  - TempForm.Width);
@@ -295,7 +292,7 @@ begin
   TempForm := GetParentForm;
 
   if (TempForm <> nil) then
-    {$IFDEF DELPHI21_UP}
+    {$IFDEF DELPHI17_UP}
     TempForm.Left := min(max(x, max(round(screen.DesktopLeft), 0)), round(screen.DesktopWidth) - TempForm.Width);
     {$ELSE}
     TempForm.Left := x;
@@ -309,7 +306,7 @@ begin
   TempForm := GetParentForm;
 
   if (TempForm <> nil) then
-    {$IFDEF DELPHI21_UP}
+    {$IFDEF DELPHI17_UP}
     TempForm.Top := min(max(y, max(round(screen.DesktopTop), 0)), round(screen.DesktopHeight) - TempForm.Height);
     {$ELSE}
     TempForm.Top := y;

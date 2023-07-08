@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2017 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -402,34 +402,6 @@
   {$DEFINE DELPHI27_UP}
 {$ENDIF}
 
-// Rad Studio 11.0 - Delphi Alexandria
-{$IFDEF VER350}
-  {$UNDEF DELPHI_VERSION_UNKNOW}
-  {$DEFINE DELPHI5_UP}
-  {$DEFINE DELPHI6_UP}
-  {$DEFINE DELPHI7_UP}
-  {$DEFINE DELPHI8_UP}
-  {$DEFINE DELPHI9_UP}
-  {$DEFINE DELPHI10_UP}
-  {$DEFINE DELPHI11_UP}
-  {$DEFINE DELPHI12_UP}
-  {$DEFINE DELPHI14_UP}
-  {$DEFINE DELPHI15_UP}
-  {$DEFINE DELPHI16_UP}
-  {$DEFINE DELPHI17_UP}
-  {$DEFINE DELPHI18_UP}
-  {$DEFINE DELPHI19_UP}
-  {$DEFINE DELPHI20_UP}
-  {$DEFINE DELPHI21_UP}
-  {$DEFINE DELPHI22_UP}
-  {$DEFINE DELPHI23_UP}
-  {$DEFINE DELPHI24_UP}
-  {$DEFINE DELPHI25_UP}
-  {$DEFINE DELPHI26_UP}
-  {$DEFINE DELPHI27_UP}
-  {$DEFINE DELPHI28_UP}
-{$ENDIF}
-
 {$IFDEF FPC}
   {$DEFINE SUPPORTS_INLINE}
   {$IF DEFINED(FPC_FULLVERSION) AND (FPC_FULLVERSION >= 30200)}
@@ -459,7 +431,6 @@
     {$DEFINE DELPHI25_UP}
     {$DEFINE DELPHI26_UP}
     {$DEFINE DELPHI27_UP}
-	{$DEFINE DELPHI28_UP}
   {$ENDIF}
 {$ENDIF}
 
@@ -468,7 +439,10 @@
 {$ENDIF}
 
 {$IF DEFINED(CPUX32) OR
-     DEFINED(CPU32) OR
+     DEFINED(CPU386) OR
+     DEFINED(CPUi386) OR
+     DEFINED(CPUPOWERPC32) OR
+     DEFINED(CPUSPARC32) OR
      DEFINED(CPU32BITS) OR
      DEFINED(CPUARM32) OR
      DEFINED(WIN32) OR
@@ -478,19 +452,6 @@
      DEFINED(POSIX32) OR
      DEFINED(ANDROID32)}
   {$DEFINE TARGET_32BITS}
-{$ELSE}
-  {$IF DEFINED(CPUX64) OR
-       DEFINED(CPU64) OR
-       DEFINED(CPU64BITS) OR
-       DEFINED(CPUARM64) OR
-       DEFINED(WIN64) OR
-       DEFINED(IOS64) OR
-       DEFINED(MACOS64) OR
-       DEFINED(LINUX64) OR
-       DEFINED(POSIX64) OR
-       DEFINED(ANDROID64)}
-    {$DEFINE TARGET_64BITS}
-  {$IFEND}
 {$IFEND}
 
 // Delphi uses MACOS for the new MacOSX and DARWIN is not defined
@@ -505,11 +466,3 @@
     {$DEFINE MACOSX}
   {$ENDIF}
 {$ENDIF}
-
-{$IFDEF LINUX}
-  {$IFDEF FPC}
-    {$DEFINE LINUXFPC}
-  {$ELSE}
-    {$DEFINE LINUXFMX}
-  {$ENDIF}
-{$ENDIF}  

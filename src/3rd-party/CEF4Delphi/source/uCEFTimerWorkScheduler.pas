@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -41,12 +41,10 @@ unit uCEFTimerWorkScheduler;
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$I cef.inc}
-
-{.$DEFINE USEEVENTPIPE}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -66,8 +64,7 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  {$IFDEF USEEVENTPIPE}uCEFLinuxEventPipe,{$ENDIF} uCEFTypes, uCEFConstants,
-  uCEFApplicationCore;
+  uCEFTypes, uCEFConstants, uCEFApplicationCore;
 
 type
   TOnAllowEvent = procedure(Sender: TObject; var allow : boolean) of object;
@@ -81,10 +78,6 @@ type
       FIsActive           : boolean;
       FReentrancyDetected : boolean;
       FOnAllowDoWork      : TOnAllowEvent;
-      {$IFDEF USEEVENTPIPE}
-      FEventPipe          : TCEFLinuxEventPipe;
-      FDelayedWorkTime    : TCefTime;
-      {$ENDIF}
       {$IFDEF MSWINDOWS}
       FCompHandle         : HWND;
       {$ENDIF}
@@ -92,11 +85,6 @@ type
       function  GetIsTimerPending : boolean;
 
       procedure Timer_OnTimer(Sender: TObject);
-      {$IFDEF USEEVENTPIPE}
-      procedure FEventPipe_OnPrepare(Sender: TObject; var aTimeout: integer);
-      procedure FEventPipe_OnCheck(Sender: TObject; var aMustDispatch: boolean);
-      procedure FEventPipe_OnDispatch(Sender: TObject);
-      {$ENDIF}
 
       procedure Initialize;
       procedure CreateTimer;
@@ -139,16 +127,14 @@ implementation
 
 uses
   {$IFDEF DELPHI16_UP}
-  System.SysUtils, System.Math, {$IFDEF MACOS}System.RTTI, FMX.Forms, FMX.Platform,{$ENDIF}
+  System.SysUtils, System.Math {$IFDEF MACOS}, System.RTTI, FMX.Forms, FMX.Platform{$ENDIF};
   {$ELSE}
-  SysUtils, Math,
+  SysUtils, Math;
   {$ENDIF}
-  uCEFMiscFunctions;
 
 procedure DestroyGlobalCEFTimerWorkScheduler;
 begin
-  if (GlobalCEFTimerWorkScheduler <> nil) then
-    FreeAndNil(GlobalCEFTimerWorkScheduler);
+  if (GlobalCEFTimerWorkScheduler <> nil) then FreeAndNil(GlobalCEFTimerWorkScheduler);
 end;
 
 constructor TCEFTimerWorkScheduler.Create;
@@ -160,14 +146,6 @@ begin
   {$IFDEF MSWINDOWS}
   AllocateWindowHandle;
   {$ENDIF}
-
-  {$IFDEF USEEVENTPIPE}
-  FEventPipe             := TCEFLinuxEventPipe.Create;
-  FEventPipe.OnPrepare   := {$IFDEF FPC}@{$ENDIF}FEventPipe_OnPrepare;
-  FEventPipe.OnCheck     := {$IFDEF FPC}@{$ENDIF}FEventPipe_OnCheck;
-  FEventPipe.OnDispatch  := {$IFDEF FPC}@{$ENDIF}FEventPipe_OnDispatch;
-  FEventPipe.InitializePipe;
-  {$ENDIF}
 end;
 
 destructor TCEFTimerWorkScheduler.Destroy;
@@ -178,25 +156,14 @@ begin
   DeallocateWindowHandle;
   {$ENDIF}
 
-  {$IFDEF USEEVENTPIPE}
-  if assigned(FEventPipe) then
-    FreeAndNil(FEventPipe);
-  {$ENDIF}
-
   inherited Destroy;
 end;
 
 procedure TCEFTimerWorkScheduler.Initialize;
 begin
   {$IFDEF MSWINDOWS}
-  FCompHandle := 0;
+  FCompHandle         := 0;
   {$ENDIF}
-
-  {$IFDEF USEEVENTPIPE}
-  FEventPipe := nil;
-  InitializeCefTime(FDelayedWorkTime);
-  {$ENDIF}
-
   FOnAllowDoWork      := nil;
   FTimer              := nil;
   FStopped            := False;
@@ -229,33 +196,6 @@ begin
       DeallocateHWnd(FCompHandle);
       FCompHandle := 0;
     end;
-end;
-{$ENDIF}
-
-{$IFDEF USEEVENTPIPE}
-procedure TCEFTimerWorkScheduler.FEventPipe_OnPrepare(Sender: TObject; var aTimeout: integer);
-begin
-  aTimeout := GetTimeIntervalMilliseconds(FDelayedWorkTime);
-end;
-
-procedure TCEFTimerWorkScheduler.FEventPipe_OnCheck(Sender: TObject; var aMustDispatch: boolean);
-var
-  TempValue : integer;
-begin
-  if FEventPipe.HasData or FEventPipe.HasPendingData then
-    begin
-      TempValue := 0;
-      FEventPipe.Read(TempValue);
-      OnScheduleWork(TempValue);
-    end;
-
-  aMustDispatch := GetTimeIntervalMilliseconds(FDelayedWorkTime) = 0;
-end;
-
-procedure TCEFTimerWorkScheduler.FEventPipe_OnDispatch(Sender: TObject);
-begin
-  KillTimer;
-  DoWork;
 end;
 {$ENDIF}
 
@@ -309,34 +249,22 @@ end;
 
 procedure TCEFTimerWorkScheduler.KillTimer;
 begin
-  {$IFDEF USEEVENTPIPE}
-  InitializeCefTime(FDelayedWorkTime);
-  {$ELSE}
   if (FTimer <> nil) then
     FTimer.Enabled := False;
-  {$ENDIF}
 end;
 
 procedure TCEFTimerWorkScheduler.SetTimer(aInterval : integer);
 begin
-  {$IFDEF USEEVENTPIPE}
-  FDelayedWorkTime := DoubleToCefTime((DoubleTimeNow + aInterval) / 1000);
-  {$ELSE}
   if (FTimer = nil) then
     CreateTimer;
 
-  FTimer.Interval  := aInterval;
-  FTimer.Enabled   := True;
-  {$ENDIF}
+  FTimer.Interval := aInterval;
+  FTimer.Enabled  := True;
 end;
 
 function TCEFTimerWorkScheduler.GetIsTimerPending : boolean;
 begin
-  {$IFDEF USEEVENTPIPE}
-  Result := GetTimeIntervalMilliseconds(FDelayedWorkTime) > 0;
-  {$ELSE}
   Result := (FTimer <> nil) and FTimer.Enabled;
-  {$ENDIF}
 end;
 
 procedure TCEFTimerWorkScheduler.OnScheduleWork(delay_ms : integer);
@@ -408,25 +336,7 @@ begin
   {$IFDEF MSWINDOWS}
     if (FCompHandle <> 0) then
       PostMessage(FCompHandle, CEF_PUMPHAVEWORK, 0, LPARAM(delay_ms));
-  {$ENDIF}
-
-  {$IFDEF LINUX}
-    {$IFDEF FPC}
-      {$IFDEF USEEVENTPIPE}
-      if assigned(FEventPipe) then
-        FEventPipe.Write(integer(delay_ms));
-      {$ELSE}
-      Application.QueueAsyncCall(@OnScheduleWorkAsync, integer(delay_ms));
-      {$ENDIF}
-    {$ELSE}
-    TThread.ForceQueue(nil, procedure
-                            begin
-                              OnScheduleWork(integer(delay_ms));
-                            end);
-    {$ENDIF}
-  {$ENDIF}
-
-  {$IFDEF MACOS}
+  {$ELSE}
     {$IFDEF FPC}
     Application.QueueAsyncCall(@OnScheduleWorkAsync, integer(delay_ms));
     {$ELSE}

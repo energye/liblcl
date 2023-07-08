@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,10 +37,10 @@
 
 unit uCEFFMXWorkScheduler;
 
-{$I cef.inc}
-
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
+
+{$I cef.inc}
 
 interface
 
@@ -50,7 +50,8 @@ uses
   uCEFConstants, uCEFWorkSchedulerQueueThread, uCEFWorkSchedulerThread;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
+
   TFMXWorkScheduler = class(TComponent)
     protected
       FThread             : TCEFWorkSchedulerThread;
@@ -275,15 +276,10 @@ begin
   if FUseQueueThread and (FQueueThread <> nil) and FQueueThread.Ready then
     FQueueThread.EnqueueValue(integer(delay_ms))
    else
-    {$IFDEF DELPHI25_UP}
-    TThread.ForceQueue(nil,
-    {$ELSE}
-    TThread.Queue(nil,
-    {$ENDIF}
-      procedure
-      begin
-        ScheduleWork(delay_ms);
-      end);
+    TThread.ForceQueue(nil, procedure
+                            begin
+                              ScheduleWork(delay_ms);
+                            end);
 end;
 
 procedure TFMXWorkScheduler.StopScheduler;

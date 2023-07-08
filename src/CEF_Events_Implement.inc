@@ -116,7 +116,7 @@ begin
   PInCookie := nil;
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnCertificateError(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: boolean);
+procedure TLCLEvent.ChromiumEvent_OnCertificateError(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback; out Result: Boolean);
 begin
   SendEvent([Sender, browser, certError, PChar(string(requestUrl)), sslInfo, callback, @Result]);
 end;
@@ -186,11 +186,6 @@ begin
   SendEvent([Sender, browser]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnDismissPermissionPrompt(Sender: TObject; const browser: ICefBrowser; prompt_id: uint64; Result: TCefPermissionRequestResult);
-begin
-  SendEvent([Sender, browser, @prompt_id, Result]);
-end;
-
 procedure TLCLEvent.ChromiumEvent_OnDocumentAvailableInMainFrame(Sender: TObject; const browser: ICefBrowser);
 begin
   SendEvent([Sender, browser]);
@@ -211,7 +206,7 @@ begin
   SendEvent([Sender, browser, iconUrls]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnFileDialog(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback; var Result: boolean);
+procedure TLCLEvent.ChromiumEvent_OnFileDialog(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback; out Result: Boolean);
 begin
   SendEvent([Sender, browser, mode, PChar(string(title)), PChar(string(defaultFilePath)), acceptFilters, callback, @Result]);
 end;
@@ -361,11 +356,6 @@ begin
   SendEvent([Sender, request_context]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnRequestMediaAccessPermission(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback; var aResult: boolean);
-begin
-  SendEvent([Sender, browser, frame, PChar(string(requesting_origin)), requested_permissions, callback, @aResult]);
-end;
-
 procedure TLCLEvent.ChromiumEvent_OnResetDialogState(Sender: TObject; const browser: ICefBrowser);
 begin
   SendEvent([Sender, browser]);
@@ -396,11 +386,6 @@ begin
   SendEvent([Sender, browser, frame, params, model, callback, @aResult]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnRunQuickMenu(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; location: TCefPoint; size: TCefSize; edit_state_flags: TCefQuickMenuEditStateFlags; const callback: ICefRunQuickMenuCallback; var aResult: boolean);
-begin
-  SendEvent([Sender, browser, frame, @location, @size, edit_state_flags, callback, @aResult]);
-end;
-
 procedure TLCLEvent.ChromiumEvent_OnSelectClientCertificate(Sender: TObject; const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: nativeuint; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult: boolean);
 begin
   SendEvent([Sender, browser, isProxy, PChar(string(host)), port, certificatesCount, @certificates, callback, @aResult]);
@@ -409,11 +394,6 @@ end;
 procedure TLCLEvent.ChromiumEvent_OnSetFocus(Sender: TObject; const browser: ICefBrowser; Source: TCefFocusSource; out Result: boolean);
 begin
   SendEvent([Sender, browser, integer(Source), @Result]);
-end;
-
-procedure TLCLEvent.ChromiumEvent_OnShowPermissionPrompt(Sender: TObject; const browser: ICefBrowser; prompt_id: uint64; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefPermissionPromptCallback; var aResult: boolean);
-begin
-  SendEvent([Sender, browser, @prompt_id, PChar(string(requesting_origin)), requested_permissions, callback, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnSinks(Sender: TObject; const sinks: TCefMediaSinkArray);
@@ -452,11 +432,6 @@ var
 begin
   PText := PChar(string(Text));
   SendEvent([Sender, browser, @PText, @Result]);
-end;
-
-procedure TLCLEvent.ChromiumEvent_OnTouchHandleStateChanged(Sender: TObject; const browser: ICefBrowser; const state: TCefTouchHandleState);
-begin
-  SendEvent([Sender, browser, @state]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnUpdateDragCursor(Sender: TObject; const browser: ICefBrowser; operation: TCefDragOperation);
@@ -716,7 +691,7 @@ begin
   SendEvent([Sender, aID]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnBeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefCallback; out Result: TCefReturnValue);
+procedure TLCLEvent.ChromiumEvent_OnBeforeResourceLoad(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback; out Result: TCefReturnValue);
 begin
   SendEvent([Sender, browser, frame, request, callback, @Result]);
 end;
@@ -742,9 +717,9 @@ begin
   SendEvent([Sender, browser, frame, request, response, @integer(status), @receivedContentLength]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnFrameAttached(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; reattached: boolean);
+procedure TLCLEvent.ChromiumEvent_OnFrameAttached(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame);
 begin
-  SendEvent([Sender, browser, frame, reattached]);
+  SendEvent([Sender, browser, frame, false]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnFrameCreated(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame);
@@ -867,11 +842,6 @@ begin
 end;
 
 procedure TLCLEvent.WindowComponent_OnGetInitialBounds(const Sender: TObject; const window: ICefWindow; var aResult : TCefRect);
-begin
-  SendEvent([Sender, window, @aResult]);
-end;
-
-procedure TLCLEvent.WindowComponent_OnGetInitialShowState(const Sender: TObject; const window: ICefWindow; var aResult : TCefShowState);
 begin
   SendEvent([Sender, window, @aResult]);
 end;

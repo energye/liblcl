@@ -38,16 +38,15 @@ begin
 end;
 
 {== CommandHandler ==}
-procedure CefCommandHandlerRef_Create(var Result: TCommandHandlerRef); extdecl;
+procedure CefCommandHandlerRef_Create(var Result: Pointer); extdecl;
 begin
   handleExceptionBegin
-  Result := TCommandHandlerRef.Create;
+  Result := nil;
   handleExceptionEnd
 end;
 
-procedure CefCommandHandler_OnChromeCommand(const AObj: ICefCommandHandler; AEventData: Pointer); extdecl;
+procedure CefCommandHandler_OnChromeCommand(const AObj: Pointer; AEventData: Pointer); extdecl;
 begin
-  (AObj as TCommandHandlerRef).ChromeCommandPtr := AEventData;
 end;
 
 {== ContextMenuHandler ==}
@@ -275,26 +274,23 @@ begin
 end;
 
 {== PermissionHandler ==}
-procedure CefPermissionHandlerRef_Create(var Result: TPermissionHandlerRef); extdecl;
+procedure CefPermissionHandlerRef_Create(var Result: Pointer); extdecl;
 begin
   handleExceptionBegin
-  Result := TPermissionHandlerRef.Create;
+  Result := nil;
   handleExceptionEnd
 end;
 
-procedure CefPermissionHandler_OnRequestMediaAccessPermission(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefPermissionHandler_OnRequestMediaAccessPermission(const AObj: Pointer; AEventData: Pointer); extdecl;
 begin
-  AObj.RequestMediaAccessPermissionPtr := AEventData;
 end;
 
-procedure CefPermissionHandler_OnShowPermissionPrompt(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefPermissionHandler_OnShowPermissionPrompt(const AObj: Pointer; AEventData: Pointer); extdecl;
 begin
-  AObj.ShowPermissionPromptPtr := AEventData;
 end;
 
-procedure CefPermissionHandler_OnDismissPermissionPrompt(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
+procedure CefPermissionHandler_OnDismissPermissionPrompt(const AObj: Pointer; AEventData: Pointer); extdecl;
 begin
-  AObj.DismissPermissionPromptPtr := AEventData;
 end;
 
 {== JsDialogHandler ==}

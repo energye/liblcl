@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -46,7 +46,7 @@ unit uCEFLinkedWinControlBase;
   {$ENDIF}
 {$ENDIF}
 
-{$IFNDEF TARGET_64BITS}{$ALIGN ON}{$ENDIF}
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
 
 interface
@@ -56,7 +56,9 @@ uses
     {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes, Vcl.Controls, Vcl.Graphics,
   {$ELSE}
     {$IFDEF MSWINDOWS}Windows, Messages,{$ENDIF} Classes, Controls,
-    {$IFDEF FPC}{$IFDEF MACOSX}CocoaAll,{$ENDIF}LCLProc, LCLType, LCLIntf,{$ENDIF}
+    {$IFDEF FPC}
+    LCLProc, LCLType, LCLIntf,
+    {$ENDIF}
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFWinControl, uCEFChromium;
 
@@ -159,33 +161,14 @@ end;
 {$ENDIF}
 
 procedure TCEFLinkedWinControlBase.UpdateSize;
-{$IFDEF MACOSX}{$IFDEF FPC}
-var
-  TempSize: NSSize;
-{$ENDIF}{$ENDIF}
 begin
-  {$IFDEF MSWINDOWS}
-  inherited UpdateSize;
-  {$ENDIF}
-
   {$IFDEF LINUX}
   if not(csDesigning in ComponentState) and
      (Chromium <> nil) and
      Chromium.Initialized then
     Chromium.UpdateBrowserSize(Left, Top, Width, Height);
-  {$ENDIF}
-
-  {$IFDEF MACOSX}
-  {$IFDEF FPC}
-  if not(csDesigning in ComponentState) and
-     (Chromium <> nil) and
-     Chromium.Initialized then
-    begin
-      TempSize.width:= Width;
-      TempSize.height:= Height;
-      NSView(Chromium.WindowHandle).setFrameSize(TempSize);
-    end;
-  {$ENDIF}
+  {$ELSE}
+  inherited UpdateSize;
   {$ENDIF}
 end;
 

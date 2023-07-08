@@ -105,7 +105,6 @@ end;
 procedure ChromiumOptions_SetChromeStatusBubble(const AObj: TChromium; AValue: TCefState); extdecl;
 begin
   handleExceptionBegin
-  AObj.Options.ChromeStatusBubble := AValue;
   handleExceptionEnd
 end;
 

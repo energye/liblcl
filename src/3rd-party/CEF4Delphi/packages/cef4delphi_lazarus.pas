@@ -28,11 +28,11 @@ uses
   uCEFNavigationEntry, uCEFNavigationEntryVisitor, uCEFPDFPrintCallback, 
   uCEFPDFPrintOptions, uCEFPostData, uCEFPostDataElement, uCEFPrintSettings, 
   uCEFProcessMessage, uCEFRenderHandler, uCEFRenderProcessHandler, 
-  uCEFRequest, uCEFRequestContext, uCEFRequestContextHandler, 
-  uCEFRequestHandler, uCEFResolveCallback, uCEFResourceBundle, 
-  uCEFResourceBundleHandler, uCEFResourceHandler, uCEFResponse, 
-  uCEFResponseFilter, uCEFRunContextMenuCallback, uCEFRunFileDialogCallback, 
-  uCEFSchemeHandlerFactory, uCEFSchemeRegistrar, 
+  uCEFRequest, uCEFRequestCallback, uCEFRequestContext, 
+  uCEFRequestContextHandler, uCEFRequestHandler, uCEFResolveCallback, 
+  uCEFResourceBundle, uCEFResourceBundleHandler, uCEFResourceHandler, 
+  uCEFResponse, uCEFResponseFilter, uCEFRunContextMenuCallback, 
+  uCEFRunFileDialogCallback, uCEFSchemeHandlerFactory, uCEFSchemeRegistrar, 
   uCEFSelectClientCertificateCallback, uCEFSetCookieCallback, uCEFSslInfo, 
   uCEFSSLStatus, uCEFStreamReader, uCEFStreamWriter, uCEFStringList, 
   uCEFStringMap, uCEFStringMultimap, uCEFStringVisitor, uCEFTask, 
@@ -40,6 +40,7 @@ uses
   uCEFv8Accessor, uCEFv8ArrayBufferReleaseCallback, uCEFv8Context, 
   uCEFv8Exception, uCEFv8Handler, uCEFv8Interceptor, uCEFv8StackFrame, 
   uCEFv8StackTrace, uCEFv8Value, uCEFValue, uCEFWaitableEvent, 
+  uCEFWebPluginInfo, uCEFWebPluginInfoVisitor, uCEFWebPluginUnstableCallback, 
   uCEFWindowParent, uCEFWorkScheduler, uCEFWorkSchedulerThread, 
   uCEFWriteHandler, uCEFX509Certificate, uCEFX509CertPrincipal, uCEFXmlReader, 
   uCEFZipReader, uCEFChromiumCore, uCEFChromium, uCEFBufferPanel, uCEFServer, 
@@ -65,12 +66,7 @@ uses
   uCEFLinuxFunctions, uCEFLinuxTypes, uCEFLinuxConstants, 
   uCEFWorkSchedulerQueueThread, uCEFLinkedWinControlBase, uCEFLazarusCocoa, 
   uCEFBrowserWindow, uCEFOsrBrowserWindow, uCEFTimerWorkScheduler, 
-  uCEFFrameHandler, uCEFOverlayController, uCEFFileDialogInfo, uCEFArgCopy, 
-  uCEFCommandHandler, uCEFLinuxEventPipe, uCEFPermissionHandler, 
-  uCEFRunQuickMenuCallback, uCEFMediaAccessHandler, uCEFMediaAccessCallback, 
-  uCEFPermissionPromptCallback, uCEFSharedProcessMessageBuilder, 
-  uCEFSharedMemoryRegion, uCEFPreferenceManager, uCEFPreferenceRegistrar, 
-  uCEFApplicationEvents, LazarusPackageIntf;
+  uCEFFrameHandler, LazarusPackageIntf;
 
 implementation
 

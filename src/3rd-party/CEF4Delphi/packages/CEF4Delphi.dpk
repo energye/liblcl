@@ -33,7 +33,7 @@ requires
   vcl;
 
 contains
-  CEF4DelphiVCL_Register in 'CEF4DelphiVCL_Register.pas',
+  CEF4Delphi_Register in 'CEF4Delphi_Register.pas',
   uCEFFindHandler in '..\source\uCEFFindHandler.pas',
   uCEFConstants in '..\source\uCEFConstants.pas',
   uCEFTypes in '..\source\uCEFTypes.pas',
@@ -63,6 +63,7 @@ contains
   uCEFCookieManager in '..\source\uCEFCookieManager.pas',
   uCEFCompletionCallback in '..\source\uCEFCompletionCallback.pas',
   uCEFRequestContextHandler in '..\source\uCEFRequestContextHandler.pas',
+  uCEFWebPluginInfo in '..\source\uCEFWebPluginInfo.pas',
   uCEFDomDocument in '..\source\uCEFDomDocument.pas',
   uCEFDomNode in '..\source\uCEFDomNode.pas',
   uCEFv8Value in '..\source\uCEFv8Value.pas',
@@ -88,6 +89,7 @@ contains
   uCEFv8StackFrame in '..\source\uCEFv8StackFrame.pas',
   uCEFv8StackTrace in '..\source\uCEFv8StackTrace.pas',
   uCEFv8Handler in '..\source\uCEFv8Handler.pas',
+  uCEFRequestCallback in '..\source\uCEFRequestCallback.pas',
   uCEFCustomStreamReader in '..\source\uCEFCustomStreamReader.pas',
   uCEFCallback in '..\source\uCEFCallback.pas',
   uCEFResourceHandler in '..\source\uCEFResourceHandler.pas',
@@ -115,6 +117,8 @@ contains
   uCEFRenderProcessHandler in '..\source\uCEFRenderProcessHandler.pas',
   uCEFUrlrequestClient in '..\source\uCEFUrlrequestClient.pas',
   uCEFUrlRequest in '..\source\uCEFUrlRequest.pas',
+  uCEFWebPluginInfoVisitor in '..\source\uCEFWebPluginInfoVisitor.pas',
+  uCEFWebPluginUnstableCallback in '..\source\uCEFWebPluginUnstableCallback.pas',
   uCEFEndTracingCallback in '..\source\uCEFEndTracingCallback.pas',
   uCEFFileDialogCallback in '..\source\uCEFFileDialogCallback.pas',
   uCEFDragData in '..\source\uCEFDragData.pas',
@@ -220,20 +224,6 @@ contains
   uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas',
   uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas',
   uCEFTimerWorkScheduler in '..\source\uCEFTimerWorkScheduler.pas',
-  uCEFFrameHandler in '..\source\uCEFFrameHandler.pas',
-  uCEFOverlayController in '..\source\uCEFOverlayController.pas',
-  uCEFFileDialogInfo in '..\source\uCEFFileDialogInfo.pas',
-  uCEFCommandHandler in '..\source\uCEFCommandHandler.pas',
-  uCEFMediaAccessCallback in '..\source\uCEFMediaAccessCallback.pas',
-  uCEFMediaAccessHandler in '..\source\uCEFMediaAccessHandler.pas',
-  uCEFPermissionPromptCallback in '..\source\uCEFPermissionPromptCallback.pas',
-  uCEFPermissionHandler in '..\source\uCEFPermissionHandler.pas',
-  uCEFSharedMemoryRegion in '..\source\uCEFSharedMemoryRegion.pas',
-  uCEFSharedProcessMessageBuilder in '..\source\uCEFSharedProcessMessageBuilder.pas',
-  uCEFRunQuickMenuCallback in '..\source\uCEFRunQuickMenuCallback.pas',
-  uCEFPreferenceRegistrar in '..\source\uCEFPreferenceRegistrar.pas',
-  uCEFPreferenceManager in '..\source\uCEFPreferenceManager.pas',
-  uCEFApplicationEvents in '..\source\uCEFApplicationEvents.pas';  
-
+  uCEFFrameHandler in '..\source\uCEFFrameHandler.pas';
 end.
 
