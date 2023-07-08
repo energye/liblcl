@@ -12,7 +12,7 @@ unit uCEF_LCL_SchemeHandlerFactoryRef;
 interface
 
 uses
-  uCEFTypes, uCEFInterfaces, uCEFSchemeHandlerFactory, uCEFResourceHandler, uCEFBaseRefCounted, uCEF_LCL_ResourceRequestHandlerRef,
+  uCEFTypes, uCEFInterfaces, uCEFSchemeHandlerFactory, uCEFResourceHandler, uCEFBaseRefCounted,
   uCEF_LCL_EventCallback;
 
 type

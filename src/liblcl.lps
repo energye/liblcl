@@ -311,7 +311,7 @@
       </SessionEnabledMatrixOptions>
     </BuildModes>
     <ManyBuildModesSelection Value="Win32,Win64"/>
-    <Units Count="28">
+    <Units Count="37">
       <Unit0>
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -319,7 +319,6 @@
         <CursorPos X="11" Y="50"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
         <Filename Value="uEventCallback.pas"/>
@@ -505,31 +504,138 @@
       </Unit25>
       <Unit26>
         <Filename Value="CEF_LCL_Component.inc"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="13" Y="11"/>
+        <CursorPos X="18" Y="12"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit26>
       <Unit27>
         <Filename Value="CEF_LCL_Export.inc"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="58"/>
+        <CursorPos X="26" Y="82"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="CEF_LCL_Application_Proc.inc"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="79"/>
-        <CursorPos X="34" Y="56"/>
+        <TopLine Value="1008"/>
+        <CursorPos X="5" Y="1041"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="483"/>
+        <CursorPos X="16" Y="510"/>
+        <UsageCount Value="10"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="CEF_LCL_RequestContext.inc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="CEF_LCL_RequestContextHandler.inc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="CEF_LCL_ResourceRequestHandler.inc"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="72"/>
+        <CursorPos X="7" Y="111"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit27>
+      </Unit32>
+      <Unit33>
+        <Filename Value="CEF_LCL_SchemeHandlerFactory.inc"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="uCEF_LCL_SchemeHandlerFactoryRef.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
+        <CursorPos X="83" Y="15"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="uCEF_LCL_ResourceRequestHandlerRef.pas"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="16"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFResourceHandler.pas"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="40"/>
+        <CursorPos X="76" Y="69"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit36>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
     </OtherDefines>
-    <JumpHistory Count="1">
+    <JumpHistory Count="12" HistoryIndex="11">
       <Position1>
         <Filename Value="liblcl.lpr"/>
         <Caret Line="50" Column="11" TopLine="25"/>
       </Position1>
+      <Position2>
+        <Filename Value="CEF_LCL_Component.inc"/>
+        <Caret Line="12" Column="18"/>
+      </Position2>
+      <Position3>
+        <Filename Value="CEF_LCL_Application_Proc.inc"/>
+        <Caret Line="1034" Column="35" TopLine="1005"/>
+      </Position3>
+      <Position4>
+        <Filename Value="CEF_LCL_Application_Proc.inc"/>
+        <Caret Line="1034" Column="26" TopLine="1005"/>
+      </Position4>
+      <Position5>
+        <Filename Value="CEF_LCL_Application_Proc.inc"/>
+        <Caret Line="1041" Column="16" TopLine="1012"/>
+      </Position5>
+      <Position6>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="56" Column="34" TopLine="58"/>
+      </Position6>
+      <Position7>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="82" Column="26" TopLine="58"/>
+      </Position7>
+      <Position8>
+        <Filename Value="CEF_LCL_ResourceRequestHandler.inc"/>
+      </Position8>
+      <Position9>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="82" Column="26" TopLine="58"/>
+      </Position9>
+      <Position10>
+        <Filename Value="CEF_LCL_SchemeHandlerFactory.inc"/>
+      </Position10>
+      <Position11>
+        <Filename Value="uCEF_LCL_SchemeHandlerFactoryRef.pas"/>
+        <Caret Line="38" Column="100"/>
+      </Position11>
+      <Position12>
+        <Filename Value="uCEF_LCL_SchemeHandlerFactoryRef.pas"/>
+        <Caret Line="37" Column="8"/>
+      </Position12>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
