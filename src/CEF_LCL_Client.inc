@@ -77,10 +77,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefClient_GetFrameHandler(const TObj: ICefClient; var aHandler: ICefFrameHandler); extdecl;
+procedure CefClient_GetFrameHandler(const TObj: ICefClient; var aHandler: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetFrameHandler(aHandler);
+  aHandler := nil;
   handleExceptionEnd
 end;
 

@@ -1,5 +1,4 @@
 package CEF4Delphi_FMX;
-
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
@@ -138,6 +137,7 @@ contains
   uCEFChromiumOptions in '..\source\uCEFChromiumOptions.pas',
   uCEFChromiumFontOptions in '..\source\uCEFChromiumFontOptions.pas',
   uCEFPDFPrintOptions in '..\source\uCEFPDFPrintOptions.pas',
+  uCEFRegisterCDMCallback in '..\source\uCEFRegisterCDMCallback.pas',
   uCEFThread in '..\source\uCEFThread.pas',
   uCEFv8Interceptor in '..\source\uCEFv8Interceptor.pas',
   uCEFWaitableEvent in '..\source\uCEFWaitableEvent.pas',
@@ -230,13 +230,7 @@ contains
   uCEFLinuxTypes in '..\source\uCEFLinuxTypes.pas',
   uCEFLinuxFunctions in '..\source\uCEFLinuxFunctions.pas',
   uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas',
-  uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas',
-  uCEFMacOSConstants in '..\source\uCEFMacOSConstants.pas',
-  uCEFMacOSFunctions in '..\source\uCEFMacOSFunctions.pas',
-  uCEFTimerWorkScheduler in '..\source\uCEFTimerWorkScheduler.pas',
-  uCEFMacOSCustomCocoaTimer in '..\source\uCEFMacOSCustomCocoaTimer.pas',
-  uCEFMacOSInterfaces in '..\source\uCEFMacOSInterfaces.pas',
-  uCEFFrameHandler in '..\source\uCEFFrameHandler.pas';
+  uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas';
 
 end.
 

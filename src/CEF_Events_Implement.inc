@@ -909,11 +909,6 @@ begin
   SendEvent([Sender, browser_view, popup_browser_view, is_devtools, @aResult]);
 end;
 
-procedure TLCLEvent.BrowserViewComponent_OnGetChromeToolbarType(const Sender: TObject; var aChromeToolbarType: TCefChromeToolbarType);
-begin
-  SendEvent([Sender, @aChromeToolbarType]);
-end;
-
 {==TBufferPanel==}
 {$IFDEF MSWINDOWS}
 procedure TLCLEvent.BufferPanel_OnIMECancelComposition(Sender: TObject);

@@ -62,12 +62,10 @@ type
       procedure GetDragHandler(var aHandler : ICefDragHandler); virtual;
       procedure GetFindHandler(var aHandler : ICefFindHandler); virtual;
       procedure GetFocusHandler(var aHandler : ICefFocusHandler); virtual;
-      procedure GetFrameHandler(var aHandler : ICefFrameHandler); virtual;
       procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); virtual;
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); virtual;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); virtual;
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); virtual;
-      procedure GetPrintHandler(var aHandler : ICefPrintHandler); virtual;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
@@ -88,12 +86,10 @@ type
       procedure GetDragHandler(var aHandler : ICefDragHandler); virtual;
       procedure GetFindHandler(var aHandler : ICefFindHandler); virtual;
       procedure GetFocusHandler(var aHandler : ICefFocusHandler); virtual;
-      procedure GetFrameHandler(var aHandler : ICefFrameHandler); virtual;
       procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); virtual;
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); virtual;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); virtual;
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); virtual;
-      procedure GetPrintHandler(var aHandler : ICefPrintHandler); virtual;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
@@ -121,8 +117,6 @@ type
       FRequestHandler     : ICefRequestHandler;
       FDragHandler        : ICefDragHandler;
       FFindHandler        : ICefFindHandler;
-      FPrintHandler       : ICefPrintHandler;
-      FFrameHandler       : ICefFrameHandler;
 
       procedure GetAudioHandler(var aHandler : ICefAudioHandler); override;
       procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); override;
@@ -132,12 +126,10 @@ type
       procedure GetDragHandler(var aHandler : ICefDragHandler); override;
       procedure GetFindHandler(var aHandler : ICefFindHandler); override;
       procedure GetFocusHandler(var aHandler : ICefFocusHandler); override;
-      procedure GetFrameHandler(var aHandler : ICefFrameHandler); override;
       procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); override;
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); override;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); override;
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); override;
-      procedure GetPrintHandler(var aHandler : ICefPrintHandler); override;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); override;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); override;
       function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; override;
@@ -162,8 +154,7 @@ uses
   uCEFFocusHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFKeyboardHandler,
   uCEFDisplayHandler, uCEFDownloadHandler, uCEFJsDialogHandler,
   uCEFLifeSpanHandler, uCEFRequestHandler, uCEFRenderHandler, uCEFDragHandler,
-  uCEFFindHandler, uCEFConstants, uCEFApplicationCore, uCEFFrame, uCEFAudioHandler,
-  uCEFPrintHandler, uCEFFrameHandler;
+  uCEFFindHandler, uCEFConstants, uCEFApplicationCore, uCEFFrame, uCEFAudioHandler;
 
 
 // ******************************************************
@@ -218,11 +209,6 @@ begin
   aHandler := nil;
 end;
 
-procedure TCefClientRef.GetFrameHandler(var aHandler : ICefFrameHandler);
-begin
-  aHandler := nil;
-end;
-
 procedure TCefClientRef.GetJsdialogHandler(var aHandler : ICefJsDialogHandler);
 begin
   aHandler := nil;
@@ -239,11 +225,6 @@ begin
 end;
 
 procedure TCefClientRef.GetLoadHandler(var aHandler : ICefLoadHandler);
-begin
-  aHandler := nil;
-end;
-
-procedure TCefClientRef.GetPrintHandler(var aHandler : ICefPrintHandler);
 begin
   aHandler := nil;
 end;
@@ -410,23 +391,6 @@ begin
     end;
 end;
 
-function cef_client_own_get_frame_handler(self: PCefClient): PCefFrameHandler; stdcall;
-var
-  TempObject  : TObject;
-  TempHandler : ICefFrameHandler;
-begin
-  Result      := nil;
-  TempObject  := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
-    try
-      TCefClientOwn(TempObject).GetFrameHandler(TempHandler);
-      if (TempHandler <> nil) then Result := TempHandler.Wrap;
-    finally
-      TempHandler := nil;
-    end;
-end;
-
 function cef_client_own_get_jsdialog_handler(self: PCefClient): PCefJsDialogHandler; stdcall;
 var
   TempObject  : TObject;
@@ -495,7 +459,7 @@ begin
     end;
 end;
 
-function cef_client_own_get_render_handler(self: PCefClient): PCefRenderHandler; stdcall;
+function cef_client_own_get_get_render_handler(self: PCefClient): PCefRenderHandler; stdcall;
 var
   TempObject  : TObject;
   TempHandler : ICefRenderHandler;
@@ -523,24 +487,6 @@ begin
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
       TCefClientOwn(TempObject).GetRequestHandler(TempHandler);
-      if (TempHandler <> nil) then Result := TempHandler.Wrap;
-    finally
-      TempHandler := nil;
-    end;
-end;
-
-function cef_client_own_get_print_handler(self: PCefClient): PCefPrintHandler; stdcall;
-var
-  TempObject  : TObject;
-  TempHandler : ICefPrintHandler;
-begin
-  Result     := nil;
-  TempObject := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
-    try
-      TempHandler := nil;
-      TCefClientOwn(TempObject).GetPrintHandler(TempHandler);
       if (TempHandler <> nil) then Result := TempHandler.Wrap;
     finally
       TempHandler := nil;
@@ -579,13 +525,11 @@ begin
       get_drag_handler            := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_drag_handler;
       get_find_handler            := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_find_handler;
       get_focus_handler           := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_focus_handler;
-      get_frame_handler           := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_frame_handler;
       get_jsdialog_handler        := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_jsdialog_handler;
       get_keyboard_handler        := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_keyboard_handler;
       get_life_span_handler       := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_life_span_handler;
       get_load_handler            := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_load_handler;
-      get_print_handler           := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_print_handler;
-      get_render_handler          := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_render_handler;
+      get_render_handler          := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_get_render_handler;
       get_request_handler         := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_request_handler;
       on_process_message_received := {$IFDEF FPC}@{$ENDIF}cef_client_own_on_process_message_received;
     end;
@@ -631,11 +575,6 @@ begin
   aHandler := nil;
 end;
 
-procedure TCefClientOwn.GetFrameHandler(var aHandler : ICefFrameHandler);
-begin
-  aHandler := nil;
-end;
-
 procedure TCefClientOwn.GetJsdialogHandler(var aHandler : ICefJsDialogHandler);
 begin
   aHandler := nil;
@@ -652,11 +591,6 @@ begin
 end;
 
 procedure TCefClientOwn.GetLoadHandler(var aHandler : ICefLoadHandler);
-begin
-  aHandler := nil;
-end;
-
-procedure TCefClientOwn.GetPrintHandler(var aHandler : ICefPrintHandler);
 begin
   aHandler := nil;
 end;
@@ -720,8 +654,6 @@ begin
           if events.MustCreateRequestHandler     then FRequestHandler     := TCustomRequestHandler.Create(events);
           if events.MustCreateDragHandler        then FDragHandler        := TCustomDragHandler.Create(events);
           if events.MustCreateFindHandler        then FFindHandler        := TCustomFindHandler.Create(events);
-          if events.MustCreatePrintHandler       then FPrintHandler       := TCustomPrintHandler.Create(events);
-          if events.MustCreateFrameHandler       then FFrameHandler       := TCustomFrameHandler.Create(events);
         end;
     end;
 end;
@@ -751,8 +683,6 @@ begin
   if (FRenderHandler      <> nil) then FRenderHandler.RemoveReferences;
   if (FDragHandler        <> nil) then FDragHandler.RemoveReferences;
   if (FFindHandler        <> nil) then FFindHandler.RemoveReferences;
-  if (FPrintHandler       <> nil) then FPrintHandler.RemoveReferences;
-  if (FFrameHandler       <> nil) then FFrameHandler.RemoveReferences;
 end;
 
 procedure TCustomClientHandler.InitializeVars;
@@ -771,8 +701,6 @@ begin
   FRenderHandler      := nil;
   FDragHandler        := nil;
   FFindHandler        := nil;
-  FPrintHandler       := nil;
-  FFrameHandler       := nil;
   FEvents             := nil;
 end;
 
@@ -840,14 +768,6 @@ begin
     aHandler := nil;
 end;
 
-procedure TCustomClientHandler.GetFrameHandler(var aHandler : ICefFrameHandler);
-begin
-  if (FFrameHandler <> nil) then
-    aHandler := FFrameHandler
-   else
-    aHandler := nil;
-end;
-
 procedure TCustomClientHandler.GetJsdialogHandler(var aHandler : ICefJsDialogHandler);
 begin
   if (FJsDialogHandler <> nil) then
@@ -876,14 +796,6 @@ procedure TCustomClientHandler.GetLoadHandler(var aHandler : ICefLoadHandler);
 begin
   if (FLoadHandler <> nil) then
     aHandler := FLoadHandler
-   else
-    aHandler := nil;
-end;
-
-procedure TCustomClientHandler.GetPrintHandler(var aHandler : ICefPrintHandler);
-begin
-  if (FPrintHandler <> nil) then
-    aHandler := FPrintHandler
    else
     aHandler := nil;
 end;

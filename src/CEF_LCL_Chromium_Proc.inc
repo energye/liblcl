@@ -85,12 +85,6 @@ procedure CEFChromium_BrowserById(const AObj: TChromium; id: integer; var Result
 begin
   handleExceptionBegin
   Result := AObj.BrowserById[id];
-  if Result = nil then
-  begin
-    exit;
-  end;
-  if not Result.IsValid then
-    Result := nil;
   handleExceptionEnd
 end;
 

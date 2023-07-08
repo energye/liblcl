@@ -60,7 +60,7 @@ end;
 procedure CefBrowserView_ChromeToolbar(const TObj: ICefBrowserView; var Result: ICefView); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetChromeToolbar();
+  Result := nil;
   handleExceptionEnd
 end;
 

@@ -42,12 +42,19 @@ unit uCEFFMXWorkScheduler;
 
 {$I cef.inc}
 
+// Define this conditional to use TCEFWorkSchedulerQueueThread instead of using
+// PostMessage, Application.QueueAsyncCall or TThread.Queue inside
+// TCEFWorkScheduler.ScheduleMessagePumpWork
+// TCEFWorkSchedulerQueueThread is just a new experimental way to handle the
+// external message pump events for all platforms.
+{.$DEFINE USEQUEUETHREAD}
+
 interface
 
 uses
   System.Classes, System.Types,
   FMX.Types, FMX.Controls,
-  uCEFConstants, uCEFWorkSchedulerQueueThread, uCEFWorkSchedulerThread;
+  uCEFConstants, {$IFDEF USEQUEUETHREAD}uCEFWorkSchedulerQueueThread,{$ENDIF} uCEFWorkSchedulerThread;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
@@ -55,21 +62,24 @@ type
   TFMXWorkScheduler = class(TComponent)
     protected
       FThread             : TCEFWorkSchedulerThread;
+      {$IFDEF USEQUEUETHREAD}
       FQueueThread        : TCEFWorkSchedulerQueueThread;
+      {$ENDIF}
       FDepleteWorkCycles  : cardinal;
       FDepleteWorkDelay   : cardinal;
       FDefaultInterval    : integer;
       FStopped            : boolean;
-      FUseQueueThread     : boolean;
       {$IFDEF MSWINDOWS}
       {$WARN SYMBOL_PLATFORM OFF}
       FPriority           : TThreadPriority;
       {$WARN SYMBOL_PLATFORM ON}
       {$ENDIF}
 
+      {$IFDEF USEQUEUETHREAD}
       procedure CreateQueueThread;
       procedure DestroyQueueThread;
       procedure QueueThread_OnPulse(Sender : TObject; aDelay : integer);
+      {$ENDIF}
 
       procedure DestroyThread;
       procedure DepleteWork;
@@ -96,7 +106,6 @@ type
       procedure   ScheduleWork(const delay_ms : int64);
       procedure   CreateThread;
 
-
     published
       {$IFDEF MSWINDOWS}
       {$WARN SYMBOL_PLATFORM OFF}
@@ -106,7 +115,6 @@ type
       property    DefaultInterval    : integer          read FDefaultInterval     write SetDefaultInterval  default  CEF_TIMER_MAXDELAY;
       property    DepleteWorkCycles  : cardinal         read FDepleteWorkCycles   write FDepleteWorkCycles  default  CEF_TIMER_DEPLETEWORK_CYCLES;
       property    DepleteWorkDelay   : cardinal         read FDepleteWorkDelay    write FDepleteWorkDelay   default  CEF_TIMER_DEPLETEWORK_DELAY;
-      property    UseQueueThread     : boolean          read FUseQueueThread      write FUseQueueThread     default  False;
   end;
 
 var
@@ -145,16 +153,19 @@ end;
 destructor TFMXWorkScheduler.Destroy;
 begin
   DestroyThread;
+  {$IFDEF USEQUEUETHREAD}
   DestroyQueueThread;
+  {$ENDIF}
 
   inherited Destroy;
 end;
 
 procedure TFMXWorkScheduler.Initialize;
 begin
-  FUseQueueThread     := False;
   FThread             := nil;
+  {$IFDEF USEQUEUETHREAD}
   FQueueThread        := nil;
+  {$ENDIF}
   FStopped            := False;
   {$IFDEF MSWINDOWS}
   {$WARN SYMBOL_PLATFORM OFF}
@@ -178,10 +189,12 @@ begin
   FThread.OnPulse         := Thread_OnPulse;
   FThread.Start;
 
-  if FUseQueueThread then
-    CreateQueueThread;
+  {$IFDEF USEQUEUETHREAD}
+  CreateQueueThread;
+  {$ENDIF}
 end;
 
+{$IFDEF USEQUEUETHREAD}
 procedure TFMXWorkScheduler.CreateQueueThread;
 begin
   FQueueThread         := TCEFWorkSchedulerQueueThread.Create;
@@ -217,6 +230,7 @@ procedure TFMXWorkScheduler.QueueThread_OnPulse(Sender : TObject; aDelay : integ
 begin
   ScheduleWork(aDelay);
 end;
+{$ENDIF}
 
 procedure TFMXWorkScheduler.DestroyThread;
 begin
@@ -273,13 +287,18 @@ procedure TFMXWorkScheduler.ScheduleMessagePumpWork(const delay_ms : int64);
 begin
   if FStopped then exit;
 
-  if FUseQueueThread and (FQueueThread <> nil) and FQueueThread.Ready then
-    FQueueThread.EnqueueValue(integer(delay_ms))
-   else
-    TThread.ForceQueue(nil, procedure
-                            begin
-                              ScheduleWork(delay_ms);
-                            end);
+  {$IFDEF USEQUEUETHREAD}
+    if (FQueueThread <> nil) and FQueueThread.Ready then
+      begin
+        FQueueThread.EnqueueValue(integer(delay_ms));
+        exit;
+      end;
+  {$ENDIF}
+
+  TThread.Queue(nil, procedure
+                     begin
+                       ScheduleWork(delay_ms);
+                     end);
 end;
 
 procedure TFMXWorkScheduler.StopScheduler;

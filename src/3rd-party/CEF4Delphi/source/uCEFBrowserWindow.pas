@@ -104,8 +104,8 @@ type
       function    CreateBrowser(aParentHandle: TCefWindowHandle;
                   aParentRect: TRect; const aWindowName: ustring = '';
                   const aContext: ICefRequestContext = nil;
-                  const aExtraInfo: ICefDictionaryValue = nil;
-                  aForceAsPopup : boolean = False): boolean; overload; override;
+                  const aExtraInfo: ICefDictionaryValue = nil): boolean; overload; override;
+      procedure   CreateBrowser(const aWindowName: ustring); overload; override;
       function    CreateBrowser(const aURL: ustring;
                   const aBrowserViewComp: TCEFBrowserViewComponent;
                   const aContext: ICefRequestContext = nil;
@@ -369,12 +369,19 @@ end;
 
 function TEmbeddedChromium.CreateBrowser(aParentHandle: TCefWindowHandle;
   aParentRect: TRect; const aWindowName: ustring;
-  const aContext: ICefRequestContext; const aExtraInfo: ICefDictionaryValue;
-  aForceAsPopup : boolean): boolean;
+  const aContext: ICefRequestContext; const aExtraInfo: ICefDictionaryValue): boolean;
 begin
   FState := csCreatingBrowser;
   Result := inherited CreateBrowser(aParentHandle, aParentRect, aWindowName,
-    aContext, aExtraInfo, aForceAsPopup);
+    aContext, aExtraInfo);
+  if Initialized then
+    DoCreated(0);
+end;
+
+procedure TEmbeddedChromium.CreateBrowser(const aWindowName: ustring);
+begin
+  FState := csCreatingBrowser;
+  inherited CreateBrowser(aWindowName);
   if Initialized then
     DoCreated(0);
 end;

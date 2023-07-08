@@ -24,8 +24,6 @@ begin
   requestContextSettings^.persist_session_cookies := Integer(PRequestContextSettings^.persistSessionCookies);
   requestContextSettings^.persist_user_preferences := Integer(PRequestContextSettings^.persistUserPreferences);
   requestContextSettings^.accept_language_list := CefString(PCharToUStr(PRequestContextSettings^.acceptLanguageList));
-  requestContextSettings^.cookieable_schemes_list := CefString(PCharToUStr(PRequestContextSettings^.cookieableSchemesList));
-  requestContextSettings^.cookieable_schemes_exclude_defaults := Integer(PRequestContextSettings^.cookieableSchemesExcludeDefaults);
 
   Result := TCefRequestContextRef.New(requestContextSettings, handler);
   handleExceptionEnd
@@ -34,7 +32,7 @@ end;
 procedure  RequestContextRef_NewTwo(const aCache, aAcceptLanguageList, aCookieableSchemesList : PChar; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : LongBool; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefRequestContextRef.New(PCharToUStr(aCache), PCharToUStr(aAcceptLanguageList), PCharToUStr(aCookieableSchemesList), aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences, False, handler);
+  Result := TCefRequestContextRef.New(PCharToUStr(aCache), PCharToUStr(aAcceptLanguageList), aPersistSessionCookies, aPersistUserPreferences, False, handler);
   handleExceptionEnd
 end;
 
@@ -206,7 +204,7 @@ end;
 procedure  RequestContext_GetMediaRouter(const TObj: ICefRequestContext; const callback: ICefCompletionCallback; var Result: ICefMediaRouter);  extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetMediaRouter(callback);
+  Result := TObj.GetMediaRouter();
   handleExceptionEnd
 end;
 

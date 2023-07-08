@@ -38,7 +38,7 @@ type
     procedure OnGetHeightForWidth(const view: ICefView; Width: integer; var aResult: integer); override;
     procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
     procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
-    procedure OnWindowChanged(const view: ICefView; added: boolean); override;
+    procedure OnWindowChanged(const view: ICefView; added: boolean);
     procedure OnFocus(const view: ICefView); override;
     procedure OnBlur(const view: ICefView); override;
 

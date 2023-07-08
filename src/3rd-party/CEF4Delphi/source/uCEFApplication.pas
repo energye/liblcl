@@ -88,7 +88,8 @@ type
       FDestroyApplicationObject      : boolean;
       FDestroyAppWindows             : boolean;
       {$IFDEF FPC}
-      FContextInitializedHandlers    : TMethodList;
+      FContextInitializedHandlers: TMethodList;
+      FContextInitializedDone: Boolean;
 
       procedure CallContextInitializedHandlers(Data: PtrInt);
       {$ENDIF}
@@ -100,8 +101,8 @@ type
       destructor  Destroy; override;
       procedure   UpdateDeviceScaleFactor; override;
 
-      property DestroyApplicationObject : boolean read FDestroyApplicationObject write FDestroyApplicationObject;
-      property DestroyAppWindows        : boolean read FDestroyAppWindows        write FDestroyAppWindows;
+      property DestroyApplicationObject: boolean read FDestroyApplicationObject write FDestroyApplicationObject;
+      property DestroyAppWindows       : boolean read FDestroyAppWindows        write FDestroyAppWindows;
 
       {$IFDEF FPC}
       procedure Internal_OnContextInitialized; override; // In UI thread
@@ -208,24 +209,22 @@ begin
   {$ENDIF}
 
   inherited Create;
-
-  if (GlobalCEFApp = nil) then
+  if GlobalCEFApp = nil then
     GlobalCEFApp := Self;
 
-  FDestroyApplicationObject := False;
-  FDestroyAppWindows        := True;
+  FDestroyApplicationObject      := False;
+  FDestroyAppWindows             := True;
 end;
 
 destructor TCefApplication.Destroy;
 begin
-  if (GlobalCEFApp = Self) then
+  if GlobalCEFApp = Self then
     GlobalCEFApp := nil;
+  inherited Destroy;
 
   {$IFDEF FPC}
-  FreeAndNil(FContextInitializedHandlers);
+  FContextInitializedHandlers.Free;
   {$ENDIF}
-
-  inherited Destroy;
 end;
 
 procedure TCefApplication.UpdateDeviceScaleFactor;
@@ -268,29 +267,27 @@ end;
 procedure TCefApplication.Internal_OnContextInitialized;
 begin
   inherited Internal_OnContextInitialized;
-
   Application.QueueAsyncCall(@CallContextInitializedHandlers, 0);
 end;
 
 procedure TCefApplication.AddContextInitializedHandler(AHandler: TNotifyEvent);
 begin
-  if FGlobalContextInitialized then
-    AHandler(Self)
-   else
-    if (FContextInitializedHandlers <> nil) then
-      FContextInitializedHandlers.Add(TMethod(AHandler));
+  FContextInitializedHandlers.Add(TMethod(AHandler));
+  if FContextInitializedDone then
+    AHandler(Self);
 end;
 
 procedure TCefApplication.RemoveContextInitializedHandler(AHandler: TNotifyEvent);
 begin
-  if (FContextInitializedHandlers <> nil) then
-    FContextInitializedHandlers.Remove(TMethod(AHandler));
+  FContextInitializedHandlers.Remove(TMethod(AHandler));
 end;
+{$ENDIF}
 
+{$IFDEF FPC}
 procedure TCefApplication.CallContextInitializedHandlers(Data: PtrInt);
 begin
-  if (FContextInitializedHandlers <> nil) then
-    FContextInitializedHandlers.CallNotifyEvents(Self);
+  FContextInitializedHandlers.CallNotifyEvents(Self);
+  FContextInitializedDone := True;
 end;
 {$ENDIF}
 
@@ -304,7 +301,7 @@ var
 begin
   {$IFNDEF FPC}
   {$IFNDEF FMX}
-  if (Application <> nil) then
+  if Application <> nil then
     begin
       if FDestroyApplicationObject then
         begin
@@ -338,8 +335,7 @@ begin
               if (Application.PopupControlWnd <> 0) then DeallocateHWnd(Application.PopupControlWnd);
               {$ENDIF}
             end;
-
-          if not(IsLibrary) then
+          if not IsLibrary then
             begin
               // Undo the OleInitialize from TApplication.Create. The sub-processes want a different
               // COM thread model and fail with an assertion if the Debug-DLLs are used.

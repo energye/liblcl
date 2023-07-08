@@ -27,12 +27,13 @@ uses
   uCEFMenuModel, uCEFMenuModelDelegate, uCEFMiscFunctions, 
   uCEFNavigationEntry, uCEFNavigationEntryVisitor, uCEFPDFPrintCallback, 
   uCEFPDFPrintOptions, uCEFPostData, uCEFPostDataElement, uCEFPrintSettings, 
-  uCEFProcessMessage, uCEFRenderHandler, uCEFRenderProcessHandler, 
-  uCEFRequest, uCEFRequestCallback, uCEFRequestContext, 
-  uCEFRequestContextHandler, uCEFRequestHandler, uCEFResolveCallback, 
-  uCEFResourceBundle, uCEFResourceBundleHandler, uCEFResourceHandler, 
-  uCEFResponse, uCEFResponseFilter, uCEFRunContextMenuCallback, 
-  uCEFRunFileDialogCallback, uCEFSchemeHandlerFactory, uCEFSchemeRegistrar, 
+  uCEFProcessMessage, uCEFRegisterCDMCallback, uCEFRenderHandler, 
+  uCEFRenderProcessHandler, uCEFRequest, uCEFRequestCallback, 
+  uCEFRequestContext, uCEFRequestContextHandler, uCEFRequestHandler, 
+  uCEFResolveCallback, uCEFResourceBundle, uCEFResourceBundleHandler, 
+  uCEFResourceHandler, uCEFResponse, uCEFResponseFilter, 
+  uCEFRunContextMenuCallback, uCEFRunFileDialogCallback, 
+  uCEFSchemeHandlerFactory, uCEFSchemeRegistrar, 
   uCEFSelectClientCertificateCallback, uCEFSetCookieCallback, uCEFSslInfo, 
   uCEFSSLStatus, uCEFStreamReader, uCEFStreamWriter, uCEFStringList, 
   uCEFStringMap, uCEFStringMultimap, uCEFStringVisitor, uCEFTask, 
@@ -65,8 +66,7 @@ uses
   uCEFPrintDialogCallback, uCEFPrintHandler, uCEFPrintJobCallback, 
   uCEFLinuxFunctions, uCEFLinuxTypes, uCEFLinuxConstants, 
   uCEFWorkSchedulerQueueThread, uCEFLinkedWinControlBase, uCEFLazarusCocoa, 
-  uCEFBrowserWindow, uCEFOsrBrowserWindow, uCEFTimerWorkScheduler, 
-  uCEFFrameHandler, LazarusPackageIntf;
+  uCEFBrowserWindow, uCEFOsrBrowserWindow, LazarusPackageIntf;
 
 implementation
 

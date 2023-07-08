@@ -36,7 +36,6 @@ type
     FDragHandler: ICefDragHandler;
     FFindHandler: ICefFindHandler;
     FPrintHandler: ICefPrintHandler;
-    FFrameHandler: ICefFrameHandler;
   public
 
     procedure GetAudioHandler(var aHandler: ICefAudioHandler); override;
@@ -47,12 +46,12 @@ type
     procedure GetDragHandler(var aHandler: ICefDragHandler); override;
     procedure GetFindHandler(var aHandler: ICefFindHandler); override;
     procedure GetFocusHandler(var aHandler: ICefFocusHandler); override;
-    procedure GetFrameHandler(var aHandler: ICefFrameHandler); override;
+    procedure GetFrameHandler(var aHandler: Pointer);
     procedure GetJsdialogHandler(var aHandler: ICefJsdialogHandler); override;
     procedure GetKeyboardHandler(var aHandler: ICefKeyboardHandler); override;
     procedure GetLifeSpanHandler(var aHandler: ICefLifeSpanHandler); override;
     procedure GetLoadHandler(var aHandler: ICefLoadHandler); override;
-    procedure GetPrintHandler(var aHandler: ICefPrintHandler); override;
+    procedure GetPrintHandler(var aHandler: ICefPrintHandler);
     procedure GetRenderHandler(var aHandler: ICefRenderHandler); override;
     procedure GetRequestHandler(var aHandler: ICefRequestHandler); override;
     function OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_: ICefProcessMessage): boolean; override;
@@ -137,13 +136,9 @@ begin
   aHandler := FFocusHandler;
 end;
 
-procedure TClientRef.GetFrameHandler(var aHandler: ICefFrameHandler);
+procedure TClientRef.GetFrameHandler(var aHandler: Pointer);
 begin
-  if FFrameHandler = nil then
-  begin
-    FFrameHandler := TFrameHandlerRef.Create;
-  end;
-  aHandler := FFrameHandler;
+  aHandler := nil;
 end;
 
 procedure TClientRef.GetJsdialogHandler(var aHandler: ICefJsdialogHandler);
@@ -231,7 +226,6 @@ begin
   if (FDragHandler <> nil) then FDragHandler.RemoveReferences;
   if (FFindHandler <> nil) then FFindHandler.RemoveReferences;
   if (FPrintHandler <> nil) then FPrintHandler.RemoveReferences;
-  if (FFrameHandler <> nil) then FFrameHandler.RemoveReferences;
   FAudioHandler := nil;
   FContextMenuHandler := nil;
   FDialogHandler := nil;
@@ -240,7 +234,6 @@ begin
   FDragHandler := nil;
   FFindHandler := nil;
   FFocusHandler := nil;
-  FFrameHandler := nil;
   FJsDialogHandler := nil;
   FKeyboardHandler := nil;
   FLifeSpanHandler := nil;
@@ -262,7 +255,6 @@ begin
   FDragHandler := nil;
   FFindHandler := nil;
   FFocusHandler := nil;
-  FFrameHandler := nil;
   FJsDialogHandler := nil;
   FKeyboardHandler := nil;
   FLifeSpanHandler := nil;

@@ -399,7 +399,6 @@ const
   EVENTFLAG_IS_LEFT              = 1 shl 10;
   EVENTFLAG_IS_RIGHT             = 1 shl 11;
   EVENTFLAG_ALTGR_DOWN           = 1 shl 12;
-  EVENTFLAG_IS_REPEAT            = 1 shl 13;
 
   // /include/internal/cef_types.h (cef_drag_operations_mask_t)
   DRAG_OPERATION_NONE     = 0;
@@ -553,11 +552,6 @@ const
   CEF_TFC_DELETE     = 5;
   CEF_TFC_SELECT_ALL = 6;
 
-  // /include/internal/cef_types.h (cef_chrome_toolbar_type_t)
-  CEF_CTT_NONE       = 1;
-  CEF_CTT_NORMAL     = 2;
-  CEF_CTT_LOCATION   = 3;
-
   // /include/cef_api_hash.h (used as "cef_api_hash" parameters)
   CEF_API_HASH_PLATFORM  = 0;
   CEF_API_HASH_UNIVERSAL = 1;
@@ -644,14 +638,9 @@ const
   WM_POINTERUP             = $0247;
   {$IFEND}
 
-  // Default values for the Windowsless framerate setting in TChromiumOptions
-  // The values are frames per second.
-  CEF_OSR_FRAMERATE_DEFAULT                  = 30;  // Used when the shared textures are disabled.
-  CEF_OSR_SHARED_TEXTURES_FRAMERATE_DEFAULT  = 60;  // Used when the shared textures are enabled.
-
   CEF_TIMER_MINIMUM            = $0000000A;
   CEF_TIMER_MAXIMUM            = $7FFFFFFF;
-  CEF_TIMER_MAXDELAY           = 1000 div CEF_OSR_FRAMERATE_DEFAULT;
+  CEF_TIMER_MAXDELAY           = 1000 div 30; // 30fps
   CEF_TIMER_DEPLETEWORK_CYCLES = 10;
   CEF_TIMER_DEPLETEWORK_DELAY  = 50;
 
@@ -672,9 +661,6 @@ const
   INFINITE = Cardinal($FFFFFFFF);
   {$IFEND}
 
-  {$IFDEF CEF4DELHI_ALLOC_DEBUG}
-  CEF4DELPHI_ALLOC_PADDING = Pointer($44332211); // Some random value used as padding
-  {$ENDIF}
 implementation
 
 end.

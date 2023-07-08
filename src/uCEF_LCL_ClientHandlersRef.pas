@@ -14,7 +14,7 @@ interface
 uses
   Classes, uCEF_LCL_Entity,
   uCEFTypes, uCEFInterfaces, uCEFAudioHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFDisplayHandler,
-  uCEFDownloadHandler, uCEFDragHandler, uCEFFindHandler, uCEFFocusHandler, uCEFFrameHandler, uCEFJsdialogHandler, uCEFKeyboardHandler,
+  uCEFDownloadHandler, uCEFDragHandler, uCEFFindHandler, uCEFFocusHandler, uCEFJsdialogHandler, uCEFKeyboardHandler,
   uCEFLifeSpanHandler, uCEFLoadHandler, uCEFPrintHandler, uCEFRenderHandler, uCEFRequestHandler, uCEFv8Value,
   uCEF_LCL_EventCallback;
 
@@ -153,23 +153,6 @@ type
     procedure RemoveReferences; override;
   end;
 
-  {== FrameHandler ==}
-  TFrameHandlerRef = class(TCefFrameHandlerOwn)
-  public
-    FrameCreatedPtr: Pointer;
-    FrameAttachedPtr: Pointer;
-    FrameDetachedPtr: Pointer;
-    MainFrameChangedPtr: Pointer;
-    constructor Create; override;
-    destructor Destroy; override;
-  protected
-    procedure OnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame); override;
-    procedure OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame); override;
-    procedure OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame); override;
-    procedure OnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame); override;
-    procedure RemoveReferences; override;
-  end;
-
   {== JsDialogHandler ==}
   TJsDialogHandlerRef = class(TCefJsDialogHandlerOwn)
   public
@@ -251,7 +234,7 @@ type
     procedure OnPrintDialog(const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult: boolean); override;
     procedure OnPrintJob(const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult: boolean); override;
     procedure OnPrintReset(const browser: ICefBrowser); override;
-    procedure GetPDFPaperSize(const browser: ICefBrowser; deviceUnitsPerInch: integer; var aResult: TCefSize); override;
+    procedure GetPDFPaperSize(deviceUnitsPerInch: Integer; var aResult: TCefSize); override;
     procedure RemoveReferences; override;
   end;
 
@@ -787,67 +770,6 @@ begin
   inherited Destroy;
 end;
 
-{== FrameHandler ==}
-procedure TFrameHandlerRef.OnFrameCreated(const browser: ICefBrowser; const frame: ICefFrame);
-begin
-  if (FrameCreatedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(FrameCreatedPtr, [browser, frame]);
-  end
-  else
-    inherited OnFrameCreated(browser, frame);
-end;
-
-procedure TFrameHandlerRef.OnFrameAttached(const browser: ICefBrowser; const frame: ICefFrame);
-begin
-  if (FrameAttachedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(FrameAttachedPtr, [browser, frame, false]);
-  end
-  else
-    inherited OnFrameAttached(browser, frame);
-end;
-
-procedure TFrameHandlerRef.OnFrameDetached(const browser: ICefBrowser; const frame: ICefFrame);
-begin
-  if (FrameDetachedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(FrameDetachedPtr, [browser, frame]);
-  end
-  else
-    inherited OnFrameDetached(browser, frame);
-end;
-
-procedure TFrameHandlerRef.OnMainFrameChanged(const browser: ICefBrowser; const old_frame, new_frame: ICefFrame);
-begin
-  if (MainFrameChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(MainFrameChangedPtr, [browser, old_frame, new_frame]);
-  end
-  else
-    inherited OnMainFrameChanged(browser, old_frame, new_frame);
-end;
-
-procedure TFrameHandlerRef.RemoveReferences;
-begin
-  FrameCreatedPtr := nil;
-  FrameAttachedPtr := nil;
-  FrameDetachedPtr := nil;
-  MainFrameChangedPtr := nil;
-  inherited RemoveReferences;
-end;
-
-constructor TFrameHandlerRef.Create;
-begin
-  inherited Create;
-end;
-
-destructor TFrameHandlerRef.Destroy;
-begin
-  RemoveReferences;
-  inherited Destroy;
-end;
-
 {== JsDialogHandler ==}
 function TJsDialogHandlerRef.OnJsdialog(const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: boolean): boolean;
 begin
@@ -1141,14 +1063,18 @@ begin
   end;
 end;
 
-procedure TPrintHandlerRef.GetPDFPaperSize(const browser: ICefBrowser; deviceUnitsPerInch: integer; var aResult: TCefSize);
+procedure TPrintHandlerRef.GetPDFPaperSize(deviceUnitsPerInch: Integer; var aResult: TCefSize);
+var
+  ResultBool: boolean;
+  browser: Pointer;
 begin
   if (PDFPaperSizePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(PDFPaperSizePtr, [browser, deviceUnitsPerInch, @aResult]);
+    browser := nil;
+    TCEFEventCallback.SendEvent(PDFPaperSizePtr, [browser, deviceUnitsPerInch, @ResultBool]);
   end
   else
-    inherited GetPDFPaperSize(browser, deviceUnitsPerInch, aResult);
+    inherited GetPDFPaperSize(deviceUnitsPerInch, aResult);
 end;
 
 procedure TPrintHandlerRef.RemoveReferences;

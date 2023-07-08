@@ -106,7 +106,6 @@ type
       procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); override;
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
-      procedure OnWindowChanged(const view: ICefView; added: boolean); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
 
@@ -280,10 +279,7 @@ begin
     TCefWindowDelegateOwn(TempObject).OnGetInitialBounds(TCefWindowRef.UnWrap(window),
                                                          TempRect);
 
-  Result.x      := TempRect.x;
-  Result.y      := TempRect.y;
-  Result.width  := TempRect.width;
-  Result.height := TempRect.height;
+  Result := TempRect;
 end;
 
 function cef_window_delegate_is_frameless(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
@@ -545,17 +541,6 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnChildViewChanged', e) then raise;
-  end;
-end;
-
-procedure TCustomWindowDelegate.OnWindowChanged(const view: ICefView; added: boolean);
-begin
-  try
-    if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnWindowChanged(view, added);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomWindowDelegate.OnWindowChanged', e) then raise;
   end;
 end;
 

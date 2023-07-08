@@ -246,31 +246,27 @@ begin
 end;
 
 {== FrameHandler ==}
-procedure CefFrameHandlerRef_Create(var Result: TFrameHandlerRef); extdecl;
+procedure CefFrameHandlerRef_Create(var Result: Pointer); extdecl;
 begin
   handleExceptionBegin
-  Result := TFrameHandlerRef.Create;
+  Result := nil;
   handleExceptionEnd
 end;
 
-procedure CefFrameHandler_OnFrameCreated(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+procedure CefFrameHandler_OnFrameCreated(const AObj: Pointer; AEventData: Pointer); extdecl;
 begin
-  AObj.FrameCreatedPtr := AEventData;
 end;
 
-procedure CefFrameHandler_OnFrameAttached(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+procedure CefFrameHandler_OnFrameAttached(const AObj: Pointer; AEventData: Pointer); extdecl;
 begin
-  AObj.FrameAttachedPtr := AEventData;
 end;
 
-procedure CefFrameHandler_OnFrameDetached(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+procedure CefFrameHandler_OnFrameDetached(const AObj: Pointer; AEventData: Pointer); extdecl;
 begin
-  AObj.FrameDetachedPtr := AEventData;
 end;
 
-procedure CefFrameHandler_OnMainFrameChanged(const AObj: TFrameHandlerRef; AEventData: Pointer); extdecl;
+procedure CefFrameHandler_OnMainFrameChanged(const AObj: Pointer; AEventData: Pointer); extdecl;
 begin
-  AObj.MainFrameChangedPtr := AEventData;
 end;
 
 {== PermissionHandler ==}

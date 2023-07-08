@@ -137,6 +137,7 @@ contains
   uCEFChromiumOptions in '..\source\uCEFChromiumOptions.pas',
   uCEFChromiumFontOptions in '..\source\uCEFChromiumFontOptions.pas',
   uCEFPDFPrintOptions in '..\source\uCEFPDFPrintOptions.pas',
+  uCEFRegisterCDMCallback in '..\source\uCEFRegisterCDMCallback.pas',
   uCEFThread in '..\source\uCEFThread.pas',
   uCEFv8Interceptor in '..\source\uCEFv8Interceptor.pas',
   uCEFWaitableEvent in '..\source\uCEFWaitableEvent.pas',
@@ -222,8 +223,7 @@ contains
   uCEFPrintDialogCallback in '..\source\uCEFPrintDialogCallback.pas',
   uCEFPrintJobCallback in '..\source\uCEFPrintJobCallback.pas',
   uCEFWorkSchedulerQueueThread in '..\source\uCEFWorkSchedulerQueueThread.pas',
-  uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas',
-  uCEFTimerWorkScheduler in '..\source\uCEFTimerWorkScheduler.pas',
-  uCEFFrameHandler in '..\source\uCEFFrameHandler.pas';
+  uCEFLinkedWinControlBase in '..\source\uCEFLinkedWinControlBase.pas';
+
 end.
 

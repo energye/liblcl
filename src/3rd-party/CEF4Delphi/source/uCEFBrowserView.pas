@@ -60,7 +60,6 @@ type
   TCefBrowserViewRef = class(TCefViewRef, ICefBrowserView)
     protected
       function  GetBrowser : ICefBrowser;
-      function  GetChromeToolbar : ICefView;
       procedure SetPreferAccelerators(prefer_accelerators: boolean);
 
     public
@@ -77,11 +76,6 @@ uses
 function TCefBrowserViewRef.GetBrowser : ICefBrowser;
 begin
   Result := TCefBrowserRef.UnWrap(PCefBrowserView(FData)^.get_browser(PCefBrowserView(FData)));
-end;
-
-function TCefBrowserViewRef.GetChromeToolbar : ICefView;
-begin
-  Result := TCefViewRef.UnWrap(PCefBrowserView(FData)^.get_chrome_toolbar(PCefBrowserView(FData)));
 end;
 
 procedure TCefBrowserViewRef.SetPreferAccelerators(prefer_accelerators: boolean);

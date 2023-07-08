@@ -59,7 +59,6 @@ uses
 type
   TCefBrowserRef = class(TCefBaseRefCountedRef, ICefBrowser)
     protected
-      function  IsValid: boolean;
       function  GetHost: ICefBrowserHost;
       function  CanGoBack: Boolean;
       procedure GoBack;
@@ -164,11 +163,6 @@ uses
 
 
 // TCefBrowserRef
-
-function TCefBrowserRef.IsValid: boolean;
-begin
-  Result := PCefBrowser(FData)^.is_valid(PCefBrowser(FData)) <> 0;
-end;
 
 function TCefBrowserRef.GetHost: ICefBrowserHost;
 begin

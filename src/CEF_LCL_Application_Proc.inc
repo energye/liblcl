@@ -247,12 +247,11 @@ end;
 
 function CEFAppConfig_UserAgentProduct(): PChar; extdecl;
 begin
-  Result := PChar(string(GlobalCEFApp.UserAgentProduct));
+  Result := PChar('');
 end;
 
 procedure CEFAppConfig_SetUserAgentProduct(value: PChar) ; extdecl;
 begin
-  GlobalCEFApp.UserAgentProduct := PCharToUStr(value);
 end;
 
 function CEFAppConfig_Locale(): PChar; extdecl;
@@ -377,22 +376,20 @@ end;
 
 function CEFAppConfig_CookieableSchemesList(): PChar; extdecl;
 begin
-  Result := PChar(string(GlobalCEFApp.CookieableSchemesList));
+  Result := PChar('');
 end;
 
 procedure CEFAppConfig_SetCookieableSchemesList(value: PChar) ; extdecl;
 begin
-  GlobalCEFApp.CookieableSchemesList := PCharToUStr(value);
 end;
 
 function CEFAppConfig_CookieableSchemesExcludeDefaults(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.CookieableSchemesExcludeDefaults;
+  Result := False;
 end;
 
 procedure CEFAppConfig_SetCookieableSchemesExcludeDefaults(value: LongBool) ; extdecl;
 begin
-  GlobalCEFApp.CookieableSchemesExcludeDefaults := value;
 end;
 
 function CEFAppConfig_SingleProcess(): LongBool; extdecl;
@@ -915,42 +912,38 @@ end;
 
 function CEFAppConfig_DisableRequestHandlingForTesting(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.DisableRequestHandlingForTesting;
+  Result := False;
 end;
 
 procedure CEFAppConfig_SetDisableRequestHandlingForTesting(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.DisableRequestHandlingForTesting := value;
 end;
 
 function CEFAppConfig_DisablePopupBlocking(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.DisablePopupBlocking;
+  Result := False;
 end;
 
 procedure CEFAppConfig_SetDisablePopupBlocking(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.DisablePopupBlocking := value;
 end;
 
 function CEFAppConfig_DisableBackForwardCache(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.DisableBackForwardCache;
+  Result := False;
 end;
 
 procedure CEFAppConfig_SetDisableBackForwardCache(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.DisableBackForwardCache := value;
 end;
 
 function CEFAppConfig_DisableComponentUpdate(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.DisableComponentUpdate;
+  Result := False;
 end;
 
 procedure CEFAppConfig_SetDisableComponentUpdate(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.DisableComponentUpdate := value;
 end;
 
 function CEFAppConfig_AllowInsecureLocalhost(): LongBool; extdecl;

@@ -115,7 +115,7 @@ end;
 
 class function TCefMediaRouterRef.Global: ICefMediaRouter;
 begin
-  Result := UnWrap(cef_media_router_get_global(nil));
+  Result := UnWrap(cef_media_router_get_global());
 end;
 
 end.

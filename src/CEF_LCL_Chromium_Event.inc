@@ -272,30 +272,18 @@ end;
 
 procedure CEFChromium_SetOnFrameAttached(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnFrameAttached}
-  {$DEFINE EventName := OnFrameAttached}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnFrameCreated(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnFrameCreated}
-  {$DEFINE EventName := OnFrameCreated}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnFrameDetached(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnFrameDetached}
-  {$DEFINE EventName := OnFrameDetached}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnMainFrameChanged(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnMainFrameChanged}
-  {$DEFINE EventName := OnMainFrameChanged}
-  EventMethodCode
 end;
 
 procedure CEFChromium_SetOnBeforePopup(const AObj: TChromium; AEventData: Pointer); extdecl;

@@ -88,7 +88,6 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions,
   {$IFDEF DELPHI16_UP}
   System.SysUtils, System.Math;
   {$ELSE}
@@ -177,9 +176,7 @@ begin
       FPulsing := False;
     finally
       Unlock;
-
-      if not(Terminated) then
-        Synchronize({$IFDEF FPC}self, @{$ENDIF}DoOnPulseEvent);
+      if not(Terminated) then Synchronize({$IFDEF FPC}self, @{$ENDIF}DoOnPulseEvent);
     end;
 end;
 

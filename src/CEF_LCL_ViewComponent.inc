@@ -412,9 +412,6 @@ end;
 
 procedure  ViewComponent_SetOnWindowChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
 begin
-  {$DEFINE EventMethodName := ViewComponent_OnWindowChanged}
-  {$DEFINE EventName := OnWindowChanged}
-  EventMethodCode
 end;
 
 procedure  ViewComponent_SetOnLayoutChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;

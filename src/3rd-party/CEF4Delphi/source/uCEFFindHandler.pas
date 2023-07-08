@@ -146,8 +146,7 @@ procedure TCustomFindHandler.OnFindResult(const browser            : ICefBrowser
                                                 activeMatchOrdinal : Integer;
                                                 finalUpdate        : Boolean);
 begin
-  if (FEvents <> nil) then
-    IChromiumEvents(FEvents).doOnFindResult(browser, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate);
+  if (FEvents <> nil) then IChromiumEvents(FEvents).doOnFindResult(browser, identifier, count, selectionRect, activeMatchOrdinal, finalUpdate);
 end;
 
 end.
