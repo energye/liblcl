@@ -59,14 +59,14 @@ interface
 uses
   {$IFDEF DELPHI16_UP}
     {$IFDEF MSWINDOWS}
-      WinApi.Windows, WinApi.ActiveX, Winapi.ShellApi,
+      WinApi.Windows, WinApi.ActiveX, Winapi.ShellApi, System.Win.Registry,
     {$ELSE}
       {$IFDEF MACOSX}Macapi.Foundation, FMX.Helpers.Mac, Macapi.AppKit,{$ENDIF}
     {$ENDIF}
     {$IFDEF FMX}FMX.Types, FMX.Platform,{$ENDIF} System.Types, System.IOUtils,
     System.Classes, System.SysUtils, System.UITypes, System.Math,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows, ActiveX, ShellApi,{$ENDIF}
+    {$IFDEF MSWINDOWS}Windows, ActiveX, ShellApi, Registry,{$ENDIF}
     {$IFDEF DELPHI14_UP}Types, IOUtils,{$ENDIF} Classes, SysUtils, Math,
     {$IFDEF FPC}LCLType, LazFileUtils,{$IFNDEF MSWINDOWS}InterfaceBase, Forms,{$ENDIF}{$ENDIF}
     {$IFDEF LINUX}{$IFDEF FPC}
@@ -83,6 +83,7 @@ const
   SHLWAPIDLL  = 'shlwapi.dll';
   NTDLL       = 'ntdll.dll';
   User32DLL   = 'User32.dll';
+  Netapi32DLL = 'Netapi32.dll';
 
 function CefColorGetA(color: TCefColor): Byte;
 function CefColorGetR(color: TCefColor): byte;
@@ -182,6 +183,8 @@ function PathIsURLAnsi(pszPath: LPCSTR): BOOL; stdcall; external SHLWAPIDLL name
 function PathIsURLUnicode(pszPath: LPCWSTR): BOOL; stdcall; external SHLWAPIDLL name 'PathIsURLW';
 function ShutdownBlockReasonCreate(hWnd: HWND; Reason: LPCWSTR): Bool; stdcall; external User32DLL;
 function ShutdownBlockReasonDestroy(hWnd: HWND): Bool; stdcall; external User32DLL;
+function NetServerGetInfo(servername: LPWSTR; level: DWORD; out bufptr: Pointer): DWORD; stdcall; external Netapi32DLL;
+function NetApiBufferFree(Buffer: Pointer): DWORD; stdcall; external Netapi32DLL;
 
 {$IFNDEF DELPHI12_UP}
 const
@@ -227,6 +230,9 @@ procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TF
 function  GetExtendedFileVersion(const aFileName : ustring) : uint64;
 function  GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;
 procedure OutputLastErrorMessage;
+function  GetRegistryWindowsVersion(var aMajor, aMinor: cardinal) : boolean;
+function  GetRealWindowsVersion(var aMajor, aMinor: cardinal) : boolean;
+function  CheckRealWindowsVersion(aMajor, aMinor: cardinal) : boolean;
 {$ENDIF}
 
 function SplitLongString(aSrcString : string) : string;
@@ -1513,6 +1519,164 @@ begin
   {$IFDEF DEBUG}
   OutputDebugString({$IFDEF DELPHI12_UP}PWideChar{$ELSE}PAnsiChar{$ENDIF}(SysErrorMessage(GetLastError()) + chr(0)));
   {$ENDIF}
+end;
+
+function GetRegistryWindowsVersion(var aMajor, aMinor: cardinal) : boolean;
+const
+  SUBKEY = '\SOFTWARE\Microsoft\Windows NT\CurrentVersion';
+var
+  TempRegKey : TRegistry;
+  TempBuild  : integer;
+begin
+  Result     := False;
+  aMajor     := 0;
+  aMinor     := 0;
+  TempRegKey := nil;
+
+  try
+    try
+      TempRegKey         := TRegistry.Create(KEY_READ);
+      TempRegKey.RootKey := HKEY_LOCAL_MACHINE;
+
+      if TempRegKey.KeyExists(SUBKEY) and
+         TempRegKey.OpenKeyReadOnly(SUBKEY) then
+        try
+          if TempRegKey.ValueExists('CurrentMajorVersionNumber') and
+             TempRegKey.ValueExists('CurrentMinorVersionNumber') then
+            begin
+              aMajor := TempRegKey.ReadInteger('CurrentMajorVersionNumber');
+              aMinor := TempRegKey.ReadInteger('CurrentMinorVersionNumber');
+              Result := True;
+            end
+           else
+            if TempRegKey.ValueExists('CurrentBuildNumber') then
+              begin
+                TempBuild := StrToIntDef(TempRegKey.ReadString('CurrentBuildNumber'), 0);
+
+                if (TempBuild > 22000) then // Windows 11
+                  begin
+                    aMajor := 10;
+                    aMinor := 0;
+                    Result := True;
+                  end
+                 else
+                  if (TempBuild > 10240) then // Windows 10
+                    begin
+                      aMajor := 10;
+                      aMinor := 0;
+                      Result := True;
+                    end
+                   else
+                    if (TempBuild > 9600) then // Windows 8.1
+                      begin
+                        aMajor := 6;
+                        aMinor := 3;
+                        Result := True;
+                      end
+                     else
+                      if (TempBuild > 9200) then // Windows 8
+                        begin
+                          aMajor := 6;
+                          aMinor := 2;
+                          Result := True;
+                        end
+                       else
+                        if (TempBuild > 7600) then // Windows 7
+                          begin
+                            aMajor := 6;
+                            aMinor := 1;
+                            Result := True;
+                          end
+                         else
+                          if (TempBuild > 6000) then // Windows Vista
+                            begin
+                              aMajor := 6;
+                              aMinor := 0;
+                              Result := True;
+                            end
+                           else
+                            if (TempBuild > 3790) then // Windows Server 2003
+                              begin
+                                aMajor := 5;
+                                aMinor := 2;
+                                Result := True;
+                              end
+                             else
+                              if (TempBuild > 2600) then // Windows XP
+                                begin
+                                  aMajor := 5;
+                                  aMinor := 1;
+                                  Result := True;
+                                end
+                               else
+                                if (TempBuild > 2195) then // Windows 2000
+                                  begin
+                                    aMajor := 5;
+                                    aMinor := 0;
+                                    Result := True;
+                                  end;
+              end;
+        finally
+          TempRegKey.CloseKey;
+        end;
+    except
+      on e : exception do
+        if CustomExceptionHandler('GetRegistryWindowsVersion', e) then raise;
+    end;
+  finally
+    if assigned(TempRegKey) then
+      FreeAndNil(TempRegKey);
+  end;
+end;
+
+function GetRealWindowsVersion(var aMajor, aMinor: cardinal) : boolean;
+type
+  SERVER_INFO_101 = record
+    sv101_platform_id   : DWORD;
+    sv101_name          : LPWSTR;
+    sv101_version_major : DWORD;
+    sv101_version_minor : DWORD;
+    sv101_type          : DWORD;
+    sv101_comment       : LPWSTR;
+  end;
+  PSERVER_INFO_101 = ^SERVER_INFO_101;
+
+const
+  MAJOR_VERSION_MASK = $0F;
+  NO_ERROR           = 0;
+
+var
+  TempBuffer : PSERVER_INFO_101;
+begin
+  Result     := False;      
+  aMajor     := 0;
+  aMinor     := 0;
+  TempBuffer := nil;
+
+  if (NetServerGetInfo(nil, 101, Pointer(TempBuffer)) = NO_ERROR) then
+    try
+      aMajor := TempBuffer^.sv101_version_major and MAJOR_VERSION_MASK;
+      aMinor := TempBuffer^.sv101_version_minor;
+      Result := True;
+    finally
+      NetApiBufferFree(TempBuffer);
+    end;
+end;
+
+function CheckRealWindowsVersion(aMajor, aMinor: cardinal) : boolean;
+var
+  TempMajor, TempMinor : cardinal;
+  TempResultAPI, TempResultReg : boolean;
+begin
+  TempResultAPI := GetRealWindowsVersion(TempMajor, TempMinor) and
+                   ((TempMajor > aMajor) or
+                    ((TempMajor = aMajor) and (TempMinor >= aMinor)));
+
+  TempResultReg := GetRegistryWindowsVersion(TempMajor, TempMinor) and
+                   ((TempMajor > aMajor) or
+                    ((TempMajor = aMajor) and (TempMinor >= aMinor)));
+
+  Result := TempResultAPI or TempResultReg;
 end;
 
 function GetDLLVersion(const aDLLFile : ustring; var aVersionInfo : TFileVersionInfo) : boolean;

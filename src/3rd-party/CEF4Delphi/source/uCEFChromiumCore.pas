@@ -145,6 +145,8 @@ type
       FLoadImagesAutomatically  : boolean;
       FBatterySaverModeState    : TCefBatterySaverModeState;
       FHighEfficiencyMode       : TCefState;
+      FCanFocus                 : boolean;
+      FEnableFocusDelayMs       : cardinal;
 
       {$IFDEF LINUX}
       FXDisplay                 : PXDisplay;
@@ -325,6 +327,11 @@ type
 
       // ICefCommandHandler
       FOnChromeCommand                    : TOnChromeCommandEvent;
+      FOnIsChromeAppMenuItemVisible       : TOnIsChromeAppMenuItemVisibleEvent;
+      FOnIsChromeAppMenuItemEnabled       : TOnIsChromeAppMenuItemEnabledEvent;
+      FOnIsChromePageActionIconVisible    : TOnIsChromePageActionIconVisibleEvent;
+      FOnIsChromeToolbarButtonVisible     : TOnIsChromeToolbarButtonVisibleEvent;
+
 
       // ICefPermissionHandler
       FOnRequestMediaAccessPermission     : TOnRequestMediaAccessPermissionEvent;
@@ -351,6 +358,7 @@ type
       FOnZoomPctAvailable                 : TOnZoomPctAvailable;
       FOnMediaRouteCreateFinished         : TOnMediaRouteCreateFinishedEvent;
       FOnMediaSinkDeviceInfo              : TOnMediaSinkDeviceInfoEvent;
+      FOnCanFocus                         : TNotifyEvent;
       {$IFDEF MSWINDOWS}
       FOnBrowserCompMsg                   : TOnCompMsgEvent;
       FOnWidgetCompMsg                    : TOnCompMsgEvent;
@@ -672,6 +680,10 @@ type
 
       // ICefCommandHandler
       function  doOnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
+      function  doOnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean;
+      function  doOnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean;
+      function  doOnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean;
+      function  doOnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean;
 
       // ICefPermissionHandler
       function  doOnRequestMediaAccessPermission(const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback): boolean;
@@ -708,6 +720,7 @@ type
       procedure doBrowserNavigation(aTask : TCefBrowserNavigation); virtual;
       procedure doSetAudioMuted(aValue : boolean); virtual;
       procedure doToggleAudioMuted; virtual;
+      procedure doEnableFocus; virtual;
       function  MustCreateAudioHandler : boolean; virtual;
       function  MustCreateCommandHandler : boolean; virtual;
       function  MustCreateDevToolsMessageObserver : boolean; virtual;
@@ -971,6 +984,8 @@ type
       property  LoadImagesAutomatically       : boolean                      read FLoadImagesAutomatically     write SetLoadImagesAutomatically;
       property  BatterySaverModeState         : TCefBatterySaverModeState    read FBatterySaverModeState       write SetBatterySaverModeState;
       property  HighEfficiencyMode            : TCefState                    read FHighEfficiencyMode          write SetHighEfficiencyMode;
+      property  CanFocus                      : boolean                      read FCanFocus;
+      property  EnableFocusDelayMs            : cardinal                     read FEnableFocusDelayMs          write FEnableFocusDelayMs;
       {$IFDEF LINUX}
       property  XDisplay                      : PXDisplay                    read GetXDisplay;
       {$ENDIF}
@@ -1009,6 +1024,7 @@ type
       property  OnZoomPctAvailable                 : TOnZoomPctAvailable                      read FOnZoomPctAvailable                 write FOnZoomPctAvailable;
       property  OnMediaRouteCreateFinished         : TOnMediaRouteCreateFinishedEvent         read FOnMediaRouteCreateFinished         write FOnMediaRouteCreateFinished;
       property  OnMediaSinkDeviceInfo              : TOnMediaSinkDeviceInfoEvent              read FOnMediaSinkDeviceInfo              write FOnMediaSinkDeviceInfo;
+      property  OnCanFocus                         : TNotifyEvent                             read FOnCanFocus                         write FOnCanFocus;
       {$IFDEF MSWINDOWS}
       property  OnBrowserCompMsg                   : TOnCompMsgEvent                          read FOnBrowserCompMsg                   write FOnBrowserCompMsg;
       property  OnWidgetCompMsg                    : TOnCompMsgEvent                          read FOnWidgetCompMsg                    write FOnWidgetCompMsg;
@@ -1179,7 +1195,11 @@ type
       property OnMainFrameChanged                     : TOnMainFrameChanged               read FOnMainFrameChanged                     write FOnMainFrameChanged;
 
       // ICefCommandHandler
-      property OnChromeCommand                        : TOnChromeCommandEvent             read FOnChromeCommand                        write FOnChromeCommand;
+      property OnChromeCommand                        : TOnChromeCommandEvent                 read FOnChromeCommand                    write FOnChromeCommand;
+      property OnIsChromeAppMenuItemVisible           : TOnIsChromeAppMenuItemVisibleEvent    read FOnIsChromeAppMenuItemVisible       write FOnIsChromeAppMenuItemVisible;
+      property OnIsChromeAppMenuItemEnabled           : TOnIsChromeAppMenuItemEnabledEvent    read FOnIsChromeAppMenuItemEnabled       write FOnIsChromeAppMenuItemEnabled;
+      property OnIsChromePageActionIconVisible        : TOnIsChromePageActionIconVisibleEvent read FOnIsChromePageActionIconVisible    write FOnIsChromePageActionIconVisible;
+      property OnIsChromeToolbarButtonVisible         : TOnIsChromeToolbarButtonVisibleEvent  read FOnIsChromeToolbarButtonVisible     write FOnIsChromeToolbarButtonVisible;
 
       // ICefPermissionHandler
       property OnRequestMediaAccessPermission         : TOnRequestMediaAccessPermissionEvent read FOnRequestMediaAccessPermission      write FOnRequestMediaAccessPermission;
@@ -1330,6 +1350,8 @@ begin
   FLoadImagesAutomatically := True;
   FBatterySaverModeState   := bsmsDefault;
   FHighEfficiencyMode      := STATE_DEFAULT;
+  FCanFocus                := False;
+  FEnableFocusDelayMs      := CEF_DEFAULT_ENABLEFOCUSDELAY;
   {$IFDEF LINUX}
   FXDisplay                := nil;
   {$ENDIF}
@@ -1918,6 +1940,10 @@ begin
 
   // ICefCommandHandler
   FOnChromeCommand                    := nil;
+  FOnIsChromeAppMenuItemVisible       := nil;
+  FOnIsChromeAppMenuItemEnabled       := nil;
+  FOnIsChromePageActionIconVisible    := nil;
+  FOnIsChromeToolbarButtonVisible     := nil;
 
   // ICefPermissionHandler
   FOnRequestMediaAccessPermission     := nil;
@@ -1944,6 +1970,7 @@ begin
   FOnZoomPctAvailable                 := nil;
   FOnMediaRouteCreateFinished         := nil;
   FOnMediaSinkDeviceInfo              := nil;
+  FOnCanFocus                         := nil;
 
   {$IFDEF MSWINDOWS}
   FOnBrowserCompMsg                   := nil;
@@ -4736,6 +4763,14 @@ begin
     AudioMuted := not(AudioMuted);
 end;
 
+procedure TChromiumCore.doEnableFocus;
+begin
+  FCanFocus := True;
+
+  if assigned(FOnCanFocus) then
+    FOnCanFocus(self);
+end;
+
 {$IFDEF LINUX}
 procedure TChromiumCore.UpdateBrowserSize(aLeft, aTop, aWidth, aHeight : integer);
 {$IFDEF FPC}
@@ -4977,7 +5012,11 @@ end;
 
 function TChromiumCore.MustCreateCommandHandler : boolean;
 begin
-  Result := assigned(FOnChromeCommand);
+  Result := assigned(FOnChromeCommand) or
+            assigned(FOnIsChromeAppMenuItemVisible) or
+            assigned(FOnIsChromeAppMenuItemEnabled) or
+            assigned(FOnIsChromePageActionIconVisible) or
+            assigned(FOnIsChromeToolbarButtonVisible);
 end;
 
 {$IFDEF MSWINDOWS}
@@ -5376,6 +5415,8 @@ begin
 end;
 
 procedure TChromiumCore.doOnAfterCreated(const browser: ICefBrowser);
+var
+  TempTask : ICefTask;
 begin
   AddBrowser(browser);
   doUpdatePreferences(browser);
@@ -5388,6 +5429,20 @@ begin
 
   if assigned(FOnAfterCreated) then
     FOnAfterCreated(Self, browser);
+
+  try
+    // The browser requires some time to create associated internal objects
+    // before being able to accept the focus.
+    // https://bitbucket.org/chromiumembedded/cef/src/14dd0c0d06166d8198980b7fd5ed2d5f526e8990/tests/cefclient/browser/osr_window_win.cc#lines-949
+    TempTask := TCefEnableFocusTask.Create(self);
+
+    if (FEnableFocusDelayMs = 0) then
+      CefPostTask(TID_UI, TempTask)
+     else    
+      CefPostDelayedTask(TID_UI, TempTask, FEnableFocusDelayMs);
+  finally
+    TempTask := nil;
+  end;
 end;
 
 function TChromiumCore.doOnBeforeBrowse(const browser      : ICefBrowser;
@@ -5990,6 +6045,39 @@ begin
   if assigned(FOnChromeCommand) then
     FOnChromeCommand(self, browser, command_id, disposition, Result);
 end;
+
+function TChromiumCore.doOnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean;
+begin
+  Result := True;
+
+  if assigned(FOnIsChromeAppMenuItemVisible) then
+    FOnIsChromeAppMenuItemVisible(self, browser, command_id, Result);
+end;
+
+function TChromiumCore.doOnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean;
+begin
+  Result := True;
+
+  if assigned(FOnIsChromeAppMenuItemEnabled) then
+    FOnIsChromeAppMenuItemEnabled(self, browser, command_id, Result);
+end;
+
+function TChromiumCore.doOnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean;
+begin
+  Result := True;
+
+  if assigned(FOnIsChromePageActionIconVisible) then
+    FOnIsChromePageActionIconVisible(self, icon_type, Result);
+end;
+
+function TChromiumCore.doOnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean;
+begin
+  Result := True;
+
+  if assigned(FOnIsChromeToolbarButtonVisible) then
+    FOnIsChromeToolbarButtonVisible(self, button_type, Result);
+end;
+
 
 function TChromiumCore.doOnRequestMediaAccessPermission(const browser               : ICefBrowser;
                                                         const frame                 : ICefFrame;
@@ -6666,7 +6754,8 @@ end;
 
 procedure TChromiumCore.SetFocus(focus: Boolean);
 begin
-  if Initialized then
+  if (not(FIsOSR) or FCanFocus) and
+     Initialized then
     Browser.Host.SetFocus(focus);
 end;
 

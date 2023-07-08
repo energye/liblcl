@@ -12,7 +12,7 @@ unit uCEF_LCL_SchemeHandlerFactoryRef;
 interface
 
 uses
-  uCEFTypes, uCEFInterfaces, uCEFSchemeHandlerFactory, uCEFResourceHandler, uCEFBaseRefCounted, uCEF_LCL_ResourceRequestHandlerRef,
+  uCEFTypes, uCEFInterfaces, uCEFSchemeHandlerFactory, uCEFResourceHandler, uCEFBaseRefCounted,
   uCEF_LCL_EventCallback;
 
 type
@@ -31,7 +31,7 @@ implementation
 
 function TSchemeHandlerFactoryRef.New(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: ustring; const request: ICefRequest): ICefResourceHandler;
 var
-  RetResourceHandler: TResourceHandlerRef;
+  RetResourceHandler: ICefResourceHandler;
 begin
   if (NewPtr <> nil) then
   begin
