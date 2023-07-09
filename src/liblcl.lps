@@ -311,30 +311,30 @@
       </SessionEnabledMatrixOptions>
     </BuildModes>
     <ManyBuildModesSelection Value="Win32,Win64"/>
-    <Units Count="104">
+    <Units Count="105">
       <Unit0>
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
         <TopLine Value="9"/>
         <CursorPos X="11" Y="50"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="uEventCallback.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit1>
       <Unit2>
         <Filename Value="ulinklabel.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLinkLabel"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit2>
       <Unit3>
         <Filename Value="ImageButton.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit3>
       <Unit4>
         <Filename Value="ucomponents.pas"/>
@@ -343,44 +343,44 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="9" Y="31"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit4>
       <Unit5>
         <Filename Value="ugoform.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uGoForm"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit5>
       <Unit6>
         <Filename Value="uMiniWebview.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="30" Y="13"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit6>
       <Unit7>
         <Filename Value="ucontrolpatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uControlPatchs"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit7>
       <Unit8>
         <Filename Value="umacospatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMacOSPatchs"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit8>
       <Unit9>
         <Filename Value="ulinuxpatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLinuxPatchs"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit9>
       <Unit10>
         <Filename Value="xbutton.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="xButton"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit10>
       <Unit11>
         <Filename Value="urichedit.pas"/>
@@ -388,12 +388,12 @@
         <UnitName Value="uRichEdit"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="52"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit11>
       <Unit12>
         <Filename Value="uFormDesignerFile.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit12>
       <Unit13>
         <Filename Value="uexport1.pas"/>
@@ -402,7 +402,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="20"/>
         <CursorPos X="12" Y="20"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit13>
       <Unit14>
         <Filename Value="uexport2.pas"/>
@@ -410,19 +410,19 @@
         <UnitName Value="uExport2"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="25"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit14>
       <Unit15>
         <Filename Value="UseAll.inc"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit15>
       <Unit16>
         <Filename Value="uexceptionhandle.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uExceptionHandle"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit16>
       <Unit17>
         <Filename Value="ugauge.pas"/>
@@ -430,7 +430,7 @@
         <UnitName Value="uGauge"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="73"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit17>
       <Unit18>
         <Filename Value="uexport3.pas"/>
@@ -439,39 +439,39 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="31" Y="22"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit18>
       <Unit19>
         <Filename Value="uexport4.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="24"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit19>
       <Unit20>
         <Filename Value="uCEF_LCL_Event.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit20>
       <Unit21>
         <Filename Value="uCEF_LCL_V8ObjectAccessor.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit21>
       <Unit22>
         <Filename Value="uCEF_LCL_IPC.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit22>
       <Unit23>
         <Filename Value="uCEF_LCL_Process_Message.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit23>
       <Unit24>
         <Filename Value="uCEF_LCL_DictionaryValue.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="52"/>
       </Unit24>
       <Unit25>
         <Filename Value=""/>
@@ -480,10 +480,9 @@
       </Unit25>
       <Unit26>
         <Filename Value="CEF_LCL_Component.inc"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
-        <CursorPos X="68" Y="23"/>
-        <UsageCount Value="10"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="41" Y="28"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit26>
       <Unit27>
@@ -491,7 +490,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="12"/>
         <CursorPos X="24" Y="15"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="26"/>
         <Loaded Value="True"/>
       </Unit27>
       <Unit28>
@@ -534,10 +533,12 @@
       </Unit33>
       <Unit34>
         <Filename Value="Interfaces.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="4"/>
-        <CursorPos X="17" Y="11"/>
-        <UsageCount Value="22"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="53"/>
+        <CursorPos X="27" Y="60"/>
+        <UsageCount Value="24"/>
+        <Loaded Value="True"/>
       </Unit34>
       <Unit35>
         <Filename Value="CEF_LCL_Def.inc"/>
@@ -1015,11 +1016,35 @@
         <EditorIndex Value="-1"/>
         <UsageCount Value="10"/>
       </Unit103>
+      <Unit104>
+        <Filename Value="CEF_LCL_CustomWidgetInterfaces.inc"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="18" Y="17"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit104>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="RMLCLTRUNK"/>
     </OtherDefines>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="4" HistoryIndex="3">
+      <Position1>
+        <Filename Value="Interfaces.pas"/>
+        <Caret Line="93" TopLine="63"/>
+      </Position1>
+      <Position2>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="15" Column="24" TopLine="12"/>
+      </Position2>
+      <Position3>
+        <Filename Value="CEF_LCL_CustomWidgetInterfaces.inc"/>
+        <Caret Line="17" Column="18"/>
+      </Position3>
+      <Position4>
+        <Filename Value="Interfaces.pas"/>
+        <Caret Line="84" Column="17" TopLine="63"/>
+      </Position4>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>

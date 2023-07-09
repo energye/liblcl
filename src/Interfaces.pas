@@ -60,8 +60,8 @@ begin
       CreateWidgetset(TGtk2WidgetSet);
       // Install xlib error handlers so that the application won't be terminated
       // on non-fatal errors. Must be done after initializing GTK.
-      //XSetErrorHandler(@CustomX11ErrorHandler);
-      //XSetIOErrorHandler(@CustomXIOErrorHandler);
+      XSetErrorHandler(@CustomX11ErrorHandler);
+      XSetIOErrorHandler(@CustomXIOErrorHandler);
     {$ENDIF}
 
     {$IFDEF LCLGTK3}
@@ -85,7 +85,8 @@ begin
 end;
 
 //{$IF Defined(LCLGTK2) or Defined(LCLGTK3)}
-{$IFnDEF LCLGTK3}
+//{$IFnDEF LCLGTK3}
+{$IFnDEF Linux}
 initialization
   begin
     CustomWidgetSetInitialization;
