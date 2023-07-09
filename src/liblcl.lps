@@ -135,7 +135,7 @@
       </Item3>
       <Item4 Name="LinuxARM">
         <MacroValues Count="1">
-          <Macro8 Name="LCLWidgetType" Value="gtk3"/>
+          <Macro7 Name="LCLWidgetType" Value="gtk2"/>
         </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
@@ -306,7 +306,7 @@
         <Item1 Mode="Win64" Option="028265915746"/>
         <Item2 Mode="Linux64" Option="316477307003"/>
         <Item3 Mode="Linux32" Option="316477307003"/>
-        <Item4 Mode="LinuxARM" Option="471587070140"/>
+        <Item4 Mode="LinuxARM" Option="184723594569"/>
         <Item5 Mode="MacOS64(cocoa)" Option="558457850193"/>
       </SessionEnabledMatrixOptions>
     </BuildModes>
@@ -482,7 +482,7 @@
         <Filename Value="CEF_LCL_Component.inc"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <CursorPos X="40" Y="10"/>
+        <CursorPos X="68" Y="23"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit26>
@@ -491,7 +491,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="12"/>
         <CursorPos X="24" Y="15"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit27>
       <Unit28>
