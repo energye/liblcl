@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Count="7" Active="MacOS64(cocoa)">
+    <BuildModes Count="7" Active="Linux64">
       <Item1 Name="Win64">
         <MacroValues Count="1">
           <Macro4 Name="LCLWidgetType" Value="win32"/>
@@ -135,7 +135,7 @@
       </Item3>
       <Item4 Name="LinuxARM">
         <MacroValues Count="1">
-          <Macro8 Name="LCLWidgetType" Value="gtk3"/>
+          <Macro7 Name="LCLWidgetType" Value="gtk2"/>
         </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
@@ -306,35 +306,35 @@
         <Item1 Mode="Win64" Option="028265915746"/>
         <Item2 Mode="Linux64" Option="316477307003"/>
         <Item3 Mode="Linux32" Option="316477307003"/>
-        <Item4 Mode="LinuxARM" Option="471587070140"/>
+        <Item4 Mode="LinuxARM" Option="184723594569"/>
         <Item5 Mode="MacOS64(cocoa)" Option="558457850193"/>
       </SessionEnabledMatrixOptions>
     </BuildModes>
     <ManyBuildModesSelection Value="Win32,Win64"/>
-    <Units Count="53">
+    <Units Count="105">
       <Unit0>
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
         <TopLine Value="9"/>
         <CursorPos X="11" Y="50"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="uEventCallback.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit1>
       <Unit2>
         <Filename Value="ulinklabel.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLinkLabel"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit2>
       <Unit3>
         <Filename Value="ImageButton.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit3>
       <Unit4>
         <Filename Value="ucomponents.pas"/>
@@ -343,44 +343,44 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="9" Y="31"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit4>
       <Unit5>
         <Filename Value="ugoform.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uGoForm"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit5>
       <Unit6>
         <Filename Value="uMiniWebview.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="30" Y="13"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit6>
       <Unit7>
         <Filename Value="ucontrolpatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uControlPatchs"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit7>
       <Unit8>
         <Filename Value="umacospatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMacOSPatchs"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit8>
       <Unit9>
         <Filename Value="ulinuxpatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLinuxPatchs"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit9>
       <Unit10>
         <Filename Value="xbutton.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="xButton"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit10>
       <Unit11>
         <Filename Value="urichedit.pas"/>
@@ -388,12 +388,12 @@
         <UnitName Value="uRichEdit"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="52"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit11>
       <Unit12>
         <Filename Value="uFormDesignerFile.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit12>
       <Unit13>
         <Filename Value="uexport1.pas"/>
@@ -402,7 +402,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="20"/>
         <CursorPos X="12" Y="20"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit13>
       <Unit14>
         <Filename Value="uexport2.pas"/>
@@ -410,20 +410,19 @@
         <UnitName Value="uExport2"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="25"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit14>
       <Unit15>
         <Filename Value="UseAll.inc"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
-        <UsageCount Value="28"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="52"/>
       </Unit15>
       <Unit16>
         <Filename Value="uexceptionhandle.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uExceptionHandle"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit16>
       <Unit17>
         <Filename Value="ugauge.pas"/>
@@ -431,7 +430,7 @@
         <UnitName Value="uGauge"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="73"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit17>
       <Unit18>
         <Filename Value="uexport3.pas"/>
@@ -440,57 +439,58 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="31" Y="22"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit18>
       <Unit19>
         <Filename Value="uexport4.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="24"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit19>
       <Unit20>
         <Filename Value="uCEF_LCL_Event.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit20>
       <Unit21>
         <Filename Value="uCEF_LCL_V8ObjectAccessor.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit21>
       <Unit22>
         <Filename Value="uCEF_LCL_IPC.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit22>
       <Unit23>
         <Filename Value="uCEF_LCL_Process_Message.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit23>
       <Unit24>
         <Filename Value="uCEF_LCL_DictionaryValue.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="52"/>
       </Unit24>
       <Unit25>
         <Filename Value=""/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit25>
       <Unit26>
         <Filename Value="CEF_LCL_Component.inc"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos Y="12"/>
-        <UsageCount Value="11"/>
+        <EditorIndex Value="4"/>
+        <CursorPos X="41" Y="28"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
       </Unit26>
       <Unit27>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="44"/>
-        <CursorPos X="26" Y="49"/>
-        <UsageCount Value="13"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="12"/>
+        <CursorPos X="24" Y="15"/>
+        <UsageCount Value="26"/>
         <Loaded Value="True"/>
       </Unit27>
       <Unit28>
@@ -498,139 +498,138 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="288"/>
         <CursorPos X="22" Y="238"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit28>
       <Unit29>
         <Filename Value="MiniWebviewWin.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1271"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit29>
       <Unit30>
         <Filename Value="..\..\..\..\..\..\energy\CEF4Delphi-master\source\uCEFMenuModelDelegate.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit30>
       <Unit31>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFMenuModel.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit31>
       <Unit32>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFMiscFunctions.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2266"/>
         <CursorPos X="19" Y="2274"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit32>
       <Unit33>
         <Filename Value="CEF_LCL_Application_Proc.inc"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="20"/>
-        <CursorPos X="34" Y="43"/>
-        <UsageCount Value="13"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="901"/>
+        <CursorPos X="6" Y="946"/>
+        <UsageCount Value="22"/>
       </Unit33>
       <Unit34>
         <Filename Value="Interfaces.pas"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="4"/>
-        <CursorPos X="17" Y="11"/>
-        <UsageCount Value="13"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="53"/>
+        <CursorPos X="27" Y="60"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit34>
       <Unit35>
         <Filename Value="CEF_LCL_Def.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="22" Y="9"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="9"/>
       </Unit35>
       <Unit36>
         <Filename Value="ExtDecl.inc"/>
-        <EditorIndex Value="3"/>
-        <CursorPos X="10" Y="20"/>
-        <UsageCount Value="13"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2"/>
+        <CursorPos X="24" Y="54"/>
+        <UsageCount Value="23"/>
       </Unit36>
       <Unit37>
         <Filename Value="CEF_LCL_WindowComponent.inc"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="129"/>
+        <CursorPos X="16" Y="158"/>
+        <UsageCount Value="10"/>
       </Unit37>
       <Unit38>
         <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="203"/>
-        <CursorPos X="5" Y="217"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="63"/>
+        <CursorPos X="34" Y="87"/>
+        <UsageCount Value="10"/>
       </Unit38>
       <Unit39>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFChromiumCore.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="4989"/>
-        <CursorPos X="50" Y="5007"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="2171"/>
+        <CursorPos X="44" Y="2200"/>
+        <UsageCount Value="10"/>
       </Unit39>
       <Unit40>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFBufferPanel.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="870"/>
         <CursorPos X="21" Y="879"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit40>
       <Unit41>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFTypes.pas"/>
-        <EditorIndex Value="9"/>
-        <TopLine Value="252"/>
-        <CursorPos X="11" Y="257"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="296"/>
+        <CursorPos Y="325"/>
+        <UsageCount Value="19"/>
       </Unit41>
       <Unit42>
         <Filename Value="CEF_LCL_DownloadImageCallback.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="79" Y="14"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit42>
       <Unit43>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <EditorIndex Value="6"/>
-        <TopLine Value="62"/>
-        <CursorPos X="5" Y="98"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="397"/>
+        <CursorPos X="32" Y="424"/>
+        <UsageCount Value="19"/>
       </Unit43>
       <Unit44>
-        <Filename Value="..\..\..\..\..\..\..\..\usr\local\share\fpcsrc\rtl\inc\systemh.inc"/>
+        <Filename Value="E:\usr\local\share\fpcsrc\rtl\inc\systemh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="415"/>
         <CursorPos X="31" Y="432"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit44>
       <Unit45>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFChromium.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="129"/>
-        <CursorPos X="51" Y="147"/>
+        <TopLine Value="37"/>
+        <CursorPos X="3" Y="66"/>
         <UsageCount Value="10"/>
       </Unit45>
       <Unit46>
-        <Filename Value="..\..\..\..\..\..\..\..\Applications\Lazarus\lcl\controls.pp"/>
+        <Filename Value="E:\Applications\Lazarus\lcl\controls.pp"/>
         <UnitName Value="Controls"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2253"/>
         <CursorPos X="14" Y="2271"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit46>
       <Unit47>
-        <Filename Value="..\..\..\..\..\..\..\..\Applications\Lazarus\lcl\lcltype.pp"/>
+        <Filename Value="E:\Applications\Lazarus\lcl\lcltype.pp"/>
         <UnitName Value="LCLType"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="95"/>
         <CursorPos X="3" Y="96"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit47>
       <Unit48>
         <Filename Value="3rd-party\CEF4Delphi\source\uceflazaruscocoa.pas"/>
@@ -638,162 +637,413 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="39"/>
         <CursorPos X="7" Y="55"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit48>
       <Unit49>
-        <Filename Value="..\..\..\..\..\..\..\..\Applications\Lazarus\lcl\interfaces\cocoa\cocoaint.pas"/>
+        <Filename Value="E:\Applications\Lazarus\lcl\interfaces\cocoa\cocoaint.pas"/>
         <UnitName Value="CocoaInt"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="64"/>
         <CursorPos X="3" Y="83"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="8"/>
       </Unit49>
       <Unit50>
-        <Filename Value="..\..\..\..\..\..\..\..\usr\local\share\fpcsrc\rtl\bsd\system.pp"/>
+        <Filename Value="E:\usr\local\share\fpcsrc\rtl\bsd\system.pp"/>
         <UnitName Value="System"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="22"/>
         <CursorPos X="5" Y="40"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="9"/>
       </Unit50>
       <Unit51>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFLibFunctions.pas"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="45"/>
         <CursorPos X="13" Y="61"/>
-        <UsageCount Value="11"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="19"/>
       </Unit51>
       <Unit52>
-        <Filename Value="..\..\..\..\..\..\..\..\usr\local\share\fpcsrc\rtl\inc\dynlibs.pas"/>
-        <EditorIndex Value="7"/>
+        <Filename Value="E:\usr\local\share\fpcsrc\rtl\inc\dynlibs.pas"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="29"/>
         <CursorPos Y="60"/>
+        <UsageCount Value="8"/>
+      </Unit52>
+      <Unit53>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplication.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="61"/>
+        <CursorPos X="19" Y="90"/>
+        <UsageCount Value="18"/>
+      </Unit53>
+      <Unit54>
+        <Filename Value="E:\lazarus\fpc\3.2.2\source\rtl\objpas\math.pp"/>
+        <UnitName Value="Math"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="638"/>
+        <CursorPos X="10" Y="666"/>
+        <UsageCount Value="18"/>
+      </Unit54>
+      <Unit55>
+        <Filename Value="E:\lazarus\fpc\3.2.2\source\rtl\inc\mathh.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="35" Y="54"/>
+        <UsageCount Value="18"/>
+      </Unit55>
+      <Unit56>
+        <Filename Value="uCEF_LCL_Entity.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="201"/>
+        <CursorPos X="3" Y="231"/>
+        <UsageCount Value="11"/>
+      </Unit56>
+      <Unit57>
+        <Filename Value="CEF_Events_Declaration.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="136"/>
+        <CursorPos Y="165"/>
+        <UsageCount Value="11"/>
+      </Unit57>
+      <Unit58>
+        <Filename Value="CEF_Events_Implement.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="862"/>
+        <CursorPos X="5" Y="910"/>
+        <UsageCount Value="11"/>
+      </Unit58>
+      <Unit59>
+        <Filename Value="CEF_LCL_Chromium_Event.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="727"/>
+        <CursorPos X="6" Y="779"/>
+        <UsageCount Value="10"/>
+      </Unit59>
+      <Unit60>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFInterfaces.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2275"/>
+        <CursorPos X="44" Y="2285"/>
+        <UsageCount Value="11"/>
+      </Unit60>
+      <Unit61>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFChromiumEvents.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="89"/>
+        <CursorPos X="278" Y="139"/>
+        <UsageCount Value="10"/>
+      </Unit61>
+      <Unit62>
+        <Filename Value="uCEF_LCL_Application.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="79"/>
+        <CursorPos X="53" Y="126"/>
+        <UsageCount Value="10"/>
+      </Unit62>
+      <Unit63>
+        <Filename Value="CEF_LCL_Application_Event.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="5" Y="29"/>
+        <UsageCount Value="11"/>
+      </Unit63>
+      <Unit64>
+        <Filename Value="uCEF_LCL_ClientHandlersRef.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1048"/>
+        <CursorPos X="59" Y="1062"/>
+        <UsageCount Value="10"/>
+      </Unit64>
+      <Unit65>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFContextMenuHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="19"/>
+        <CursorPos X="3" Y="55"/>
+        <UsageCount Value="10"/>
+      </Unit65>
+      <Unit66>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFDialogHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="114"/>
+        <CursorPos X="44" Y="143"/>
+        <UsageCount Value="10"/>
+      </Unit66>
+      <Unit67>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFDisplayHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2"/>
+        <CursorPos X="3" Y="60"/>
+        <UsageCount Value="10"/>
+      </Unit67>
+      <Unit68>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFDownloadHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="55"/>
+        <UsageCount Value="10"/>
+      </Unit68>
+      <Unit69>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFFrameHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="7"/>
+        <CursorPos X="33" Y="58"/>
+        <UsageCount Value="10"/>
+      </Unit69>
+      <Unit70>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFRenderHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="26"/>
+        <CursorPos X="3" Y="55"/>
+        <UsageCount Value="10"/>
+      </Unit70>
+      <Unit71>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFRequestHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="18"/>
+        <CursorPos X="190" Y="62"/>
+        <UsageCount Value="10"/>
+      </Unit71>
+      <Unit72>
+        <Filename Value="uCEF_LCL_ClientRef.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="215"/>
+        <CursorPos X="24" Y="257"/>
+        <UsageCount Value="10"/>
+      </Unit72>
+      <Unit73>
+        <Filename Value="uCEF_LCL_ResourceRequestHandlerRef.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="56"/>
+        <CursorPos X="61" Y="99"/>
+        <UsageCount Value="10"/>
+      </Unit73>
+      <Unit74>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFResourceRequestHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="42"/>
+        <CursorPos X="171" Y="74"/>
+        <UsageCount Value="10"/>
+      </Unit74>
+      <Unit75>
+        <Filename Value="uCEF_LCL_RunFileDialogCallbackRef.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="15" Y="31"/>
+        <UsageCount Value="10"/>
+      </Unit75>
+      <Unit76>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFRunFileDialogCallback.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="14"/>
+        <CursorPos X="95" Y="62"/>
+        <UsageCount Value="10"/>
+      </Unit76>
+      <Unit77>
+        <Filename Value="uCEF_LCL_ViewDelegateRef.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="10"/>
+        <CursorPos X="69" Y="41"/>
+        <UsageCount Value="10"/>
+      </Unit77>
+      <Unit78>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFViewDelegate.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="46"/>
+        <CursorPos X="97" Y="65"/>
+        <UsageCount Value="10"/>
+      </Unit78>
+      <Unit79>
+        <Filename Value="CEF_LCL_Browser.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="468"/>
+        <CursorPos X="37" Y="497"/>
+        <UsageCount Value="10"/>
+      </Unit79>
+      <Unit80>
+        <Filename Value="CEF_LCL_BrowserView.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="22"/>
+        <CursorPos X="65" Y="67"/>
+        <UsageCount Value="10"/>
+      </Unit80>
+      <Unit81>
+        <Filename Value="CEF_LCL_BrowserViewComponent.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="119" Y="28"/>
+        <UsageCount Value="10"/>
+      </Unit81>
+      <Unit82>
+        <Filename Value="LazarusDef.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="121"/>
+        <CursorPos X="16" Y="150"/>
+        <UsageCount Value="11"/>
+      </Unit82>
+      <Unit83>
+        <Filename Value="CEF_LCL_Chromium_Options.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="69"/>
+        <CursorPos X="23" Y="107"/>
+        <UsageCount Value="10"/>
+      </Unit83>
+      <Unit84>
+        <Filename Value="CEF_LCL_Client.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="51"/>
+        <CursorPos X="19" Y="83"/>
+        <UsageCount Value="10"/>
+      </Unit84>
+      <Unit85>
+        <Filename Value="CEF_LCL_ClientHandlers.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="569"/>
+        <CursorPos X="28" Y="598"/>
+        <UsageCount Value="10"/>
+      </Unit85>
+      <Unit86>
+        <Filename Value="CEF_LCL_DragData.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="139"/>
+        <CursorPos X="23" Y="167"/>
+        <UsageCount Value="10"/>
+      </Unit86>
+      <Unit87>
+        <Filename Value="CEF_LCL_FileDialogCallback.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="15" Y="18"/>
+        <UsageCount Value="10"/>
+      </Unit87>
+      <Unit88>
+        <Filename Value="CEF_LCL_MediaAccessCallback.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="6" Y="8"/>
+        <UsageCount Value="10"/>
+      </Unit88>
+      <Unit89>
+        <Filename Value="CEF_LCL_PermissionPromptCallback.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="6" Y="8"/>
+        <UsageCount Value="10"/>
+      </Unit89>
+      <Unit90>
+        <Filename Value="CEF_LCL_RunQuickMenuCallback.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="6" Y="8"/>
+        <UsageCount Value="10"/>
+      </Unit90>
+      <Unit91>
+        <Filename Value="CEF_LCL_RequestContext.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="6"/>
+        <CursorPos X="26" Y="17"/>
+        <UsageCount Value="10"/>
+      </Unit91>
+      <Unit92>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFRequestContext.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="64"/>
+        <CursorPos X="234" Y="92"/>
+        <UsageCount Value="10"/>
+      </Unit92>
+      <Unit93>
+        <Filename Value="CEF_LCL_v8Value.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="469"/>
+        <CursorPos X="21" Y="492"/>
+        <UsageCount Value="10"/>
+      </Unit93>
+      <Unit94>
+        <Filename Value="CEF_LCL_View.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="162"/>
+        <CursorPos X="5" Y="192"/>
+        <UsageCount Value="10"/>
+      </Unit94>
+      <Unit95>
+        <Filename Value="CEF_LCL_Window.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="238"/>
+        <CursorPos X="16" Y="266"/>
+        <UsageCount Value="10"/>
+      </Unit95>
+      <Unit96>
+        <Filename Value="CEF_LCL_X509Certificate.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="25"/>
+        <CursorPos X="23" Y="60"/>
+        <UsageCount Value="10"/>
+      </Unit96>
+      <Unit97>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFBrowserViewComponent.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="35"/>
+        <CursorPos X="3" Y="64"/>
+        <UsageCount Value="10"/>
+      </Unit97>
+      <Unit98>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFPrintHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="11"/>
+        <CursorPos X="33" Y="62"/>
+        <UsageCount Value="10"/>
+      </Unit98>
+      <Unit99>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFClient.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="50"/>
+        <CursorPos X="3" Y="79"/>
+        <UsageCount Value="10"/>
+      </Unit99>
+      <Unit100>
+        <Filename Value="uCEF_LCL_BrowserViewDelegateRef.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="31"/>
+        <CursorPos X="6" Y="82"/>
+        <UsageCount Value="10"/>
+      </Unit100>
+      <Unit101>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFBrowserViewDelegate.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="42"/>
+        <CursorPos X="3" Y="71"/>
+        <UsageCount Value="10"/>
+      </Unit101>
+      <Unit102>
+        <Filename Value="CEF_LCL_WorkScheduler.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="80"/>
+        <CursorPos X="6" Y="120"/>
+        <UsageCount Value="10"/>
+      </Unit102>
+      <Unit103>
+        <Filename Value="CEF_LCL_CookieCallbacks.inc"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit103>
+      <Unit104>
+        <Filename Value="CEF_LCL_CustomWidgetInterfaces.inc"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="18" Y="17"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
-      </Unit52>
+      </Unit104>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <OtherDefines Count="1">
+      <Define0 Value="RMLCLTRUNK"/>
+    </OtherDefines>
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1104" Column="74" TopLine="1073"/>
+        <Filename Value="Interfaces.pas"/>
+        <Caret Line="93" TopLine="63"/>
       </Position1>
       <Position2>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1356" Column="61" TopLine="1326"/>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="15" Column="24" TopLine="12"/>
       </Position2>
       <Position3>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1094" Column="47" TopLine="1068"/>
+        <Filename Value="CEF_LCL_CustomWidgetInterfaces.inc"/>
+        <Caret Line="17" Column="18"/>
       </Position3>
       <Position4>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1103" Column="74" TopLine="1072"/>
+        <Filename Value="Interfaces.pas"/>
+        <Caret Line="84" Column="17" TopLine="63"/>
       </Position4>
-      <Position5>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1356" Column="33" TopLine="1325"/>
-      </Position5>
-      <Position6>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="337" Column="32" TopLine="320"/>
-      </Position6>
-      <Position7>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1091" Column="119" TopLine="1072"/>
-      </Position7>
-      <Position8>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1089" Column="6" TopLine="1072"/>
-      </Position8>
-      <Position9>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1095" Column="47" TopLine="1072"/>
-      </Position9>
-      <Position10>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="340" Column="29" TopLine="323"/>
-      </Position10>
-      <Position11>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1092" Column="33" TopLine="1063"/>
-      </Position11>
-      <Position12>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1094" Column="59" TopLine="1063"/>
-      </Position12>
-      <Position13>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1126" Column="25" TopLine="1095"/>
-      </Position13>
-      <Position14>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1240" Column="17" TopLine="1235"/>
-      </Position14>
-      <Position15>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="340" Column="29" TopLine="323"/>
-      </Position15>
-      <Position16>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1093" Column="33" TopLine="1062"/>
-      </Position16>
-      <Position17>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1094" Column="90" TopLine="1063"/>
-      </Position17>
-      <Position18>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1126" Column="44" TopLine="1095"/>
-      </Position18>
-      <Position19>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1378" Column="23" TopLine="1347"/>
-      </Position19>
-      <Position20>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="2657" Column="34" TopLine="2632"/>
-      </Position20>
-      <Position21>
-        <Filename Value="..\..\..\..\..\..\..\..\usr\local\share\fpcsrc\rtl\inc\dynlibs.pas"/>
-        <Caret Line="33" Column="21" TopLine="6"/>
-      </Position21>
-      <Position22>
-        <Filename Value="..\..\..\..\..\..\..\..\usr\local\share\fpcsrc\rtl\inc\dynlibs.pas"/>
-        <Caret Line="37" Column="23" TopLine="6"/>
-      </Position22>
-      <Position23>
-        <Filename Value="..\..\..\..\..\..\..\..\usr\local\share\fpcsrc\rtl\inc\dynlibs.pas"/>
-        <Caret Line="55" Column="25" TopLine="24"/>
-      </Position23>
-      <Position24>
-        <Filename Value="..\..\..\..\..\..\..\..\usr\local\share\fpcsrc\rtl\inc\dynlibs.pas"/>
-        <Caret Line="57" Column="33" TopLine="26"/>
-      </Position24>
-      <Position25>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="2657" Column="41" TopLine="2632"/>
-      </Position25>
-      <Position26>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="2659" Column="47" TopLine="2632"/>
-      </Position26>
-      <Position27>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="258" Column="27" TopLine="241"/>
-      </Position27>
-      <Position28>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="674" Column="24" TopLine="645"/>
-      </Position28>
-      <Position29>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="675" Column="25" TopLine="646"/>
-      </Position29>
-      <Position30>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
-        <Caret Line="1170" Column="67" TopLine="1152"/>
-      </Position30>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
