@@ -1209,8 +1209,9 @@ end;
 
 function TCefApplicationCore.CheckWindowsVersion : boolean;
 begin
-  // Chromium 109 requires Windows 10 or later.
+  // -- Chromium 109 requires Windows 10 or later.
   // https://github.com/salvadordf/CEF4Delphi/issues/452
+  // TODO Energy Windows 7 or later.
   if CheckRealWindowsVersion(6, 0) then
     Result := True
    else
