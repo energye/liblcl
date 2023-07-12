@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -1211,7 +1211,7 @@ function TCefApplicationCore.CheckWindowsVersion : boolean;
 begin
   // Chromium 109 requires Windows 10 or later.
   // https://github.com/salvadordf/CEF4Delphi/issues/452
-  if CheckRealWindowsVersion(10, 0) then
+  if CheckRealWindowsVersion(6, 0) then
     Result := True
    else
     begin
