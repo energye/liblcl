@@ -985,46 +985,29 @@ end;
 
 function CEFAppConfig_NetLogEnabled(): LongBool; extdecl;
 begin
-  Result := GlobalCEFApp.NetLogEnabled;
+  Result := False;
 end;
 
 procedure CEFAppConfig_SetNetLogEnabled(value: LongBool); extdecl;
 begin
-  GlobalCEFApp.NetLogEnabled := value;
 end;
 
 function CEFAppConfig_NetLogFile(): PChar; extdecl;
 begin
-  Result := PChar(string(GlobalCEFApp.NetLogFile));
+  Result := PChar(string(''));
 end;
 
 procedure CEFAppConfig_SetNetLogFile(value: PChar); extdecl;
 begin
-  GlobalCEFApp.NetLogFile := PCharToUStr(value);
 end;
 
 function CEFAppConfig_NetLogCaptureMode(): Integer; extdecl;
 begin
-  // type = TCefNetLogCaptureMode
-  if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmDefault then
-  Result := 0
-  else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmIncludeSensitive then
-  Result := 1
-  else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmEverything then
-  Result := 2
-  else
   Result := -1;
 end;
 
 procedure CEFAppConfig_SetNetLogCaptureMode(value: Integer); extdecl;
 begin
-  // type = TCefNetLogCaptureMode
-  if value = 0 then
-  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmDefault
-  else if value = 1 then
-  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmIncludeSensitive
-  else if value = 2 then
-  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmEverything;
 end;
 
 function CEFAppConfig_EnableHighDPISupport(): LongBool; extdecl;

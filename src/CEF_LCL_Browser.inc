@@ -176,32 +176,14 @@ begin
    settings.margin_type := TCefPdfPrintMarginType.PDF_PRINT_MARGIN_CUSTOM;
   if PSettings.landscape <> nil then
    settings.landscape := Integer(PSettings.landscape);
-  if PSettings.print_background <> nil then
-   settings.print_background := Integer(PSettings.print_background);
-  if PSettings.scale <> nil then
-   settings.scale := Double(PSettings.scale^);
-  if PSettings.paper_width <> nil then
-   settings.paper_width := Double(PSettings.paper_width^);
-  if PSettings.paper_height <> nil then
-   settings.paper_height := Double(PSettings.paper_height^);
-  if PSettings.prefer_css_page_size <> nil then
-   settings.prefer_css_page_size := Integer(PSettings.prefer_css_page_size);
   if PSettings.margin_top <> nil then
-   settings.margin_top := Double(PSettings.margin_top^);
+   settings.margin_top := Integer(Trunc(PSettings.margin_top^));
   if PSettings.margin_right <> nil then
-   settings.margin_right := Double(PSettings.margin_right^);
+   settings.margin_right := Integer(Trunc(PSettings.margin_right^));
   if PSettings.margin_bottom <> nil then
-   settings.margin_bottom := Double(PSettings.margin_bottom^);
+   settings.margin_bottom := Integer(Trunc(PSettings.margin_bottom^));
   if PSettings.margin_left <> nil then
-   settings.margin_left := Double(PSettings.margin_left^);
-  if PSettings.page_ranges <> nil then
-   settings.page_ranges := CefString(PCharToUStr(PSettings.page_ranges));
-  if PSettings.display_header_footer <> nil then
-   settings.display_header_footer := Integer(PSettings.display_header_footer);
-  if PSettings.header_template <> nil then
-   settings.header_template := CefString(PCharToUStr(PSettings.header_template));
-  if PSettings.footer_template <> nil then
-   settings.footer_template := CefString(PCharToUStr(PSettings.footer_template));
+   settings.margin_left := Integer(Trunc(PSettings.margin_left^));
   end;
   TObj.GetHost.PrintToPdf(PCharToUStr(PPath), settings, callback)
   end;

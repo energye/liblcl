@@ -69,8 +69,7 @@ uses
   uCEFCommandHandler, uCEFLinuxEventPipe, uCEFPermissionHandler, 
   uCEFRunQuickMenuCallback, uCEFMediaAccessHandler, uCEFMediaAccessCallback, 
   uCEFPermissionPromptCallback, uCEFSharedProcessMessageBuilder, 
-  uCEFSharedMemoryRegion, uCEFPreferenceManager, uCEFPreferenceRegistrar, 
-  uCEFApplicationEvents, LazarusPackageIntf;
+  uCEFSharedMemoryRegion, LazarusPackageIntf;
 
 implementation
 
