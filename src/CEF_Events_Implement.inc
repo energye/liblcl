@@ -749,7 +749,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnDragEnter(Sender: TObject; const browser: ICefBrowser; const dragData: ICefDragData; mask: TCefDragOperations; out Result: Boolean);
 begin
-  SendEvent([Sender, browser, @dragData, mask, @Result]);
+  SendEvent([Sender, browser, dragData, mask, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDraggableRegionsChanged(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray);
