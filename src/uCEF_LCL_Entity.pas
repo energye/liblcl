@@ -18,7 +18,7 @@ uses
 {$ENDIF}
 {$IFDEF MSWINDOWS}Windows,{$ENDIF}
   fgl,
-  Classes, SysUtils, uGoForm,
+  Classes, SysUtils,
   uCEFTypes, uCEFInterfaces, uCEFMiscFunctions,
   {$ifdef MSWINDOWS}uCEFWindowParent{$else}uCEFLinkedWindowParent{$endif};
 
@@ -258,21 +258,6 @@ type
     acceptLanguageList: PChar;
     cookieableSchemesList: PChar;
     cookieableSchemesExcludeDefaults: PInteger;
-  end;
-
-  //浏览器窗口
-  TBrowserWindowMap = specialize TFPGMap<integer, TGoForm>;
-
-  TBrowserWindowClass = class
-  private
-  class var
-    BrowserWindows: TBrowserWindowMap;
-  public
-    class constructor Create;
-    class destructor Destroy;
-    class procedure Add(BrowserId: integer; Form: TGoForm);
-    class procedure Remove(BrowserId: integer);
-    class function Get(BrowserId: integer): TGoForm;
   end;
 
 function NewStringHeader(Data: ustring): PStringHeader;
@@ -541,39 +526,6 @@ begin
     browserSettings.accept_language_list := CefString(PCharToUStr(settings^.accept_language_list));
   end;
   Result := browserSettings;
-end;
-
-class constructor TBrowserWindowClass.Create;
-begin
-  BrowserWindows := TBrowserWindowMap.Create;
-end;
-
-class destructor TBrowserWindowClass.Destroy;
-begin
-  BrowserWindows.Clear;
-  BrowserWindows.Free;
-end;
-
-class procedure TBrowserWindowClass.Add(BrowserId: integer; Form: TGoForm);
-begin
-  BrowserWindows.AddOrSetData(BrowserId, Form);
-end;
-
-class procedure TBrowserWindowClass.Remove(BrowserId: integer);
-begin
-  BrowserWindows.Remove(BrowserId);
-end;
-
-class function TBrowserWindowClass.Get(BrowserId: integer): TGoForm;
-var
-  Form: TGoForm;
-begin
-  if BrowserWindows.TryGetData(BrowserId, Form) then
-  begin
-    Result := Form;
-  end
-  else
-    Result := nil;
 end;
 
 end.

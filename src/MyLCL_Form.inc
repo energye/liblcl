@@ -2123,6 +2123,13 @@ begin
   Result := TForm;
 end;
 
+procedure Form_SetOnMessagesEvent(AObj: TGoForm; AType: Integer; AEvent: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  AObj.SetOnMessagesEvent(AType, AEvent);
+  handleExceptionEnd
+end;
+
 exports
   Form_Create,
   Form_Free,
@@ -2391,5 +2398,6 @@ exports
   Form_GetControls,
   Form_GetComponents,
   Form_GetAnchorSide,
-  Form_StaticClassType;
+  Form_StaticClassType,
+  Form_SetOnMessagesEvent;
 
