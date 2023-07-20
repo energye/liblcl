@@ -311,30 +311,30 @@
       </SessionEnabledMatrixOptions>
     </BuildModes>
     <ManyBuildModesSelection Value="Win32,Win64"/>
-    <Units Count="105">
+    <Units Count="108">
       <Unit0>
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
         <TopLine Value="9"/>
         <CursorPos X="11" Y="50"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="uEventCallback.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit1>
       <Unit2>
         <Filename Value="ulinklabel.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLinkLabel"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit2>
       <Unit3>
         <Filename Value="ImageButton.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit3>
       <Unit4>
         <Filename Value="ucomponents.pas"/>
@@ -343,44 +343,46 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="9" Y="31"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit4>
       <Unit5>
         <Filename Value="ugoform.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uGoForm"/>
-        <UsageCount Value="53"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="16"/>
+        <UsageCount Value="57"/>
       </Unit5>
       <Unit6>
         <Filename Value="uMiniWebview.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="30" Y="13"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit6>
       <Unit7>
         <Filename Value="ucontrolpatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uControlPatchs"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit7>
       <Unit8>
         <Filename Value="umacospatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMacOSPatchs"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit8>
       <Unit9>
         <Filename Value="ulinuxpatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLinuxPatchs"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit9>
       <Unit10>
         <Filename Value="xbutton.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="xButton"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit10>
       <Unit11>
         <Filename Value="urichedit.pas"/>
@@ -388,12 +390,12 @@
         <UnitName Value="uRichEdit"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="52"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit11>
       <Unit12>
         <Filename Value="uFormDesignerFile.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit12>
       <Unit13>
         <Filename Value="uexport1.pas"/>
@@ -402,7 +404,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="20"/>
         <CursorPos X="12" Y="20"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit13>
       <Unit14>
         <Filename Value="uexport2.pas"/>
@@ -410,19 +412,19 @@
         <UnitName Value="uExport2"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="25"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit14>
       <Unit15>
         <Filename Value="UseAll.inc"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit15>
       <Unit16>
         <Filename Value="uexceptionhandle.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uExceptionHandle"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit16>
       <Unit17>
         <Filename Value="ugauge.pas"/>
@@ -430,7 +432,7 @@
         <UnitName Value="uGauge"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="73"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit17>
       <Unit18>
         <Filename Value="uexport3.pas"/>
@@ -439,39 +441,39 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="31" Y="22"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit18>
       <Unit19>
         <Filename Value="uexport4.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="24"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit19>
       <Unit20>
         <Filename Value="uCEF_LCL_Event.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit20>
       <Unit21>
         <Filename Value="uCEF_LCL_V8ObjectAccessor.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit21>
       <Unit22>
         <Filename Value="uCEF_LCL_IPC.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit22>
       <Unit23>
         <Filename Value="uCEF_LCL_Process_Message.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit23>
       <Unit24>
         <Filename Value="uCEF_LCL_DictionaryValue.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="53"/>
+        <UsageCount Value="57"/>
       </Unit24>
       <Unit25>
         <Filename Value=""/>
@@ -486,10 +488,11 @@
       </Unit26>
       <Unit27>
         <Filename Value="CEF_LCL_Export.inc"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="12"/>
-        <CursorPos X="24" Y="25"/>
-        <UsageCount Value="27"/>
+        <TopLine Value="6"/>
+        <CursorPos X="25" Y="15"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
       </Unit27>
       <Unit28>
@@ -526,17 +529,14 @@
       <Unit33>
         <Filename Value="CEF_LCL_Application_Proc.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1002"/>
-        <CursorPos X="6" Y="1010"/>
         <UsageCount Value="22"/>
       </Unit33>
       <Unit34>
         <Filename Value="Interfaces.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="64"/>
         <CursorPos X="11" Y="79"/>
         <UsageCount Value="24"/>
-        <Loaded Value="True"/>
       </Unit34>
       <Unit35>
         <Filename Value="CEF_LCL_Def.inc"/>
@@ -560,19 +560,17 @@
       </Unit37>
       <Unit38>
         <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="703"/>
-        <CursorPos X="15" Y="678"/>
+        <CursorPos X="5" Y="710"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit38>
       <Unit39>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFChromiumCore.pas"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="2287"/>
         <CursorPos X="33" Y="2304"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit39>
       <Unit40>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFBufferPanel.pas"/>
@@ -597,8 +595,8 @@
       <Unit43>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplicationCore.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="2538"/>
-        <CursorPos X="43" Y="2543"/>
+        <TopLine Value="52"/>
+        <CursorPos X="3" Y="102"/>
         <UsageCount Value="19"/>
       </Unit43>
       <Unit44>
@@ -672,8 +670,8 @@
       <Unit53>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFApplication.pas"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="61"/>
-        <CursorPos X="19" Y="90"/>
+        <TopLine Value="67"/>
+        <CursorPos X="3" Y="86"/>
         <UsageCount Value="18"/>
       </Unit53>
       <Unit54>
@@ -720,12 +718,10 @@
       </Unit59>
       <Unit60>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFInterfaces.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1077"/>
         <CursorPos X="14" Y="1096"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit60>
       <Unit61>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFChromiumEvents.pas"/>
@@ -945,11 +941,10 @@
       </Unit92>
       <Unit93>
         <Filename Value="CEF_LCL_v8Value.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="485"/>
         <CursorPos X="16" Y="498"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit93>
       <Unit94>
         <Filename Value="CEF_LCL_View.inc"/>
@@ -1025,43 +1020,42 @@
         <CursorPos X="18" Y="17"/>
         <UsageCount Value="10"/>
       </Unit104>
+      <Unit105>
+        <Filename Value="..\..\..\..\..\..\..\..\..\usr\share\lazarus\2.2.4\lcl\forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="155"/>
+        <CursorPos X="15" Y="174"/>
+        <UsageCount Value="12"/>
+      </Unit105>
+      <Unit106>
+        <Filename Value="..\..\..\..\..\..\..\..\..\usr\share\fpcsrc\3.2.2\packages\fcl-base\src\custapp.pp"/>
+        <UnitName Value="CustApp"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="3" Y="30"/>
+        <UsageCount Value="10"/>
+      </Unit106>
+      <Unit107>
+        <Filename Value="..\..\..\..\..\..\..\..\..\usr\share\lazarus\2.2.4\lcl\controls.pp"/>
+        <UnitName Value="Controls"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="2123"/>
+        <CursorPos X="44" Y="2145"/>
+        <UsageCount Value="12"/>
+      </Unit107>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="RMLCLTRUNK"/>
     </OtherDefines>
-    <JumpHistory Count="8" HistoryIndex="7">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="15" Column="24" TopLine="12"/>
       </Position1>
       <Position2>
-        <Filename Value="Interfaces.pas"/>
-        <Caret Line="79" Column="11" TopLine="64"/>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="20" Column="33" TopLine="6"/>
       </Position2>
-      <Position3>
-        <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
-        <Caret Line="251" Column="6" TopLine="234"/>
-      </Position3>
-      <Position4>
-        <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
-        <Caret Line="253" Column="44" TopLine="234"/>
-      </Position4>
-      <Position5>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFChromiumCore.pas"/>
-        <Caret Line="2304" Column="33" TopLine="2287"/>
-      </Position5>
-      <Position6>
-        <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
-        <Caret Line="678" Column="15" TopLine="703"/>
-      </Position6>
-      <Position7>
-        <Filename Value="CEF_LCL_v8Value.inc"/>
-        <Caret Line="102" Column="21" TopLine="82"/>
-      </Position7>
-      <Position8>
-        <Filename Value="CEF_LCL_v8Value.inc"/>
-        <Caret Line="101" Column="18" TopLine="82"/>
-      </Position8>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
