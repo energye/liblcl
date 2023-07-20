@@ -14,7 +14,8 @@ unit uGoForm;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, LMessages, LCLType, fgl;
+  Classes, SysUtils, Forms, Controls, LMessages, LCLType, fgl,
+  uCEF_LCL_EventCallback;
 
 type
   // 消息过程定义
@@ -25,12 +26,22 @@ type
 
   TGoForm = class(TForm)
   private
+    // Energy
+    FOnWMMovePtr: Pointer;
+    FOnWMSizePtr: Pointer;
+    FOnWMWindowPosChangedPtr: Pointer;
+
     FOnWndProc: TWndProcEvent;
     FGoPtr: Pointer;
   protected
     procedure ProcessResource; override;
     procedure WndProc(var TheMessage: TLMessage); override;
     procedure CreateParams(var Params: TCreateParams); override;
+
+    // Energy
+    procedure WMMove(var Message: TLMMove); message LM_MOVE;
+    procedure WMSize(var Message: TLMSize); message LM_SIZE;
+    procedure WMWindowPosChanged(var Message: TLMWindowPosChanged); message LM_WINDOWPOSCHANGED;
   public
     constructor CreateFromClassName(TheOwner: TComponent; const AClassName: string);
     constructor CreateNew(AOwner: TComponent; Num: Integer = 0); override;
@@ -38,6 +49,9 @@ type
     procedure ScaleForCurrentDpi;
 
     procedure InheritedWndProc(var TheMessage: TLMessage);
+
+    // On Messages, 设置各类消息事件的函数api
+    procedure SetOnMessagesEvent(AType: Integer; AEvent: Pointer);
 
     // 自定义一些
     procedure EnabledMaximize(AValue: Boolean);
@@ -181,6 +195,43 @@ begin
   inherited CreateParams(Params);
   if Assigned(GRequestCallCreateParamsPtr) then
     GRequestCallCreateParamsPtr(FGoPtr, Params);
+end;
+
+// Energy
+procedure TGoForm.WMMove(var Message: TLMMove);
+begin
+  inherited;
+  if (FOnWMMovePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(FOnWMMovePtr, [@Message]);
+  end;
+end;
+
+procedure TGoForm.WMSize(var Message: TLMSize);
+begin
+  inherited;
+  if (FOnWMSizePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(FOnWMSizePtr, [@Message]);
+  end;
+end;
+
+procedure TGoForm.WMWindowPosChanged(var Message: TLMWindowPosChanged);
+begin
+  inherited;
+  if (FOnWMWindowPosChangedPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(FOnWMWindowPosChangedPtr, [@Message]);
+  end;
+end;
+// On Messages, 设置各类消息事件的函数api
+procedure TGoForm.SetOnMessagesEvent(AType: Integer; AEvent: Pointer);
+begin
+  case AType of
+    1: FOnWMMovePtr := AEvent;
+    2: FOnWMSizePtr := AEvent;
+    3: FOnWMWindowPosChangedPtr := AEvent;
+  end;
 end;
 
 constructor TGoForm.CreateFromClassName(TheOwner: TComponent;
