@@ -27,6 +27,7 @@ type
   TGoForm = class(TForm)
   private
     // Energy
+    FOnWMPaintPtr: Pointer;
     FOnWMMovePtr: Pointer;
     FOnWMSizePtr: Pointer;
     FOnWMWindowPosChangedPtr: Pointer;
@@ -39,6 +40,7 @@ type
     procedure CreateParams(var Params: TCreateParams); override;
 
     // Energy
+    procedure WMPaint(var Msg: TLMPaint); message LM_PAINT;
     procedure WMMove(var Message: TLMMove); message LM_MOVE;
     procedure WMSize(var Message: TLMSize); message LM_SIZE;
     procedure WMWindowPosChanged(var Message: TLMWindowPosChanged); message LM_WINDOWPOSCHANGED;
@@ -198,6 +200,15 @@ begin
 end;
 
 // Energy
+procedure TGoForm.WMPaint(var Msg: TLMPaint);
+begin
+  inherited;
+  if (FOnWMPaintPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(FOnWMPaintPtr, [@Msg]);
+  end;
+end;
+
 procedure TGoForm.WMMove(var Message: TLMMove);
 begin
   inherited;
@@ -231,6 +242,7 @@ begin
     1: FOnWMMovePtr := AEvent;
     2: FOnWMSizePtr := AEvent;
     3: FOnWMWindowPosChangedPtr := AEvent;
+    4: FOnWMPaintPtr := AEvent;
   end;
 end;
 
