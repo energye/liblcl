@@ -144,7 +144,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_GetStringValue(TObj: ICefv8Value; const TValue: TString): PChar; extdecl;
+procedure CefV8Value_GetStringValue(TObj: ICefv8Value; const TValue: TString); extdecl;
 begin
   handleExceptionBegin
   TValue.SetValue(string(TObj.GetStringValue()));
