@@ -153,10 +153,10 @@ begin
   handleExceptionEnd
 end;
 
-function CefListValue_GetString(const TObj: ICefListValue; index: NativeUInt): PChar; extdecl;
+procedure CefListValue_GetString(const TObj: ICefListValue; index: NativeUInt; const TValue: TString); extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetString(index)));
+  TValue.SetValue(string(TObj.GetString(index)));
   handleExceptionEnd
 end;
 

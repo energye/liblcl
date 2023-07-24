@@ -118,10 +118,10 @@ begin
   handleExceptionEnd
 end;
 
-function CefDictionaryValue_GetString(const TObj: ICefDictionaryValue; const key: PChar): PChar; extdecl;
+procedure CefDictionaryValue_GetString(const TObj: ICefDictionaryValue; const key: PChar; const TValue: TString); extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetString(PCharToUStr(key))));
+  TValue.SetValue(string(TObj.GetString(PCharToUStr(key))));
   handleExceptionEnd
 end;
 
