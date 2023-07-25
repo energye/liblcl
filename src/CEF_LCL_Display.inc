@@ -77,22 +77,18 @@ end;
 
 procedure CEFDisplayRef_ScreenPointToPixels(const aScreenPoint : TPoint; var Result: TPoint); extdecl;
 begin
-  Result := TCefDisplayRef.ScreenPointToPixels(aScreenPoint);
 end;
 
 procedure CEFDisplayRef_ScreenPointFromPixels(const aPixelsPoint : TPoint; var Result: TPoint); extdecl;
 begin
-  Result := TCefDisplayRef.ScreenPointFromPixels(aPixelsPoint);
 end;
 
 procedure CEFDisplayRef_ScreenRectToPixels(const aScreenRect : TRect; var Result: TRect); extdecl;
 begin
-  Result := TCefDisplayRef.ScreenRectToPixels(aScreenRect);
 end;
 
 procedure CEFDisplayRef_ScreenRectFromPixels(const aPixelsRect : TRect; var Result: TRect); extdecl;
 begin
-  Result := TCefDisplayRef.ScreenRectFromPixels(aPixelsRect);
 end;
 
 procedure CEFDisplay_ID(const ADisplay: ICefDisplay; var Result: int64) ; extdecl;
