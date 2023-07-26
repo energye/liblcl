@@ -235,6 +235,20 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFLinkedWindow_SetFocus(const AObj: TCEFLinkedWindowParent) ; extdecl;
+begin
+  handleExceptionBegin
+  AObj.SetFocus;
+  handleExceptionEnd
+end;
+
+function CEFLinkedWindow_CanFocus(const AObj: TCEFLinkedWindowParent): LongBool ; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.CanFocus;
+  handleExceptionEnd
+end;
+
 //EVENT_TYPE:LinkedWindowEventOnEnter
 procedure CEFLinkedWindow_OnEnter(const AObj: TCEFLinkedWindowParent; AEventData: Pointer); extdecl;
 begin
@@ -284,4 +298,6 @@ exports
   CEFLinkedWindow_OnEnter,
   CEFLinkedWindow_OnExit,
   CEFLinkedWindow_SetTag,
-  CEFLinkedWindow_GetTag;
+  CEFLinkedWindow_GetTag,
+  CEFLinkedWindow_SetFocus,
+  CEFLinkedWindow_CanFocus;
