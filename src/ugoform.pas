@@ -50,6 +50,10 @@ type
     procedure ScaleForPPI(ANewPPI: Integer);
     procedure ScaleForCurrentDpi;
 
+
+    procedure GoDeactivate();
+    procedure GoActivate();
+
     procedure InheritedWndProc(var TheMessage: TLMessage);
 
     // On Messages, 设置各类消息事件的函数api
@@ -87,6 +91,16 @@ var
 constructor TGoForm.CreateNew(AOwner: TComponent; Num: Integer);
 begin
   inherited CreateNew(AOwner, Num);
+end;
+
+procedure TGoForm.GoDeactivate();
+begin
+     self.Deactivate;
+end;
+
+procedure TGoForm.GoActivate();
+begin
+     self.Activate;
 end;
 
 procedure TGoForm.ScaleForPPI(ANewPPI: Integer);
