@@ -68,15 +68,12 @@ type
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
       procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
-      procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
-      procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
       procedure OnCanResize(const window_: ICefWindow; var aResult : boolean);
       procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean);
       procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean);
       procedure OnCanClose(const window_: ICefWindow; var aResult : boolean);
       procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
-      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
 
     public
       class function UnWrap(data: Pointer): ICefWindowDelegate;
@@ -93,15 +90,12 @@ type
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); virtual;
       procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState); virtual;
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean); virtual;
-      procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean); virtual;
-      procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean); virtual;
       procedure OnCanResize(const window_: ICefWindow; var aResult : boolean); virtual;
       procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean); virtual;
       procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean); virtual;
       procedure OnCanClose(const window_: ICefWindow; var aResult : boolean); virtual;
       procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean); virtual;
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); virtual;
-      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); virtual;
 
       procedure InitializeCEFMethods; override;
 
@@ -135,15 +129,12 @@ type
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); override;
       procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState); override;
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean); override;
-      procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean); override;
-      procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean); override;
       procedure OnCanResize(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnCanClose(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean); override;
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); override;
-      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); override;
 
     public
       constructor Create(const events: ICefWindowDelegateEvents); reintroduce;
@@ -216,16 +207,6 @@ begin
   aResult := (PCefWindowDelegate(FData)^.is_frameless(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
 end;
 
-procedure TCefWindowDelegateRef.OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
-begin
-  aResult := (PCefWindowDelegate(FData)^.with_standard_window_buttons(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
-end;
-
-procedure TCefWindowDelegateRef.OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
-begin
-  aResult := (PCefWindowDelegate(FData)^.get_titlebar_height(PCefWindowDelegate(FData), CefGetData(window_), @titlebar_height) <> 0);
-end;
-
 procedure TCefWindowDelegateRef.OnCanResize(const window_: ICefWindow; var aResult : boolean);
 begin
   aResult := (PCefWindowDelegate(FData)^.can_resize(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
@@ -254,11 +235,6 @@ end;
 procedure TCefWindowDelegateRef.OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
 begin
   aResult := (PCefWindowDelegate(FData)^.on_key_event(PCefWindowDelegate(FData), CefGetData(window_), @event) <> 0);
-end;
-
-procedure TCefWindowDelegateRef.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
-begin
-  PCefWindowDelegate(FData)^.on_window_fullscreen_transition(PCefWindowDelegate(FData), CefGetData(window_), ord(is_completed));
 end;
 
 class function TCefWindowDelegateRef.UnWrap(data: Pointer): ICefWindowDelegate;
@@ -468,19 +444,6 @@ begin
   Result := ord(TempResult);
 end;
 
-procedure cef_window_delegate_on_window_fullscreen_transition(self         : PCefWindowDelegate;
-                                                              window_      : PCefWindow;
-                                                              is_completed : integer); stdcall;
-var
-  TempObject : TObject;
-begin
-  TempObject := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnWindowFullscreenTransition(TCefWindowRef.UnWrap(window_),
-                                                                   is_completed <> 0);
-end;
-
 constructor TCefWindowDelegateOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefWindowDelegate));
@@ -507,7 +470,6 @@ begin
       can_close                        := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_can_close;
       on_accelerator                   := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_accelerator;
       on_key_event                     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_key_event;
-      on_window_fullscreen_transition  := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_fullscreen_transition;
     end;
 end;
 
@@ -556,16 +518,6 @@ begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
-begin
-  //
-end;
-
-procedure TCefWindowDelegateOwn.OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
-begin
-  //
-end;
-
 procedure TCefWindowDelegateOwn.OnCanResize(const window_: ICefWindow; var aResult : boolean);
 begin
   //
@@ -592,11 +544,6 @@ begin
 end;
 
 procedure TCefWindowDelegateOwn.OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
-begin
-  //
-end;
-
-procedure TCefWindowDelegateOwn.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
 begin
   //
 end;
@@ -822,28 +769,6 @@ begin
   end;
 end;
 
-procedure TCustomWindowDelegate.OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
-begin
-  try
-    if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnWithStandardWindowButtons(window_, aResult);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomWindowDelegate.OnWithStandardWindowButtons', e) then raise;
-  end;
-end;
-
-procedure TCustomWindowDelegate.OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
-begin
-  try
-    if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnGetTitlebarHeight(window_, titlebar_height, aResult);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomWindowDelegate.OnGetTitlebarHeight', e) then raise;
-  end;
-end;
-
 procedure TCustomWindowDelegate.OnCanResize(const window_: ICefWindow; var aResult : boolean);
 begin
   try
@@ -907,17 +832,6 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnKeyEvent', e) then raise;
-  end;
-end;
-
-procedure TCustomWindowDelegate.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
-begin
-  try
-    if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnWindowFullscreenTransition(window_, is_completed);
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCustomWindowDelegate.OnWindowFullscreenTransition', e) then raise;
   end;
 end;
 

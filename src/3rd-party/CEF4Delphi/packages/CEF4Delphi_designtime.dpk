@@ -32,7 +32,6 @@ package CEF4Delphi_designtime;
 requires
   rtl,
   vcl,
-  designide,
   CEF4DelphiVCLRTL,
   CEF4DelphiFMXRTL;
 

@@ -175,6 +175,7 @@ type
   TCefMediaSinkInfo = record
     ID          : ustring;
     Name        : ustring;
+    Description : ustring;
     IconType    : TCefMediaSinkIconType;
     SinkType    : TCefMediaType;
     SinkIntf    : ICefMediaSink;
@@ -447,10 +448,6 @@ type
 
     // ICefCommandHandler
     function  doOnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
-    function  doOnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean;
-    function  doOnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean;
-    function  doOnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean;
-    function  doOnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean;
 
     // ICefPermissionHandler
     function  doOnRequestMediaAccessPermission(const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback): boolean;
@@ -486,7 +483,6 @@ type
     procedure doBrowserNavigation(aTask : TCefBrowserNavigation);
     procedure doSetAudioMuted(aValue : boolean);
     procedure doToggleAudioMuted;
-    procedure doEnableFocus;
     function  MustCreateAudioHandler : boolean;
     function  MustCreateCommandHandler : boolean;
     function  MustCreateLoadHandler : boolean;
@@ -1422,6 +1418,7 @@ type
     ['{EDA1A4B2-2A4C-42DD-A7DF-901BF93D908D}']
     function  GetId: ustring;
     function  GetName: ustring;
+    function  GetDescription: ustring;
     function  GetIconType: TCefMediaSinkIconType;
     procedure GetDeviceInfo(const callback: ICefMediaSinkDeviceInfoCallback);
     function  IsCastSink: boolean;
@@ -1430,6 +1427,7 @@ type
 
     property ID          : ustring               read GetId;
     property Name        : ustring               read GetName;
+    property Description : ustring               read GetDescription;
     property IconType    : TCefMediaSinkIconType read GetIconType;
   end;
 
@@ -1825,10 +1823,7 @@ type
   ICefCommandHandler = interface(ICefBaseRefCounted)
     ['{7C931B93-53DC-4607-AABB-2CB4AEF7FB96}']
     function  OnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
-    function  OnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean;
-    function  OnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean;
-    function  OnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean;
-    function  OnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean;
+
     procedure RemoveReferences; // custom procedure to clear all references
   end;
 
@@ -2882,7 +2877,6 @@ type
     procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
     procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
     function  GetChromeToolbarType: TCefChromeToolbarType;
-    procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
 
     property ChromeToolbarType: TCefChromeToolbarType read GetChromeToolbarType;
   end;
@@ -2894,7 +2888,6 @@ type
     procedure doOnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
     procedure doOnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
     procedure doOnGetChromeToolbarType(var aChromeToolbarType: TCefChromeToolbarType);
-    procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
   end;
 
   // TCefButton
@@ -3033,15 +3026,12 @@ type
     procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
     procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
     procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
-    procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
-    procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
     procedure OnCanResize(const window_: ICefWindow; var aResult : boolean);
     procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean);
     procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean);
     procedure OnCanClose(const window_: ICefWindow; var aResult : boolean);
     procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
     procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
-    procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
   end;
 
   ICefWindowDelegateEvents = interface(ICefPanelDelegateEvents)
@@ -3055,15 +3045,12 @@ type
     procedure doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
     procedure doOnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
     procedure doOnIsFrameless(const window_: ICefWindow; var aResult : boolean);
-    procedure doOnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
-    procedure doOnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
     procedure doOnCanResize(const window_: ICefWindow; var aResult : boolean);
     procedure doOnCanMaximize(const window_: ICefWindow; var aResult : boolean);
     procedure doOnCanMinimize(const window_: ICefWindow; var aResult : boolean);
     procedure doOnCanClose(const window_: ICefWindow; var aResult : boolean);
     procedure doOnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
     procedure doOnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
-    procedure doOnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
   end;
 
 implementation

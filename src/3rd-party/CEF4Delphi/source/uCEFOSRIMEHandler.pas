@@ -77,7 +77,7 @@ type
     protected
       FHWND              : HWND;
       FCompositionRange  : TCefRange;
-      FCursorIndex       : cardinal;
+      FCursorIndex       : integer;
       FIMERect           : TCefRect;
       FSystemCaret       : boolean;
       FInputLanguageID   : LANGID;
@@ -94,8 +94,8 @@ type
       {$IFDEF MSWINDOWS}
       function  IsSelectionAttribute(aAttribute : AnsiChar) : boolean;
       {$ENDIF}
-      procedure GetCompositionSelectionRange(imc : HIMC; var target_start, target_end : cardinal);
-      procedure GetCompositionUnderlines(imc : HIMC; target_start, target_end : cardinal; var underlines : TCefCompositionUnderlineDynArray);
+      procedure GetCompositionSelectionRange(imc : HIMC; var target_start, target_end : integer);
+      procedure GetCompositionUnderlines(imc : HIMC; target_start, target_end : integer; var underlines : TCefCompositionUnderlineDynArray);
 
     public
       constructor Create(aHWND : HWND);
@@ -113,7 +113,7 @@ type
       procedure   EnableIME;
       procedure   DisableIME;
       procedure   CancelIME;
-      procedure   UpdateCaretPosition(index : cardinal);
+      procedure   UpdateCaretPosition(index : integer);
       procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
       procedure   MoveImeWindow;
 
@@ -148,7 +148,7 @@ begin
   FHWND                  := aHWND;
   FCompositionRange.from := 0;
   FCompositionRange.to_  := 0;
-  FCursorIndex           := high(cardinal);
+  FCursorIndex           := -1;
   FIMERect.x             := -1;
   FIMERect.y             := -1;
   FIMERect.width         := 0;
@@ -215,8 +215,7 @@ procedure TCEFOSRIMEHandler.GetCompositionInfo(    imc               : HIMC;
                                                var underlines        : TCefCompositionUnderlineDynArray;
                                                var composition_start : integer);
 var
-  TempLen, TempTargetStart, TempTargetEnd : cardinal;
-  i : integer;
+  TempTargetStart, TempTargetEnd, TempLen, i : integer;
 begin
   if (underlines <> nil) then
     begin
@@ -338,7 +337,7 @@ begin
 end;
 {$ENDIF}
 
-procedure TCEFOSRIMEHandler.GetCompositionSelectionRange(imc : HIMC; var target_start, target_end : cardinal);
+procedure TCEFOSRIMEHandler.GetCompositionSelectionRange(imc : HIMC; var target_start, target_end : integer);
 {$IFDEF MSWINDOWS}
 var
   i, TempStart, TempEnd, TempBufferLen : integer;
@@ -390,8 +389,8 @@ begin
 end;
 
 procedure TCEFOSRIMEHandler.GetCompositionUnderlines(    imc          : HIMC;
-                                                         target_start : cardinal;
-                                                         target_end   : cardinal;
+                                                         target_start : integer;
+                                                         target_end   : integer;
                                                      var underlines   : TCefCompositionUnderlineDynArray);
 {$IFDEF MSWINDOWS}
 var
@@ -529,7 +528,7 @@ end;
 procedure TCEFOSRIMEHandler.ResetComposition;
 begin
   FIsComposing := False;
-  FCursorIndex := high(cardinal);
+  FCursorIndex := -1;
 end;
 
 function TCEFOSRIMEHandler.GetResult(aParam : LPARAM; var aResult : ustring) : boolean;
@@ -628,7 +627,7 @@ begin
     end;
 end;
 
-procedure TCEFOSRIMEHandler.UpdateCaretPosition(index : cardinal);
+procedure TCEFOSRIMEHandler.UpdateCaretPosition(index : integer);
 begin
   FCursorIndex := index;
   MoveImeWindow();
@@ -665,7 +664,7 @@ procedure TCEFOSRIMEHandler.MoveImeWindow;
 {$IFDEF MSWINDOWS}
 var
   TempRect         : TCefRect;
-  TempLocation     : cardinal;
+  TempLocation     : integer;
   TempIMC          : HIMC;
   TempCandidatePos : TCandidateForm;
   TempCandidateExc : TCandidateForm;
@@ -679,7 +678,7 @@ begin
   TempRect     := FIMERect;
   TempLocation := FCursorIndex;
 
-  if (TempLocation = high(cardinal)) then
+  if (TempLocation = -1) then
     TempLocation := FCompositionRange.from;
 
   if (TempLocation >= FCompositionRange.from) then
@@ -688,7 +687,8 @@ begin
   if (FCompositionBounds = nil) then
     exit
    else
-    if (TempLocation < cardinal(length(FCompositionBounds))) then
+    if (TempLocation >= 0) and
+       (TempLocation < length(FCompositionBounds)) then
       TempRect := FCompositionBounds[TempLocation]
      else
       if (length(FCompositionBounds) > 0) then

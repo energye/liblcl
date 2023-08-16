@@ -242,17 +242,6 @@ type
       destructor  Destroy; override;
   end;
 
-  TCefEnableFocusTask = class(TCefTaskOwn)
-    protected
-      FEvents : Pointer;
-
-      procedure Execute; override;
-
-    public
-      constructor Create(const aEvents : IChromiumEvents); reintroduce;
-      destructor  Destroy; override;
-  end;
-
 implementation
 
 uses
@@ -778,35 +767,5 @@ begin
   inherited Destroy;
 end;
 
-
-// TCefEnableFocusTask
-
-procedure TCefEnableFocusTask.Execute;
-begin
-  try
-    try
-      if (FEvents <> nil) then IChromiumEvents(FEvents).doEnableFocus;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefEnableFocusTask.Execute', e) then raise;
-    end;
-  finally
-    FEvents := nil;
-  end;
-end;
-
-constructor TCefEnableFocusTask.Create(const aEvents : IChromiumEvents);
-begin
-  inherited Create;
-
-  FEvents := Pointer(aEvents);
-end;
-
-destructor TCefEnableFocusTask.Destroy;
-begin
-  FEvents := nil;
-
-  inherited Destroy;
-end;
 
 end.

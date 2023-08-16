@@ -56,6 +56,7 @@ type
   protected
     function  GetId: ustring;
     function  GetName: ustring;
+    function  GetDescription: ustring;
     function  GetIconType: TCefMediaSinkIconType;
     procedure GetDeviceInfo(const callback: ICefMediaSinkDeviceInfoCallback);
     function  IsCastSink: boolean;
@@ -78,6 +79,11 @@ end;
 function TCefMediaSinkRef.GetName: ustring;
 begin
   Result := CefStringFreeAndGet(PCefMediaSink(FData)^.get_name(PCefMediaSink(FData)));
+end;
+
+function TCefMediaSinkRef.GetDescription: ustring;
+begin
+  Result := CefStringFreeAndGet(PCefMediaSink(FData)^.get_description(PCefMediaSink(FData)));
 end;
 
 function TCefMediaSinkRef.GetIconType: TCefMediaSinkIconType;

@@ -475,7 +475,6 @@ type
                           asUnloaded,
                           asErrorMissingFiles,
                           asErrorDLLVersion,
-                          asErrorWindowsVersion,
                           asErrorLoadingLibrary,
                           asErrorInitializingLibrary,
                           asErrorExecutingProcess);
@@ -565,8 +564,8 @@ type
 
   // /include/internal/cef_types_geometry.h (cef_range_t)
   TCefRange = record
-    from  : cardinal;
-    to_   : cardinal;
+    from  : Integer;
+    to_   : Integer;
   end;
   TCefRangeArray = array of TCefRange;
 
@@ -1197,55 +1196,12 @@ type
     CEF_PREFERENCES_TYPE_REQUEST_CONTEXT
   );
 
-  // /include/internal/cef_types.h (cef_gesture_command_t)
-  TCefGestureCommand = (
-    CEF_GESTURE_COMMAND_BACK,
-    CEF_GESTURE_COMMAND_FORWARD
-  );
-
   // /include/internal/cef_types.h (cef_test_cert_type_t)
   TCefTestCertType = (
     CEF_TEST_CERT_OK_IP,
     CEF_TEST_CERT_OK_DOMAIN,
     CEF_TEST_CERT_EXPIRED
    );
-
-  // /include/internal/cef_types.h (cef_chrome_page_action_icon_type_t)
-  TCefChromePageActionIconType = (
-    CEF_CPAIT_BOOKMARK_STAR,
-    CEF_CPAIT_CLICK_TO_CALL,
-    CEF_CPAIT_COOKIE_CONTROLS,
-    CEF_CPAIT_FILE_SYSTEM_ACCESS,
-    CEF_CPAIT_FIND,
-    CEF_CPAIT_HIGH_EFFICIENCY,
-    CEF_CPAIT_INTENT_PICKER,
-    CEF_CPAIT_LOCAL_CARD_MIGRATION,
-    CEF_CPAIT_MANAGE_PASSWORDS,
-    CEF_CPAIT_PAYMENTS_OFFER_NOTIFICATION,
-    CEF_CPAIT_PRICE_TRACKING,
-    CEF_CPAIT_PWA_INSTALL,
-    CEF_CPAIT_QR_CODE_GENERATOR,
-    CEF_CPAIT_READER_MODE,
-    CEF_CPAIT_SAVE_AUTOFILL_ADDRESS,
-    CEF_CPAIT_SAVE_CARD,
-    CEF_CPAIT_SEND_TAB_TO_SELF,
-    CEF_CPAIT_SHARING_HUB,
-    CEF_CPAIT_SIDE_SEARCH,
-    CEF_CPAIT_SMS_REMOTE_FETCHER,
-    CEF_CPAIT_TRANSLATE,
-    CEF_CPAIT_VIRTUAL_CARD_ENROLL,
-    CEF_CPAIT_VIRTUAL_CARD_MANUAL_FALLBACK,
-    CEF_CPAIT_ZOOM,
-    CEF_CPAIT_SAVE_IBAN  // CEF_CPAIT_MAX_VALUE = CEF_CPAIT_SAVE_IBAN
-  );
-
-  // /include/internal/cef_types.h (cef_chrome_toolbar_button_type_t)
-  TCefChromeToolbarButtonType = (
-    CEF_CTBT_CAST,
-    CEF_CTBT_DOWNLOAD,
-    CEF_CTBT_SEND_TAB_TO_SELF,
-    CEF_CTBT_SIDE_PANEL  // CEF_CTBT_MAX_VALUE = CEF_CTBT_SIDE_PANEL
-  );
 
   // /include/internal/cef_types.h (cef_touch_handle_state_t)
   TCefTouchHandleState = record
@@ -1396,7 +1352,10 @@ type
     widthSet          : Integer;
     height            : Integer;
     heightSet         : Integer;
-    isPopup           : Integer;
+    menuBarVisible    : Integer;
+    statusBarVisible  : Integer;
+    toolBarVisible    : Integer;
+    scrollbarsVisible : Integer;
   end;
 
   // /include/internal/cef_types.h (cef_browser_settings_t)
@@ -1765,6 +1724,7 @@ type
     base                  : TCefBaseRefCounted;
     get_id                : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
     get_name              : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
+    get_description       : function(self: PCefMediaSink): PCefStringUserFree; stdcall;
     get_icon_type         : function(self: PCefMediaSink): TCefMediaSinkIconType; stdcall;
     get_device_info       : procedure(self: PCefMediaSink; callback: PCefMediaSinkDeviceInfoCallback); stdcall;
     is_cast_sink          : function(self: PCefMediaSink): Integer; stdcall;
@@ -2471,12 +2431,8 @@ type
 
   // /include/capi/cef_command_handler_capi.h (cef_command_handler_t)
   TCefCommandHandler = record
-    base                                 : TCefBaseRefCounted;
-    on_chrome_command                    : function(self: PCefCommandHandler; browser: PCefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): Integer; stdcall;
-    is_chrome_app_menu_item_visible      : function(self: PCefCommandHandler; browser: PCefBrowser; command_id: integer): integer; stdcall;
-    is_chrome_app_menu_item_enabled      : function(self: PCefCommandHandler; browser: PCefBrowser; command_id: integer): integer; stdcall;
-    is_chrome_page_action_icon_visible   : function(self: PCefCommandHandler; icon_type: TCefChromePageActionIconType): integer; stdcall;
-    is_chrome_toolbar_button_visible     : function(self: PCefCommandHandler; button_type: TCefChromeToolbarButtonType): integer; stdcall;
+    base                      : TCefBaseRefCounted;
+    on_chrome_command         : function(self: PCefCommandHandler; browser: PCefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): Integer; stdcall;
   end;
 
   // /include/capi/cef_scheme_capi.h (cef_scheme_registrar_t)
@@ -3442,7 +3398,6 @@ type
     get_delegate_for_popup_browser_view : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; const settings: PCefBrowserSettings; client: PCefClient; is_devtools: Integer): PCefBrowserViewDelegate; stdcall;
     on_popup_browser_view_created       : function(self: PCefBrowserViewDelegate; browser_view, popup_browser_view: PCefBrowserView; is_devtools: Integer): Integer; stdcall;
     get_chrome_toolbar_type             : function(self: PCefBrowserViewDelegate): TCefChromeToolbarType; stdcall;
-    on_gesture_command                  : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; gesture_command: TCefGestureCommand): Integer; stdcall;
   end;
 
   // /include/capi/views/cef_button_capi.h (cef_button_t)
@@ -3551,15 +3506,12 @@ type
     get_initial_bounds               : function(self: PCefWindowDelegate; window: PCefWindow): TCefRect; stdcall;
     get_initial_show_state           : function(self: PCefWindowDelegate; window: PCefWindow): TCefShowState; stdcall;
     is_frameless                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
-    with_standard_window_buttons     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
-    get_titlebar_height              : function(self: PCefWindowDelegate; window: PCefWindow; titlebar_height: PSingle): Integer; stdcall;
     can_resize                       : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     can_maximize                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     can_minimize                     : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     can_close                        : function(self: PCefWindowDelegate; window: PCefWindow): Integer; stdcall;
     on_accelerator                   : function(self: PCefWindowDelegate; window: PCefWindow; command_id: Integer): Integer; stdcall;
     on_key_event                     : function(self: PCefWindowDelegate; window: PCefWindow; const event: PCefKeyEvent): Integer; stdcall;
-    on_window_fullscreen_transition  : procedure(self: PCefWindowDelegate; window: PCefWindow; is_completed: integer); stdcall;
   end;
 
 implementation

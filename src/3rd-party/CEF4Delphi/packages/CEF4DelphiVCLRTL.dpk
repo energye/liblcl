@@ -233,8 +233,7 @@ contains
   uCEFRunQuickMenuCallback in '..\source\uCEFRunQuickMenuCallback.pas',
   uCEFPreferenceRegistrar in '..\source\uCEFPreferenceRegistrar.pas',
   uCEFPreferenceManager in '..\source\uCEFPreferenceManager.pas',
-  uCEFApplicationEvents in '..\source\uCEFApplicationEvents.pas',
-  uCEFBrowserBitmap in '..\source\uCEFBrowserBitmap.pas';
+  uCEFApplicationEvents in '..\source\uCEFApplicationEvents.pas';
 
 end.
 

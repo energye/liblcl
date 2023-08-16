@@ -39,10 +39,7 @@ unit CEF4DelphiVCLFMX_Register;
 
 {$R res\chromium.dcr}
 
-{$I ..\source\cef.inc}
-
-// Disable this DEFINE if your Delphi installation can't find ToolsAPI.pas or designide.dcp
-{$DEFINE ADDSPLASHSCREENLOGO}
+{$I cef.inc}
 
 interface
 
@@ -51,38 +48,13 @@ procedure Register;
 implementation
 
 uses
-  System.Classes, Winapi.Windows, System.SysUtils, {$IFDEF ADDSPLASHSCREENLOGO}ToolsApi,{$ENDIF}
+  System.Classes,
   uCEFChromium, uCEFWindowParent, uCEFChromiumWindow, uCEFBufferPanel,
   uCEFWorkScheduler, uCEFFMXBufferPanel, uCEFFMXChromium, uCEFFMXWorkScheduler,
   uCEFServerComponent, uCEFLinkedWindowParent, uCEFUrlRequestClientComponent,
   uCEFSentinel, uCEFBrowserViewComponent, uCEFLabelButtonComponent,
   uCEFMenuButtonComponent, uCEFPanelComponent, uCEFTextfieldComponent,
   uCEFScrollViewComponent, uCEFWindowComponent;
-
-{$IFDEF ADDSPLASHSCREENLOGO}
-procedure AddBitmapToSplashScreen;
-const
-  {$I ..\source\uCEFVersion.inc}
-var
-  TempBitmap : HBITMAP;
-  TempVersion : string;
-begin
-  if assigned(SplashScreenServices) then
-    begin
-      TempBitmap := LoadBitmap(FindResourceHInstance(HInstance), 'TChromium');
-      try
-        TempVersion := IntToStr(CEF_SUPPORTED_VERSION_MAJOR) + '.' +
-                       IntToStr(CEF_SUPPORTED_VERSION_MINOR) + '.' +
-                       IntToStr(CEF_SUPPORTED_VERSION_RELEASE) + '.' +
-                       IntToStr(CEF_SUPPORTED_VERSION_BUILD);
-
-        SplashScreenServices.AddPluginBitmap('CEF4Delphi ' + TempVersion, TempBitmap, False, 'MPL 1.1 license');
-      finally
-        DeleteObject(TempBitmap);
-      end;
-    end;
-end;
-{$ENDIF}
 
 procedure Register;
 begin
@@ -99,10 +71,6 @@ begin
                       TCEFMenuButtonComponent, TCEFPanelComponent,
                       TCEFTextfieldComponent, TCEFScrollViewComponent,
                       TCEFWindowComponent]);
-
-  {$IFDEF ADDSPLASHSCREENLOGO}
-  AddBitmapToSplashScreen;
-  {$ENDIF}
 end;
 
 end.

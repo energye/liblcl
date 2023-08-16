@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright ï¿½ 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -67,7 +67,15 @@ uses
   uCEFSchemeRegistrar, uCEFPreferenceRegistrar;
 
 const
-  {$I uCEFVersion.inc}
+  CEF_SUPPORTED_VERSION_MAJOR   = 109;
+  CEF_SUPPORTED_VERSION_MINOR   = 1;
+  CEF_SUPPORTED_VERSION_RELEASE = 18;
+  CEF_SUPPORTED_VERSION_BUILD   = 0;
+
+  CEF_CHROMEELF_VERSION_MAJOR   = CEF_SUPPORTED_VERSION_MAJOR;
+  CEF_CHROMEELF_VERSION_MINOR   = 0;
+  CEF_CHROMEELF_VERSION_RELEASE = 5414;
+  CEF_CHROMEELF_VERSION_BUILD   = 120;
 
   {$IFDEF MSWINDOWS}
   LIBCEF_DLL     = 'libcef.dll';
@@ -186,11 +194,13 @@ type
       FNetLogEnabled                     : boolean;
       FNetLogFile                        : ustring;
       FNetLogCaptureMode                 : TCefNetLogCaptureMode;
-      FRemoteAllowOrigins                : ustring;
 
 
       // Fields used during the CEF initialization
       FWindowsSandboxInfo                : pointer;
+      {$IFDEF MSWINDOWS}
+      FEnableHighDPISupport              : boolean;
+      {$ENDIF}
       {$IFDEF LINUX}
       FArgCopy                           : TCEFArgCopy;
       {$ENDIF}
@@ -367,7 +377,6 @@ type
       function  CheckCEFResources : boolean; virtual;
       {$IFDEF MSWINDOWS}
       function  CheckCEFDLL : boolean; virtual;
-      function  CheckWindowsVersion: boolean; virtual;
       {$ENDIF}
       procedure ShowErrorMessageDlg(const aError : string); virtual;
       function  ParseProcessType : TCefProcessType;
@@ -514,10 +523,12 @@ type
       property NetLogEnabled                     : boolean                             read FNetLogEnabled                     write FNetLogEnabled;                    // --log-net-log
       property NetLogFile                        : ustring                             read FNetLogFile                        write FNetLogFile;                       // --log-net-log
       property NetLogCaptureMode                 : TCefNetLogCaptureMode               read FNetLogCaptureMode                 write FNetLogCaptureMode;                // --net-log-capture-mode
-      property RemoteAllowOrigins                : ustring                             read FRemoteAllowOrigins                write FRemoteAllowOrigins;               // --remote-allow-origins
 
       // Properties used during the CEF initialization
       property WindowsSandboxInfo                : Pointer                             read FWindowsSandboxInfo                write FWindowsSandboxInfo;
+      {$IFDEF MSWINDOWS}
+      property EnableHighDPISupport              : boolean                             read FEnableHighDPISupport              write FEnableHighDPISupport;
+      {$ENDIF}
       {$IFDEF LINUX}
       property argcCopy                          : longint                             read GetArgc;
       property argvCopy                          : PPAnsiChar                          read GetArgv;
@@ -768,10 +779,12 @@ begin
   FNetLogEnabled                     := False;
   FNetLogFile                        := '';
   FNetLogCaptureMode                 := nlcmDefault;
-  FRemoteAllowOrigins                := '';
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
+  {$IFDEF MSWINDOWS}
+  FEnableHighDPISupport              := False;
+  {$ENDIF}
   {$IFDEF LINUX}
   FArgCopy                           := TCEFArgCopy.Create;
   {$ENDIF}
@@ -1206,24 +1219,6 @@ begin
       ShowErrorMessageDlg(FLastErrorMessage);
     end;
 end;
-
-function TCefApplicationCore.CheckWindowsVersion : boolean;
-begin
-  // -- Chromium 109 requires Windows 10 or later.
-  // https://github.com/salvadordf/CEF4Delphi/issues/452
-  // TODO Energy Windows 7 or later.
-  if CheckRealWindowsVersion(6, 0) then
-    Result := True
-   else
-    begin
-      Result            := False;
-      FStatus           := asErrorWindowsVersion;
-      FLastErrorMessage := 'Unsupported Windows version !' +
-                           CRLF + CRLF +
-                           'Chromium requires Windows 10 or later.';
-      ShowErrorMessageDlg(FLastErrorMessage);
-    end;
-end;
 {$ENDIF}
 
 function TCefApplicationCore.CheckCEFLibrary : boolean;
@@ -1242,10 +1237,8 @@ begin
       chdir(GetModulePath);
     end;
 
-  Result := CheckCEFResources;
-  {$IFDEF MSWINDOWS}
-  Result := Result and CheckWindowsVersion and CheckCEFDLL;
-  {$ENDIF}
+  Result := CheckCEFResources
+            {$IFDEF MSWINDOWS}and CheckCEFDLL{$ENDIF};
 
   if FSetCurrentDir then chdir(TempOldDir);
 end;
@@ -2141,9 +2134,6 @@ begin
   if (length(FTreatInsecureOriginAsSecure) > 0) then
     ReplaceSwitch(aKeys, aValues, '--unsafely-treat-insecure-origin-as-secure', FTreatInsecureOriginAsSecure);
 
-  if (length(FRemoteAllowOrigins) > 0) then
-    ReplaceSwitch(aKeys, aValues, '--remote-allow-origins', FRemoteAllowOrigins);
-
   if FNetLogEnabled then
     begin
       ReplaceSwitch(aKeys, aValues, '--log-net-log', FNetLogFile);
@@ -2635,6 +2625,10 @@ begin
       Result     := True;
 
       if FLogProcessInfo then CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);
+
+      {$IFDEF MSWINDOWS}
+      if FEnableHighDPISupport then cef_enable_highdpi_support();
+      {$ENDIF}
     end
    else
     begin
@@ -2678,8 +2672,10 @@ function TCefApplicationCore.Load_cef_app_win_h : boolean;
 begin
   {$IFDEF MSWINDOWS}
     {$IFDEF FPC}Pointer({$ENDIF}cef_set_osmodal_loop{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_set_osmodal_loop');
+    {$IFDEF FPC}Pointer({$ENDIF}cef_enable_highdpi_support{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_enable_highdpi_support');
 
-    Result := assigned(cef_set_osmodal_loop);
+    Result := assigned(cef_set_osmodal_loop) and
+              assigned(cef_enable_highdpi_support);
   {$ELSE}
     Result := True;
   {$ENDIF}
