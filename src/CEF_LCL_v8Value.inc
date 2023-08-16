@@ -144,10 +144,10 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_GetStringValue(TObj: ICefv8Value): PChar; extdecl;
+procedure CefV8Value_GetStringValue(TObj: ICefv8Value; const TValue: TString); extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetStringValue()));
+  TValue.SetValue(string(TObj.GetStringValue()));
   handleExceptionEnd
 end;
 

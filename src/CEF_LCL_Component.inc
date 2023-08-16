@@ -12,7 +12,7 @@ CEFChromium 组件单元
 uCEFLazarusCocoa,
 {$endif}
 Messages, Variants, fpjson, jsonparser,
-uCEFBaseRefCounted, uCEFDownloadItemCallback, uCEFSchemeRegistrar,uCEFCommandLine, uCEFLibFunctions, uCEFBufferPanel, uCEFBitmapBitBuffer,
+uCEFBaseRefCounted, uCEFDownloadItemCallback, uCEFSchemeRegistrar,uCEFCommandLine, uCEFLibFunctions, uCEFBufferPanel, uCEFBitmapBitBuffer, uCEFDisplay,
 uCEFStringMultimap, uCEFCallback, uCEFChromium, uCEFWindowParent, uCEFLinkedWindowParent, uCEFInterfaces, uCEFApplication, uCEFv8Interceptor, uCEFTypes, uCEFv8Value, uCEFBinaryValue, uCEFDictionaryValue, uCEFListValue, uCEFValue, uCEFFrame,
 uCEFConstants, uCEFWinControl, uCEFChromiumEvents, uCEFMiscFunctions, uCEFClient, uCEFProcessMessage, uCEFWorkScheduler, uCEFRunFileDialogCallback, uCEFDownloadImageCallBack, uCEFPostData, uCEFPostDataElement, uCEFDownLoadItem, uCEFRequest, uCEFResponse,
 uCEFPDFPrintCallback, uCEFv8Context, uCEFBrowser,  uCEFImage, uCEFRequestContext, uCEFRequestContextHandler, uCEFv8Accessor, uCEFv8Exception, uCEFPDFPrintOptions, uCEFExtensionHandler, uCEFStreamReader, uCEFStreamWriter,
