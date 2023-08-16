@@ -62,8 +62,24 @@ begin
 end;
 
 
+procedure Ext_Form_Activate(AObj: TGoForm); extdecl;
+begin
+  handleExceptionBegin
+  AObj.GoActivate;
+  handleExceptionEnd
+end;
+
+procedure Ext_Form_Deactivate(AObj: TGoForm); extdecl;
+begin
+  handleExceptionBegin
+  AObj.GoDeactivate();
+  handleExceptionEnd
+end;
+
 exports
   Ext_Panel_GetBevelColor,
   Ext_Panel_SetBevelColor,
-  Ext_ReadStringProperty
+  Ext_ReadStringProperty,
+  Ext_Form_Activate,
+  Ext_Form_Deactivate
 ;
