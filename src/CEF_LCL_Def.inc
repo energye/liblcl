@@ -6,7 +6,7 @@
 
 function LibVersion: PChar; extdecl;
 begin
-  Result := PChar('2.2.3');
+  Result := PChar('');
 end;
 
 function LibBuildVersion: PChar; extdecl;
