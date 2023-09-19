@@ -25,7 +25,7 @@ uses
       Gtk2Int,
     {$ENDIF}
     {$IFDEF LCLGTK3}
-      gtk3int,
+      LazGtk3, gtk3int,
     {$ENDIF}
     xlib,
   {$ENDIF}
@@ -66,6 +66,7 @@ begin
 
     {$IFDEF LCLGTK3}
       //gdk_set_allowed_backends('X11');
+      gtk_disable_setlocale;
       CreateWidgetset(TGtk3WidgetSet);
       // Install xlib error handlers so that the application won't be terminated
       // on non-fatal errors. Must be done after initializing GTK.
@@ -86,7 +87,7 @@ end;
 
 //{$IF Defined(LCLGTK2) or Defined(LCLGTK3)}
 //{$IFnDEF LCLGTK3}
-{$IFnDEF Linux}
+//{$IFnDEF Linux}
 initialization
   begin
     CustomWidgetSetInitialization;
@@ -96,6 +97,6 @@ finalization
   begin
     CustomWidgetSetFinalization;
   end;
-{$ENDIF}
+//{$ENDIF}
 
 end.
