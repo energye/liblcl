@@ -87,7 +87,7 @@ end;
 
 //{$IF Defined(LCLGTK2) or Defined(LCLGTK3)}
 //{$IFnDEF LCLGTK3}
-//{$IFnDEF Linux}
+{$IFnDEF Linux}
 initialization
   begin
     CustomWidgetSetInitialization;
@@ -97,6 +97,6 @@ finalization
   begin
     CustomWidgetSetFinalization;
   end;
-//{$ENDIF}
+{$ENDIF}
 
 end.
