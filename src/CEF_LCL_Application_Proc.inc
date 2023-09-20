@@ -85,6 +85,11 @@ begin
   Result := GlobalCEFApp.StartSubProcess;
 end;
 
+procedure CEFApplication_DoMessageLoopWork(); extdecl;
+begin
+  GlobalCEFApp.DoMessageLoopWork;
+end;
+
 procedure CEFApplication_RunMessageLoop(); extdecl;
 begin
   GlobalCEFApp.RunMessageLoop;
@@ -1322,6 +1327,7 @@ exports
   AddCustomCommandLine,
   CEF_AddCrDelegate,
   SetMacOSXCommandLine,
+  CEFApplication_DoMessageLoopWork,
   CEFApplication_RunMessageLoop,
   CEFApplication_QuitMessageLoop,
   CEFApplication_Create,
