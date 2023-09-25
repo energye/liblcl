@@ -457,10 +457,19 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_CreateClientHandler(const AObj: TChromium; var client: ICefClient; alsOSR: LongBool): LongBool ; extdecl;
+function CEFChromium_CreateClientHandler(const AObj: TChromium; var RClient: ICefClient; AResult, alsOSR: LongBool): LongBool ; extdecl;
 begin
   handleExceptionBegin
-  Result:= AObj.CreateClientHandler(client, alsOSR);
+  if AResult then
+  begin
+    // Use TCustomClientHandler Create And return TCustomClientHandler
+    Result := AObj.CreateClientHandler(RClient, alsOSR);
+  end
+  else
+  begin
+    // Use TCustomClientHandler Create
+    Result:= AObj.CreateClientHandler(alsOSR);
+  end;
   handleExceptionEnd
 end;
 
