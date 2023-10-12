@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFStringList;
 
 {$IFDEF FPC}
@@ -57,15 +20,34 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
+  /// <summary>
+  /// CEF string maps are a set of key/value string pairs.
+  /// </summary>
   TCefCustomStringList = class(TInterfacedObject, ICefStringList)
     protected
       FHandle : TCefStringList;
 
       function  GetHandle: TCefStringMap; virtual;
+      /// <summary>
+      /// Return the number of elements in the string list.
+      /// </summary>
       function  GetSize: NativeUInt; virtual;
+      /// <summary>
+      /// Retrieve the value at the specified zero-based string list index. Returns
+      /// true (1) if the value was successfully retrieved.
+      /// </summary>
       function  GetValue(index: NativeUInt): ustring; virtual;
+      /// <summary>
+      /// Append a new value at the end of the string list.
+      /// </summary>
       procedure Append(const value: ustring); virtual;
+      /// <summary>
+      /// Clear the string list.
+      /// </summary>
       procedure Clear; virtual;
+      /// <summary>
+      /// Creates a copy of an existing string list.
+      /// </summary>
       function  Copy : TCefStringList; virtual;
       procedure CopyToStrings(const aStrings : TStrings); virtual;
       procedure AddStrings(const aStrings : TStrings); virtual;
@@ -76,7 +58,13 @@ type
 
   TCefStringListOwn = class(TCefCustomStringList)
     public
+      /// <summary>
+      /// Allocate a new string map.
+      /// </summary>
       constructor Create; override;
+      /// <summary>
+      /// Free the string list.
+      /// </summary>
       destructor  Destroy; override;
   end;
 

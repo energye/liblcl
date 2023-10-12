@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFViewDelegate;
 
 {$IFDEF FPC}
@@ -71,27 +34,88 @@ type
       procedure OnBlur(const view: ICefView);
 
     public
+      /// <summary>
+      /// Returns a ICefViewDelegate instance using a PCefViewDelegate data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefViewDelegate;
   end;
 
+  /// <summary>
+  /// Implement this interface to handle view events. All size and position values
+  /// are in density independent pixels (DIP) unless otherwise indicated. The
+  /// functions of this interface will be called on the browser process UI thread
+  /// unless otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_view_delegate_capi.h">CEF source file: /include/capi/views/cef_view_delegate_capi.h (cef_view_delegate_t)</see></para>
+  /// </remarks>
   TCefViewDelegateOwn = class(TCefBaseRefCountedOwn, ICefViewDelegate)
     protected
+      /// <summary>
+      /// Return the preferred size for |view|. The Layout will use this information
+      /// to determine the display size.
+      /// </summary>
       procedure OnGetPreferredSize(const view: ICefView; var aResult : TCefSize); virtual;
+      /// <summary>
+      /// Return the minimum size for |view|.
+      /// </summary>
       procedure OnGetMinimumSize(const view: ICefView; var aResult : TCefSize); virtual;
+      /// <summary>
+      /// Return the maximum size for |view|.
+      /// </summary>
       procedure OnGetMaximumSize(const view: ICefView; var aResult : TCefSize); virtual;
+      /// <summary>
+      /// Return the height necessary to display |view| with the provided |width|.
+      /// If not specified the result of get_preferred_size().height will be used by
+      /// default. Override if |view|'s preferred height depends upon the width (for
+      /// example, with Labels).
+      /// </summary>
       procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); virtual;
+      /// <summary>
+      /// Called when the parent of |view| has changed. If |view| is being added to
+      /// |parent| then |added| will be true (1). If |view| is being removed from
+      /// |parent| then |added| will be false (0). If |view| is being reparented the
+      /// remove notification will be sent before the add notification. Do not
+      /// modify the view hierarchy in this callback.
+      /// </summary>
       procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); virtual;
+      /// <summary>
+      /// Called when a child of |view| has changed. If |child| is being added to
+      /// |view| then |added| will be true (1). If |child| is being removed from
+      /// |view| then |added| will be false (0). If |child| is being reparented the
+      /// remove notification will be sent to the old parent before the add
+      /// notification is sent to the new parent. Do not modify the view hierarchy
+      /// in this callback.
+      /// </summary>
       procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); virtual;
+      /// <summary>
+      /// Called when |view| is added or removed from the ICefWindow.
+      /// </summary>
       procedure OnWindowChanged(const view: ICefView; added: boolean); virtual;
+      /// <summary>
+      /// Called when the layout of |view| has changed.
+      /// </summary>
       procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); virtual;
+      /// <summary>
+      /// Called when |view| gains focus.
+      /// </summary>
       procedure OnFocus(const view: ICefView); virtual;
+      /// <summary>
+      /// Called when |view| loses focus.
+      /// </summary>
       procedure OnBlur(const view: ICefView); virtual;
-
+      /// <summary>
+      /// Links the methods in the internal CEF record data pointer with the methods in this class.
+      /// </summary>
       procedure InitializeCEFMethods; virtual;
     public
       constructor Create; virtual;
   end;
 
+  /// <summary>
+  /// This class handles all the ICefViewDelegate methods which call the ICefViewDelegateEvents methods.
+  /// ICefViewDelegateEvents will be implemented by the control receiving the ICefViewDelegate events.
+  /// </summary>
   TCustomViewDelegate = class(TCefViewDelegateOwn)
     protected
       FEvents : Pointer;
@@ -108,6 +132,9 @@ type
       procedure OnBlur(const view: ICefView); override;
 
     public
+      /// <summary>
+      /// Creates an instance of this class liked to an interface that's implemented by a control receiving the events.
+      /// </summary>
       constructor Create(const events: ICefViewDelegateEvents); reintroduce;
       destructor  Destroy; override;
   end;
@@ -369,22 +396,25 @@ end;
 
 procedure TCefViewDelegateOwn.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
 begin
-  //
+  aResult.width  := 0;
+  aResult.height := 0;
 end;
 
 procedure TCefViewDelegateOwn.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
 begin
-  //
+  aResult.width  := 0;
+  aResult.height := 0;
 end;
 
 procedure TCefViewDelegateOwn.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
 begin
-  //
+  aResult.width  := 0;
+  aResult.height := 0;
 end;
 
 procedure TCefViewDelegateOwn.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
 begin
-  //
+  aResult := 0;
 end;
 
 procedure TCefViewDelegateOwn.OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
@@ -438,6 +468,8 @@ end;
 
 procedure TCustomViewDelegate.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetPreferredSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefViewDelegateEvents(FEvents).doOnGetPreferredSize(view, aResult);
@@ -449,6 +481,8 @@ end;
 
 procedure TCustomViewDelegate.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMinimumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefViewDelegateEvents(FEvents).doOnGetMinimumSize(view, aResult);
@@ -460,6 +494,8 @@ end;
 
 procedure TCustomViewDelegate.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMaximumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefViewDelegateEvents(FEvents).doOnGetMaximumSize(view, aResult);
@@ -471,6 +507,8 @@ end;
 
 procedure TCustomViewDelegate.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
 begin
+  inherited OnGetHeightForWidth(view, width, aResult);
+
   try
     if (FEvents <> nil) then
       ICefViewDelegateEvents(FEvents).doOnGetHeightForWidth(view, width, aResult);

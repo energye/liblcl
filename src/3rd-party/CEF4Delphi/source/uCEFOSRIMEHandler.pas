@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFOSRIMEHandler;
 
 {$IFDEF FPC}
@@ -73,11 +36,14 @@ type
   {$ENDIF}
   {$ENDIF}
 
+  /// <summary>
+  /// Class used to handle the IME window.
+  /// </summary>
   TCEFOSRIMEHandler = class
     protected
       FHWND              : HWND;
       FCompositionRange  : TCefRange;
-      FCursorIndex       : integer;
+      FCursorIndex       : cardinal;
       FIMERect           : TCefRect;
       FSystemCaret       : boolean;
       FInputLanguageID   : LANGID;
@@ -94,33 +60,114 @@ type
       {$IFDEF MSWINDOWS}
       function  IsSelectionAttribute(aAttribute : AnsiChar) : boolean;
       {$ENDIF}
-      procedure GetCompositionSelectionRange(imc : HIMC; var target_start, target_end : integer);
-      procedure GetCompositionUnderlines(imc : HIMC; target_start, target_end : integer; var underlines : TCefCompositionUnderlineDynArray);
+      procedure GetCompositionSelectionRange(imc : HIMC; var target_start, target_end : cardinal);
+      procedure GetCompositionUnderlines(imc : HIMC; target_start, target_end : cardinal; var underlines : TCefCompositionUnderlineDynArray);
 
     public
       constructor Create(aHWND : HWND);
       destructor  Destroy; override;
 
       {$IFDEF MSWINDOWS}
+      /// <summary>
+      /// Sets InputLanguageID using the name of the active input locale identifier obtained from a GetKeyboardLayoutNameW call.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeyboardlayoutnamew">See the GetKeyboardLayoutNameW article.</see></para>
+      /// </remarks>
       procedure   SetInputLanguage;
       {$ENDIF}
+      /// <summary>
+      /// Calls CreateCaret for some languages in order to creates a new shape
+      /// for the system caret and assigns ownership of the caret to the specified
+      /// window.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-createcaret">See the CreateCaret article.</see></para>
+      /// </remarks>
       procedure   CreateImeWindow;
+      /// <summary>
+      /// Calls DestroyCaret for some languages in order to destroy the caret's
+      /// current shape, frees the caret from the window, and removes the caret
+      /// from the screen.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-destroycaret">See the DestroyCaret article.</see></para>
+      /// </remarks>
       procedure   DestroyImeWindow;
+      /// <summary>
+      /// Cleans up the all resources attached to the given IMM32Manager object, and
+      /// reset its composition status.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/imm/nf-imm-immnotifyime">See the ImmNotifyIME article.</see></para>
+      /// </remarks>
       procedure   CleanupComposition;
+      /// <summary>
+      /// Reset the composition status. Cancel the ongoing composition if it exists.
+      /// </summary>
       procedure   ResetComposition;
+      /// <summary>
+      /// Retrieve a composition result of the ongoing composition if it exists.
+      /// </summary>
       function    GetResult(aParam : LPARAM; var aResult : ustring) : boolean;
+      /// <summary>
+      /// Retrieve the current composition status of the ongoing composition.
+      /// Includes composition text, underline information and selection range in the
+      /// composition text. IMM32 does not support char selection.
+      /// </summary>
       function    GetComposition(aParam : LPARAM; var composition_text : ustring; var underlines : TCefCompositionUnderlineDynArray; var composition_start : integer) : boolean;
+      /// <summary>
+      /// Enable the IME attached to the given window, i.e. allows user-input events
+      /// to be dispatched to the IME. In Chromium, this function is used when a
+      /// renderer process moves its input focus to another edit control, or a
+      /// renrerer process moves the position of the focused edit control.
+      /// </summary>
       procedure   EnableIME;
+      /// <summary>
+      /// Disable the IME attached to the given window, i.e. prohibits any user-input
+      /// events from being dispatched to the IME. In Chromium, this function is used
+      /// when a renreder process sets its input focus to a password input.
+      /// </summary>
       procedure   DisableIME;
+      /// <summary>
+      /// Cancels an ongoing composition of the IME.
+      /// </summary>
       procedure   CancelIME;
-      procedure   UpdateCaretPosition(index : integer);
+      /// <summary>
+      /// Updates the IME caret position of the given window.
+      /// </summary>
+      procedure   UpdateCaretPosition(index : cardinal);
+      /// <summary>
+      /// Updates the composition range. |selected_range| is the range of characters
+      /// that have been selected. |character_bounds| is the bounds of each character
+      /// in view device coordinates.
+      /// </summary>
       procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
+      /// <summary>
+      /// Updates the position of the IME windows.
+      /// </summary>
       procedure   MoveImeWindow;
 
+      /// <summary>
+      /// Retrieves whether or not there is an ongoing composition.
+      /// </summary>
       property    IsComposing     : boolean   read FIsComposing;
+      /// <summary>
+      /// The current input Language ID retrieved from Windows
+      /// used for processing language-specific operations in IME.
+      /// </summary>
       property    InputLanguageID : LANGID    read FInputLanguageID;
+      /// <summary>
+      /// Returns the primary language ID based on the InputLanguageID value.
+      /// </summary>
       property    PrimaryLangID   : word      read GetPrimaryLangID;
+      /// <summary>
+      /// Returns the sublanguage ID based on the InputLanguageID value.
+      /// </summary>
       property    SubLangID       : word      read GetSubLangID;
+      /// <summary>
+      /// Resturns True if the library was loaded successfully.
+      /// </summary>
       property    Initialized     : boolean   read GetInitialized;
 
   end;
@@ -148,7 +195,7 @@ begin
   FHWND                  := aHWND;
   FCompositionRange.from := 0;
   FCompositionRange.to_  := 0;
-  FCursorIndex           := -1;
+  FCursorIndex           := high(cardinal);
   FIMERect.x             := -1;
   FIMERect.y             := -1;
   FIMERect.width         := 0;
@@ -215,7 +262,8 @@ procedure TCEFOSRIMEHandler.GetCompositionInfo(    imc               : HIMC;
                                                var underlines        : TCefCompositionUnderlineDynArray;
                                                var composition_start : integer);
 var
-  TempTargetStart, TempTargetEnd, TempLen, i : integer;
+  TempLen, TempTargetStart, TempTargetEnd : cardinal;
+  i : integer;
 begin
   if (underlines <> nil) then
     begin
@@ -337,7 +385,7 @@ begin
 end;
 {$ENDIF}
 
-procedure TCEFOSRIMEHandler.GetCompositionSelectionRange(imc : HIMC; var target_start, target_end : integer);
+procedure TCEFOSRIMEHandler.GetCompositionSelectionRange(imc : HIMC; var target_start, target_end : cardinal);
 {$IFDEF MSWINDOWS}
 var
   i, TempStart, TempEnd, TempBufferLen : integer;
@@ -389,8 +437,8 @@ begin
 end;
 
 procedure TCEFOSRIMEHandler.GetCompositionUnderlines(    imc          : HIMC;
-                                                         target_start : integer;
-                                                         target_end   : integer;
+                                                         target_start : cardinal;
+                                                         target_end   : cardinal;
                                                      var underlines   : TCefCompositionUnderlineDynArray);
 {$IFDEF MSWINDOWS}
 var
@@ -528,7 +576,7 @@ end;
 procedure TCEFOSRIMEHandler.ResetComposition;
 begin
   FIsComposing := False;
-  FCursorIndex := -1;
+  FCursorIndex := high(cardinal);
 end;
 
 function TCEFOSRIMEHandler.GetResult(aParam : LPARAM; var aResult : ustring) : boolean;
@@ -627,7 +675,7 @@ begin
     end;
 end;
 
-procedure TCEFOSRIMEHandler.UpdateCaretPosition(index : integer);
+procedure TCEFOSRIMEHandler.UpdateCaretPosition(index : cardinal);
 begin
   FCursorIndex := index;
   MoveImeWindow();
@@ -664,7 +712,7 @@ procedure TCEFOSRIMEHandler.MoveImeWindow;
 {$IFDEF MSWINDOWS}
 var
   TempRect         : TCefRect;
-  TempLocation     : integer;
+  TempLocation     : cardinal;
   TempIMC          : HIMC;
   TempCandidatePos : TCandidateForm;
   TempCandidateExc : TCandidateForm;
@@ -678,7 +726,7 @@ begin
   TempRect     := FIMERect;
   TempLocation := FCursorIndex;
 
-  if (TempLocation = -1) then
+  if (TempLocation = high(cardinal)) then
     TempLocation := FCompositionRange.from;
 
   if (TempLocation >= FCompositionRange.from) then
@@ -687,8 +735,7 @@ begin
   if (FCompositionBounds = nil) then
     exit
    else
-    if (TempLocation >= 0) and
-       (TempLocation < length(FCompositionBounds)) then
+    if (TempLocation < cardinal(length(FCompositionBounds))) then
       TempRect := FCompositionBounds[TempLocation]
      else
       if (length(FCompositionBounds) > 0) then

@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFBrowserViewDelegate;
 
 {$IFDEF FPC}
@@ -63,26 +26,91 @@ type
       procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
       procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
       procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
-      function  GetChromeToolbarType: TCefChromeToolbarType;
+      procedure OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult: TCefChromeToolbarType);
+      procedure OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
+      procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
 
     public
+      /// <summary>
+      /// Returns a ICefBrowserViewDelegate instance using a PCefBrowserViewDelegate data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefBrowserViewDelegate;
   end;
 
+  /// <summary>
+  /// Implement this interface to handle BrowserView events. The functions of this
+  /// interface will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_browser_view_delegate_capi.h">CEF source file: /include/capi/views/cef_browser_view_delegate_capi.h (cef_browser_view_delegate_t)</see></para>
+  /// </remarks>
   TCefBrowserViewDelegateOwn = class(TCefViewDelegateOwn, ICefBrowserViewDelegate)
     protected
+      /// <summary>
+      /// Called when |browser| associated with |browser_view| is created. This
+      /// function will be called after ICefLifeSpanHandler.OnAfterCreated()
+      /// is called for |browser| and before OnPopupBrowserViewCreated() is
+      /// called for |browser|'s parent delegate if |browser| is a popup.
+      /// </summary>
       procedure OnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser); virtual;
+      /// <summary>
+      /// Called when |browser| associated with |browser_view| is destroyed. Release
+      /// all references to |browser| and do not attempt to execute any functions on
+      /// |browser| after this callback returns. This function will be called before
+      /// ICefLifeSpanHandler.OnBeforeClose() is called for |browser|.
+      /// </summary>
       procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser); virtual;
+      /// <summary>
+      /// Called before a new popup BrowserView is created. The popup originated
+      /// from |browser_view|. |settings| and |client| are the values returned from
+      /// ICefLifeSpanHandler.OnBeforePopup(). |is_devtools| will be true (1)
+      /// if the popup will be a DevTools browser. Return the delegate that will be
+      /// used for the new popup BrowserView.
+      /// </summary>
       procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate); virtual;
+      /// <summary>
+      /// Called after |popup_browser_view| is created. This function will be called
+      /// after ICefLifeSpanHandler.OnAfterCreated() and OnBrowserCreated()
+      /// are called for the new popup browser. The popup originated from
+      /// |browser_view|. |is_devtools| will be true (1) if the popup is a DevTools
+      /// browser. Optionally add |popup_browser_view| to the views hierarchy
+      /// yourself and return true (1). Otherwise return false (0) and a default
+      /// ICefWindow will be created for the popup.
+      /// </summary>
       procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean); virtual;
-      function  GetChromeToolbarType: TCefChromeToolbarType; virtual;
-
+      /// <summary>
+      /// Returns the Chrome toolbar type that will be available via
+      /// ICefBrowserView.GetChromeToolbar(). See that function for related
+      /// documentation.
+      /// </summary>
+      procedure OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult : TCefChromeToolbarType); virtual;
+      /// <summary>
+      /// Return true (1) to create frameless windows for Document picture-in-
+      /// picture popups. Content in frameless windows should specify draggable
+      /// regions using "-webkit-app-region: drag" CSS.
+      /// </summary>
+      procedure OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean); virtual;
+      /// <summary>
+      /// Called when |browser_view| receives a gesture command. Return true (1) to
+      /// handle (or disable) a |gesture_command| or false (0) to propagate the
+      /// gesture to the browser for default handling. With the Chrome runtime these
+      /// commands can also be handled via cef_command_handler_t::OnChromeCommand.
+      /// </summary>
+      procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean); virtual;
+      /// <summary>
+      /// Links the methods in the internal CEF record data pointer with the methods in this class.
+      /// </summary>
       procedure InitializeCEFMethods; override;
 
     public
       constructor Create; override;
   end;
 
+  /// <summary>
+  /// This class handles all the ICefBrowserViewDelegate methods which call the ICefBrowserViewDelegateEvents methods.
+  /// ICefBrowserViewDelegateEvents will be implemented by the control receiving the ICefBrowserViewDelegate events.
+  /// </summary>
   TCustomBrowserViewDelegate = class(TCefBrowserViewDelegateOwn)
     protected
       FEvents : Pointer;
@@ -104,7 +132,9 @@ type
       procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser); override;
       procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate); override;
       procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean); override;
-      function  GetChromeToolbarType: TCefChromeToolbarType; override;
+      procedure OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult: TCefChromeToolbarType); override;
+      procedure OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean); override;
+      procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean); override;
 
     public
       constructor Create(const events: ICefBrowserViewDelegateEvents); reintroduce;
@@ -160,9 +190,25 @@ begin
                                                                             ord(is_devtools)) <> 0);
 end;
 
-function TCefBrowserViewDelegateRef.GetChromeToolbarType: TCefChromeToolbarType;
+procedure TCefBrowserViewDelegateRef.OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult : TCefChromeToolbarType);
 begin
-  Result := PCefBrowserViewDelegate(FData)^.get_chrome_toolbar_type(PCefBrowserViewDelegate(FData));
+  aResult := PCefBrowserViewDelegate(FData)^.get_chrome_toolbar_type(PCefBrowserViewDelegate(FData),
+                                                                     CefGetData(browser_view));
+end;
+
+procedure TCefBrowserViewDelegateRef.OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
+begin
+  aResult := (PCefBrowserViewDelegate(FData)^.use_frameless_window_for_picture_in_picture(PCefBrowserViewDelegate(FData),
+                                                                                          CefGetData(browser_view)) <> 0);
+end;
+
+procedure TCefBrowserViewDelegateRef.OnGestureCommand(const browser_view    : ICefBrowserView;
+                                                            gesture_command : TCefGestureCommand;
+                                                      var   aResult         : boolean);
+begin
+  aResult := (PCefBrowserViewDelegate(FData)^.on_gesture_command(PCefBrowserViewDelegate(FData),
+                                                                 CefGetData(browser_view),
+                                                                 gesture_command) <> 0);
 end;
 
 class function TCefBrowserViewDelegateRef.UnWrap(data: Pointer): ICefBrowserViewDelegate;
@@ -246,7 +292,8 @@ begin
   Result := ord(TempResult);
 end;
 
-function cef_browserview_delegate_get_chrome_toolbar_type(self : PCefBrowserViewDelegate): TCefChromeToolbarType; stdcall;
+function cef_browserview_delegate_get_chrome_toolbar_type(self         : PCefBrowserViewDelegate;
+                                                          browser_view : PCefBrowserView): TCefChromeToolbarType; stdcall;
 var
   TempObject : TObject;
 begin
@@ -254,7 +301,42 @@ begin
   Result     := CEF_CTT_NONE;
 
   if (TempObject <> nil) and (TempObject is TCefBrowserViewDelegateOwn) then
-    Result := TCefBrowserViewDelegateOwn(TempObject).GetChromeToolbarType();
+    TCefBrowserViewDelegateOwn(TempObject).OnGetChromeToolbarType(TCefBrowserViewRef.UnWrap(browser_view),
+                                                                  Result);
+end;
+
+function cef_browserview_delegate_use_frameless_window_for_picture_in_picture(self         : PCefBrowserViewDelegate;
+                                                                              browser_view : PCefBrowserView): integer; stdcall;
+var
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempObject := CefGetObject(self);
+  TempResult := False;
+
+  if (TempObject <> nil) and (TempObject is TCefBrowserViewDelegateOwn) then
+    TCefBrowserViewDelegateOwn(TempObject).OnUseFramelessWindowForPictureInPicture(TCefBrowserViewRef.UnWrap(browser_view),
+                                                                                   TempResult);
+
+  Result := ord(TempResult);
+end;
+
+function cef_browserview_delegate_on_gesture_command(self               : PCefBrowserViewDelegate;
+                                                     browser_view       : PCefBrowserView;
+                                                     gesture_command    : TCefGestureCommand): Integer; stdcall;
+var
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempObject := CefGetObject(self);
+  TempResult := False;
+
+  if (TempObject <> nil) and (TempObject is TCefBrowserViewDelegateOwn) then
+    TCefBrowserViewDelegateOwn(TempObject).OnGestureCommand(TCefBrowserViewRef.UnWrap(browser_view),
+                                                           gesture_command,
+                                                           TempResult);
+
+  Result := ord(TempResult);
 end;
 
 constructor TCefBrowserViewDelegateOwn.Create;
@@ -270,11 +352,13 @@ begin
 
   with PCefBrowserViewDelegate(FData)^ do
     begin
-      on_browser_created                  := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_browser_created;
-      on_browser_destroyed                := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_browser_destroyed;
-      get_delegate_for_popup_browser_view := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_delegate_for_popup_browser_view;
-      on_popup_browser_view_created       := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_popup_browser_view_created;
-      get_chrome_toolbar_type             := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_chrome_toolbar_type;
+      on_browser_created                          := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_browser_created;
+      on_browser_destroyed                        := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_browser_destroyed;
+      get_delegate_for_popup_browser_view         := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_delegate_for_popup_browser_view;
+      on_popup_browser_view_created               := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_popup_browser_view_created;
+      get_chrome_toolbar_type                     := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_get_chrome_toolbar_type;
+      use_frameless_window_for_picture_in_picture := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_use_frameless_window_for_picture_in_picture;
+      on_gesture_command                          := {$IFDEF FPC}@{$ENDIF}cef_browserview_delegate_on_gesture_command;
     end;
 end;
 
@@ -290,17 +374,27 @@ end;
 
 procedure TCefBrowserViewDelegateOwn.OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
 begin
-  //
+  aResult := nil;
 end;
 
 procedure TCefBrowserViewDelegateOwn.OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
 begin
-  //
+  aResult := False;
 end;
 
-function TCefBrowserViewDelegateOwn.GetChromeToolbarType: TCefChromeToolbarType;
+procedure TCefBrowserViewDelegateOwn.OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult: TCefChromeToolbarType);
 begin
-  Result := CEF_CTT_NONE;
+  aResult := CEF_CTT_NONE;
+end;
+
+procedure TCefBrowserViewDelegateOwn.OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
+begin
+  aResult := False;
+end;
+
+procedure TCefBrowserViewDelegateOwn.OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
+begin
+  aResult := False;
 end;
 
 
@@ -317,6 +411,8 @@ end;
 
 procedure TCustomBrowserViewDelegate.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetPreferredSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefBrowserViewDelegateEvents(FEvents).doOnGetPreferredSize(view, aResult);
@@ -328,6 +424,8 @@ end;
 
 procedure TCustomBrowserViewDelegate.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMinimumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefBrowserViewDelegateEvents(FEvents).doOnGetMinimumSize(view, aResult);
@@ -339,6 +437,8 @@ end;
 
 procedure TCustomBrowserViewDelegate.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMaximumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefBrowserViewDelegateEvents(FEvents).doOnGetMaximumSize(view, aResult);
@@ -350,6 +450,8 @@ end;
 
 procedure TCustomBrowserViewDelegate.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
 begin
+  inherited OnGetHeightForWidth(view, width, aResult);
+
   try
     if (FEvents <> nil) then
       ICefBrowserViewDelegateEvents(FEvents).doOnGetHeightForWidth(view, width, aResult);
@@ -449,6 +551,8 @@ end;
 
 procedure TCustomBrowserViewDelegate.OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
 begin
+  inherited OnGetDelegateForPopupBrowserView(browser_view, settings, client, is_devtools, aResult);
+
   try
     if (FEvents <> nil) then
       ICefBrowserViewDelegateEvents(FEvents).doOnGetDelegateForPopupBrowserView(browser_view, settings, client, is_devtools, aResult);
@@ -460,6 +564,8 @@ end;
 
 procedure TCustomBrowserViewDelegate.OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
 begin
+  inherited OnPopupBrowserViewCreated(browser_view, popup_browser_view, is_devtools, aResult);
+
   try
     if (FEvents <> nil) then
       ICefBrowserViewDelegateEvents(FEvents).doOnPopupBrowserViewCreated(browser_view, popup_browser_view, is_devtools, aResult);
@@ -469,16 +575,42 @@ begin
   end;
 end;
 
-function TCustomBrowserViewDelegate.GetChromeToolbarType: TCefChromeToolbarType;
+procedure TCustomBrowserViewDelegate.OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult: TCefChromeToolbarType);
 begin
-  Result := inherited GetChromeToolbarType();
+  inherited OnGetChromeToolbarType(browser_view, aResult);
 
   try
     if (FEvents <> nil) then
-      ICefBrowserViewDelegateEvents(FEvents).doOnGetChromeToolbarType(Result);
+      ICefBrowserViewDelegateEvents(FEvents).doOnGetChromeToolbarType(browser_view, aResult);
   except
     on e : exception do
-      if CustomExceptionHandler('TCustomBrowserViewDelegate.GetChromeToolbarType', e) then raise;
+      if CustomExceptionHandler('TCustomBrowserViewDelegate.OnGetChromeToolbarType', e) then raise;
+  end;
+end;
+
+procedure TCustomBrowserViewDelegate.OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
+begin
+  inherited OnUseFramelessWindowForPictureInPicture(browser_view, aResult);
+
+  try
+    if (FEvents <> nil) then
+      ICefBrowserViewDelegateEvents(FEvents).doOnUseFramelessWindowForPictureInPicture(browser_view, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomBrowserViewDelegate.OnUseFramelessWindowForPictureInPicture', e) then raise;
+  end;
+end;
+
+procedure TCustomBrowserViewDelegate.OnGestureCommand(const browser_view    : ICefBrowserView;
+                                                            gesture_command : TCefGestureCommand;
+                                                      var   aResult         : boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefBrowserViewDelegateEvents(FEvents).doOnGestureCommand(browser_view, gesture_command, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomBrowserViewDelegate.OnGestureCommand', e) then raise;
   end;
 end;
 

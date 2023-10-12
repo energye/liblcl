@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFBrowserProcessHandler;
 
 {$IFDEF FPC}
@@ -207,31 +170,21 @@ end;
 
 procedure TCefCustomBrowserProcessHandler.OnRegisterCustomPreferences(type_     : TCefPreferencesType;
                                                                       registrar : PCefPreferenceRegistrar);
-var
-  TempRegistrar : TCefPreferenceRegistrarRef;
 begin
-  TempRegistrar := nil;
-
-  try
     try
       if (FCefApp <> nil) then
-        begin
-          TempRegistrar := TCefPreferenceRegistrarRef.Create(registrar);
-          FCefApp.Internal_OnRegisterCustomPreferences(type_, TempRegistrar);
-        end;
+        IApplicationCoreEvents(FCefApp).doOnRegisterCustomPreferences(type_, registrar);
     except
       on e : exception do
         if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnRegisterCustomPreferences', e) then raise;
     end;
-  finally
-    if (TempRegistrar <> nil) then FreeAndNil(TempRegistrar);
-  end;
 end;
 
 procedure TCefCustomBrowserProcessHandler.OnContextInitialized;
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnContextInitialized;
+    if (FCefApp <> nil) then
+      IApplicationCoreEvents(FCefApp).doOnContextInitialized;
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnContextInitialized', e) then raise;
@@ -241,7 +194,8 @@ end;
 procedure TCefCustomBrowserProcessHandler.OnBeforeChildProcessLaunch(const commandLine: ICefCommandLine);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnBeforeChildProcessLaunch(commandLine);
+    if (FCefApp <> nil) then
+      IApplicationCoreEvents(FCefApp).doOnBeforeChildProcessLaunch(commandLine);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnBeforeChildProcessLaunch', e) then raise;
@@ -251,7 +205,8 @@ end;
 procedure TCefCustomBrowserProcessHandler.OnScheduleMessagePumpWork(const delayMs: Int64);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_OnScheduleMessagePumpWork(delayMs);
+    if (FCefApp <> nil) then
+      IApplicationCoreEvents(FCefApp).doOnScheduleMessagePumpWork(delayMs);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.OnScheduleMessagePumpWork', e) then raise;
@@ -261,7 +216,8 @@ end;
 procedure TCefCustomBrowserProcessHandler.GetDefaultClient(var aClient : ICefClient);
 begin
   try
-    if (FCefApp <> nil) then FCefApp.Internal_GetDefaultClient(aClient);
+    if (FCefApp <> nil) then
+      IApplicationCoreEvents(FCefApp).doGetDefaultClient(aClient);
   except
     on e : exception do
       if CustomExceptionHandler('TCefCustomBrowserProcessHandler.GetDefaultClient', e) then raise;

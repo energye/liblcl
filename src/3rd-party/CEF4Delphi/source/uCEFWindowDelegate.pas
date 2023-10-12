@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFWindowDelegate;
 
 {$IFDEF FPC}
@@ -65,44 +28,163 @@ type
       procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean);
       procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
       procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
+      procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
       procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
+      procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
+      procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
       procedure OnCanResize(const window_: ICefWindow; var aResult : boolean);
       procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean);
       procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean);
       procedure OnCanClose(const window_: ICefWindow; var aResult : boolean);
       procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
 
     public
+      /// <summary>
+      /// Returns a ICefWindowDelegate instance using a PCefWindowDelegate data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefWindowDelegate;
   end;
 
+  /// <summary>
+  /// Implement this interface to handle window events. The functions of this
+  /// interface will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_window_delegate_capi.h">CEF source file: /include/capi/views/cef_window_delegate_capi.h (cef_window_delegate_t)</see></para>
+  /// </remarks>
   TCefWindowDelegateOwn = class(TCefPanelDelegateOwn, ICefWindowDelegate)
     protected
+      /// <summary>
+      /// Called when |window| is created.
+      /// </summary>
       procedure OnWindowCreated(const window_: ICefWindow); virtual;
+      /// <summary>
+      /// Called when |window| is closing.
+      /// </summary>
       procedure OnWindowClosing(const window_: ICefWindow); virtual;
+      /// <summary>
+      /// Called when |window| is destroyed. Release all references to |window| and
+      /// do not attempt to execute any functions on |window| after this callback
+      /// returns.
+      /// </summary>
       procedure OnWindowDestroyed(const window_: ICefWindow); virtual;
+      /// <summary>
+      /// Called when |window| is activated or deactivated.
+      /// </summary>
       procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); virtual;
+      /// <summary>
+      /// Called when |window| bounds have changed. |new_bounds| will be in DIP
+      /// screen coordinates.
+      /// </summary>
       procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); virtual;
+      /// <summary>
+      /// Return the parent for |window| or NULL if the |window| does not have a
+      /// parent. Windows with parents will not get a taskbar button. Set |is_menu|
+      /// to true (1) if |window| will be displayed as a menu, in which case it will
+      /// not be clipped to the parent window bounds. Set |can_activate_menu| to
+      /// false (0) if |is_menu| is true (1) and |window| should not be activated
+      /// (given keyboard focus) when displayed.
+      /// </summary>
       procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); virtual;
+      /// <summary>
+      /// Return true (1) if |window| should be created as a window modal dialog.
+      /// Only called when a Window is returned via get_parent_window() with
+      /// |is_menu| set to false (0). All controls in the parent Window will be
+      /// disabled while |window| is visible. This functionality is not supported by
+      /// all Linux window managers. Alternately, use
+      /// ICefWindow.ShowAsBrowserModalDialog() for a browser modal dialog
+      /// that works on all platforms.
+      /// </summary>
+      procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean); virtual;
+      /// <summary>
+      /// Return the initial bounds for |window| in density independent pixel (DIP)
+      /// coordinates. If this function returns an NULL CefRect then
+      /// GetPreferredSize() will be called to retrieve the size, and the window
+      /// will be placed on the screen with origin (0,0). This function can be used
+      /// in combination with ICefView.GetBoundsInScreen() to restore the
+      /// previous window bounds.
+      /// </summary>
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); virtual;
+      /// <summary>
+      /// Return the initial show state for |window|.
+      /// </summary>
       procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState); virtual;
+      /// <summary>
+      /// Return true (1) if |window| should be created without a frame or title
+      /// bar. The window will be resizable if can_resize() returns true (1). Use
+      /// ICefWindow.SetDraggableRegions() to specify draggable regions.
+      /// </summary>
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return true (1) if |window| should be created with standard window buttons
+      /// like close, minimize and zoom. This function is only supported on macOS.
+      /// </summary>
+      procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return whether the titlebar height should be overridden, and sets the
+      /// height of the titlebar in |titlebar_height|. On macOS, it can also be used
+      /// to adjust the vertical position of the traffic light buttons in frameless
+      /// windows. The buttons will be positioned halfway down the titlebar at a
+      /// height of |titlebar_height| / 2.
+      /// </summary>
+      procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return true (1) if |window| can be resized.
+      /// </summary>
       procedure OnCanResize(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return true (1) if |window| can be maximized.
+      /// </summary>
       procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return true (1) if |window| can be minimized.
+      /// </summary>
       procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Return true (1) if |window| can be closed. This will be called for user-
+      /// initiated window close actions and when ICefWindow.close() is called.
+      /// </summary>
       procedure OnCanClose(const window_: ICefWindow; var aResult : boolean); virtual;
+      /// <summary>
+      /// Called when a keyboard accelerator registered with
+      /// ICefWindow.SetAccelerator is triggered. Return true (1) if the
+      /// accelerator was handled or false (0) otherwise.
+      /// </summary>
       procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean); virtual;
+      /// <summary>
+      /// Called after all other controls in the window have had a chance to handle
+      /// the event. |event| contains information about the keyboard event. Return
+      /// true (1) if the keyboard event was handled or false (0) otherwise.
+      /// </summary>
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); virtual;
-
+      /// <summary>
+      /// Called when |window| is transitioning to or from fullscreen mode. On MacOS
+      /// the transition occurs asynchronously with |is_competed| set to false (0)
+      /// when the transition starts and true (1) after the transition completes. On
+      /// other platforms the transition occurs synchronously with |is_completed|
+      /// set to true (1) after the transition completes. With the Alloy runtime you
+      /// must also implement ICefDisplayHandler.OnFullscreenModeChange to
+      /// handle fullscreen transitions initiated by browser content.
+      /// </summary>
+      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); virtual;
+      /// <summary>
+      /// Links the methods in the internal CEF record data pointer with the methods in this class.
+      /// </summary>
       procedure InitializeCEFMethods; override;
 
     public
       constructor Create; override;
   end;
 
+  /// <summary>
+  /// This class handles all the TCustomWindowDelegate methods which call the ICefWindowDelegateEvents methods.
+  /// ICefWindowDelegateEvents will be implemented by the control receiving the TCustomWindowDelegate events.
+  /// </summary>
   TCustomWindowDelegate = class(TCefWindowDelegateOwn)
     protected
       FEvents : Pointer;
@@ -126,17 +208,24 @@ type
       procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); override;
       procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); override;
       procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); override;
+      procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean); override;
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); override;
       procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState); override;
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean); override;
+      procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean); override;
+      procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean); override;
       procedure OnCanResize(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnCanClose(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean); override;
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); override;
+      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); override;
 
     public
+      /// <summary>
+      /// Creates an instance of this class liked to an interface that's implemented by a control receiving the events.
+      /// </summary>
       constructor Create(const events: ICefWindowDelegateEvents); reintroduce;
   end;
 
@@ -192,6 +281,11 @@ begin
   can_activate_menu := TempCanActivateMenu <> 0;
 end;
 
+procedure TCefWindowDelegateRef.OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
+begin
+  aResult := (PCefWindowDelegate(FData)^.is_window_modal_dialog(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
+end;
+
 procedure TCefWindowDelegateRef.OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
 begin
   aResult := PCefWindowDelegate(FData)^.get_initial_bounds(PCefWindowDelegate(FData), CefGetData(window_));
@@ -205,6 +299,16 @@ end;
 procedure TCefWindowDelegateRef.OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
 begin
   aResult := (PCefWindowDelegate(FData)^.is_frameless(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
+end;
+
+procedure TCefWindowDelegateRef.OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
+begin
+  aResult := (PCefWindowDelegate(FData)^.with_standard_window_buttons(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
+end;
+
+procedure TCefWindowDelegateRef.OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
+begin
+  aResult := (PCefWindowDelegate(FData)^.get_titlebar_height(PCefWindowDelegate(FData), CefGetData(window_), @titlebar_height) <> 0);
 end;
 
 procedure TCefWindowDelegateRef.OnCanResize(const window_: ICefWindow; var aResult : boolean);
@@ -235,6 +339,11 @@ end;
 procedure TCefWindowDelegateRef.OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
 begin
   aResult := (PCefWindowDelegate(FData)^.on_key_event(PCefWindowDelegate(FData), CefGetData(window_), @event) <> 0);
+end;
+
+procedure TCefWindowDelegateRef.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+begin
+  PCefWindowDelegate(FData)^.on_window_fullscreen_transition(PCefWindowDelegate(FData), CefGetData(window_), ord(is_completed));
 end;
 
 class function TCefWindowDelegateRef.UnWrap(data: Pointer): ICefWindowDelegate;
@@ -307,6 +416,20 @@ begin
     end;
 
   Result := CefGetData(TempWindow);
+end;
+
+function cef_window_delegate_is_window_modal_dialog(self: PCefWindowDelegate; window_: PCefWindow): Integer; stdcall;
+var
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempObject := CefGetObject(self);
+  TempResult := False;
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    TCefWindowDelegateOwn(TempObject).OnIsWindowModalDialog(TCefWindowRef.UnWrap(window_), TempResult);
+
+  Result := ord(TempResult);
 end;
 
 function cef_window_delegate_get_initial_bounds(self: PCefWindowDelegate; window_: PCefWindow): TCefRect; stdcall;
@@ -444,6 +567,19 @@ begin
   Result := ord(TempResult);
 end;
 
+procedure cef_window_delegate_on_window_fullscreen_transition(self         : PCefWindowDelegate;
+                                                              window_      : PCefWindow;
+                                                              is_completed : integer); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    TCefWindowDelegateOwn(TempObject).OnWindowFullscreenTransition(TCefWindowRef.UnWrap(window_),
+                                                                   is_completed <> 0);
+end;
+
 constructor TCefWindowDelegateOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefWindowDelegate));
@@ -461,6 +597,7 @@ begin
       on_window_destroyed              := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_destroyed;
       on_window_activation_changed     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_activation_changed;
       get_parent_window                := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_parent_window;
+      is_window_modal_dialog           := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_is_window_modal_dialog;
       get_initial_bounds               := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_initial_bounds;
       get_initial_show_state           := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_initial_show_state;
       is_frameless                     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_is_frameless;
@@ -470,6 +607,7 @@ begin
       can_close                        := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_can_close;
       on_accelerator                   := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_accelerator;
       on_key_event                     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_key_event;
+      on_window_fullscreen_transition  := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_fullscreen_transition;
     end;
 end;
 
@@ -503,6 +641,11 @@ begin
   //
 end;
 
+procedure TCefWindowDelegateOwn.OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
+begin
+  //
+end;
+
 procedure TCefWindowDelegateOwn.OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
 begin
   //
@@ -514,6 +657,16 @@ begin
 end;
 
 procedure TCefWindowDelegateOwn.OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
+begin
+  //
+end;
+
+procedure TCefWindowDelegateOwn.OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
+begin
+  //
+end;
+
+procedure TCefWindowDelegateOwn.OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
 begin
   //
 end;
@@ -544,6 +697,11 @@ begin
 end;
 
 procedure TCefWindowDelegateOwn.OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+begin
+  //
+end;
+
+procedure TCefWindowDelegateOwn.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
 begin
   //
 end;
@@ -736,6 +894,17 @@ begin
   end;
 end;
 
+procedure TCustomWindowDelegate.OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnIsWindowModalDialog(window_, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnIsWindowModalDialog', e) then raise;
+  end;
+end;
+
 procedure TCustomWindowDelegate.OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
 begin
   try
@@ -766,6 +935,28 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnIsFrameless', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnWithStandardWindowButtons(window_, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnWithStandardWindowButtons', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnGetTitlebarHeight(window_, titlebar_height, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnGetTitlebarHeight', e) then raise;
   end;
 end;
 
@@ -832,6 +1023,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnKeyEvent', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnWindowFullscreenTransition(window_, is_completed);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnWindowFullscreenTransition', e) then raise;
   end;
 end;
 

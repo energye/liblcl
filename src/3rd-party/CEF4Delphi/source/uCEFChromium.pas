@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFChromium;
 
 {$IFDEF FPC}
@@ -63,6 +26,10 @@ uses
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  /// <summary>
+  ///  VCL and LCL version of TChromiumCore that puts together all browser procedures, functions, properties and events in one place.
+  ///  It has all you need to create, modify and destroy a web browser.
+  /// </summary>
   TChromium = class(TChromiumCore)
     protected
       function  GetParentFormHandle : TCefWindowHandle; override;
@@ -70,21 +37,63 @@ type
       procedure InitializeDevToolsWindowInfo(aDevTools : TWinControl); virtual;
     public
       {$IFDEF MSWINDOWS}
+      /// <summary>
+      /// Used with browsers in OSR mode to initialize drag and drop in Windows.
+      /// </summary>
       procedure InitializeDragAndDrop(const aDropTargetCtrl : TWinControl);
       {$ENDIF MSWINDOWS}
-
+      /// <summary>
+      /// Open developer tools (DevTools) in its own browser. If inspectElementAt has a valid point
+      /// with coordinates different than low(integer) then the element at the specified location
+      /// will be inspected. If the DevTools browser is already open then it will be focused.
+      /// </summary>
       procedure ShowDevTools(inspectElementAt: TPoint; const aDevTools : TWinControl = nil);
+      /// <summary>
+      /// Close the developer tools.
+      /// </summary>
       procedure CloseDevTools(const aDevTools : TWinControl = nil);
-
+      /// <summary>
+      /// Move the parent form to the x and y coordinates.
+      /// </summary>
       procedure MoveFormTo(const x, y: Integer);
+      /// <summary>
+      /// Move the parent form adding x and y to the coordinates.
+      /// </summary>
       procedure MoveFormBy(const x, y: Integer);
+      /// <summary>
+      /// Add x to the parent form width.
+      /// </summary>
       procedure ResizeFormWidthTo(const x : Integer);
+      /// <summary>
+      /// Add y to the parent form height.
+      /// </summary>
       procedure ResizeFormHeightTo(const y : Integer);
+      /// <summary>
+      /// Set the parent form left property to x.
+      /// </summary>
       procedure SetFormLeftTo(const x : Integer);
+      /// <summary>
+      /// Set the parent form top property to y.
+      /// </summary>
       procedure SetFormTopTo(const y : Integer);
-
+      /// <summary>
+      /// Used to create the browser after the global request context has been
+      /// initialized. You need to set all properties and events before calling
+      /// this function because it will only create the internal handlers needed
+      /// for those events and the property values will be used in the browser
+      /// initialization.
+      /// The browser will be fully initialized when the TChromiumCore.OnAfterCreated
+      /// event is triggered.
+      /// </summary>
       function  CreateBrowser(const aBrowserParent : TWinControl = nil; const aWindowName : ustring = ''; const aContext : ICefRequestContext = nil; const aExtraInfo : ICefDictionaryValue = nil) : boolean; overload; virtual;
+      /// Copy the DC to a bitmap stream. Only works on Windows with browsers without GPU acceleration.
+      /// It's recommended to use the "Page.captureScreenshot" DevTools method instead.
+      /// </summary>
       function  SaveAsBitmapStream(const aStream : TStream) : boolean;
+      /// <summary>
+      /// Copy the DC to a TBitmap. Only works on Windows with browsers without GPU acceleration.
+      /// It's recommended to use the "Page.captureScreenshot" DevTools method instead.
+      /// </summary>
       function  TakeSnapshot(var aBitmap : TBitmap) : boolean;
   end;
 

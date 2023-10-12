@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFBufferPanel;
 
 {$IFDEF FPC}
@@ -68,6 +31,10 @@ type
   {$ENDIF}
 
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  /// <summary>
+  /// TBufferPanel is used by VCL and LCL applications with browsers in OSR mode
+  /// to draw the browser contents. See the SimpleOSRBrowser demo for more details.
+  /// </summary>
   TBufferPanel = class(TCustomPanel)
     protected
       FScanlineSize            : integer;
@@ -144,41 +111,143 @@ type
       constructor Create(AOwner: TComponent); override;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
+      /// <summary>
+      /// Save the visible web contents as a bitmap file.
+      /// </summary>
       function    SaveToFile(const aFilename : string) : boolean;
+      /// <summary>
+      /// Invalidate this panel.
+      /// </summary>
       function    InvalidatePanel : boolean;
+      /// <summary>
+      /// Acquires the synchronization object before drawing into the background bitmap.
+      /// </summary>
       function    BeginBufferDraw : boolean;
+      /// <summary>
+      /// Releases the synchronization object after drawing into the background bitmap.
+      /// </summary>
       procedure   EndBufferDraw;
+      /// <summary>
+      /// Draws aBitmap into the background bitmap buffer at the specified coordinates.
+      /// </summary>
+      /// <param name="x">x coordinate where the bitmap will be drawn.</param>
+      /// <param name="y">y coordinate where the bitmap will be drawn.</param>
+      /// <param name="aBitmap">Bitmap that will be drawn into the background bitmap.</param>
       procedure   BufferDraw(x, y : integer; const aBitmap : TBitmap); overload;
+      /// <summary>
+      /// Draws a part of aBitmap into the background bitmap buffer at the specified rectangle.
+      /// </summary>
+      /// <param name="aBitmap">Bitmap that will be drawn into the background bitmap.</param>
+      /// <param name="aSrcRect">Rectangle that defines the area of aBitmap that will be drawn into the background bitmap.</param>
+      /// <param name="aDstRect">Rectangle that defines the area of the background bitmap where aBitmap will be drawn.</param>
       procedure   BufferDraw(const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect); overload;
-      function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;        
+      /// <summary>
+      /// Update the background bitmap size.
+      /// </summary>
+      function    UpdateBufferDimensions(aWidth, aHeight : integer) : boolean;
+      /// <summary>
+      /// Update the image size of the original buffer copy.
+      /// </summary>
       function    UpdateOrigBufferDimensions(aWidth, aHeight : integer) : boolean;
+      /// <summary>
+      /// Update the popup image size of the original buffer copy.
+      /// </summary>
       function    UpdateOrigPopupBufferDimensions(aWidth, aHeight : integer) : boolean;
+      /// <summary>
+      /// Update the FDeviceScaleFactor value with the current scale.
+      /// </summary>
       procedure   UpdateDeviceScaleFactor;
+      /// <summary>
+      /// Check if the background image buffers have the same dimensions as this panel. Returns true if they have the same size.
+      /// </summary>
       function    BufferIsResized(aUseMutex : boolean = True) : boolean;
+      /// <summary>
+      /// Creates the IME handler.
+      /// </summary>
       procedure   CreateIMEHandler;
+      /// <summary>
+      /// Calls ChangeCompositionRange in the IME handler.
+      /// </summary>
       procedure   ChangeCompositionRange(const selection_range : TCefRange; const character_bounds : TCefRectDynArray);
+      /// <summary>
+      /// Copy the contents from the original popup buffer copy to the main buffer copy.
+      /// </summary>
       procedure   DrawOrigPopupBuffer(const aSrcRect, aDstRect : TRect);
-
+      /// <summary>
+      /// Returns the scanline size.
+      /// </summary>
       property ScanlineSize              : integer                   read FScanlineSize;
+      /// <summary>
+      /// Image width.
+      /// </summary>
       property BufferWidth               : integer                   read GetBufferWidth;
+      /// <summary>
+      /// Image height.
+      /// </summary>
       property BufferHeight              : integer                   read GetBufferHeight;
+      /// <summary>
+      /// Returns a pointer to the buffer that stores the image.
+      /// </summary>
       property BufferBits                : pointer                   read GetBufferBits;
+      /// <summary>
+      /// Returns the screen scale.
+      /// </summary>
       property ScreenScale               : single                    read GetScreenScale;
+      /// <summary>
+      /// Screen scale value used instead of the real one.
+      /// </summary>
       property ForcedDeviceScaleFactor   : single                    read FForcedDeviceScaleFactor   write FForcedDeviceScaleFactor;
+      /// <summary>
+      /// Clear the background image before copying the original buffer contents.
+      /// </summary>
       property MustInitBuffer            : boolean                   read FMustInitBuffer            write FMustInitBuffer;
-
+      /// <summary>
+      /// Background bitmap.
+      /// </summary>
       property Buffer                    : TBitmap                   read FBuffer;
+      /// <summary>
+      /// Copy of the raw main bitmap buffer sent by CEF in the TChromiumCore.OnPaint event.
+      /// OrigBuffer will be transferred to the bitmap buffer before copying the bitmap buffer
+      /// to the panel.
+      /// </summary>
       property OrigBuffer                : TCEFBitmapBitBuffer       read FOrigBuffer;
+      /// <summary>
+      /// Image width of the raw main bitmap buffer copy.
+      /// </summary>
       property OrigBufferWidth           : integer                   read GetOrigBufferWidth;
+      /// <summary>
+      /// Image height of the raw main bitmap buffer copy.
+      /// </summary>
       property OrigBufferHeight          : integer                   read GetOrigBufferHeight;
+      /// <summary>
+      /// Copy of the raw popup bitmap buffer sent by CEF in the TChromiumCore.OnPaint event.
+      /// </summary>
       property OrigPopupBuffer           : TCEFBitmapBitBuffer       read FOrigPopupBuffer;
+      /// <summary>
+      /// Image width of the raw popup bitmap buffer copy.
+      /// </summary>
       property OrigPopupBufferWidth      : integer                   read GetOrigPopupBufferWidth;
+      /// <summary>
+      /// Image height of the raw popup bitmap buffer copy.
+      /// </summary>
       property OrigPopupBufferHeight     : integer                   read GetOrigPopupBufferHeight;
+      /// <summary>
+      /// Returns a pointer to the raw popup bitmap buffer copye.
+      /// </summary>
       property OrigPopupBufferBits       : pointer                   read GetOrigPopupBufferBits;
+      /// <summary>
+      /// Returns the scanline size of the raw popup bitmap buffer copy.
+      /// </summary>
       property OrigPopupScanlineSize     : integer                   read FOrigPopupScanlineSize;
 
       {$IFDEF MSWINDOWS}
+      /// <summary>
+      /// Returns the handle of the parent form.
+      /// </summary>
       property ParentFormHandle          : TCefWindowHandle          read GetParentFormHandle;
+      /// <summary>
+      /// Returns the parent form.
+      /// </summary>
       property ParentForm                : TCustomForm               read GetParentForm;
       {$ENDIF}
 
@@ -187,17 +256,90 @@ type
 
     published
       {$IFDEF MSWINDOWS}
+      /// <summary>
+      /// Event triggered when a WM_IME_ENDCOMPOSITION message is received because
+      /// the IME ended composition.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-endcomposition">See the WM_IME_ENDCOMPOSITION article.</see></para>
+      /// </remarks>
       property OnIMECancelComposition    : TNotifyEvent              read FOnIMECancelComposition    write FOnIMECancelComposition;
+      /// <summary>
+      /// Event triggered when a WM_IME_COMPOSITION message is received because
+      /// the IME changed composition status as a result of a keystroke. This
+      /// event is triggered after retrieving a composition result of the ongoing
+      /// composition if it exists.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-composition">See the WM_IME_COMPOSITION article.</see></para>
+      /// </remarks>
       property OnIMECommitText           : TOnIMECommitTextEvent     read FOnIMECommitText           write FOnIMECommitText;
+      /// <summary>
+      /// Event triggered when a WM_IME_COMPOSITION message is received because
+      /// the IME changed composition status as a result of a keystroke.
+      /// This event is triggered after retrieving the current composition
+      /// status of the ongoing composition.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-composition">See the WM_IME_COMPOSITION article.</see></para>
+      /// </remarks>
       property OnIMESetComposition       : TOnIMESetCompositionEvent read FOnIMESetComposition       write FOnIMESetComposition;
+      /// <summary>
+      /// Event triggered when a WM_TOUCH message is received. It notifies the
+      /// window when one or more touch points, such as a finger or pen,
+      /// touches a touch-sensitive digitizer surface.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/wintouch/wm-touchdown">See the WM_TOUCH article.</see></para>
+      /// </remarks>
       property OnCustomTouch             : TOnHandledMessageEvent    read FOnCustomTouch             write FOnCustomTouch;
+      /// <summary>
+      /// Event triggered when a WM_POINTERDOWN message is received.
+      /// Posted when a pointer makes contact over the client area of a window.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerdown">See the WM_POINTERDOWN article.</see></para>
+      /// </remarks>
       property OnPointerDown             : TOnHandledMessageEvent    read FOnPointerDown             write FOnPointerDown;
+      /// <summary>
+      /// Event triggered when a WM_POINTERUP message is received.
+      /// Posted when a pointer that made contact over the client area of a window breaks contact.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerup">See the WM_POINTERUP article.</see></para>
+      /// </remarks>
       property OnPointerUp               : TOnHandledMessageEvent    read FOnPointerUp               write FOnPointerUp;
+      /// <summary>
+      /// Event triggered when a WM_POINTERUPDATE message is received.
+      /// Posted to provide an update on a pointer that made contact over the client area of a
+      /// window or on a hovering uncaptured pointer over the client area of a window.
+      /// </summary>
+      /// <remarks>
+      /// <para><see href="https://learn.microsoft.com/en-us/windows/win32/inputmsg/wm-pointerupdate">See the WM_POINTERUPDATE article.</see></para>
+      /// </remarks>
       property OnPointerUpdate           : TOnHandledMessageEvent    read FOnPointerUpdate           write FOnPointerUpdate;
       {$ENDIF}
+      /// <summary>
+      /// Event triggered before the AlphaBlend call that transfer the web contents from the
+      /// bitmap buffer to the panel when the Transparent property is True.
+      /// </summary>
       property OnPaintParentBkg          : TNotifyEvent              read FOnPaintParentBkg          write FOnPaintParentBkg;
 
+      /// <summary>
+      /// Set Transparent to True to use a WS_EX_TRANSPARENT window style in the panel
+      /// and to call AlphaBlend in order to transfer the web contents from the bitmap
+      /// buffer to the panel.
+      /// If this property is False then BitBlt is used to transfer the web contents
+      /// from the bitmap buffer to the panel.
+      /// </summary>
       property Transparent               : boolean                   read FTransparent               write SetTransparent       default False;
+      /// <summary>
+      /// When CopyOriginalBuffer is True then OrigBuffer will be used internally to copy of
+      /// the raw main bitmap buffer sent by CEF in the TChromiumCore.OnPaint event.
+      /// OrigBuffer will be transferred to the bitmap buffer before copying the buffer to the panel.
+      /// This is necessary in GTK applications in order to avoid handling bitmaps in background
+      /// threads.
+      /// </summary>
       property CopyOriginalBuffer        : boolean                   read FCopyOriginalBuffer        write FCopyOriginalBuffer  default False;
 
       property Align;
@@ -769,16 +911,7 @@ end;
 
 procedure TBufferPanel.WMIMEComposition(var aMessage: TMessage);
 const
-  // CEF uses UINT32_MAX to initialize the TCefRange parameters.
-  // FPC works fine with a high(integer) value but if we try to use
-  // integer(high(cardinal)) then it duplicates the result string.
-  // Delphi however works fine with integer(high(cardinal)) but it doesn't show
-  // any result string when we use high(integer)
-  {$IFDEF FPC}
-  UINT32_MAX = high(integer);
-  {$ELSE}
-  UINT32_MAX = integer(high(cardinal));
-  {$ENDIF}
+  UINT32_MAX = high(cardinal);
 var
   TempText        : ustring;
   TempRange       : TCefRange;

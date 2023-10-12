@@ -1,45 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
- // Attribution :
- // TCEFSentinel icon made by Everaldo Coelho
- // https://www.iconfinder.com/icons/17914/castle_fortress_tower_war_icon
- // http://www.everaldo.com/
-
 unit uCEFSentinel;
 
 {$IFDEF FPC}
@@ -78,6 +36,13 @@ type
   TSentinelStatus = (ssIdle, ssInitialDelay, ssCheckingChildren, ssClosing);
 
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  /// <summary>
+  /// TCEFSentinel is used as a timer that checks the number of running
+  /// CEF processes when you close all browsers before shutdown.
+  /// This component is only used as a last resort when there's an unresolved
+  /// shutdown issue in CEF or CEF4Delphi that generates exceptions when the
+  /// application is closed.
+  /// </summary>
   TCEFSentinel = class(TComponent)
     protected
       {$IFDEF MSWINDOWS}
@@ -111,18 +76,43 @@ type
       constructor Create(AOwner: TComponent); override;
       destructor  Destroy; override;
       procedure   AfterConstruction; override;
+      /// <summary>
+      /// Start checking all the CEF subprocesses.
+      /// </summary>
       procedure   Start; virtual;
-
+      /// <summary>
+      /// Status of this component.
+      /// </summary>
       property Status          : TSentinelStatus  read GetStatus;
+      /// <summary>
+      /// Number of CEF subprocesses.
+      /// </summary>
       property ChildProcCount  : integer          read GetChildProcCount;
 
     published
+      /// <summary>
+      /// Delay per subprocess in milliseconds. This delay is used to calculate how much time to wait until this component checks the CEF subprocesses again.
+      /// </summary>
       property DelayPerProcMs  : cardinal         read FDelayPerProcMs   write FDelayPerProcMs  default CEFSENTINEL_DEFAULT_DELAYPERPROCMS;
+      /// <summary>
+      /// Minimum initial delay in milliseconds. This is the minimum time to wait until this component checks the CEF subprocesses again.
+      /// </summary>
       property MinInitDelayMs  : cardinal         read FMinInitDelayMs   write FMinInitDelayMs  default CEFSENTINEL_DEFAULT_MININITDELAYMS;
+      /// <summary>
+      /// Final delay in milliseconds. This is an extra delay to wait after enough CEF subprocesses are closed.
+      /// </summary>
       property FinalDelayMs    : cardinal         read FFinalDelayMs     write FFinalDelayMs    default CEFSENTINEL_DEFAULT_FINALDELAYMS;
+      /// <summary>
+      /// Minimum number of CEF subprocesses. When ChildProcCount reaches this value it's considered safe to trigger OnClose.
+      /// </summary>
       property MinChildProcs   : integer          read FMinChildProcs    write FMinChildProcs   default CEFSENTINEL_DEFAULT_MINCHILDPROCS;
+      /// <summary>
+      /// Maximum number of times this component will check the CEF subprocesses.
+      /// </summary>
       property MaxCheckCount   : integer          read FMaxCheckCount    write FMaxCheckCount   default CEFSENTINEL_DEFAULT_MAXCHECKCOUNTS;
-
+      /// <summary>
+      /// Event triggered when enought CEF subprocesses are closed.
+      /// </summary>
       property OnClose         : TNotifyEvent     read FOnClose          write FOnClose;
   end;
 
@@ -134,6 +124,11 @@ implementation
 
 uses
   uCEFLibFunctions, uCEFApplicationCore, uCEFMiscFunctions;
+
+ // Attribution :
+ // TCEFSentinel icon made by Everaldo Coelho
+ // https://www.iconfinder.com/icons/17914/castle_fortress_tower_war_icon
+ // http://www.everaldo.com/
 
 constructor TCEFSentinel.Create(AOwner: TComponent);
 begin
@@ -205,7 +200,7 @@ procedure TCEFSentinel.doStartMsg({$IFDEF MSWINDOWS}var aMessage : TMessage{$ELS
 begin
   if (FTimer <> nil) then
     begin
-      FTimer.Interval := max(ChildProcCount * CEFSENTINEL_DEFAULT_DELAYPERPROCMS, FMinInitDelayMs);
+      FTimer.Interval := max(cardinal(ChildProcCount) * FDelayPerProcMs, FMinInitDelayMs);
       FTimer.Enabled  := True;
     end;
 end;

@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFCommandHandler;
 
 {$IFDEF FPC}
@@ -55,6 +18,10 @@ type
   TCefCommandHandlerOwn = class(TCefBaseRefCountedOwn, ICefCommandHandler)
     protected
       function  OnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean; virtual;
+      function  OnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean; virtual;
+      function  OnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean; virtual;
+      function  OnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean; virtual;
+      function  OnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean; virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -67,6 +34,10 @@ type
       FEvents : Pointer;
 
       function  OnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean; override;
+      function  OnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean; override;
+      function  OnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean; override;
+      function  OnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean; override;
+      function  OnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean; override;
 
       procedure RemoveReferences; override;
 
@@ -101,16 +72,95 @@ begin
                                                                     disposition));
 end;
 
+function cef_command_handler_is_chrome_app_menu_item_visible(self       : PCefCommandHandler;
+                                                             browser    : PCefBrowser;
+                                                             command_id : integer): integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefCommandHandlerOwn) then
+    Result := Ord(TCefCommandHandlerOwn(TempObject).OnIsChromeAppMenuItemVisible(TCefBrowserRef.UnWrap(browser),
+                                                                                 command_id));
+end;
+
+function cef_command_handler_is_chrome_app_menu_item_enabled(self       : PCefCommandHandler;
+                                                             browser    : PCefBrowser;
+                                                             command_id : integer): integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefCommandHandlerOwn) then
+    Result := Ord(TCefCommandHandlerOwn(TempObject).OnIsChromeAppMenuItemEnabled(TCefBrowserRef.UnWrap(browser),
+                                                                                 command_id));
+end;
+
+function cef_command_handler_is_chrome_page_action_icon_visible(self      : PCefCommandHandler;
+                                                                icon_type : TCefChromePageActionIconType): integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefCommandHandlerOwn) then
+    Result := Ord(TCefCommandHandlerOwn(TempObject).OnIsChromePageActionIconVisible(icon_type));
+end;
+
+function cef_command_handler_is_chrome_toolbar_button_visible(self        : PCefCommandHandler;
+                                                              button_type : TCefChromeToolbarButtonType): integer; stdcall;
+var
+  TempObject : TObject;
+begin
+  Result     := Ord(True);
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefCommandHandlerOwn) then
+    Result := Ord(TCefCommandHandlerOwn(TempObject).OnIsChromeToolbarButtonVisible(button_type));
+end;
+
 constructor TCefCommandHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefCommandHandler));
 
-  PCefCommandHandler(FData)^.on_chrome_command := {$IFDEF FPC}@{$ENDIF}cef_command_handler_on_chrome_command;
+  with PCefCommandHandler(FData)^ do
+    begin
+      on_chrome_command                  := {$IFDEF FPC}@{$ENDIF}cef_command_handler_on_chrome_command;
+      is_chrome_app_menu_item_visible    := {$IFDEF FPC}@{$ENDIF}cef_command_handler_is_chrome_app_menu_item_visible;
+      is_chrome_app_menu_item_enabled    := {$IFDEF FPC}@{$ENDIF}cef_command_handler_is_chrome_app_menu_item_enabled;
+      is_chrome_page_action_icon_visible := {$IFDEF FPC}@{$ENDIF}cef_command_handler_is_chrome_page_action_icon_visible;
+      is_chrome_toolbar_button_visible   := {$IFDEF FPC}@{$ENDIF}cef_command_handler_is_chrome_toolbar_button_visible;
+    end;
 end;
 
 function TCefCommandHandlerOwn.OnChromeCommand(const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition): boolean;
 begin
   Result := False;
+end;
+
+function TCefCommandHandlerOwn.OnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean;
+begin
+  Result := True;
+end;
+
+function TCefCommandHandlerOwn.OnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean;
+begin
+  Result := True;
+end;
+
+function TCefCommandHandlerOwn.OnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean;
+begin
+  Result := True;
+end;
+
+function TCefCommandHandlerOwn.OnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean;
+begin
+  Result := True;
 end;
 
 procedure TCefCommandHandlerOwn.RemoveReferences;
@@ -146,6 +196,38 @@ begin
     Result := IChromiumEvents(FEvents).doOnChromeCommand(browser, command_id, disposition)
    else
     Result := inherited OnChromeCommand(browser, command_id, disposition);
+end;
+
+function TCustomCommandHandler.OnIsChromeAppMenuItemVisible(const browser: ICefBrowser; command_id: integer): boolean;
+begin
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnIsChromeAppMenuItemVisible(browser, command_id)
+   else
+    Result := inherited OnIsChromeAppMenuItemVisible(browser, command_id);
+end;
+
+function TCustomCommandHandler.OnIsChromeAppMenuItemEnabled(const browser: ICefBrowser; command_id: integer): boolean;
+begin
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnIsChromeAppMenuItemEnabled(browser, command_id)
+   else
+    Result := inherited OnIsChromeAppMenuItemEnabled(browser, command_id);
+end;
+
+function TCustomCommandHandler.OnIsChromePageActionIconVisible(icon_type: TCefChromePageActionIconType): boolean;
+begin
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnIsChromePageActionIconVisible(icon_type)
+   else
+    Result := inherited OnIsChromePageActionIconVisible(icon_type);
+end;
+
+function TCustomCommandHandler.OnIsChromeToolbarButtonVisible(button_type: TCefChromeToolbarButtonType): boolean;
+begin
+  if (FEvents <> nil) then
+    Result := IChromiumEvents(FEvents).doOnIsChromeToolbarButtonVisible(button_type)
+   else
+    Result := inherited OnIsChromeToolbarButtonVisible(button_type);
 end;
 
 end.

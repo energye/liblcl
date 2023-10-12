@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFDisplay;
 
 {$IFDEF FPC}
@@ -57,26 +20,104 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
+  /// <summary>
+  /// This class typically, but not always, corresponds to a physical display
+  /// connected to the system. A fake Display may exist on a headless system, or a
+  /// Display may correspond to a remote, virtual display. All size and position
+  /// values are in density independent pixel (DIP) coordinates unless otherwise
+  /// indicated. Methods must be called on the browser process UI thread unless
+  /// otherwise indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_display_capi.h">CEF source file: /include/capi/views/cef_display_capi.h (cef_display_t)</see></para>
+  /// </remarks>
   TCefDisplayRef = class(TCefBaseRefCountedRef, ICefDisplay)
     protected
+      /// <summary>
+      /// Returns the unique identifier for this Display.
+      /// </summary>
       function  GetID : int64;
+      /// <summary>
+      /// Returns this Display's device pixel scale factor. This specifies how much
+      /// the UI should be scaled when the actual output has more pixels than
+      /// standard displays (which is around 100~120dpi). The potential return
+      /// values differ by platform.
+      /// </summary>
       function  GetDeviceScaleFactor : Single;
+      /// <summary>
+      /// Convert |point| from DIP coordinates to pixel coordinates using this
+      /// Display's device scale factor.
+      /// </summary>
       procedure ConvertPointToPixels(var point: TCefPoint);
+      /// <summary>
+      /// Convert |point| from pixel coordinates to DIP coordinates using this
+      /// Display's device scale factor.
+      /// </summary>
       procedure ConvertPointFromPixels(var point: TCefPoint);
+      /// <summary>
+      /// Returns this Display's bounds in DIP screen coordinates. This is the full
+      /// size of the display.
+      /// </summary>
       function  GetBounds : TCefRect;
+      /// <summary>
+      /// Returns this Display's work area in DIP screen coordinates. This excludes
+      /// areas of the display that are occupied with window manager toolbars, etc.
+      /// </summary>
       function  GetWorkArea : TCefRect;
+      /// <summary>
+      /// Returns this Display's rotation in degrees.
+      /// </summary>
       function  GetRotation : Integer;
 
     public
+      /// <summary>
+      /// Returns a ICefDisplay instance using a PCefDisplay data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefDisplay;
+      /// <summary>
+      /// Returns the primary Display.
+      /// </summary>
       class function Primary: ICefDisplay;
+      /// <summary>
+      /// Returns the Display nearest |point|. Set |input_pixel_coords| to true (1) if
+      /// |point| is in pixel screen coordinates instead of DIP screen coordinates.
+      /// </summary>
       class function NearestPoint(const point: TCefPoint; input_pixel_coords: boolean): ICefDisplay;
+      /// <summary>
+      /// Returns the Display that most closely intersects |bounds|.  Set
+      /// |input_pixel_coords| to true (1) if |bounds| is in pixel screen coordinates
+      /// instead of DIP screen coordinates.
+      /// </summary>
       class function MatchingBounds(const bounds: TCefRect; input_pixel_coords: boolean): ICefDisplay;
+      /// <summary>
+      /// Returns the total number of Displays. Mirrored displays are excluded; this
+      /// function is intended to return the number of distinct, usable displays.
+      /// </summary>
       class function GetCount: NativeUInt;
+      /// <summary>
+      /// Returns all Displays. Mirrored displays are excluded; this function is
+      /// intended to return distinct, usable displays.
+      /// </summary>
       class function GetAlls(var aDisplayArray : TCefDisplayArray) : boolean;
+      /// <summary>
+      /// Convert |point| from DIP screen coordinates to pixel screen coordinates.
+      /// This function is only used on Windows.
+      /// </summary>
       class function ScreenPointToPixels(const aScreenPoint : TPoint) : TPoint;
+      /// <summary>
+      /// Convert |point| from pixel screen coordinates to DIP screen coordinates.
+      /// This function is only used on Windows.
+      /// </summary>
       class function ScreenPointFromPixels(const aPixelsPoint : TPoint) : TPoint;
+      /// <summary>
+      /// Convert |rect| from DIP screen coordinates to pixel screen coordinates. This
+      /// function is only used on Windows.
+      /// </summary>
       class function ScreenRectToPixels(const aScreenRect : TRect) : TRect;
+      /// <summary>
+      /// Convert |rect| from pixel screen coordinates to DIP screen coordinates. This
+      /// function is only used on Windows.
+      /// </summary>
       class function ScreenRectFromPixels(const aPixelsRect : TRect) : TRect;
   end;
 

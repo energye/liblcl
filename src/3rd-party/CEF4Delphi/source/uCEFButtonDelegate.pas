@@ -1,40 +1,3 @@
-// ************************************************************************
-// ***************************** CEF4Delphi *******************************
-// ************************************************************************
-//
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
-// browser in Delphi applications.
-//
-// The original license of DCEF3 still applies to CEF4Delphi.
-//
-// For more information about CEF4Delphi visit :
-//         https://www.briskbard.com/index.php?lang=en&pageid=cef
-//
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
-//
-// ************************************************************************
-// ************ vvvv Original license and comments below vvvv *************
-// ************************************************************************
-(*
- *                       Delphi Chromium Embedded 3
- *
- * Usage allowed under the restrictions of the Lesser GNU General Public License
- * or alternatively the restrictions of the Mozilla Public License 1.1
- *
- * Software distributed under the License is distributed on an "AS IS" basis,
- * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
- * the specific language governing rights and limitations under the License.
- *
- * Unit owner : Henri Gourvest <hgourvest@gmail.com>
- * Web site   : http://www.progdigy.com
- * Repository : http://code.google.com/p/delphichromiumembedded/
- * Group      : http://groups.google.com/group/delphichromiumembedded
- *
- * Embarcadero Technologies, Inc is not permitted to use or redistribute
- * this source code without explicit permission.
- *
- *)
-
 unit uCEFButtonDelegate;
 
 {$IFDEF FPC}
@@ -63,19 +26,42 @@ type
       procedure OnButtonStateChanged(const button: ICefButton);
 
     public
+      /// <summary>
+      /// Returns a ICefButtonDelegate instance using a PCefButtonDelegate data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefButtonDelegate;
   end;
 
+  /// <summary>
+  /// Implement this interface to handle Button events. The functions of this
+  /// interface will be called on the browser process UI thread unless otherwise
+  /// indicated.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/views/cef_button_delegate_capi.h">CEF source file: /include/capi/views/cef_button_delegate_capi.h (cef_button_delegate_t)</see></para>
+  /// </remarks>
   TCefButtonDelegateOwn = class(TCefViewDelegateOwn, ICefButtonDelegate)
     protected
+      /// <summary>
+      /// Called when |button| is pressed.
+      /// </summary>
       procedure OnButtonPressed(const button: ICefButton); virtual;
+      /// <summary>
+      /// Called when the state of |button| changes.
+      /// </summary>
       procedure OnButtonStateChanged(const button: ICefButton); virtual;
-
+      /// <summary>
+      /// Links the methods in the internal CEF record data pointer with the methods in this class.
+      /// </summary>
       procedure InitializeCEFMethods; override;
     public
       constructor Create; override;
   end;
 
+  /// <summary>
+  /// This class handles all the ICefButtonDelegate methods which call the ICefButtonDelegateEvents methods.
+  /// ICefButtonDelegateEvents will be implemented by the control receiving the ICefButtonDelegate events.
+  /// </summary>
   TCustomButtonDelegate = class(TCefButtonDelegateOwn)
     protected
       FEvents : Pointer;
@@ -97,6 +83,9 @@ type
       procedure OnButtonStateChanged(const button: ICefButton); override;
 
     public
+      /// <summary>
+      /// Creates an instance of this class liked to an interface that's implemented by a control receiving the events.
+      /// </summary>
       constructor Create(const events: ICefButtonDelegateEvents); reintroduce;
   end;
 
@@ -196,6 +185,8 @@ end;
 
 procedure TCustomButtonDelegate.OnGetPreferredSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetPreferredSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefButtonDelegateEvents(FEvents).doOnGetPreferredSize(view, aResult);
@@ -207,6 +198,8 @@ end;
 
 procedure TCustomButtonDelegate.OnGetMinimumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMinimumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefButtonDelegateEvents(FEvents).doOnGetMinimumSize(view, aResult);
@@ -218,6 +211,8 @@ end;
 
 procedure TCustomButtonDelegate.OnGetMaximumSize(const view: ICefView; var aResult : TCefSize);
 begin
+  inherited OnGetMaximumSize(view, aResult);
+
   try
     if (FEvents <> nil) then
       ICefButtonDelegateEvents(FEvents).doOnGetMaximumSize(view, aResult);
@@ -229,6 +224,8 @@ end;
 
 procedure TCustomButtonDelegate.OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer);
 begin
+  inherited OnGetHeightForWidth(view, width, aResult);
+
   try
     if (FEvents <> nil) then
       ICefButtonDelegateEvents(FEvents).doOnGetHeightForWidth(view, width, aResult);
