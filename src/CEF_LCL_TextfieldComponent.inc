@@ -46,17 +46,24 @@ begin
   handleExceptionEnd
 end;
 
-procedure  TextfieldComponent_SelectRange(const AObj: TCEFTextfieldComponent; const range: TCefRange); extdecl;
+procedure  TextfieldComponent_SetSelectedRange(const AObj: TCEFTextfieldComponent; const range: TCefRange); extdecl;
 begin
   handleExceptionBegin
-  AObj.SelectRange(range);
+  AObj.SelectedRange := range;
+  handleExceptionEnd
+end;
+
+procedure  TextfieldComponent_GetSelectedRange(const AObj: TCEFTextfieldComponent; out Result: TCefRange); extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.SelectedRange;
   handleExceptionEnd
 end;
 
 procedure  TextfieldComponent_SetFontList(const AObj: TCEFTextfieldComponent; const font_list: PChar); extdecl;
 begin
   handleExceptionBegin
-  AObj.InsertOrReplaceText(PCharToUStr(font_list));
+  AObj.SetFontList(PCharToUStr(font_list));
   handleExceptionEnd
 end;
 
@@ -242,7 +249,8 @@ exports
   TextfieldComponent_InsertOrReplaceText,
   TextfieldComponent_SelectAll,
   TextfieldComponent_ClearSelection,
-  TextfieldComponent_SelectRange,
+  TextfieldComponent_SetSelectedRange,
+  TextfieldComponent_GetSelectedRange,
   TextfieldComponent_SetFontList,
   TextfieldComponent_ApplyTextColor,
   TextfieldComponent_ApplyTextStyle,

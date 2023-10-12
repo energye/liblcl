@@ -667,17 +667,18 @@ begin
 end;
 
 //HighEfficiencyMode
-procedure CEFChromium_SetHighEfficiencyMode(const AObj: TChromium; value: Integer); extdecl;
+procedure CEFChromium_SetHighEfficiencyModeState(const AObj: TChromium; value: Integer); extdecl;
 begin
   handleExceptionBegin
-  AObj.HighEfficiencyMode := TCefState(value); //defalt STATE_DEFAULT
+  // TCefHighEfficiencyModeState
+  AObj.HighEfficiencyModeState := TCefHighEfficiencyModeState(value); //defalt STATE_DEFAULT
   handleExceptionEnd
 end;
 
-function CEFChromium_GetHighEfficiencyMode(const AObj: TChromium): Integer; extdecl;
+function CEFChromium_GetHighEfficiencyModeState(const AObj: TChromium): Integer; extdecl;
 begin
   handleExceptionBegin
-  Result := Integer(AObj.HighEfficiencyMode);
+  Result := Integer(AObj.HighEfficiencyModeState);
   handleExceptionEnd
 end;
 
@@ -1427,8 +1428,8 @@ exports
   CEFChromium_GetWebRTCNonproxiedUDP,
   CEFChromium_SetBatterySaverModeState,
   CEFChromium_GetBatterySaverModeState,
-  CEFChromium_SetHighEfficiencyMode,
-  CEFChromium_GetHighEfficiencyMode,
+  CEFChromium_SetHighEfficiencyModeState,
+  CEFChromium_GetHighEfficiencyModeState,
   CEFChromium_SetLoadImagesAutomatically,
   CEFChromium_GetLoadImagesAutomatically,
   CEFChromium_SetQuicAllowed,

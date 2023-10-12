@@ -81,10 +81,10 @@ begin
   handleExceptionEnd
 end;
 
-function  PanelComponent_GetChildViewCount(const AObj: TCEFPanelComponent) : NativeUInt; extdecl;
+function  PanelComponent_ChildViewCount(const AObj: TCEFPanelComponent) : NativeUInt; extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.GetChildViewCount;
+  Result := AObj.ChildViewCount;
   handleExceptionEnd
 end;
 
@@ -115,6 +115,6 @@ exports
   PanelComponent_ReorderChildView,
   PanelComponent_RemoveChildView,
   PanelComponent_RemoveAllChildViews,
-  PanelComponent_GetChildViewCount,
+  PanelComponent_ChildViewCount,
   PanelComponent_GetChildViewAt,
   PanelComponent_AsWindow;

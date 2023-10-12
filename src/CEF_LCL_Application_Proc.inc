@@ -205,15 +205,17 @@ begin
   GlobalCEFApp.RootCache := PCharToUStr(value);
 end;
 
-function CEFAppConfig_UserDataPath(): PChar; extdecl;
-begin
-  Result := PChar(string(GlobalCEFApp.UserDataPath));
-end;
+//remove
+//function CEFAppConfig_UserDataPath(): PChar; extdecl;
+//begin
+//  Result := PChar(string(GlobalCEFApp.UserDataPath));
+//end;
 
-procedure CEFAppConfig_SetUserDataPath(value: PChar) ; extdecl;
-begin
-  GlobalCEFApp.UserDataPath := PCharToUStr(value);
-end;
+//remove
+//procedure CEFAppConfig_SetUserDataPath(value: PChar) ; extdecl;
+//begin
+//  GlobalCEFApp.UserDataPath := PCharToUStr(value);
+//end;
 
 function CEFAppConfig_PersistSessionCookies(): LongBool; extdecl;
 begin
@@ -535,25 +537,29 @@ begin
   GlobalCEFApp.SmoothScrolling := value;
 end;
 
-function CEFAppConfig_FastUnload(): LongBool; extdecl;
-begin
-  Result := GlobalCEFApp.FastUnload;
-end;
+//remove
+//function CEFAppConfig_FastUnload(): LongBool; extdecl;
+//begin
+//  Result := GlobalCEFApp.FastUnload;
+//end;
 
-procedure CEFAppConfig_SetFastUnload(value: LongBool); extdecl;
-begin
-  GlobalCEFApp.FastUnload := value;
-end;
+//remove
+//procedure CEFAppConfig_SetFastUnload(value: LongBool); extdecl;
+//begin
+//  GlobalCEFApp.FastUnload := value;
+//end;
 
-function CEFAppConfig_DisableSafeBrowsing(): LongBool; extdecl;
-begin
-  Result := GlobalCEFApp.DisableSafeBrowsing;
-end;
+//remove
+//function CEFAppConfig_DisableSafeBrowsing(): LongBool; extdecl;
+//begin
+//  Result := GlobalCEFApp.DisableSafeBrowsing;
+//end;
 
-procedure CEFAppConfig_SetDisableSafeBrowsing(value: LongBool); extdecl;
-begin
-  GlobalCEFApp.DisableSafeBrowsing := value;
-end;
+//remove
+//procedure CEFAppConfig_SetDisableSafeBrowsing(value: LongBool); extdecl;
+//begin
+//  GlobalCEFApp.DisableSafeBrowsing := value;
+//end;
 
 function CEFAppConfig_MuteAudio(): LongBool; extdecl;
 begin
@@ -1373,8 +1379,8 @@ exports
   CEFAppConfig_SetCache,
   CEFAppConfig_RootCache,
   CEFAppConfig_SetRootCache,
-  CEFAppConfig_UserDataPath,
-  CEFAppConfig_SetUserDataPath,
+  //CEFAppConfig_UserDataPath,
+  //CEFAppConfig_SetUserDataPath,
   CEFAppConfig_PersistSessionCookies,
   CEFAppConfig_SetPersistSessionCookies,
   CEFAppConfig_PersistUserPreferences,
@@ -1439,10 +1445,10 @@ exports
   CEFAppConfig_SetForceFieldTrialParams,
   CEFAppConfig_SmoothScrolling,
   CEFAppConfig_SetSmoothScrolling,
-  CEFAppConfig_FastUnload,
-  CEFAppConfig_SetFastUnload,
-  CEFAppConfig_DisableSafeBrowsing,
-  CEFAppConfig_SetDisableSafeBrowsing,
+  //CEFAppConfig_FastUnload,
+  //CEFAppConfig_SetFastUnload,
+  //CEFAppConfig_DisableSafeBrowsing,
+  //CEFAppConfig_SetDisableSafeBrowsing,
   CEFAppConfig_MuteAudio,
   CEFAppConfig_SetMuteAudio,
   CEFAppConfig_SitePerProcess,

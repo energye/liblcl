@@ -139,12 +139,13 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefX509CertPrincipal_GetStreetAddresses(const AObj: ICefX509CertPrincipal; const addresses: TStrings); extdecl;
-begin
-  handleExceptionBegin
-  AObj.GetStreetAddresses(addresses);
-  handleExceptionEnd
-end;
+//remove
+//procedure CefX509CertPrincipal_GetStreetAddresses(const AObj: ICefX509CertPrincipal; const addresses: TStrings); extdecl;
+//begin
+//  handleExceptionBegin
+//  AObj.GetStreetAddresses(addresses);
+//  handleExceptionEnd
+//end;
 
 procedure CefX509CertPrincipal_GetOrganizationNames(const AObj: ICefX509CertPrincipal; const names: TStrings); extdecl;
 begin
@@ -160,12 +161,13 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefX509CertPrincipal_GetDomainComponents(const AObj: ICefX509CertPrincipal; const components: TStrings); extdecl;
-begin
-  handleExceptionBegin
-  AObj.GetDomainComponents(components);
-  handleExceptionEnd
-end;
+//remove
+//procedure CefX509CertPrincipal_GetDomainComponents(const AObj: ICefX509CertPrincipal; const components: TStrings); extdecl;
+//begin
+//  handleExceptionBegin
+//  AObj.GetDomainComponents(components);
+//  handleExceptionEnd
+//end;
 
 {== ICefSelectClientCertificateCallback ==}
 procedure CefSelectClientCertificateCallback_Select(const AObj: ICefSelectClientCertificateCallback; const cert: ICefX509Certificate); extdecl;
@@ -209,10 +211,10 @@ exports
   CefX509CertPrincipal_GetLocalityName,
   CefX509CertPrincipal_GetStateOrProvinceName,
   CefX509CertPrincipal_GetCountryName,
-  CefX509CertPrincipal_GetStreetAddresses,
+  //CefX509CertPrincipal_GetStreetAddresses,
   CefX509CertPrincipal_GetOrganizationNames,
   CefX509CertPrincipal_GetOrganizationUnitNames,
-  CefX509CertPrincipal_GetDomainComponents,
+  //CefX509CertPrincipal_GetDomainComponents,
   CefSelectClientCertificateCallback_Select,
   CefSslInfo_GetCertStatus,
   CefSslInfo_GetX509Certificate;

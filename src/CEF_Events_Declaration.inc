@@ -168,7 +168,9 @@ procedure BrowserViewComponent_OnBrowserCreated(const Sender: TObject; const bro
 procedure BrowserViewComponent_OnBrowserDestroyed(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser);
 procedure BrowserViewComponent_OnGetDelegateForPopupBrowserView(const Sender: TObject; const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
 procedure BrowserViewComponent_OnPopupBrowserViewCreated(const Sender: TObject; const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
-procedure BrowserViewComponent_OnGetChromeToolbarType(const Sender: TObject; var aChromeToolbarType: TCefChromeToolbarType);
+procedure BrowserViewComponent_OnGetChromeToolbarType(const Sender: TObject; const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType);
+procedure BrowserViewComponent_OnUseFramelessWindowForPictureInPicture(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean);
+procedure BrowserViewComponent_OnGestureCommand(const Sender: TObject; const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
 
 {==TBufferPanel==}
 {$IFDEF MSWINDOWS}

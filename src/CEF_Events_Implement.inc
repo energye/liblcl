@@ -927,10 +927,10 @@ var
   browserSettings: PRCefBrowserSettings;
 begin
   try
-  browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-  SendEvent([Sender, browser_view, browserSettings, client, is_devtools, @aResult]);
+    browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
+    SendEvent([Sender, browser_view, browserSettings, client, is_devtools, @aResult]);
   finally
-  browserSettings := nil;
+    browserSettings := nil;
   end;
 end;
 
@@ -939,9 +939,19 @@ begin
   SendEvent([Sender, browser_view, popup_browser_view, is_devtools, @aResult]);
 end;
 
-procedure TLCLEvent.BrowserViewComponent_OnGetChromeToolbarType(const Sender: TObject; var aChromeToolbarType: TCefChromeToolbarType);
+procedure TLCLEvent.BrowserViewComponent_OnGetChromeToolbarType(const Sender: TObject; const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType);
 begin
-  SendEvent([Sender, @aChromeToolbarType]);
+  SendEvent([Sender, browser_view, @aChromeToolbarType]);
+end;
+
+procedure TLCLEvent.BrowserViewComponent_OnUseFramelessWindowForPictureInPicture(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean);
+begin
+  SendEvent([Sender, browser_view, @aResult]);
+end;
+
+procedure TLCLEvent.BrowserViewComponent_OnGestureCommand(const Sender: TObject; const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
+begin
+  SendEvent([Sender, browser_view, gesture_command, @aResult]);
 end;
 
 {==TBufferPanel==}
