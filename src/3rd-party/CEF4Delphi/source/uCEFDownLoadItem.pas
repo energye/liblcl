@@ -1,4 +1,4 @@
-unit uCEFDownloadItem;
+unit uCEFDownLoadItem;
 
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
