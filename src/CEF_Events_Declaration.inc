@@ -156,6 +156,8 @@ procedure WindowComponent_OnGetParentWindow(const Sender: TObject; const window:
 procedure WindowComponent_OnGetInitialBounds(const Sender: TObject; const window: ICefWindow; var aResult : TCefRect);
 procedure WindowComponent_OnGetInitialShowState(const Sender: TObject; const window: ICefWindow; var aResult : TCefShowState);
 procedure WindowComponent_OnIsFrameless(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
+procedure WindowComponent_OnWithStandardWindowButtons(const Sender: TObject; const window_: ICefWindow; var aResult : boolean);
+procedure WindowComponent_OnGetTitlebarHeight(const Sender: TObject; const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
 procedure WindowComponent_OnCanResize(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
 procedure WindowComponent_OnCanMaximize(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
 procedure WindowComponent_OnCanMinimize(const Sender: TObject; const window: ICefWindow; var aResult : boolean);

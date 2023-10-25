@@ -881,6 +881,16 @@ begin
   SendEvent([Sender, window, @aResult]);
 end;
 
+procedure TLCLEvent.WindowComponent_OnWithStandardWindowButtons(const Sender: TObject; const window_: ICefWindow; var aResult : boolean);
+begin
+  SendEvent([Sender, window_, @aResult]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnGetTitlebarHeight(const Sender: TObject; const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
+begin
+  SendEvent([Sender, window_, @titlebar_height, @aResult]);
+end;
+
 procedure TLCLEvent.WindowComponent_OnCanResize(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
 begin
   SendEvent([Sender, window, @aResult]);
