@@ -33,12 +33,20 @@ jobs:
           with-cache: true
 
       # 编译 liblcl support windows7 64 :default
-      - name: Build Branch 109.1.18 To (liblcl.Windows64)
+      - name: Build Branch main To (liblcl.Windows64)
+        run: |
+          git checkout origin/main
+          .\shell\add-package.bat
+          lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
+          7z a .\liblclbinary\liblcl.Windows64.zip $HOME\golcl\liblcl.dll
+
+      # 编译 liblcl support windows7 64
+      - name: Build Branch 109.1.18 To (liblcl-109.Windows64)
         run: |
           git checkout origin/109.1.18
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
-          7z a .\liblclbinary\liblcl.Windows64.zip $HOME\golcl\liblcl.dll
+          7z a .\liblclbinary\liblcl-109.Windows64.zip $HOME\golcl\liblcl.dll
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 To (liblcl-87.Windows64)
@@ -86,13 +94,21 @@ jobs:
           with-cache: true
           os-arch: i386
 
-      # 编译 liblcl support windows7 32 :default
-      - name: Build Branch Main for (liblcl.Windows32)
+      # 编译 liblcl support windows 32 :default
+      - name: Build Branch main for (liblcl.Windows32)
+        run: |
+          git checkout origin/main
+          .\shell\add-package.bat
+          lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
+          7z a "liblclbinary/liblcl.Windows32.zip" "$HOME/golcl/liblcl.dll"
+
+      # 编译 liblcl support windows7 32
+      - name: Build Branch 109.1.18 for (liblcl-109.Windows32)
         run: |
           git checkout origin/109.1.18
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
-          7z a "liblclbinary/liblcl.Windows32.zip" "$HOME/golcl/liblcl.dll"
+          7z a "liblclbinary/liblcl-109.Windows32.zip" "$HOME/golcl/liblcl.dll"
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.Windows32)
@@ -143,9 +159,9 @@ jobs:
           with-cache: true
 
       # 编译 liblcl support Gtk3 :default
-      - name: Build Branch 109.1.18 for (liblcl.Linux64)
+      - name: Build Branch main for (liblcl.Linux64)
         run: |
-          git checkout origin/109.1.18
+          git checkout origin/main
           ./shell/add-package.sh
           lazbuild -B --bm=Linux64 --ws=gtk3 "src/liblcl.lpi"
           zip -j liblclbinary/liblcl.Linux64.zip $HOME/golcl/liblcl.so
@@ -205,9 +221,9 @@ jobs:
           with-cache: false
 
       # 编译 liblcl :default
-      - name: Build Branch 109.1.18 for (liblcl.MacOSX64)
+      - name: Build Branch main for (liblcl.MacOSX64)
         run: |
-          git checkout origin/109.1.18
+          git checkout origin/main
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
@@ -322,7 +338,7 @@ jobs:
             ls -al
             #-- 参数: $1:指定分枝 $2:arch $3:lazarus base dir
             #-- 构建 support Gtk3 :default
-            ./shell/build-linux.sh "109.1.18" "arm64"
+            ./shell/build-linux.sh "main" "arm64"
             #-- 构建 liblcl support Gtk2
             ./shell/build-linux.sh "GTK2-106.1.1" "arm64"
 
