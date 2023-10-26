@@ -69,6 +69,20 @@ if [ ! -s "$HOME/golcl/$fileName" ];then
   exit 1
 fi
 
+fileName="liblcl-109.Windows32.zip"
+./generate-download.sh "$version" "$fileName"
+if [ ! -s "$HOME/golcl/$fileName" ];then
+  echo "`date`, The ${fileName} size is zero, failed. "
+  exit 1
+fi
+
+fileName="liblcl-109.Windows64.zip"
+./generate-download.sh "$version" "$fileName"
+if [ ! -s "$HOME/golcl/$fileName" ];then
+  echo "`date`, The ${fileName} size is zero, failed. "
+  exit 1
+fi
+
 cd liblclbinres/genbinres && go run main.go $version
 
 cd ../
