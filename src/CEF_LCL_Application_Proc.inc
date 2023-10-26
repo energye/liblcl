@@ -1352,7 +1352,6 @@ begin
   Result := PChar(string(GlobalCEFApp.LastErrorMessage));
 end;
 
-
 procedure CEFAppConfig_UpdateDeviceScaleFactor(); extdecl;
 begin
   GlobalCEFApp.UpdateDeviceScaleFactor();
