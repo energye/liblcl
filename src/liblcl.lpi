@@ -76,7 +76,7 @@
         <PackageName Value="LCL"/>
       </Item8>
     </RequiredPackages>
-    <Units Count="25">
+    <Units Count="21">
       <Unit0>
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -174,22 +174,6 @@
         <Filename Value="uCEF_LCL_Event.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit20>
-      <Unit21>
-        <Filename Value="uCEF_LCL_V8ObjectAccessor.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit21>
-      <Unit22>
-        <Filename Value="uCEF_LCL_IPC.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit22>
-      <Unit23>
-        <Filename Value="uCEF_LCL_Process_Message.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit23>
-      <Unit24>
-        <Filename Value="uCEF_LCL_DictionaryValue.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit24>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
