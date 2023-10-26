@@ -1009,38 +1009,54 @@ begin
   GlobalCEFApp.NetLogFile := PCharToUStr(value);
 end;
 
-function CEFAppConfig_NetLogCaptureMode(): Integer; extdecl;
+function CEFAppConfig_NetLogCaptureMode(): TCefNetLogCaptureMode; extdecl;
 begin
   // type = TCefNetLogCaptureMode
-  if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmDefault then
-  Result := 0
-  else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmIncludeSensitive then
-  Result := 1
-  else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmEverything then
-  Result := 2
+  Result := GlobalCEFApp.NetLogCaptureMode;
+end;
+
+procedure CEFAppConfig_SetNetLogCaptureMode(value: TCefNetLogCaptureMode); extdecl;
+begin
+  // type = TCefNetLogCaptureMode
+  GlobalCEFApp.NetLogCaptureMode := value;
+end;
+
+function CEFAppConfig_RemoteAllowOrigins(IsSet: LongBool; value: PChar): PChar; extdecl;
+begin
+  Result := nil;
+  if IsSet then
+     GlobalCEFApp.RemoteAllowOrigins := PCharToUStr(value)
   else
-  Result := -1;
+     Result := PChar(string(GlobalCEFApp.RemoteAllowOrigins));
 end;
 
-procedure CEFAppConfig_SetNetLogCaptureMode(value: Integer); extdecl;
-begin
-  // type = TCefNetLogCaptureMode
-  if value = 0 then
-  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmDefault
-  else if value = 1 then
-  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmIncludeSensitive
-  else if value = 2 then
-  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmEverything;
-end;
-
-function CEFAppConfig_EnableHighDPISupport(): LongBool; extdecl;
+function CEFAppConfig_AutoAcceptCamAndMicCapture(IsSet: LongBool; value: LongBool): LongBool; extdecl;
 begin
   Result := False;
+  if IsSet then
+       GlobalCEFApp.AutoAcceptCamAndMicCapture := value
+    else
+       Result := GlobalCEFApp.AutoAcceptCamAndMicCapture;
 end;
 
-procedure CEFAppConfig_SetEnableHighDPISupport(value: LongBool); extdecl;
+function CEFAppConfig_UIColorMode(IsSet: LongBool; value: TCefUIColorMode): TCefUIColorMode; extdecl;
 begin
+  Result := uicmSystemDefault;
+  WriteLn('CEFAppConfig_UIColorMode :', value);
+  if IsSet then
+       GlobalCEFApp.UIColorMode := value
+    else
+       Result := GlobalCEFApp.UIColorMode;
 end;
+
+//function CEFAppConfig_EnableHighDPISupport(): LongBool; extdecl;
+//begin
+//  Result := False;
+//end;
+
+//procedure CEFAppConfig_SetEnableHighDPISupport(value: LongBool); extdecl;
+//begin
+//end;
 
 function CEFAppConfig_DeleteCache(): LongBool; extdecl;
 begin
@@ -1537,8 +1553,11 @@ exports
   CEFAppConfig_SetNetLogFile,
   CEFAppConfig_NetLogCaptureMode,
   CEFAppConfig_SetNetLogCaptureMode,
-  CEFAppConfig_EnableHighDPISupport,
-  CEFAppConfig_SetEnableHighDPISupport,
+  CEFAppConfig_RemoteAllowOrigins,
+  CEFAppConfig_AutoAcceptCamAndMicCapture,
+  CEFAppConfig_UIColorMode,
+  //CEFAppConfig_EnableHighDPISupport,
+  //CEFAppConfig_SetEnableHighDPISupport,
   CEFAppConfig_DeleteCache,
   CEFAppConfig_DeleteCookies,
   CEFAppConfig_CheckCEFFiles,

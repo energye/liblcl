@@ -39,6 +39,20 @@ begin
   handleExceptionEnd
 end;
 
+function CefDownloadItem_IsInterrupted(const TObj: ICefDownloadItem): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.IsInterrupted();
+  handleExceptionEnd
+end;
+
+function CefDownloadItem_GetInterruptReason(const TObj: ICefDownloadItem): TCefDownloadInterruptReason; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.GetInterruptReason();
+  handleExceptionEnd
+end;
+
 function CefDownloadItem_CurrentSpeed(const TObj: ICefDownloadItem): Int64; extdecl;
 begin
   handleExceptionBegin
@@ -176,6 +190,8 @@ exports
   CefDownloadItem_IsInProgress,
   CefDownloadItem_IsComplete,
   CefDownloadItem_IsCanceled,
+  CefDownloadItem_IsInterrupted,
+  CefDownloadItem_GetInterruptReason,
   CefDownloadItem_CurrentSpeed,
   CefDownloadItem_PercentComplete,
   CefDownloadItem_TotalBytes,
