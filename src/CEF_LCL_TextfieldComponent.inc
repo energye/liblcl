@@ -46,17 +46,20 @@ begin
   handleExceptionEnd
 end;
 
-procedure  TextfieldComponent_SetSelectedRange(const AObj: TCEFTextfieldComponent; const range: TCefRange); extdecl;
+procedure  TextfieldComponent_SelectedRange(IsSet: LongBool; const AObj: TCEFTextfieldComponent; var range: TCefRange); extdecl;
 begin
   handleExceptionBegin
-  AObj.SelectedRange := range;
+  if IsSet then
+    AObj.SelectedRange := range
+  else
+    range := AObj.SelectedRange;
   handleExceptionEnd
 end;
 
-procedure  TextfieldComponent_GetSelectedRange(const AObj: TCEFTextfieldComponent; out Result: TCefRange); extdecl;
+function  TextfieldComponent_CursorPosition(const AObj: TCEFTextfieldComponent): NativeUInt; extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.SelectedRange;
+  Result := AObj.CursorPosition;
   handleExceptionEnd
 end;
 
@@ -249,8 +252,8 @@ exports
   TextfieldComponent_InsertOrReplaceText,
   TextfieldComponent_SelectAll,
   TextfieldComponent_ClearSelection,
-  TextfieldComponent_SetSelectedRange,
-  TextfieldComponent_GetSelectedRange,
+  TextfieldComponent_SelectedRange,
+  TextfieldComponent_CursorPosition,
   TextfieldComponent_SetFontList,
   TextfieldComponent_ApplyTextColor,
   TextfieldComponent_ApplyTextStyle,

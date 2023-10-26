@@ -287,6 +287,14 @@ begin
   GlobalCEFApp.LogSeverity := value;
 end;
 
+procedure CEFAppConfig_LogItems(IsSet: LongBool; var value: TCefLogItems) ; extdecl;
+begin
+  if IsSet then
+     GlobalCEFApp.LogItems := value
+  else
+     value := GlobalCEFApp.LogItems;
+end;
+
 function CEFAppConfig_JavaScriptFlags(): PChar; extdecl;
 begin
   Result := PChar(string(GlobalCEFApp.JavaScriptFlags));
@@ -1409,6 +1417,7 @@ exports
   CEFAppConfig_SetLogFile,
   CEFAppConfig_LogSeverity,
   CEFAppConfig_SetLogSeverity,
+  CEFAppConfig_LogItems,
   CEFAppConfig_JavaScriptFlags,
   CEFAppConfig_SetJavaScriptFlags,
   CEFAppConfig_ResourcesDirPath,
