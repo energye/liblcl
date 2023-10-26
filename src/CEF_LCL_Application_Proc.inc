@@ -1042,7 +1042,6 @@ end;
 function CEFAppConfig_UIColorMode(IsSet: LongBool; value: TCefUIColorMode): TCefUIColorMode; extdecl;
 begin
   Result := uicmSystemDefault;
-  WriteLn('CEFAppConfig_UIColorMode :', value);
   if IsSet then
        GlobalCEFApp.UIColorMode := value
     else
