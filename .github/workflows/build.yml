@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [windows-2019]
-        lazarus-versions: [2.2.4]
+        lazarus-versions: [2.2.6]
 
     steps:
       - uses: actions/checkout@v4
@@ -66,7 +66,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [windows-2019]
-        lazarus-versions: [2.2.4]
+        lazarus-versions: [2.2.6]
 
     steps:
       - uses: actions/checkout@v4
@@ -120,7 +120,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-20.04]
-        lazarus-versions: [2.2.4]
+        lazarus-versions: [2.2.6]
 
     steps:
       - uses: actions/checkout@v4
@@ -184,7 +184,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [macos-12]
-        lazarus-versions: [2.2.4]
+        lazarus-versions: [2.2.6]
 
     steps:
       - uses: actions/checkout@v4
@@ -242,7 +242,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        lazarus-versions: [ 2.2.4 ]
+        lazarus-versions: [ 2.2.6 ]
         include:
           - arch: aarch64
             distro: ubuntu18.04
