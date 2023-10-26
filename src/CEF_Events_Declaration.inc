@@ -86,6 +86,10 @@ procedure ChromiumEvent_OnTooltip(Sender: TObject; const browser: ICefBrowser; v
 procedure ChromiumEvent_OnTouchHandleStateChanged(Sender: TObject; const browser: ICefBrowser; const state: TCefTouchHandleState);
 procedure ChromiumEvent_OnUpdateDragCursor(Sender: TObject; const browser: ICefBrowser; operation: TCefDragOperation);
 procedure ChromiumEvent_OnVirtualKeyboardRequested(Sender: TObject; const browser: ICefBrowser; input_mode: TCefTextInpuMode);
+procedure ChromiumEvent_OnIsChromeAppMenuItemVisible(Sender: TObject; const browser: ICefBrowser; command_id: integer; var aResult: boolean);
+procedure ChromiumEvent_OnIsChromeAppMenuItemEnabled(Sender: TObject; const browser: ICefBrowser; command_id: integer; var aResult: boolean);
+procedure ChromiumEvent_OnIsChromePageActionIconVisible(Sender: TObject; icon_type: TCefChromePageActionIconType; var aResult: boolean);
+procedure ChromiumEvent_OnIsChromeToolbarButtonVisible(Sender: TObject; button_type: TCefChromeToolbarButtonType; var aResult: boolean);
 
 procedure ChromiumEvent_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 procedure ChromiumEvent_OnBeforeBrowse(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean; out Result: Boolean);
@@ -164,6 +168,7 @@ procedure WindowComponent_OnCanMinimize(const Sender: TObject; const window: ICe
 procedure WindowComponent_OnCanClose(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
 procedure WindowComponent_OnAccelerator(const Sender: TObject; const window: ICefWindow; command_id: Integer; var aResult : boolean);
 procedure WindowComponent_OnKeyEvent(const Sender: TObject; const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
+procedure WindowComponent_OnWindowFullscreenTransition(const Sender: TObject; const window_: ICefWindow; is_completed: boolean);
 
 {==CEFBrowserViewComponent==}
 procedure BrowserViewComponent_OnBrowserCreated(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser);

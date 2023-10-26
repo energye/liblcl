@@ -956,6 +956,34 @@ begin
   EventMethodCode
 end;
 
+procedure CEFChromium_SetOnIsChromeAppMenuItemVisible(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnIsChromeAppMenuItemVisible}
+  {$DEFINE EventName := OnIsChromeAppMenuItemVisible}
+  EventMethodCode
+end;
+
+procedure CEFChromium_SetOnIsChromeAppMenuItemEnabled(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnIsChromeAppMenuItemEnabled}
+  {$DEFINE EventName := OnIsChromeAppMenuItemEnabled}
+  EventMethodCode
+end;
+
+procedure CEFChromium_SetOnIsChromePageActionIconVisible(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnIsChromePageActionIconVisible}
+  {$DEFINE EventName := OnIsChromePageActionIconVisible}
+  EventMethodCode
+end;
+
+procedure CEFChromium_SetOnIsChromeToolbarButtonVisible(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnIsChromeToolbarButtonVisible}
+  {$DEFINE EventName := OnIsChromeToolbarButtonVisible}
+  EventMethodCode
+end;
+
 
 exports
   CEFChromium_SetOnAfterCreated,
@@ -1092,4 +1120,8 @@ exports
   CEFChromium_SetOnTooltip,
   CEFChromium_SetOnTouchHandleStateChanged,
   CEFChromium_SetOnUpdateDragCursor,
-  CEFChromium_SetOnVirtualKeyboardRequested;
+  CEFChromium_SetOnVirtualKeyboardRequested,
+  CEFChromium_SetOnIsChromeAppMenuItemVisible,
+  CEFChromium_SetOnIsChromeAppMenuItemEnabled,
+  CEFChromium_SetOnIsChromePageActionIconVisible,
+  CEFChromium_SetOnIsChromeToolbarButtonVisible;

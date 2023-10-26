@@ -469,6 +469,26 @@ begin
   SendEvent([Sender, browser, input_mode]);
 end;
 
+procedure TLCLEvent.ChromiumEvent_OnIsChromeAppMenuItemVisible(Sender: TObject; const browser: ICefBrowser; command_id: integer; var aResult: boolean);
+begin
+  SendEvent([Sender, browser, command_id, @aResult]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnIsChromeAppMenuItemEnabled(Sender: TObject; const browser: ICefBrowser; command_id: integer; var aResult: boolean);
+begin
+  SendEvent([Sender, browser, command_id, @aResult]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnIsChromePageActionIconVisible(Sender: TObject; icon_type: TCefChromePageActionIconType; var aResult: boolean);
+begin
+  SendEvent([Sender, icon_type, @aResult]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnIsChromeToolbarButtonVisible(Sender: TObject; button_type: TCefChromeToolbarButtonType; var aResult: boolean);
+begin
+  SendEvent([Sender, button_type, @aResult]);
+end;
+
 procedure TLCLEvent.ChromiumEvent_OnAfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   SendEvent([Sender, browser]);
@@ -919,6 +939,11 @@ end;
 procedure TLCLEvent.WindowComponent_OnKeyEvent(const Sender: TObject; const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
 begin
   SendEvent([Sender, window, @event, @aResult]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnWindowFullscreenTransition(const Sender: TObject; const window_: ICefWindow; is_completed: boolean);
+begin
+  SendEvent([Sender, window_, is_completed]);
 end;
 
 {==CEFBrowserViewComponent==}

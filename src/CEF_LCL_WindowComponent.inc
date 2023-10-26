@@ -441,6 +441,13 @@ begin
   EventMethodCode
 end;
 
+procedure CEFWindowComponent_SetOnWindowFullscreenTransition(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := WindowComponent_OnWindowFullscreenTransition}
+  {$DEFINE EventName := OnWindowFullscreenTransition}
+  EventMethodCode
+end;
+
 exports
   CEFWindowComponent_Create,
   CEFWindowComponent_CreateTopLevelWindow,
@@ -503,4 +510,5 @@ exports
   CEFWindowComponent_SetOnCanMinimize,
   CEFWindowComponent_SetOnCanClose,
   CEFWindowComponent_SetOnAccelerator,
-  CEFWindowComponent_SetOnKeyEvent;
+  CEFWindowComponent_SetOnKeyEvent,
+  CEFWindowComponent_SetOnWindowFullscreenTransition;
