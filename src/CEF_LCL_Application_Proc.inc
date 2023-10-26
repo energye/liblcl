@@ -205,13 +205,13 @@ begin
   GlobalCEFApp.RootCache := PCharToUStr(value);
 end;
 
-//remove
+// CEF 115 remove
 //function CEFAppConfig_UserDataPath(): PChar; extdecl;
 //begin
 //  Result := PChar(string(GlobalCEFApp.UserDataPath));
 //end;
 
-//remove
+// CEF 115 remove
 //procedure CEFAppConfig_SetUserDataPath(value: PChar) ; extdecl;
 //begin
 //  GlobalCEFApp.UserDataPath := PCharToUStr(value);

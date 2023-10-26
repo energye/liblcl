@@ -886,6 +886,11 @@ begin
   SendEvent([Sender, window, @is_menu, @can_activate_menu, aResult]);
 end;
 
+procedure TLCLEvent.WindowComponent_OnIsWindowModalDialog(const Sender: TObject; const window_: ICefWindow; var aResult : boolean);
+begin
+  SendEvent([Sender, window_, @aResult]);
+end;
+
 procedure TLCLEvent.WindowComponent_OnGetInitialBounds(const Sender: TObject; const window: ICefWindow; var aResult : TCefRect);
 begin
   SendEvent([Sender, window, @aResult]);

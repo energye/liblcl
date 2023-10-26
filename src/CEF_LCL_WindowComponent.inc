@@ -26,6 +26,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFWindowComponent_ShowAsBrowserModalDialog(const TObj: TCEFWindowComponent; const browser_view: ICefBrowserView); extdecl;
+begin
+  handleExceptionBegin
+  TObj.ShowAsBrowserModalDialog(browser_view);
+  handleExceptionEnd
+end;
+
 procedure CEFWindowComponent_Hide(const TObj: TCEFWindowComponent); extdecl;
 begin
   handleExceptionBegin
@@ -364,6 +371,13 @@ begin
   EventMethodCode
 end;
 
+procedure CEFWindowComponent_SetOnIsWindowModalDialog(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := WindowComponent_OnIsWindowModalDialog}
+  {$DEFINE EventName := OnIsWindowModalDialog}
+  EventMethodCode
+end;
+
 procedure CEFWindowComponent_SetOnGetInitialBounds(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := WindowComponent_OnGetInitialBounds}
@@ -452,6 +466,7 @@ exports
   CEFWindowComponent_Create,
   CEFWindowComponent_CreateTopLevelWindow,
   CEFWindowComponent_Show,
+  CEFWindowComponent_ShowAsBrowserModalDialog,
   CEFWindowComponent_Hide,
   CEFWindowComponent_CenterWindow,
   CEFWindowComponent_Close,
@@ -500,6 +515,7 @@ exports
   CEFWindowComponent_SetOnWindowDestroyed,
   CEFWindowComponent_SetOnWindowActivationChanged,
   CEFWindowComponent_SetOnGetParentWindow,
+  CEFWindowComponent_SetOnIsWindowModalDialog,
   CEFWindowComponent_SetOnGetInitialBounds,
   CEFWindowComponent_SetOnGetInitialShowState,
   CEFWindowComponent_SetOnIsFrameless,

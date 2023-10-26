@@ -19,6 +19,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure ICEFWindow_ShowAsBrowserModalDialog(const AWindow: ICefWindow; const browser_view: ICefBrowserView); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.ShowAsBrowserModalDialog(browser_view);
+  handleExceptionEnd
+end;
+
 procedure ICEFWindow_Hide(const AWindow: ICefWindow); extdecl;
 begin
   handleExceptionBegin
@@ -354,6 +361,7 @@ end;
 exports
   ICEFWindowRef_CreateTopLevel,
   ICEFWindow_Show,
+  ICEFWindow_ShowAsBrowserModalDialog,
   ICEFWindow_Hide,
   ICEFWindow_CenterWindow,
   ICEFWindow_Close,

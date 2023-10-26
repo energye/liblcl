@@ -210,6 +210,33 @@ begin
   handleExceptionEnd
 end;
 
+procedure  RequestContext_WebsiteSetting(IsSet: LongBool; const TObj: ICefRequestContext; const requesting_url, top_level_url: PChar; content_type: TCefContentSettingTypes; var value: ICefValue); extdecl;
+begin
+   handleExceptionBegin
+   if IsSet then
+   begin
+     TObj.SetWebsiteSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type, value);
+   end
+   else
+   begin
+     value := TObj.GetWebsiteSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type);
+   end;
+   handleExceptionEnd
+end;
+
+function  RequestContext_ContentSetting(IsSet: LongBool; const TObj: ICefRequestContext; const requesting_url, top_level_url: PChar; content_type: TCefContentSettingTypes; value: TCefContentSettingValues): TCefContentSettingValues; extdecl;
+begin
+   handleExceptionBegin
+   if IsSet then
+   begin
+     TObj.SetContentSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type, value);
+   end
+   else
+   begin
+     Result := TObj.GetContentSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type);
+   end;
+   handleExceptionEnd
+end;
 
 exports
   RequestContextRef_Global,
@@ -238,4 +265,6 @@ exports
   RequestContext_HasExtension,
   RequestContext_GetExtensions,
   RequestContext_GetExtension,
-  RequestContext_GetMediaRouter;
+  RequestContext_GetMediaRouter,
+  RequestContext_WebsiteSetting,
+  RequestContext_ContentSetting;
