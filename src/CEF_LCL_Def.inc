@@ -4,16 +4,6 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-function LibVersion: PChar; extdecl;
-begin
-  Result := PChar('2.2.3');
-end;
-
-function LibBuildVersion: PChar; extdecl;
-begin
-  Result := PChar('2.2.4');
-end;
-
 function CEF_Win_CreateRectRgn(X1, Y1, X2, Y2 : Integer): HRGN; extdecl;
 begin
   Result := CreateRectRgn(X1, Y1, X2, Y2);
@@ -1065,8 +1055,6 @@ end;
 
 
 exports
-  LibVersion,
-  LibBuildVersion,
   CEF_Win_CreateRectRgn,
   CEF_Win_SetRectRgn,
   CEF_Win_DeleteObject,
