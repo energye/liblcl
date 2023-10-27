@@ -2,9 +2,9 @@ name: build
 
 on:
   push:
-    branches: [ "maina" ]
-#    tags:
-#      - 'v*.*.*'
+#    branches: [ "maina" ]
+    tags:
+      - 'v*.*.*'
 
 jobs:
   # windows 64
@@ -22,7 +22,6 @@ jobs:
       # 创建构建后的liblcl二进制压缩包存放目录和设置git仓库
       - name: Config liblcl
         run: |
-          mkdir liblclbinary
           git config --global --add safe.directory .\
           git fetch
 
@@ -36,7 +35,9 @@ jobs:
       # 编译 liblcl support windows7 64 :default
       - name: Build Branch main To (liblcl.Windows64)
         run: |
+          git clean -xdf
           # git checkout origin/main
+          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
           7z a .\liblclbinary\liblcl.Windows64.zip $HOME\golcl\liblcl.dll
@@ -44,7 +45,9 @@ jobs:
       # 编译 liblcl support windows7 64
       - name: Build Branch 109.1.18 To (liblcl-109.Windows64)
         run: |
+          git clean -xdf
           git checkout origin/109.1.18
+          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
           7z a .\liblclbinary\liblcl-109.Windows64.zip $HOME\golcl\liblcl.dll
@@ -52,7 +55,9 @@ jobs:
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 To (liblcl-87.Windows64)
         run: |
+          git clean -xdf
           git checkout origin/Flash-89.0.18
+          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
           7z a .\liblclbinary\liblcl-87.Windows64.zip $HOME\golcl\liblcl.dll
@@ -83,7 +88,6 @@ jobs:
       # 创建构建后的liblcl二进制压缩包存放目录和设置git仓库
       - name: Config liblcl
         run: |
-          mkdir liblclbinary
           git config --global --add safe.directory .\
           git fetch
 
@@ -98,7 +102,9 @@ jobs:
       # 编译 liblcl support windows 32 :default
       - name: Build Branch main for (liblcl.Windows32)
         run: |
+          git clean -xdf
           # git checkout origin/main
+          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
           7z a "liblclbinary/liblcl.Windows32.zip" "$HOME/golcl/liblcl.dll"
@@ -106,7 +112,9 @@ jobs:
       # 编译 liblcl support windows7 32
       - name: Build Branch 109.1.18 for (liblcl-109.Windows32)
         run: |
+          git clean -xdf
           git checkout origin/109.1.18
+          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
           7z a "liblclbinary/liblcl-109.Windows32.zip" "$HOME/golcl/liblcl.dll"
@@ -114,7 +122,9 @@ jobs:
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.Windows32)
         run: |
+          git clean -xdf
           git checkout origin/Flash-89.0.18
+          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
           7z a "liblclbinary/liblcl-87.Windows32.zip" "$HOME/golcl/liblcl.dll"
@@ -146,7 +156,6 @@ jobs:
       # 同时构建所有 linux amd64
       - name: Config liblcl
         run: |
-          mkdir liblclbinary
           git config --global --add safe.directory ./
           git fetch
           chmod +x ./shell/add-package.sh
@@ -162,7 +171,9 @@ jobs:
       # 编译 liblcl support Gtk3 :default
       - name: Build Branch main for (liblcl.Linux64)
         run: |
+          git clean -xdf
           # git checkout origin/main
+          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm=Linux64 --ws=gtk3 "src/liblcl.lpi"
           zip -j liblclbinary/liblcl.Linux64.zip $HOME/golcl/liblcl.so
@@ -170,7 +181,9 @@ jobs:
       # 编译 liblcl support Gtk2
       - name: Build Branch GTK2-106.1.1 for (liblcl.Linux64GTK2)
         run: |
+          git clean -xdf
           git checkout origin/GTK2-106.1.1
+          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm=Linux64 --ws=gtk2 "src/liblcl.lpi"
           zip -j liblclbinary/liblcl.Linux64GTK2.zip $HOME/golcl/liblcl.so
@@ -178,7 +191,9 @@ jobs:
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.Linux64)
         run: |
+          git clean -xdf
           git checkout origin/Flash-89.0.18
+          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm=Linux64 --ws=gtk2 "src/liblcl.lpi"
           zip -j liblclbinary/liblcl-87.Linux64.zip $HOME/golcl/liblcl.so
@@ -209,7 +224,6 @@ jobs:
       # 创建构建后的liblcl二进制压缩包存放目录和设置git仓库
       - name: Config liblcl
         run: |
-          mkdir liblclbinary
           git config --global --add safe.directory ./
           git fetch
           chmod +x ./shell/add-package.sh
@@ -224,7 +238,9 @@ jobs:
       # 编译 liblcl :default
       - name: Build Branch main for (liblcl.MacOSX64)
         run: |
+          git clean -xdf
           # git checkout origin/main
+          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
@@ -235,7 +251,9 @@ jobs:
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOSX)
         run: |
+          git clean -xdf
           git checkout origin/Flash-89.0.18
+          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
@@ -267,11 +285,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 创建构建后的liblcl二进制压缩包存放目录
-      - name: Config liblcl
-        run: |
-          mkdir "liblclbinary"
-
       # Laz 环境
       - name: Lazarus Install Environment
         uses: sxmxta/lazarus@v1.0.15
@@ -296,8 +309,8 @@ jobs:
           dockerRunArgs: |
             --volume "$RUNNER_WORKSPACE:/app"
           # 将一些环境变量传递到容器
-          env: | # YAML, pipe 字符是必需的
-            artifact_name: git-${{ matrix.distro }}_${{ matrix.arch }}
+          # env: |
+            # artifact_name: git-${{ matrix.distro }}_${{ matrix.arch }}
 
           # 在容器中运行命令的shell
           shell: /bin/sh
