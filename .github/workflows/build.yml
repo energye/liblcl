@@ -28,7 +28,7 @@ jobs:
 
       # Laz 环境
       - name: Lazarus Build Environment
-        uses: sxmxta/lazarus@v1.0.14
+        uses: sxmxta/lazarus@v1.0.15
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           with-cache: true
@@ -89,7 +89,7 @@ jobs:
 
       # Laz 环境
       - name: Lazarus Build Environment
-        uses: sxmxta/lazarus@v1.0.14
+        uses: sxmxta/lazarus@v1.0.15
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           with-cache: true
@@ -154,7 +154,7 @@ jobs:
 
       # Laz 环境
       - name: Lazarus Build Environment
-        uses: sxmxta/lazarus@v1.0.14
+        uses: sxmxta/lazarus@v1.0.15
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           with-cache: true
@@ -216,7 +216,7 @@ jobs:
 
       # Laz 环境
       - name: Lazarus Build Environment
-        uses: sxmxta/lazarus@v1.0.14
+        uses: sxmxta/lazarus@v1.0.15
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           with-cache: false
@@ -274,7 +274,7 @@ jobs:
 
       # Laz 环境
       - name: Lazarus Install Environment
-        uses: sxmxta/lazarus@v1.0.14
+        uses: sxmxta/lazarus@v1.0.15
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           with-cache: false
