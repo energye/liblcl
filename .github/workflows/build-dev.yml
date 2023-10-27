@@ -32,19 +32,7 @@ jobs:
         uses: sxmxta/lazarus@v1.0.15
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
-          with-cache: false
-
-      # 编译 liblcl :default
-      - name: Build Branch main for (liblcl.MacOSX64)
-        run: |
-          # git checkout origin/main
-          git branch
-          ./shell/add-package.sh
-          lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
-          zip -j liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
-          # 编译 liblcl support m1 m2
-          lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
-          zip -j liblclbinary/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+          with-cache: true
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOSX)
@@ -54,6 +42,7 @@ jobs:
           git branch
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          ls -al $HOME/golcl
           zip -j liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
 
       # 版本发布上传liblcl二进制
