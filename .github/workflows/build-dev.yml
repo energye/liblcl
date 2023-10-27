@@ -40,6 +40,7 @@ jobs:
           git clean -xdf
           git checkout origin/Flash-89.0.18
           git branch
+          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           ls -al $HOME/golcl
