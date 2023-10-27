@@ -863,7 +863,7 @@ end;
 
 procedure TLCLEvent.WindowComponent_OnGetParentWindow(const Sender: TObject; const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
 begin
-  SendEvent([Sender, window, @is_menu, @can_activate_menu, aResult]);
+  SendEvent([Sender, window, @is_menu, @can_activate_menu, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnGetInitialBounds(const Sender: TObject; const window: ICefWindow; var aResult : TCefRect);
