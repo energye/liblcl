@@ -38,6 +38,7 @@ jobs:
       - name: Build Branch main for (liblcl.MacOSX64)
         run: |
           # git checkout origin/main
+          git branch
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
@@ -50,6 +51,7 @@ jobs:
         run: |
           git clean -xdf
           git checkout origin/Flash-89.0.18
+          git branch
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
