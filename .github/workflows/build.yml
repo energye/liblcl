@@ -2,8 +2,9 @@ name: build
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches: [ "maina" ]
+#    tags:
+#      - 'v*.*.*'
 
 jobs:
   # windows 64
