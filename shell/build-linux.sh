@@ -64,7 +64,9 @@ fi
 # 检出要编译的分枝
 if [ "$branch" != "main" ]; then
   echo "Checkout branch $branch"
+  git clean -xdf
   git checkout "origin/$branch"
+  mkdir liblclbinary
 fi
 
 # 添加依赖包
