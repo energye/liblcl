@@ -62,8 +62,10 @@ if [ "$zipName" = "" ]; then
 fi
 
 # 检出要编译的分枝
-echo "Checkout branch $branch"
-git checkout "origin/$branch"
+if [ "$branch" != "main" ]; then
+  echo "Checkout branch $branch"
+  git checkout "origin/$branch"
+fi
 
 # 添加依赖包
 ./shell/add-package-container.sh $lazarusBaseDir
