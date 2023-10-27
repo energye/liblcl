@@ -31,7 +31,7 @@ jobs:
         uses: sxmxta/lazarus@v1.0.15
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
-          with-cache: true
+          with-cache: false
 
       # 编译 liblcl support windows7 64 :default
       - name: Build Branch main To (liblcl.Windows64)
@@ -92,7 +92,7 @@ jobs:
         uses: sxmxta/lazarus@v1.0.15
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
-          with-cache: true
+          with-cache: false
           os-arch: i386
 
       # 编译 liblcl support windows 32 :default
@@ -157,7 +157,7 @@ jobs:
         uses: sxmxta/lazarus@v1.0.15
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
-          with-cache: true
+          with-cache: false
 
       # 编译 liblcl support Gtk3 :default
       - name: Build Branch main for (liblcl.Linux64)
