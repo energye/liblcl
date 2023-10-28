@@ -65,7 +65,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: "..\\\\liblclbinary\\\\**"
+          files: ${{github.workspace}}/liblclbinary/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -130,7 +130,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: "..\\\\liblclbinary\\\\**"
+          files: ${{github.workspace}}/liblclbinary/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
