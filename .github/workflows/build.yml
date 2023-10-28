@@ -2,9 +2,9 @@ name: build
 
 on:
   push:
-    branches: [ "maina" ]
-#    tags:
-#      - 'v*.*.*'
+#    branches: [ "maina" ]
+    tags:
+      - 'v*.*.*'
 
 jobs:
   # windows 64
@@ -40,7 +40,7 @@ jobs:
           # git checkout origin/main
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
-          7z a .\liblclbinary\liblcl.Windows64.zip $HOME\golcl\liblcl.dll
+          7z a $RUNNER_WORKSPACE\liblclbinary\liblcl.Windows64.zip $HOME\golcl\liblcl.dll
 
       # 编译 liblcl support windows7 64
       - name: Build Branch 109.1.18 To (liblcl-109.Windows64)
@@ -49,7 +49,7 @@ jobs:
           git checkout origin/109.1.18
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
-          7z a .\liblclbinary\liblcl-109.Windows64.zip $HOME\golcl\liblcl.dll
+          7z a $RUNNER_WORKSPACE\liblclbinary\liblcl-109.Windows64.zip $HOME\golcl\liblcl.dll
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 To (liblcl-87.Windows64)
@@ -58,14 +58,14 @@ jobs:
           git checkout origin/Flash-89.0.18
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
-          7z a .\liblclbinary\liblcl-87.Windows64.zip $HOME\golcl\liblcl.dll
+          7z a $RUNNER_WORKSPACE\liblclbinary\liblcl-87.Windows64.zip $HOME\golcl\liblcl.dll
 
       # 版本发布上传liblcl二进制
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: "liblclbinary/**"
+          files: "../liblclbinary/**"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -105,7 +105,7 @@ jobs:
           # git checkout origin/main
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
-          7z a "liblclbinary/liblcl.Windows32.zip" "$HOME/golcl/liblcl.dll"
+          7z a "$RUNNER_WORKSPACE/liblclbinary/liblcl.Windows32.zip" "$HOME/golcl/liblcl.dll"
 
       # 编译 liblcl support windows7 32
       - name: Build Branch 109.1.18 for (liblcl-109.Windows32)
@@ -114,7 +114,7 @@ jobs:
           git checkout origin/109.1.18
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
-          7z a "liblclbinary/liblcl-109.Windows32.zip" "$HOME/golcl/liblcl.dll"
+          7z a "$RUNNER_WORKSPACE/liblclbinary/liblcl-109.Windows32.zip" "$HOME/golcl/liblcl.dll"
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.Windows32)
@@ -123,14 +123,14 @@ jobs:
           git checkout origin/Flash-89.0.18
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
-          7z a "liblclbinary/liblcl-87.Windows32.zip" "$HOME/golcl/liblcl.dll"
+          7z a "$RUNNER_WORKSPACE/liblclbinary/liblcl-87.Windows32.zip" "$HOME/golcl/liblcl.dll"
 
       # 版本发布上传liblcl二进制
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: "liblclbinary/**"
+          files: "../liblclbinary/**"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -152,7 +152,7 @@ jobs:
       # 同时构建所有 linux amd64
       - name: Config liblcl
         run: |
-          mkdir $RUNNER_WORKSPACE\liblclbinary
+          mkdir $RUNNER_WORKSPACE/liblclbinary
           git config --global --add safe.directory ./
           git fetch
           chmod +x ./shell/add-package.sh
@@ -172,34 +172,32 @@ jobs:
           # git checkout origin/main
           ./shell/add-package.sh
           lazbuild -B --bm=Linux64 --ws=gtk3 "src/liblcl.lpi"
-          zip -j liblclbinary/liblcl.Linux64.zip $HOME/golcl/liblcl.so
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.Linux64.zip $HOME/golcl/liblcl.so
 
       # 编译 liblcl support Gtk2
       - name: Build Branch GTK2-106.1.1 for (liblcl.Linux64GTK2)
         run: |
           git clean -xdf
           git checkout origin/GTK2-106.1.1
-          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm=Linux64 --ws=gtk2 "src/liblcl.lpi"
-          zip -j liblclbinary/liblcl.Linux64GTK2.zip $HOME/golcl/liblcl.so
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.Linux64GTK2.zip $HOME/golcl/liblcl.so
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.Linux64)
         run: |
           git clean -xdf
           git checkout origin/Flash-89.0.18
-          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm=Linux64 --ws=gtk2 "src/liblcl.lpi"
-          zip -j liblclbinary/liblcl-87.Linux64.zip $HOME/golcl/liblcl.so
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.Linux64.zip $HOME/golcl/liblcl.so
 
       # 版本发布上传liblcl二进制
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: "liblclbinary/**"
+          files: "../liblclbinary/**"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -220,6 +218,7 @@ jobs:
       # 创建构建后的liblcl二进制压缩包存放目录和设置git仓库
       - name: Config liblcl
         run: |
+          mkdir $RUNNER_WORKSPACE/liblclbinary
           git config --global --add safe.directory ./
           git fetch
           chmod +x ./shell/add-package.sh
@@ -236,30 +235,28 @@ jobs:
         run: |
           git clean -xdf
           # git checkout origin/main
-          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
-          zip -j liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
           # 编译 liblcl support m1 m2
           lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
-          zip -j liblclbinary/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOSX)
         run: |
           git clean -xdf
           git checkout origin/Flash-89.0.18
-          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
-          zip -j liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
 
       # 版本发布上传liblcl二进制
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: "liblclbinary/**"
+          files: "../liblclbinary/**"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -280,6 +277,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Config liblcl
+        run: |
+          mkdir $RUNNER_WORKSPACE/liblclbinary
 
       # Laz 环境
       - name: Lazarus Install Environment
@@ -357,7 +358,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: "liblclbinary/**"
+          files: "../liblclbinary/**"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
