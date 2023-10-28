@@ -2,9 +2,9 @@ name: build
 
 on:
   push:
-#    branches: [ "maina" ]
-    tags:
-      - 'v*.*.*'
+    branches: [ "maina" ]
+#    tags:
+#      - 'v*.*.*'
 
 jobs:
   # windows 64
@@ -22,6 +22,7 @@ jobs:
       # 创建构建后的liblcl二进制压缩包存放目录和设置git仓库
       - name: Config liblcl
         run: |
+          mkdir $RUNNER_WORKSPACE\liblclbinary
           git config --global --add safe.directory .\
           git fetch
 
@@ -37,7 +38,6 @@ jobs:
         run: |
           git clean -xdf
           # git checkout origin/main
-          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
           7z a .\liblclbinary\liblcl.Windows64.zip $HOME\golcl\liblcl.dll
@@ -47,7 +47,6 @@ jobs:
         run: |
           git clean -xdf
           git checkout origin/109.1.18
-          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
           7z a .\liblclbinary\liblcl-109.Windows64.zip $HOME\golcl\liblcl.dll
@@ -57,7 +56,6 @@ jobs:
         run: |
           git clean -xdf
           git checkout origin/Flash-89.0.18
-          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
           7z a .\liblclbinary\liblcl-87.Windows64.zip $HOME\golcl\liblcl.dll
@@ -88,6 +86,7 @@ jobs:
       # 创建构建后的liblcl二进制压缩包存放目录和设置git仓库
       - name: Config liblcl
         run: |
+          mkdir $RUNNER_WORKSPACE\liblclbinary
           git config --global --add safe.directory .\
           git fetch
 
@@ -104,7 +103,6 @@ jobs:
         run: |
           git clean -xdf
           # git checkout origin/main
-          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
           7z a "liblclbinary/liblcl.Windows32.zip" "$HOME/golcl/liblcl.dll"
@@ -114,7 +112,6 @@ jobs:
         run: |
           git clean -xdf
           git checkout origin/109.1.18
-          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
           7z a "liblclbinary/liblcl-109.Windows32.zip" "$HOME/golcl/liblcl.dll"
@@ -124,7 +121,6 @@ jobs:
         run: |
           git clean -xdf
           git checkout origin/Flash-89.0.18
-          mkdir liblclbinary
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
           7z a "liblclbinary/liblcl-87.Windows32.zip" "$HOME/golcl/liblcl.dll"
@@ -156,6 +152,7 @@ jobs:
       # 同时构建所有 linux amd64
       - name: Config liblcl
         run: |
+          mkdir $RUNNER_WORKSPACE\liblclbinary
           git config --global --add safe.directory ./
           git fetch
           chmod +x ./shell/add-package.sh
@@ -173,7 +170,6 @@ jobs:
         run: |
           git clean -xdf
           # git checkout origin/main
-          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm=Linux64 --ws=gtk3 "src/liblcl.lpi"
           zip -j liblclbinary/liblcl.Linux64.zip $HOME/golcl/liblcl.so

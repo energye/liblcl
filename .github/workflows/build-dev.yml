@@ -2,7 +2,7 @@ name: build
 
 on:
   push:
-    branches: [ "maina" ]
+    branches: [ "main" ]
 #    tags:
 #      - 'v*.*.*'
 
@@ -22,7 +22,7 @@ jobs:
       # 创建构建后的liblcl二进制压缩包存放目录和设置git仓库
       - name: Config liblcl
         run: |
-          mkdir liblclbinary
+          mkdir $RUNNER_WORKSPACE/liblclbinary
           git config --global --add safe.directory ./
           git fetch
           chmod +x ./shell/add-package.sh
@@ -39,13 +39,11 @@ jobs:
         run: |
           git clean -xdf
           git checkout origin/Flash-89.0.18
-          mkdir liblclbinary
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
-          ls -al $HOME/golcl
-          zip -j liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
 
       # 版本发布上传liblcl二进制
       - name: Release
         run : |
-          ls -al liblclbinary
+          ls -al $RUNNER_WORKSPACE/liblclbinary
