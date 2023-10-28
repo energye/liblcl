@@ -66,7 +66,6 @@ if [ "$branch" != "main" ]; then
   echo "Checkout branch $branch"
   git clean -xdf
   git checkout "origin/$branch"
-  mkdir liblclbinary
 fi
 
 # 添加依赖包
@@ -78,4 +77,4 @@ $lazarusBaseDir/lazbuild -B --bm=Linux64 --ws=$ws --lazarusdir=$lazarusBaseDir "
 
 # 压缩liblcl.so
 echo "Zip liblcl"
-zip -j liblclbinary/$zipName $HOME/golcl/liblcl.so
+zip -j /app/liblclbinary/$zipName $HOME/golcl/liblcl.so
