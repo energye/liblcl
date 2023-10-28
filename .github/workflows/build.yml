@@ -22,7 +22,7 @@ jobs:
       # 创建构建后的liblcl二进制压缩包存放目录和设置git仓库
       - name: Config liblcl
         run: |
-          mkdir $RUNNER_WORKSPACE\liblclbinary
+          mkdir D:\liblclbinary
           git config --global --add safe.directory .\
           git fetch
 
@@ -40,7 +40,7 @@ jobs:
           # git checkout origin/main
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
-          7z a $RUNNER_WORKSPACE\liblclbinary\liblcl.Windows64.zip $HOME\golcl\liblcl.dll
+          7z a D:\liblclbinary\liblcl.Windows64.zip $HOME\golcl\liblcl.dll
 
       # 编译 liblcl support windows7 64
       - name: Build Branch 109.1.18 To (liblcl-109.Windows64)
@@ -49,7 +49,7 @@ jobs:
           git checkout origin/109.1.18
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
-          7z a $RUNNER_WORKSPACE\liblclbinary\liblcl-109.Windows64.zip $HOME\golcl\liblcl.dll
+          7z a D:\liblclbinary\liblcl-109.Windows64.zip $HOME\golcl\liblcl.dll
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 To (liblcl-87.Windows64)
@@ -58,14 +58,14 @@ jobs:
           git checkout origin/Flash-89.0.18
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
-          7z a $RUNNER_WORKSPACE\liblclbinary\liblcl-87.Windows64.zip $HOME\golcl\liblcl.dll
+          7z a D:\liblclbinary\liblcl-87.Windows64.zip $HOME\golcl\liblcl.dll
 
       # 版本发布上传liblcl二进制
       - name: Release
         uses: softprops/action-gh-release@v0.1.15
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{github.workspace}}/liblclbinary/**
+          files: D:/liblclbinary/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -86,7 +86,7 @@ jobs:
       # 创建构建后的liblcl二进制压缩包存放目录和设置git仓库
       - name: Config liblcl
         run: |
-          mkdir $RUNNER_WORKSPACE\liblclbinary
+          mkdir D:\liblclbinary
           git config --global --add safe.directory .\
           git fetch
 
@@ -105,7 +105,7 @@ jobs:
           # git checkout origin/main
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
-          7z a "$RUNNER_WORKSPACE/liblclbinary/liblcl.Windows32.zip" "$HOME/golcl/liblcl.dll"
+          7z a "D:\liblclbinary\liblcl.Windows32.zip" "$HOME\golcl\liblcl.dll"
 
       # 编译 liblcl support windows7 32
       - name: Build Branch 109.1.18 for (liblcl-109.Windows32)
@@ -114,7 +114,7 @@ jobs:
           git checkout origin/109.1.18
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
-          7z a "$RUNNER_WORKSPACE/liblclbinary/liblcl-109.Windows32.zip" "$HOME/golcl/liblcl.dll"
+          7z a "D:\liblclbinary\liblcl-109.Windows32.zip" "$HOME\golcl\liblcl.dll"
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.Windows32)
@@ -123,14 +123,14 @@ jobs:
           git checkout origin/Flash-89.0.18
           .\shell\add-package.bat
           lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
-          7z a "$RUNNER_WORKSPACE/liblclbinary/liblcl-87.Windows32.zip" "$HOME/golcl/liblcl.dll"
+          7z a "D:\liblclbinary\liblcl-87.Windows32.zip" "$HOME\golcl\liblcl.dll"
 
       # 版本发布上传liblcl二进制
       - name: Release
         uses: softprops/action-gh-release@v0.1.15
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: ${{github.workspace}}/liblclbinary/**
+          files: D:/liblclbinary/**
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
