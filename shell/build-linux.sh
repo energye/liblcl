@@ -45,6 +45,8 @@ elif [ "$branch" = "Flash-89.0.18" ]; then
   ws=gtk2
   if [ "$arch" = "x64" ]; then
     zipName="liblcl-87.Linux64.zip"
+  elif [ "$arch" = "arm64" ]; then
+    zipName="liblcl-87.LinuxARM64.zip"
   fi
 else
   ws=gtk3
