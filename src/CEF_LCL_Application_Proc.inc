@@ -19,7 +19,7 @@ begin
   GlobalCEFApp.AddCustomCommandLine(CommandLine, Value);
 end;
 
-procedure SetMacOSXCommandLine(PCommandLine: PChar); extdecl;
+procedure SetCommandLine(Args: TStringList); extdecl;
 {$ifdef DARWIN}
 var
   i: integer;
@@ -29,18 +29,16 @@ begin
   //argc:longint;
   //argv:PPchar;
   //envp:PPchar;
-  MyPArgs := PCommandLine;
-  MyArgsStr := strpas(MyPArgs);
-  CmdLine := PCommandLine;
-  MacOSXCommandLine := string(MyArgsStr).Split('|,|');
-  MacOSXCommandCount := length(MacOSXCommandLine);
-  SetLength(MyArgv, MacOSXCommandCount);
-  for i:=0 to MacOSXCommandCount -1 do
+  SetLength(CommandLine, Args.Count);
+  SetLength(MyArgv, Args.Count);
+  for i := 0 to Args.Count - 1 do
   begin
-  myArgv[i] := PChar(MacOSXCommandLine[i]);
+    CommandLine[i] := Args.Strings[i];
+    MyArgv[i] := PChar(CommandLine[i]);
   end;
-  argc := MacOSXCommandCount;
-  argv := PPAnsiChar(@myArgv[0]);
+  argc := Args.Count;
+  argv := PPAnsiChar(@MyArgv[0]);
+  CmdLine := @MyArgv[0];
   {$endif}
 end;
 
@@ -1326,7 +1324,7 @@ exports
   SetApplicationQueueAsyncCallFunc,
   AddCustomCommandLine,
   CEF_AddCrDelegate,
-  SetMacOSXCommandLine,
+  SetCommandLine,
   CEFApplication_DoMessageLoopWork,
   CEFApplication_RunMessageLoop,
   CEFApplication_QuitMessageLoop,
