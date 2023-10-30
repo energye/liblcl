@@ -250,6 +250,9 @@ jobs:
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
+          # 编译 liblcl support m1 m2
+          lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSARM64.zip $HOME/golcl/liblcl.dylib
 
       # 版本发布上传liblcl二进制
       - name: Release
@@ -352,6 +355,8 @@ jobs:
             ./shell/build-linux.sh "main" "arm64"
             #-- 构建 liblcl support Gtk2
             ./shell/build-linux.sh "GTK2-106.1.1" "arm64"
+            #-- 构建 liblcl support Flash
+            ./shell/build-linux.sh "Flash-89.0.18" "arm64"
 
       # 版本发布上传liblcl二进制
       - name: Release
