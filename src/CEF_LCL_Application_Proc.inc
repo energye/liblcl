@@ -19,7 +19,7 @@ begin
   GlobalCEFApp.AddCustomCommandLine(CommandLine, Value);
 end;
 
-procedure SetMacOSXCommandLine(PCommandLine: PChar); extdecl;
+procedure SetCommandLine(Args: TStringList); extdecl;
 {$ifdef DARWIN}
 var
   i: integer;
@@ -29,18 +29,16 @@ begin
   //argc:longint;
   //argv:PPchar;
   //envp:PPchar;
-  MyPArgs := PCommandLine;
-  MyArgsStr := strpas(MyPArgs);
-  CmdLine := PCommandLine;
-  MacOSXCommandLine := string(MyArgsStr).Split('|,|');
-  MacOSXCommandCount := length(MacOSXCommandLine);
-  SetLength(MyArgv, MacOSXCommandCount);
-  for i:=0 to MacOSXCommandCount -1 do
+  SetLength(CommandLine, Args.Count);
+  SetLength(MyArgv, Args.Count);
+  for i := 0 to Args.Count - 1 do
   begin
-  myArgv[i] := PChar(MacOSXCommandLine[i]);
+    CommandLine[i] := Args.Strings[i];
+    MyArgv[i] := PChar(CommandLine[i]);
   end;
-  argc := MacOSXCommandCount;
-  argv := PPAnsiChar(@myArgv[0]);
+  argc := Args.Count;
+  argv := PPAnsiChar(@MyArgv[0]);
+  CmdLine := @MyArgv[0];
   {$endif}
 end;
 
@@ -1008,28 +1006,16 @@ begin
   GlobalCEFApp.NetLogFile := PCharToUStr(value);
 end;
 
-function CEFAppConfig_NetLogCaptureMode(): Integer; extdecl;
+function CEFAppConfig_NetLogCaptureMode(): TCefNetLogCaptureMode; extdecl;
 begin
-  // type = TCefNetLogCaptureMode
-  if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmDefault then
-  Result := 0
-  else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmIncludeSensitive then
-  Result := 1
-  else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmEverything then
-  Result := 2
-  else
-  Result := -1;
+    // type = TCefNetLogCaptureMode
+    Result := GlobalCEFApp.NetLogCaptureMode;
 end;
 
-procedure CEFAppConfig_SetNetLogCaptureMode(value: Integer); extdecl;
+procedure CEFAppConfig_SetNetLogCaptureMode(value: TCefNetLogCaptureMode); extdecl;
 begin
   // type = TCefNetLogCaptureMode
-  if value = 0 then
-  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmDefault
-  else if value = 1 then
-  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmIncludeSensitive
-  else if value = 2 then
-  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmEverything;
+  GlobalCEFApp.NetLogCaptureMode := value;
 end;
 
 function CEFAppConfig_EnableHighDPISupport(): LongBool; extdecl;
@@ -1354,7 +1340,7 @@ exports
   SetApplicationQueueAsyncCallFunc,
   AddCustomCommandLine,
   CEF_AddCrDelegate,
-  SetMacOSXCommandLine,
+  SetCommandLine,
   CEFApplication_DoMessageLoopWork,
   CEFApplication_RunMessageLoop,
   CEFApplication_QuitMessageLoop,
