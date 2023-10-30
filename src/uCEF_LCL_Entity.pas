@@ -286,9 +286,11 @@ function GoBrowserSettingsToCefBrowserSettings(const settings: PRCefBrowserSetti
 
 var
   {$ifdef DARWIN}
-  CommandLine: TStringArray;
-  CommandCount: integer;
+  MacOSXCommandLine: TStringArray;
+  MacOSXCommandCount: integer;
+  MyArgsStr: ustring;
   MyArgv: array of PChar;
+  MyPArgs: PChar;
   {$endif}
   //const config
   SingleProcess: boolean = False;

@@ -19,7 +19,7 @@ begin
   GlobalCEFApp.AddCustomCommandLine(CommandLine, Value);
 end;
 
-procedure SetCommandLine(Args: TStringList); extdecl;
+procedure SetMacOSXCommandLine(PCommandLine: PChar); extdecl;
 {$ifdef DARWIN}
 var
   i: integer;
@@ -29,16 +29,18 @@ begin
   //argc:longint;
   //argv:PPchar;
   //envp:PPchar;
-  SetLength(CommandLine, Args.Count);
-  SetLength(MyArgv, Args.Count);
-  for i := 0 to Args.Count - 1 do
+  MyPArgs := PCommandLine;
+  MyArgsStr := strpas(MyPArgs);
+  CmdLine := PCommandLine;
+  MacOSXCommandLine := string(MyArgsStr).Split('|,|');
+  MacOSXCommandCount := length(MacOSXCommandLine);
+  SetLength(MyArgv, MacOSXCommandCount);
+  for i:=0 to MacOSXCommandCount -1 do
   begin
-    CommandLine[i] := Args.Strings[i];
-    MyArgv[i] := PChar(CommandLine[i]);
+  myArgv[i] := PChar(MacOSXCommandLine[i]);
   end;
-  argc := Args.Count;
-  argv := PPAnsiChar(@MyArgv[0]);
-  CmdLine := @MyArgv[0];
+  argc := MacOSXCommandCount;
+  argv := PPAnsiChar(@myArgv[0]);
   {$endif}
 end;
 
@@ -81,6 +83,11 @@ begin
   GlobalCEFApp.InitLibLocationFromArgs;
   {$ENDIF}
   Result := GlobalCEFApp.StartSubProcess;
+end;
+
+procedure CEFApplication_DoMessageLoopWork(); extdecl;
+begin
+  GlobalCEFApp.DoMessageLoopWork;
 end;
 
 procedure CEFApplication_RunMessageLoop(); extdecl;
@@ -203,17 +210,15 @@ begin
   GlobalCEFApp.RootCache := PCharToUStr(value);
 end;
 
-// CEF 115 remove
-//function CEFAppConfig_UserDataPath(): PChar; extdecl;
-//begin
-//  Result := PChar(string(GlobalCEFApp.UserDataPath));
-//end;
+function CEFAppConfig_UserDataPath(): PChar; extdecl;
+begin
+  Result := PChar(string(GlobalCEFApp.UserDataPath));
+end;
 
-// CEF 115 remove
-//procedure CEFAppConfig_SetUserDataPath(value: PChar) ; extdecl;
-//begin
-//  GlobalCEFApp.UserDataPath := PCharToUStr(value);
-//end;
+procedure CEFAppConfig_SetUserDataPath(value: PChar) ; extdecl;
+begin
+  GlobalCEFApp.UserDataPath := PCharToUStr(value);
+end;
 
 function CEFAppConfig_PersistSessionCookies(): LongBool; extdecl;
 begin
@@ -283,14 +288,6 @@ end;
 procedure CEFAppConfig_SetLogSeverity(value: TCefLogSeverity) ; extdecl;
 begin
   GlobalCEFApp.LogSeverity := value;
-end;
-
-procedure CEFAppConfig_LogItems(IsSet: LongBool; var value: TCefLogItems) ; extdecl;
-begin
-  if IsSet then
-     GlobalCEFApp.LogItems := value
-  else
-     value := GlobalCEFApp.LogItems;
 end;
 
 function CEFAppConfig_JavaScriptFlags(): PChar; extdecl;
@@ -543,29 +540,25 @@ begin
   GlobalCEFApp.SmoothScrolling := value;
 end;
 
-//remove
-//function CEFAppConfig_FastUnload(): LongBool; extdecl;
-//begin
-//  Result := GlobalCEFApp.FastUnload;
-//end;
+function CEFAppConfig_FastUnload(): LongBool; extdecl;
+begin
+  Result := GlobalCEFApp.FastUnload;
+end;
 
-//remove
-//procedure CEFAppConfig_SetFastUnload(value: LongBool); extdecl;
-//begin
-//  GlobalCEFApp.FastUnload := value;
-//end;
+procedure CEFAppConfig_SetFastUnload(value: LongBool); extdecl;
+begin
+  GlobalCEFApp.FastUnload := value;
+end;
 
-//remove
-//function CEFAppConfig_DisableSafeBrowsing(): LongBool; extdecl;
-//begin
-//  Result := GlobalCEFApp.DisableSafeBrowsing;
-//end;
+function CEFAppConfig_DisableSafeBrowsing(): LongBool; extdecl;
+begin
+  Result := GlobalCEFApp.DisableSafeBrowsing;
+end;
 
-//remove
-//procedure CEFAppConfig_SetDisableSafeBrowsing(value: LongBool); extdecl;
-//begin
-//  GlobalCEFApp.DisableSafeBrowsing := value;
-//end;
+procedure CEFAppConfig_SetDisableSafeBrowsing(value: LongBool); extdecl;
+begin
+  GlobalCEFApp.DisableSafeBrowsing := value;
+end;
 
 function CEFAppConfig_MuteAudio(): LongBool; extdecl;
 begin
@@ -1015,53 +1008,44 @@ begin
   GlobalCEFApp.NetLogFile := PCharToUStr(value);
 end;
 
-function CEFAppConfig_NetLogCaptureMode(): TCefNetLogCaptureMode; extdecl;
+function CEFAppConfig_NetLogCaptureMode(): Integer; extdecl;
 begin
   // type = TCefNetLogCaptureMode
-  Result := GlobalCEFApp.NetLogCaptureMode;
-end;
-
-procedure CEFAppConfig_SetNetLogCaptureMode(value: TCefNetLogCaptureMode); extdecl;
-begin
-  // type = TCefNetLogCaptureMode
-  GlobalCEFApp.NetLogCaptureMode := value;
-end;
-
-function CEFAppConfig_RemoteAllowOrigins(IsSet: LongBool; value: PChar): PChar; extdecl;
-begin
-  Result := nil;
-  if IsSet then
-     GlobalCEFApp.RemoteAllowOrigins := PCharToUStr(value)
+  if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmDefault then
+  Result := 0
+  else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmIncludeSensitive then
+  Result := 1
+  else if GlobalCEFApp.NetLogCaptureMode = TCefNetLogCaptureMode.nlcmEverything then
+  Result := 2
   else
-     Result := PChar(string(GlobalCEFApp.RemoteAllowOrigins));
+  Result := -1;
 end;
 
-function CEFAppConfig_AutoAcceptCamAndMicCapture(IsSet: LongBool; value: LongBool): LongBool; extdecl;
+procedure CEFAppConfig_SetNetLogCaptureMode(value: Integer); extdecl;
+begin
+  // type = TCefNetLogCaptureMode
+  if value = 0 then
+  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmDefault
+  else if value = 1 then
+  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmIncludeSensitive
+  else if value = 2 then
+  GlobalCEFApp.NetLogCaptureMode := TCefNetLogCaptureMode.nlcmEverything;
+end;
+
+function CEFAppConfig_EnableHighDPISupport(): LongBool; extdecl;
 begin
   Result := False;
-  if IsSet then
-       GlobalCEFApp.AutoAcceptCamAndMicCapture := value
-    else
-       Result := GlobalCEFApp.AutoAcceptCamAndMicCapture;
+  {$IFDEF MSWINDOWS}
+  Result := GlobalCEFApp.EnableHighDPISupport;
+  {$ENDIF}
 end;
 
-function CEFAppConfig_UIColorMode(IsSet: LongBool; value: TCefUIColorMode): TCefUIColorMode; extdecl;
+procedure CEFAppConfig_SetEnableHighDPISupport(value: LongBool); extdecl;
 begin
-  Result := uicmSystemDefault;
-  if IsSet then
-       GlobalCEFApp.UIColorMode := value
-    else
-       Result := GlobalCEFApp.UIColorMode;
+  {$IFDEF MSWINDOWS}
+  GlobalCEFApp.EnableHighDPISupport := value;
+  {$ENDIF}
 end;
-
-//function CEFAppConfig_EnableHighDPISupport(): LongBool; extdecl;
-//begin
-//  Result := False;
-//end;
-
-//procedure CEFAppConfig_SetEnableHighDPISupport(value: LongBool); extdecl;
-//begin
-//end;
 
 function CEFAppConfig_DeleteCache(): LongBool; extdecl;
 begin
@@ -1358,6 +1342,7 @@ begin
   Result := PChar(string(GlobalCEFApp.LastErrorMessage));
 end;
 
+
 procedure CEFAppConfig_UpdateDeviceScaleFactor(); extdecl;
 begin
   GlobalCEFApp.UpdateDeviceScaleFactor();
@@ -1369,7 +1354,8 @@ exports
   SetApplicationQueueAsyncCallFunc,
   AddCustomCommandLine,
   CEF_AddCrDelegate,
-  SetCommandLine,
+  SetMacOSXCommandLine,
+  CEFApplication_DoMessageLoopWork,
   CEFApplication_RunMessageLoop,
   CEFApplication_QuitMessageLoop,
   CEFApplication_Create,
@@ -1399,8 +1385,8 @@ exports
   CEFAppConfig_SetCache,
   CEFAppConfig_RootCache,
   CEFAppConfig_SetRootCache,
-  //CEFAppConfig_UserDataPath,
-  //CEFAppConfig_SetUserDataPath,
+  CEFAppConfig_UserDataPath,
+  CEFAppConfig_SetUserDataPath,
   CEFAppConfig_PersistSessionCookies,
   CEFAppConfig_SetPersistSessionCookies,
   CEFAppConfig_PersistUserPreferences,
@@ -1415,7 +1401,6 @@ exports
   CEFAppConfig_SetLogFile,
   CEFAppConfig_LogSeverity,
   CEFAppConfig_SetLogSeverity,
-  CEFAppConfig_LogItems,
   CEFAppConfig_JavaScriptFlags,
   CEFAppConfig_SetJavaScriptFlags,
   CEFAppConfig_ResourcesDirPath,
@@ -1466,10 +1451,10 @@ exports
   CEFAppConfig_SetForceFieldTrialParams,
   CEFAppConfig_SmoothScrolling,
   CEFAppConfig_SetSmoothScrolling,
-  //CEFAppConfig_FastUnload,
-  //CEFAppConfig_SetFastUnload,
-  //CEFAppConfig_DisableSafeBrowsing,
-  //CEFAppConfig_SetDisableSafeBrowsing,
+  CEFAppConfig_FastUnload,
+  CEFAppConfig_SetFastUnload,
+  CEFAppConfig_DisableSafeBrowsing,
+  CEFAppConfig_SetDisableSafeBrowsing,
   CEFAppConfig_MuteAudio,
   CEFAppConfig_SetMuteAudio,
   CEFAppConfig_SitePerProcess,
@@ -1558,11 +1543,8 @@ exports
   CEFAppConfig_SetNetLogFile,
   CEFAppConfig_NetLogCaptureMode,
   CEFAppConfig_SetNetLogCaptureMode,
-  CEFAppConfig_RemoteAllowOrigins,
-  CEFAppConfig_AutoAcceptCamAndMicCapture,
-  CEFAppConfig_UIColorMode,
-  //CEFAppConfig_EnableHighDPISupport,
-  //CEFAppConfig_SetEnableHighDPISupport,
+  CEFAppConfig_EnableHighDPISupport,
+  CEFAppConfig_SetEnableHighDPISupport,
   CEFAppConfig_DeleteCache,
   CEFAppConfig_DeleteCookies,
   CEFAppConfig_CheckCEFFiles,
