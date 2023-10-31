@@ -53,8 +53,10 @@ end;
 
 procedure CefV8Context_Free(var data: ICefv8Context); extdecl;
 begin
+  handleExceptionBegin
   (data as TCefv8ContextRef).Free;
   data := nil;
+  handleExceptionEnd
 end;
 
 procedure CefV8Context_Global(const TObj: ICefv8Context; var Result: ICefv8Value); extdecl;

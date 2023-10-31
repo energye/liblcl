@@ -20,27 +20,37 @@ end;
 
 procedure BrowserViewDelegate_SetOnBrowserCreated(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
+  handleExceptionBegin
   (AObj as TBrowserViewDelegateRef).BrowserCreatedPtr := AEvent;
+  handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnBrowserDestroyed(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
+  handleExceptionBegin
   (AObj as TBrowserViewDelegateRef).BrowserDestroyedPtr := AEvent;
+  handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnGetDelegateForPopupBrowserView(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
+  handleExceptionBegin
   (AObj as TBrowserViewDelegateRef).GetDelegateForPopupBrowserViewPtr := AEvent;
+  handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnPopupBrowserViewCreated(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
+  handleExceptionBegin
   (AObj as TBrowserViewDelegateRef).PopupBrowserViewCreatedPtr := AEvent;
+  handleExceptionEnd
 end;
 
 function BrowserViewDelegate_GetChromeToolbarType(const AObj: ICefBrowserViewDelegate): Integer; extdecl;
 begin
+  handleExceptionBegin
   Result := (AObj as TBrowserViewDelegateRef).GetChromeToolbarType;
+  handleExceptionEnd
 end;
 
 

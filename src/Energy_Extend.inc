@@ -27,6 +27,7 @@ var
   Kind, Prop, Value: string;
   Ret: string;
 begin
+  handleExceptionBegin
   LTypeData := GetTypeData(Sender.ClassInfo);
   PropCount := LTypeData^.PropCount;
   GetPropList(Sender.ClassInfo, PropList);
@@ -59,6 +60,7 @@ begin
   end;
   FreeMem(PropList);
   Result := PChar(Ret);
+  handleExceptionEnd
 end;
 
 

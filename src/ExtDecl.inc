@@ -41,7 +41,7 @@
 *)
 // 事件方法定义
 {$DEFINE EventMethodCode :=
-    handleExceptionBegin
+  try
     if AEventData = nil then
     begin
       // 这里移除掉对象
@@ -53,8 +53,8 @@
       Exit;
     // 创建一个事件对象
     AObj.EventName := TLCLEvent.Create(AEventData).EventMethodName;
-    handleExceptionEnd
+  except
+     on E: Exception do
+       CallException(E);
+  end;
 }
-
-
-

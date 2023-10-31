@@ -361,7 +361,6 @@
         <CursorPos X="11" Y="50"/>
         <UsageCount Value="59"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
         <Filename Value="uEventCallback.pas"/>
@@ -557,10 +556,9 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="12"/>
-        <CursorPos X="24" Y="19"/>
+        <CursorPos X="10" Y="15"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit27>
       <Unit28>
         <Filename Value="MiniWebviewLinux.inc"/>
@@ -1141,7 +1139,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit104>
       <Unit105>
-        <Filename Value="..\..\..\..\..\..\..\..\Applications\Lazarus\lcl\interfaces\cocoa\cocoatextedits.pas"/>
+        <Filename Value="E:\Applications\Lazarus\lcl\interfaces\cocoa\cocoatextedits.pas"/>
         <UnitName Value="CocoaTextEdits"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="18"/>

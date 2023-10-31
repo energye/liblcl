@@ -195,13 +195,13 @@ begin
   {$ifdef DARWIN}
   if dataSize >0 then
   begin
-  try
-  SetLength(tmpData, dataSize);
-  Move(data[0], tmpData[0], dataSize);
-  icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
-  finally
-  SetLength(tmpData, 0);
-  end;
+      try
+          SetLength(tmpData, dataSize);
+          Move(data[0], tmpData[0], dataSize);
+          icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
+      finally
+          SetLength(tmpData, 0);
+      end;
   end;
   {$else}
   icon.AddPng(scaleFactor^, @data[0], length(data));
@@ -218,7 +218,7 @@ begin
   icon := AWindow.WindowIcon;
   if (icon <> nil) and not(icon.IsEmpty) then
   begin
-  Result := icon.Wrap;
+    Result := icon.Wrap;
   end;
   handleExceptionEnd
 end;

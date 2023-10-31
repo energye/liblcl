@@ -6,22 +6,30 @@
 
 procedure CEFDisplayRef_Primary(var Result: ICefDisplay) ; extdecl;
 begin
+  handleExceptionBegin
   Result := TCefDisplayRef.Primary();
+  handleExceptionEnd
 end;
 
 procedure CEFDisplayRef_NearestPoint(const point: TCefPoint; input_pixel_coords: LongBool; var Result: ICefDisplay); extdecl;
 begin
+  handleExceptionBegin
   Result := TCefDisplayRef.NearestPoint(point, input_pixel_coords);
+  handleExceptionEnd
 end;
 
 procedure CEFDisplayRef_MatchingBounds(const bounds: TCefRect; input_pixel_coords: LongBool; var Result: ICefDisplay); extdecl;
 begin
+  handleExceptionBegin
   Result := TCefDisplayRef.MatchingBounds(bounds, input_pixel_coords);
+  handleExceptionEnd
 end;
 
 function CEFDisplayRef_GetCount(): NativeUInt; extdecl;
 begin
+  handleExceptionBegin
   Result := TCefDisplayRef.GetCount();
+  handleExceptionEnd
 end;
 
 //function CEFDisplayRef_GetAlls(var DisplayArray : TCefDisplayArray): LongBool; extdecl;
@@ -41,6 +49,7 @@ var
   TempSize: integer;
   aDisplayArray : TCefDisplayArray;
 begin
+  handleExceptionBegin
   Result := False;
   displaysCount := TCefDisplayRef.GetCount;
   if (displaysCount > 0) then
@@ -61,6 +70,7 @@ begin
     finally
       FreeMem(displays);
     end;
+  handleExceptionEnd
 end;
 
 procedure CEFDisplayRef_Get(const aDisplayArray : TCefDisplayArray; index: NativeUInt; var Result: ICefDisplay); extdecl;
@@ -68,56 +78,76 @@ var
   len: Integer;
 begin
   Result := nil;
+  handleExceptionBegin
   len := Length(aDisplayArray);
   if (index < len) then
   begin
     Result := aDisplayArray[index];
   end;
+  handleExceptionEnd
 end;
 
 procedure CEFDisplayRef_ScreenPointToPixels(const aScreenPoint : TPoint; var Result: TPoint); extdecl;
 begin
+  handleExceptionBegin
   Result := TCefDisplayRef.ScreenPointToPixels(aScreenPoint);
+  handleExceptionEnd
 end;
 
 procedure CEFDisplayRef_ScreenPointFromPixels(const aPixelsPoint : TPoint; var Result: TPoint); extdecl;
 begin
+  handleExceptionBegin
   Result := TCefDisplayRef.ScreenPointFromPixels(aPixelsPoint);
+  handleExceptionEnd
 end;
 
 procedure CEFDisplayRef_ScreenRectToPixels(const aScreenRect : TRect; var Result: TRect); extdecl;
 begin
+  handleExceptionBegin
   Result := TCefDisplayRef.ScreenRectToPixels(aScreenRect);
+  handleExceptionEnd
 end;
 
 procedure CEFDisplayRef_ScreenRectFromPixels(const aPixelsRect : TRect; var Result: TRect); extdecl;
 begin
+  handleExceptionBegin
   Result := TCefDisplayRef.ScreenRectFromPixels(aPixelsRect);
+  handleExceptionEnd
 end;
 
 procedure CEFDisplay_ID(const ADisplay: ICefDisplay; var Result: int64) ; extdecl;
 begin
+  handleExceptionBegin
   Result := ADisplay.ID;
+  handleExceptionEnd
 end;
 
 procedure CEFDisplay_DeviceScaleFactor(const ADisplay: ICefDisplay; var Result: Single) ; extdecl;
 begin
+  handleExceptionBegin
   Result := ADisplay.DeviceScaleFactor;
+  handleExceptionEnd
 end;
 
 function CEFDisplay_Rotation(const ADisplay: ICefDisplay): Integer ; extdecl;
 begin
+  handleExceptionBegin
   Result := ADisplay.Rotation;
+  handleExceptionEnd
 end;
 
 procedure CEFDisplay_Bounds(const ADisplay: ICefDisplay; var Result: TCefRect); extdecl;
 begin
+  handleExceptionBegin
   Result := ADisplay.Bounds;
+  handleExceptionEnd
 end;
 
 procedure CEFDisplay_WorkArea(const ADisplay: ICefDisplay; var Result: TCefRect); extdecl;
 begin
+  handleExceptionBegin
   Result := ADisplay.WorkArea;
+  handleExceptionEnd
 end;
 
 

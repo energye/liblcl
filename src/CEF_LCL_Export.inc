@@ -10,6 +10,14 @@
 // cef
 {$I cef.inc}
 
+{$define handleExceptionBegin :=try}
+{$define handleExceptionEnd :=
+   except
+     on E: Exception do
+       CallException(E);
+   end;
+}
+
 {$I CEF_LCL_AccessibilityHandler.inc}
 {$I CEF_LCL_Application_Event.inc}
 {$I CEF_LCL_Application_Proc.inc}

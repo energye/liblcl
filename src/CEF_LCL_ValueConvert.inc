@@ -37,15 +37,15 @@ begin
   ValueArray := TValueConvert.BytesToV8ValueArray(Data, dataSize);
   if ValueArray = nil then
   begin
-  Result := nil;
-  ResultLength := 0;
+      Result := nil;
+      ResultLength := 0;
   end
   else
   begin
-  Result := ValueArray;
-  ResultLength := Length(ValueArray);
+      Result := ValueArray;
+      ResultLength := Length(ValueArray);
   end;
-handleExceptionEnd
+  handleExceptionEnd
 end;
 
 // JSONArray TBytes 转换 ICefv8Value

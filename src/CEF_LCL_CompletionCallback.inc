@@ -13,7 +13,9 @@ end;
 
 procedure CefCompletionCallback_OnComplete(const AObj: ICefCompletionCallback; AEventData: Pointer); extdecl;
 begin
+  handleExceptionBegin
   (AObj as TCompletionCallbackRef).CompletionCallbackPtr := AEventData;
+  handleExceptionEnd
 end;
 
 exports

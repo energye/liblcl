@@ -20,12 +20,16 @@ end;
 
 procedure  TextfieldDelegate_SetOnKeyEvent(const AObj: ICefTextfieldDelegate; AEventData: Pointer); extdecl;
 begin
+  handleExceptionBegin
   (AObj as TTextfieldDelegateRef).KeyEventPtr := AEventData;
+  handleExceptionEnd
 end;
 
 procedure  TextfieldDelegate_SetOnAfterUserAction(const AObj: ICefTextfieldDelegate; AEventData: Pointer); extdecl;
 begin
+  handleExceptionBegin
   (AObj as TTextfieldDelegateRef).AfterUserActionPtr := AEventData;
+  handleExceptionEnd
 end;
 
 exports

@@ -7,14 +7,18 @@
 procedure Interface_CustomWidgetSetInitialization(); extdecl;
 begin
   {$IFDEF Linux}
+  handleExceptionBegin
   CustomWidgetSetInitialization();
+  handleExceptionEnd
   {$ENDIF}
 end;
 
 procedure Interface_CustomWidgetSetFinalization(); extdecl;
 begin
   {$IFDEF Linux}
+  handleExceptionBegin
   CustomWidgetSetFinalization();
+  handleExceptionEnd
   {$ENDIF}
 end;
 
