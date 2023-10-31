@@ -6,7 +6,9 @@
 
 function CEF_Win_CreateRectRgn(X1, Y1, X2, Y2 : Integer): HRGN; extdecl;
 begin
+  handleExceptionBegin
   Result := CreateRectRgn(X1, Y1, X2, Y2);
+  handleExceptionEnd
 end;
 
 function CEF_Win_SetRectRgn(aRGN: HRGN; X1, Y1, X2, Y2 : Integer): Longbool; extdecl;

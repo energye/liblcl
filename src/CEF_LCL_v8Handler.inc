@@ -13,12 +13,16 @@ end;
 
 procedure CefV8Handler_Execute(const AObj: ICefv8Handler; AEventData: Pointer); extdecl;
 begin
+  handleExceptionBegin
   (AObj as TV8HandlerRef).ExecutePtr := AEventData;
+  handleExceptionEnd
 end;
 
 procedure CefV8Handler_Destroy(const AObj: ICefv8Handler); extdecl;
 begin
+  handleExceptionBegin
   (AObj as TV8HandlerRef).Destroy();
+  handleExceptionEnd
 end;
 
 exports
