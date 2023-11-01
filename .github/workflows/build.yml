@@ -391,15 +391,21 @@ jobs:
           ls -l ~/.ssh/id_rsa
           echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
+      - name: Copy Shell
+        run: |
+          cp ./shell/generate-download.sh $RUNNER_WORKSPACE
+          cp ./shell/generate-bin.sh $RUNNER_WORKSPACE
+          cp ./shell/upload-liblcl.sh $RUNNER_WORKSPACE
+          cd $RUNNER_WORKSPACE
+          chmod +x ./generate-download.sh
+          chmod +x ./generate-bin.sh
+          chmod +x ./upload-liblcl.sh
+
       - name: Compress and generate binaries
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cp ./shell/generate-download.sh $RUNNER_WORKSPACE
-          cp ./shell/generate-bin.sh $RUNNER_WORKSPACE
           cd $RUNNER_WORKSPACE
-          chmod +x ./generate-download.sh
-          chmod +x ./generate-bin.sh
           ./generate-bin.sh $RELEASE_VERSION $GITHUB_TOKEN
 
       - name: Upload liblcl to Energy Server
@@ -407,15 +413,5 @@ jobs:
           AUTH_TOKEN: ${{ secrets.UPLOAD_LIBLCL_AUTH_TOKEN }}
           UPLOAD_URL: ${{ secrets.UPLOAD_LIBLCL_URL }}
         run: |
-          # 切回主分枝
-          cd $RUNNER_WORKSPACE/liblcl
-          git clean -xdf
-          git checkout origin/main
-          
-          cp ./shell/generate-download.sh $RUNNER_WORKSPACE
-          cp ./shell/generate-bin.sh $RUNNER_WORKSPACE
           cd $RUNNER_WORKSPACE
-          chmod +x ./generate-download.sh
-          chmod +x ./generate-bin.sh
-          
           ./upload-liblcl.sh $RELEASE_VERSION $AUTH_TOKEN $UPLOAD_URL
