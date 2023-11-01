@@ -78,10 +78,16 @@ begin
   handleExceptionEnd
 end;
 
+function Ext_Assigned(Ptr: Pointer): LongBool; extdecl;
+begin
+  Result := Assigned(Ptr);
+end;
+
 exports
   Ext_Panel_GetBevelColor,
   Ext_Panel_SetBevelColor,
   Ext_ReadStringProperty,
   Ext_Form_Activate,
-  Ext_Form_Deactivate
+  Ext_Form_Deactivate,
+  Ext_Assigned
 ;
