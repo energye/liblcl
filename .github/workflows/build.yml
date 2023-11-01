@@ -404,8 +404,8 @@ jobs:
 
       - name: Upload liblcl to Energy Server
         env:
-          AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
-          UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
+          AUTH_TOKEN: ${{ secrets.UPLOAD_LIBLCL_AUTH_TOKEN }}
+          UPLOAD_URL: ${{ secrets.UPLOAD_LIBLCL_URL }}
         run: |
           # 切回主分枝
           cd $RUNNER_WORKSPACE/liblcl
