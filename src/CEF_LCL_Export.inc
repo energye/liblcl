@@ -10,6 +10,7 @@
 // cef
 {$I cef.inc}
 
+{$IFnDEF LINUX}
 {$define handleExceptionBegin :=try}
 {$define handleExceptionEnd :=
    except
@@ -17,6 +18,7 @@
        CallException(E);
    end;
 }
+{$ENDIF}
 
 {$I CEF_LCL_AccessibilityHandler.inc}
 {$I CEF_LCL_Application_Event.inc}
