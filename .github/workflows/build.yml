@@ -2,9 +2,9 @@ name: build
 
 on:
   push:
-    branches: [ "maina" ]
-#    tags:
-#      - 'v*.*.*'
+#    branches: [ "maina" ]
+    tags:
+      - 'v*.*.*'
 
 jobs:
   # windows 64
@@ -405,8 +405,17 @@ jobs:
       - name: Upload liblcl to Energy Server
         env:
           AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          UPLOAD_URL: ${{ secrets.UPLOAD_URL }}
         run: |
           # 切回主分枝
+          cd $RUNNER_WORKSPACE/liblcl
           git clean -xdf
-          git checkout main
-          # ./upload-liblcl.sh $RELEASE_VERSION $AUTH_TOKEN
+          git checkout origin/main
+          
+          cp ./shell/generate-download.sh $RUNNER_WORKSPACE
+          cp ./shell/generate-bin.sh $RUNNER_WORKSPACE
+          cd $RUNNER_WORKSPACE
+          chmod +x ./generate-download.sh
+          chmod +x ./generate-bin.sh
+          
+          ./upload-liblcl.sh $RELEASE_VERSION $AUTH_TOKEN $UPLOAD_URL
