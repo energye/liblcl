@@ -437,13 +437,13 @@ jobs:
           cd $HOME/golcl
           ./generate-md5.sh $RELEASE_VERSION
           # 将生成的md5.txt复制到/app目录下,方便后面使用
-          mkdir /app/
-          cp $HOME/golcl/md5.txt /app/
+          sudo mkdir /app/
+          sudo cp $HOME/golcl/md5.txt /app/
           # 上传至服务器, 服务器有校验
           echo "Upload md5.txt"
           curl -F "liblcl=@/app/md5.txt" -F "token=${AUTH_TOKEN}"  -F "version=${RELEASE_VERSION}" $UPLOAD_URL
 
-      # 传MD5到当前发布版本标签中，文件和内容
+      # 传md5.txt到当前发布版本标签中，文件和内容
       - name: Release
         uses: softprops/action-gh-release@v0.1.15
         if: startsWith(github.ref, 'refs/tags/')
