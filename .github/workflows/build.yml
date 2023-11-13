@@ -396,11 +396,14 @@ jobs:
           cp ./shell/generate-download.sh $RUNNER_WORKSPACE
           cp ./shell/generate-bin.sh $RUNNER_WORKSPACE
           cp ./shell/upload-liblcl.sh $RUNNER_WORKSPACE
+          cp ./shell/generate-md5.sh $RUNNER_WORKSPACE
           cd $RUNNER_WORKSPACE
           chmod +x ./generate-download.sh
           chmod +x ./generate-bin.sh
           chmod +x ./upload-liblcl.sh
+          chmod +x ./generate-md5.sh
 
+      # 编译生成到liblclbinres.go二进制
       - name: Compress and generate binaries
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -408,6 +411,7 @@ jobs:
           cd $RUNNER_WORKSPACE
           ./generate-bin.sh $RELEASE_VERSION $GITHUB_TOKEN
 
+      # 上传liblcl压缩包到服务器
       - name: Upload liblcl to Energy Server
         env:
           AUTH_TOKEN: ${{ secrets.UPLOAD_LIBLCL_AUTH_TOKEN }}
@@ -415,3 +419,22 @@ jobs:
         run: |
           cd $RUNNER_WORKSPACE
           ./upload-liblcl.sh $RELEASE_VERSION $AUTH_TOKEN $UPLOAD_URL
+
+      # 生成MD5
+      - name: Generate MD5 value
+        run: |
+          cp $RUNNER_WORKSPACE/generate-md5.sh $HOME/golcl
+          cd $HOME/golcl
+          ./generate-md5.sh
+          mkdir /app/
+          cp $HOME/golcl/md5.txt /app/
+
+      # 传MD5到当前发布版本
+      - name: Release
+        uses: softprops/action-gh-release@v0.1.15
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          body_path: "/app/md5.txt"
+          files: "/app/md5.txt"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
