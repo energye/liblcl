@@ -431,9 +431,12 @@ jobs:
           AUTH_TOKEN: ${{ secrets.UPLOAD_LIBLCL_AUTH_TOKEN }}
           UPLOAD_URL: ${{ secrets.UPLOAD_LIBLCL_URL }}
         run: |
+          cp $RUNNER_WORKSPACE/generate-download.sh $HOME/golcl
           cp $RUNNER_WORKSPACE/generate-md5.sh $HOME/golcl
+          
           cd $HOME/golcl
-          ./generate-md5.sh
+          ./generate-md5.sh $RELEASE_VERSION
+          # 将生成的md5.txt复制到/app目录下,方便后面使用
           mkdir /app/
           cp $HOME/golcl/md5.txt /app/
           # 上传至服务器, 服务器有校验
