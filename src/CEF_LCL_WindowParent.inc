@@ -100,6 +100,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFWindow_Repaint(const AObj: TCEFWindowParent); extdecl;
+begin
+  handleExceptionBegin
+  AObj.Repaint;
+  handleExceptionEnd
+end;
+
 //CEFWindow_Free
 procedure CEFWindow_Free(const AObj: TCEFWindowParent); extdecl;
 begin
@@ -269,6 +276,7 @@ exports
   CEFWindow_SetAnchors,
   CEFWindow_GetHandle,
   CEFWindow_UpdateSize,
+  CEFWindow_Repaint,
   CEFWindow_Free,
   CEFWindow_GetVisible,
   CEFWindow_SetVisible,
