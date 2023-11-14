@@ -108,6 +108,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFLinkedWindow_Repaint(const AObj: TCEFLinkedWindowParent); extdecl;
+begin
+  handleExceptionBegin
+  AObj.Repaint;
+  handleExceptionEnd
+end;
+
 //CEFLinkedWindow_Free
 procedure CEFLinkedWindow_Free(const AObj: TCEFLinkedWindowParent); extdecl;
 begin
@@ -277,6 +284,7 @@ exports
   CEFLinkedWindow_SetAnchors,
   CEFLinkedWindow_GetHandle,
   CEFLinkedWindow_UpdateSize,
+  CEFLinkedWindow_Repaint,
   CEFLinkedWindow_Free,
   CEFLinkedWindow_GetVisible,
   CEFLinkedWindow_SetVisible,
