@@ -845,15 +845,32 @@ type
     /// </summary>
     function  GetRequestContext: ICefRequestContext;
     /// <summary>
-    /// Get the current zoom level. The default zoom level is 0.0. This function
-    /// can only be called on the UI thread.
+    /// Returns true (1) if this browser can execute the specified zoom command.
+    /// This function can only be called on the UI thread.
+    /// </summary>
+    function  CanZoom(command: TCefZoomCommand): boolean;
+    /// <summary>
+    /// Execute a zoom command in this browser. If called on the UI thread the
+    /// change will be applied immediately. Otherwise, the change will be applied
+    /// asynchronously on the UI thread.
+    /// </summary>
+    procedure Zoom(command: TCefZoomCommand);
+    /// <summary>
+    /// Get the default zoom level. This value will be 0.0 by default but can be
+    /// configured with the Chrome runtime. This function can only be called on
+    /// the UI thread.
+    /// </summary>
+    function GetDefaultZoomLevel: Double;
+    /// <summary>
+    /// Get the current zoom level. This function can only be called on the UI
+    /// thread.
     /// </summary>
     function  GetZoomLevel: Double;
     /// <summary>
     /// Change the zoom level to the specified value. Specify 0.0 to reset the
-    /// zoom level. If called on the UI thread the change will be applied
-    /// immediately. Otherwise, the change will be applied asynchronously on the
-    /// UI thread.
+    /// zoom level to the default. If called on the UI thread the change will be
+    /// applied immediately. Otherwise, the change will be applied asynchronously
+    /// on the UI thread.
     /// </summary>
     procedure SetZoomLevel(const zoomLevel: Double);
     /// <summary>
@@ -1280,6 +1297,26 @@ type
     /// be called on the UI thread.
     /// </summary>
     function  IsAudioMuted : boolean;
+    /// <summary>
+    /// Returns true (1) if the renderer is currently in browser fullscreen. This
+    /// differs from window fullscreen in that browser fullscreen is entered using
+    /// the JavaScript Fullscreen API and modifies CSS attributes such as the
+    /// ::backdrop pseudo-element and :fullscreen pseudo-structure. This function
+    /// can only be called on the UI thread.
+    /// </summary>
+    function IsFullscreen : boolean;
+    /// <summary>
+    /// Requests the renderer to exit browser fullscreen. In most cases exiting
+    /// window fullscreen should also exit browser fullscreen. With the Alloy
+    /// runtime this function should be called in response to a user action such
+    /// as clicking the green traffic light button on MacOS
+    /// (ICefWindowDelegate.OnWindowFullscreenTransition callback) or pressing
+    /// the "ESC" key (ICefKeyboardHandler.OnPreKeyEvent callback). With the
+    /// Chrome runtime these standard exit actions are handled internally but
+    /// new/additional user actions can use this function. Set |will_cause_resize|
+    /// to true (1) if exiting browser fullscreen will cause a view resize.
+    /// </summary>
+    procedure ExitFullscreen(will_cause_resize: boolean);
 
     /// <summary>
     /// Returns the hosted browser object.
@@ -1304,6 +1341,12 @@ type
     /// can only be called on the UI thread.
     /// </summary>
     property ZoomLevel                  : Double                   read GetZoomLevel                 write SetZoomLevel;
+    /// <summary>
+    /// Get the default zoom level. This value will be 0.0 by default but can be
+    /// configured with the Chrome runtime. This function can only be called on
+    /// the UI thread.
+    /// </summary>
+    property DefaultZoomLevel           : Double                   read GetDefaultZoomLevel;
     /// <summary>
     /// Returns the request context for this browser.
     /// </summary>
@@ -4948,6 +4991,14 @@ type
   /// </remarks>
   ICefSchemeHandlerFactory = interface(ICefBaseRefCounted)
     ['{4D9B7960-B73B-4EBD-9ABE-6C1C43C245EB}']
+    /// <summary>
+    /// Return a new resource handler instance to handle the request or an NULL
+    /// reference to allow default handling of the request. |browser| and |frame|
+    /// will be the browser window and frame respectively that originated the
+    /// request or NULL if the request did not originate from a browser window
+    /// (for example, if the request came from ICefUrlRequest). The |request|
+    /// object passed to this function cannot be modified.
+    /// </summary>
     function New(const browser: ICefBrowser; const frame: ICefFrame; const schemeName: ustring; const request: ICefRequest): ICefResourceHandler;
   end;
 
@@ -6770,9 +6821,9 @@ type
     /// the browser content area. If |fullscreen| is false (0) the content will
     /// automatically return to its original size and position. With the Alloy
     /// runtime the client is responsible for triggering the fullscreen transition
-    /// (for example, by calling cef_window_t::SetFullscreen when using Views).
+    /// (for example, by calling ICefWindow.SetFullscreen when using Views).
     /// With the Chrome runtime the fullscreen transition will be triggered
-    /// automatically. The cef_window_delegate_t::OnWindowFullscreenTransition
+    /// automatically. The ICefWindowDelegate.OnWindowFullscreenTransition
     /// function will be called during the fullscreen transition for notification
     /// purposes.
     /// </summary>
@@ -7641,6 +7692,11 @@ type
     /// window.
     /// </summary>
     function  GetFileNames(var names: TStrings): Integer;
+    /// <summary>
+    /// Retrieve the list of file paths that are being dragged into the browser
+    /// window.
+    /// </summary>
+    function  GetFilePaths(var paths: TStrings): Integer;
     /// <summary>
     /// Set the link URL that is being dragged.
     /// </summary>
