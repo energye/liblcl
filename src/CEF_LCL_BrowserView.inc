@@ -37,7 +37,6 @@ begin
   settings.databases := TCefState(PBorwserSettings^.databases) ;
   settings.webgl := TCefState(PBorwserSettings^.webgl) ;
   settings.background_color := TCefColor(PBorwserSettings^.background_color) ;
-  settings.accept_language_list := CefString(PCharToUStr(PBorwserSettings^.accept_language_list)) ;
   settings.chrome_status_bubble := TCefState(PBorwserSettings^.chrome_status_bubble) ;
 
   Result := TCefBrowserViewRef.CreateBrowserView(client, PCharToUStr(url), settings, extra_info, request_context, delegate);

@@ -190,6 +190,16 @@ begin
   handleExceptionEnd
 end;
 
+function  CefDragData_GetFilePaths(const AObj: ICefDragData; var ResultPaths: TStrings): Integer; extdecl;
+var
+  paths: TStrings;
+begin
+  handleExceptionBegin
+  Result := AObj.GetFilePaths(paths);
+  ResultPaths := paths;
+  handleExceptionEnd
+end;
+
 exports
   CefDragData_Clone,
   CefDragData_IsReadOnly,
@@ -216,4 +226,5 @@ exports
   CefDragData_ClearFilenames,
   CefDragData_GetImage,
   CefDragData_GetImageHotspot,
-  CefDragData_HasImage;
+  CefDragData_HasImage,
+  CefDragData_GetFilePaths;

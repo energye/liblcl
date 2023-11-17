@@ -485,7 +485,6 @@ begin
   browserSettings^.databases := @(integer(settings.databases));
   browserSettings^.webgl := @(integer(settings.webgl));
   browserSettings^.background_color := @(cardinal(settings.background_color));
-  browserSettings^.accept_language_list := PChar(string(CefString(@settings.accept_language_list)));
   browserSettings^.chrome_status_bubble := @(integer(settings.chrome_status_bubble));
   Result := browserSettings;
 end;
@@ -522,7 +521,6 @@ begin
     browserSettings.databases := TCefState(settings^.databases^);
     browserSettings.webgl := TCefState(settings^.webgl^);
     browserSettings.background_color := TCefColor(settings^.background_color^);
-    browserSettings.accept_language_list := CefString(PCharToUStr(settings^.accept_language_list));
     browserSettings.chrome_status_bubble := TCefState(settings^.chrome_status_bubble^);
   end;
   Result := browserSettings;

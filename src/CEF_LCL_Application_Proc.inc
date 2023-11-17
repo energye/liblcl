@@ -285,12 +285,13 @@ begin
   GlobalCEFApp.LogSeverity := value;
 end;
 
-procedure CEFAppConfig_LogItems(IsSet: LongBool; var value: TCefLogItems) ; extdecl;
+function CEFAppConfig_LogItems(IsSet: LongBool; newValue: TCefLogItems): TCefLogItems ; extdecl;
 begin
+  Result :=0;
   if IsSet then
-     GlobalCEFApp.LogItems := value
+     GlobalCEFApp.LogItems := newValue
   else
-     value := GlobalCEFApp.LogItems;
+     Result := GlobalCEFApp.LogItems;
 end;
 
 function CEFAppConfig_JavaScriptFlags(): PChar; extdecl;
@@ -401,6 +402,15 @@ end;
 procedure CEFAppConfig_SetCookieableSchemesExcludeDefaults(value: LongBool) ; extdecl;
 begin
   GlobalCEFApp.CookieableSchemesExcludeDefaults := value;
+end;
+
+function CEFAppConfig_ChromePolicyId(IsSet: LongBool; newValue: PChar): PChar; extdecl;
+begin
+  Result := PChar('');
+  if IsSet then
+    GlobalCEFApp.ChromePolicyId := PCharToUStr(newValue)
+  else
+    Result := PChar(string(GlobalCEFApp.ChromePolicyId));
 end;
 
 function CEFAppConfig_SingleProcess(): LongBool; extdecl;
@@ -1027,29 +1037,29 @@ begin
   GlobalCEFApp.NetLogCaptureMode := value;
 end;
 
-function CEFAppConfig_RemoteAllowOrigins(IsSet: LongBool; value: PChar): PChar; extdecl;
+function CEFAppConfig_RemoteAllowOrigins(IsSet: LongBool; newValue: PChar): PChar; extdecl;
 begin
   Result := nil;
   if IsSet then
-     GlobalCEFApp.RemoteAllowOrigins := PCharToUStr(value)
+     GlobalCEFApp.RemoteAllowOrigins := PCharToUStr(newValue)
   else
      Result := PChar(string(GlobalCEFApp.RemoteAllowOrigins));
 end;
 
-function CEFAppConfig_AutoAcceptCamAndMicCapture(IsSet: LongBool; value: LongBool): LongBool; extdecl;
+function CEFAppConfig_AutoAcceptCamAndMicCapture(IsSet: LongBool; newValue: LongBool): LongBool; extdecl;
 begin
   Result := False;
   if IsSet then
-       GlobalCEFApp.AutoAcceptCamAndMicCapture := value
+       GlobalCEFApp.AutoAcceptCamAndMicCapture := newValue
     else
        Result := GlobalCEFApp.AutoAcceptCamAndMicCapture;
 end;
 
-function CEFAppConfig_UIColorMode(IsSet: LongBool; value: TCefUIColorMode): TCefUIColorMode; extdecl;
+function CEFAppConfig_UIColorMode(IsSet: LongBool; newValue: TCefUIColorMode): TCefUIColorMode; extdecl;
 begin
   Result := uicmSystemDefault;
   if IsSet then
-       GlobalCEFApp.UIColorMode := value
+       GlobalCEFApp.UIColorMode := newValue
     else
        Result := GlobalCEFApp.UIColorMode;
 end;
@@ -1438,6 +1448,7 @@ exports
   CEFAppConfig_SetCookieableSchemesList,
   CEFAppConfig_CookieableSchemesExcludeDefaults,
   CEFAppConfig_SetCookieableSchemesExcludeDefaults,
+  CEFAppConfig_ChromePolicyId,
   CEFAppConfig_SingleProcess,
   CEFAppConfig_SetSingleProcess,
   CEFAppConfig_EnableMediaStream,

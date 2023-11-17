@@ -88,13 +88,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure ChromiumOptions_SetAcceptLanguageList(const AObj: TChromium; AValue: PChar); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Options.AcceptLanguageList := PCharToUStr(AValue);
-  handleExceptionEnd
-end;
-
 procedure ChromiumOptions_SetWindowlessFrameRate(const AObj: TChromium; AValue: Integer); extdecl;
 begin
   handleExceptionBegin
@@ -106,6 +99,17 @@ procedure ChromiumOptions_SetChromeStatusBubble(const AObj: TChromium; AValue: T
 begin
   handleExceptionBegin
   AObj.Options.ChromeStatusBubble := AValue;
+  handleExceptionEnd
+end;
+
+function ChromiumOptions_ChromeZoomBubble(IsSet: LongBool; const AObj: TChromium; AValue: TCefState): TCefState; extdecl;
+begin
+  handleExceptionBegin
+  Result := STATE_DEFAULT;
+  if IsSet then
+    AObj.Options.ChromeZoomBubble := AValue
+  else
+    Result := AObj.Options.ChromeZoomBubble;
   handleExceptionEnd
 end;
 
@@ -123,6 +127,6 @@ exports
   ChromiumOptions_SetDatabases,
   ChromiumOptions_SetWebgl,
   ChromiumOptions_SetBackgroundColor,
-  ChromiumOptions_SetAcceptLanguageList,
   ChromiumOptions_SetWindowlessFrameRate,
-  ChromiumOptions_SetChromeStatusBubble;
+  ChromiumOptions_SetChromeStatusBubble,
+  ChromiumOptions_ChromeZoomBubble;

@@ -210,16 +210,16 @@ begin
   handleExceptionEnd
 end;
 
-procedure  RequestContext_WebsiteSetting(IsSet: LongBool; const TObj: ICefRequestContext; const requesting_url, top_level_url: PChar; content_type: TCefContentSettingTypes; var value: ICefValue); extdecl;
+procedure  RequestContext_WebsiteSetting(IsSet: LongBool; const TObj: ICefRequestContext; const requesting_url, top_level_url: PChar; content_type: TCefContentSettingTypes; newValue: ICefValue; out Result: ICefValue); extdecl;
 begin
    handleExceptionBegin
    if IsSet then
    begin
-     TObj.SetWebsiteSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type, value);
+     TObj.SetWebsiteSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type, newValue);
    end
    else
    begin
-     value := TObj.GetWebsiteSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type);
+     Result := TObj.GetWebsiteSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type);
    end;
    handleExceptionEnd
 end;

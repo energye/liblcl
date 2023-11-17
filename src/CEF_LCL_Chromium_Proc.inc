@@ -1273,6 +1273,38 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_ZoomCommand(const AObj: TChromium; command: Integer); extdecl;
+begin
+  handleExceptionBegin
+  if command = 1 then
+    AObj.IncZoomCommand()
+  else if command = 2 then
+    AObj.DecZoomCommand()
+  else if command = 3 then
+    AObj.ResetZoomCommand();
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_DefaultZoomLevel(const AObj: TChromium; out Result: Double); extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.DefaultZoomLevel;
+  handleExceptionEnd
+end;
+
+function CEFChromium_CanZoom(const AObj: TChromium; can: Integer): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := false;
+  if can = 1 then
+    Result := AObj.CanIncZoom
+  else if can = 2 then
+    Result := AObj.CanDecZoom
+  else if can = 3 then
+    Result := AObj.CanResetZoom;
+  handleExceptionEnd
+end;
+
 procedure  CEFChromium_WasResized(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
@@ -1341,12 +1373,26 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_InitializeDragAndDrop(const AObj: TChromium; const aDropTargetCtrl : TWinControl);
+procedure CEFChromium_InitializeDragAndDrop(const AObj: TChromium; const aDropTargetCtrl : TWinControl); extdecl;
 begin
   handleExceptionBegin
   {$IFDEF MSWINDOWS}
   AObj.InitializeDragAndDrop(aDropTargetCtrl);
   {$ENDIF MSWINDOWS}
+  handleExceptionEnd
+end;
+
+function CEFChromium_Fullscreen(const AObj: TChromium): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.Fullscreen;
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_ExitFullscreen(const AObj: TChromium; will_cause_resize: LongBool); extdecl;
+begin
+  handleExceptionBegin
+  AObj.ExitFullscreen(will_cause_resize);
   handleExceptionEnd
 end;
 
@@ -1508,6 +1554,9 @@ exports
   CEFChromium_ResetZoomStep,
   CEFChromium_ResetZoomPct,
   CEFChromium_ReadZoom,
+  CEFChromium_ZoomCommand,
+  CEFChromium_DefaultZoomLevel,
+  CEFChromium_CanZoom,
   CEFChromium_WasResized,
   CEFChromium_WasHidden,
   CEFChromium_NotifyScreenInfoChanged,
@@ -1516,4 +1565,6 @@ exports
   CEFChromium_IMEFinishComposingText,
   CEFChromium_IMECancelComposition,
   CEFChromium_HasDevTools,
-  CEFChromium_InitializeDragAndDrop;
+  CEFChromium_InitializeDragAndDrop,
+  CEFChromium_Fullscreen,
+  CEFChromium_ExitFullscreen;
