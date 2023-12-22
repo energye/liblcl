@@ -2,7 +2,7 @@
 <CONFIG>
   <Package Version="5">
     <PathDelim Value="\"/>
-    <Name Value="OldCEF4Delphi"/>
+    <Name Value="CEF4Delphi_Lazarus"/>
     <Type Value="RunAndDesignTime"/>
     <CompilerOptions>
       <Version Value="11"/>
@@ -17,6 +17,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
+    <Version Major="49" Minor="0" Release="2623"/>
     <Files>
       <Item>
         <Filename Value="..\source\uBufferPanel.pas"/>

@@ -1,4 +1,4 @@
-package OldCEF4Delphi;
+package CEF4Delphi;
 
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
@@ -25,7 +25,7 @@ package OldCEF4Delphi;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
-{$DESCRIPTION 'OldCEF4Delphi'}
+{$DESCRIPTION 'CEF4Delphi'}
 {$IMPLICITBUILD OFF}
 
 requires
@@ -33,7 +33,7 @@ requires
   vcl;
 
 contains
-  OldCEF4Delphi_Register in 'OldCEF4Delphi_Register.pas',
+  CEF4Delphi_Register in 'CEF4Delphi_Register.pas',
   uCEFFindHandler in '..\source\uCEFFindHandler.pas',
   uCEFConstants in '..\source\uCEFConstants.pas',
   uCEFTypes in '..\source\uCEFTypes.pas',

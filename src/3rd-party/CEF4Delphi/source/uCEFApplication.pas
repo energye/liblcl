@@ -1,13 +1,13 @@
 // ************************************************************************
-// ***************************** OldCEF4Delphi ****************************
+// ***************************** CEF4Delphi ****************************
 // ************************************************************************
 
-// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 
-// The original license of DCEF3 still applies to OldCEF4Delphi.
+// The original license of DCEF3 still applies to CEF4Delphi.
 
-// For more information about OldCEF4Delphi visit :
+// For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 
 //        Copyright 2019 Salvador D�az Fau. All rights reserved.
@@ -897,7 +897,7 @@ begin
             TempString :=
               'Unknown CEF3 binaries !' + CRLF +
               CRLF +
-              'Use only the CEF3 binaries specified in the OldCEF4Delphi Readme.md file at ' +
+              'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
               CEF4DELPHI_URL;
 
             ShowErrorMessageDlg(TempString);
@@ -914,7 +914,7 @@ begin
       FStatus := asErrorDLLVersion;
       TempString := 'Unsupported CEF version !' +
         CRLF + CRLF +
-        'Use only the CEF3 binaries specified in the OldCEF4Delphi Readme.md file at '
+        'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at '
         +
         CEF4DELPHI_URL;
 
@@ -1740,7 +1740,7 @@ begin
     FStatus := asErrorDLLVersion;
     TempString := 'Unsupported CEF version !' + CRLF +
       CRLF +
-      'Use only the CEF3 binaries specified in the OldCEF4Delphi Readme.md file at ' +
+      'Use only the CEF3 binaries specified in the CEF4Delphi Readme.md file at ' +
       CRLF + CEF4DELPHI_URL;
 
     ShowErrorMessageDlg(TempString);

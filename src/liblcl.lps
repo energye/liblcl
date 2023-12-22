@@ -357,11 +357,12 @@
       <Unit0>
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="7"/>
-        <CursorPos X="11" Y="50"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="6"/>
+        <CursorPos Y="13"/>
         <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
         <Filename Value="uEventCallback.pas"/>
@@ -1334,10 +1335,11 @@
       </Unit126>
       <Unit127>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFUrlRequestClientComponent.pas"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
         <TopLine Value="151"/>
         <CursorPos X="4" Y="211"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit127>
       <Unit128>
@@ -1350,48 +1352,42 @@
       </Unit128>
       <Unit129>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFWebPluginUnstableCallback.pas"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="56"/>
         <CursorPos X="77" Y="98"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit129>
       <Unit130>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFWorkSchedulerThread.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="147"/>
         <CursorPos X="64" Y="180"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit130>
       <Unit131>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFWorkScheduler.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="142"/>
         <CursorPos X="51" Y="175"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit131>
       <Unit132>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFXmlReader.pas"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="211"/>
         <CursorPos X="34" Y="266"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit132>
       <Unit133>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFZipReader.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="94"/>
         <CursorPos X="5" Y="121"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit133>
       <Unit134>
@@ -1430,48 +1426,7 @@
     <OtherDefines Count="1">
       <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
     </OtherDefines>
-    <JumpHistory Count="10" HistoryIndex="9">
-      <Position1>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFUrlRequestClientComponent.pas"/>
-        <Caret Line="38" Column="36" TopLine="15"/>
-      </Position1>
-      <Position2>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFUrlRequestClientComponent.pas"/>
-        <Caret Line="214" Column="9" TopLine="151"/>
-      </Position2>
-      <Position3>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFUrlRequestClientComponent.pas"/>
-        <Caret Line="157" Column="29" TopLine="151"/>
-      </Position3>
-      <Position4>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFUrlRequestClientComponent.pas"/>
-        <Caret Line="211" Column="4" TopLine="151"/>
-      </Position4>
-      <Position5>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFWebPluginUnstableCallback.pas"/>
-        <Caret Line="98" Column="77" TopLine="56"/>
-      </Position5>
-      <Position6>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFWorkSchedulerThread.pas"/>
-        <Caret Line="180" Column="64" TopLine="147"/>
-      </Position6>
-      <Position7>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFWorkScheduler.pas"/>
-        <Caret Line="163" Column="56" TopLine="130"/>
-      </Position7>
-      <Position8>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFWorkScheduler.pas"/>
-        <Caret Line="175" Column="51" TopLine="142"/>
-      </Position8>
-      <Position9>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFXmlReader.pas"/>
-        <Caret Line="266" Column="34" TopLine="211"/>
-      </Position9>
-      <Position10>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFZipReader.pas"/>
-        <Caret Line="149" Column="34" TopLine="94"/>
-      </Position10>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>

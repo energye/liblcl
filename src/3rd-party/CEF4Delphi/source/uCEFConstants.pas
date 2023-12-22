@@ -1,13 +1,13 @@
 // ************************************************************************
-// ***************************** OldCEF4Delphi *******************************
+// ***************************** CEF4Delphi *******************************
 // ************************************************************************
 //
-// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+// CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to OldCEF4Delphi.
+// The original license of DCEF3 still applies to CEF4Delphi.
 //
-// For more information about OldCEF4Delphi visit :
+// For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
 //        Copyright � 2019 Salvador D�az Fau. All rights reserved.
@@ -339,7 +339,7 @@ const
   CEF_CONTENT_SETTING_SESSION_ONLY  = 4;
   CEF_CONTENT_SETTING_NUM_SETTINGS  = 5;
 
-  // Used in the severity parameter in the 'cef_log' function, also known as 'CefLog' in OldCEF4Delphi.
+  // Used in the severity parameter in the 'cef_log' function, also known as 'CefLog' in CEF4Delphi.
   CEF_LOG_SEVERITY_INFO    = 0;
   CEF_LOG_SEVERITY_WARNING = 1;
   CEF_LOG_SEVERITY_ERROR   = 2;
@@ -379,7 +379,7 @@ const
   CEF_TIMER_DEPLETEWORK_CYCLES = 10;
   CEF_TIMER_DEPLETEWORK_DELAY  = 50;
 
-  CEF4DELPHI_URL = 'https://github.com/salvadordf/OldCEF4Delphi';
+  CEF4DELPHI_URL = 'https://github.com/salvadordf/CEF4Delphi';
   CRLF           = #13 + #10;
 
   // These contants are declared in the "Windows" unit but

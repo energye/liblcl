@@ -2,7 +2,7 @@
   This source is only used to compile and install the package.
  }
 
-unit OldCEF4Delphi;
+unit CEF4Delphi_Lazarus;
 
 {$warn 5023 off : no warning about unused units}
 interface
@@ -51,5 +51,5 @@ begin
 end;
 
 initialization
-  RegisterPackage('OldCEF4Delphi', @Register);
+  RegisterPackage('CEF4Delphi_Lazarus', @Register);
 end.
