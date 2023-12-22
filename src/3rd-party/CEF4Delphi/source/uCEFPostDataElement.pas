@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,22 +37,22 @@
 
 unit uCEFPostDataElement;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefPostDataElementRef = class(TCefBaseRefCountedRef, ICefPostDataElement)
+  TCefPostDataElementRef = class(TCefBaseRef, ICefPostDataElement)
     protected
       function  IsReadOnly: Boolean;
       procedure SetToEmpty;
@@ -68,7 +68,7 @@ type
       class function New: ICefPostDataElement;
   end;
 
-  TCefPostDataElementOwn = class(TCefBaseRefCountedOwn, ICefPostDataElement)
+  TCefPostDataElementOwn = class(TCefBaseOwn, ICefPostDataElement)
     protected
       FDataType  : TCefPostDataElementType;
       FValueByte : Pointer;
@@ -128,7 +128,7 @@ end;
 
 class function TCefPostDataElementRef.New: ICefPostDataElement;
 begin
-  Result := UnWrap(cef_post_data_element_create());
+  Result := UnWrap(cef_post_data_element_create);
 end;
 
 procedure TCefPostDataElementRef.SetToBytes(size: NativeUInt; const bytes: Pointer);
@@ -275,9 +275,8 @@ begin
   FReadOnly  := readonly;
   FDataType  := PDE_TYPE_EMPTY;
   FValueByte := nil;
+  FillChar(FValueStr, SizeOf(FValueStr), 0);
   FSize      := 0;
-
-  CefStringInitialize(@FValueStr);
 
   with PCefPostDataElement(FData)^ do
     begin

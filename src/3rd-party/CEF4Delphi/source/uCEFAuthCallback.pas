@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,22 +37,22 @@
 
 unit uCEFAuthCallback;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefAuthCallbackRef = class(TCefBaseRefCountedRef, ICefAuthCallback)
+  TCefAuthCallbackRef = class(TCefBaseRef, ICefAuthCallback)
   protected
     procedure Cont(const username, password: ustring);
     procedure Cancel;
@@ -73,18 +73,17 @@ end;
 
 procedure TCefAuthCallbackRef.Cont(const username, password: ustring);
 var
-  TempUsername, TempPassword : TCefString;
+  u, p: TCefString;
 begin
-  TempUsername := CefString(username);
-  TempPassword := CefString(password);
-  PCefAuthCallback(FData)^.cont(PCefAuthCallback(FData), @TempUsername, @TempPassword);
+  u := CefString(username);
+  p := CefString(password);
+  PCefAuthCallback(FData)^.cont(PCefAuthCallback(FData), @u, @p);
 end;
 
 class function TCefAuthCallbackRef.UnWrap(data: Pointer): ICefAuthCallback;
 begin
-  if (data <> nil) then
-    Result := Create(data) as ICefAuthCallback
-   else
+  if data <> nil then
+    Result := Create(data) as ICefAuthCallback else
     Result := nil;
 end;
 

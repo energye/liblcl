@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,22 +37,22 @@
 
 unit uCEFv8StackFrame;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefV8StackFrameRef = class(TCefBaseRefCountedRef, ICefV8StackFrame)
+  TCefV8StackFrameRef = class(TCefBaseRef, ICefV8StackFrame)
   protected
     function IsValid: Boolean;
     function GetScriptName: ustring;
@@ -73,49 +73,48 @@ uses
 
 function TCefV8StackFrameRef.GetColumn: Integer;
 begin
-  Result := PCefV8StackFrame(FData)^.get_column(PCefV8StackFrame(FData));
+  Result := PCefV8StackFrame(FData)^.get_column(FData);
 end;
 
 function TCefV8StackFrameRef.GetFunctionName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefV8StackFrame(FData)^.get_function_name(PCefV8StackFrame(FData)));
+  Result := CefStringFreeAndGet(PCefV8StackFrame(FData)^.get_function_name(FData));
 end;
 
 function TCefV8StackFrameRef.GetLineNumber: Integer;
 begin
-  Result := PCefV8StackFrame(FData)^.get_line_number(PCefV8StackFrame(FData));
+  Result := PCefV8StackFrame(FData)^.get_line_number(FData);
 end;
 
 function TCefV8StackFrameRef.GetScriptName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefV8StackFrame(FData)^.get_script_name(PCefV8StackFrame(FData)));
+  Result := CefStringFreeAndGet(PCefV8StackFrame(FData)^.get_script_name(FData));
 end;
 
 function TCefV8StackFrameRef.GetScriptNameOrSourceUrl: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefV8StackFrame(FData)^.get_script_name_or_source_url(PCefV8StackFrame(FData)));
+  Result := CefStringFreeAndGet(PCefV8StackFrame(FData)^.get_script_name_or_source_url(FData));
 end;
 
 function TCefV8StackFrameRef.IsConstructor: Boolean;
 begin
-  Result := PCefV8StackFrame(FData)^.is_constructor(PCefV8StackFrame(FData)) <> 0;
+  Result := PCefV8StackFrame(FData)^.is_constructor(FData) <> 0;
 end;
 
 function TCefV8StackFrameRef.IsEval: Boolean;
 begin
-  Result := PCefV8StackFrame(FData)^.is_eval(PCefV8StackFrame(FData)) <> 0;
+  Result := PCefV8StackFrame(FData)^.is_eval(FData) <> 0;
 end;
 
 function TCefV8StackFrameRef.IsValid: Boolean;
 begin
-  Result := PCefV8StackFrame(FData)^.is_valid(PCefV8StackFrame(FData)) <> 0;
+  Result := PCefV8StackFrame(FData)^.is_valid(FData) <> 0;
 end;
 
 class function TCefV8StackFrameRef.UnWrap(data: Pointer): ICefV8StackFrame;
 begin
-  if (data <> nil) then
-    Result := Create(data) as ICefV8StackFrame
-   else
+  if data <> nil then
+    Result := Create(data) as ICefV8StackFrame else
     Result := nil;
 end;
 

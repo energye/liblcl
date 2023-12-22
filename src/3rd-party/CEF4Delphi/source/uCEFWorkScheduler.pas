@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,78 +37,50 @@
 
 unit uCEFWorkScheduler;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
-
 {$I cef.inc}
-
-// Define this conditional to use TCEFWorkSchedulerQueueThread instead of using
-// PostMessage, Application.QueueAsyncCall or TThread.Queue inside
-// TCEFWorkScheduler.ScheduleMessagePumpWork
-// TCEFWorkSchedulerQueueThread is just a new experimental way to handle the
-// external message pump events for all platforms.
-{.$DEFINE USEQUEUETHREAD}
 
 interface
 
 uses
   {$IFDEF DELPHI16_UP}
-    {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes,
+  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics, Vcl.Forms,{$ENDIF} System.Classes,
   {$ELSE}
-    {$IFDEF MSWINDOWS}Windows,{$ENDIF} Classes,
-    {$IFDEF FPC}
-    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase, {$IFNDEF MSWINDOWS}forms,{$ENDIF}
-    {$ELSE}
-    Messages,
-    {$ENDIF}
+  Windows, Messages, Classes, Controls, Graphics, Forms,
   {$ENDIF}
-  uCEFConstants, {$IFDEF USEQUEUETHREAD}uCEFWorkSchedulerQueueThread,{$ENDIF} uCEFWorkSchedulerThread;
-
+  uCEFConstants, uCEFWorkSchedulerThread;
 
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFWorkScheduler = class(TComponent)
     protected
+      FCompHandle         : HWND;
       FThread             : TCEFWorkSchedulerThread;
-      {$IFDEF USEQUEUETHREAD}
-      FQueueThread        : TCEFWorkSchedulerQueueThread;
-      {$ENDIF}
       FDepleteWorkCycles  : cardinal;
       FDepleteWorkDelay   : cardinal;
       FDefaultInterval    : integer;
       FStopped            : boolean;
       {$IFDEF MSWINDOWS}
       {$WARN SYMBOL_PLATFORM OFF}
-      FCompHandle         : HWND;
       FPriority           : TThreadPriority;
       {$WARN SYMBOL_PLATFORM ON}
       {$ENDIF}
 
-      {$IFDEF USEQUEUETHREAD}
-      procedure CreateQueueThread;
-      procedure DestroyQueueThread;
-      procedure QueueThread_OnPulse(Sender : TObject; aDelay : integer);
-      {$ENDIF}
-
+      procedure CreateThread;
       procedure DestroyThread;
-      procedure DepleteWork;
-      {$IFDEF MSWINDOWS}
-      procedure WndProc(var aMessage: TMessage);
       procedure DeallocateWindowHandle;
-      {$ELSE}
-      {$IFDEF FPC}
-      procedure ScheduleWorkAsync(Data: PtrInt);
-      {$ENDIF}
-      {$ENDIF}
+      procedure DepleteWork;
+      procedure WndProc(var aMessage: TMessage);
       procedure NextPulse(aInterval : integer);
       procedure ScheduleWork(const delay_ms : int64);
       procedure DoWork;
       procedure DoMessageLoopWork;
-      procedure Initialize;
 
       procedure SetDefaultInterval(aValue : integer);
       {$IFDEF MSWINDOWS}
@@ -121,11 +93,10 @@ type
 
     public
       constructor Create(AOwner: TComponent); override;
-      constructor CreateDelayed;
       destructor  Destroy; override;
+      procedure   AfterConstruction; override;
       procedure   ScheduleMessagePumpWork(const delay_ms : int64);
       procedure   StopScheduler;
-      procedure   CreateThread;
 
     published
       {$IFDEF MSWINDOWS}
@@ -141,10 +112,6 @@ type
 var
   GlobalCEFWorkScheduler : TCEFWorkScheduler = nil;
 
-{$IFDEF FPC}
-procedure Register;
-{$ENDIF}
-
 procedure DestroyGlobalCEFWorkScheduler;
 
 implementation
@@ -155,7 +122,7 @@ uses
   {$ELSE}
   SysUtils, Math,
   {$ENDIF}
-  uCEFMiscFunctions, uCEFApplicationCore, uCEFTypes;
+  uCEFMiscFunctions, uCEFApplication;
 
 procedure DestroyGlobalCEFWorkScheduler;
 begin
@@ -166,58 +133,11 @@ constructor TCEFWorkScheduler.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  Initialize;
-
-  if not(csDesigning in ComponentState) then
-    begin
-      {$IFDEF MSWINDOWS}
-      if (GlobalCEFApp <> nil) and
-         ((GlobalCEFApp.ProcessType = ptBrowser) or GlobalCEFApp.SingleProcess) then
-        FCompHandle := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
-      {$ENDIF}
-
-      CreateThread;
-    end;
-end;
-
-constructor TCEFWorkScheduler.CreateDelayed;
-begin
-  inherited Create(nil);
-
-  Initialize;
-
-  if not(csDesigning in ComponentState) then
-    begin
-      {$IFDEF MSWINDOWS}
-      if (GlobalCEFApp <> nil) and
-         ((GlobalCEFApp.ProcessType = ptBrowser) or GlobalCEFApp.SingleProcess) then
-        FCompHandle := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
-      {$ENDIF}
-    end;
-end;
-
-destructor TCEFWorkScheduler.Destroy;
-begin
-  DestroyThread;
-  {$IFDEF USEQUEUETHREAD}
-  DestroyQueueThread;
-  {$ENDIF}
-  {$IFDEF MSWINDOWS}
-  DeallocateWindowHandle;
-  {$ENDIF}
-  inherited Destroy;
-end;
-
-procedure TCEFWorkScheduler.Initialize;
-begin
   FThread             := nil;
-  {$IFDEF USEQUEUETHREAD}
-  FQueueThread        := nil;
-  {$ENDIF}
+  FCompHandle         := 0;
   FStopped            := False;
   {$IFDEF MSWINDOWS}
   {$WARN SYMBOL_PLATFORM OFF}
-  FCompHandle         := 0;
   FPriority           := tpNormal;
   {$WARN SYMBOL_PLATFORM ON}
   {$ENDIF}
@@ -226,68 +146,39 @@ begin
   FDepleteWorkDelay   := CEF_TIMER_DEPLETEWORK_DELAY;
 end;
 
+destructor TCEFWorkScheduler.Destroy;
+begin
+  DestroyThread;
+  DeallocateWindowHandle;
+
+  inherited Destroy;
+end;
+
+procedure TCEFWorkScheduler.AfterConstruction;
+begin
+  inherited AfterConstruction;
+
+  if not(csDesigning in ComponentState) then
+    begin
+      FCompHandle := AllocateHWnd(WndProc);
+      CreateThread;
+    end;
+end;
+
 procedure TCEFWorkScheduler.CreateThread;
 begin
-  if (FThread <> nil) then exit;
-
   FThread                 := TCEFWorkSchedulerThread.Create;
   {$IFDEF MSWINDOWS}
   FThread.Priority        := FPriority;
   {$ENDIF}
   FThread.DefaultInterval := FDefaultInterval;
-  FThread.OnPulse         := {$IFDEF FPC}@{$ENDIF}Thread_OnPulse;
+  FThread.OnPulse         := Thread_OnPulse;
   {$IFDEF DELPHI14_UP}
   FThread.Start;
   {$ELSE}
-  {$IFNDEF FPC}
   FThread.Resume;
-  {$ELSE}
-  FThread.Start;
-  {$ENDIF}
-  {$ENDIF}
-
-  {$IFDEF USEQUEUETHREAD}
-  CreateQueueThread;
-  {$ENDIF}
-end;     
-
-{$IFDEF USEQUEUETHREAD}
-procedure TCEFWorkScheduler.CreateQueueThread;
-begin
-  FQueueThread         := TCEFWorkSchedulerQueueThread.Create;
-  FQueueThread.OnPulse := {$IFDEF FPC}@{$ENDIF}QueueThread_OnPulse;
-  {$IFDEF DELPHI14_UP}
-  FQueueThread.Start;
-  {$ELSE}
-  {$IFNDEF FPC}
-  FQueueThread.Resume;
-  {$ELSE}
-  FQueueThread.Start;
-  {$ENDIF}
   {$ENDIF}
 end;
-
-procedure TCEFWorkScheduler.DestroyQueueThread;
-begin
-  try
-    if (FQueueThread <> nil) then
-      begin
-        FQueueThread.Terminate;
-        FQueueThread.StopThread;
-        FQueueThread.WaitFor;
-        FreeAndNil(FQueueThread);
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCEFWorkScheduler.DestroyQueueThread', e) then raise;
-  end;
-end;
-
-procedure TCEFWorkScheduler.QueueThread_OnPulse(Sender : TObject; aDelay : integer);
-begin
-  ScheduleWork(aDelay);
-end;
-{$ENDIF}
 
 procedure TCEFWorkScheduler.DestroyThread;
 begin
@@ -305,7 +196,6 @@ begin
   end;
 end;
 
-{$IFDEF MSWINDOWS}
 procedure TCEFWorkScheduler.WndProc(var aMessage: TMessage);
 begin
   if (aMessage.Msg = CEF_PUMPHAVEWORK) then
@@ -322,7 +212,6 @@ begin
       FCompHandle := 0;
     end;
 end;
-{$ENDIF}
 
 procedure TCEFWorkScheduler.DoMessageLoopWork;
 begin
@@ -361,46 +250,16 @@ end;
 
 procedure TCEFWorkScheduler.ScheduleMessagePumpWork(const delay_ms : int64);
 begin
-  if FStopped then exit;
-
-  {$IFDEF USEQUEUETHREAD}
-    if (FQueueThread <> nil) and FQueueThread.Ready then
-      begin
-        FQueueThread.EnqueueValue(integer(delay_ms));
-        exit;
-      end;
-  {$ENDIF}
-
-  {$IFDEF MSWINDOWS}
-    if (FCompHandle <> 0) then
-      PostMessage(FCompHandle, CEF_PUMPHAVEWORK, 0, LPARAM(delay_ms));
-  {$ELSE}
-    {$IFDEF FPC}
-    Application.QueueAsyncCall(@ScheduleWorkAsync, integer(delay_ms));
-    {$ELSE}
-    TThread.Queue(nil, procedure
-                       begin
-                         ScheduleWork(delay_ms);
-                       end);
-    {$ENDIF}
-  {$ENDIF}
+  if not(FStopped) and (FCompHandle <> 0) then
+    PostMessage(FCompHandle, CEF_PUMPHAVEWORK, 0, LPARAM(delay_ms));
 end;
-
-{$IFNDEF MSWINDOWS}{$IFDEF FPC}
-procedure TCEFWorkScheduler.ScheduleWorkAsync(Data: PtrInt);
-begin
-  ScheduleWork(integer(Data));
-end;
-{$ENDIF}{$ENDIF}
 
 procedure TCEFWorkScheduler.StopScheduler;
 begin
   FStopped := True;
   NextPulse(0);
   DepleteWork;
-  {$IFDEF MSWINDOWS}
   DeallocateWindowHandle;
-  {$ENDIF}
 end;
 
 procedure TCEFWorkScheduler.Thread_OnPulse(Sender: TObject);
@@ -429,13 +288,5 @@ procedure TCEFWorkScheduler.NextPulse(aInterval : integer);
 begin
   if (FThread <> nil) then FThread.NextPulse(aInterval);
 end;
-
-{$IFDEF FPC}
-procedure Register;
-begin
-  {$I res/tcefworkscheduler.lrs}
-  RegisterComponents('Chromium', [TCEFWorkScheduler]);
-end;
-{$ENDIF}
 
 end.

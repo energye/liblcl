@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,24 +37,24 @@
 
 unit uCEFFrame;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefFrameRef = class(TCefBaseRefCountedRef, ICefFrame)
+  TCefFrameRef = class(TCefBaseRef, ICefFrame)
     public
-      function  IsValid: Boolean;
+      function IsValid: Boolean;
       procedure Undo;
       procedure Redo;
       procedure Cut;
@@ -69,19 +69,18 @@ type
       procedure GetTextProc(const proc: TCefStringVisitorProc);
       procedure LoadRequest(const request: ICefRequest);
       procedure LoadUrl(const url: ustring);
+      procedure LoadString(const str, url: ustring);
       procedure ExecuteJavaScript(const code, scriptUrl: ustring; startLine: Integer);
-      function  IsMain: Boolean;
-      function  IsFocused: Boolean;
-      function  GetName: ustring;
-      function  GetIdentifier: Int64;
-      function  GetParent: ICefFrame;
-      function  GetUrl: ustring;
-      function  GetBrowser: ICefBrowser;
-      function  GetV8Context: ICefv8Context;
+      function IsMain: Boolean;
+      function IsFocused: Boolean;
+      function GetName: ustring;
+      function GetIdentifier: Int64;
+      function GetParent: ICefFrame;
+      function GetUrl: ustring;
+      function GetBrowser: ICefBrowser;
+      function GetV8Context: ICefv8Context;
       procedure VisitDom(const visitor: ICefDomVisitor);
       procedure VisitDomProc(const proc: TCefDomVisitorProc);
-      function  CreateUrlRequest(const request: ICefRequest; const client: ICefUrlrequestClient): ICefUrlRequest;
-      procedure SendProcessMessage(targetProcess: TCefProcessId; const message_: ICefProcessMessage);
 
       class function UnWrap(data: Pointer): ICefFrame;
   end;
@@ -89,7 +88,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFStringVisitor, uCEFv8Context, uCEFDomVisitor, uCEFUrlRequest;
+  uCEFMiscFunctions, uCEFLibFunctions, uCEFBrowser, uCEFStringVisitor, uCEFv8Context, uCEFDomVisitor;
 
 function TCefFrameRef.IsValid: Boolean;
 begin
@@ -111,13 +110,14 @@ begin
   PCefFrame(FData)^.del(PCefFrame(FData));
 end;
 
-procedure TCefFrameRef.ExecuteJavaScript(const code, scriptUrl: ustring; startLine: Integer);
+procedure TCefFrameRef.ExecuteJavaScript(const code, scriptUrl: ustring;
+  startLine: Integer);
 var
-  TempCode, TempURL : TCefString;
+  j, s: TCefString;
 begin
-  TempCode := CefString(code);
-  TempURL  := CefString(scriptUrl);
-  PCefFrame(FData)^.execute_java_script(PCefFrame(FData), @TempCode, @TempURL, startline);
+  j := CefString(code);
+  s := CefString(scriptUrl);
+  PCefFrame(FData)^.execute_java_script(PCefFrame(FData), @j, @s, startline);
 end;
 
 function TCefFrameRef.GetBrowser: ICefBrowser;
@@ -185,12 +185,22 @@ begin
   PCefFrame(FData)^.load_request(PCefFrame(FData), CefGetData(request));
 end;
 
+procedure TCefFrameRef.LoadString(const str, url: ustring);
+var
+  s, u: TCefString;
+begin
+  s := CefString(str);
+  u := CefString(url);
+  PCefFrame(FData)^.load_string(PCefFrame(FData), @s, @u);
+end;
+
 procedure TCefFrameRef.LoadUrl(const url: ustring);
 var
-  TempURL : TCefString;
+  u: TCefString;
 begin
-  TempURL := CefString(url);
-  PCefFrame(FData)^.load_url(PCefFrame(FData), @TempURL);
+  u := CefString(url);
+  PCefFrame(FData)^.load_url(PCefFrame(FData), @u);
+
 end;
 
 procedure TCefFrameRef.Paste;
@@ -228,27 +238,10 @@ begin
   VisitDom(TCefFastDomVisitor.Create(proc) as ICefDomVisitor);
 end;
 
-function TCefFrameRef.CreateUrlRequest(const request : ICefRequest;
-                                       const client  : ICefUrlrequestClient): ICefUrlRequest;
-begin
-  Result := TCefUrlRequestRef.UnWrap(PCefFrame(FData)^.create_urlrequest(PCefFrame(FData),
-                                                                         CefGetData(request),
-                                                                         CefGetData(client)));
-end;
-
-procedure TCefFrameRef.SendProcessMessage(      targetProcess : TCefProcessId;
-                                          const message_      : ICefProcessMessage);
-begin
-  PCefFrame(FData)^.send_process_message(PCefFrame(FData),
-                                         targetProcess,
-                                         CefGetData(message_));
-end;
-
 class function TCefFrameRef.UnWrap(data: Pointer): ICefFrame;
 begin
-  if (data <> nil) then
-    Result := Create(data) as ICefFrame
-   else
+  if data <> nil then
+    Result := Create(data) as ICefFrame else
     Result := nil;
 end;
 

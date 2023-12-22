@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,12 +37,12 @@
 
 unit uCEFStreamReader;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
@@ -54,10 +54,10 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefStreamReaderRef = class(TCefBaseRefCountedRef, ICefStreamReader)
+  TCefStreamReaderRef = class(TCefBaseRef, ICefStreamReader)
   protected
     function Read(ptr: Pointer; size, n: NativeUInt): NativeUInt;
     function Seek(offset: Int64; whence: Integer): Integer;
@@ -77,7 +77,8 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCustomStreamReader;
 
-class function TCefStreamReaderRef.CreateForCustomStream(const stream: ICefCustomStreamReader): ICefStreamReader;
+class function TCefStreamReaderRef.CreateForCustomStream(
+  const stream: ICefCustomStreamReader): ICefStreamReader;
 begin
   Result := UnWrap(cef_stream_reader_create_for_handler(CefGetData(stream)))
 end;
@@ -89,13 +90,14 @@ end;
 
 class function TCefStreamReaderRef.CreateForFile(const filename: ustring): ICefStreamReader;
 var
-  TempFileName : TCefString;
+  f: TCefString;
 begin
-  TempFileName := CefString(filename);
-  Result       := UnWrap(cef_stream_reader_create_for_file(@TempFileName))
+  f := CefString(filename);
+  Result := UnWrap(cef_stream_reader_create_for_file(@f))
 end;
 
-class function TCefStreamReaderRef.CreateForStream(const stream: TSTream; owned: Boolean): ICefStreamReader;
+class function TCefStreamReaderRef.CreateForStream(const stream: TSTream;
+  owned: Boolean): ICefStreamReader;
 begin
   Result := CreateForCustomStream(TCefCustomStreamReader.Create(stream, owned) as ICefCustomStreamReader);
 end;
@@ -107,7 +109,7 @@ end;
 
 function TCefStreamReaderRef.MayBlock: Boolean;
 begin
-  Result := PCefStreamReader(FData)^.may_block(PCefStreamReader(FData)) <> 0;
+  Result := PCefStreamReader(FData)^.may_block(FData) <> 0;
 end;
 
 function TCefStreamReaderRef.Read(ptr: Pointer; size, n: NativeUInt): NativeUInt;
@@ -127,9 +129,8 @@ end;
 
 class function TCefStreamReaderRef.UnWrap(data: Pointer): ICefStreamReader;
 begin
-  if (data <> nil) then
-    Result := Create(data) as ICefStreamReader
-   else
+  if data <> nil then
+    Result := Create(data) as ICefStreamReader else
     Result := nil;
 end;
 

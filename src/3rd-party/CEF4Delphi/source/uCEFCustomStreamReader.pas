@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,12 +37,12 @@
 
 unit uCEFCustomStreamReader;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
@@ -54,10 +54,10 @@ uses
   {$ELSE}
   Classes, SysUtils,
   {$ENDIF}
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefCustomStreamReader = class(TCefBaseRefCountedOwn, ICefCustomStreamReader)
+  TCefCustomStreamReader = class(TCefBaseOwn, ICefCustomStreamReader)
     protected
       FStream : TStream;
       FOwned  : Boolean;
@@ -144,11 +144,11 @@ begin
 
   with PCefReadHandler(FData)^ do
     begin
-      read      := {$IFDEF FPC}@{$ENDIF}cef_stream_reader_read;
-      seek      := {$IFDEF FPC}@{$ENDIF}cef_stream_reader_seek;
-      tell      := {$IFDEF FPC}@{$ENDIF}cef_stream_reader_tell;
-      eof       := {$IFDEF FPC}@{$ENDIF}cef_stream_reader_eof;
-      may_block := {$IFDEF FPC}@{$ENDIF}cef_stream_reader_may_block;
+      read      := cef_stream_reader_read;
+      seek      := cef_stream_reader_seek;
+      tell      := cef_stream_reader_tell;
+      eof       := cef_stream_reader_eof;
+      may_block := cef_stream_reader_may_block;
     end;
 end;
 

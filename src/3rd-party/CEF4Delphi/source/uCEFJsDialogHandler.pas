@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,24 +37,24 @@
 
 unit uCEFJsDialogHandler;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefJsDialogHandlerOwn = class(TCefBaseRefCountedOwn, ICefJsDialogHandler)
+  TCefJsDialogHandlerOwn = class(TCefBaseOwn, ICefJsDialogHandler)
     protected
-      function  OnJsdialog(const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean): Boolean; virtual;
+      function  OnJsdialog(const browser: ICefBrowser; const originUrl, accept_lang: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean): Boolean; virtual;
       function  OnBeforeUnloadDialog(const browser: ICefBrowser; const messageText: ustring; isReload: Boolean; const callback: ICefJsDialogCallback): Boolean; virtual;
       procedure OnResetDialogState(const browser: ICefBrowser); virtual;
       procedure OnDialogClosed(const browser: ICefBrowser); virtual;
@@ -69,7 +69,7 @@ type
     protected
       FEvents : Pointer;
 
-      function  OnJsdialog(const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean): Boolean; override;
+      function  OnJsdialog(const browser: ICefBrowser; const originUrl, accept_lang: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: Boolean): Boolean; override;
       function  OnBeforeUnloadDialog(const browser: ICefBrowser; const messageText: ustring; isReload: Boolean; const callback: ICefJsDialogCallback): Boolean; override;
       procedure OnResetDialogState(const browser: ICefBrowser); override;
       procedure OnDialogClosed(const browser: ICefBrowser); override;
@@ -77,7 +77,7 @@ type
       procedure RemoveReferences; override;
 
     public
-      constructor Create(const events : IChromiumEvents); reintroduce; virtual;
+      constructor Create(const events: Pointer); reintroduce; virtual;
       destructor  Destroy; override;
   end;
 
@@ -94,6 +94,7 @@ uses
 function cef_jsdialog_handler_on_jsdialog(      self                : PCefJsDialogHandler;
                                                 browser             : PCefBrowser;
                                           const origin_url          : PCefString;
+                                          const accept_lang         : PCefString;
                                                 dialog_type         : TCefJsDialogType;
                                           const message_text        : PCefString;
                                           const default_prompt_text : PCefString;
@@ -110,6 +111,7 @@ begin
   if (TempObject <> nil) and (TempObject is TCefJsDialogHandlerOwn) then
     Result := Ord(TCefJsDialogHandlerOwn(TempObject).OnJsdialog(TCefBrowserRef.UnWrap(browser),
                                                                 CefString(origin_url),
+                                                                CefString(accept_lang),
                                                                 dialog_type,
                                                                 CefString(message_text),
                                                                 CefString(default_prompt_text),
@@ -174,6 +176,7 @@ end;
 
 function TCefJsDialogHandlerOwn.OnJsdialog(const browser           : ICefBrowser;
                                            const originUrl         : ustring;
+                                           const accept_lang       : ustring;
                                                  dialogType        : TCefJsDialogType;
                                            const messageText       : ustring;
                                            const defaultPromptText : ustring;
@@ -209,11 +212,11 @@ end;
 
 // TCustomJsDialogHandler
 
-constructor TCustomJsDialogHandler.Create(const events : IChromiumEvents);
+constructor TCustomJsDialogHandler.Create(const events: Pointer);
 begin
   inherited Create;
 
-  FEvents := Pointer(events);
+  FEvents := events;
 end;
 
 destructor TCustomJsDialogHandler.Destroy;
@@ -246,6 +249,7 @@ end;
 
 function TCustomJsDialogHandler.OnJsdialog(const browser           : ICefBrowser;
                                            const originUrl         : ustring;
+                                           const accept_lang       : ustring;
                                                  dialogType        : TCefJsDialogType;
                                            const messageText       : ustring;
                                            const defaultPromptText : ustring;
@@ -255,9 +259,9 @@ begin
   suppressMessage := False;
 
   if (FEvents <> nil) then
-    Result := IChromiumEvents(FEvents).doOnJsdialog(browser, originUrl, dialogType, messageText, defaultPromptText, callback, suppressMessage)
+    Result := IChromiumEvents(FEvents).doOnJsdialog(browser, originUrl, accept_lang, dialogType, messageText, defaultPromptText, callback, suppressMessage)
    else
-    Result := inherited OnJsdialog(browser, originUrl, dialogType, messageText, defaultPromptText, callback, suppressMessage);
+    Result := inherited OnJsdialog(browser, originUrl, accept_lang, dialogType, messageText, defaultPromptText, callback, suppressMessage);
 end;
 
 procedure TCustomJsDialogHandler.OnResetDialogState(const browser: ICefBrowser);

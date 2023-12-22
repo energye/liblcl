@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,24 +37,26 @@
 
 unit uCEFSchemeRegistrar;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseScopedWrapper, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefSchemeRegistrarRef = class(TCEFBaseScopedWrapperRef)
+  TCefSchemeRegistrarRef = class(TCEFBaseRef, ICEFSchemeRegistrar)
+    protected
+      function AddCustomScheme(const schemeName: ustring; IsStandard, IsLocal, IsDisplayIsolated : Boolean): Boolean;
     public
-      function AddCustomScheme(const schemeName: ustring; options : TCefSchemeOptions): Boolean;
+      class function UnWrap(data: Pointer): ICefSchemeRegistrar;
   end;
 
 implementation
@@ -62,15 +64,24 @@ implementation
 uses
   uCEFMiscFunctions;
 
-function TCefSchemeRegistrarRef.AddCustomScheme(const schemeName : ustring;
-                                                      options    : TCefSchemeOptions): Boolean;
+function TCefSchemeRegistrarRef.AddCustomScheme(const schemeName: ustring; IsStandard, IsLocal, IsDisplayIsolated : Boolean): Boolean;
 var
-  TempName : TCefString;
+  sn: TCefString;
 begin
-  TempName := CefString(schemeName);
-  Result   := PCefSchemeRegistrar(FData)^.add_custom_scheme(PCefSchemeRegistrar(FData),
-                                                            @TempName,
-                                                            options) <> 0;
+  sn     := CefString(schemeName);
+  Result := PCefSchemeRegistrar(FData)^.add_custom_scheme(PCefSchemeRegistrar(FData),
+                                                         @sn,
+                                                         Ord(IsStandard),
+                                                         Ord(IsLocal),
+                                                         Ord(IsDisplayIsolated)) <> 0;
+end;
+
+class function TCefSchemeRegistrarRef.UnWrap(data: Pointer): ICefSchemeRegistrar;
+begin
+  if (data <> nil) then
+    Result := Create(data) as ICefSchemeRegistrar
+   else
+    Result := nil;
 end;
 
 end.

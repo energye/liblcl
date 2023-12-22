@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,26 +37,26 @@
 
 unit uCEFResourceBundle;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefResourceBundleRef = class(TCefBaseRefCountedRef, ICefResourceBundle)
+  TCefResourceBundleRef = class(TCefBaseRef, ICefResourceBundle)
     protected
       function GetLocalizedString(stringId: Integer): ustring;
-      function GetDataResource(resourceId: Integer): ICefBinaryValue;
-      function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor): ICefBinaryValue;
+      function GetDataResource(resourceId: Integer; var data: Pointer; var dataSize: NativeUInt): Boolean;
+      function GetDataResourceForScale(resourceId: Integer; scaleFactor: TCefScaleFactor; var data: Pointer; var dataSize: NativeUInt): Boolean;
     public
       class function UnWrap(data: Pointer): ICefResourceBundle;
       class function Global: ICefResourceBundle;
@@ -65,26 +65,27 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFLibFunctions, uCEFBinaryValue;
+  uCEFMiscFunctions, uCEFLibFunctions;
 
 
-function TCefResourceBundleRef.GetDataResource(resourceId: Integer): ICefBinaryValue;
+function TCefResourceBundleRef.GetDataResource(resourceId   : Integer;
+                                               var data     : Pointer;
+                                               var dataSize : NativeUInt): Boolean;
 begin
-  Result := TCefBinaryValueRef.UnWrap(PCefResourceBundle(FData)^.get_data_resource(PCefResourceBundle(FData),
-                                                                                   resourceId));
+  Result := PCefResourceBundle(FData).get_data_resource(FData, resourceId, data, dataSize) <> 0;
 end;
 
-function TCefResourceBundleRef.GetDataResourceForScale(resourceId  : Integer;
-                                                       scaleFactor : TCefScaleFactor): ICefBinaryValue;
+function TCefResourceBundleRef.GetDataResourceForScale(resourceId : Integer;
+                                                           scaleFactor : TCefScaleFactor;
+                                                       var data        : Pointer;
+                                                       var dataSize    : NativeUInt): Boolean;
 begin
-  Result := TCefBinaryValueRef.UnWrap(PCefResourceBundle(FData)^.get_data_resource_for_scale(PCefResourceBundle(FData),
-                                                                                             resourceId,
-                                                                                             scaleFactor));
+  Result := PCefResourceBundle(FData).get_data_resource_for_scale(FData, resourceId, scaleFactor, data, dataSize) <> 0;
 end;
 
 function TCefResourceBundleRef.GetLocalizedString(stringId: Integer): ustring;
 begin
-  Result := CefStringFreeAndGet(PCefResourceBundle(FData)^.get_localized_string(PCefResourceBundle(FData), stringId));
+  Result := CefStringFreeAndGet(PCefResourceBundle(FData).get_localized_string(FData, stringId));
 end;
 
 class function TCefResourceBundleRef.Global: ICefResourceBundle;

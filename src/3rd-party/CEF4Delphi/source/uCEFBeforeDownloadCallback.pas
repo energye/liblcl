@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,22 +37,22 @@
 
 unit uCEFBeforeDownloadCallback;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefBeforeDownloadCallbackRef = class(TCefBaseRefCountedRef, ICefBeforeDownloadCallback)
+  TCefBeforeDownloadCallbackRef = class(TCefBaseRef, ICefBeforeDownloadCallback)
     protected
       procedure Cont(const downloadPath: ustring; showDialog: Boolean);
 
@@ -65,19 +65,20 @@ implementation
 uses
   uCEFMiscFunctions, uCEFLibFunctions;
 
-procedure TCefBeforeDownloadCallbackRef.Cont(const downloadPath: ustring; showDialog: Boolean);
+procedure TCefBeforeDownloadCallbackRef.Cont(const downloadPath: ustring;
+  showDialog: Boolean);
 var
-  TempPath : TCefString;
+  dp: TCefString;
 begin
-  TempPath := CefString(downloadPath);
-  PCefBeforeDownloadCallback(FData)^.cont(PCefBeforeDownloadCallback(FData), @TempPath, Ord(showDialog));
+  dp := CefString(downloadPath);
+  PCefBeforeDownloadCallback(FData)^.cont(PCefBeforeDownloadCallback(FData), @dp, Ord(showDialog));
 end;
 
-class function TCefBeforeDownloadCallbackRef.UnWrap(data: Pointer): ICefBeforeDownloadCallback;
+class function TCefBeforeDownloadCallbackRef.UnWrap(
+  data: Pointer): ICefBeforeDownloadCallback;
 begin
-  if (data <> nil) then
-    Result := Create(data) as ICefBeforeDownloadCallback
-   else
+  if data <> nil then
+    Result := Create(data) as ICefBeforeDownloadCallback else
     Result := nil;
 end;
 

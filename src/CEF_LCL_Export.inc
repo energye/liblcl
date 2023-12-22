@@ -8,6 +8,10 @@
 }
 
 // cef
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$I cef.inc}
 
 {$IFnDEF LINUX}

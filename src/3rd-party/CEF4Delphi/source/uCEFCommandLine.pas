@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,12 +37,12 @@
 
 unit uCEFCommandLine;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
@@ -54,10 +54,10 @@ uses
   {$ELSE}
   Classes, SysUtils,
   {$ENDIF}
-  uCEFBaseRefCounted, uCEFTypes, uCEFInterfaces;
+  uCEFBase, uCEFTypes, uCEFInterfaces;
 
 type
-  TCefCommandLineRef = class(TCefBaseRefCountedRef, ICefCommandLine)
+  TCefCommandLineRef = class(TCefBaseRef, ICefCommandLine)
     protected
       function  IsValid: Boolean;
       function  IsReadOnly: Boolean;
@@ -72,8 +72,7 @@ type
       function  HasSwitches: Boolean;
       function  HasSwitch(const name: ustring): Boolean;
       function  GetSwitchValue(const name: ustring): ustring;
-      function  GetSwitches(var switches: TStrings): boolean; overload;
-      function  GetSwitches(var SwitchKeys, SwitchValues: TStringList): boolean; overload;
+      procedure GetSwitches(var switches: TStrings);
       procedure AppendSwitch(const name: ustring);
       procedure AppendSwitchWithValue(const name, value: ustring);
       function  HasArguments: Boolean;
@@ -156,13 +155,12 @@ begin
   Result := CefStringFreeAndGet(PCefCommandLine(FData)^.get_program(PCefCommandLine(FData)));
 end;
 
-function TCefCommandLineRef.GetSwitches(var switches: TStrings): boolean;
+procedure TCefCommandLineRef.GetSwitches(var switches: TStrings);
 var
   TempStrMap : ICefStringMap;
   i, j : NativeUInt;
-  TempKey, TempValue : ustring;
+  TempKey, TempValue : string;
 begin
-  Result     := False;
   TempStrMap := nil;
 
   try
@@ -191,44 +189,6 @@ begin
 
               inc(i);
             end;
-
-          Result := (j > 0);
-        end;
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefCommandLineRef.GetSwitches', e) then raise;
-    end;
-  finally
-    TempStrMap := nil;
-  end;
-end;
-
-function TCefCommandLineRef.GetSwitches(var SwitchKeys, SwitchValues: TStringList): boolean;
-var
-  TempStrMap : ICefStringMap;
-  i, j : NativeUInt;
-begin
-  Result     := False;
-  TempStrMap := nil;
-
-  try
-    try
-      if (SwitchKeys <> nil) and (SwitchValues <> nil) then
-        begin
-          TempStrMap := TCefStringMapOwn.Create;
-          PCefCommandLine(FData)^.get_switches(PCefCommandLine(FData), TempStrMap.Handle);
-
-          i := 0;
-          j := TempStrMap.Size;
-
-          while (i < j) do
-            begin
-              SwitchKeys.Add(TempStrMap.Key[i]);
-              SwitchValues.Add(TempStrMap.Value[i]);
-              inc(i);
-            end;
-
-          Result := (j > 0);
         end;
     except
       on e : exception do
@@ -249,7 +209,7 @@ end;
 
 class function TCefCommandLineRef.Global: ICefCommandLine;
 begin
-  Result := UnWrap(cef_command_line_get_global());
+  Result := UnWrap(cef_command_line_get_global);
 end;
 
 function TCefCommandLineRef.HasArguments: Boolean;
@@ -295,7 +255,7 @@ end;
 
 class function TCefCommandLineRef.New: ICefCommandLine;
 begin
-  Result := UnWrap(cef_command_line_create());
+  Result := UnWrap(cef_command_line_create);
 end;
 
 procedure TCefCommandLineRef.PrependWrapper(const wrapper: ustring);

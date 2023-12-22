@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,12 +37,12 @@
 
 unit uCEFStringList;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
@@ -54,7 +54,7 @@ uses
   {$ELSE}
   Classes,
   {$ENDIF}
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
   TCefCustomStringList = class(TInterfacedObject, ICefStringList)
@@ -62,8 +62,8 @@ type
       FHandle : TCefStringList;
 
       function  GetHandle: TCefStringMap; virtual;
-      function  GetSize: NativeUInt; virtual;
-      function  GetValue(index: NativeUInt): ustring; virtual;
+      function  GetSize: integer; virtual;
+      function  GetValue(index: integer): ustring; virtual;
       procedure Append(const value: ustring); virtual;
       procedure Clear; virtual;
       function  Copy : TCefStringList; virtual;
@@ -124,7 +124,7 @@ begin
   Result := FHandle;
 end;
 
-function TCefCustomStringList.GetSize: NativeUInt;
+function TCefCustomStringList.GetSize: integer;
 begin
   if (FHandle <> nil) then
     Result := cef_string_list_size(FHandle)
@@ -140,7 +140,7 @@ begin
     Result := nil;
 end;
 
-function TCefCustomStringList.GetValue(index: NativeUInt): ustring;
+function TCefCustomStringList.GetValue(index: integer): ustring;
 var
   TempValue : TCefString;
 begin
@@ -148,17 +148,17 @@ begin
 
   if (FHandle <> nil) then
     begin
-      CefStringInitialize(@TempValue);
+      FillChar(TempValue, SizeOf(TempValue), 0);
 
       if (cef_string_list_value(FHandle, index, @TempValue) <> 0) then
-        Result := CefStringClearAndGet(@TempValue);
+        Result := CefString(@TempValue);
     end;
 end;
 
 procedure TCefCustomStringList.CopyToStrings(const aStrings : TStrings);
 var
-  i, j : NativeUInt;
-  TempValue : TCefString;
+  i, j : integer;
+  TempString : TCefString;
 begin
   if (aStrings <> nil) and (FHandle <> nil) then
     begin
@@ -167,10 +167,10 @@ begin
 
       while (i < j) do
         begin
-          CefStringInitialize(@TempValue);
+          FillChar(TempString, SizeOf(TCefString), 0);
 
-          if (cef_string_list_value(FHandle, i, @TempValue) <> 0) then
-            aStrings.Add(CefStringClearAndGet(@TempValue));
+          if (cef_string_list_value(FHandle, i, @TempString) <> 0) then
+            aStrings.Add(CefStringClearAndGet(TempString));
 
           inc(i);
         end;
@@ -196,7 +196,7 @@ constructor TCefStringListOwn.Create;
 begin
   inherited Create;
 
-  FHandle := cef_string_list_alloc();
+  FHandle := cef_string_list_alloc;
 end;
 
 destructor TCefStringListOwn.Destroy;

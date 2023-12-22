@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -35,24 +35,24 @@
  *
  *)
 
-unit uCEFv8Exception;
+unit uCEFV8Exception;
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefV8ExceptionRef = class(TCefBaseRefCountedRef, ICefV8Exception)
+  TCefV8ExceptionRef = class(TCefBaseRef, ICefV8Exception)
     protected
       function GetMessage: ustring;
       function GetSourceLine: ustring;
@@ -75,42 +75,42 @@ uses
 
 function TCefV8ExceptionRef.GetEndColumn: Integer;
 begin
-  Result := PCefV8Exception(FData)^.get_end_column(PCefV8Exception(FData));
+  Result := PCefV8Exception(FData)^.get_end_column(FData);
 end;
 
 function TCefV8ExceptionRef.GetEndPosition: Integer;
 begin
-  Result := PCefV8Exception(FData)^.get_end_position(PCefV8Exception(FData));
+  Result := PCefV8Exception(FData)^.get_end_position(FData);
 end;
 
 function TCefV8ExceptionRef.GetLineNumber: Integer;
 begin
-  Result := PCefV8Exception(FData)^.get_line_number(PCefV8Exception(FData));
+  Result := PCefV8Exception(FData)^.get_line_number(FData);
 end;
 
 function TCefV8ExceptionRef.GetMessage: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefV8Exception(FData)^.get_message(PCefV8Exception(FData)));
+  Result := CefStringFreeAndGet(PCefV8Exception(FData)^.get_message(FData));
 end;
 
 function TCefV8ExceptionRef.GetScriptResourceName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefV8Exception(FData)^.get_script_resource_name(PCefV8Exception(FData)));
+  Result := CefStringFreeAndGet(PCefV8Exception(FData)^.get_script_resource_name(FData));
 end;
 
 function TCefV8ExceptionRef.GetSourceLine: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefV8Exception(FData)^.get_source_line(PCefV8Exception(FData)));
+  Result := CefStringFreeAndGet(PCefV8Exception(FData)^.get_source_line(FData));
 end;
 
 function TCefV8ExceptionRef.GetStartColumn: Integer;
 begin
-  Result := PCefV8Exception(FData)^.get_start_column(PCefV8Exception(FData));
+  Result := PCefV8Exception(FData)^.get_start_column(FData);
 end;
 
 function TCefV8ExceptionRef.GetStartPosition: Integer;
 begin
-  Result := PCefV8Exception(FData)^.get_start_position(PCefV8Exception(FData));
+  Result := PCefV8Exception(FData)^.get_start_position(FData);
 end;
 
 class function TCefV8ExceptionRef.UnWrap(data: Pointer): ICefV8Exception;

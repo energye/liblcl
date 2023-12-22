@@ -7,6 +7,10 @@
 unit uCEF_LCL_ClientHandlersRef;
 
 {$mode objfpc}{$H+}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
 {$I cef.inc}
 
 interface

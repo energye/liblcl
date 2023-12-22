@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,22 +37,22 @@
 
 unit uCEFv8Context;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefv8ContextRef = class(TCefBaseRefCountedRef, ICefv8Context)
+  TCefv8ContextRef = class(TCefBaseRef, ICefv8Context)
     protected
       function GetTaskRunner: ICefTaskRunner;
       function IsValid: Boolean;
@@ -62,8 +62,7 @@ type
       function Enter: Boolean;
       function Exit: Boolean;
       function IsSame(const that: ICefv8Context): Boolean;
-      function Eval(const code: ustring; const script_url: ustring; start_line: integer; var retval: ICefv8Value; var exception: ICefV8Exception): Boolean;
-
+      function Eval(const code: ustring; var retval: ICefv8Value; var exception: ICefV8Exception): Boolean;
     public
       class function UnWrap(data: Pointer): ICefv8Context;
       class function Current: ICefv8Context;
@@ -77,7 +76,7 @@ uses
 
 class function TCefv8ContextRef.Current: ICefv8Context;
 begin
-  Result := UnWrap(cef_v8context_get_current_context());
+  Result := UnWrap(cef_v8context_get_current_context)
 end;
 
 function TCefv8ContextRef.Enter: Boolean;
@@ -87,7 +86,7 @@ end;
 
 class function TCefv8ContextRef.Entered: ICefv8Context;
 begin
-  Result := UnWrap(cef_v8context_get_entered_context());
+  Result := UnWrap(cef_v8context_get_entered_context)
 end;
 
 function TCefv8ContextRef.Exit: Boolean;
@@ -122,25 +121,22 @@ end;
 
 function TCefv8ContextRef.IsValid: Boolean;
 begin
-  Result := PCefv8Context(FData)^.is_valid(PCefv8Context(FData)) <> 0;
+  Result := PCefv8Context(FData)^.is_valid(FData) <> 0;
 end;
 
-function TCefv8ContextRef.Eval(const code       : ustring;
-                               const script_url : ustring;
-                                     start_line : integer;
-                               var   retval     : ICefv8Value;
-                               var   exception  : ICefV8Exception): Boolean;
+function TCefv8ContextRef.Eval(const code: ustring;
+                               var   retval: ICefv8Value;
+                               var   exception: ICefV8Exception): Boolean;
 var
-  TempCode, TempScriptURL : TCefString;
+  TempCode : TCefString;
   TempValue : PCefv8Value;
   TempException : PCefV8Exception;
 begin
   TempCode      := CefString(code);
-  TempScriptURL := CefString(script_url);
   TempValue     := nil;
   TempException := nil;
 
-  Result := (PCefv8Context(FData)^.eval(PCefv8Context(FData), @TempCode, @TempScriptURL, start_line, TempValue, TempException) <> 0);
+  Result := (PCefv8Context(FData)^.eval(PCefv8Context(FData), @TempCode, TempValue, TempException) <> 0);
 
   retval    := TCefv8ValueRef.UnWrap(TempValue);
   exception := TCefV8ExceptionRef.UnWrap(TempException);

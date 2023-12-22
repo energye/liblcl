@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,22 +37,22 @@
 
 unit uCEFPDFPrintCallback;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefPdfPrintCallbackOwn = class(TCefBaseRefCountedOwn, ICefPdfPrintCallback)
+  TCefPdfPrintCallbackOwn = class(TCefBaseOwn, ICefPdfPrintCallback)
     protected
       procedure OnPdfPrintFinished(const path: ustring; ok: Boolean); virtual; abstract;
 
@@ -109,8 +109,7 @@ constructor TCefPdfPrintCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefPdfPrintCallback));
 
-  with PCefPdfPrintCallback(FData)^ do
-    on_pdf_print_finished := {$IFDEF FPC}@{$ENDIF}cef_pdf_print_callback_on_pdf_print_finished;
+  PCefPdfPrintCallback(FData)^.on_pdf_print_finished := {$IFDEF FPC}@{$ENDIF}cef_pdf_print_callback_on_pdf_print_finished;
 end;
 
 // TCefFastPdfPrintCallback

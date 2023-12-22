@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,24 +37,23 @@
 
 unit uCEFClient;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefClientRef = class(TCefBaseRefCountedRef, ICefClient)
+  TCefClientRef = class(TCefBaseRef, ICefClient)
     protected
-      procedure GetAudioHandler(var aHandler : ICefAudioHandler); virtual;
       procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); virtual;
       procedure GetDialogHandler(var aHandler : ICefDialogHandler); virtual;
       procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); virtual;
@@ -62,13 +61,14 @@ type
       procedure GetDragHandler(var aHandler : ICefDragHandler); virtual;
       procedure GetFindHandler(var aHandler : ICefFindHandler); virtual;
       procedure GetFocusHandler(var aHandler : ICefFocusHandler); virtual;
+      procedure GetGeolocationHandler(var aHandler : ICefGeolocationHandler); virtual;
       procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); virtual;
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); virtual;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); virtual;
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); virtual;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
-      function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
+      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -76,9 +76,8 @@ type
       class function UnWrap(data: Pointer): ICefClient;
   end;
 
-  TCefClientOwn = class(TCefBaseRefCountedOwn, ICefClient)
+  TCefClientOwn = class(TCefBaseOwn, ICefClient)
     protected
-      procedure GetAudioHandler(var aHandler : ICefAudioHandler); virtual;
       procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); virtual;
       procedure GetDialogHandler(var aHandler : ICefDialogHandler); virtual;
       procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); virtual;
@@ -86,13 +85,14 @@ type
       procedure GetDragHandler(var aHandler : ICefDragHandler); virtual;
       procedure GetFindHandler(var aHandler : ICefFindHandler); virtual;
       procedure GetFocusHandler(var aHandler : ICefFocusHandler); virtual;
+      procedure GetGeolocationHandler(var aHandler : ICefGeolocationHandler); virtual;
       procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); virtual;
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); virtual;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); virtual;
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); virtual;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); virtual;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); virtual;
-      function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
+      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; virtual;
 
       procedure RemoveReferences; virtual;
 
@@ -103,7 +103,6 @@ type
   TCustomClientHandler = class(TCefClientOwn)
     protected
       FEvents             : Pointer;
-      FAudioHandler       : ICefAudioHandler;
       FLoadHandler        : ICefLoadHandler;
       FFocusHandler       : ICefFocusHandler;
       FContextMenuHandler : ICefContextMenuHandler;
@@ -111,6 +110,7 @@ type
       FKeyboardHandler    : ICefKeyboardHandler;
       FDisplayHandler     : ICefDisplayHandler;
       FDownloadHandler    : ICefDownloadHandler;
+      FGeolocationHandler : ICefGeolocationHandler;
       FJsDialogHandler    : ICefJsDialogHandler;
       FLifeSpanHandler    : ICefLifeSpanHandler;
       FRenderHandler      : ICefRenderHandler;
@@ -118,7 +118,6 @@ type
       FDragHandler        : ICefDragHandler;
       FFindHandler        : ICefFindHandler;
 
-      procedure GetAudioHandler(var aHandler : ICefAudioHandler); override;
       procedure GetContextMenuHandler(var aHandler : ICefContextMenuHandler); override;
       procedure GetDialogHandler(var aHandler : ICefDialogHandler); override;
       procedure GetDisplayHandler(var aHandler : ICefDisplayHandler); override;
@@ -126,18 +125,23 @@ type
       procedure GetDragHandler(var aHandler : ICefDragHandler); override;
       procedure GetFindHandler(var aHandler : ICefFindHandler); override;
       procedure GetFocusHandler(var aHandler : ICefFocusHandler); override;
+      procedure GetGeolocationHandler(var aHandler : ICefGeolocationHandler); override;
       procedure GetJsdialogHandler(var aHandler : ICefJsdialogHandler); override;
       procedure GetKeyboardHandler(var aHandler : ICefKeyboardHandler); override;
       procedure GetLifeSpanHandler(var aHandler : ICefLifeSpanHandler); override;
       procedure GetLoadHandler(var aHandler : ICefLoadHandler); override;
       procedure GetRenderHandler(var aHandler : ICefRenderHandler); override;
       procedure GetRequestHandler(var aHandler : ICefRequestHandler); override;
-      function  OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; override;
+      function  OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean; override;
 
       procedure InitializeVars;
 
     public
-      constructor Create(const events: IChromiumEvents; aDevToolsClient : boolean = False); reintroduce; virtual;
+      constructor Create(const events: IChromiumEvents;
+                         aCreateLoadHandler, aCreateFocusHandler, aCreateContextMenuHandler, aCreateDialogHandler,
+                         aCreateKeyboardHandler, aCreateDisplayHandler, aCreateDownloadHandler, aCreateGeolocationHandler,
+                         aCreateJsDialogHandler, aCreateLifeSpanHandler, aCreateRenderHandler, aCreateRequestHandler,
+                         aCreateDragHandler, aCreateFindHandler : boolean); reintroduce; virtual;
       procedure   BeforeDestruction; override;
       procedure   RemoveReferences; override;
   end;
@@ -152,9 +156,9 @@ uses
   {$ENDIF}
   uCEFMiscFunctions, uCEFLibFunctions, uCEFProcessMessage, uCEFBrowser, uCEFLoadHandler,
   uCEFFocusHandler, uCEFContextMenuHandler, uCEFDialogHandler, uCEFKeyboardHandler,
-  uCEFDisplayHandler, uCEFDownloadHandler, uCEFJsDialogHandler,
+  uCEFDisplayHandler, uCEFDownloadHandler, uCEFJsDialogHandler, uCEFGeolocationHandler,
   uCEFLifeSpanHandler, uCEFRequestHandler, uCEFRenderHandler, uCEFDragHandler,
-  uCEFFindHandler, uCEFConstants, uCEFApplicationCore, uCEFFrame, uCEFAudioHandler;
+  uCEFFindHandler, uCEFConstants, uCEFApplication;
 
 
 // ******************************************************
@@ -167,11 +171,6 @@ begin
     Result := Create(data) as ICefClient
    else
     Result := nil;
-end;
-
-procedure TCefClientRef.GetAudioHandler(var aHandler : ICefAudioHandler);
-begin
-  aHandler := nil;
 end;
 
 procedure TCefClientRef.GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
@@ -190,6 +189,11 @@ begin
 end;
 
 procedure TCefClientRef.GetDownloadHandler(var aHandler : ICefDownloadHandler);
+begin
+  aHandler := nil;
+end;
+
+procedure TCefClientRef.GetGeolocationHandler(var aHandler : ICefGeolocationHandler);
 begin
   aHandler := nil;
 end;
@@ -239,7 +243,7 @@ begin
   aHandler := nil;
 end;
 
-function TCefClientRef.OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean;
+function TCefClientRef.OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): Boolean;
 begin
   Result := False;
 end;
@@ -254,23 +258,6 @@ end;
 // ****************** TCefClientOwn *********************
 // ******************************************************
 
-
-function cef_client_own_get_audio_handler(self: PCefClient): PCefAudioHandler; stdcall;
-var
-  TempObject  : TObject;
-  TempHandler : ICefAudioHandler;
-begin
-  Result      := nil;
-  TempObject  := CefGetObject(self);
-
-  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
-    try
-      TCefClientOwn(TempObject).GetAudioHandler(TempHandler);
-      if (TempHandler <> nil) then Result := TempHandler.Wrap;
-    finally
-      TempHandler := nil;
-    end;
-end;
 
 function cef_client_own_get_context_menu_handler(self: PCefClient): PCefContextMenuHandler; stdcall;
 var
@@ -334,6 +321,23 @@ begin
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     try
       TCefClientOwn(TempObject).GetDownloadHandler(TempHandler);
+      if (TempHandler <> nil) then Result := TempHandler.Wrap;
+    finally
+      TempHandler := nil;
+    end;
+end;
+
+function cef_client_own_get_geolocation_handler(self: PCefClient): PCefGeolocationHandler; stdcall;
+var
+  TempObject  : TObject;
+  TempHandler : ICefGeolocationHandler;
+begin
+  Result      := nil;
+  TempObject  := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefClientOwn) then
+    try
+      TCefClientOwn(TempObject).GetGeolocationHandler(TempHandler);
       if (TempHandler <> nil) then Result := TempHandler.Wrap;
     finally
       TempHandler := nil;
@@ -495,7 +499,6 @@ end;
 
 function cef_client_own_on_process_message_received(self           : PCefClient;
                                                     browser        : PCefBrowser;
-                                                    frame          : PCefFrame;
                                                     source_process : TCefProcessId;
                                                     message_       : PCefProcessMessage): Integer; stdcall;
 var
@@ -506,7 +509,6 @@ begin
 
   if (TempObject <> nil) and (TempObject is TCefClientOwn) then
     Result := Ord(TCefClientOwn(TempObject).OnProcessMessageReceived(TCefBrowserRef.UnWrap(browser),
-                                                                     TCefFrameRef.UnWrap(frame),
                                                                      source_process,
                                                                      TCefProcessMessageRef.UnWrap(message_)));
 end;
@@ -517,27 +519,22 @@ begin
 
   with PCefClient(FData)^ do
     begin
-      get_audio_handler           := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_audio_handler;
-      get_context_menu_handler    := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_context_menu_handler;
-      get_dialog_handler          := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_dialog_handler;
-      get_display_handler         := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_display_handler;
-      get_download_handler        := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_download_handler;
-      get_drag_handler            := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_drag_handler;
-      get_find_handler            := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_find_handler;
-      get_focus_handler           := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_focus_handler;
-      get_jsdialog_handler        := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_jsdialog_handler;
-      get_keyboard_handler        := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_keyboard_handler;
-      get_life_span_handler       := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_life_span_handler;
-      get_load_handler            := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_load_handler;
-      get_render_handler          := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_get_render_handler;
-      get_request_handler         := {$IFDEF FPC}@{$ENDIF}cef_client_own_get_request_handler;
-      on_process_message_received := {$IFDEF FPC}@{$ENDIF}cef_client_own_on_process_message_received;
+      get_context_menu_handler    := cef_client_own_get_context_menu_handler;
+      get_dialog_handler          := cef_client_own_get_dialog_handler;
+      get_display_handler         := cef_client_own_get_display_handler;
+      get_download_handler        := cef_client_own_get_download_handler;
+      get_drag_handler            := cef_client_own_get_drag_handler;
+      get_find_handler            := cef_client_own_get_find_handler;
+      get_focus_handler           := cef_client_own_get_focus_handler;
+      get_geolocation_handler     := cef_client_own_get_geolocation_handler;
+      get_jsdialog_handler        := cef_client_own_get_jsdialog_handler;
+      get_keyboard_handler        := cef_client_own_get_keyboard_handler;
+      get_life_span_handler       := cef_client_own_get_life_span_handler;
+      get_load_handler            := cef_client_own_get_load_handler;
+      get_render_handler          := cef_client_own_get_get_render_handler;
+      get_request_handler         := cef_client_own_get_request_handler;
+      on_process_message_received := cef_client_own_on_process_message_received;
     end;
-end;
-
-procedure TCefClientOwn.GetAudioHandler(var aHandler : ICefAudioHandler);
-begin
-  aHandler := nil;
 end;
 
 procedure TCefClientOwn.GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
@@ -575,6 +572,11 @@ begin
   aHandler := nil;
 end;
 
+procedure TCefClientOwn.GetGeolocationHandler(var aHandler : ICefGeolocationHandler);
+begin
+  aHandler := nil;
+end;
+
 procedure TCefClientOwn.GetJsdialogHandler(var aHandler : ICefJsDialogHandler);
 begin
   aHandler := nil;
@@ -606,7 +608,6 @@ begin
 end;
 
 function TCefClientOwn.OnProcessMessageReceived(const browser       : ICefBrowser;
-                                                const frame         : ICefFrame;
                                                       sourceProcess : TCefProcessId;
                                                 const message_      : ICefProcessMessage): Boolean;
 begin
@@ -624,7 +625,21 @@ end;
 // ******************************************************
 
 
-constructor TCustomClientHandler.Create(const events : IChromiumEvents; aDevToolsClient : boolean);
+constructor TCustomClientHandler.Create(const events                     : IChromiumEvents;
+                                              aCreateLoadHandler         : boolean;
+                                              aCreateFocusHandler        : boolean;
+                                              aCreateContextMenuHandler  : boolean;
+                                              aCreateDialogHandler       : boolean;
+                                              aCreateKeyboardHandler     : boolean;
+                                              aCreateDisplayHandler      : boolean;
+                                              aCreateDownloadHandler     : boolean;
+                                              aCreateGeolocationHandler  : boolean;
+                                              aCreateJsDialogHandler     : boolean;
+                                              aCreateLifeSpanHandler     : boolean;
+                                              aCreateRenderHandler       : boolean;
+                                              aCreateRequestHandler      : boolean;
+                                              aCreateDragHandler         : boolean;
+                                              aCreateFindHandler         : boolean);
 begin
   inherited Create;
 
@@ -632,29 +647,22 @@ begin
 
   FEvents := Pointer(events);
 
-  if (events <> nil) then
+  if (FEvents <> nil) then
     begin
-      if aDevToolsClient then
-        begin
-          if events.MustCreateKeyboardHandler    then FKeyboardHandler    := TCustomKeyboardHandler.Create(events);
-        end
-       else
-        begin
-          if events.MustCreateAudioHandler       then FAudioHandler       := TCustomAudioHandler.Create(events);
-          if events.MustCreateLoadHandler        then FLoadHandler        := TCustomLoadHandler.Create(events);
-          if events.MustCreateFocusHandler       then FFocusHandler       := TCustomFocusHandler.Create(events);
-          if events.MustCreateContextMenuHandler then FContextMenuHandler := TCustomContextMenuHandler.Create(events);
-          if events.MustCreateDialogHandler      then FDialogHandler      := TCustomDialogHandler.Create(events);
-          if events.MustCreateKeyboardHandler    then FKeyboardHandler    := TCustomKeyboardHandler.Create(events);
-          if events.MustCreateDisplayHandler     then FDisplayHandler     := TCustomDisplayHandler.Create(events);
-          if events.MustCreateDownloadHandler    then FDownloadHandler    := TCustomDownloadHandler.Create(events);
-          if events.MustCreateJsDialogHandler    then FJsDialogHandler    := TCustomJsDialogHandler.Create(events);
-          if events.MustCreateLifeSpanHandler    then FLifeSpanHandler    := TCustomLifeSpanHandler.Create(events);
-          if events.MustCreateRenderHandler      then FRenderHandler      := TCustomRenderHandler.Create(events);
-          if events.MustCreateRequestHandler     then FRequestHandler     := TCustomRequestHandler.Create(events);
-          if events.MustCreateDragHandler        then FDragHandler        := TCustomDragHandler.Create(events);
-          if events.MustCreateFindHandler        then FFindHandler        := TCustomFindHandler.Create(events);
-        end;
+      if aCreateLoadHandler        then FLoadHandler        := TCustomLoadHandler.Create(FEvents);
+      if aCreateFocusHandler       then FFocusHandler       := TCustomFocusHandler.Create(FEvents);
+      if aCreateContextMenuHandler then FContextMenuHandler := TCustomContextMenuHandler.Create(FEvents);
+      if aCreateDialogHandler      then FDialogHandler      := TCustomDialogHandler.Create(FEvents);
+      if aCreateKeyboardHandler    then FKeyboardHandler    := TCustomKeyboardHandler.Create(FEvents);
+      if aCreateDisplayHandler     then FDisplayHandler     := TCustomDisplayHandler.Create(FEvents);
+      if aCreateDownloadHandler    then FDownloadHandler    := TCustomDownloadHandler.Create(FEvents);
+      if aCreateGeolocationHandler then FGeolocationHandler := TCustomGeolocationHandler.Create(FEvents);
+      if aCreateJsDialogHandler    then FJsDialogHandler    := TCustomJsDialogHandler.Create(FEvents);
+      if aCreateLifeSpanHandler    then FLifeSpanHandler    := TCustomLifeSpanHandler.Create(FEvents);
+      if aCreateRenderHandler      then FRenderHandler      := TCustomRenderHandler.Create(FEvents);
+      if aCreateRequestHandler     then FRequestHandler     := TCustomRequestHandler.Create(FEvents);
+      if aCreateDragHandler        then FDragHandler        := TCustomDragHandler.Create(FEvents);
+      if aCreateFindHandler        then FFindHandler        := TCustomFindHandler.Create(FEvents);
     end;
 end;
 
@@ -669,7 +677,6 @@ procedure TCustomClientHandler.RemoveReferences;
 begin
   FEvents := nil;
 
-  if (FAudioHandler       <> nil) then FAudioHandler.RemoveReferences;
   if (FLoadHandler        <> nil) then FLoadHandler.RemoveReferences;
   if (FFocusHandler       <> nil) then FFocusHandler.RemoveReferences;
   if (FContextMenuHandler <> nil) then FContextMenuHandler.RemoveReferences;
@@ -677,6 +684,7 @@ begin
   if (FKeyboardHandler    <> nil) then FKeyboardHandler.RemoveReferences;
   if (FDisplayHandler     <> nil) then FDisplayHandler.RemoveReferences;
   if (FDownloadHandler    <> nil) then FDownloadHandler.RemoveReferences;
+  if (FGeolocationHandler <> nil) then FGeolocationHandler.RemoveReferences;
   if (FJsDialogHandler    <> nil) then FJsDialogHandler.RemoveReferences;
   if (FLifeSpanHandler    <> nil) then FLifeSpanHandler.RemoveReferences;
   if (FRequestHandler     <> nil) then FRequestHandler.RemoveReferences;
@@ -687,7 +695,6 @@ end;
 
 procedure TCustomClientHandler.InitializeVars;
 begin
-  FAudioHandler       := nil;
   FLoadHandler        := nil;
   FFocusHandler       := nil;
   FContextMenuHandler := nil;
@@ -695,6 +702,7 @@ begin
   FKeyboardHandler    := nil;
   FDisplayHandler     := nil;
   FDownloadHandler    := nil;
+  FGeolocationHandler := nil;
   FJsDialogHandler    := nil;
   FLifeSpanHandler    := nil;
   FRequestHandler     := nil;
@@ -702,14 +710,6 @@ begin
   FDragHandler        := nil;
   FFindHandler        := nil;
   FEvents             := nil;
-end;
-
-procedure TCustomClientHandler.GetAudioHandler(var aHandler : ICefAudioHandler);
-begin
-  if (FAudioHandler <> nil) then
-    aHandler := FAudioHandler
-   else
-    aHandler := nil;
 end;
 
 procedure TCustomClientHandler.GetContextMenuHandler(var aHandler : ICefContextMenuHandler);
@@ -740,6 +740,14 @@ procedure TCustomClientHandler.GetDownloadHandler(var aHandler : ICefDownloadHan
 begin
   if (FDownloadHandler <> nil) then
     aHandler := FDownloadHandler
+   else
+    aHandler := nil;
+end;
+
+procedure TCustomClientHandler.GetGeolocationHandler(var aHandler : ICefGeolocationHandler);
+begin
+  if (FGeolocationHandler <> nil) then
+    aHandler := FGeolocationHandler
    else
     aHandler := nil;
 end;
@@ -817,14 +825,13 @@ begin
 end;
 
 function TCustomClientHandler.OnProcessMessageReceived(const browser       : ICefBrowser;
-                                                       const frame         : ICefFrame;
                                                              sourceProcess : TCefProcessId;
                                                        const message_      : ICefProcessMessage): Boolean;
 begin
   if (FEvents <> nil) then
-    Result := IChromiumEvents(FEvents).doOnProcessMessageReceived(browser, frame, sourceProcess, message_)
+    Result := IChromiumEvents(FEvents).doOnProcessMessageReceived(browser, sourceProcess, message_)
    else
-    Result := inherited OnProcessMessageReceived(browser, frame, sourceProcess, message_);
+    Result := inherited OnProcessMessageReceived(browser, sourceProcess, message_);
 end;
 
 end.

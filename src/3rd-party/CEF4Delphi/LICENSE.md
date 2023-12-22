@@ -1,14 +1,14 @@
-# CEF4Delphi 
+# OldCEF4Delphi 
 
-CEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
+OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 browser in Delphi applications.
 
-The original license of DCEF3 still applies to CEF4Delphi.
+The original license of DCEF3 still applies to OldCEF4Delphi.
 
-For more information about CEF4Delphi visit :
+For more information about OldCEF4Delphi visit :
         https://www.briskbard.com/index.php?lang=en&pageid=cef
 
-        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+        Copyright © 2019 Salvador Diaz Fau. All rights reserved.
 
 
 ## Original DCEF3 license

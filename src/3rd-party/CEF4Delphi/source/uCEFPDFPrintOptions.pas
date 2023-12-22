@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,12 +37,12 @@
 
 unit uCEFPDFPrintOptions;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
@@ -61,11 +61,10 @@ type
     protected
       Fpage_width            : integer;
       Fpage_height           : Integer;
-      Fscale_factor          : integer;
-      Fmargin_top            : integer;
-      Fmargin_right          : integer;
-      Fmargin_bottom         : integer;
-      Fmargin_left           : integer;
+      Fmargin_top            : double;
+      Fmargin_right          : double;
+      Fmargin_bottom         : double;
+      Fmargin_left           : double;
       Fmargin_type           : TCefPdfPrintMarginType;
       Fheader_footer_enabled : boolean;
       Fselection_only        : boolean;
@@ -78,11 +77,10 @@ type
     published
       property page_width            : integer                 read Fpage_width               write Fpage_width            default 0;
       property page_height           : integer                 read Fpage_height              write Fpage_height           default 0;
-      property scale_factor          : integer                 read Fscale_factor             write Fscale_factor          default 0;
-      property margin_top            : integer                 read Fmargin_top               write Fmargin_top;
-      property margin_right          : integer                 read Fmargin_right             write Fmargin_right;
-      property margin_bottom         : integer                 read Fmargin_bottom            write Fmargin_bottom;
-      property margin_left           : integer                 read Fmargin_left              write Fmargin_left;
+      property margin_top            : double                  read Fmargin_top               write Fmargin_top;
+      property margin_right          : double                  read Fmargin_right             write Fmargin_right;
+      property margin_bottom         : double                  read Fmargin_bottom            write Fmargin_bottom;
+      property margin_left           : double                  read Fmargin_left              write Fmargin_left;
       property margin_type           : TCefPdfPrintMarginType  read Fmargin_type              write Fmargin_type           default PDF_PRINT_MARGIN_DEFAULT;
       property header_footer_enabled : boolean                 read Fheader_footer_enabled    write Fheader_footer_enabled default False;
       property selection_only        : boolean                 read Fselection_only           write Fselection_only        default False;
@@ -96,7 +94,6 @@ constructor TPDFPrintOptions.Create;
 begin
   Fpage_width            := 0;
   Fpage_height           := 0;
-  Fscale_factor          := 100;
   Fmargin_top            := 0;
   Fmargin_right          := 0;
   Fmargin_bottom         := 0;

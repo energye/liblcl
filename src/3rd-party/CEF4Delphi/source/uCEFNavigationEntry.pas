@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,22 +37,22 @@
 
 unit uCEFNavigationEntry;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefNavigationEntryRef = class(TCefBaseRefCountedRef, ICefNavigationEntry)
+  TCefNavigationEntryRef = class(TCefBaseRef, ICefNavigationEntry)
     protected
       function IsValid: Boolean;
       function GetUrl: ustring;
@@ -63,7 +63,6 @@ type
       function HasPostData: Boolean;
       function GetCompletionTime: TDateTime;
       function GetHttpStatusCode: Integer;
-      function GetSSLStatus: ICefSSLStatus;
 
     public
       class function UnWrap(data: Pointer): ICefNavigationEntry;
@@ -72,7 +71,7 @@ type
 implementation
 
 uses
-  uCEFMiscFunctions, uCEFSSLStatus;
+  uCEFMiscFunctions;
 
 function TCefNavigationEntryRef.IsValid: Boolean;
 begin
@@ -117,11 +116,6 @@ end;
 function TCefNavigationEntryRef.GetHttpStatusCode: Integer;
 begin
   Result := PCefNavigationEntry(FData)^.get_http_status_code(FData);
-end;
-
-function TCefNavigationEntryRef.GetSSLStatus: ICefSSLStatus;
-begin
-  Result := TCefSSLStatusRef.UnWrap(PCefNavigationEntry(FData)^.get_sslstatus(FData));
 end;
 
 class function TCefNavigationEntryRef.UnWrap(data: Pointer): ICefNavigationEntry;

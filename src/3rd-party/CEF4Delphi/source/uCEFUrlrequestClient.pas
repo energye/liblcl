@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,33 +37,33 @@
 
 unit uCEFUrlrequestClient;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefUrlrequestClientOwn = class(TCefBaseRefCountedOwn, ICefUrlrequestClient)
-    protected
-      procedure OnRequestComplete(const request: ICefUrlRequest); virtual;
-      procedure OnUploadProgress(const request: ICefUrlRequest; current, total: Int64); virtual;
-      procedure OnDownloadProgress(const request: ICefUrlRequest; current, total: Int64); virtual;
-      procedure OnDownloadData(const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt); virtual;
-      function  OnGetAuthCredentials(isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
+  TCefUrlrequestClientOwn = class(TCefBaseOwn, ICefUrlrequestClient)
+  protected
+    procedure OnRequestComplete(const request: ICefUrlRequest); virtual;
+    procedure OnUploadProgress(const request: ICefUrlRequest; current, total: Int64); virtual;
+    procedure OnDownloadProgress(const request: ICefUrlRequest; current, total: Int64); virtual;
+    procedure OnDownloadData(const request: ICefUrlRequest; data: Pointer; dataLength: NativeUInt); virtual;
+    function  OnGetAuthCredentials(isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback): Boolean; virtual;
 
-      procedure RemoveReferences; virtual;
+    procedure RemoveReferences; virtual;
 
-    public
-      constructor Create; virtual;
+  public
+    constructor Create; virtual;
   end;
 
   TCustomCefUrlrequestClient = class(TCefUrlrequestClientOwn)
@@ -181,11 +181,11 @@ begin
 
   with PCefUrlrequestClient(FData)^ do
     begin
-      on_request_complete  := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_request_complete;
-      on_upload_progress   := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_upload_progress;
-      on_download_progress := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_download_progress;
-      on_download_data     := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_download_data;
-      get_auth_credentials := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_get_auth_credentials;
+      on_request_complete  := cef_url_request_client_on_request_complete;
+      on_upload_progress   := cef_url_request_client_on_upload_progress;
+      on_download_progress := cef_url_request_client_on_download_progress;
+      on_download_data     := cef_url_request_client_on_download_data;
+      get_auth_credentials := cef_url_request_client_get_auth_credentials;
     end;
 end;
 

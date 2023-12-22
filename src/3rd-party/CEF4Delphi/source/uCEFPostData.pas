@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,12 +37,12 @@
 
 unit uCEFPostData;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
@@ -54,17 +54,17 @@ uses
   {$ELSE}
   Classes, SysUtils,
   {$ENDIF}
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefPostDataRef = class(TCefBaseRefCountedRef, ICefPostData)
+  TCefPostDataRef = class(TCefBaseRef, ICefPostData)
     protected
       function  IsReadOnly: Boolean;
       function  HasExcludedElements: Boolean;
-      function  GetElementCount: NativeUInt;
-      procedure GetElements(elementsCount: NativeUInt; var elements: TCefPostDataElementArray);
-      function  RemoveElement(const element: ICefPostDataElement): Boolean;
-      function  AddElement(const element: ICefPostDataElement): Boolean;
+      function  GetCount: NativeUInt;
+      function  GetElements(Count: NativeUInt): IInterfaceList; // ICefPostDataElement
+      function  RemoveElement(const element: ICefPostDataElement): Integer;
+      function  AddElement(const element: ICefPostDataElement): Integer;
       procedure RemoveElements;
 
     public
@@ -88,71 +88,57 @@ begin
   Result := PCefPostData(FData)^.has_excluded_elements(PCefPostData(FData)) <> 0;
 end;
 
-function TCefPostDataRef.AddElement(const element: ICefPostDataElement): Boolean;
+function TCefPostDataRef.AddElement(const element: ICefPostDataElement): Integer;
 begin
-  Result := PCefPostData(FData)^.add_element(PCefPostData(FData), CefGetData(element)) <> 0;
+  Result := PCefPostData(FData)^.add_element(PCefPostData(FData), CefGetData(element));
 end;
 
-function TCefPostDataRef.GetElementCount: NativeUInt;
+function TCefPostDataRef.GetCount: NativeUInt;
 begin
   Result := PCefPostData(FData)^.get_element_count(PCefPostData(FData))
 end;
 
-procedure TCefPostDataRef.GetElements(elementsCount: NativeUInt; var elements: TCefPostDataElementArray);
+function TCefPostDataRef.GetElements(Count: NativeUInt): IInterfaceList;
 var
-  TempArray : array of PCefPostDataElement;
-  i : NativeUInt;
+  items : PCefPostDataElementArray;
+  i     : NativeUInt;
 begin
-  TempArray := nil;
+  Result := nil;
+  items  := nil;
 
   try
     try
-      if (elementsCount > 0) then
+      GetMem(items, SizeOf(PCefPostDataElement) * Count);
+      FillChar(items^, SizeOf(PCefPostDataElement) * Count, 0);
+
+      PCefPostData(FData)^.get_elements(PCefPostData(FData), @Count, items);
+
+      Result := TInterfaceList.Create;
+      i      := 0;
+
+      while (i < Count) do
         begin
-          SetLength(TempArray, elementsCount);
-
-          i := 0;
-          while (i < elementsCount) do
-            begin
-              TempArray[i] := nil;
-              inc(i);
-            end;
-
-          PCefPostData(FData)^.get_elements(PCefPostData(FData), elementsCount, TempArray[0]);
-
-          if (elementsCount > 0) then
-            begin
-              SetLength(elements, elementsCount);
-
-              i := 0;
-              while (i < elementsCount) do
-                begin
-                  elements[i] := TCefPostDataElementRef.UnWrap(TempArray[i]);
-                  inc(i);
-                end;
-            end;
+          Result.Add(TCefPostDataElementRef.UnWrap(items^[i]));
+          inc(i);
         end;
     except
       on e : exception do
         if CustomExceptionHandler('TCefPostDataRef.GetElements', e) then raise;
     end;
   finally
-    if (TempArray <> nil) then
-      begin
-        Finalize(TempArray);
-        TempArray := nil;
-      end;
+    if (items <> nil) then FreeMem(items);
   end;
 end;
 
 class function TCefPostDataRef.New: ICefPostData;
 begin
-  Result := UnWrap(cef_post_data_create());
+  Result := UnWrap(cef_post_data_create);
 end;
 
-function TCefPostDataRef.RemoveElement(const element: ICefPostDataElement): Boolean;
+function TCefPostDataRef.RemoveElement(
+  const element: ICefPostDataElement): Integer;
 begin
-  Result := PCefPostData(FData)^.remove_element(PCefPostData(FData), CefGetData(element)) <> 0;
+  Result := PCefPostData(FData)^.remove_element(PCefPostData(FData), CefGetData(element));
 end;
 
 procedure TCefPostDataRef.RemoveElements;
@@ -162,9 +148,8 @@ end;
 
 class function TCefPostDataRef.UnWrap(data: Pointer): ICefPostData;
 begin
-  if (data <> nil) then
-    Result := Create(data) as ICefPostData
-   else
+  if data <> nil then
+    Result := Create(data) as ICefPostData else
     Result := nil;
 end;
 

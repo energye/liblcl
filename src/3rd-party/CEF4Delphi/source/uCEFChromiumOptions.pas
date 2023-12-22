@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2019 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,10 +37,6 @@
 
 unit uCEFChromiumOptions;
 
-{$IFDEF FPC}
-  {$MODE OBJFPC}{$H+}
-{$ENDIF}
-
 {$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
 
@@ -61,9 +57,11 @@ type
     protected
       FWindowlessFrameRate         : Integer;
       FJavascript                  : TCefState;
+      FJavascriptOpenWindows       : TCefState;
       FJavascriptCloseWindows      : TCefState;
       FJavascriptAccessClipboard   : TCefState;
       FJavascriptDomPaste          : TCefState;
+      FCaretBrowsing               : TCefState;
       FPlugins                     : TCefState;
       FUniversalAccessFromFileUrls : TCefState;
       FFileAccessFromFileUrls      : TCefState;
@@ -84,9 +82,11 @@ type
 
     published
       property Javascript                  : TCefState read FJavascript                   write FJavascript                  default STATE_DEFAULT;
+      property JavascriptOpenWindows       : TCefState read FJavascriptOpenWindows        write FJavascriptOpenWindows       default STATE_DEFAULT;
       property JavascriptCloseWindows      : TCefState read FJavascriptCloseWindows       write FJavascriptCloseWindows      default STATE_DEFAULT;
       property JavascriptAccessClipboard   : TCefState read FJavascriptAccessClipboard    write FJavascriptAccessClipboard   default STATE_DEFAULT;
       property JavascriptDomPaste          : TCefState read FJavascriptDomPaste           write FJavascriptDomPaste          default STATE_DEFAULT;
+      property CaretBrowsing               : TCefState read FCaretBrowsing                write FCaretBrowsing               default STATE_DEFAULT;
       property Plugins                     : TCefState read FPlugins                      write FPlugins                     default STATE_DEFAULT;
       property UniversalAccessFromFileUrls : TCefState read FUniversalAccessFromFileUrls  write FUniversalAccessFromFileUrls default STATE_DEFAULT;
       property FileAccessFromFileUrls      : TCefState read FFileAccessFromFileUrls       write FFileAccessFromFileUrls      default STATE_DEFAULT;
@@ -110,9 +110,11 @@ constructor TChromiumOptions.Create;
 begin
   FWindowlessFrameRate         := 30;
   FJavascript                  := STATE_DEFAULT;
+  FJavascriptOpenWindows       := STATE_DEFAULT;
   FJavascriptCloseWindows      := STATE_DEFAULT;
   FJavascriptAccessClipboard   := STATE_DEFAULT;
   FJavascriptDomPaste          := STATE_DEFAULT;
+  FCaretBrowsing               := STATE_DEFAULT;
   FPlugins                     := STATE_DEFAULT;
   FUniversalAccessFromFileUrls := STATE_DEFAULT;
   FFileAccessFromFileUrls      := STATE_DEFAULT;

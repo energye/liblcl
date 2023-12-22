@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,22 +37,22 @@
 
 unit uCEFDomDocument;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDomDocumentRef = class(TCefBaseRefCountedRef, ICefDomDocument)
+  TCefDomDocumentRef = class(TCefBaseRef, ICefDomDocument)
     protected
       function GetType: TCefDomDocumentType;
       function GetDocument: ICefDomNode;
@@ -90,10 +90,10 @@ end;
 
 function TCefDomDocumentRef.GetCompleteUrl(const partialURL: ustring): ustring;
 var
-  TempPartialURL : TCefString;
+  p: TCefString;
 begin
-  TempPartialURL := CefString(partialURL);
-  Result         := CefStringFreeAndGet(PCefDomDocument(FData)^.get_complete_url(PCefDomDocument(FData), @TempPartialURL));
+  p := CefString(partialURL);
+  Result := CefStringFreeAndGet(PCefDomDocument(FData)^.get_complete_url(PCefDomDocument(FData), @p));
 end;
 
 function TCefDomDocumentRef.GetDocument: ICefDomNode;
@@ -103,10 +103,10 @@ end;
 
 function TCefDomDocumentRef.GetElementById(const id: ustring): ICefDomNode;
 var
-  TempID : TCefString;
+  i: TCefString;
 begin
-  TempID := CefString(id);
-  Result := TCefDomNodeRef.UnWrap(PCefDomDocument(FData)^.get_element_by_id(PCefDomDocument(FData), @TempID));
+  i := CefString(id);
+  Result := TCefDomNodeRef.UnWrap(PCefDomDocument(FData)^.get_element_by_id(PCefDomDocument(FData), @i));
 end;
 
 function TCefDomDocumentRef.GetFocusedNode: ICefDomNode;
@@ -156,9 +156,8 @@ end;
 
 class function TCefDomDocumentRef.UnWrap(data: Pointer): ICefDomDocument;
 begin
-  if (data <> nil) then
-    Result := Create(data) as ICefDomDocument
-   else
+  if data <> nil then
+    Result := Create(data) as ICefDomDocument else
     Result := nil;
 end;
 

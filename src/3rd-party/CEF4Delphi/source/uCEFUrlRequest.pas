@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,28 +37,27 @@
 
 unit uCEFUrlRequest;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefUrlRequestRef = class(TCefBaseRefCountedRef, ICefUrlRequest)
+  TCefUrlRequestRef = class(TCefBaseRef, ICefUrlRequest)
   protected
     function  GetRequest: ICefRequest;
     function  GetRequestStatus: TCefUrlRequestStatus;
     function  GetRequestError: Integer;
     function  GetResponse: ICefResponse;
-    function  GetResponseWasCached: boolean;
     procedure Cancel;
 
   public
@@ -73,7 +72,7 @@ uses
 
 procedure TCefUrlRequestRef.Cancel;
 begin
-  PCefUrlRequest(FData)^.cancel(PCefUrlRequest(FData));
+  PCefUrlRequest(FData).cancel(PCefUrlRequest(FData));
 end;
 
 class function TCefUrlRequestRef.New(const request        : ICefRequest;
@@ -85,27 +84,22 @@ end;
 
 function TCefUrlRequestRef.GetRequest: ICefRequest;
 begin
-  Result := TCefRequestRef.UnWrap(PCefUrlRequest(FData)^.get_request(PCefUrlRequest(FData)));
+  Result := TCefRequestRef.UnWrap(PCefUrlRequest(FData).get_request(PCefUrlRequest(FData)));
 end;
 
 function TCefUrlRequestRef.GetRequestError: Integer;
 begin
-  Result := PCefUrlRequest(FData)^.get_request_error(PCefUrlRequest(FData));
+  Result := PCefUrlRequest(FData).get_request_error(PCefUrlRequest(FData));
 end;
 
 function TCefUrlRequestRef.GetRequestStatus: TCefUrlRequestStatus;
 begin
-  Result := PCefUrlRequest(FData)^.get_request_status(PCefUrlRequest(FData));
-end;
-
-function TCefUrlRequestRef.GetResponseWasCached: boolean;
-begin
-  Result := PCefUrlRequest(FData)^.response_was_cached(PCefUrlRequest(FData)) <> 0;
+  Result := PCefUrlRequest(FData).get_request_status(PCefUrlRequest(FData));
 end;
 
 function TCefUrlRequestRef.GetResponse: ICefResponse;
 begin
-  Result := TCefResponseRef.UnWrap(PCefUrlRequest(FData)^.get_response(PCefUrlRequest(FData)));
+  Result := TCefResponseRef.UnWrap(PCefUrlRequest(FData).get_response(PCefUrlRequest(FData)));
 end;
 
 class function TCefUrlRequestRef.UnWrap(data: Pointer): ICefUrlRequest;

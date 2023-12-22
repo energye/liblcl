@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,19 +37,19 @@
 
 unit uCEFStringMap;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
   TCefCustomStringMap = class(TInterfacedObject, ICefStringMap)
@@ -57,10 +57,10 @@ type
       FHandle : TCefStringMap;
 
       function  GetHandle: TCefStringMap; virtual;
-      function  GetSize: NativeUInt; virtual;
+      function  GetSize: integer; virtual;
       function  Find(const key: ustring): ustring; virtual;
-      function  GetKey(index: NativeUInt): ustring; virtual;
-      function  GetValue(index: NativeUInt): ustring; virtual;
+      function  GetKey(index: integer): ustring; virtual;
+      function  GetValue(index: integer): ustring; virtual;
       function  Append(const key, value: ustring) : boolean; virtual;
       procedure Clear; virtual;
 
@@ -124,12 +124,11 @@ begin
 
   if (FHandle <> nil) then
     begin
-      CefStringInitialize(@TempValue);
-
+      FillChar(TempValue, SizeOf(TempValue), 0);
       TempKey := CefString(key);
 
-      if (cef_string_map_find(FHandle, @TempKey, @TempValue) <> 0) then
-        Result := CefStringClearAndGet(@TempValue);
+      if (cef_string_map_find(FHandle, @TempKey, TempValue) <> 0) then
+        Result := CefString(@TempValue);
     end;
 end;
 
@@ -138,7 +137,7 @@ begin
   Result := FHandle;
 end;
 
-function TCefCustomStringMap.GetKey(index: NativeUInt): ustring;
+function TCefCustomStringMap.GetKey(index: integer): ustring;
 var
   TempKey : TCefString;
 begin
@@ -146,14 +145,14 @@ begin
 
   if (FHandle <> nil) then
     begin
-      CefStringInitialize(@TempKey);
+      FillChar(TempKey, SizeOf(TempKey), 0);
 
-      if (cef_string_map_key(FHandle, index, @TempKey) <> 0) then
-        Result := CefStringClearAndGet(@TempKey);
+      if (cef_string_map_key(FHandle, index, TempKey) <> 0) then
+        Result := CefString(@TempKey);
     end;
 end;
 
-function TCefCustomStringMap.GetSize: NativeUInt;
+function TCefCustomStringMap.GetSize: integer;
 begin
   if (FHandle <> nil) then
     Result := cef_string_map_size(FHandle)
@@ -161,7 +160,7 @@ begin
     Result := 0;
 end;
 
-function TCefCustomStringMap.GetValue(index: NativeUInt): ustring;
+function TCefCustomStringMap.GetValue(index: integer): ustring;
 var
   TempValue : TCefString;
 begin
@@ -169,10 +168,10 @@ begin
 
   if (FHandle <> nil) then
     begin
-      CefStringInitialize(@TempValue);
+      FillChar(TempValue, SizeOf(TempValue), 0);
 
-      if (cef_string_map_value(FHandle, index, @TempValue) <> 0) then
-        Result := CefStringClearAndGet(@TempValue);
+      if (cef_string_map_value(FHandle, index, TempValue) <> 0) then
+        Result := CefString(@TempValue);
     end;
 end;
 
@@ -186,7 +185,7 @@ constructor TCefStringMapOwn.Create;
 begin
   inherited Create;
 
-  FHandle := cef_string_map_alloc();
+  FHandle := cef_string_map_alloc;
 end;
 
 destructor TCefStringMapOwn.Destroy;

@@ -1,16 +1,16 @@
 // ************************************************************************
-// ***************************** CEF4Delphi *******************************
+// ***************************** OldCEF4Delphi *******************************
 // ************************************************************************
 //
-// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// OldCEF4Delphi is based on DCEF3 which uses CEF3 to embed a chromium-based
 // browser in Delphi applications.
 //
-// The original license of DCEF3 still applies to CEF4Delphi.
+// The original license of DCEF3 still applies to OldCEF4Delphi.
 //
-// For more information about CEF4Delphi visit :
+// For more information about OldCEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2021 Salvador Diaz Fau. All rights reserved.
+//        Copyright ï¿½ 2019 Salvador Dï¿½az Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -37,34 +37,26 @@
 
 unit uCEFResponseFilter;
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}
-
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
 
 {$I cef.inc}
 
 interface
 
 uses
-  uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
+  uCEFBase, uCEFInterfaces, uCEFTypes;
 
 type
   TOnFilterEvent     = procedure(Sender: TObject; data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt; var aResult : TCefResponseFilterStatus) of object;
   TOnInitFilterEvent = procedure(Sender: TObject; var aResult : boolean) of object;
 
-  TCefResponseFilterRef = class(TCefBaseRefCountedRef, ICefResponseFilter)
-    protected
-      function InitFilter: Boolean; virtual;
-      function Filter(data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt): TCefResponseFilterStatus; virtual;
 
-    public
-      class function UnWrap(data: Pointer): ICefResponseFilter;
-  end;
-
-  TCefResponseFilterOwn = class(TCefBaseRefCountedOwn, ICefResponseFilter)
+  TCefResponseFilterOwn = class(TCefBaseOwn, ICefResponseFilter)
     protected
       function InitFilter: Boolean; virtual; abstract;
       function Filter(data_in: Pointer; data_in_size: NativeUInt; var data_in_read: NativeUInt; data_out: Pointer; data_out_size : NativeUInt; var data_out_written: NativeUInt): TCefResponseFilterStatus; virtual; abstract;
@@ -130,8 +122,8 @@ begin
 
   with PCefResponseFilter(FData)^ do
     begin
-      init_filter := {$IFDEF FPC}@{$ENDIF}cef_response_filter_init_filter;
-      filter      := {$IFDEF FPC}@{$ENDIF}cef_response_filter_filter;
+      init_filter := cef_response_filter_init_filter;
+      filter      := cef_response_filter_filter;
     end;
 end;
 
@@ -169,36 +161,5 @@ begin
               Result);
 end;
 
-
-// TCefResponseFilterRef
-
-class function TCefResponseFilterRef.UnWrap(data: Pointer): ICefResponseFilter;
-begin
-  if (data <> nil) then
-    Result := Create(data) as ICefResponseFilter
-   else
-    Result := nil;
-end;
-
-function TCefResponseFilterRef.InitFilter: Boolean;
-begin
-  Result := PCefResponseFilter(FData)^.init_filter(PCefResponseFilter(FData)) <> 0;
-end;
-
-function TCefResponseFilterRef.Filter(    data_in          : Pointer;
-                                          data_in_size     : NativeUInt;
-                                      var data_in_read     : NativeUInt;
-                                          data_out         : Pointer;
-                                          data_out_size    : NativeUInt;
-                                      var data_out_written : NativeUInt) : TCefResponseFilterStatus;
-begin
-  Result := PCefResponseFilter(FData)^.filter(PCefResponseFilter(FData),
-                                              data_in,
-                                              data_in_size,
-                                              data_in_read,
-                                              data_out,
-                                              data_out_size,
-                                              data_out_written);
-end;
 
 end.

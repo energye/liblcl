@@ -62,17 +62,10 @@ __history/
 __recovery/
 *.~*
 
-# FPC / Lazarus
-*.lps
-**/backup
-**/lib/i386-win32
-**/lib/x86_64-win64
-
 # Castalia statistics file (since XE7 Castalia is distributed with Delphi)
 *.stat
 
 # Project specific
-bin/*.log
 bin/*.pak
 bin/locales
 bin/*.bin
