@@ -97,23 +97,23 @@ var
 begin
   p := CefString(path);
   d := CefString(displayName);
-  PCefDragData(FData).add_file(FData, @p, @d);
+  PCefDragData(FData)^.add_file(FData, @p, @d);
 end;
 
 function TCefDragDataRef.Clone: ICefDragData;
 begin
-  Result := UnWrap(PCefDragData(FData).clone(FData));
+  Result := UnWrap(PCefDragData(FData)^.clone(FData));
 end;
 
 function TCefDragDataRef.GetFileContents(
   const writer: ICefStreamWriter): NativeUInt;
 begin
-  Result := PCefDragData(FData).get_file_contents(FData, CefGetData(writer))
+  Result := PCefDragData(FData)^.get_file_contents(FData, CefGetData(writer))
 end;
 
 function TCefDragDataRef.GetFileName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefDragData(FData).get_file_name(FData));
+  Result := CefStringFreeAndGet(PCefDragData(FData)^.get_file_name(FData));
 end;
 
 function TCefDragDataRef.GetFileNames(var names: TStrings): Integer;
@@ -126,7 +126,7 @@ begin
     begin
       TempSL := TCefStringListOwn.Create;
 
-      if (PCefDragData(FData).get_file_names(FData, TempSL.Handle) <> 0) then
+      if (PCefDragData(FData)^.get_file_names(FData, TempSL.Handle) <> 0) then
         begin
           TempSL.CopyToStrings(names);
           Result := names.Count;
@@ -136,52 +136,52 @@ end;
 
 function TCefDragDataRef.GetFragmentBaseUrl: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefDragData(FData).get_fragment_base_url(FData));
+  Result := CefStringFreeAndGet(PCefDragData(FData)^.get_fragment_base_url(FData));
 end;
 
 function TCefDragDataRef.GetFragmentHtml: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefDragData(FData).get_fragment_html(FData));
+  Result := CefStringFreeAndGet(PCefDragData(FData)^.get_fragment_html(FData));
 end;
 
 function TCefDragDataRef.GetFragmentText: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefDragData(FData).get_fragment_text(FData));
+  Result := CefStringFreeAndGet(PCefDragData(FData)^.get_fragment_text(FData));
 end;
 
 function TCefDragDataRef.GetLinkMetadata: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefDragData(FData).get_link_metadata(FData));
+  Result := CefStringFreeAndGet(PCefDragData(FData)^.get_link_metadata(FData));
 end;
 
 function TCefDragDataRef.GetLinkTitle: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefDragData(FData).get_link_title(FData));
+  Result := CefStringFreeAndGet(PCefDragData(FData)^.get_link_title(FData));
 end;
 
 function TCefDragDataRef.GetLinkUrl: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefDragData(FData).get_link_url(FData));
+  Result := CefStringFreeAndGet(PCefDragData(FData)^.get_link_url(FData));
 end;
 
 function TCefDragDataRef.IsFile: Boolean;
 begin
-  Result := PCefDragData(FData).is_file(FData) <> 0;
+  Result := PCefDragData(FData)^.is_file(FData) <> 0;
 end;
 
 function TCefDragDataRef.IsFragment: Boolean;
 begin
-  Result := PCefDragData(FData).is_fragment(FData) <> 0;
+  Result := PCefDragData(FData)^.is_fragment(FData) <> 0;
 end;
 
 function TCefDragDataRef.IsLink: Boolean;
 begin
-  Result := PCefDragData(FData).is_link(FData) <> 0;
+  Result := PCefDragData(FData)^.is_link(FData) <> 0;
 end;
 
 function TCefDragDataRef.IsReadOnly: Boolean;
 begin
-  Result := PCefDragData(FData).is_read_only(FData) <> 0;
+  Result := PCefDragData(FData)^.is_read_only(FData) <> 0;
 end;
 
 class function TCefDragDataRef.New: ICefDragData;
@@ -191,7 +191,7 @@ end;
 
 procedure TCefDragDataRef.ResetFileContents;
 begin
-  PCefDragData(FData).reset_file_contents(FData);
+  PCefDragData(FData)^.reset_file_contents(FData);
 end;
 
 procedure TCefDragDataRef.SetFragmentBaseUrl(const baseUrl: ustring);
@@ -199,7 +199,7 @@ var
   s: TCefString;
 begin
   s := CefString(baseUrl);
-  PCefDragData(FData).set_fragment_base_url(FData, @s);
+  PCefDragData(FData)^.set_fragment_base_url(FData, @s);
 end;
 
 procedure TCefDragDataRef.SetFragmentHtml(const html: ustring);
@@ -207,7 +207,7 @@ var
   s: TCefString;
 begin
   s := CefString(html);
-  PCefDragData(FData).set_fragment_html(FData, @s);
+  PCefDragData(FData)^.set_fragment_html(FData, @s);
 end;
 
 procedure TCefDragDataRef.SetFragmentText(const text: ustring);
@@ -215,7 +215,7 @@ var
   s: TCefString;
 begin
   s := CefString(text);
-  PCefDragData(FData).set_fragment_text(FData, @s);
+  PCefDragData(FData)^.set_fragment_text(FData, @s);
 end;
 
 procedure TCefDragDataRef.SetLinkMetadata(const data: ustring);
@@ -223,7 +223,7 @@ var
   s: TCefString;
 begin
   s := CefString(data);
-  PCefDragData(FData).set_link_metadata(FData, @s);
+  PCefDragData(FData)^.set_link_metadata(FData, @s);
 end;
 
 procedure TCefDragDataRef.SetLinkTitle(const title: ustring);
@@ -231,7 +231,7 @@ var
   s: TCefString;
 begin
   s := CefString(title);
-  PCefDragData(FData).set_link_title(FData, @s);
+  PCefDragData(FData)^.set_link_title(FData, @s);
 end;
 
 procedure TCefDragDataRef.SetLinkUrl(const url: ustring);
@@ -239,7 +239,7 @@ var
   s: TCefString;
 begin
   s := CefString(url);
-  PCefDragData(FData).set_link_url(FData, @s);
+  PCefDragData(FData)^.set_link_url(FData, @s);
 end;
 
 class function TCefDragDataRef.UnWrap(data: Pointer): ICefDragData;

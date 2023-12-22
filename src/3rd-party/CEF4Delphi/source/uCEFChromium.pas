@@ -52,7 +52,13 @@ uses
   {$IFDEF DELPHI16_UP}
   {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics, Vcl.Forms, WinApi.ActiveX,{$ENDIF} System.Classes,
   {$ELSE}
-  Windows, Messages, Classes, Controls, Graphics, Forms, ActiveX,
+    Windows, Messages, Classes, Controls, Graphics, Forms, ActiveX, CommCtrl,
+    {$IFDEF FPC}
+      LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
+    {$ELSE}
+      Messages,
+    {$ENDIF}
+    SyncObjs,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
   uCEFConstants, uCEFTask, uCEFDomVisitor, uCEFChromiumEvents,
@@ -883,7 +889,7 @@ begin
   try
     if not(csDesigning in ComponentState) then
       begin
-        FCompHandle      := AllocateHWnd(WndProc);
+        FCompHandle      := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
         FOptions         := TChromiumOptions.Create;
         FFontOptions     := TChromiumFontOptions.Create;
         FPDFPrintOptions := TPDFPrintOptions.Create;
@@ -1135,10 +1141,10 @@ begin
       FDropTargetCtrl                 := aDropTargetCtrl;
 
       FDragDropManager                := TCEFDragAndDropMgr.Create;
-      FDragDropManager.OnDragEnter    := DragDropManager_OnDragEnter;
-      FDragDropManager.OnDragOver     := DragDropManager_OnDragOver;
-      FDragDropManager.OnDragLeave    := DragDropManager_OnDragLeave;
-      FDragDropManager.OnDrop         := DragDropManager_OnDrop;
+      FDragDropManager.OnDragEnter    := {$IFDEF FPC}@{$ENDIF}DragDropManager_OnDragEnter;
+      FDragDropManager.OnDragOver     := {$IFDEF FPC}@{$ENDIF}DragDropManager_OnDragOver;
+      FDragDropManager.OnDragLeave    := {$IFDEF FPC}@{$ENDIF}DragDropManager_OnDragLeave;
+      FDragDropManager.OnDrop         := {$IFDEF FPC}@{$ENDIF}DragDropManager_OnDrop;
 
       TempDropTarget                  := TOLEDropTarget.Create(FDragDropManager);
 
@@ -2988,14 +2994,8 @@ begin
     if assigned(FOnBrowserCompMsg) then
       FOnBrowserCompMsg(aMessage, TempHandled);
 
-    if not(TempHandled)               and
-       (FOldBrowserCompWndPrc <> nil) and
-       (FBrowserCompHWND      <> 0)   then
-      aMessage.Result := CallWindowProc(FOldBrowserCompWndPrc,
-                                        FBrowserCompHWND,
-                                        aMessage.Msg,
-                                        aMessage.wParam,
-                                        aMessage.lParam);
+    if not(TempHandled) and (FOldBrowserCompWndPrc <> nil) and (FBrowserCompHWND <> 0) then
+      aMessage.Result := CallWindowProc(FOldBrowserCompWndPrc, FBrowserCompHWND, aMessage.Msg, aMessage.wParam, aMessage.lParam);
   except
     on e : exception do
       if CustomExceptionHandler('TChromium.BrowserCompWndProc', e) then raise;
@@ -3015,11 +3015,7 @@ begin
     if not(TempHandled)              and
        (FOldWidgetCompWndPrc <> nil) and
        (FWidgetCompHWND      <> 0)   then
-      aMessage.Result := CallWindowProc(FOldWidgetCompWndPrc,
-                                        FWidgetCompHWND,
-                                        aMessage.Msg,
-                                        aMessage.wParam,
-                                        aMessage.lParam);
+      aMessage.Result := CallWindowProc(FOldWidgetCompWndPrc, FWidgetCompHWND, aMessage.Msg, aMessage.wParam, aMessage.lParam);
   except
     on e : exception do
       if CustomExceptionHandler('TChromium.WidgetCompWndProc', e) then raise;
@@ -3039,11 +3035,7 @@ begin
     if not(TempHandled)              and
        (FOldRenderCompWndPrc <> nil) and
        (FRenderCompHWND      <> 0)   then
-      aMessage.Result := CallWindowProc(FOldRenderCompWndPrc,
-                                        FRenderCompHWND,
-                                        aMessage.Msg,
-                                        aMessage.wParam,
-                                        aMessage.lParam);
+      aMessage.Result := CallWindowProc(FOldRenderCompWndPrc, FRenderCompHWND, aMessage.Msg, aMessage.wParam, aMessage.lParam);
   except
     on e : exception do
       if CustomExceptionHandler('TChromium.RenderCompWndProc', e) then raise;
@@ -3558,7 +3550,7 @@ begin
 
       if assigned(FOnBrowserCompMsg) and (FBrowserCompHWND <> 0) and (FOldBrowserCompWndPrc = nil) then
         begin
-          CreateStub(BrowserCompWndProc, FBrowserCompStub);
+          CreateStub({$IFDEF FPC}@{$ENDIF}BrowserCompWndProc, FBrowserCompStub);
           FOldBrowserCompWndPrc := TFNWndProc(SetWindowLongPtr(FBrowserCompHWND,
                                                                GWL_WNDPROC,
                                                                NativeInt(FBrowserCompStub)));
@@ -3566,7 +3558,7 @@ begin
 
       if assigned(FOnWidgetCompMsg) and (FWidgetCompHWND <> 0) and (FOldWidgetCompWndPrc = nil) then
         begin
-          CreateStub(WidgetCompWndProc, FWidgetCompStub);
+          CreateStub({$IFDEF FPC}@{$ENDIF}WidgetCompWndProc, FWidgetCompStub);
           FOldWidgetCompWndPrc := TFNWndProc(SetWindowLongPtr(FWidgetCompHWND,
                                                               GWL_WNDPROC,
                                                               NativeInt(FWidgetCompStub)));
@@ -3574,7 +3566,7 @@ begin
 
       if assigned(FOnRenderCompMsg) and (FRenderCompHWND <> 0) and (FOldRenderCompWndPrc = nil) then
         begin
-          CreateStub(RenderCompWndProc, FRenderCompStub);
+          CreateStub({$IFDEF FPC}@{$ENDIF}RenderCompWndProc, FRenderCompStub);
           FOldRenderCompWndPrc := TFNWndProc(SetWindowLongPtr(FRenderCompHWND,
                                                               GWL_WNDPROC,
                                                               NativeInt(FRenderCompStub)));

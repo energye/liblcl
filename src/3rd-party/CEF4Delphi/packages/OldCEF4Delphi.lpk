@@ -472,22 +472,6 @@
         <UnitName Value="uCEFZipReader"/>
       </Item>
       <Item>
-        <Filename Value="..\source\uFMXBufferPanel.pas"/>
-        <UnitName Value="uFMXBufferPanel"/>
-      </Item>
-      <Item>
-        <Filename Value="..\source\uFMXChromium.pas"/>
-        <UnitName Value="uFMXChromium"/>
-      </Item>
-      <Item>
-        <Filename Value="..\source\uFMXWindowParent.pas"/>
-        <UnitName Value="uFMXWindowParent"/>
-      </Item>
-      <Item>
-        <Filename Value="..\source\uFMXWorkScheduler.pas"/>
-        <UnitName Value="uFMXWorkScheduler"/>
-      </Item>
-      <Item>
         <Filename Value="..\source\uOLEDragAndDrop.pas"/>
         <UnitName Value="uOLEDragAndDrop"/>
       </Item>

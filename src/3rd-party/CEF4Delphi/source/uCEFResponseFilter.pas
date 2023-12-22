@@ -122,8 +122,8 @@ begin
 
   with PCefResponseFilter(FData)^ do
     begin
-      init_filter := cef_response_filter_init_filter;
-      filter      := cef_response_filter_filter;
+      init_filter := {$IFDEF FPC}@{$ENDIF}cef_response_filter_init_filter;
+      filter      := {$IFDEF FPC}@{$ENDIF}cef_response_filter_filter;
     end;
 end;
 

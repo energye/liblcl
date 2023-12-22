@@ -160,7 +160,7 @@ begin
 
   if not(csDesigning in ComponentState) then
     begin
-      FCompHandle := AllocateHWnd(WndProc);
+      FCompHandle := AllocateHWnd({$IFDEF FPC}@{$ENDIF}WndProc);
       CreateThread;
     end;
 end;
@@ -172,7 +172,7 @@ begin
   FThread.Priority        := FPriority;
   {$ENDIF}
   FThread.DefaultInterval := FDefaultInterval;
-  FThread.OnPulse         := Thread_OnPulse;
+  FThread.OnPulse         := {$IFDEF FPC}@{$ENDIF}Thread_OnPulse;
   {$IFDEF DELPHI14_UP}
   FThread.Start;
   {$ELSE}

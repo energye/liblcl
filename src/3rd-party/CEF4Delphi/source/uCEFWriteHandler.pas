@@ -177,11 +177,11 @@ begin
 
   with PCefWriteHandler(FData)^ do
     begin
-      write     := cef_write_handler_write;
-      seek      := cef_write_handler_seek;
-      tell      := cef_write_handler_tell;
-      flush     := cef_write_handler_flush;
-      may_block := cef_write_handler_may_block;
+      write     := {$IFDEF FPC}@{$ENDIF}cef_write_handler_write;
+      seek      := {$IFDEF FPC}@{$ENDIF}cef_write_handler_seek;
+      tell      := {$IFDEF FPC}@{$ENDIF}cef_write_handler_tell;
+      flush     := {$IFDEF FPC}@{$ENDIF}cef_write_handler_flush;
+      may_block := {$IFDEF FPC}@{$ENDIF}cef_write_handler_may_block;
     end;
 end;
 
@@ -234,12 +234,12 @@ begin
 
   DeleteCriticalSection(FCriticalSection);
 
-  FCriticalSection.DebugInfo      := nil;
-  FCriticalSection.LockCount      := 0;
-  FCriticalSection.RecursionCount := 0;
-  FCriticalSection.OwningThread   := 0;
-  FCriticalSection.LockSemaphore  := 0;
-  FCriticalSection.Reserved       := 0;
+  {$IFDEF MSWINDOWS}
+    DeleteCriticalSection(FCriticalSection);
+    FillChar(FCriticalSection, SizeOf(FCriticalSection), 0);
+  {$ELSE}
+    DoneCriticalSection(FCriticalSection);
+  {$ENDIF}
 
   inherited Destroy;
 end;

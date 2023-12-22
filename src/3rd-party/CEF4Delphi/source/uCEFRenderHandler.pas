@@ -285,17 +285,17 @@ begin
 
   with PCefRenderHandler(FData)^ do
     begin
-      get_root_screen_rect             := cef_render_handler_get_root_screen_rect;
-      get_view_rect                    := cef_render_handler_get_view_rect;
-      get_screen_point                 := cef_render_handler_get_screen_point;
-      get_screen_info                  := cef_render_handler_get_screen_info;
-      on_popup_show                    := cef_render_handler_on_popup_show;
-      on_popup_size                    := cef_render_handler_on_popup_size;
-      on_paint                         := cef_render_handler_on_paint;
-      on_cursor_change                 := cef_render_handler_on_cursor_change;
-      start_dragging                   := cef_render_handler_start_dragging;
-      update_drag_cursor               := cef_render_handler_update_drag_cursor;
-      on_scroll_offset_changed         := cef_render_handler_on_scroll_offset_changed;
+      get_root_screen_rect             := {$IFDEF FPC}@{$ENDIF}cef_render_handler_get_root_screen_rect;
+      get_view_rect                    := {$IFDEF FPC}@{$ENDIF}cef_render_handler_get_view_rect;
+      get_screen_point                 := {$IFDEF FPC}@{$ENDIF}cef_render_handler_get_screen_point;
+      get_screen_info                  := {$IFDEF FPC}@{$ENDIF}cef_render_handler_get_screen_info;
+      on_popup_show                    := {$IFDEF FPC}@{$ENDIF}cef_render_handler_on_popup_show;
+      on_popup_size                    := {$IFDEF FPC}@{$ENDIF}cef_render_handler_on_popup_size;
+      on_paint                         := {$IFDEF FPC}@{$ENDIF}cef_render_handler_on_paint;
+      on_cursor_change                 := {$IFDEF FPC}@{$ENDIF}cef_render_handler_on_cursor_change;
+      start_dragging                   := {$IFDEF FPC}@{$ENDIF}cef_render_handler_start_dragging;
+      update_drag_cursor               := {$IFDEF FPC}@{$ENDIF}cef_render_handler_update_drag_cursor;
+      on_scroll_offset_changed         := {$IFDEF FPC}@{$ENDIF}cef_render_handler_on_scroll_offset_changed;
     end;
 end;
 

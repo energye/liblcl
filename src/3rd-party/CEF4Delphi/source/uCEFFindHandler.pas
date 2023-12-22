@@ -110,7 +110,7 @@ constructor TCefFindHandlerOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefFindHandler));
 
-  PCefFindHandler(FData).on_find_result := cef_find_handler_on_find_result;
+  PCefFindHandler(FData)^.on_find_result := {$IFDEF FPC}@{$ENDIF}cef_find_handler_on_find_result;
 end;
 
 procedure TCefFindHandlerOwn.RemoveReferences;

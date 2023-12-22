@@ -72,7 +72,7 @@ function TCefResourceBundleRef.GetDataResource(resourceId   : Integer;
                                                var data     : Pointer;
                                                var dataSize : NativeUInt): Boolean;
 begin
-  Result := PCefResourceBundle(FData).get_data_resource(FData, resourceId, data, dataSize) <> 0;
+  Result := PCefResourceBundle(FData)^.get_data_resource(FData, resourceId, data, dataSize) <> 0;
 end;
 
 function TCefResourceBundleRef.GetDataResourceForScale(resourceId : Integer;
@@ -80,12 +80,12 @@ function TCefResourceBundleRef.GetDataResourceForScale(resourceId : Integer;
                                                        var data        : Pointer;
                                                        var dataSize    : NativeUInt): Boolean;
 begin
-  Result := PCefResourceBundle(FData).get_data_resource_for_scale(FData, resourceId, scaleFactor, data, dataSize) <> 0;
+  Result := PCefResourceBundle(FData)^.get_data_resource_for_scale(FData, resourceId, scaleFactor, data, dataSize) <> 0;
 end;
 
 function TCefResourceBundleRef.GetLocalizedString(stringId: Integer): ustring;
 begin
-  Result := CefStringFreeAndGet(PCefResourceBundle(FData).get_localized_string(FData, stringId));
+  Result := CefStringFreeAndGet(PCefResourceBundle(FData)^.get_localized_string(FData, stringId));
 end;
 
 class function TCefResourceBundleRef.Global: ICefResourceBundle;

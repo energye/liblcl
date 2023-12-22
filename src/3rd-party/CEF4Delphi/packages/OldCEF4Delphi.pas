@@ -40,8 +40,7 @@ uses
   uCEFv8StackTrace, uCEFv8Types, uCEFv8Value, uCEFValue, uCEFWebPluginInfo, 
   uCEFWebPluginInfoVisitor, uCEFWebPluginUnstableCallback, uCEFWindowParent, 
   uCEFWorkScheduler, uCEFWorkSchedulerThread, uCEFWriteHandler, uCEFXmlReader, 
-  uCEFZipReader, uFMXBufferPanel, uFMXChromium, uFMXWindowParent, 
-  uFMXWorkScheduler, uOLEDragAndDrop, LazarusPackageIntf;
+  uCEFZipReader, uOLEDragAndDrop, LazarusPackageIntf;
 
 implementation
 

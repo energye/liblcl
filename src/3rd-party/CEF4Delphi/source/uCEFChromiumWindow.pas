@@ -118,9 +118,9 @@ begin
   if not(csDesigning in ComponentState) then
     begin
       FChromium                := TChromium.Create(self);
-      FChromium.OnClose        := WebBrowser_OnClose;
-      FChromium.OnBeforeClose  := WebBrowser_OnBeforeClose;
-      FChromium.OnAfterCreated := WebBrowser_OnAfterCreated;
+      FChromium.OnClose        := {$IFDEF FPC}@{$ENDIF}WebBrowser_OnClose;
+      FChromium.OnBeforeClose  := {$IFDEF FPC}@{$ENDIF}WebBrowser_OnBeforeClose;
+      FChromium.OnAfterCreated := {$IFDEF FPC}@{$ENDIF}WebBrowser_OnAfterCreated;
     end;
 end;
 

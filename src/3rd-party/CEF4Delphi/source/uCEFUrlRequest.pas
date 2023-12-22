@@ -72,7 +72,7 @@ uses
 
 procedure TCefUrlRequestRef.Cancel;
 begin
-  PCefUrlRequest(FData).cancel(PCefUrlRequest(FData));
+  PCefUrlRequest(FData)^.cancel(PCefUrlRequest(FData));
 end;
 
 class function TCefUrlRequestRef.New(const request        : ICefRequest;
@@ -84,22 +84,22 @@ end;
 
 function TCefUrlRequestRef.GetRequest: ICefRequest;
 begin
-  Result := TCefRequestRef.UnWrap(PCefUrlRequest(FData).get_request(PCefUrlRequest(FData)));
+  Result := TCefRequestRef.UnWrap(PCefUrlRequest(FData)^.get_request(PCefUrlRequest(FData)));
 end;
 
 function TCefUrlRequestRef.GetRequestError: Integer;
 begin
-  Result := PCefUrlRequest(FData).get_request_error(PCefUrlRequest(FData));
+  Result := PCefUrlRequest(FData)^.get_request_error(PCefUrlRequest(FData));
 end;
 
 function TCefUrlRequestRef.GetRequestStatus: TCefUrlRequestStatus;
 begin
-  Result := PCefUrlRequest(FData).get_request_status(PCefUrlRequest(FData));
+  Result := PCefUrlRequest(FData)^.get_request_status(PCefUrlRequest(FData));
 end;
 
 function TCefUrlRequestRef.GetResponse: ICefResponse;
 begin
-  Result := TCefResponseRef.UnWrap(PCefUrlRequest(FData).get_response(PCefUrlRequest(FData)));
+  Result := TCefResponseRef.UnWrap(PCefUrlRequest(FData)^.get_response(PCefUrlRequest(FData)));
 end;
 
 class function TCefUrlRequestRef.UnWrap(data: Pointer): ICefUrlRequest;

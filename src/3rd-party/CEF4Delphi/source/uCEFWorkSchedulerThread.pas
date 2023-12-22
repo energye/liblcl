@@ -177,7 +177,7 @@ begin
       FPulsing := False;
     finally
       Unlock;
-      if not(Terminated) then Synchronize(DoOnPulseEvent);
+      if not(Terminated) then Synchronize({$IFDEF FPC}@{$ENDIF}DoOnPulseEvent);
     end;
 end;
 

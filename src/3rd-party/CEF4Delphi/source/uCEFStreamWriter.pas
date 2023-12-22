@@ -86,22 +86,22 @@ end;
 
 function TCefStreamWriterRef.Flush: Integer;
 begin
-  Result := PCefStreamWriter(FData).flush(FData);
+  Result := PCefStreamWriter(FData)^.flush(FData);
 end;
 
 function TCefStreamWriterRef.MayBlock: Boolean;
 begin
-  Result := PCefStreamWriter(FData).may_block(FData) <> 0;
+  Result := PCefStreamWriter(FData)^.may_block(FData) <> 0;
 end;
 
 function TCefStreamWriterRef.Seek(offset: Int64; whence: Integer): Integer;
 begin
-  Result := PCefStreamWriter(FData).seek(FData, offset, whence);
+  Result := PCefStreamWriter(FData)^.seek(FData, offset, whence);
 end;
 
 function TCefStreamWriterRef.Tell: Int64;
 begin
-  Result := PCefStreamWriter(FData).tell(FData);
+  Result := PCefStreamWriter(FData)^.tell(FData);
 end;
 
 class function TCefStreamWriterRef.UnWrap(data: Pointer): ICefStreamWriter;
@@ -113,7 +113,7 @@ end;
 
 function TCefStreamWriterRef.write(const ptr: Pointer; size, n: NativeUInt): NativeUInt;
 begin
-  Result := PCefStreamWriter(FData).write(FData, ptr, size, n);
+  Result := PCefStreamWriter(FData)^.write(FData, ptr, size, n);
 end;
 
 end.

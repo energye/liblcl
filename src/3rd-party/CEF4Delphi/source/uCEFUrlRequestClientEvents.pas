@@ -37,10 +37,6 @@
 
 unit uCEFUrlRequestClientEvents;
 
-{$IFDEF FPC}
-  {$MODE OBJFPC}{$H+}
-{$ENDIF}
-
 {$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
 

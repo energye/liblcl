@@ -118,7 +118,7 @@ constructor TCefResolveCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefResolveCallback));
 
-  PCefResolveCallback(FData).on_resolve_completed := cef_resolve_callback_on_resolve_completed;
+  PCefResolveCallback(FData)^.on_resolve_completed := {$IFDEF FPC}@{$ENDIF}cef_resolve_callback_on_resolve_completed;
 end;
 
 // TCefCustomResolveCallback

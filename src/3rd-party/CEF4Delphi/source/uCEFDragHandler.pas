@@ -124,8 +124,8 @@ begin
 
   with PCefDragHandler(FData)^ do
     begin
-      on_drag_enter                := cef_drag_handler_on_drag_enter;
-      on_draggable_regions_changed := cef_drag_handler_on_draggable_regions_changed;
+      on_drag_enter                := {$IFDEF FPC}@{$ENDIF}cef_drag_handler_on_drag_enter;
+      on_draggable_regions_changed := {$IFDEF FPC}@{$ENDIF}cef_drag_handler_on_draggable_regions_changed;
     end;
 end;
 

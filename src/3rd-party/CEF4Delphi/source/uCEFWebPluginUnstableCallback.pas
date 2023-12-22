@@ -95,7 +95,7 @@ constructor TCefWebPluginUnstableCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefWebPluginUnstableCallback));
 
-  PCefWebPluginUnstableCallback(FData).is_unstable := cef_web_plugin_unstable_callback_is_unstable;
+  PCefWebPluginUnstableCallback(FData)^.is_unstable := {$IFDEF FPC}@{$ENDIF}cef_web_plugin_unstable_callback_is_unstable;
 end;
 
 procedure TCefWebPluginUnstableCallbackOwn.IsUnstable(const path: ustring; unstable: Boolean);

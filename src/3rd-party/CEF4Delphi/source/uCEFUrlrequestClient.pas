@@ -181,11 +181,11 @@ begin
 
   with PCefUrlrequestClient(FData)^ do
     begin
-      on_request_complete  := cef_url_request_client_on_request_complete;
-      on_upload_progress   := cef_url_request_client_on_upload_progress;
-      on_download_progress := cef_url_request_client_on_download_progress;
-      on_download_data     := cef_url_request_client_on_download_data;
-      get_auth_credentials := cef_url_request_client_get_auth_credentials;
+      on_request_complete  := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_request_complete;
+      on_upload_progress   := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_upload_progress;
+      on_download_progress := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_download_progress;
+      on_download_data     := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_on_download_data;
+      get_auth_credentials := {$IFDEF FPC}@{$ENDIF}cef_url_request_client_get_auth_credentials;
     end;
 end;
 

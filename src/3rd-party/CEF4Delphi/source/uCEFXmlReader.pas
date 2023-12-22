@@ -96,7 +96,7 @@ uses
 
 function TCefXmlReaderRef.Close: Boolean;
 begin
-  Result := PCefXmlReader(FData).close(FData) <> 0;
+  Result := PCefXmlReader(FData)^.close(FData) <> 0;
 end;
 
 class function TCefXmlReaderRef.New(const stream: ICefStreamReader;
@@ -110,7 +110,7 @@ end;
 
 function TCefXmlReaderRef.GetAttributeByIndex(index: Integer): ustring;
 begin
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_attribute_byindex(FData, index));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_attribute_byindex(FData, index));
 end;
 
 function TCefXmlReaderRef.GetAttributeByLName(const localName,
@@ -120,7 +120,7 @@ var
 begin
   l := CefString(localName);
   n := CefString(namespaceURI);
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_attribute_bylname(FData, @l, @n));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_attribute_bylname(FData, @l, @n));
 end;
 
 function TCefXmlReaderRef.GetAttributeByQName(
@@ -129,102 +129,102 @@ var
   q: TCefString;
 begin
   q := CefString(qualifiedName);
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_attribute_byqname(FData, @q));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_attribute_byqname(FData, @q));
 end;
 
 function TCefXmlReaderRef.GetAttributeCount: NativeUInt;
 begin
-  Result := PCefXmlReader(FData).get_attribute_count(FData);
+  Result := PCefXmlReader(FData)^.get_attribute_count(FData);
 end;
 
 function TCefXmlReaderRef.GetBaseUri: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_base_uri(FData));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_base_uri(FData));
 end;
 
 function TCefXmlReaderRef.GetDepth: Integer;
 begin
-  Result := PCefXmlReader(FData).get_depth(FData);
+  Result := PCefXmlReader(FData)^.get_depth(FData);
 end;
 
 function TCefXmlReaderRef.GetError: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_error(FData));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_error(FData));
 end;
 
 function TCefXmlReaderRef.GetInnerXml: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_inner_xml(FData));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_inner_xml(FData));
 end;
 
 function TCefXmlReaderRef.GetLineNumber: Integer;
 begin
-  Result := PCefXmlReader(FData).get_line_number(FData);
+  Result := PCefXmlReader(FData)^.get_line_number(FData);
 end;
 
 function TCefXmlReaderRef.GetLocalName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_local_name(FData));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_local_name(FData));
 end;
 
 function TCefXmlReaderRef.GetNamespaceUri: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_namespace_uri(FData));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_namespace_uri(FData));
 end;
 
 function TCefXmlReaderRef.GetOuterXml: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_outer_xml(FData));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_outer_xml(FData));
 end;
 
 function TCefXmlReaderRef.GetPrefix: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_prefix(FData));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_prefix(FData));
 end;
 
 function TCefXmlReaderRef.GetQualifiedName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_qualified_name(FData));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_qualified_name(FData));
 end;
 
 function TCefXmlReaderRef.GetType: TCefXmlNodeType;
 begin
-  Result := PCefXmlReader(FData).get_type(FData);
+  Result := PCefXmlReader(FData)^.get_type(FData);
 end;
 
 function TCefXmlReaderRef.GetValue: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_value(FData));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_value(FData));
 end;
 
 function TCefXmlReaderRef.GetXmlLang: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefXmlReader(FData).get_xml_lang(FData));
+  Result := CefStringFreeAndGet(PCefXmlReader(FData)^.get_xml_lang(FData));
 end;
 
 function TCefXmlReaderRef.HasAttributes: Boolean;
 begin
-  Result := PCefXmlReader(FData).has_attributes(FData) <> 0;
+  Result := PCefXmlReader(FData)^.has_attributes(FData) <> 0;
 end;
 
 function TCefXmlReaderRef.HasError: Boolean;
 begin
-  Result := PCefXmlReader(FData).has_error(FData) <> 0;
+  Result := PCefXmlReader(FData)^.has_error(FData) <> 0;
 end;
 
 function TCefXmlReaderRef.HasValue: Boolean;
 begin
-  Result := PCefXmlReader(FData).has_value(FData) <> 0;
+  Result := PCefXmlReader(FData)^.has_value(FData) <> 0;
 end;
 
 function TCefXmlReaderRef.IsEmptyElement: Boolean;
 begin
-  Result := PCefXmlReader(FData).is_empty_element(FData) <> 0;
+  Result := PCefXmlReader(FData)^.is_empty_element(FData) <> 0;
 end;
 
 function TCefXmlReaderRef.MoveToAttributeByIndex(index: Integer): Boolean;
 begin
-  Result := PCefXmlReader(FData).move_to_attribute_byindex(FData, index) <> 0;
+  Result := PCefXmlReader(FData)^.move_to_attribute_byindex(FData, index) <> 0;
 end;
 
 function TCefXmlReaderRef.MoveToAttributeByLName(const localName,
@@ -234,7 +234,7 @@ var
 begin
   l := CefString(localName);
   n := CefString(namespaceURI);
-  Result := PCefXmlReader(FData).move_to_attribute_bylname(FData, @l, @n) <> 0;
+  Result := PCefXmlReader(FData)^.move_to_attribute_bylname(FData, @l, @n) <> 0;
 end;
 
 function TCefXmlReaderRef.MoveToAttributeByQName(
@@ -243,27 +243,27 @@ var
   q: TCefString;
 begin
   q := CefString(qualifiedName);
-  Result := PCefXmlReader(FData).move_to_attribute_byqname(FData, @q) <> 0;
+  Result := PCefXmlReader(FData)^.move_to_attribute_byqname(FData, @q) <> 0;
 end;
 
 function TCefXmlReaderRef.MoveToCarryingElement: Boolean;
 begin
-  Result := PCefXmlReader(FData).move_to_carrying_element(FData) <> 0;
+  Result := PCefXmlReader(FData)^.move_to_carrying_element(FData) <> 0;
 end;
 
 function TCefXmlReaderRef.MoveToFirstAttribute: Boolean;
 begin
-  Result := PCefXmlReader(FData).move_to_first_attribute(FData) <> 0;
+  Result := PCefXmlReader(FData)^.move_to_first_attribute(FData) <> 0;
 end;
 
 function TCefXmlReaderRef.MoveToNextAttribute: Boolean;
 begin
-  Result := PCefXmlReader(FData).move_to_next_attribute(FData) <> 0;
+  Result := PCefXmlReader(FData)^.move_to_next_attribute(FData) <> 0;
 end;
 
 function TCefXmlReaderRef.MoveToNextNode: Boolean;
 begin
-  Result := PCefXmlReader(FData).move_to_next_node(FData) <> 0;
+  Result := PCefXmlReader(FData)^.move_to_next_node(FData) <> 0;
 end;
 
 class function TCefXmlReaderRef.UnWrap(data: Pointer): ICefXmlReader;
