@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2017 Salvador Diaz Fau. All rights reserved.
+//        Copyright 2017 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -377,6 +377,9 @@
 
 {$IFDEF FPC}
   {$DEFINE SUPPORTS_INLINE}
+  {$IF DEFINED(FPC_FULLVERSION) AND (FPC_FULLVERSION >= 30200)}
+    {$DEFINE FPC_VER_320}
+  {$IFEND}
 {$ELSE}
   {$IFDEF DELPHI_VERSION_UNKNOW}
     {$DEFINE DELPHI5_UP}
@@ -407,3 +410,28 @@
   {$DEFINE SUPPORTS_INLINE}
 {$ENDIF}
 
+{$IF DEFINED(CPUX32) OR
+     DEFINED(CPU32) OR
+     DEFINED(CPU32BITS) OR
+     DEFINED(CPUARM32) OR
+     DEFINED(WIN32) OR
+     DEFINED(IOS32) OR
+     DEFINED(MACOS32) OR
+     DEFINED(LINUX32) OR
+     DEFINED(POSIX32) OR
+     DEFINED(ANDROID32)}
+  {$DEFINE TARGET_32BITS}
+{$ELSE}
+  {$IF DEFINED(CPUX64) OR
+       DEFINED(CPU64) OR
+       DEFINED(CPU64BITS) OR
+       DEFINED(CPUARM64) OR
+       DEFINED(WIN64) OR
+       DEFINED(IOS64) OR
+       DEFINED(MACOS64) OR
+       DEFINED(LINUX64) OR
+       DEFINED(POSIX64) OR
+       DEFINED(ANDROID64)}
+    {$DEFINE TARGET_64BITS}
+  {$IFEND}
+{$IFEND}
