@@ -17,7 +17,7 @@
         </SyntaxOptions>
       </Parsing>
     </CompilerOptions>
-    <Version Major="49" Minor="0" Release="2623"/>
+    <Version Major="49" Release="2623"/>
     <Files>
       <Item>
         <Filename Value="..\source\uBufferPanel.pas"/>
@@ -61,6 +61,7 @@
       </Item>
       <Item>
         <Filename Value="..\source\uCEFChromium.pas"/>
+        <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFChromium"/>
       </Item>
       <Item>
@@ -77,6 +78,7 @@
       </Item>
       <Item>
         <Filename Value="..\source\uCEFChromiumWindow.pas"/>
+        <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFChromiumWindow"/>
       </Item>
       <Item>
@@ -450,6 +452,7 @@
       </Item>
       <Item>
         <Filename Value="..\source\uCEFWindowParent.pas"/>
+        <HasRegisterProc Value="True"/>
         <UnitName Value="uCEFWindowParent"/>
       </Item>
       <Item>

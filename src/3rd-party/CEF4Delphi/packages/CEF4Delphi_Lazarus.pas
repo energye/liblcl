@@ -46,8 +46,11 @@ implementation
 
 procedure Register;
 begin
+  RegisterUnit('uCEFChromium', @uCEFChromium.Register);
+  RegisterUnit('uCEFChromiumWindow', @uCEFChromiumWindow.Register);
   RegisterUnit('uCEFUrlRequestClientComponent', 
     @uCEFUrlRequestClientComponent.Register);
+  RegisterUnit('uCEFWindowParent', @uCEFWindowParent.Register);
 end;
 
 initialization

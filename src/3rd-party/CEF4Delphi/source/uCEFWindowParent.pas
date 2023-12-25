@@ -52,7 +52,7 @@ uses
   {$IFDEF DELPHI16_UP}
   {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics,{$ENDIF} System.Classes,
   {$ELSE}
-  Windows, Messages, Classes, Controls, Graphics,
+  Windows, Messages, Classes, Controls, Graphics, LResources,
   {$ENDIF}
   uCEFTypes, uCEFInterfaces;
 
@@ -90,6 +90,10 @@ type
       property  ParentDoubleBuffered;
       {$ENDIF}
   end;
+
+{$IFDEF FPC}
+procedure Register;
+{$ENDIF}
 
 implementation
 
@@ -205,5 +209,13 @@ begin
   TempHWND := ChildWindowHandle;
   Result   := (TempHWND <> 0) and DestroyWindow(TempHWND);
 end;
+
+{$IFDEF FPC}
+procedure Register;
+begin
+  {$I res/tcefwindowparent.lrs}
+  RegisterComponents('Chromium', [TCEFWindowParent]);
+end;
+{$ENDIF}
 
 end.

@@ -52,7 +52,7 @@ uses
   {$IFDEF DELPHI16_UP}
   {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages,{$ENDIF} System.Classes,
   {$ELSE}
-  Windows, Messages, Classes,
+  Windows, Messages, Classes, LResources,
   {$ENDIF}
   uCEFWindowParent, uCEFChromium, uCEFInterfaces, uCEFTypes, uCEFConstants;
 
@@ -91,6 +91,10 @@ type
       property OnBeforeClose    : TNotifyEvent    read FOnBeforeClose    write FOnBeforeClose;
       property OnAfterCreated   : TNotifyEvent    read FOnAfterCreated   write FOnAfterCreated;
   end;
+
+{$IFDEF FPC}
+procedure Register;
+{$ENDIF}
 
 implementation
 
@@ -192,5 +196,13 @@ procedure TChromiumWindow.NotifyMoveOrResizeStarted;
 begin
   if (FChromium <> nil) then FChromium.NotifyMoveOrResizeStarted;
 end;
+
+{$IFDEF FPC}
+procedure Register;
+begin
+  {$I res/tchromiumwindow.lrs}
+  RegisterComponents('Chromium', [TChromiumWindow]);
+end;
+{$ENDIF}
 
 end.

@@ -711,6 +711,10 @@ type
 
   end;
 
+{$IFDEF FPC}
+procedure Register;
+{$ENDIF}
+
 implementation
 
 uses
@@ -3908,5 +3912,13 @@ procedure TChromium.DragSourceSystemDragEnded;
 begin
   if Initialized then FBrowser.Host.DragSourceSystemDragEnded;
 end;
+
+{$IFDEF FPC}
+procedure Register;
+begin
+  {$I res/tchromium.lrs}
+  RegisterComponents('Chromium', [TChromium]);
+end;
+{$ENDIF}
 
 end.
