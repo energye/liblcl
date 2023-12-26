@@ -37,10 +37,14 @@
 
 unit uCEFSslCertPrincipal;
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$I cef.inc}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 interface
 
@@ -76,17 +80,17 @@ uses
 
 function TCefSslCertPrincipalRef.GetCommonName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefSslCertPrincipal(FData).get_common_name(PCefSslCertPrincipal(FData)));
+  Result := CefStringFreeAndGet(PCefSslCertPrincipal(FData)^.get_common_name(PCefSslCertPrincipal(FData)));
 end;
 
 function TCefSslCertPrincipalRef.GetCountryName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefSslCertPrincipal(FData).get_country_name(PCefSslCertPrincipal(FData)));
+  Result := CefStringFreeAndGet(PCefSslCertPrincipal(FData)^.get_country_name(PCefSslCertPrincipal(FData)));
 end;
 
 function TCefSslCertPrincipalRef.GetDisplayName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefSslCertPrincipal(FData).get_display_name(PCefSslCertPrincipal(FData)));
+  Result := CefStringFreeAndGet(PCefSslCertPrincipal(FData)^.get_display_name(PCefSslCertPrincipal(FData)));
 end;
 
 procedure TCefSslCertPrincipalRef.GetDomainComponents(var components: TStrings);
@@ -96,14 +100,14 @@ begin
   if (components <> nil) then
     begin
       TempSL := TCefStringListOwn.Create;
-      PCefSslCertPrincipal(FData).get_domain_components(PCefSslCertPrincipal(FData), TempSL.Handle);
+      PCefSslCertPrincipal(FData)^.get_domain_components(PCefSslCertPrincipal(FData), TempSL.Handle);
       TempSL.CopyToStrings(components);
     end;
 end;
 
 function TCefSslCertPrincipalRef.GetLocalityName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefSslCertPrincipal(FData).get_locality_name(PCefSslCertPrincipal(FData)));
+  Result := CefStringFreeAndGet(PCefSslCertPrincipal(FData)^.get_locality_name(PCefSslCertPrincipal(FData)));
 end;
 
 procedure TCefSslCertPrincipalRef.GetOrganizationNames(var names: TStrings);
@@ -113,7 +117,7 @@ begin
   if (names <> nil) then
     begin
       TempSL := TCefStringListOwn.Create;
-      PCefSslCertPrincipal(FData).get_organization_names(PCefSslCertPrincipal(FData), TempSL.Handle);
+      PCefSslCertPrincipal(FData)^.get_organization_names(PCefSslCertPrincipal(FData), TempSL.Handle);
       TempSL.CopyToStrings(names);
     end;
 end;
@@ -125,14 +129,14 @@ begin
   if (names <> nil) then
     begin
       TempSL := TCefStringListOwn.Create;
-      PCefSslCertPrincipal(FData).get_organization_unit_names(PCefSslCertPrincipal(FData), TempSL.Handle);
+      PCefSslCertPrincipal(FData)^.get_organization_unit_names(PCefSslCertPrincipal(FData), TempSL.Handle);
       TempSL.CopyToStrings(names);
     end;
 end;
 
 function TCefSslCertPrincipalRef.GetStateOrProvinceName: ustring;
 begin
-  Result := CefStringFreeAndGet(PCefSslCertPrincipal(FData).get_state_or_province_name(FData));
+  Result := CefStringFreeAndGet(PCefSslCertPrincipal(FData)^.get_state_or_province_name(FData));
 end;
 
 procedure TCefSslCertPrincipalRef.GetStreetAddresses(var addresses: TStrings);
@@ -142,7 +146,7 @@ begin
   if (addresses <> nil) then
     begin
       TempSL := TCefStringListOwn.Create;
-      PCefSslCertPrincipal(FData).get_street_addresses(PCefSslCertPrincipal(FData), TempSL.Handle);
+      PCefSslCertPrincipal(FData)^.get_street_addresses(PCefSslCertPrincipal(FData), TempSL.Handle);
       TempSL.CopyToStrings(addresses);
     end;
 end;

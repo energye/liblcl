@@ -219,12 +219,13 @@ type
   TCefFileDialogMode               = Cardinal;    // /include/internal/cef_types.h (cef_file_dialog_mode_t)
   TCefDuplexMode                   = Integer;     // /include/internal/cef_types.h (cef_duplex_mode_t)
 
-{$IFNDEF DELPHI12_UP}
-  NativeUInt  = Cardinal;
+{$IFDEF FPC}
+  NativeInt   = PtrInt;
+  NativeUInt  = PtrUInt;
+  PNativeInt  = ^NativeInt;
   PNativeUInt = ^NativeUInt;
-  NativeInt   = Integer;
   uint16      = Word;
-  ustring     = type WideString;
+  ustring     = type UnicodeString;
   rbstring    = type AnsiString;
 {$ELSE}
   ustring  = type string;

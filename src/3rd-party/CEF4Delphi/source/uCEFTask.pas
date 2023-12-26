@@ -37,10 +37,14 @@
 
 unit uCEFTask;
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$I cef.inc}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 interface
 
@@ -135,7 +139,7 @@ constructor TCefTaskOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefTask));
 
-  PCefTask(FData).execute := cef_task_execute;
+  PCefTask(FData)^.execute := @cef_task_execute;
 end;
 
 procedure TCefTaskOwn.Execute;
@@ -149,7 +153,7 @@ end;
 
 procedure TCefTaskRef.Execute;
 begin
-  PCefTask(FData).execute(FData);
+  PCefTask(FData)^.execute(FData);
 end;
 
 class function TCefTaskRef.UnWrap(data: Pointer): ICefTask;

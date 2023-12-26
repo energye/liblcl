@@ -43,6 +43,9 @@ unit uCEFDragAndDropMgr;
 
 {$I cef.inc}
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 interface
 
 uses

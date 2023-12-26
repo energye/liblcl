@@ -37,10 +37,14 @@
 
 unit uCEFResourceHandler;
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$I cef.inc}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 interface
 
@@ -177,12 +181,12 @@ begin
 
   with PCefResourceHandler(FData)^ do
     begin
-      process_request      := cef_resource_handler_process_request;
-      get_response_headers := cef_resource_handler_get_response_headers;
-      read_response        := cef_resource_handler_read_response;
-      can_get_cookie       := cef_resource_handler_can_get_cookie;
-      can_set_cookie       := cef_resource_handler_can_set_cookie;
-      cancel               := cef_resource_handler_cancel;
+      process_request      := @cef_resource_handler_process_request;
+      get_response_headers := @cef_resource_handler_get_response_headers;
+      read_response        := @cef_resource_handler_read_response;
+      can_get_cookie       := @cef_resource_handler_can_get_cookie;
+      can_set_cookie       := @cef_resource_handler_can_set_cookie;
+      cancel               := @cef_resource_handler_cancel;
     end;
 end;
 

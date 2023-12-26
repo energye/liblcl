@@ -37,10 +37,14 @@
 
 unit uCEFGeolocationCallback;
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$I cef.inc}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 interface
 
@@ -62,7 +66,7 @@ uses
 
 procedure TCefGeolocationCallbackRef.Cont(allow: Boolean);
 begin
-  PCefGeolocationCallback(FData).cont(PCefGeolocationCallback(FData), Ord(allow));
+  PCefGeolocationCallback(FData)^.cont(PCefGeolocationCallback(FData), Ord(allow));
 end;
 
 class function TCefGeolocationCallbackRef.UnWrap(data: Pointer): ICefGeolocationCallback;

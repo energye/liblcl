@@ -37,7 +37,6 @@
 
 unit uCEFLibFunctions;
 
-
 {$IFDEF FPC}
   {$MODE OBJFPC}{$H+}
 {$ENDIF}

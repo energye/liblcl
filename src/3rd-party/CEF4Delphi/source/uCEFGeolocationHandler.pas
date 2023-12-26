@@ -37,10 +37,14 @@
 
 unit uCEFGeolocationHandler;
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$I cef.inc}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 interface
 
@@ -107,8 +111,8 @@ begin
 
   with PCefGeolocationHandler(FData)^ do
     begin
-      on_request_geolocation_permission := cef_geolocation_handler_on_request_geolocation_permission;
-      on_cancel_geolocation_permission  := cef_geolocation_handler_on_cancel_geolocation_permission;
+      on_request_geolocation_permission := @cef_geolocation_handler_on_request_geolocation_permission;
+      on_cancel_geolocation_permission  := @cef_geolocation_handler_on_cancel_geolocation_permission;
     end;
 end;
 

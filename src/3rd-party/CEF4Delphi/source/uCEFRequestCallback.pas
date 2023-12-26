@@ -37,10 +37,14 @@
 
 unit uCEFRequestCallback;
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$I cef.inc}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 interface
 
@@ -64,12 +68,12 @@ uses
 
 procedure TCefRequestCallbackRef.Cont(allow: Boolean);
 begin
-  PCefRequestCallback(FData).cont(FData, Ord(allow));
+  PCefRequestCallback(FData)^.cont(FData, Ord(allow));
 end;
 
 procedure TCefRequestCallbackRef.Cancel;
 begin
-  PCefRequestCallback(FData).cancel(FData);
+  PCefRequestCallback(FData)^.cancel(FData);
 end;
 
 class function TCefRequestCallbackRef.UnWrap(data: Pointer): ICefRequestCallback;

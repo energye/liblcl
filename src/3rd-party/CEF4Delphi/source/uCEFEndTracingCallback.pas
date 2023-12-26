@@ -36,11 +36,14 @@
  *)
 
 unit uCEFEndTracingCallback;
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
+
+{$I cef.inc}
 
 {$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
 {$MINENUMSIZE 4}
-
-{$I cef.inc}
 
 interface
 
@@ -87,7 +90,7 @@ constructor TCefEndTracingCallbackOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefEndTracingCallback));
 
-  PCefEndTracingCallback(FData).on_end_tracing_complete := cef_end_tracing_callback_on_end_tracing_complete;
+  PCefEndTracingCallback(FData)^.on_end_tracing_complete := @cef_end_tracing_callback_on_end_tracing_complete;
 end;
 
 procedure TCefEndTracingCallbackOwn.OnEndTracingComplete(const tracingFile: ustring);

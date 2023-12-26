@@ -43,6 +43,9 @@ unit uOLEDragAndDrop;
 
 {$I cef.inc}
 
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
+
 {$IFNDEF FPC}{$IFNDEF DELPHI12_UP}
   // Workaround for "Internal error" in old Delphi versions caused by uint64 handling
   {$R-}

@@ -37,10 +37,14 @@
 
 unit uCEFWebPluginInfoVisitor;
 
-{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
-{$MINENUMSIZE 4}
+{$IFDEF FPC}
+  {$MODE OBJFPC}{$H+}
+{$ENDIF}
 
 {$I cef.inc}
+
+{$IFNDEF CPUX64}{$ALIGN ON}{$ENDIF}
+{$MINENUMSIZE 4}
 
 interface
 
@@ -92,7 +96,7 @@ constructor TCefWebPluginInfoVisitorOwn.Create;
 begin
   inherited CreateData(SizeOf(TCefWebPluginInfoVisitor));
 
-  PCefWebPluginInfoVisitor(FData).visit := cef_web_plugin_info_visitor_visit;
+  PCefWebPluginInfoVisitor(FData)^.visit := @cef_web_plugin_info_visitor_visit;
 end;
 
 function TCefWebPluginInfoVisitorOwn.Visit(const info: ICefWebPluginInfo; count, total: Integer): Boolean;
