@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Win32"/>
+    <Units>
+      <Unit>
+        <Filename Value="demo.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="19" Y="5"/>
+        <UsageCount Value="33"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="demo.pas"/>
+        <ComponentName Value="Form1"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uDemo"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="11"/>
+        <UsageCount Value="19"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uDemo.pas"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="10"/>
+        <TopLine Value="80"/>
+        <CursorPos X="13" Y="91"/>
+        <UsageCount Value="17"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\packages\CEF4Delphi_Lazarus.lpk"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="19"/>
+        <DefaultSyntaxHighlighter Value="XML"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFApplication.pas"/>
+        <EditorIndex Value="12"/>
+        <TopLine Value="16"/>
+        <CursorPos X="17" Y="47"/>
+        <UsageCount Value="17"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
+        <EditorIndex Value="18"/>
+        <TopLine Value="1098"/>
+        <CursorPos X="25" Y="1152"/>
+        <UsageCount Value="17"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="E:\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\finah.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="38" Y="33"/>
+        <UsageCount Value="11"/>
+      </Unit>
+      <Unit>
+        <Filename Value="E:\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\filutilh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="145"/>
+        <CursorPos X="10" Y="178"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFApp.pas"/>
+        <EditorIndex Value="16"/>
+        <TopLine Value="25"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFBase.pas"/>
+        <EditorIndex Value="17"/>
+        <TopLine Value="172"/>
+        <CursorPos Y="205"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFLibFunctions.pas"/>
+        <EditorIndex Value="15"/>
+        <TopLine Value="16"/>
+        <CursorPos X="17" Y="62"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="E:\lazarus\fpc\3.2.2\source\rtl\inc\dynlibh.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="10" Y="62"/>
+        <UsageCount Value="14"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFTypes.pas"/>
+        <EditorIndex Value="14"/>
+        <TopLine Value="194"/>
+        <CursorPos X="3" Y="218"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFWindowParent.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="146"/>
+        <CursorPos X="22" Y="219"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFChromium.pas"/>
+        <EditorIndex Value="11"/>
+        <CursorPos Y="44"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\res\tcefwindowparent.lrs"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="E:\lazarus\lcl\forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1599"/>
+        <CursorPos X="15" Y="1630"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="E:\lazarus\fpc\3.2.2\source\packages\fcl-base\src\custapp.pp"/>
+        <UnitName Value="CustApp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="19"/>
+        <CursorPos X="9" Y="19"/>
+        <UsageCount Value="13"/>
+      </Unit>
+      <Unit>
+        <Filename Value="E:\lazarus\components\lazutils\masks.pas"/>
+        <UnitName Value="Masks"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="721"/>
+        <CursorPos X="14" Y="754"/>
+        <UsageCount Value="13"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFBinaryValue.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="80"/>
+        <CursorPos X="86" Y="113"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFRunFileDialogCallback.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="59"/>
+        <CursorPos X="17" Y="92"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFLoadHandler.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="81"/>
+        <CursorPos X="17" Y="114"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFDragAndDropMgr.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="568"/>
+        <CursorPos X="51" Y="601"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFUrlrequestClient.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="25"/>
+        <CursorPos X="38" Y="58"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uBufferPanel.pas"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="16"/>
+        <CursorPos X="3" Y="4"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFChromiumWindow.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="147"/>
+        <CursorPos Y="170"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\cef.inc"/>
+        <EditorIndex Value="13"/>
+        <TopLine Value="376"/>
+        <CursorPos X="22" Y="422"/>
+        <UsageCount Value="14"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFResourceHandler.pas"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="121"/>
+        <CursorPos X="6" Y="171"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFGeolocationCallback.pas"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="19"/>
+        <CursorPos X="33" Y="69"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFGeolocationHandler.pas"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="83"/>
+        <CursorPos X="45" Y="115"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFRequestCallback.pas"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="26"/>
+        <CursorPos X="29" Y="76"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFSslCertPrincipal.pas"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="101"/>
+        <CursorPos X="61" Y="139"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFTask.pas"/>
+        <EditorIndex Value="6"/>
+        <TopLine Value="125"/>
+        <CursorPos X="19" Y="156"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFEndTracingCallback.pas"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="54"/>
+        <CursorPos X="62" Y="93"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\source\uCEFWebPluginInfoVisitor.pas"/>
+        <EditorIndex Value="8"/>
+        <TopLine Value="61"/>
+        <CursorPos X="46" Y="99"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+    </Units>
+    <Debugger>
+      <Backend Value="IDE"/>
+      <ClassConfig Version="1">
+        <Config ConfigName="新建" ConfigClass="TGDBMIDebugger" Active="True" UID="{B8AA6FA7-948D-49BB-9FE4-1A521C63CB88}"/>
+      </ClassConfig>
+    </Debugger>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="..\..\source\uCEFChromium.pas"/>
+        <Caret Line="280" Column="30" TopLine="229"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFChromium.pas"/>
+        <Caret Line="455" Column="32" TopLine="403"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFChromium.pas"/>
+        <Caret Line="456" Column="32" TopLine="404"/>
+      </Position>
+      <Position>
+        <Filename Value="uDemo.pas"/>
+        <Caret Line="111" Column="29" TopLine="80"/>
+      </Position>
+      <Position>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="18" Column="29"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFApplication.pas"/>
+        <Caret Line="296" Column="14" TopLine="267"/>
+      </Position>
+      <Position>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="43"/>
+      </Position>
+      <Position>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="44"/>
+      </Position>
+      <Position>
+        <Filename Value="uDemo.pas"/>
+        <Caret Line="91" Column="13" TopLine="80"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFApplication.pas"/>
+        <Caret Line="58" Column="27" TopLine="16"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\cef.inc"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\cef.inc"/>
+        <Caret Line="421" Column="25" TopLine="376"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\cef.inc"/>
+        <Caret Line="435" Column="27" TopLine="376"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFApplication.pas"/>
+        <Caret Line="46" Column="23" TopLine="16"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\cef.inc"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\cef.inc"/>
+        <Caret Line="422" Column="25" TopLine="376"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\cef.inc"/>
+        <Caret Line="435" Column="27" TopLine="376"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\cef.inc"/>
+        <Caret Line="403" Column="26" TopLine="376"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFApplication.pas"/>
+        <Caret Line="25" Column="30" TopLine="16"/>
+      </Position>
+      <Position>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="5" Column="19"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFResourceHandler.pas"/>
+        <Caret Line="171" Column="6" TopLine="121"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFGeolocationCallback.pas"/>
+        <Caret Line="69" Column="33" TopLine="19"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFGeolocationHandler.pas"/>
+        <Caret Line="115" Column="45" TopLine="83"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFRequestCallback.pas"/>
+        <Caret Line="71" Column="31" TopLine="26"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFRequestCallback.pas"/>
+        <Caret Line="76" Column="29" TopLine="26"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFSslCertPrincipal.pas"/>
+        <Caret Line="149" Column="35" TopLine="101"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFSslCertPrincipal.pas"/>
+        <Caret Line="139" Column="61" TopLine="101"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFTask.pas"/>
+        <Caret Line="142" Column="32" TopLine="111"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFTask.pas"/>
+        <Caret Line="156" Column="19" TopLine="125"/>
+      </Position>
+      <Position>
+        <Filename Value="..\..\source\uCEFEndTracingCallback.pas"/>
+        <Caret Line="93" Column="62" TopLine="54"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+  <Debugging>
+    <BreakPoints>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\..\source\uCEFApplication.pas"/>
+        <Line Value="767"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\..\source\uCEFApplication.pas"/>
+        <Line Value="932"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\..\source\uCEFApplication.pas"/>
+        <Line Value="941"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\..\source\uCEFChromium.pas"/>
+        <Line Value="1693"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\..\source\uCEFChromium.pas"/>
+        <Line Value="1099"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="..\..\source\uCEFChromium.pas"/>
+        <Line Value="1080"/>
+      </Item>
+      <Item>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="demo.lpr"/>
+        <Line Value="43"/>
+      </Item>
+    </BreakPoints>
+  </Debugging>
+</CONFIG>
