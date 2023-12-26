@@ -49,11 +49,13 @@ unit uCEFWindowParent;
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics,{$ENDIF} System.Classes,
+  Windows, Messages, Classes, Controls, Graphics, Forms, ActiveX, CommCtrl,
+  {$IFDEF FPC}
+    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
   {$ELSE}
-  Windows, Messages, Classes, Controls, Graphics, LResources,
+    Messages,
   {$ENDIF}
+  SyncObjs,
   uCEFTypes, uCEFInterfaces;
 
 type

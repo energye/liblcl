@@ -49,17 +49,13 @@ unit uCEFChromium;
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  {$IFDEF MSWINDOWS}WinApi.Windows, WinApi.Messages, Vcl.Controls, Vcl.Graphics, Vcl.Forms, WinApi.ActiveX,{$ENDIF} System.Classes,
+  Windows, Messages, Classes, Controls, Graphics, Forms, ActiveX, CommCtrl,
+  {$IFDEF FPC}
+    LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
   {$ELSE}
-    Windows, Messages, Classes, Controls, Graphics, Forms, ActiveX, CommCtrl,
-    {$IFDEF FPC}
-      LCLProc, LCLType, LCLIntf, LResources, LMessages, InterfaceBase,
-    {$ELSE}
-      Messages,
-    {$ENDIF}
-    SyncObjs,
+    Messages,
   {$ENDIF}
+  SyncObjs,
   uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFMiscFunctions, uCEFClient,
   uCEFConstants, uCEFTask, uCEFDomVisitor, uCEFChromiumEvents,
   uCEFChromiumOptions, uCEFChromiumFontOptions, uCEFPDFPrintOptions, uCEFDragAndDropMgr;
