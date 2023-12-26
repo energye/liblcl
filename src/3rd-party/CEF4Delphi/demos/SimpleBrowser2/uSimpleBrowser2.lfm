@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 1104
-  Height = 439
-  Top = 407
-  Width = 691
+  Left = 1431
+  Height = 637
+  Top = 410
+  Width = 1128
   Caption = 'Initializing browser. Please wait...'
-  ClientHeight = 439
-  ClientWidth = 691
+  ClientHeight = 637
+  ClientWidth = 1128
   Color = clBtnFace
   Font.Color = clWindowText
   Font.Height = -11
@@ -19,11 +19,11 @@ object Form1: TForm1
     Left = 0
     Height = 30
     Top = 0
-    Width = 691
+    Width = 1128
     Align = alTop
     BevelOuter = bvNone
     ClientHeight = 30
-    ClientWidth = 691
+    ClientWidth = 1128
     Enabled = False
     ParentBackground = False
     TabOrder = 0
@@ -31,13 +31,13 @@ object Form1: TForm1
       Left = 0
       Height = 30
       Top = 0
-      Width = 660
+      Width = 1097
       Align = alClient
       TabOrder = 0
-      Text = 'http://www.google.com'
+      Text = 'http://www.baidu.com'
     end
     object GoBtn: TButton
-      Left = 660
+      Left = 1097
       Height = 30
       Top = 0
       Width = 31
@@ -49,9 +49,9 @@ object Form1: TForm1
   end
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
-    Height = 409
+    Height = 607
     Top = 30
-    Width = 691
+    Width = 1128
     Align = alClient
     TabOrder = 1
   end

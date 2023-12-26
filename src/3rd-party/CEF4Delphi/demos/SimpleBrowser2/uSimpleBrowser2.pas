@@ -93,7 +93,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 uses
   uCEFApplication;
