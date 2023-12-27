@@ -7,6 +7,7 @@ uses
   Forms,
   Interfaces,
   uCEFApplication,
+  uCEFConstants,
   uDemo { you can add units after this };
 
   {$R *.res}
@@ -15,7 +16,7 @@ uses
 begin
   WriteLn('run');
   GlobalCEFApp := TCefApplication.Create;
-  GlobalCEFApp.LogSeverity := 1;
+  GlobalCEFApp.LogSeverity := LOGSEVERITY_INFO;
   GlobalCEFApp.LogFile := 'D:\app.exe\energy\EnergyFramework32_49\log.log';
   GlobalCEFApp.FrameworkDirPath := 'D:\app.exe\energy\EnergyFramework32_49\';
   //GlobalCEFApp.NoSandbox := False;

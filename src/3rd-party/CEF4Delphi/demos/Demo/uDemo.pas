@@ -22,9 +22,9 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
-    AddressPnl: TPanel;
     AddressEdt: TEdit;
     GoBtn: TButton;
+    AddressPnl: TPanel;
     Timer1: TTimer;
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
@@ -107,11 +107,13 @@ begin
   FClosing := False;
   Timer1 := TTimer.Create(self);
 
-  //Chromium1 := TChromium.Create(self);
-  //Chromium1.OnAfterCreated:=@Chromium1AfterCreated;
-
   CEFWindowParent1 := TCEFWindowParent.Create(self);
   CEFWindowParent1.Parent := self;
+  CEFWindowParent1.Top := 25;
+  CEFWindowParent1.Width := self.Width;
+  CEFWindowParent1.Height := self.Height - 25;
+  //CEFWindowParent1.Align := alClient;
+  CEFWindowParent1.Anchors := TAnchors([akTop, akLeft, akRight, akBottom]);
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
@@ -124,23 +126,21 @@ begin
 
   // GlobalCEFApp.GlobalContextInitialized has to be TRUE before creating any browser
   // If it's not initialized yet, we use a simple timer to create the browser later.
-  WriteLn(Chromium1.CreateBrowser(CEFWindowParent1));
-  WriteLn(Chromium1.Initialized);
-  //if not (Chromium1.CreateBrowser(CEFWindowParent1)) and not (Chromium1.Initialized) then
-  //  Timer1.Enabled := True;
+  if not (Chromium1.CreateBrowser(CEFWindowParent1)) and not (Chromium1.Initialized) then
+    Timer1.Enabled := True;
 end;
 
 procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
   // Now the browser is fully initialized we can send a message to the main form to load the initial web page.
-  //PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
+  PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
   WriteLn('Chromium1AfterCreated');
 end;
 
 procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
   FCanClose := True;
-  //PostMessage(Handle, WM_CLOSE, 0, 0);
+  PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
 
 procedure TForm1.Chromium1BeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring;
@@ -159,9 +159,9 @@ end;
 
 procedure TForm1.BrowserCreatedMsg(var aMessage: TMessage);
 begin
-  Caption := 'Simple Browser 2';
-  //AddressPnl.Enabled := True;
-  //GoBtn.Click;
+  Caption := 'WindowsXP测试 32和64位';
+  AddressPnl.Enabled := True;
+  GoBtn.Click;
 end;
 
 procedure TForm1.BrowserDestroyMsg(var aMessage: TMessage);
