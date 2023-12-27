@@ -814,17 +814,17 @@ end;
 
 procedure TCefApplication.DoMessageLoopWork;
 begin
-  if FLibLoaded and not (FMultiThreadedMessageLoop) then cef_do_message_loop_work;
+  if FLibLoaded and not (FMultiThreadedMessageLoop) then cef_do_message_loop_work();
 end;
 
 procedure TCefApplication.RunMessageLoop;
 begin
-  if FLibLoaded and not (FMultiThreadedMessageLoop) then cef_run_message_loop;
+  if FLibLoaded and not (FMultiThreadedMessageLoop) then cef_run_message_loop();
 end;
 
 procedure TCefApplication.QuitMessageLoop;
 begin
-  if FLibLoaded and not (FMultiThreadedMessageLoop) then cef_quit_message_loop;
+  if FLibLoaded and not (FMultiThreadedMessageLoop) then cef_quit_message_loop();
 end;
 
 procedure TCefApplication.SetOsmodalLoop(aValue: boolean);
@@ -841,7 +841,7 @@ procedure TCefApplication.ShutDown;
 begin
   try
     FStatus := asShuttingDown;
-    if FLibLoaded then cef_shutdown;
+    if FLibLoaded then cef_shutdown();
   except
     on e: Exception do
       if CustomExceptionHandler('TCefApplication.ShutDown', e) then raise;
@@ -1521,7 +1521,7 @@ begin
 
     if FLogProcessInfo then
       CefDebugLog('Process started', CEF_LOG_SEVERITY_INFO);
-    if FEnableHighDPISupport then cef_enable_highdpi_support;
+    if FEnableHighDPISupport then cef_enable_highdpi_support();
   end
   else
   begin

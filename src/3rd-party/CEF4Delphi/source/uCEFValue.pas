@@ -159,7 +159,7 @@ end;
 
 class function TCefValueRef.New: ICefValue;
 begin
-  Result := UnWrap(cef_value_create);
+  Result := UnWrap(cef_value_create());
 end;
 
 function TCefValueRef.SetBinary(const value: ICefBinaryValue): Boolean;

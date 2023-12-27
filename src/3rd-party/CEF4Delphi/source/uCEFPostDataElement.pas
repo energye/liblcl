@@ -128,7 +128,7 @@ end;
 
 class function TCefPostDataElementRef.New: ICefPostDataElement;
 begin
-  Result := UnWrap(cef_post_data_element_create);
+  Result := UnWrap(cef_post_data_element_create());
 end;
 
 procedure TCefPostDataElementRef.SetToBytes(size: NativeUInt; const bytes: Pointer);

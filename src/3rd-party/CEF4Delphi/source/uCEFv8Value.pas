@@ -175,7 +175,7 @@ end;
 
 class function TCefv8ValueRef.NewNull: ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_null);
+  Result := UnWrap(cef_v8value_create_null());
 end;
 
 class function TCefv8ValueRef.NewObject(const Accessor: ICefV8Accessor): ICefv8Value;
@@ -199,7 +199,7 @@ end;
 
 class function TCefv8ValueRef.NewUndefined: ICefv8Value;
 begin
-  Result := UnWrap(cef_v8value_create_undefined);
+  Result := UnWrap(cef_v8value_create_undefined());
 end;
 
 function TCefv8ValueRef.DeleteValueByIndex(index: Integer): Boolean;

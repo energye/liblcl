@@ -145,7 +145,7 @@ end;
 
 class function TCefRequestRef.New: ICefRequest;
 begin
-  Result := UnWrap(cef_request_create);
+  Result := UnWrap(cef_request_create());
 end;
 
 procedure TCefRequestRef.SetFirstPartyForCookies(const url: ustring);

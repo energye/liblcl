@@ -223,7 +223,7 @@ begin
       begin
         {$IFDEF INTFLOG}
         CefDebugLog(ClassName + '.Destroy -> FRefCount = ' +
-                    IntToStr(PCefBaseRefCounted(FData)^.release(PCefBaseRefCounted(FData))));
+                    IntToStr(PCefBase(FData)^.release(PCefBase(FData))));
         {$ELSE}
         PCefBase(FData)^.release(PCefBase(FData));
         {$ENDIF}

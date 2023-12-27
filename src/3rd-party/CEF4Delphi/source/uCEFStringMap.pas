@@ -185,7 +185,7 @@ constructor TCefStringMapOwn.Create;
 begin
   inherited Create;
 
-  FHandle := cef_string_map_alloc;
+  FHandle := cef_string_map_alloc();
 end;
 
 destructor TCefStringMapOwn.Destroy;

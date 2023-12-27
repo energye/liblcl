@@ -209,7 +209,7 @@ end;
 
 class function TCefCommandLineRef.Global: ICefCommandLine;
 begin
-  Result := UnWrap(cef_command_line_get_global);
+  Result := UnWrap(cef_command_line_get_global());
 end;
 
 function TCefCommandLineRef.HasArguments: Boolean;
@@ -255,7 +255,7 @@ end;
 
 class function TCefCommandLineRef.New: ICefCommandLine;
 begin
-  Result := UnWrap(cef_command_line_create);
+  Result := UnWrap(cef_command_line_create());
 end;
 
 procedure TCefCommandLineRef.PrependWrapper(const wrapper: ustring);

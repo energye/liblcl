@@ -132,7 +132,7 @@ end;
 
 class function TCefPostDataRef.New: ICefPostData;
 begin
-  Result := UnWrap(cef_post_data_create);
+  Result := UnWrap(cef_post_data_create());
 end;
 
 function TCefPostDataRef.RemoveElement(

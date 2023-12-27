@@ -105,7 +105,7 @@ end;
 
 class function TCefListValueRef.New: ICefListValue;
 begin
-  Result := UnWrap(cef_list_value_create);
+  Result := UnWrap(cef_list_value_create());
 end;
 
 function TCefListValueRef.GetBinary(index: Integer): ICefBinaryValue;

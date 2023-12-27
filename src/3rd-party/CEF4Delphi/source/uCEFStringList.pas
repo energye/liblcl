@@ -196,7 +196,7 @@ constructor TCefStringListOwn.Create;
 begin
   inherited Create;
 
-  FHandle := cef_string_list_alloc;
+  FHandle := cef_string_list_alloc();
 end;
 
 destructor TCefStringListOwn.Destroy;

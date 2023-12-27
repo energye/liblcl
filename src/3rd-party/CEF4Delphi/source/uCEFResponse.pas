@@ -77,7 +77,7 @@ uses
 
 class function TCefResponseRef.New: ICefResponse;
 begin
-  Result := UnWrap(cef_response_create);
+  Result := UnWrap(cef_response_create());
 end;
 
 function TCefResponseRef.GetHeader(const name: ustring): ustring;

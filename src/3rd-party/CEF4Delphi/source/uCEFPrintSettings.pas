@@ -155,7 +155,7 @@ end;
 
 class function TCefPrintSettingsRef.New: ICefPrintSettings;
 begin
-  Result := UnWrap(cef_print_settings_create);
+  Result := UnWrap(cef_print_settings_create());
 end;
 
 procedure TCefPrintSettingsRef.SetCollate(collate: Boolean);

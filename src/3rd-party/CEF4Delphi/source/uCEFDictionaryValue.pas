@@ -241,7 +241,7 @@ end;
 
 class function TCefDictionaryValueRef.New: ICefDictionaryValue;
 begin
-  Result := UnWrap(cef_dictionary_value_create);
+  Result := UnWrap(cef_dictionary_value_create());
 end;
 
 function TCefDictionaryValueRef.Remove(const key: ustring): Boolean;

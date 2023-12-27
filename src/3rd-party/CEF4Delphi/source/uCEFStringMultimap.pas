@@ -199,7 +199,7 @@ constructor TCefStringMultimapOwn.Create;
 begin
   inherited Create;
 
-  FHandle := cef_string_multimap_alloc;
+  FHandle := cef_string_multimap_alloc();
 end;
 
 destructor TCefStringMultimapOwn.Destroy;
