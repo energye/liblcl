@@ -3,14 +3,13 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Active="Win32"/>
+    <BuildModes Active="Win64"/>
     <Units>
       <Unit>
         <Filename Value="demo.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <CursorPos X="56" Y="34"/>
-        <UsageCount Value="46"/>
+        <CursorPos X="18" Y="17"/>
+        <UsageCount Value="52"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -20,17 +19,18 @@
         <UnitName Value="uDemo"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="11"/>
-        <UsageCount Value="18"/>
+        <UsageCount Value="17"/>
       </Unit>
       <Unit>
         <Filename Value="uDemo.pas"/>
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="118"/>
-        <CursorPos X="37" Y="162"/>
-        <UsageCount Value="23"/>
+        <TopLine Value="149"/>
+        <CursorPos X="5" Y="172"/>
+        <UsageCount Value="26"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -40,7 +40,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="18"/>
+        <UsageCount Value="17"/>
         <DefaultSyntaxHighlighter Value="XML"/>
       </Unit>
       <Unit>
@@ -53,25 +53,24 @@
       </Unit>
       <Unit>
         <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
-        <EditorIndex Value="5"/>
-        <TopLine Value="277"/>
-        <CursorPos X="5" Y="280"/>
-        <UsageCount Value="18"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="55"/>
+        <CursorPos X="29" Y="85"/>
+        <UsageCount Value="21"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="E:\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\finah.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="38" Y="33"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="E:\lazarus\fpc\3.2.2\source\rtl\objpas\sysutils\filutilh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="145"/>
         <CursorPos X="10" Y="178"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\source\uCEFApp.pas"/>
@@ -99,7 +98,7 @@
         <Filename Value="E:\lazarus\fpc\3.2.2\source\rtl\inc\dynlibh.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="10" Y="62"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="12"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\source\uCEFTypes.pas"/>
@@ -111,26 +110,24 @@
       </Unit>
       <Unit>
         <Filename Value="..\..\source\uCEFWindowParent.pas"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="50"/>
-        <CursorPos X="17" Y="81"/>
-        <UsageCount Value="16"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="110"/>
+        <CursorPos Y="147"/>
+        <UsageCount Value="18"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\source\uCEFChromium.pas"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="2248"/>
         <CursorPos X="4" Y="2270"/>
-        <UsageCount Value="21"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="24"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\source\res\tcefwindowparent.lrs"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="E:\lazarus\lcl\forms.pp"/>
@@ -138,7 +135,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1599"/>
         <CursorPos X="15" Y="1630"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
       </Unit>
       <Unit>
         <Filename Value="E:\lazarus\fpc\3.2.2\source\packages\fcl-base\src\custapp.pp"/>
@@ -146,7 +143,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="9" Y="19"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
       </Unit>
       <Unit>
         <Filename Value="E:\lazarus\components\lazutils\masks.pas"/>
@@ -154,14 +151,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="721"/>
         <CursorPos X="14" Y="754"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\source\uCEFBinaryValue.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="80"/>
         <CursorPos X="86" Y="113"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -169,7 +166,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="59"/>
         <CursorPos X="17" Y="92"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -177,7 +174,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="81"/>
         <CursorPos X="17" Y="114"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -185,7 +182,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="568"/>
         <CursorPos X="51" Y="601"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -193,7 +190,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="25"/>
         <CursorPos X="38" Y="58"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -201,7 +198,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="16"/>
         <CursorPos X="3" Y="4"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -209,7 +206,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="147"/>
         <CursorPos Y="170"/>
-        <UsageCount Value="8"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -217,7 +214,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="376"/>
         <CursorPos X="22" Y="422"/>
-        <UsageCount Value="12"/>
+        <UsageCount Value="11"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -225,7 +222,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="121"/>
         <CursorPos X="6" Y="171"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -233,7 +230,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="33" Y="69"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -241,7 +238,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="83"/>
         <CursorPos X="45" Y="115"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -249,7 +246,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="26"/>
         <CursorPos X="29" Y="76"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -257,7 +254,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="101"/>
         <CursorPos X="61" Y="139"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -265,7 +262,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="125"/>
         <CursorPos X="19" Y="156"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -273,7 +270,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="54"/>
         <CursorPos X="62" Y="93"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -281,14 +278,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="61"/>
         <CursorPos X="46" Y="99"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
         <Filename Value="D:\app.exe\energy\109.1.18\CEF4Delphi-master\demos\Lazarus_Windows\SimpleBrowser2\SimpleBrowser2.lpr"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="13" Y="39"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="D:\app.exe\energy\109.1.18\CEF4Delphi-master\demos\Lazarus_Windows\SimpleBrowser2\uSimpleBrowser2.pas"/>
@@ -298,33 +295,33 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="175"/>
         <CursorPos X="14" Y="117"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="D:\app.exe\energy\109.1.18\CEF4Delphi-master\demos\Lazarus_Windows\MiniBrowser\MiniBrowser.lpr"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="16"/>
         <CursorPos X="21" Y="63"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="D:\app.exe\energy\109.1.18\CEF4Delphi-master\demos\Lazarus_Windows\MiniBrowser\uMiniBrowser.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="254"/>
         <CursorPos X="20" Y="288"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="D:\app.exe\energy\109.1.18\CEF4Delphi-master\demos\Lazarus_Windows\MiniBrowser\uPreferences.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="37"/>
         <CursorPos X="15" Y="40"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="D:\app.exe\energy\109.1.18\CEF4Delphi-master\demos\Lazarus_Windows\MiniBrowser\uSimpleTextViewer.pas"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\source\uCEFConstants.pas"/>
@@ -361,7 +358,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="118"/>
         <CursorPos Y="152"/>
-        <UsageCount Value="11"/>
+        <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -375,30 +372,20 @@
       <Unit>
         <Filename Value="E:\lazarus\lcl\controls.pp"/>
         <UnitName Value="Controls"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="156"/>
         <CursorPos X="51" Y="187"/>
+        <UsageCount Value="12"/>
+      </Unit>
+      <Unit>
+        <Filename Value="E:\lazarus\fpc\3.2.2\source\rtl\inc\objpash.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="184"/>
+        <CursorPos X="77" Y="205"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="24">
-      <Position>
-        <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
-        <Caret Line="287" TopLine="252"/>
-      </Position>
-      <Position>
-        <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
-        <Caret Line="580" Column="40" TopLine="526"/>
-      </Position>
-      <Position>
-        <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
-        <Caret Line="539" Column="5" TopLine="526"/>
-      </Position>
-      <Position>
-        <Filename Value="..\..\source\uCEFMiscFunctions.pas"/>
-        <Caret Line="89" Column="28" TopLine="58"/>
-      </Position>
+    <JumpHistory HistoryIndex="20">
       <Position>
         <Filename Value="demo.lpr"/>
         <Caret Line="29" Column="7"/>
@@ -414,10 +401,6 @@
       <Position>
         <Filename Value="demo.lpr"/>
         <Caret Line="20" Column="66"/>
-      </Position>
-      <Position>
-        <Filename Value="uDemo.pas"/>
-        <Caret Line="15" Column="57" TopLine="19"/>
       </Position>
       <Position>
         <Filename Value="uDemo.pas"/>
@@ -448,14 +431,6 @@
         <Caret Line="113" Column="29" TopLine="87"/>
       </Position>
       <Position>
-        <Filename Value="..\..\source\uCEFWindowParent.pas"/>
-        <Caret Line="81" Column="17" TopLine="50"/>
-      </Position>
-      <Position>
-        <Filename Value="E:\lazarus\lcl\controls.pp"/>
-        <Caret Line="1774" Column="62" TopLine="1744"/>
-      </Position>
-      <Position>
         <Filename Value="uDemo.pas"/>
         <Caret Line="112" Column="27" TopLine="87"/>
       </Position>
@@ -468,20 +443,32 @@
         <Caret Line="116" Column="19" TopLine="85"/>
       </Position>
       <Position>
-        <Filename Value="..\..\source\uCEFWindowParent.pas"/>
-        <Caret Line="81" Column="17" TopLine="50"/>
-      </Position>
-      <Position>
-        <Filename Value="E:\lazarus\lcl\controls.pp"/>
-        <Caret Line="1774" Column="14" TopLine="1743"/>
-      </Position>
-      <Position>
         <Filename Value="uDemo.pas"/>
         <Caret Line="116" Column="74" TopLine="85"/>
       </Position>
       <Position>
         <Filename Value="uDemo.pas"/>
         <Caret Line="162" Column="41" TopLine="118"/>
+      </Position>
+      <Position>
+        <Filename Value="uDemo.pas"/>
+        <Caret Line="88" Column="6" TopLine="67"/>
+      </Position>
+      <Position>
+        <Filename Value="uDemo.pas"/>
+        <Caret Line="87" Column="26" TopLine="73"/>
+      </Position>
+      <Position>
+        <Filename Value="demo.lpr"/>
+        <Caret Line="50" Column="11"/>
+      </Position>
+      <Position>
+        <Filename Value="uDemo.pas"/>
+        <Caret Line="190" Column="38" TopLine="167"/>
+      </Position>
+      <Position>
+        <Filename Value="uDemo.pas"/>
+        <Caret Line="36" Column="21" TopLine="25"/>
       </Position>
     </JumpHistory>
     <RunParams>

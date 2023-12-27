@@ -21,7 +21,6 @@ type
   {== Client ==}
   TClientRef = class(TCefClientOwn)
   protected
-    FAudioHandler: ICefAudioHandler;
     FLoadHandler: ICefLoadHandler;
     FFocusHandler: ICefFocusHandler;
     FContextMenuHandler: ICefContextMenuHandler;
@@ -38,7 +37,7 @@ type
     FPrintHandler: ICefPrintHandler;
   public
 
-    procedure GetAudioHandler(var aHandler: ICefAudioHandler); override;
+    procedure GetAudioHandler(var aHandler: Pointer);
     procedure GetContextMenuHandler(var aHandler: ICefContextMenuHandler); override;
     procedure GetDialogHandler(var aHandler: ICefDialogHandler); override;
     procedure GetDisplayHandler(var aHandler: ICefDisplayHandler); override;
@@ -54,7 +53,7 @@ type
     procedure GetPrintHandler(var aHandler: ICefPrintHandler);
     procedure GetRenderHandler(var aHandler: ICefRenderHandler); override;
     procedure GetRequestHandler(var aHandler: ICefRequestHandler); override;
-    function OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_: ICefProcessMessage): boolean; override;
+    function OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_: ICefProcessMessage): boolean; override;
 
     procedure RemoveReferences; override;
     constructor Create; override;
@@ -64,13 +63,8 @@ type
 implementation
 
 
-procedure TClientRef.GetAudioHandler(var aHandler: ICefAudioHandler);
+procedure TClientRef.GetAudioHandler(var aHandler: Pointer);
 begin
-  if FAudioHandler = nil then
-  begin
-    FAudioHandler := TAudioHandlerRef.Create;
-  end;
-  aHandler := FAudioHandler;
 end;
 
 procedure TClientRef.GetContextMenuHandler(var aHandler: ICefContextMenuHandler);
@@ -179,11 +173,6 @@ end;
 
 procedure TClientRef.GetPrintHandler(var aHandler: ICefPrintHandler);
 begin
-  if FPrintHandler = nil then
-  begin
-    FPrintHandler := TPrintHandlerRef.Create;
-  end;
-  aHandler := FPrintHandler;
 end;
 
 procedure TClientRef.GetRenderHandler(var aHandler: ICefRenderHandler);
@@ -204,14 +193,13 @@ begin
   aHandler := FRequestHandler;
 end;
 
-function TClientRef.OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_: ICefProcessMessage): boolean;
+function TClientRef.OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message_ : ICefProcessMessage): boolean;
 begin
-  Result := inherited OnProcessMessageReceived(browser, frame, sourceProcess, message_);
+  Result := inherited OnProcessMessageReceived(browser, sourceProcess, message_);
 end;
 
 procedure TClientRef.RemoveReferences;
 begin
-  if (FAudioHandler <> nil) then FAudioHandler.RemoveReferences;
   if (FLoadHandler <> nil) then FLoadHandler.RemoveReferences;
   if (FFocusHandler <> nil) then FFocusHandler.RemoveReferences;
   if (FContextMenuHandler <> nil) then FContextMenuHandler.RemoveReferences;
@@ -225,8 +213,6 @@ begin
   if (FRenderHandler <> nil) then FRenderHandler.RemoveReferences;
   if (FDragHandler <> nil) then FDragHandler.RemoveReferences;
   if (FFindHandler <> nil) then FFindHandler.RemoveReferences;
-  if (FPrintHandler <> nil) then FPrintHandler.RemoveReferences;
-  FAudioHandler := nil;
   FContextMenuHandler := nil;
   FDialogHandler := nil;
   FDisplayHandler := nil;
@@ -247,7 +233,6 @@ end;
 constructor TClientRef.Create;
 begin
   inherited Create;
-  FAudioHandler := nil;
   FContextMenuHandler := nil;
   FDialogHandler := nil;
   FDisplayHandler := nil;

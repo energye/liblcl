@@ -24,13 +24,13 @@ type
     constructor Create; override;
     destructor Destroy; override;
   protected
-    function Get(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean; override;
-    function Set_(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean; override;
+    function Get(const Name: ustring; const obj: ICefv8Value; out retval: ICefv8Value; var Exception: ustring): boolean; override;
+    function Put(const Name: ustring; const obj, Value: ICefv8Value; var Exception: ustring): boolean; override;
   end;
 
 implementation
 
-function TV8AccessorRef.Get(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean;
+function TV8AccessorRef.Get(const Name: ustring; const obj: ICefv8Value; out retval: ICefv8Value; var Exception: ustring): boolean;
 var
   PName: PChar;
   PException: PChar;
@@ -39,7 +39,7 @@ begin
   if (GetPtr <> nil) then
   begin
     PName := PChar(string(Name));
-    TCEFEventCallback.SendEvent(GetPtr, [PName, object_, @retval, @PException, @Result]);
+    TCEFEventCallback.SendEvent(GetPtr, [PName, obj, @retval, @PException, @Result]);
     if PException <> nil then
       Exception := PCharToUStr(PException);
     PName := nil;
@@ -48,7 +48,7 @@ begin
 end;
 
 
-function TV8AccessorRef.Set_(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean;
+function TV8AccessorRef.Put(const Name: ustring; const obj, Value: ICefv8Value; var Exception: ustring): boolean;
 var
   PName: PChar;
   PException: PChar;
@@ -57,7 +57,7 @@ begin
   if (SetPtr <> nil) then
   begin
     PName := PChar(string(Name));
-    TCEFEventCallback.SendEvent(SetPtr, [PName, object_, Value, @PException, @Result]);
+    TCEFEventCallback.SendEvent(SetPtr, [PName, obj, Value, @PException, @Result]);
     if PException <> nil then
       Exception := PCharToUStr(PException);
     PName := nil;

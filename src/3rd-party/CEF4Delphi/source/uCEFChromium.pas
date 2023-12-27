@@ -357,10 +357,8 @@ type
 
     // ICefContextMenuHandler
     procedure doOnBeforeContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel); virtual;
-    function doRunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel;
-      const callback: ICefRunContextMenuCallback): boolean; virtual;
-    function doOnContextMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: integer;
-      eventFlags: TCefEventFlags): boolean; virtual;
+    function doRunContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback): boolean; virtual;
+    function doOnContextMenuCommand(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: integer; eventFlags: TCefEventFlags): boolean; virtual;
     procedure doOnContextMenuDismissed(const browser: ICefBrowser; const frame: ICefFrame); virtual;
 
     // ICefKeyboardHandler
@@ -385,16 +383,13 @@ type
     procedure doOnCancelGeolocationPermission(const browser: ICefBrowser; requestId: integer); virtual;
 
     // ICefJsDialogHandler
-    function doOnJsdialog(const browser: ICefBrowser; const originUrl, accept_lang: ustring; dialogType: TCefJsDialogType;
-      const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: boolean): boolean; virtual;
+    function doOnJsdialog(const browser: ICefBrowser; const originUrl, accept_lang: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: boolean): boolean; virtual;
     function doOnBeforeUnloadDialog(const browser: ICefBrowser; const messageText: ustring; isReload: boolean; const callback: ICefJsDialogCallback): boolean; virtual;
     procedure doOnResetDialogState(const browser: ICefBrowser); virtual;
     procedure doOnDialogClosed(const browser: ICefBrowser); virtual;
 
     // ICefLifeSpanHandler
-    function doOnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring;
-      targetDisposition: TCefWindowOpenDisposition; userGesture: boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo;
-      var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: boolean): boolean; virtual;
+    function doOnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: boolean): boolean; virtual;
     procedure doOnAfterCreated(const browser: ICefBrowser); virtual;
     function doRunModal(const browser: ICefBrowser): boolean; virtual;
     procedure doOnBeforeClose(const browser: ICefBrowser); virtual;
@@ -402,28 +397,23 @@ type
 
     // ICefRequestHandler
     function doOnBeforeBrowse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; isRedirect: boolean): boolean; virtual;
-    function doOnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition;
-      userGesture: boolean): boolean; virtual;
+    function doOnOpenUrlFromTab(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean): boolean; virtual;
     function doOnBeforeResourceLoad(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const callback: ICefRequestCallback): TCefReturnValue; virtual;
     function doOnGetResourceHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest): ICefResourceHandler; virtual;
     procedure doOnResourceRedirect(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var newUrl: ustring); virtual;
     function doOnResourceResponse(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): boolean; virtual;
     function doOnGetResourceResponseFilter(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse): ICefResponseFilter; virtual;
-    procedure doOnResourceLoadComplete(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse;
-      status: TCefUrlRequestStatus; receivedContentLength: int64); virtual;
-    function doOnGetAuthCredentials(const browser: ICefBrowser; const frame: ICefFrame; isProxy: boolean; const host: ustring; port: integer;
-      const realm, scheme: ustring; const callback: ICefAuthCallback): boolean; virtual;
+    procedure doOnResourceLoadComplete(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; status: TCefUrlRequestStatus; receivedContentLength: int64); virtual;
+    function doOnGetAuthCredentials(const browser: ICefBrowser; const frame: ICefFrame; isProxy: boolean; const host: ustring; port: integer; const realm, scheme: ustring; const callback: ICefAuthCallback): boolean; virtual;
     function doOnQuotaRequest(const browser: ICefBrowser; const originUrl: ustring; newSize: int64; const callback: ICefRequestCallback): boolean; virtual;
     procedure doOnProtocolExecution(const browser: ICefBrowser; const url: ustring; out allowOsExecution: boolean); virtual;
-    function doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo;
-      const callback: ICefRequestCallback): boolean; virtual;
+    function doOnCertificateError(const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefRequestCallback): boolean; virtual;
     procedure doOnPluginCrashed(const browser: ICefBrowser; const pluginPath: ustring); virtual;
     procedure doOnRenderViewReady(const browser: ICefBrowser); virtual;
     procedure doOnRenderProcessTerminated(const browser: ICefBrowser; status: TCefTerminationStatus); virtual;
 
     // ICefDialogHandler
-    function doOnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings;
-      selectedAcceptFilter: integer; const callback: ICefFileDialogCallback): boolean; virtual;
+    function doOnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: integer; const callback: ICefFileDialogCallback): boolean; virtual;
 
     // ICefRenderHandler
     function doOnGetRootScreenRect(const browser: ICefBrowser; var rect: TCefRect): boolean; virtual;
@@ -432,8 +422,7 @@ type
     function doOnGetScreenInfo(const browser: ICefBrowser; var screenInfo: TCefScreenInfo): boolean; virtual;
     procedure doOnPopupShow(const browser: ICefBrowser; Show: boolean); virtual;
     procedure doOnPopupSize(const browser: ICefBrowser; const rect: PCefRect); virtual;
-    procedure doOnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray;
-      const buffer: Pointer; Width, Height: integer); virtual;
+    procedure doOnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; const buffer: Pointer; Width, Height: integer); virtual;
     procedure doOnCursorChange(const browser: ICefBrowser; cursor: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo); virtual;
     function doOnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: integer): boolean; virtual;
     procedure doOnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation); virtual;
@@ -462,10 +451,8 @@ type
     function CreateClientHandler(aIsOSR: boolean): boolean; overload;
     function CreateClientHandler(var aClient: ICefClient; aIsOSR: boolean = True): boolean; overload;
     procedure CloseBrowser(aForceClose: boolean);
-    function CreateBrowser(const aBrowserParent: TWinControl = nil; const aWindowName: string = ''; const aContext: ICefRequestContext = nil;
-      const aCookiesPath: string = ''; aPersistSessionCookies: boolean = False): boolean; overload; virtual;
-    function CreateBrowser(aParentHandle: HWND; aParentRect: TRect; const aWindowName: string = ''; const aContext: ICefRequestContext = nil;
-      const aCookiesPath: string = ''; aPersistSessionCookies: boolean = False): boolean; overload; virtual;
+    function CreateBrowser(const aBrowserParent: TWinControl = nil; const aWindowName: string = ''; const aContext: ICefRequestContext = nil; const aCookiesPath: string = ''; aPersistSessionCookies: boolean = False): boolean; overload; virtual;
+    function CreateBrowser(aParentHandle: HWND; aParentRect: TRect; const aWindowName: string = ''; const aContext: ICefRequestContext = nil; const aCookiesPath: string = ''; aPersistSessionCookies: boolean = False): boolean; overload; virtual;
     function ShareRequestContext(var aContext: ICefRequestContext; const aHandler: ICefRequestContextHandler = nil): boolean;
     procedure InitializeDragAndDrop(const aDropTargetCtrl: TWinControl);
     procedure ShutdownDragAndDrop;

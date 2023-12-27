@@ -533,7 +533,7 @@ var
   JSONNumber: TJSONNumber;
 begin
   try
-    V8Object := TCefv8ValueRef.NewObject(nil, nil);
+    V8Object := TCefv8ValueRef.NewObject(nil);
     I := 0;
     while (I < JSONObject.Count) do
     begin

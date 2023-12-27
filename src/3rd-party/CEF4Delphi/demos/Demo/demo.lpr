@@ -16,9 +16,9 @@ uses
 begin
   WriteLn('run');
   GlobalCEFApp := TCefApplication.Create;
-  GlobalCEFApp.LogSeverity := LOGSEVERITY_INFO;
-  GlobalCEFApp.LogFile := 'D:\app.exe\energy\EnergyFramework32_49\log.log';
-  GlobalCEFApp.FrameworkDirPath := 'D:\app.exe\energy\EnergyFramework32_49\';
+  //GlobalCEFApp.LogSeverity := LOGSEVERITY_INFO;
+  //GlobalCEFApp.LogFile := 'D:\app.exe\energy\EnergyFramework32_49\log.log';
+  GlobalCEFApp.FrameworkDirPath := 'D:\app.exe\energy\EnergyFramework64_49\';
   //GlobalCEFApp.NoSandbox := False;
   //GlobalCEFApp.SingleProcess:=true;
   // In case you want to use custom directories for the CEF3 binaries, cache, cookies and user data.
@@ -46,7 +46,7 @@ begin
     Application.CreateForm(TForm1, Form1);
     Application.Run;
   end;
-  WriteLn('Free');
 
-  //GlobalCEFApp.Free;
+  GlobalCEFApp.Free;
+  GlobalCEFApp := nil;
 end.

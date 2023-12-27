@@ -8,13 +8,8 @@ unit uDemo;
 interface
 
 uses
-  {$IFDEF DELPHI16_UP}
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
-  {$ELSE}
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls,
-  {$ENDIF}
   uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uCEFChromiumEvents;
 
 type
@@ -28,6 +23,12 @@ type
     Timer1: TTimer;
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
+    procedure Chromium1BeforeContextMenu(Sender: TObject;
+      const browser: ICefBrowser; const frame: ICefFrame;
+      const params: ICefContextMenuParams; const model: ICefMenuModel);
+    procedure Chromium1KeyEvent(Sender: TObject; const browser: ICefBrowser;
+      const event: PCefKeyEvent; osEvent: TCefEventHandle; out Result: Boolean);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure GoBtnClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -90,6 +91,7 @@ uses
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
+  WriteLn('FormCloseQuery');
   CanClose := FCanClose;
 
   if not (FClosing) then
@@ -98,6 +100,24 @@ begin
     Visible := False;
     Chromium1.CloseBrowser(True);
   end;
+end;
+
+procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+
+end;
+
+procedure TForm1.Chromium1BeforeContextMenu(Sender: TObject;
+  const browser: ICefBrowser; const frame: ICefFrame;
+  const params: ICefContextMenuParams; const model: ICefMenuModel);
+begin
+  WriteLn('Chromium1BeforeContextMenu');
+end;
+
+procedure TForm1.Chromium1KeyEvent(Sender: TObject; const browser: ICefBrowser;
+  const event: PCefKeyEvent; osEvent: TCefEventHandle; out Result: Boolean);
+begin
+  WriteLn('Chromium1KeyEvent');
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -132,13 +152,14 @@ end;
 
 procedure TForm1.Chromium1AfterCreated(Sender: TObject; const browser: ICefBrowser);
 begin
+  WriteLn('Chromium1AfterCreated');
   // Now the browser is fully initialized we can send a message to the main form to load the initial web page.
   PostMessage(Handle, CEF_AFTERCREATED, 0, 0);
-  WriteLn('Chromium1AfterCreated');
 end;
 
 procedure TForm1.Chromium1BeforeClose(Sender: TObject; const browser: ICefBrowser);
 begin
+  WriteLn('Chromium1BeforeClose');
   FCanClose := True;
   PostMessage(Handle, WM_CLOSE, 0, 0);
 end;
@@ -153,6 +174,7 @@ end;
 
 procedure TForm1.Chromium1Close(Sender: TObject; const browser: ICefBrowser; var aAction: TCefCloseBrowserAction);
 begin
+  WriteLn('Chromium1Close');
   PostMessage(Handle, CEF_DESTROY, 0, 0);
   aAction := cbaDelay;
 end;
@@ -166,6 +188,7 @@ end;
 
 procedure TForm1.BrowserDestroyMsg(var aMessage: TMessage);
 begin
+  WriteLn('BrowserDestroyMsg');
   CEFWindowParent1.Free;
 end;
 

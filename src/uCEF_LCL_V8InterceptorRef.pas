@@ -12,24 +12,24 @@ unit uCEF_LCL_V8InterceptorRef;
 interface
 
 uses
-  uCEFTypes, uCEFInterfaces, uCEFv8Interceptor,
+  uCEFTypes, uCEFInterfaces,
   uCEF_LCL_EventCallback;
 
 type
 
-  TV8InterceptorRef = class(TCefV8InterceptorOwn)
+  TV8InterceptorRef = class
   public
     GetByNamePtr: Pointer;
     GetByIndexPtr: Pointer;
     SetByNamePtr: Pointer;
     SetByIndexPtr: Pointer;
-    constructor Create; override;
-    destructor Destroy; override;
+    constructor Create;
+    destructor Destroy;
   protected
-    function GetByName(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean; override;
-    function GetByIndex(index: integer; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean; override;
-    function SetByName(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean; override;
-    function SetByIndex(index: integer; const object_, Value: ICefv8Value; var Exception: ustring): boolean; override;
+    function GetByName(const Name: ustring; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean;
+    function GetByIndex(index: integer; const object_: ICefv8Value; var retval: ICefv8Value; var Exception: ustring): boolean;
+    function SetByName(const Name: ustring; const object_, Value: ICefv8Value; var Exception: ustring): boolean;
+    function SetByIndex(index: integer; const object_, Value: ICefv8Value; var Exception: ustring): boolean;
   end;
 
 implementation

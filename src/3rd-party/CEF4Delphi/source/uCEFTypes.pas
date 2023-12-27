@@ -236,6 +236,8 @@ type
   {$ENDIF}
 {$ENDIF}
 
+  PPSingle = ^PSingle;
+
   Char16  = WideChar;
   PChar16 = PWideChar;
 
