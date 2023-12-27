@@ -30,8 +30,6 @@ end;
 
 procedure CEFGlobalApp_SetOnGetDefaultClient(AEventData: Pointer); extdecl;
 begin
-  OnGetDefaultClient_DataPtr := AEventData;
-  GlobalCEFApp.OnGetDefaultClient := GlobalCEFApp_OnGetDefaultClient;
 end;
 
 // ICefResourceBundleHandler
@@ -105,32 +103,22 @@ end;
 // ICefLoadHandler
 procedure CEFGlobalApp_SetOnRenderLoadingStateChange(AEventData: Pointer); extdecl;
 begin
-  OnRenderLoadingStateChange_DataPtr := AEventData;
-  GlobalCEFApp.OnLoadingStateChange := GlobalCEFApp_OnRenderLoadingStateChange;
 end;
 
 procedure CEFGlobalApp_SetOnRenderLoadStart(AEventData: Pointer); extdecl;
 begin
-  OnRenderLoadStart_DataPtr := AEventData;
-  GlobalCEFApp.OnLoadStart := GlobalCEFApp_OnRenderLoadStart;
 end;
 
 procedure CEFGlobalApp_SetOnRenderLoadEnd(AEventData: Pointer); extdecl;
 begin
-  OnRenderLoadEnd_DataPtr := AEventData;
-  GlobalCEFApp.OnLoadEnd := GlobalCEFApp_OnRenderLoadEnd;
 end;
 
 procedure CEFGlobalApp_SetOnRenderLoadError(AEventData: Pointer); extdecl;
 begin
-  OnRenderLoadError_DataPtr := AEventData;
-  GlobalCEFApp.OnLoadError := GlobalCEFApp_OnRenderLoadError;
 end;
 
 procedure CEFGlobalApp_SetOnScheduleMessagePumpWork(AEventData: Pointer); extdecl;
 begin
-  OnScheduleMessagePumpWork_DataPtr := AEventData;
-  GlobalCEFApp.OnScheduleMessagePumpWork := GlobalCEFApp_OnScheduleMessagePumpWork;
 end;
 
 exports

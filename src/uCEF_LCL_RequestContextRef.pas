@@ -19,46 +19,42 @@ type
 
   TRequestContextHandlerRef = class(TCefRequestContextHandlerOwn)
   public
-    RequestContextInitializedPtr: Pointer;
-    GetResourceRequestHandlerPtr: Pointer;
+    GetCookieManagerPtr: Pointer;
+    OnBeforePluginLoadPtr: Pointer;
     constructor Create; override;
     destructor Destroy; override;
   protected
-    procedure OnRequestContextInitialized(const request_context: ICefRequestContext); override;
-    procedure GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler: ICefResourceRequestHandler); override;
-
-    procedure RemoveReferences; override;
+    function GetCookieManager(): ICefCookieManager; override;
+    function OnBeforePluginLoad(const mimeType, pluginUrl: ustring; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo; pluginPolicy: PCefPluginPolicy): boolean; override;
 
   end;
 
 implementation
 
-procedure TRequestContextHandlerRef.OnRequestContextInitialized(const request_context: ICefRequestContext);
+function TRequestContextHandlerRef.GetCookieManager(): ICefCookieManager;
+var
+  ResultCookieManager: ICefCookieManager;
 begin
-  if (RequestContextInitializedPtr <> nil) then
+  if (GetCookieManagerPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(RequestContextInitializedPtr, [request_context]);
+    TCEFEventCallback.SendEvent(GetCookieManagerPtr, [@ResultCookieManager]);
+    Result := ResultCookieManager;
   end
   else
-    inherited OnRequestContextInitialized(request_context);
+    Result := inherited GetCookieManager();
 end;
 
-procedure TRequestContextHandlerRef.GetResourceRequestHandler(const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aResourceRequestHandler: ICefResourceRequestHandler);
+function TRequestContextHandlerRef.OnBeforePluginLoad(const mimeType, pluginUrl: ustring; const topOriginUrl: ustring; const pluginInfo: ICefWebPluginInfo;
+  pluginPolicy: PCefPluginPolicy): boolean;
 begin
-  if (GetResourceRequestHandlerPtr <> nil) then
+  if (OnBeforePluginLoadPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GetResourceRequestHandlerPtr, [browser, frame, request, is_navigation, is_download, PChar(string(request_initiator)), @disable_default_handling, @aResourceRequestHandler]);
+    TCEFEventCallback.SendEvent(OnBeforePluginLoadPtr, [PChar(string(mimeType)), PChar(string(pluginUrl)), PChar(string(topOriginUrl)), @pluginInfo, integer(pluginPolicy^)]);
   end
   else
-    inherited GetResourceRequestHandler(browser, frame, request, is_navigation, is_download, request_initiator, disable_default_handling, aResourceRequestHandler);
+    inherited OnBeforePluginLoad(mimeType, pluginUrl, topOriginUrl, pluginInfo, pluginPolicy);
 end;
 
-procedure TRequestContextHandlerRef.RemoveReferences;
-begin
-  RequestContextInitializedPtr := nil;
-  GetResourceRequestHandlerPtr := nil;
-  inherited RemoveReferences;
-end;
 
 constructor TRequestContextHandlerRef.Create;
 begin
@@ -67,7 +63,8 @@ end;
 
 destructor TRequestContextHandlerRef.Destroy;
 begin
-  RemoveReferences;
+  GetCookieManagerPtr := nil;
+  OnBeforePluginLoadPtr := nil;
   inherited Destroy;
 end;
 

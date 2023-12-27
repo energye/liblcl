@@ -24,7 +24,8 @@ type
     constructor Create; override;
     destructor Destroy; override;
   protected
-    function visit(const Name, Value, domain, path: ustring; secure, httponly, hasExpires: boolean; const creation, lastAccess, expires: TDateTime; Count, total: integer; same_site: TCefCookieSameSite; priority: TCefCookiePriority; out deleteCookie: boolean): boolean; override;
+    function visit(const Name, Value, domain, path: ustring; secure, httponly, hasExpires: boolean; const creation, lastAccess, expires: TDateTime;
+      Count, total: integer; out deleteCookie: boolean): boolean; override;
   end;
 
   {== SetCookieCallback ==}
@@ -34,7 +35,7 @@ type
     constructor Create; override;
     destructor Destroy; override;
   protected
-   procedure OnComplete(success: Boolean); override;
+    procedure OnComplete(success: boolean); override;
   end;
 
   {== DeleteCookiesCallback ==}
@@ -44,7 +45,7 @@ type
     constructor Create; override;
     destructor Destroy; override;
   protected
-   procedure OnComplete(numDeleted: Integer); override;
+    procedure OnComplete(numDeleted: integer); override;
   end;
 
 
@@ -52,7 +53,8 @@ type
 implementation
 
 {== CookieVisitor ==}
-function TCookieVisitorRef.visit(const Name, Value, domain, path: ustring; secure, httponly, hasExpires: boolean; const creation, lastAccess, expires: TDateTime; Count, total: integer; same_site: TCefCookieSameSite; priority: TCefCookiePriority; out deleteCookie: boolean): boolean;
+function TCookieVisitorRef.visit(const Name, Value, domain, path: ustring; secure, httponly, hasExpires: boolean; const creation, lastAccess, expires: TDateTime;
+  Count, total: integer; out deleteCookie: boolean): boolean;
 var
   cookie: PRCefCookie;
 begin
@@ -74,8 +76,8 @@ begin
     cookie^.Count := PInteger(Count);
     cookie^.total := PInteger(total);
     cookie^.aID := PInteger(0);
-    cookie^.sameSite := PInteger(integer(same_site));
-    cookie^.priority := PInteger(priority);
+    cookie^.sameSite := PInteger(0);
+    cookie^.priority := PInteger(0);
     cookie^.setImmediately := @Result;
     cookie^.deleteCookie := @deleteCookie;
     cookie^.Result := @Result;
@@ -83,7 +85,7 @@ begin
     cookie := nil;
   end
   else
-    Result := inherited visit(Name, Value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, Count, total, same_site, priority, deleteCookie);
+    Result := inherited visit(Name, Value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, Count, total, deleteCookie);
 end;
 
 constructor TCookieVisitorRef.Create;
@@ -98,7 +100,7 @@ begin
 end;
 
 {== SetCookieCallback ==}
-procedure TSetCookieCallbackRef.OnComplete(success: Boolean);
+procedure TSetCookieCallbackRef.OnComplete(success: boolean);
 begin
   if (CompletePtr <> nil) then
   begin
@@ -118,7 +120,7 @@ begin
 end;
 
 {== DeleteCookiesCallback ==}
-procedure TDeleteCookiesCallbackRef.OnComplete(numDeleted: Integer);
+procedure TDeleteCookiesCallbackRef.OnComplete(numDeleted: integer);
 begin
   if (CompletePtr <> nil) then
   begin

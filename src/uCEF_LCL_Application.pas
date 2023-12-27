@@ -37,7 +37,7 @@ type
 
 // 渲染进程回调事件函数
 // ICefApp
-procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
+procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: ICefSchemeRegistrar);
 
 // ICefBrowserProcessHandler
 procedure GlobalCEFApp_OnContextInitialized;
@@ -51,13 +51,13 @@ procedure GlobalCEFApp_OnGetDataResourceForScale(resourceId: Integer; scaleFacto
 
 // ICefRenderProcessHandler
 procedure GlobalCEFApp_OnWebKitInitialized;
-procedure GlobalCEFApp_OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
+procedure GlobalCEFApp_OnBrowserCreated(const browser: ICefBrowser);
 procedure GlobalCEFApp_OnBrowserDestroyed(const browser: ICefBrowser);
 procedure GlobalCEFApp_OnContextCreated(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 procedure GlobalCEFApp_OnContextReleased(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context);
 procedure GlobalCEFApp_OnUncaughtException(const browser: ICefBrowser; const frame: ICefFrame; const context: ICefv8Context; const exception: ICefV8Exception; const stackTrace: ICefV8StackTrace);
 procedure GlobalCEFApp_OnFocusedNodeChanged(const browser: ICefBrowser; const frame: ICefFrame; const node: ICefDomNode);
-procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled: boolean);
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage; var aHandled : boolean);
 
 // ICefLoadHandler
 procedure GlobalCEFApp_OnRenderLoadingStateChange(const browser: ICefBrowser; isLoading, canGoBack, canGoForward: boolean);
@@ -111,7 +111,7 @@ begin
 end;
 
 // ICefApp
-procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: TCefSchemeRegistrarRef);
+procedure GlobalCEFApp_OnRegCustomSchemes(const registrar: ICefSchemeRegistrar);
 begin
   TCEFEventCallback.SendEvent(OnRegCustomSchemes_DataPtr, [registrar]);
 end;
@@ -158,9 +158,9 @@ begin
   TCEFEventCallback.SendEvent(OnWebKitInitialized_DataPtr, []);
 end;
 
-procedure GlobalCEFApp_OnBrowserCreated(const browser: ICefBrowser; const extra_info: ICefDictionaryValue);
+procedure GlobalCEFApp_OnBrowserCreated(const browser: ICefBrowser);
 begin
-  TCEFEventCallback.SendEvent(OnBrowserCreated_DataPtr, [browser, extra_info]);
+  TCEFEventCallback.SendEvent(OnBrowserCreated_DataPtr, [browser, Pointer(0)]);
 end;
 
 procedure GlobalCEFApp_OnBrowserDestroyed(const browser: ICefBrowser);
@@ -188,10 +188,10 @@ begin
   TCEFEventCallback.SendEvent(OnFocusedNodeChanged_DataPtr, [browser, frame, node]);
 end;
 
-procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const aMessage: ICefProcessMessage; var aHandled: boolean);
+procedure GlobalCEFApp_OnProcessMessageReceived(const browser: ICefBrowser; sourceProcess: TCefProcessId; const message: ICefProcessMessage; var aHandled : boolean);
 begin
   aHandled := False;
-  TCEFEventCallback.SendEvent(OnProcessMessageReceived_DataPtr, [browser, frame, sourceProcess, aMessage, @aHandled]);
+  TCEFEventCallback.SendEvent(OnProcessMessageReceived_DataPtr, [browser, browser.MainFrame, sourceProcess, message, @aHandled]);
 end;
 
 // ICefLoadHandler

@@ -31,7 +31,7 @@
 {$I CEF_LCL_BaseRefCounted.inc}
 {$I CEF_LCL_Browser.inc}
 {$I CEF_LCL_BinaryValue.inc}
-{$I CEF_LCL_BitmapBitBuffer.inc}
+//{$I CEF_LCL_BitmapBitBuffer.inc}
 {$I CEF_LCL_BrowserView.inc}
 {$I CEF_LCL_BrowserViewComponent.inc}
 {$I CEF_LCL_BrowserViewDelegate.inc}

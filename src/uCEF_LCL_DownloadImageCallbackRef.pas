@@ -13,40 +13,27 @@ interface
 
 uses
   Classes, SysUtils, uCEFTypes, uCEFInterfaces,
-  uCEFDownloadImageCallBack,
   uCEF_LCL_EventCallback;
 
 type
 
-  TDownloadImageCallbackRef = class(TCefDownloadImageCallbackOwn)
+  TDownloadImageCallbackRef = class
   public
     DownloadImageFinishedPtr: Pointer;
-    constructor Create; override;
-    destructor Destroy; override;
-  protected
-    procedure OnDownloadImageFinished(const imageUrl: ustring; httpStatusCode: integer; const image: ICefImage); override;
+    constructor Create;
+    destructor Destroy;
 
   end;
 
 implementation
 
-procedure TDownloadImageCallbackRef.OnDownloadImageFinished(const imageUrl: ustring; httpStatusCode: integer; const image: ICefImage);
-begin
-  if (DownloadImageFinishedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(DownloadImageFinishedPtr, [PChar(string(imageUrl)), httpStatusCode, image]);
-  end;
-end;
 
 constructor TDownloadImageCallbackRef.Create;
 begin
-  inherited Create;
 end;
 
 destructor TDownloadImageCallbackRef.Destroy;
 begin
-  inherited Destroy;
-  DownloadImageFinishedPtr := nil;
 end;
 
 end.

@@ -12,16 +12,15 @@ unit uCEF_LCL_PanelDelegateRef;
 interface
 
 uses
-  Classes, SysUtils,uCEFInterfaces, uCEFTypes,
-  uCEFPanelDelegate,
+  Classes, SysUtils, uCEFInterfaces, uCEFTypes,
   uCEF_LCL_EventCallback;
 
 type
 
-  TPanelDelegateRef = class(TCefPanelDelegateOwn)
+  TPanelDelegateRef = class
   public
-    constructor Create; override;
-    destructor Destroy; override;
+    constructor Create;
+    destructor Destroy;
   protected
 
   end;
@@ -30,12 +29,10 @@ implementation
 
 constructor TPanelDelegateRef.Create;
 begin
-  inherited Create;
 end;
 
 destructor TPanelDelegateRef.Destroy;
 begin
-  inherited Destroy;
 end;
 
 end.

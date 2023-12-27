@@ -4,46 +4,35 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefBaseRefCounted_Wrap(const Ref: ICefBaseRefCounted; var Result: Pointer); extdecl;
+procedure CefBaseRefCounted_Wrap(const Ref: ICefBase; var Result: Pointer); extdecl;
 begin
   handleExceptionBegin
   Result := Ref.Wrap;
   handleExceptionEnd
 end;
 
-procedure CefBaseRefCounted_Free(var Ref: ICefBaseRefCounted); extdecl;
+procedure CefBaseRefCounted_Free(var Ref: ICefBase); extdecl;
 begin
-  handleExceptionBegin
   Ref := nil;
-  handleExceptionEnd
 end;
 
-function CefBaseRefCounted_SameAs(const Ref: ICefBaseRefCounted; aData : Pointer):LongBool ; extdecl;
+function CefBaseRefCounted_SameAs(const Ref: ICefBase; aData : Pointer):LongBool ; extdecl;
 begin
   handleExceptionBegin
   Result := Ref.SameAs(aData);
   handleExceptionEnd
 end;
 
-function CefBaseRefCounted_HasOneRef(const Ref: ICefBaseRefCounted):LongBool ; extdecl;
+function CefBaseRefCounted_HasOneRef(const Ref: ICefBase):LongBool ; extdecl;
 begin
-  handleExceptionBegin
-  Result := Ref.HasOneRef();
-  handleExceptionEnd
 end;
 
-function CefBaseRefCounted_HasAtLeastOneRef(const Ref: ICefBaseRefCounted):LongBool ; extdecl;
+function CefBaseRefCounted_HasAtLeastOneRef(const Ref: ICefBase):LongBool ; extdecl;
 begin
-  handleExceptionBegin
-  Result := Ref.HasAtLeastOneRef();
-  handleExceptionEnd
 end;
 
-procedure CefBaseRefCounted_DestroyOtherRefs(const Ref: ICefBaseRefCounted); extdecl;
+procedure CefBaseRefCounted_DestroyOtherRefs(const Ref: ICefBase); extdecl;
 begin
-  handleExceptionBegin
-  Ref.DestroyOtherRefs();
-  handleExceptionEnd
 end;
 
 exports

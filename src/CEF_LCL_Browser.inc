@@ -84,8 +84,6 @@ function CEFBrowser_TryCloseBrowser(const TObj: ICefBrowser): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := False;
-  if TObj.GetHost <> nil then
-  Result := TObj.GetHost.TryCloseBrowser();
   handleExceptionEnd
 end;
 
@@ -131,14 +129,8 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_DownloadImage(const TObj: ICefBrowser; const PImageUrl: PChar; isFavicon: LongBool; maxImageSize: integer; bypassCache: LongBool; const callback: ICefDownloadImageCallback); extdecl;
+procedure CEFBrowser_DownloadImage(); extdecl;
 begin
-  handleExceptionBegin
-  if TObj.GetHost <> nil then
-  begin
-  TObj.GetHost.DownloadImage(PCharToUStr(PImageUrl), isFavicon, maxImageSize, bypassCache, callback);
-  end;
-  handleExceptionEnd
 end;
 
 procedure CEFBrowser_Print(const TObj: ICefBrowser); extdecl;
@@ -194,22 +186,14 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowser_SendDevToolsMessage(const TObj: ICefBrowser; const message_: PChar): LongBool; extdecl;
+function CEFBrowser_SendDevToolsMessage(): LongBool; extdecl;
 begin
-  handleExceptionBegin
-  Result := False;
-  if TObj.GetHost <> nil then
-  Result := TObj.GetHost.SendDevToolsMessage(PCharToUStr(message_));
-  handleExceptionEnd
+  Result := False
 end;
 
-function CEFBrowser_ExecuteDevToolsMethod(const TObj: ICefBrowser; messageId: integer; const PMethod: PChar; const dictionaryValue: ICefDictionaryValue): Integer; extdecl;
+function CEFBrowser_ExecuteDevToolsMethod(): Integer; extdecl;
 begin
-  handleExceptionBegin
   Result := 0;
-  if TObj.GetHost <> nil then
-  Result := TObj.GetHost.ExecuteDevToolsMethod(messageId, PCharToUStr(PMethod), dictionaryValue);
-  handleExceptionEnd
 end;
 
 procedure CEFBrowser_SendKeyEvent(const TObj: ICefBrowser; const event: PCefKeyEvent); extdecl;
@@ -244,12 +228,8 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SendTouchEvent(const TObj: ICefBrowser; const event: PCefTouchEvent); extdecl;
+procedure CEFBrowser_SendTouchEvent(); extdecl;
 begin
-  handleExceptionBegin
-  if TObj.GetHost <> nil then
-  TObj.GetHost.SendTouchEvent(event);
-  handleExceptionEnd
 end;
 
 procedure CEFBrowser_SendCaptureLostEvent(const TObj: ICefBrowser); extdecl;
@@ -276,46 +256,24 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SetAccessibilityState(const TObj: ICefBrowser; accessibilityState: Integer); extdecl;
+procedure CEFBrowser_SetAccessibilityState(); extdecl;
 begin
-  handleExceptionBegin
-  if TObj.GetHost <> nil then
-  TObj.GetHost.SetAccessibilityState(TCefState(accessibilityState));
-  handleExceptionEnd
 end;
 
-procedure CEFBrowser_SetAutoResizeEnabled(const TObj: ICefBrowser; enabled: LongBool; const min_size, max_size: PCefSize); extdecl;
+procedure CEFBrowser_SetAutoResizeEnabled(); extdecl;
 begin
-  handleExceptionBegin
-  if TObj.GetHost <> nil then
-  TObj.GetHost.SetAutoResizeEnabled(enabled, min_size, max_size);
-  handleExceptionEnd
 end;
 
-function CEFBrowser_IsBackgroundHost(const TObj: ICefBrowser) : LongBool; extdecl;
+function CEFBrowser_IsBackgroundHost() : LongBool; extdecl;
 begin
-  handleExceptionBegin
-  Result := False;
-  if TObj.GetHost <> nil then
-  Result := TObj.GetHost.IsBackgroundHost;
-  handleExceptionEnd
 end;
 
-procedure CEFBrowser_SetAudioMuted(const TObj: ICefBrowser; mute: LongBool); extdecl;
+procedure CEFBrowser_SetAudioMuted(); extdecl;
 begin
-  handleExceptionBegin
-  if TObj.GetHost <> nil then
-  TObj.GetHost.SetAudioMuted(mute);
-  handleExceptionEnd
 end;
 
-function CEFBrowser_IsAudioMuted(const TObj: ICefBrowser) : LongBool; extdecl;
+function CEFBrowser_IsAudioMuted() : LongBool; extdecl;
 begin
-  handleExceptionBegin
-  Result := False;
-  if TObj.GetHost <> nil then
-  Result := TObj.GetHost.IsAudioMuted;
-  handleExceptionEnd
 end;
 
 procedure CEFBrowser_ShowDevTools(const TObj: ICefBrowser; const Chromium: TChromium; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; PDevToolsWinName: PChar); extdecl;
@@ -328,46 +286,31 @@ begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
   begin
-  if PDevToolsWinName <> nil then
-  begin
-  devToolsWinName := PCharToUStr(PDevToolsWinName);
-  if devToolsWinName = '' then
-   devToolsWinName := DEVTOOLS_WINDOWNAME;
-  end
-  else
-  begin
-  devToolsWinName := DEVTOOLS_WINDOWNAME;
-  end;
+    if PDevToolsWinName <> nil then
+    begin
+      devToolsWinName := PCharToUStr(PDevToolsWinName);
+      if devToolsWinName = '' then
+       devToolsWinName := DEVTOOLS_WINDOWNAME;
+    end
+    else
+    begin
+      devToolsWinName := DEVTOOLS_WINDOWNAME;
+    end;
 
-  //try
-  //  try
-  //  WindowInfoAsPopUp(windowInfo, TObj.Host.WindowHandle, devToolsWinName);
-  //  client := TCustomClientHandler.Create(Chromium, True);
-  //  FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
-  //  TObj.Host.ShowDevTools(@windowInfo, client, @browserSettings, nil);
-  //  finally
-  //  client:=nil;
-  //  end;
-  //except
-  //  on E: Exception do
-  //  CallException(E);
-  //end;
-
-  try
-  try
-  FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
-  WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect);
-  client := TCustomClientHandler.Create(Chromium, True);
-  FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
-  TObj.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
-  finally
-  client := nil
-  end;
-  except
-  on E: Exception do
-  CallException(E);
-  end;
-
+    try
+      try
+        FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
+        WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect);
+        client := TCustomClientHandler.Create(Chromium, True);
+        FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
+        TObj.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
+      finally
+        client := nil
+      end;
+    except
+    on E: Exception do
+      CallException(E);
+    end;
   end;
   handleExceptionEnd
 end;
@@ -380,22 +323,14 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowser_HasView(const TObj: ICefBrowser): LongBool; extdecl;
+function CEFBrowser_HasView(): LongBool; extdecl;
 begin
-  handleExceptionBegin
   Result := False;
-  if TObj.GetHost <> nil then
-  Result := TObj.GetHost.HasView;
-  handleExceptionEnd
 end;
 
-function CEFBrowser_HasDevTools(const TObj: ICefBrowser): LongBool; extdecl;
+function CEFBrowser_HasDevTools(): LongBool; extdecl;
 begin
-  handleExceptionBegin
   Result := False;
-  if TObj.GetHost <> nil then
-  Result := TObj.GetHost.HasDevTools;
-  handleExceptionEnd
 end;
 
 function  CEFBrowser_CanGoBack(const TObj: ICefBrowser): LongBool; extdecl;
