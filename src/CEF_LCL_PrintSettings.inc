@@ -77,18 +77,18 @@ end;
 procedure CefPrintSettings_SetPageRanges(const AObj: ICefPrintSettings; const PRanges: PTCefRangeArray; size: Integer); extdecl;
 var
   i: Integer;
-  ranges: TCefRangeArray;
+  ranges: TCefPageRangeArray;
 begin
   handleExceptionBegin
   try
-  SetLength(ranges, size);
-  for i := 0 to  size - 1 do
-  begin
-  ranges[i] := PRanges^[i];
-  end;
-  AObj.SetPageRanges(ranges);
+    SetLength(ranges, size);
+    for i := 0 to  size - 1 do
+    begin
+      ranges[i] := PRanges^[i];
+    end;
+    AObj.SetPageRanges(ranges);
   finally
-  SetLength(ranges, 0);
+    SetLength(ranges, 0);
   end;
   handleExceptionEnd
 end;
@@ -100,7 +100,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefPrintSettings_GetPageRanges(const AObj: ICefPrintSettings; out Result: TCefRangeArray); extdecl;
+procedure CefPrintSettings_GetPageRanges(const AObj: ICefPrintSettings; out Result: TCefPageRangeArray); extdecl;
 begin
   handleExceptionBegin
   AObj.GetPageRanges(Result);

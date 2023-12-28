@@ -164,7 +164,7 @@ type
     UserGesture: PBoolean;
   end;
 
-  //PTCefRangeArray = ^TCefRangeArray;
+  PTCefRangeArray = ^TCefPageRangeArray;
   //PTCefCompositionUnderlineDynArray = ^TCefCompositionUnderlineDynArray;
   PTCefBinaryValueArray = ^TCefBinaryValueArray;
   //PTCefX509CertificateArray = ^TCefX509CertificateArray;

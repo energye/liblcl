@@ -158,7 +158,7 @@ type
   TOnCookiesDeletedEvent          = procedure(Sender: TObject; numDeleted : integer) of object;
   TOnResolvedIPsAvailableEvent    = procedure(Sender: TObject; result: TCefErrorCode; const resolvedIps: TStrings) of object;
   {$IFDEF MSWINDOWS}
-  TOnCompMsgEvent                 = procedure (var aMessage: TMessage; var aHandled: Boolean) of object;
+  TOnCompMsgEvent                 = procedure(Sender: TObject; var aMessage: TMessage; var aHandled: Boolean) of object;
   {$ENDIF}
 
 implementation

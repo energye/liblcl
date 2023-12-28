@@ -4,21 +4,21 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure Misc_WindowInfoAsChild(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
+procedure Misc_WindowInfoAsChild(var windowInfo : TCefWindowInfo; const windowParent: TCEFWindowParent; const PWindowName: PChar); extdecl;
 begin
   handleExceptionBegin
   WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect, PCharToUStr(PWindowName));
   handleExceptionEnd
 end;
 
-procedure Misc_WindowInfoAsPopUp(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
+procedure Misc_WindowInfoAsPopUp(var windowInfo : TCefWindowInfo; const windowParent: TCEFWindowParent; const PWindowName: PChar); extdecl;
 begin
   handleExceptionBegin
   WindowInfoAsPopUp(windowInfo, windowParent.Handle, PCharToUStr(PWindowName));
   handleExceptionEnd
 end;
 
-procedure Misc_WindowInfoAsWindowless(var windowInfo : TCefWindowInfo; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; const PWindowName: PChar); extdecl;
+procedure Misc_WindowInfoAsWindowless(var windowInfo : TCefWindowInfo; const windowParent: TCEFWindowParent; const PWindowName: PChar); extdecl;
 begin
   handleExceptionBegin
   WindowInfoAsWindowless(windowInfo, windowParent.Handle, PCharToUStr(PWindowName));
@@ -100,21 +100,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure  Misc_DeviceToLogicalFloat32(aValue : PSingle; const aDeviceScaleFactor : PDouble; out Result: Single); extdecl;
-begin
-  handleExceptionBegin
-  Result := DeviceToLogical(Single(aValue^), Double(aDeviceScaleFactor^));
-  handleExceptionEnd
-end;
-
 procedure Misc_DeviceToLogicalMouse(var aEvent : TCEFMouseEvent; const aDeviceScaleFactor : PDouble); extdecl;
-begin
-  handleExceptionBegin
-  DeviceToLogical(aEvent, Double(aDeviceScaleFactor^));
-  handleExceptionEnd
-end;
-
-procedure Misc_DeviceToLogicalTouch(var aEvent : TCefTouchEvent; const aDeviceScaleFactor : PDouble); extdecl;
 begin
   handleExceptionBegin
   DeviceToLogical(aEvent, Double(aDeviceScaleFactor^));
@@ -155,9 +141,7 @@ exports
   Misc_CefClearSchemeHandlerFactories,
   Misc_CefGetMimeType,
   Misc_DeviceToLogicalInt32,
-  Misc_DeviceToLogicalFloat32,
   Misc_DeviceToLogicalMouse,
-  Misc_DeviceToLogicalTouch,
   Misc_DeviceToLogicalPoint,
   Misc_LogicalToDeviceInt32,
   Misc_LogicalToDeviceRect;

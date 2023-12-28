@@ -1709,16 +1709,11 @@ end;
 
 function BufferPanel_GetTransparent(AObj: TBufferPanel): LongBool; extdecl;
 begin
-  handleExceptionBegin
-  Result :=  AObj.Transparent;
-  handleExceptionEnd
+  Result := False;
 end;
 
 procedure BufferPanel_SetTransparent(AObj: TBufferPanel; AValue: LongBool); extdecl;
 begin
-  handleExceptionBegin
-  AObj.Transparent := AValue;
-  handleExceptionEnd
 end;
 
 function  BufferPanel_SaveToFile(AObj: TBufferPanel; const PFilename : PChar) : LongBool; extdecl;
@@ -1756,10 +1751,11 @@ begin
   handleExceptionEnd
 end;
 
-procedure  BufferPanel_BufferDrawRect(AObj: TBufferPanel; const aBitmap : TBitmap; const aSrcRect, aDstRect : TRect); extdecl;
+procedure  BufferPanel_BufferDrawRect(AObj: TBufferPanel; const aBitmap : TBitmap; const aSrcRect: TRect); extdecl;
 begin
   handleExceptionBegin
-  AObj.BufferDraw(aBitmap, aSrcRect, aDstRect);
+  //x, y : integer; const aBitmap : TBitmap
+  AObj.BufferDraw(aSrcRect.Left, aSrcRect.Top, aBitmap);
   handleExceptionEnd
 end;
 
@@ -1770,52 +1766,10 @@ begin
   handleExceptionEnd
 end;
 
-function  BufferPanel_UpdateOrigBufferDimensions(AObj: TBufferPanel; aWidth, aHeight : integer) : LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.UpdateOrigBufferDimensions(aWidth, aHeight);
-  handleExceptionEnd
-end;
-
-function  BufferPanel_UpdateOrigPopupBufferDimensions(AObj: TBufferPanel; aWidth, aHeight : integer) : LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.UpdateOrigPopupBufferDimensions(aWidth, aHeight);
-  handleExceptionEnd
-end;
-
-procedure  BufferPanel_UpdateDeviceScaleFactor(AObj: TBufferPanel) ; extdecl;
-begin
-  handleExceptionBegin
-  AObj.UpdateDeviceScaleFactor;
-  handleExceptionEnd
-end;
-
 function  BufferPanel_BufferIsResized(AObj: TBufferPanel; aUseMutex : LongBool) : LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.BufferIsResized(aUseMutex);
-  handleExceptionEnd
-end;
-
-procedure  BufferPanel_CreateIMEHandler(AObj: TBufferPanel) ; extdecl;
-begin
-  handleExceptionBegin
-  AObj.CreateIMEHandler();
-  handleExceptionEnd
-end;
-
-procedure  BufferPanel_ChangeCompositionRange(AObj: TBufferPanel; const selection_range : TCefRange; const character_bounds : TCefRectDynArray); extdecl;
-begin
-  handleExceptionBegin
-  AObj.ChangeCompositionRange(selection_range, character_bounds);
-  handleExceptionEnd
-end;
-
-procedure  BufferPanel_DrawOrigPopupBuffer(AObj: TBufferPanel; const aSrcRect, aDstRect : TRect); extdecl;
-begin
-  handleExceptionBegin
-  AObj.DrawOrigPopupBuffer(aSrcRect, aDstRect);
   handleExceptionEnd
 end;
 
@@ -1847,195 +1801,11 @@ begin
   handleExceptionEnd
 end;
 
-procedure  BufferPanel_ScreenScale(AObj: TBufferPanel; out Result: Single); extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.ScreenScale;
-  handleExceptionEnd
-end;
-
-procedure  BufferPanel_GetForcedDeviceScaleFactor(AObj: TBufferPanel; out Result: Single); extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.ForcedDeviceScaleFactor;
-  handleExceptionEnd
-end;
-
-procedure  BufferPanel_SetForcedDeviceScaleFactor(AObj: TBufferPanel; Value: PSingle); extdecl;
-begin
-  handleExceptionBegin
-  AObj.ForcedDeviceScaleFactor := Single(Value^);
-  handleExceptionEnd
-end;
-
-function  BufferPanel_GetMustInitBuffer(AObj: TBufferPanel) : LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.MustInitBuffer;
-  handleExceptionEnd
-end;
-
-procedure  BufferPanel_SetMustInitBuffer(AObj: TBufferPanel; Value: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  AObj.MustInitBuffer := Value;
-  handleExceptionEnd
-end;
-
 procedure  BufferPanel_Buffer(AObj: TBufferPanel; out Result: TBitmap); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.Buffer;
   handleExceptionEnd
-end;
-
-procedure  BufferPanel_OrigBuffer(AObj: TBufferPanel; out Result: TCEFBitmapBitBuffer); extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.OrigBuffer;
-  handleExceptionEnd
-end;
-
-function  BufferPanel_OrigBufferWidth(AObj: TBufferPanel) : integer; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.OrigBufferWidth;
-  handleExceptionEnd
-end;
-
-function  BufferPanel_OrigBufferHeight(AObj: TBufferPanel) : integer; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.OrigBufferHeight;
-  handleExceptionEnd
-end;
-
-procedure  BufferPanel_OrigPopupBuffer(AObj: TBufferPanel; out Result: TCEFBitmapBitBuffer); extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.OrigPopupBuffer;
-  handleExceptionEnd
-end;
-
-function  BufferPanel_OrigPopupBufferWidth(AObj: TBufferPanel) : integer; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.OrigPopupBufferWidth;
-  handleExceptionEnd
-end;
-
-function  BufferPanel_OrigPopupBufferHeight(AObj: TBufferPanel) : integer; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.OrigPopupBufferHeight;
-  handleExceptionEnd
-end;
-
-function  BufferPanel_OrigPopupBufferBits(AObj: TBufferPanel) : pointer; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.OrigPopupBufferBits;
-  handleExceptionEnd
-end;
-
-function  BufferPanel_OrigPopupScanlineSize(AObj: TBufferPanel) : integer; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.OrigPopupScanlineSize;
-  handleExceptionEnd
-end;
-
-{$IFDEF MSWINDOWS}
-procedure BufferPanel_SetOnIMECancelComposition(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := BufferPanel_OnIMECancelComposition}
-  {$DEFINE EventName := OnIMECancelComposition}
-  EventMethodCode
-end;
-
-procedure BufferPanel_SetOnIMECommitText(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := BufferPanel_OnIMECommitText}
-  {$DEFINE EventName := OnIMECommitText}
-  EventMethodCode
-end;
-
-procedure BufferPanel_SetOnIMESetComposition(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := BufferPanel_OnIMESetComposition}
-  {$DEFINE EventName := OnIMESetComposition}
-  EventMethodCode
-end;
-
-procedure BufferPanel_SetOnCustomTouch(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := BufferPanel_OnCustomTouch}
-  {$DEFINE EventName := OnCustomTouch}
-  EventMethodCode
-end;
-
-procedure BufferPanel_SetOnPointerDown(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := BufferPanel_OnPointerDown}
-  {$DEFINE EventName := OnPointerDown}
-  EventMethodCode
-end;
-
-procedure BufferPanel_SetOnPointerUp(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := BufferPanel_OnPointerUp}
-  {$DEFINE EventName := OnPointerUp}
-  EventMethodCode
-end;
-
-procedure BufferPanel_SetOnPointerUpdate(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := BufferPanel_OnPointerUpdate}
-  {$DEFINE EventName := OnPointerUpdate}
-  EventMethodCode
-end;
-{$ENDIF}
-
-procedure BufferPanel_SetOnPaintParentBkg(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := BufferPanel_OnPaintParentBkg}
-  {$DEFINE EventName := OnPaintParentBkg}
-  EventMethodCode
-end;
-
-procedure BufferPanel_SetOnMouseWheel(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := OnTMouseWheelEvent}
-  {$DEFINE EventName := OnMouseWheel}
-  EventMethodCode
-end;
-
-procedure BufferPanel_SetOnKeyDown(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := OnTKeyEvent}
-  {$DEFINE EventName := OnKeyDown}
-  EventMethodCode
-end;
-
-procedure BufferPanel_SetOnKeyUp(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := OnTKeyEvent}
-  {$DEFINE EventName := OnKeyUp}
-  EventMethodCode
-end;
-
-procedure BufferPanel_SetOnKeyPress(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := OnTKeyPressEvent}
-  {$DEFINE EventName := OnKeyPress}
-  EventMethodCode
-end;
-
-procedure BufferPanel_SetOnUTF8KeyPress(AObj: TBufferPanel; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := OnTUTF8KeyPressEvent}
-  {$DEFINE EventName := OnUTF8KeyPress}
-  EventMethodCode
 end;
 
 exports
@@ -2263,44 +2033,10 @@ exports
   BufferPanel_BufferDrawPoint,
   BufferPanel_BufferDrawRect,
   BufferPanel_UpdateBufferDimensions,
-  BufferPanel_UpdateOrigBufferDimensions,
-  BufferPanel_UpdateOrigPopupBufferDimensions,
-  BufferPanel_UpdateDeviceScaleFactor,
   BufferPanel_BufferIsResized,
-  BufferPanel_CreateIMEHandler,
-  BufferPanel_ChangeCompositionRange,
-  BufferPanel_DrawOrigPopupBuffer,
   BufferPanel_ScanlineSize,
   BufferPanel_BufferWidth,
   BufferPanel_BufferHeight,
   BufferPanel_BufferBits,
-  BufferPanel_ScreenScale,
-  BufferPanel_GetForcedDeviceScaleFactor,
-  BufferPanel_SetForcedDeviceScaleFactor,
-  BufferPanel_GetMustInitBuffer,
-  BufferPanel_SetMustInitBuffer,
-  BufferPanel_Buffer,
-  BufferPanel_OrigBuffer,
-  BufferPanel_OrigBufferWidth,
-  BufferPanel_OrigBufferHeight,
-  BufferPanel_OrigPopupBuffer,
-  BufferPanel_OrigPopupBufferWidth,
-  BufferPanel_OrigPopupBufferHeight,
-  BufferPanel_OrigPopupBufferBits,
-  BufferPanel_OrigPopupScanlineSize,
-  // event
-  {$IFDEF MSWINDOWS}
-  BufferPanel_SetOnIMECancelComposition,
-  BufferPanel_SetOnIMECommitText,
-  BufferPanel_SetOnIMESetComposition,
-  BufferPanel_SetOnCustomTouch,
-  BufferPanel_SetOnPointerDown,
-  BufferPanel_SetOnPointerUp,
-  BufferPanel_SetOnPointerUpdate,
-  {$ENDIF}
-  BufferPanel_SetOnPaintParentBkg,
-  BufferPanel_SetOnMouseWheel,
-  BufferPanel_SetOnKeyDown,
-  BufferPanel_SetOnKeyUp,
-  BufferPanel_SetOnKeyPress,
-  BufferPanel_SetOnUTF8KeyPress;
+  BufferPanel_Buffer
+  ;

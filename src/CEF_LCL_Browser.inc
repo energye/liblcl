@@ -276,41 +276,45 @@ function CEFBrowser_IsAudioMuted() : LongBool; extdecl;
 begin
 end;
 
-procedure CEFBrowser_ShowDevTools(const TObj: ICefBrowser; const Chromium: TChromium; const windowParent: {$ifdef MSWINDOWS}TCEFWindowParent{$else}TCEFLinkedWindowParent{$endif}; PDevToolsWinName: PChar); extdecl;
+procedure CEFBrowser_ShowDevTools(const TObj: ICefBrowser; const Chromium: TChromium; const windowParent: TCEFWindowParent; PDevToolsWinName: PChar); extdecl;
 var
   windowInfo: TCefWindowInfo;
   client: ICefClient;
   browserSettings: TCefBrowserSettings;
   devToolsWinName: ustring;
+  APoint: TPoint;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
   begin
-    if PDevToolsWinName <> nil then
-    begin
-      devToolsWinName := PCharToUStr(PDevToolsWinName);
-      if devToolsWinName = '' then
-       devToolsWinName := DEVTOOLS_WINDOWNAME;
-    end
-    else
-    begin
-      devToolsWinName := DEVTOOLS_WINDOWNAME;
-    end;
-
-    try
-      try
-        FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
-        WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect);
-        client := TCustomClientHandler.Create(Chromium, True);
-        FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
-        TObj.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
-      finally
-        client := nil
-      end;
-    except
-    on E: Exception do
-      CallException(E);
-    end;
+    Chromium.ShowDevTools(APoint, windowParent);
+    // TODO 用 Chromium.ShowDevTools
+    //if PDevToolsWinName <> nil then
+    //begin
+    //  devToolsWinName := PCharToUStr(PDevToolsWinName);
+    //  if devToolsWinName = '' then
+    //   devToolsWinName := DEVTOOLS_WINDOWNAME;
+    //end
+    //else
+    //begin
+    //  devToolsWinName := DEVTOOLS_WINDOWNAME;
+    //end;
+    //
+    //try
+    //  try
+    //    FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
+    //    WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect, devToolsWinName);
+    //    client := TCustomClientHandler.Create(Chromium, False, False, False, False,
+    //      False, False, False, False, False, False, False, False, False, False);
+    //    FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
+    //    TObj.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
+    //  finally
+    //    client := nil
+    //  end;
+    //except
+    //on E: Exception do
+    //  CallException(E);
+    //end;
   end;
   handleExceptionEnd
 end;

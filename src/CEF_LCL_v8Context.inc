@@ -10,7 +10,7 @@ var
   pReturnException: ICefV8Exception;
 begin
   handleExceptionBegin
-  Result := TObj.Eval(PCharToUStr(code), PCharToUStr(script_url), start_line, pReturnValue, pReturnException);
+  Result := TObj.Eval(PCharToUStr(code), pReturnValue, pReturnException);
   retval := pReturnValue;
   exception := pReturnException;
   handleExceptionEnd

@@ -35,7 +35,7 @@ end;
 function CefPostData_GetElementCount(const TObj: ICefPostData): NativeUInt; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetElementCount();
+  Result := TObj.GetCount();
   handleExceptionEnd
 end;
 
@@ -49,14 +49,14 @@ end;
 function CefPostData_RemoveElement(const TObj: ICefPostData; const element: ICefPostDataElement): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.RemoveElement(element);
+  Result := TObj.RemoveElement(element) > 0;
   handleExceptionEnd
 end;
 
 function CefPostData_AddElement(const TObj: ICefPostData; const element: ICefPostDataElement): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.AddElement(element);
+  Result := TObj.AddElement(element) > 0;
   handleExceptionEnd
 end;
 

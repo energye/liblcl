@@ -7,22 +7,22 @@
 procedure CefAccessibilityHandlerRef_Create(var Result: ICefAccessibilityHandler); extdecl;
 begin
   handleExceptionBegin
-  Result := nil //TAccessibilityHandlerRef.Create();
+  Result := nil;//TAccessibilityHandlerRef.Create();
   handleExceptionEnd
 end;
 
 procedure CefAccessibilityHandler_OnAccessibilityTreeChange(const TObj: ICefAccessibilityHandler; AEventData: Pointer); extdecl;
 begin
-  handleExceptionBegin
+  //handleExceptionBegin
   //(TObj as TAccessibilityHandlerRef).AccessibilityTreeChangePtr := AEventData;
-  handleExceptionEnd
+  //handleExceptionEnd
 end;
 
 procedure CefAccessibilityHandler_OnAccessibilityLocationChange(const TObj: ICefAccessibilityHandler; AEventData: Pointer); extdecl;
 begin
-  handleExceptionBegin
+  //handleExceptionBegin
   //(TObj as TAccessibilityHandlerRef).AccessibilityLocationChangePtr := AEventData;
-  handleExceptionEnd
+  //handleExceptionEnd
 end;
 
 exports

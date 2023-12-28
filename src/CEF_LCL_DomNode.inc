@@ -166,10 +166,38 @@ end;
 //end;
 
 procedure CefDomNode_GetElementAttributes(const TObj: ICefDomNode; var ResultAttrList: TStrings); extdecl;
+var
+  TempStrMap : ICefStringMap;
+  i, j : NativeUInt;
+  TempKey, TempValue : ustring;
 begin
   handleExceptionBegin
-  ResultAttrList := TStringList.Create;
-  TObj.GetElementAttributes(ResultAttrList);
+  TempStrMap := nil;
+  try
+    ResultAttrList := TStringList.Create;
+    TempStrMap := TCefStringMapOwn.Create;
+    TObj.GetElementAttributes(TempStrMap);
+
+    i := 0;
+    j := TempStrMap.Size;
+
+    while (i < j) do
+    begin
+      TempKey   := TempStrMap.Key[i];
+      TempValue := TempStrMap.Value[i];
+      if (length(TempKey) > 0) and (length(TempValue) > 0) then
+        ResultAttrList.Add(TempKey + ResultAttrList.NameValueSeparator + TempValue)
+      else
+        if (length(TempKey) > 0) then
+          ResultAttrList.Add(TempKey)
+        else
+          if (length(TempValue) > 0) then
+            ResultAttrList.Add(TempValue);
+      inc(i);
+    end;
+  finally
+    TempStrMap := nil;
+  end;
   handleExceptionEnd
 end;
 
@@ -184,13 +212,6 @@ function  CefDomNode_GetElementInnerText(const TObj: ICefDomNode): PChar; extdec
 begin
   handleExceptionBegin
   Result := PChar(string(TObj.GetElementInnerText()));
-  handleExceptionEnd
-end;
-
-procedure  CefDomNode_GetElementBounds(const TObj: ICefDomNode; var Result: TCefRect); extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.GetElementBounds();
   handleExceptionEnd
 end;
 
@@ -219,5 +240,4 @@ exports
   CefDomNode_GetElementAttribute,
   CefDomNode_GetElementAttributes,
   CefDomNode_SetElementAttribute,
-  CefDomNode_GetElementInnerText,
-  CefDomNode_GetElementBounds;
+  CefDomNode_GetElementInnerText;

@@ -54,13 +54,6 @@ begin
   handleExceptionEnd
 end;
 
-function ContextMenuParams_TitleText(const TObj: ICefContextMenuParams): PChar; extdecl;
-begin
-  handleExceptionBegin
-  Result := PChar(string(TObj.GetTitleText));
-  handleExceptionEnd
-end;
-
 function ContextMenuParams_PageUrl(const TObj: ICefContextMenuParams): PChar; extdecl;
 begin
   handleExceptionBegin
@@ -157,7 +150,6 @@ exports
   ContextMenuParams_UnfilteredLinkUrl,
   ContextMenuParams_SourceUrl,
   ContextMenuParams_HasImageContents,
-  ContextMenuParams_TitleText,
   ContextMenuParams_PageUrl,
   ContextMenuParams_FrameUrl,
   ContextMenuParams_FrameCharset,

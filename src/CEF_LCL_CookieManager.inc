@@ -23,8 +23,6 @@ var
   url, name, value, domain, path: ustring;
   secure, httponly, hasExpires: LongBool;
   creation, lastAccess, expires: double;
-  sameSite: TCefCookieSameSite;
-  priority: TCefCookiePriority;
 begin
   handleExceptionBegin
   url := PCharToUStr(CefCookie.url);
@@ -38,9 +36,7 @@ begin
   creation := Double(PDouble(CefCookie.creation)^);
   lastAccess := Double(PDouble(CefCookie.lastAccess)^);
   expires := Double(PDouble(CefCookie.expires)^);
-  sameSite := TCefCookieSameSite(CefCookie.sameSite^);
-  priority := TCefCookiePriority(CefCookie.priority^);
-  Result := AObj.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, sameSite, priority, callback);
+  Result := AObj.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, callback);
   CefCookie := nil;
   handleExceptionEnd
 end;

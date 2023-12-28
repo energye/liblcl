@@ -5,37 +5,7 @@
 //----------------------------------------
 
 {== AudioHandler ==}
-procedure CefAudioHandlerRef_Create(var Result: ICefAudioHandler); extdecl;
-begin
-  handleExceptionBegin
-  Result := TAudioHandlerRef.Create;
-  handleExceptionEnd
-end;
 
-procedure CefAudioHandler_OnGetAudioParameters(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
-begin
-  (AObj as TAudioHandlerRef).GetAudioParametersPtr := AEventData;
-end;
-
-procedure CefAudioHandler_OnAudioStreamStarted(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
-begin
-  (AObj as TAudioHandlerRef).AudioStreamStartedPtr := AEventData;
-end;
-
-procedure CefAudioHandler_OnAudioStreamPacket(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
-begin
-  (AObj as TAudioHandlerRef).AudioStreamPacketPtr := AEventData;
-end;
-
-procedure CefAudioHandler_OnAudioStreamStopped(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
-begin
-  (AObj as TAudioHandlerRef).AudioStreamStoppedPtr := AEventData;
-end;
-
-procedure CefAudioHandler_OnAudioStreamError(const AObj: ICefAudioHandler; AEventData: Pointer); extdecl;
-begin
-  (AObj as TAudioHandlerRef).AudioStreamErrorPtr := AEventData;
-end;
 
 {== CommandHandler ==}
 procedure CefCommandHandlerRef_Create(var Result: Pointer); extdecl;
@@ -395,7 +365,7 @@ end;
 procedure CefPrintHandlerRef_Create(var Result: ICefPrintHandler); extdecl;
 begin
   handleExceptionBegin
-  Result := TPrintHandlerRef.Create;
+  //Result := TPrintHandlerRef.Create;
   handleExceptionEnd
 end;
 
@@ -576,12 +546,6 @@ begin
 end;
 
 exports
-  CefAudioHandlerRef_Create,
-  CefAudioHandler_OnGetAudioParameters,
-  CefAudioHandler_OnAudioStreamStarted,
-  CefAudioHandler_OnAudioStreamPacket,
-  CefAudioHandler_OnAudioStreamStopped,
-  CefAudioHandler_OnAudioStreamError,
   CefCommandHandlerRef_Create,
   CefCommandHandler_OnChromeCommand,
   CefContextMenuHandlerRef_Create,

@@ -2950,7 +2950,7 @@ begin
     TempHandled := False;
 
     if assigned(FOnBrowserCompMsg) then
-      FOnBrowserCompMsg(aMessage, TempHandled);
+      FOnBrowserCompMsg(self, aMessage, TempHandled);
 
     if not (TempHandled) and (FOldBrowserCompWndPrc <> nil) and (FBrowserCompHWND <> 0) then
       aMessage.Result := CallWindowProc(FOldBrowserCompWndPrc, FBrowserCompHWND, aMessage.Msg, aMessage.wParam, aMessage.lParam);
@@ -2968,7 +2968,7 @@ begin
     TempHandled := False;
 
     if assigned(FOnWidgetCompMsg) then
-      FOnWidgetCompMsg(aMessage, TempHandled);
+      FOnWidgetCompMsg(self, aMessage, TempHandled);
 
     if not (TempHandled) and (FOldWidgetCompWndPrc <> nil) and (FWidgetCompHWND <> 0) then
       aMessage.Result := CallWindowProc(FOldWidgetCompWndPrc, FWidgetCompHWND, aMessage.Msg, aMessage.wParam, aMessage.lParam);
@@ -2986,7 +2986,7 @@ begin
     TempHandled := False;
 
     if assigned(FOnRenderCompMsg) then
-      FOnRenderCompMsg(aMessage, TempHandled);
+      FOnRenderCompMsg(self, aMessage, TempHandled);
 
     if not (TempHandled) and (FOldRenderCompWndPrc <> nil) and (FRenderCompHWND <> 0) then
       aMessage.Result := CallWindowProc(FOldRenderCompWndPrc, FRenderCompHWND, aMessage.Msg, aMessage.wParam, aMessage.lParam);

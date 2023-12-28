@@ -21,15 +21,7 @@ begin
   (AObj as TResponseFilterRef).FilterPtr := AEventData;
 end;
 
-procedure CefResponseFilter_UnWrap(const data: ICefResponseFilter; var Result: ICefResponseFilter); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefResponseFilterRef.UnWrap(data.Wrap);
-  handleExceptionEnd
-end;
-
 exports
   CefResponseFilterRef_Create,
   CefResponseFilter_InitFilter,
-  CefResponseFilter_Filter,
-  CefResponseFilter_UnWrap;
+  CefResponseFilter_Filter;

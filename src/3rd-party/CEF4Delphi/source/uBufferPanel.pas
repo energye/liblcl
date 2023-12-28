@@ -163,6 +163,8 @@ type
       property OnStartDock;
       property OnStartDrag;
       property OnUnDock;
+      property OnMouseEnter;
+      property OnMouseLeave;
       {$IFDEF DELPHI9_UP}
       property VerticalAlignment;
       property OnAlignInsertBefore;
@@ -171,8 +173,6 @@ type
       {$IFDEF DELPHI10_UP}
       property Padding;
       property OnMouseActivate;
-      property OnMouseEnter;
-      property OnMouseLeave;
       {$ENDIF}
       {$IFDEF DELPHI12_UP}
       property ShowCaption;

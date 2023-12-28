@@ -11,29 +11,21 @@ begin
   handleExceptionEnd
 end;
 
-procedure RequestContextHandlerRef_CreateForChromium(const Chromium: TChromium; var Result: ICefRequestContextHandler); extdecl;
+procedure RequestContextHandler_OnGetCookieManager(const AObj: ICefRequestContextHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  Result := TCustomRequestContextHandler.Create(Chromium);
+  (AObj as TRequestContextHandlerRef).GetCookieManagerPtr := AEventData;
   handleExceptionEnd
 end;
 
-procedure RequestContextHandler_OnRequestContextInitialized(const AObj: ICefRequestContextHandler; AEventData: Pointer); extdecl;
+procedure RequestContextHandler_OnBeforePluginLoad(const AObj: ICefRequestContextHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TRequestContextHandlerRef).RequestContextInitializedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure RequestContextHandler_GetResourceRequestHandler(const AObj: ICefRequestContextHandler; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TRequestContextHandlerRef).GetResourceRequestHandlerPtr := AEventData;
+  (AObj as TRequestContextHandlerRef).OnBeforePluginLoadPtr := AEventData;
   handleExceptionEnd
 end;
 
 exports
   RequestContextHandlerRef_Create,
-  RequestContextHandlerRef_CreateForChromium,
-  RequestContextHandler_OnRequestContextInitialized,
-  RequestContextHandler_GetResourceRequestHandler;
+  RequestContextHandler_OnGetCookieManager,
+  RequestContextHandler_OnBeforePluginLoad;

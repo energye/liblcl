@@ -120,7 +120,7 @@ end;
 procedure  RequestContext_GetCookieManager(const TObj: ICefRequestContext; const callback: ICefCompletionCallback; var Result: ICefCookieManager);  extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetCookieManager(callback);
+  Result := TObj.GetDefaultCookieManager(callback);
   handleExceptionEnd
 end;
 
@@ -145,13 +145,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure RequestContext_ClearHttpAuthCredentials(const TObj: ICefRequestContext; const callback: ICefCompletionCallback);  extdecl;
-begin
-  handleExceptionBegin
-  TObj.ClearHttpAuthCredentials(callback);
-  handleExceptionEnd
-end;
-
 procedure RequestContext_CloseAllConnections(const TObj: ICefRequestContext; const callback: ICefCompletionCallback);  extdecl;
 begin
   handleExceptionBegin
@@ -165,49 +158,6 @@ begin
   TObj.ResolveHost(PCharToUStr(origin), callback);
   handleExceptionEnd
 end;
-
-procedure RequestContext_LoadExtension(const TObj: ICefRequestContext; const root_directory: PChar; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);  extdecl;
-begin
-  handleExceptionBegin
-  TObj.LoadExtension(PCharToUStr(root_directory), manifest, handler);
-  handleExceptionEnd
-end;
-
-function  RequestContext_DidLoadExtension(const TObj: ICefRequestContext; const extension_id: PChar): LongBool;  extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.DidLoadExtension(PCharToUStr(extension_id));
-  handleExceptionEnd
-end;
-
-function  RequestContext_HasExtension(const TObj: ICefRequestContext; const extension_id: PChar): LongBool;  extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.HasExtension(PCharToUStr(extension_id));
-  handleExceptionEnd
-end;
-
-function  RequestContext_GetExtensions(const TObj: ICefRequestContext; const extension_ids: TStringList): LongBool;  extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.GetExtensions(extension_ids);
-  handleExceptionEnd
-end;
-
-procedure  RequestContext_GetExtension(const TObj: ICefRequestContext; const extension_id: PChar; var Result: ICefExtension);  extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.GetExtension(PCharToUStr(extension_id));
-  handleExceptionEnd
-end;
-
-procedure  RequestContext_GetMediaRouter(const TObj: ICefRequestContext; const callback: ICefCompletionCallback; var Result: ICefMediaRouter);  extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.GetMediaRouter();
-  handleExceptionEnd
-end;
-
 
 exports
   RequestContextRef_Global,
@@ -228,12 +178,5 @@ exports
   RequestContext_RegisterSchemeHandlerFactory,
   RequestContext_ClearSchemeHandlerFactories,
   RequestContext_ClearCertificateExceptions,
-  RequestContext_ClearHttpAuthCredentials,
   RequestContext_CloseAllConnections,
-  RequestContext_ResolveHost,
-  RequestContext_LoadExtension,
-  RequestContext_DidLoadExtension,
-  RequestContext_HasExtension,
-  RequestContext_GetExtensions,
-  RequestContext_GetExtension,
-  RequestContext_GetMediaRouter;
+  RequestContext_ResolveHost;

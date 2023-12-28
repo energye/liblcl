@@ -81,13 +81,6 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_IsArrayBuffer(const TObj: ICefv8Value): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.IsArrayBuffer;
-  handleExceptionEnd
-end;
-
 function CefV8Value_IsFunction(const TObj: ICefv8Value): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -299,20 +292,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Value_GetArrayBufferReleaseCallback(const TObj: ICefv8Value; var Result: ICefv8ArrayBufferReleaseCallback); extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.GetArrayBufferReleaseCallback();
-  handleExceptionEnd
-end;
-
-function CefV8Value_NeuterArrayBuffer(const TObj: ICefv8Value): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.NeuterArrayBuffer();
-  handleExceptionEnd
-end;
-
 function CefV8Value_GetFunctionName(const TObj: ICefv8Value): PChar; extdecl;
 begin
   handleExceptionBegin
@@ -464,10 +443,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewObject(const Accessor: ICefV8Accessor; const Interceptor: ICefV8Interceptor; var Result: ICefv8Value); extdecl;
+procedure CefV8ValueRef_NewObject(const Accessor: ICefV8Accessor; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefv8ValueRef.NewObject(Accessor, Interceptor);
+  Result := TCefv8ValueRef.NewObject(Accessor);
   handleExceptionEnd
 end;
 
@@ -475,13 +454,6 @@ procedure CefV8ValueRef_NewArray(len: Integer; var Result: ICefv8Value); extdecl
 begin
   handleExceptionBegin
   Result := TCefv8ValueRef.NewArray(len);
-  handleExceptionEnd
-end;
-
-procedure CefV8ValueRef_NewArrayBuffer(buffer: Pointer; length: Integer; const callback : ICefv8ArrayBufferReleaseCallback; var Result: ICefv8Value); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefv8ValueRef.NewArrayBuffer(buffer, NativeUInt(length), callback);
   handleExceptionEnd
 end;
 
@@ -518,7 +490,6 @@ exports
   CefV8Value_IsString,
   CefV8Value_IsObject,
   CefV8Value_IsArray,
-  CefV8Value_IsArrayBuffer,
   CefV8Value_IsFunction,
   CefV8Value_IsPromise,
   CefV8Value_IsSame,
@@ -549,8 +520,6 @@ exports
   CefV8Value_GetExternallyAllocatedMemory,
   CefV8Value_AdjustExternallyAllocatedMemory,
   CefV8Value_GetArrayLength,
-  CefV8Value_GetArrayBufferReleaseCallback,
-  CefV8Value_NeuterArrayBuffer,
   CefV8Value_GetFunctionName,
   CefV8Value_GetFunctionHandler,
   CefV8Value_ExecuteFunction,
@@ -569,7 +538,6 @@ exports
   CefV8ValueRef_NewString,
   CefV8ValueRef_NewObject,
   CefV8ValueRef_NewArray,
-  CefV8ValueRef_NewArrayBuffer,
   CefV8ValueRef_NewFunction,
   CefV8ValueRef_NewPromise,
   CefV8ValueRef_UnWrap;

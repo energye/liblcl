@@ -86,6 +86,7 @@ type
   ICefSslInfo = interface;
   IChromiumEvents = interface;
   ICefCommandLine = interface;
+  ICefPostDataElement = interface;
   ICefRequestHandler = interface;
   ICefResourceBundleHandler = interface;
   ICefBrowserProcessHandler = interface;
@@ -117,6 +118,7 @@ type
   TCefv8ValueArray         = array of ICefv8Value;
   TCefBinaryValueArray     = array of ICefBinaryValue;
   TCefFrameIdentifierArray = array of int64;
+  TCefPostDataElementArray = array of ICefPostDataElement;
 
 
 
@@ -510,7 +512,7 @@ type
     function  IsReadOnly: Boolean;
     function  HasExcludedElements: Boolean;
     function  GetCount: NativeUInt;
-    function  GetElements(Count: NativeUInt): IInterfaceList; // list of ICefPostDataElement
+    procedure GetElements(elementsCount: NativeUInt; var elements: TCefPostDataElementArray);
     function  RemoveElement(const element: ICefPostDataElement): Integer;
     function  AddElement(const element: ICefPostDataElement): Integer;
     procedure RemoveElements;

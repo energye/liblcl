@@ -110,9 +110,14 @@ begin
 end;
 
 function CefValue_SetBool(const TObj: ICefValue; value: LongBool): LongBool; extdecl;
+var
+  v: Integer;
 begin
   handleExceptionBegin
-  Result := TObj.SetBool(value);
+  v := 0;
+  if value then
+    v := 1;
+  Result := TObj.SetBool(v);
   handleExceptionEnd
 end;
 

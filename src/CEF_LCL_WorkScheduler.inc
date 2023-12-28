@@ -17,18 +17,18 @@ begin
   Result := GlobalCEFWorkScheduler;
 end;
 
-procedure CEFWorkScheduler_CreateDelayed(out Result: TCEFWorkScheduler); extdecl;
-begin
-  if GlobalCEFWorkScheduler = nil then
-    GlobalCEFWorkScheduler := TCEFWorkScheduler.CreateDelayed;
-  Result := GlobalCEFWorkScheduler;
-end;
-
-procedure CEFWorkScheduler_CreateThread(); extdecl;
-begin
-  if GlobalCEFWorkScheduler <> nil then
-    GlobalCEFWorkScheduler.CreateThread;
-end;
+//procedure CEFWorkScheduler_CreateDelayed(out Result: TCEFWorkScheduler); extdecl;
+//begin
+//  //if GlobalCEFWorkScheduler = nil then
+//  //  GlobalCEFWorkScheduler := TCEFWorkScheduler.CreateDelayed;
+//  Result := nil;
+//end;
+//
+//procedure CEFWorkScheduler_CreateThread(); extdecl;
+//begin
+//  //if GlobalCEFWorkScheduler <> nil then
+//  //  TCEFWorkScheduler.CreateThread;
+//end;
 
 procedure CEFWorkScheduler_Destroy(); extdecl;
 begin
@@ -123,8 +123,8 @@ end;
 exports
   CEFWorkScheduler_StopScheduler,
   CEFWorkScheduler_Create,
-  CEFWorkScheduler_CreateDelayed,
-  CEFWorkScheduler_CreateThread,
+  //CEFWorkScheduler_CreateDelayed,
+  //CEFWorkScheduler_CreateThread,
   CEFWorkScheduler_Destroy,
   CEFWorkScheduler_GetPriority,
   CEFWorkScheduler_SetPriority,

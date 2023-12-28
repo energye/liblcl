@@ -62,7 +62,7 @@ type
       function  IsReadOnly: Boolean;
       function  HasExcludedElements: Boolean;
       function  GetCount: NativeUInt;
-      function  GetElements(Count: NativeUInt): IInterfaceList; // ICefPostDataElement
+      procedure GetElements(elementsCount: NativeUInt; var elements: TCefPostDataElementArray);
       function  RemoveElement(const element: ICefPostDataElement): Integer;
       function  AddElement(const element: ICefPostDataElement): Integer;
       procedure RemoveElements;
@@ -98,35 +98,49 @@ begin
   Result := PCefPostData(FData)^.get_element_count(PCefPostData(FData))
 end;
 
-function TCefPostDataRef.GetElements(Count: NativeUInt): IInterfaceList;
+procedure TCefPostDataRef.GetElements(elementsCount: NativeUInt; var elements: TCefPostDataElementArray);
 var
-  items : PCefPostDataElementArray;
-  i     : NativeUInt;
+  TempArray : array of PCefPostDataElement;
+  i : NativeUInt;
 begin
-  Result := nil;
-  items  := nil;
+  TempArray := nil;
 
   try
     try
-      GetMem(items, SizeOf(PCefPostDataElement) * Count);
-      FillChar(items^, SizeOf(PCefPostDataElement) * Count, 0);
-
-      PCefPostData(FData)^.get_elements(PCefPostData(FData), @Count, items);
-
-      Result := TInterfaceList.Create;
-      i      := 0;
-
-      while (i < Count) do
+      if (elementsCount > 0) then
         begin
-          Result.Add(TCefPostDataElementRef.UnWrap(items^[i]));
-          inc(i);
+          SetLength(TempArray, elementsCount);
+          i := 0;
+          while (i < elementsCount) do
+            begin
+              TempArray[i] := nil;
+              inc(i);
+            end;
+
+          PCefPostData(FData)^.get_elements(PCefPostData(FData), @elementsCount, TempArray[0]);
+
+          if (elementsCount > 0) then
+            begin
+              SetLength(elements, elementsCount);
+
+              i := 0;
+              while (i < elementsCount) do
+                begin
+                  elements[i] := TCefPostDataElementRef.UnWrap(TempArray[i]);
+                  inc(i);
+                end;
+            end;
         end;
     except
       on e : exception do
         if CustomExceptionHandler('TCefPostDataRef.GetElements', e) then raise;
     end;
   finally
-    if (items <> nil) then FreeMem(items);
+    if (TempArray <> nil) then
+      begin
+        Finalize(TempArray);
+        TempArray := nil;
+      end;
   end;
 end;
 

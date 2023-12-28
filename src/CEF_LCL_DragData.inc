@@ -162,33 +162,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefDragData_ClearFilenames(const AObj: ICefDragData); extdecl;
-begin
-  handleExceptionBegin
-  handleExceptionEnd
-end;
-
-procedure  CefDragData_GetImage(const AObj: ICefDragData; var Result: ICefImage); extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.GetImage;
-  handleExceptionEnd
-end;
-
-procedure  CefDragData_GetImageHotspot(const AObj: ICefDragData; var Result: TCefPoint); extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.GetImageHotspot;
-  handleExceptionEnd
-end;
-
-function  CefDragData_HasImage(const AObj: ICefDragData): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.HasImage;
-  handleExceptionEnd
-end;
-
 exports
   CefDragData_Clone,
   CefDragData_IsReadOnly,
@@ -211,8 +184,4 @@ exports
   CefDragData_SetFragmentHtml,
   CefDragData_SetFragmentBaseUrl,
   CefDragData_ResetFileContents,
-  CefDragData_AddFile,
-  CefDragData_ClearFilenames,
-  CefDragData_GetImage,
-  CefDragData_GetImageHotspot,
-  CefDragData_HasImage;
+  CefDragData_AddFile;

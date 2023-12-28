@@ -103,20 +103,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefRequest_GetHeaderByName(const TObj: ICefRequest; name: PChar; const RetValue: TString); extdecl;
-begin
-  handleExceptionBegin
-  RetValue.SetValue(string(TObj.GetHeaderByName(PCharToUStr(name))));
-  handleExceptionEnd
-end;
-
-procedure CefRequest_SetHeaderByName(const TObj: ICefRequest; name, value: PChar ; overwrite: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  TObj.SetHeaderByName(PCharToUStr(name), PCharToUStr(value), overwrite);
-  handleExceptionEnd
-end;
-
 procedure CefRequest_GetHeaderMap(const TObj: ICefRequest; var Result: ICefStringMultimap); extdecl;
 var
   stringMultiMap: TCefStringMultimapOwn;
@@ -188,8 +174,6 @@ exports
   CefRequest_SetFlags,
   CefRequest_GetFirstPartyForCookies,
   CefRequest_SetFirstPartyForCookies,
-  CefRequest_GetHeaderByName,
-  CefRequest_SetHeaderByName,
   CefRequest_GetHeaderMap,
   CefRequest_SetHeaderMap,
   CefRequest_GetPostData,

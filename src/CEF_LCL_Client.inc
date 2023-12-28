@@ -11,14 +11,7 @@ end;
 
 procedure CefClientRef_CreateForChromium(const Chromium: TChromium; aDevToolsClient : boolean; var Result: ICefClient); extdecl;
 begin
-  Result := TCustomClientHandler.Create(Chromium, aDevToolsClient);
-end;
-
-procedure CefClient_GetAudioHandler(const TObj: ICefClient; var aHandler: ICefAudioHandler); extdecl;
-begin
-  handleExceptionBegin
-  (TObj as TClientRef).GetAudioHandler(aHandler);
-  handleExceptionEnd
+  Result := TCustomClientHandler.Create(Chromium, false, false, false, false, false, false, false, false, false, false, false, false, false, false);
 end;
 
 procedure CefClient_GetCommandHandler(const TObj: ICefClient; var aHandler: Pointer); extdecl;
@@ -143,7 +136,7 @@ end;
 function CefClient_OnProcessMessageReceived(const TObj: ICefClient; const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_: ICefProcessMessage): boolean; extdecl;
 begin
   handleExceptionBegin
-  Result := (TObj as TClientRef).OnProcessMessageReceived(browser, frame, sourceProcess, message_);
+  Result := (TObj as TClientRef).OnProcessMessageReceived(browser, sourceProcess, message_);
   handleExceptionEnd
 end;
 
@@ -157,7 +150,6 @@ end;
 exports
   CefClientRef_Create,
   CefClientRef_CreateForChromium,
-  CefClient_GetAudioHandler,
   CefClient_GetCommandHandler,
   CefClient_GetContextMenuHandler,
   CefClient_GetDialogHandler,

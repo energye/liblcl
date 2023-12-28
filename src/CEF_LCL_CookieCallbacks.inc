@@ -27,13 +27,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefSetCookieCallbackRef_CreateForChromium(const Chromium: TChromium; id: Integer; var Result: ICefSetCookieCallback); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefCustomSetCookieCallback.Create(Chromium, id);
-  handleExceptionEnd
-end;
-
 procedure CefSetCookieCallback_OnComplete(const AObj: ICefSetCookieCallback; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
@@ -67,7 +60,6 @@ exports
   CefCookieVisitorRef_Create,
   CefCookieVisitor_OnVisit,
   CefSetCookieCallbackRef_Create,
-  CefSetCookieCallbackRef_CreateForChromium,
   CefSetCookieCallback_OnComplete,
   CefDeleteCookiesCallbackRef_Create,
   CefDeleteCookiesCallbackRef_CreateForChromium,

@@ -94,14 +94,8 @@ end;
 function  CefCommandLine_GetSwitches(const TObj: ICefCommandLine; var ResultSwitches: TStrings): boolean; extdecl;
 begin
   ResultSwitches := TStringList.Create;
-  Result := TObj.GetSwitches(ResultSwitches);
-end;
-
-function  CefCommandLine_GetSwitchesList(const TObj: ICefCommandLine; var ResultSwitchKeys, ResultSwitchValues: TStringList): boolean; extdecl;
-begin
-  ResultSwitchKeys := TStringList.Create;
-  ResultSwitchValues := TStringList.Create;
-  Result := TObj.GetSwitches(ResultSwitchKeys, ResultSwitchValues);
+  TObj.GetSwitches(ResultSwitches);
+  Result := True;
 end;
 
 procedure CefCommandLine_AppendSwitch(const TObj: ICefCommandLine; const PName: PChar); extdecl;
@@ -153,7 +147,6 @@ exports
   CefCommandLine_HasSwitch,
   CefCommandLine_GetSwitchValue,
   CefCommandLine_GetSwitches,
-  CefCommandLine_GetSwitchesList,
   CefCommandLine_AppendSwitch,
   CefCommandLine_AppendSwitchWithValue,
   CefCommandLine_HasArguments,
