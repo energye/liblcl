@@ -10,9 +10,6 @@ begin
   handleExceptionBegin
   Result := TCEFWindowParent.Create(AOwner);
   Result.DoubleBuffered := True;
-  Result.Width := 100;
-  Result.Height := 100;
-  Result.Align := alNone; //default
   handleExceptionEnd
 end;
 

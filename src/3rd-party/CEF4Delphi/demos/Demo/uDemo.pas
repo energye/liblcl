@@ -209,28 +209,28 @@ procedure TForm1.WMMove(var aMessage: TWMMove);
 begin
   inherited;
 
-  if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+  //if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TForm1.WMMoving(var aMessage: TMessage);
 begin
   inherited;
 
-  if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
+  //if (Chromium1 <> nil) then Chromium1.NotifyMoveOrResizeStarted;
 end;
 
 procedure TForm1.WMEnterMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 
-  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
+  //if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := True;
 end;
 
 procedure TForm1.WMExitMenuLoop(var aMessage: TMessage);
 begin
   inherited;
 
-  if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
+  //if (aMessage.wParam = 0) and (GlobalCEFApp <> nil) then GlobalCEFApp.OsmodalLoop := False;
 end;
 
 end.

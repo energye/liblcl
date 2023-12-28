@@ -3441,35 +3441,20 @@ begin
 
     if assigned(FOnBrowserCompMsg) and (FBrowserCompHWND <> 0) and (FOldBrowserCompWndPrc = nil) then
     begin
-      CreateStub(
-        {$IFDEF FPC}
-@
-        {$ENDIF}
-        BrowserCompWndProc, FBrowserCompStub);
-      FOldBrowserCompWndPrc := TFNWndProc(SetWindowLongPtr(FBrowserCompHWND, GWL_WNDPROC,
-        nativeint(FBrowserCompStub)));
+      CreateStub({$IFDEF FPC}@{$ENDIF}BrowserCompWndProc, FBrowserCompStub);
+      FOldBrowserCompWndPrc := TFNWndProc(SetWindowLongPtr(FBrowserCompHWND, GWL_WNDPROC, nativeint(FBrowserCompStub)));
     end;
 
     if assigned(FOnWidgetCompMsg) and (FWidgetCompHWND <> 0) and (FOldWidgetCompWndPrc = nil) then
     begin
-      CreateStub(
-        {$IFDEF FPC}
-@
-        {$ENDIF}
-        WidgetCompWndProc, FWidgetCompStub);
-      FOldWidgetCompWndPrc := TFNWndProc(SetWindowLongPtr(FWidgetCompHWND, GWL_WNDPROC,
-        nativeint(FWidgetCompStub)));
+      CreateStub({$IFDEF FPC}@{$ENDIF}WidgetCompWndProc, FWidgetCompStub);
+      FOldWidgetCompWndPrc := TFNWndProc(SetWindowLongPtr(FWidgetCompHWND, GWL_WNDPROC, nativeint(FWidgetCompStub)));
     end;
 
     if assigned(FOnRenderCompMsg) and (FRenderCompHWND <> 0) and (FOldRenderCompWndPrc = nil) then
     begin
-      CreateStub(
-        {$IFDEF FPC}
-@
-        {$ENDIF}
-        RenderCompWndProc, FRenderCompStub);
-      FOldRenderCompWndPrc := TFNWndProc(SetWindowLongPtr(FRenderCompHWND, GWL_WNDPROC,
-        nativeint(FRenderCompStub)));
+      CreateStub({$IFDEF FPC}@{$ENDIF}RenderCompWndProc, FRenderCompStub);
+      FOldRenderCompWndPrc := TFNWndProc(SetWindowLongPtr(FRenderCompHWND, GWL_WNDPROC, nativeint(FRenderCompStub)));
     end;
   end;
 
