@@ -1373,6 +1373,10 @@ begin
   GlobalCEFApp.UpdateDeviceScaleFactor();
 end;
 
+function CEFAppConfig_SpecificVersion(): Integer; extdecl;
+begin
+  Result := 0; // 非特定版本，当前版本或当前最新版本
+end;
 
 exports
   CEFApplication_QueueAsyncCall,
@@ -1625,4 +1629,5 @@ exports
   CEFAppConfig_SetMustCreateRenderProcessHandler,
   CEFAppConfig_SetMustCreateLoadHandler,
   CEFAppConfig_SetMustFreeLibrary,
-  CEFAppConfig_UpdateDeviceScaleFactor;
+  CEFAppConfig_UpdateDeviceScaleFactor,
+  CEFAppConfig_SpecificVersion;
