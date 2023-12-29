@@ -263,29 +263,28 @@ end;
 procedure TLCLEvent.ChromiumEvent_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition;
   userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var noJavascriptAccess: Boolean; var Result: Boolean);
 var
-  beforePopupInfo: PRBeforePopupInfo;
-  browserSettings: PRCefBrowserSettings;
+  beforePopupInfo: RBeforePopupInfo;
+  browserSettings: RCefBrowserSettings;
 begin
-  try
+  //try
     //popup info
-    beforePopupInfo := new(PRBeforePopupInfo);
-    beforePopupInfo^.TargetUrl := PChar(string(targetUrl));
-    beforePopupInfo^.TargetFrameName := PChar(string(targetFrameName));
-    beforePopupInfo^.TargetDisposition := PInteger(Integer(targetDisposition));
-    beforePopupInfo^.UserGesture := @userGesture;
+    //beforePopupInfo := PRBeforePopupInfo;
+    beforePopupInfo.TargetUrl := PChar(string(targetUrl));
+    beforePopupInfo.TargetFrameName := PChar(string(targetFrameName));
+    beforePopupInfo.TargetDisposition := PInteger(Integer(targetDisposition));
+    beforePopupInfo.UserGesture := @userGesture;
     // settings
     browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
     //event
-    SendEvent([Sender, browser, frame, beforePopupInfo, @windowInfo, client, browserSettings, Pointer(0), @noJavascriptAccess, @Result]);
+    //WriteLn('pas= size 1 ', browserSettings.size^, ' windowless_frame_rate: ', browserSettings.windowless_frame_rate^, ' standard_font_family: ', string(browserSettings.standard_font_family));
+    SendEvent([Sender, browser, frame, @beforePopupInfo, @windowInfo, client, @browserSettings, Pointer(0), @noJavascriptAccess, @Result]);
+    //WriteLn('pas= size 2 ', browserSettings.size^, ' windowless_frame_rate: ', browserSettings.windowless_frame_rate^, ' standard_font_family: ', string(browserSettings.standard_font_family));
     settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
-  finally
+  //finally
     //free beforePopupInfo
-    beforePopupInfo^.TargetUrl := nil;
-    beforePopupInfo^.TargetFrameName := nil;
-    beforePopupInfo^.UserGesture := nil;
-    beforePopupInfo := nil;
-    browserSettings := nil;
-  end;
+    //beforePopupInfo := nil;
+    //browserSettings := nil;
+  //end;
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
