@@ -1328,12 +1328,15 @@ begin
   Result := PChar(string(GlobalCEFApp.LastErrorMessage));
 end;
 
-
 procedure CEFAppConfig_UpdateDeviceScaleFactor(); extdecl;
 begin
   GlobalCEFApp.UpdateDeviceScaleFactor();
 end;
 
+function CEFAppConfig_SpecificVersion(): Integer; extdecl;
+begin
+  Result := 109; // 特定 Windows 7, 8/8.1 and Windows Server 2012 liblcl特定版本
+end;
 
 exports
   CEFApplication_QueueAsyncCall,
@@ -1582,4 +1585,5 @@ exports
   CEFAppConfig_SetMustCreateRenderProcessHandler,
   CEFAppConfig_SetMustCreateLoadHandler,
   CEFAppConfig_SetMustFreeLibrary,
-  CEFAppConfig_UpdateDeviceScaleFactor;
+  CEFAppConfig_UpdateDeviceScaleFactor,
+  CEFAppConfig_SpecificVersion;
