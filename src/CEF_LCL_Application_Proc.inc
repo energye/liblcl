@@ -1319,7 +1319,7 @@ end;
 
 function CEFAppConfig_SpecificVersion(): Integer; extdecl;
 begin
-  Result := 87; // 特定 Flash liblcl特定版本
+  Result := 87; // 特定 Flash liblcl特定版本, 该分枝使用的是CEF4Delphi_89, CEF_87
 end;
 
 exports
