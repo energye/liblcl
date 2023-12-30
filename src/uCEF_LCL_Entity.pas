@@ -12,11 +12,11 @@ unit uCEF_LCL_Entity;
 interface
 
 uses
-{$IFDEF FPC}
+  {$IFDEF FPC}
 {$IFDEF LINUX}xlib,{$ENDIF}
 {$IFnDEF MSWINDOWS}LCLType,{$ENDIF}
-{$ENDIF}
-{$IFDEF MSWINDOWS}Windows,{$ENDIF}
+  {$ENDIF}
+  {$IFDEF MSWINDOWS}Windows,{$ENDIF}
   fgl,
   Classes, SysUtils,
   uCEFTypes, uCEFInterfaces, uCEFMiscFunctions,
@@ -181,17 +181,41 @@ type
   PTCefWindowHandle = ^TCefWindowHandle;
   PHMENU = ^HMENU;
   PHWND = ^HWND;
+  PTCefStringList = ^TCefStringList;
+
+  PTCefPopupFeatures = record
+    x: PInteger;
+    xSet: PInteger;
+    y: PInteger;
+    ySet: PInteger;
+    Width: PInteger;
+    widthSet: PInteger;
+    Height: PInteger;
+    heightSet: PInteger;
+    menuBarVisible: PInteger;
+    statusBarVisible: PInteger;
+    toolBarVisible: PInteger;
+    locationBarVisible: PInteger;
+    scrollbarsVisible: PInteger;
+    isPopup: PInteger;
+    resizable: PInteger;
+    fullscreen: PInteger;
+    dialog: PInteger;
+    additionalFeatures: PTCefStringList;
+  end;
 
   RTCefWindowInfo = record
     ex_style: PDWORD;
-    window_name: Pointer;
+    window_name: PChar;
     style: PDWORD;
-    bounds: PRTCefRect;
+    x: PInteger;
+    y: PInteger;
+    Width: PInteger;
+    Height: PInteger;
     parent_window: PTCefWindowHandle;
-    menu: PHMENU;//HMENU
-    //windowless_rendering_enabled: PInteger;
-    //shared_texture_enabled: PInteger;
-    //external_begin_frame_enabled: PInteger;
+    menu: PHMENU;
+    windowless_rendering_enabled: PInteger;
+    transparent_painting_enabled: PInteger;
     window: PTCefWindowHandle;
   end;
 
@@ -282,6 +306,12 @@ procedure FreePRCEFFrame(frame: PRCEFFrame);
 function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): RCefBrowserSettings;
 function GoBrowserSettingsToCefBrowserSettings(const settings: RCefBrowserSettings): TCefBrowserSettings;
 
+function CefWindowInfoToGoCefWindowInfo(const settings: TCefWindowInfo): RTCefWindowInfo;
+function GoCefWindowInfoToCefWindowInfo(const settings: RTCefWindowInfo): TCefWindowInfo;
+
+function CefPopupFeaturesToGoCefPopupFeatures(const popupFeatures: TCefPopupFeatures): PTCefPopupFeatures;
+function GoCefPopupFeaturesToCefPopupFeatures(const popupFeatures: PTCefPopupFeatures): TCefPopupFeatures;
+
 //function GetCommonInstance(): CommonObject;
 
 var
@@ -315,8 +345,8 @@ var
 
 
   {$ifdef MSWINDOWS}
-//拖拽区域
-//draggable_region: HRGN;
+  //拖拽区域
+  //draggable_region: HRGN;
   {$endif}
 
 implementation
@@ -455,10 +485,7 @@ end;
 
 
 function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): RCefBrowserSettings;
-//var
-  //browserSettings: RCefBrowserSettings;
 begin
-  //browserSettings := new(PRCefBrowserSettings);
   Result.size := @settings.size;
   Result.windowless_frame_rate := @settings.windowless_frame_rate;
   Result.standard_font_family := PChar(string(CefString(@settings.standard_font_family)));
@@ -487,14 +514,10 @@ begin
   Result.background_color := @(cardinal(settings.background_color));
   Result.accept_language_list := PChar(string(CefString(@settings.accept_language_list)));
   Result.chrome_status_bubble := PInteger(0);
-  //Result := browserSettings;
 end;
 
 function GoBrowserSettingsToCefBrowserSettings(const settings: RCefBrowserSettings): TCefBrowserSettings;
-//var
-  //browserSettings: TCefBrowserSettings;
 begin
-
   Result.size := settings.size^;
   Result.windowless_frame_rate := settings.windowless_frame_rate^;
   Result.standard_font_family := CefString(PCharToUStr(settings.standard_font_family));
@@ -522,8 +545,82 @@ begin
   Result.webgl := TCefState(settings.webgl^);
   Result.background_color := TCefColor(settings.background_color^);
   Result.accept_language_list := CefString(PCharToUStr(settings.accept_language_list));
+end;
 
-  //Result := browserSettings;
+
+function CefWindowInfoToGoCefWindowInfo(const settings: TCefWindowInfo): RTCefWindowInfo;
+begin
+  Result.ex_style := @settings.ex_style;
+  Result.window_name := PChar(string(CefString(@settings.window_name)));
+  Result.style := @settings.style;
+  Result.x := @(integer(settings.x));
+  Result.y := @(integer(settings.y));
+  Result.Width := @(integer(settings.Width));
+  Result.Height := @(integer(settings.Height));
+  Result.parent_window := @settings.parent_window;
+  Result.menu := @settings.menu;
+  Result.windowless_rendering_enabled := @(integer(settings.windowless_rendering_enabled));
+  Result.transparent_painting_enabled := @(integer(settings.transparent_painting_enabled));
+  Result.window := @settings.window;
+end;
+
+function GoCefWindowInfoToCefWindowInfo(const settings: RTCefWindowInfo): TCefWindowInfo;
+begin
+  Result.ex_style := settings.ex_style^;
+  Result.window_name := CefString(PCharToUStr(settings.window_name));
+  Result.style := settings.style^;
+  Result.x := settings.x^;
+  Result.y := settings.y^;
+  Result.Width := settings.Width^;
+  Result.Height := settings.Height^;
+  Result.parent_window := settings.parent_window^;
+  Result.menu := settings.menu^;
+  Result.windowless_rendering_enabled := settings.windowless_rendering_enabled^;
+  Result.transparent_painting_enabled := settings.transparent_painting_enabled^;
+  Result.window := settings.window^;
+end;
+
+function CefPopupFeaturesToGoCefPopupFeatures(const popupFeatures: TCefPopupFeatures): PTCefPopupFeatures;
+begin
+  Result.x := @(integer(popupFeatures.x));
+  Result.xSet := @(integer(popupFeatures.xSet));
+  Result.y := @(integer(popupFeatures.y));
+  Result.ySet := @(integer(popupFeatures.ySet));
+  Result.Width := @(integer(popupFeatures.Width));
+  Result.widthSet := @(integer(popupFeatures.widthSet));
+  Result.Height := @(integer(popupFeatures.Height));
+  Result.heightSet := @(integer(popupFeatures.heightSet));
+  Result.menuBarVisible := @(integer(popupFeatures.menuBarVisible));
+  Result.statusBarVisible := @(integer(popupFeatures.statusBarVisible));
+  Result.toolBarVisible := @(integer(popupFeatures.toolBarVisible));
+  Result.locationBarVisible := @(integer(popupFeatures.locationBarVisible));
+  Result.scrollbarsVisible := @(integer(popupFeatures.scrollbarsVisible));
+  Result.isPopup := PInteger(0);
+  Result.resizable := @(integer(popupFeatures.resizable));
+  Result.fullscreen := @(integer(popupFeatures.fullscreen));
+  Result.dialog := @(integer(popupFeatures.dialog));
+  Result.additionalFeatures := @popupFeatures.additionalFeatures;
+end;
+
+function GoCefPopupFeaturesToCefPopupFeatures(const popupFeatures: PTCefPopupFeatures): TCefPopupFeatures;
+begin
+  Result.x := popupFeatures.x^;
+  Result.xSet := popupFeatures.xSet^;
+  Result.y := popupFeatures.y^;
+  Result.ySet := popupFeatures.ySet^;
+  Result.Width := popupFeatures.Width^;
+  Result.widthSet := popupFeatures.widthSet^;
+  Result.Height := popupFeatures.Height^;
+  Result.heightSet := popupFeatures.heightSet^;
+  Result.menuBarVisible := popupFeatures.menuBarVisible^;
+  Result.statusBarVisible := popupFeatures.statusBarVisible^;
+  Result.toolBarVisible := popupFeatures.toolBarVisible^;
+  Result.locationBarVisible := popupFeatures.locationBarVisible^;
+  Result.scrollbarsVisible := popupFeatures.scrollbarsVisible^;
+  Result.resizable := popupFeatures.resizable^;
+  Result.fullscreen := popupFeatures.fullscreen^;
+  Result.dialog := popupFeatures.dialog^;
+  Result.additionalFeatures := popupFeatures.additionalFeatures^;
 end;
 
 end.
