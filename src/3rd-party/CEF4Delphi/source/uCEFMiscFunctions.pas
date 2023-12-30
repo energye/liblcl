@@ -95,6 +95,7 @@ function  CefExecuteProcess(var app : ICefApp; aWindowsSandboxInfo : Pointer = n
 function  CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
 procedure CefPostTask(ThreadId: TCefThreadId; const task: ICefTask);
 procedure CefPostDelayedTask(ThreadId: TCefThreadId; const task: ICefTask; delayMs: Int64);
+function CefCurrentlyOn(aThreadId : TCefThreadId) : boolean;
 
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
@@ -205,6 +206,15 @@ implementation
 uses
   uCEFApplication, uCEFSchemeHandlerFactory, uCEFValue,
   uCEFBinaryValue, uCEFStringList;
+
+
+function CefCurrentlyOn(aThreadId : TCefThreadId) : boolean;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := cef_currently_on(aThreadId) <> 0
+   else
+    Result := False;
+end;
 
 function CefColorGetA(color: TCefColor): Byte;
 begin
