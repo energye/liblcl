@@ -543,7 +543,7 @@ begin
   Result.webgl := @(integer(settings.webgl));
   Result.background_color := @(cardinal(settings.background_color));
   Result.accept_language_list := PChar(string(CefString(@settings.accept_language_list)));
-  Result.chrome_status_bubble := @(integer(settings.chrome_status_bubble));;
+  Result.chrome_status_bubble := @(integer(settings.chrome_status_bubble));
   Result.chrome_zoom_bubble := PInteger(0);
 end;
 
