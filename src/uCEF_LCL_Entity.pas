@@ -280,6 +280,7 @@ type
     background_color: PCardinal;
     accept_language_list: PChar;
     chrome_status_bubble: PInteger;
+    chrome_zoom_bubble: PInteger;
   end;
 
   PRCefPdfPrintSettings = ^RCefPdfPrintSettings;
@@ -543,6 +544,7 @@ begin
   Result.background_color := @(cardinal(settings.background_color));
   Result.accept_language_list := PChar(string(CefString(@settings.accept_language_list)));
   Result.chrome_status_bubble := @(integer(settings.chrome_status_bubble));
+  Result.chrome_zoom_bubble := PInteger(0);
 end;
 
 function GoBrowserSettingsToCefBrowserSettings(const settings: RCefBrowserSettings): TCefBrowserSettings;
