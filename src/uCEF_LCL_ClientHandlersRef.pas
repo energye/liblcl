@@ -1121,29 +1121,34 @@ end;
 
 
 {== LifeSpanHandler ==}
-function TLifeSpanHandlerRef.OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: boolean): boolean;
+function TLifeSpanHandlerRef.OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
+  targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean; const popupFeatures: TCefPopupFeatures;
+  var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings;
+  var extra_info: ICefDictionaryValue; var noJavascriptAccess: boolean): boolean;
 var
-  beforePopupInfo: PRBeforePopupInfo;
+  beforePopupInfo  : RBeforePopupInfo;
+  rpopupFeatures   : PTCefPopupFeatures;
+  rwindowInfo      : RTCefWindowInfo;
+  rbrowserSettings : RCefBrowserSettings;
 begin
   Result := False;
   if (BeforePopupPtr <> nil) then
   begin
-    try
-      //popup info
-      beforePopupInfo := new(PRBeforePopupInfo);
-      beforePopupInfo^.TargetUrl := PChar(string(targetUrl));
-      beforePopupInfo^.TargetFrameName := PChar(string(targetFrameName));
-      beforePopupInfo^.TargetDisposition := PInteger(integer(targetDisposition));
-      beforePopupInfo^.UserGesture := @userGesture;
-      //event
-      TCEFEventCallback.SendEvent(BeforePopupPtr, [browser, frame, beforePopupInfo, @windowInfo, client, @settings, @extra_info, @noJavascriptAccess, @Result]);
-    finally
-      //free beforePopupInfo
-      beforePopupInfo^.TargetUrl := nil;
-      beforePopupInfo^.TargetFrameName := nil;
-      beforePopupInfo^.UserGesture := nil;
-      beforePopupInfo := nil;
-    end;
+    //popup info
+    beforePopupInfo.TargetUrl := PChar(string(targetUrl));
+    beforePopupInfo.TargetFrameName := PChar(string(targetFrameName));
+    beforePopupInfo.TargetDisposition := PInteger(Integer(targetDisposition));
+    beforePopupInfo.UserGesture := @userGesture;
+    // popupFeatures
+    rpopupFeatures := CefPopupFeaturesToGoCefPopupFeatures(popupFeatures);
+    // windowInfo
+    rwindowInfo := CefWindowInfoToGoCefWindowInfo(windowInfo);
+    // settings
+    rbrowserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
+    //event
+    TCEFEventCallback.SendEvent(BeforePopupPtr, [browser, frame, @beforePopupInfo, @rpopupFeatures, @rwindowInfo, @client, @rbrowserSettings, @extra_info, @noJavascriptAccess, @Result]);
+    windowInfo := GoCefWindowInfoToCefWindowInfo(rwindowInfo);
+    settings := GoBrowserSettingsToCefBrowserSettings(rbrowserSettings);
   end
   else
     Result := inherited OnBeforePopup(browser, frame, targetUrl, targetFrameName, targetDisposition, userGesture, popupFeatures, windowInfo, client, settings, extra_info, noJavascriptAccess);
