@@ -569,29 +569,26 @@ procedure TLCLEvent.ChromiumEvent_OnBeforePopup(Sender: TObject; const browser: 
   var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings;
   var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean;  var Result: Boolean);
 var
-  beforePopupInfo: PRBeforePopupInfo;
-  browserSettings: PRCefBrowserSettings;
+  beforePopupInfo  : RBeforePopupInfo;
+  rpopupFeatures   : PTCefPopupFeatures;
+  rwindowInfo      : RTCefWindowInfo;
+  rbrowserSettings : RCefBrowserSettings;
 begin
-  try
-  //popup info
-  beforePopupInfo := new(PRBeforePopupInfo);
-  beforePopupInfo^.TargetUrl := PChar(string(targetUrl));
-  beforePopupInfo^.TargetFrameName := PChar(string(targetFrameName));
-  beforePopupInfo^.TargetDisposition := PInteger(Integer(targetDisposition));
-  beforePopupInfo^.UserGesture := @userGesture;
-  // settings
-  browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-  //event
-  SendEvent([Sender, browser, frame, beforePopupInfo, @windowInfo, client, browserSettings, @extra_info, @noJavascriptAccess, @Result]);
-  settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
-  finally
-  //free beforePopupInfo
-  beforePopupInfo^.TargetUrl := nil;
-  beforePopupInfo^.TargetFrameName := nil;
-  beforePopupInfo^.UserGesture := nil;
-  beforePopupInfo := nil;
-  browserSettings := nil;
-  end;
+    //popup info
+    beforePopupInfo.TargetUrl := PChar(string(targetUrl));
+    beforePopupInfo.TargetFrameName := PChar(string(targetFrameName));
+    beforePopupInfo.TargetDisposition := PInteger(Integer(targetDisposition));
+    beforePopupInfo.UserGesture := @userGesture;
+    // popupFeatures
+    rpopupFeatures := CefPopupFeaturesToGoCefPopupFeatures(popupFeatures);
+    // windowInfo
+    rwindowInfo := CefWindowInfoToGoCefWindowInfo(windowInfo);
+    // settings
+    rbrowserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
+    //event
+    SendEvent([Sender, browser, frame, @beforePopupInfo, @rpopupFeatures, @rwindowInfo, @client, @rbrowserSettings, @extra_info, @noJavascriptAccess, @Result]);
+    windowInfo := GoCefWindowInfoToCefWindowInfo(rwindowInfo);
+    settings := GoBrowserSettingsToCefBrowserSettings(rbrowserSettings);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
@@ -779,58 +776,53 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnExtensionBeforeBackgroundBrowser(Sender: TObject; const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings; var aResult: boolean);
 var
-  browserSettings: PRCefBrowserSettings;
+  browserSettings: RCefBrowserSettings;
 begin
-  try
   browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-  SendEvent([extension, PChar(string(url)), @client, browserSettings, @aResult]);
+  SendEvent([Sender, extension, PChar(string(url)), @client, @browserSettings, @aResult]);
   settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
-  finally
-  browserSettings := nil;
-  end;
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnExtensionBeforeBrowser(Sender: TObject; const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var aResult: boolean);
 var
-  browserSettings: PRCefBrowserSettings;
+  browserSettings: RCefBrowserSettings;
+  rwindowInfo: RTCefWindowInfo;
 begin
-  try
+  rwindowInfo := CefWindowInfoToGoCefWindowInfo(windowInfo);
   browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-  SendEvent([extension, browser, active_browser, index, PChar(string(url)), active, @windowInfo, @client, browserSettings, @aResult]);
+  SendEvent([Sender, extension, browser, active_browser, index, PChar(string(url)), active, @rwindowInfo, @client, @browserSettings, @aResult]);
+  windowInfo := GoCefWindowInfoToCefWindowInfo(rwindowInfo);
   settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
-  finally
-  browserSettings := nil;
-  end;
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnExtensionCanAccessBrowser(Sender: TObject; const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser; var aResult: boolean);
 begin
-  SendEvent([extension, browser, include_incognito, target_browser, @aResult]);
+  SendEvent([Sender, extension, browser, include_incognito, target_browser, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnExtensionGetActiveBrowser(Sender: TObject; const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; var aRsltBrowser: ICefBrowser);
 begin
-  SendEvent([extension, browser, include_incognito, @aRsltBrowser]);
+  SendEvent([Sender, extension, browser, include_incognito, @aRsltBrowser]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnExtensionGetExtensionResource(Sender: TObject; const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback; var aResult: boolean);
 begin
-  SendEvent([extension, browser, PChar(string(file_)), callback, @aResult]);
+  SendEvent([Sender, extension, browser, PChar(string(file_)), callback, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnExtensionLoaded(Sender: TObject; const extension: ICefExtension);
 begin
-  SendEvent([extension]);
+  SendEvent([Sender, extension]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnExtensionLoadFailed(Sender: TObject; Result: TCefErrorcode);
 begin
-  SendEvent([Result]);
+  SendEvent([Sender, Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnExtensionUnloaded(Sender: TObject; const extension: ICefExtension);
 begin
-  SendEvent([extension]);
+  SendEvent([Sender, extension]);
 end;
 
 
@@ -924,14 +916,10 @@ end;
 
 procedure TLCLEvent.BrowserViewComponent_OnGetDelegateForPopupBrowserView(const Sender: TObject; const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
 var
-  browserSettings: PRCefBrowserSettings;
+  browserSettings: RCefBrowserSettings;
 begin
-  try
   browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-  SendEvent([Sender, browser_view, browserSettings, client, is_devtools, @aResult]);
-  finally
-  browserSettings := nil;
-  end;
+  SendEvent([Sender, browser_view, @browserSettings, client, is_devtools, @aResult]);
 end;
 
 procedure TLCLEvent.BrowserViewComponent_OnPopupBrowserViewCreated(const Sender: TObject; const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
