@@ -659,9 +659,10 @@
       </Unit40>
       <Unit41>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFTypes.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="1239"/>
-        <CursorPos X="45" Y="1269"/>
+        <TopLine Value="1248"/>
+        <CursorPos X="45" Y="1283"/>
         <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit41>
@@ -777,7 +778,7 @@
       <Unit56>
         <Filename Value="uCEF_LCL_Entity.pas"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="612"/>
+        <TopLine Value="618"/>
         <CursorPos X="42" Y="662"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
@@ -793,10 +794,9 @@
       </Unit57>
       <Unit58>
         <Filename Value="CEF_Events_Implement.inc"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <TopLine Value="549"/>
-        <CursorPos X="42" Y="575"/>
+        <CursorPos X="12" Y="588"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
