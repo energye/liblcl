@@ -205,6 +205,7 @@ type
   end;
 
   RTCefWindowInfo = record
+    {$IFDEF MSWINDOWS}
     ex_style: PDWORD;
     window_name: PChar;
     style: PDWORD;
@@ -216,7 +217,36 @@ type
     menu: PHMENU;
     windowless_rendering_enabled: PInteger;
     transparent_painting_enabled: PInteger;
+    shared_texture_enabled: PInteger;
+    external_begin_frame_enabled: PInteger;
     window: PTCefWindowHandle;
+    {$ENDIF}
+    {$IFDEF MACOSX}
+    window_name: PChar;
+    x: PInteger;
+    y: PInteger;
+    Width: PInteger;
+    Height: PInteger;
+    hidden: PInteger;
+    parent_view: PTCefWindowHandle;
+    windowless_rendering_enabled: PInteger;
+    shared_texture_enabled: PInteger;
+    external_begin_frame_enabled: PInteger;
+    view: PTCefWindowHandle;
+    {$ENDIF}
+    {$IFDEF LINUX}
+    window_name: PChar;
+    x: PInteger;
+    y: PInteger;
+    Width: PInteger;
+    Height: PInteger;
+    hidden: PInteger;
+    parent_window: PTCefWindowHandle;
+    windowless_rendering_enabled: PInteger;
+    shared_texture_enabled: PInteger;
+    external_begin_frame_enabled: PInteger;
+    window: PTCefWindowHandle;
+    {$ENDIF}
   end;
 
   PRCefBrowserSettings = ^RCefBrowserSettings;
@@ -549,6 +579,7 @@ end;
 
 function CefWindowInfoToGoCefWindowInfo(const settings: TCefWindowInfo): RTCefWindowInfo;
 begin
+  {$IFDEF MSWINDOWS}
   Result.ex_style := @settings.ex_style;
   Result.window_name := PChar(string(CefString(@settings.window_name)));
   Result.style := @settings.style;
@@ -560,22 +591,83 @@ begin
   Result.menu := @settings.menu;
   Result.windowless_rendering_enabled := @(integer(settings.windowless_rendering_enabled));
   Result.transparent_painting_enabled := PInteger(0);
+  Result.shared_texture_enabled := @(integer(settings.shared_texture_enabled));
+  Result.external_begin_frame_enabled := @(integer(settings.external_begin_frame_enabled));
   Result.window := @settings.window;
+  {$ENDIF}
+  {$IFDEF MACOSX}
+  Result.window_name := PChar(string(CefString(@settings.window_name)));
+  Result.x := @(integer(settings.bounds.x));
+  Result.y := @(integer(settings.bounds.y));
+  Result.Width := @(integer(settings.bounds.Width));
+  Result.Height := @(integer(settings.bounds.Height));
+  Result.hidden := @(integer(settings.hidden));
+  Result.parent_view := @settings.parent_view;
+  Result.windowless_rendering_enabled := @(integer(settings.windowless_rendering_enabled));
+  Result.shared_texture_enabled := @(integer(settings.shared_texture_enabled));
+  Result.external_begin_frame_enabled := @(integer(settings.external_begin_frame_enabled));
+  Result.view := @settings.view;
+  {$ENDIF}
+  {$IFDEF LINUX}
+  Result.window_name := PChar(string(CefString(@settings.window_name)));
+  Result.x := @(integer(settings.bounds.x));
+  Result.y := @(integer(settings.bounds.y));
+  Result.Width := @(integer(settings.bounds.Width));
+  Result.Height := @(integer(settings.bounds.Height));
+  Result.hidden := @(integer(settings.hidden));
+  Result.parent_window := @settings.parent_window;
+  Result.windowless_rendering_enabled := @(integer(settings.windowless_rendering_enabled));
+  Result.shared_texture_enabled := @(integer(settings.shared_texture_enabled));
+  Result.external_begin_frame_enabled := @(integer(settings.external_begin_frame_enabled));
+  Result.window := @settings.window;
+  {$ENDIF}
+
 end;
 
 function GoCefWindowInfoToCefWindowInfo(const settings: RTCefWindowInfo): TCefWindowInfo;
 begin
+  {$IFDEF MSWINDOWS}
   Result.ex_style := settings.ex_style^;
   Result.window_name := CefString(PCharToUStr(settings.window_name));
   Result.style := settings.style^;
-  Result.bounds.x:=settings.x^;
+  Result.bounds.x := settings.x^;
   Result.bounds.y := settings.y^;
   Result.bounds.Width := settings.Width^;
   Result.bounds.Height := settings.Height^;
   Result.parent_window := settings.parent_window^;
   Result.menu := settings.menu^;
   Result.windowless_rendering_enabled := settings.windowless_rendering_enabled^;
+  //Result.transparent_painting_enabled := PInteger(0);
+  Result.shared_texture_enabled := settings.shared_texture_enabled^;
+  Result.external_begin_frame_enabled := settings.external_begin_frame_enabled^;
   Result.window := settings.window^;
+  {$ENDIF}
+  {$IFDEF MACOSX}
+  Result.window_name := CefString(PCharToUStr(settings.window_name));
+  Result.bounds.x := settings.x^;
+  Result.bounds.y := settings.y^;
+  Result.bounds.Width := settings.Width^;
+  Result.bounds.Height := settings.Height^;
+  Result.hidden := settings.hidden^;
+  Result.parent_view := settings.parent_view^;
+  Result.windowless_rendering_enabled := settings.windowless_rendering_enabled^;
+  Result.shared_texture_enabled := settings.shared_texture_enabled^;
+  Result.external_begin_frame_enabled := settings.external_begin_frame_enabled^;
+  Result.view := settings.view^;
+  {$ENDIF}
+  {$IFDEF LINUX}
+  Result.window_name := CefString(PCharToUStr(settings.window_name));
+  Result.bounds.x := settings.x^;
+  Result.bounds.y := settings.y^;
+  Result.bounds.Width := settings.Width^;
+  Result.bounds.Height := settings.Height^;
+  Result.hidden := settings.hidden^;
+  Result.parent_window := settings.parent_window^;
+  Result.windowless_rendering_enabled := settings.windowless_rendering_enabled^;
+  Result.shared_texture_enabled := settings.shared_texture_enabled^;
+  Result.external_begin_frame_enabled := settings.external_begin_frame_enabled^;
+  Result.window := settings.window^;
+  {$ENDIF}
 end;
 
 function CefPopupFeaturesToGoCefPopupFeatures(const popupFeatures: TCefPopupFeatures): PTCefPopupFeatures;
