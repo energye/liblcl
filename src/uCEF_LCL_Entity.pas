@@ -181,17 +181,41 @@ type
   PTCefWindowHandle = ^TCefWindowHandle;
   PHMENU = ^HMENU;
   PHWND = ^HWND;
+  PTCefStringList = ^TCefStringList;
+
+  PTCefPopupFeatures = record
+    x: PInteger;
+    xSet: PInteger;
+    y: PInteger;
+    ySet: PInteger;
+    Width: PInteger;
+    widthSet: PInteger;
+    Height: PInteger;
+    heightSet: PInteger;
+    menuBarVisible: PInteger;
+    statusBarVisible: PInteger;
+    toolBarVisible: PInteger;
+    locationBarVisible: PInteger;
+    scrollbarsVisible: PInteger;
+    isPopup: PInteger;
+    resizable: PInteger;
+    fullscreen: PInteger;
+    dialog: PInteger;
+    additionalFeatures: PTCefStringList;
+  end;
 
   RTCefWindowInfo = record
     ex_style: PDWORD;
-    window_name: Pointer;
+    window_name: PChar;
     style: PDWORD;
-    bounds: PRTCefRect;
+    x: PInteger;
+    y: PInteger;
+    Width: PInteger;
+    Height: PInteger;
     parent_window: PTCefWindowHandle;
-    menu: PHMENU;//HMENU
-    //windowless_rendering_enabled: PInteger;
-    //shared_texture_enabled: PInteger;
-    //external_begin_frame_enabled: PInteger;
+    menu: PHMENU;
+    windowless_rendering_enabled: PInteger;
+    transparent_painting_enabled: PInteger;
     window: PTCefWindowHandle;
   end;
 
@@ -279,8 +303,14 @@ procedure FreeArrayTVarRec(argsArray: array of TVarRec);
 //释放 PRCEFFrame
 procedure FreePRCEFFrame(frame: PRCEFFrame);
 
-function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): PRCefBrowserSettings;
-function GoBrowserSettingsToCefBrowserSettings(const settings: PRCefBrowserSettings): TCefBrowserSettings;
+function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): RCefBrowserSettings;
+function GoBrowserSettingsToCefBrowserSettings(const settings: RCefBrowserSettings): TCefBrowserSettings;
+
+function CefWindowInfoToGoCefWindowInfo(const settings: TCefWindowInfo): RTCefWindowInfo;
+function GoCefWindowInfoToCefWindowInfo(const settings: RTCefWindowInfo): TCefWindowInfo;
+
+function CefPopupFeaturesToGoCefPopupFeatures(const popupFeatures: TCefPopupFeatures): PTCefPopupFeatures;
+function GoCefPopupFeaturesToCefPopupFeatures(const popupFeatures: PTCefPopupFeatures): TCefPopupFeatures;
 
 //function GetCommonInstance(): CommonObject;
 
@@ -453,79 +483,137 @@ begin
   end;
 end;
 
-
-function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): PRCefBrowserSettings;
-var
-  browserSettings: PRCefBrowserSettings;
+function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): RCefBrowserSettings;
 begin
-  browserSettings := new(PRCefBrowserSettings);
-  browserSettings^.size := @settings.size;
-  browserSettings^.windowless_frame_rate := @settings.windowless_frame_rate;
-  browserSettings^.standard_font_family := PChar(string(CefString(@settings.standard_font_family)));
-  browserSettings^.fixed_font_family := PChar(string(CefString(@settings.fixed_font_family)));
-  browserSettings^.serif_font_family := PChar(string(CefString(@settings.serif_font_family)));
-  browserSettings^.sans_serif_font_family := PChar(string(CefString(@settings.sans_serif_font_family)));
-  browserSettings^.cursive_font_family := PChar(string(CefString(@settings.cursive_font_family)));
-  browserSettings^.fantasy_font_family := PChar(string(CefString(@settings.fantasy_font_family)));
-  browserSettings^.default_font_size := @settings.default_font_size;
-  browserSettings^.default_fixed_font_size := @settings.default_fixed_font_size;
-  browserSettings^.minimum_font_size := @settings.minimum_font_size;
-  browserSettings^.minimum_logical_font_size := @settings.minimum_logical_font_size;
-  browserSettings^.default_encoding := PChar(string(CefString(@settings.default_encoding)));
-  browserSettings^.remote_fonts := @(integer(settings.remote_fonts));
-  browserSettings^.javascript := @(integer(settings.javascript));
-  browserSettings^.javascript_close_windows := @(integer(settings.javascript_close_windows));
-  browserSettings^.javascript_access_clipboard := @(integer(settings.javascript_access_clipboard));
-  browserSettings^.javascript_dom_paste := @(integer(settings.javascript_dom_paste));
-  browserSettings^.image_loading := @(integer(settings.image_loading));
-  browserSettings^.image_shrink_standalone_to_fit := @(integer(settings.image_shrink_standalone_to_fit));
-  browserSettings^.text_area_resize := @(integer(settings.text_area_resize));
-  browserSettings^.tab_to_links := @(integer(settings.tab_to_links));
-  browserSettings^.local_storage := @(integer(settings.local_storage));
-  browserSettings^.databases := @(integer(settings.databases));
-  browserSettings^.webgl := @(integer(settings.webgl));
-  browserSettings^.background_color := @(cardinal(settings.background_color));
-  browserSettings^.accept_language_list := PChar(string(CefString(@settings.accept_language_list)));
-  browserSettings^.chrome_status_bubble := @(integer(settings.chrome_status_bubble));
-  Result := browserSettings;
+  Result.size := @settings.size;
+  Result.windowless_frame_rate := @settings.windowless_frame_rate;
+  Result.standard_font_family := PChar(string(CefString(@settings.standard_font_family)));
+  Result.fixed_font_family := PChar(string(CefString(@settings.fixed_font_family)));
+  Result.serif_font_family := PChar(string(CefString(@settings.serif_font_family)));
+  Result.sans_serif_font_family := PChar(string(CefString(@settings.sans_serif_font_family)));
+  Result.cursive_font_family := PChar(string(CefString(@settings.cursive_font_family)));
+  Result.fantasy_font_family := PChar(string(CefString(@settings.fantasy_font_family)));
+  Result.default_font_size := @settings.default_font_size;
+  Result.default_fixed_font_size := @settings.default_fixed_font_size;
+  Result.minimum_font_size := @settings.minimum_font_size;
+  Result.minimum_logical_font_size := @settings.minimum_logical_font_size;
+  Result.default_encoding := PChar(string(CefString(@settings.default_encoding)));
+  Result.remote_fonts := @(integer(settings.remote_fonts));
+  Result.javascript := @(integer(settings.javascript));
+  Result.javascript_close_windows := @(integer(settings.javascript_close_windows));
+  Result.javascript_access_clipboard := @(integer(settings.javascript_access_clipboard));
+  Result.javascript_dom_paste := @(integer(settings.javascript_dom_paste));
+  Result.image_loading := @(integer(settings.image_loading));
+  Result.image_shrink_standalone_to_fit := @(integer(settings.image_shrink_standalone_to_fit));
+  Result.text_area_resize := @(integer(settings.text_area_resize));
+  Result.tab_to_links := @(integer(settings.tab_to_links));
+  Result.local_storage := @(integer(settings.local_storage));
+  Result.databases := @(integer(settings.databases));
+  Result.webgl := @(integer(settings.webgl));
+  Result.background_color := @(cardinal(settings.background_color));
+  Result.accept_language_list := PChar(string(CefString(@settings.accept_language_list)));
+  Result.chrome_status_bubble := @(integer(settings.chrome_status_bubble));
 end;
 
-function GoBrowserSettingsToCefBrowserSettings(const settings: PRCefBrowserSettings): TCefBrowserSettings;
-var
-  browserSettings: TCefBrowserSettings;
+function GoBrowserSettingsToCefBrowserSettings(const settings: RCefBrowserSettings): TCefBrowserSettings;
 begin
-  if settings <> nil then
-  begin
-    browserSettings.size := settings^.size^;
-    browserSettings.windowless_frame_rate := settings^.windowless_frame_rate^;
-    browserSettings.standard_font_family := CefString(PCharToUStr(settings^.standard_font_family));
-    browserSettings.fixed_font_family := CefString(PCharToUStr(settings^.fixed_font_family));
-    browserSettings.serif_font_family := CefString(PCharToUStr(settings^.serif_font_family));
-    browserSettings.sans_serif_font_family := CefString(PCharToUStr(settings^.sans_serif_font_family));
-    browserSettings.cursive_font_family := CefString(PCharToUStr(settings^.cursive_font_family));
-    browserSettings.fantasy_font_family := CefString(PCharToUStr(settings^.fantasy_font_family));
-    browserSettings.default_font_size := settings^.default_font_size^;
-    browserSettings.default_fixed_font_size := settings^.default_fixed_font_size^;
-    browserSettings.minimum_font_size := settings^.minimum_font_size^;
-    browserSettings.minimum_logical_font_size := settings^.minimum_logical_font_size^;
-    browserSettings.default_encoding := CefString(PCharToUStr(settings^.default_encoding));
-    browserSettings.remote_fonts := TCefState(settings^.remote_fonts^);
-    browserSettings.javascript := TCefState(settings^.javascript^);
-    browserSettings.javascript_close_windows := TCefState(settings^.javascript_close_windows^);
-    browserSettings.javascript_access_clipboard := TCefState(settings^.javascript_access_clipboard^);
-    browserSettings.javascript_dom_paste := TCefState(settings^.javascript_dom_paste^);
-    browserSettings.image_loading := TCefState(settings^.image_loading^);
-    browserSettings.image_shrink_standalone_to_fit := TCefState(settings^.image_shrink_standalone_to_fit^);
-    browserSettings.text_area_resize := TCefState(settings^.text_area_resize^);
-    browserSettings.tab_to_links := TCefState(settings^.tab_to_links^);
-    browserSettings.local_storage := TCefState(settings^.local_storage^);
-    browserSettings.databases := TCefState(settings^.databases^);
-    browserSettings.webgl := TCefState(settings^.webgl^);
-    browserSettings.background_color := TCefColor(settings^.background_color^);
-    browserSettings.accept_language_list := CefString(PCharToUStr(settings^.accept_language_list));
-    browserSettings.chrome_status_bubble := TCefState(settings^.chrome_status_bubble^);
-  end;
-  Result := browserSettings;
+  Result.size := settings.size^;
+  Result.windowless_frame_rate := settings.windowless_frame_rate^;
+  Result.standard_font_family := CefString(PCharToUStr(settings.standard_font_family));
+  Result.fixed_font_family := CefString(PCharToUStr(settings.fixed_font_family));
+  Result.serif_font_family := CefString(PCharToUStr(settings.serif_font_family));
+  Result.sans_serif_font_family := CefString(PCharToUStr(settings.sans_serif_font_family));
+  Result.cursive_font_family := CefString(PCharToUStr(settings.cursive_font_family));
+  Result.fantasy_font_family := CefString(PCharToUStr(settings.fantasy_font_family));
+  Result.default_font_size := settings.default_font_size^;
+  Result.default_fixed_font_size := settings.default_fixed_font_size^;
+  Result.minimum_font_size := settings.minimum_font_size^;
+  Result.minimum_logical_font_size := settings.minimum_logical_font_size^;
+  Result.default_encoding := CefString(PCharToUStr(settings.default_encoding));
+  Result.remote_fonts := TCefState(settings.remote_fonts^);
+  Result.javascript := TCefState(settings.javascript^);
+  Result.javascript_close_windows := TCefState(settings.javascript_close_windows^);
+  Result.javascript_access_clipboard := TCefState(settings.javascript_access_clipboard^);
+  Result.javascript_dom_paste := TCefState(settings.javascript_dom_paste^);
+  Result.image_loading := TCefState(settings.image_loading^);
+  Result.image_shrink_standalone_to_fit := TCefState(settings.image_shrink_standalone_to_fit^);
+  Result.text_area_resize := TCefState(settings.text_area_resize^);
+  Result.tab_to_links := TCefState(settings.tab_to_links^);
+  Result.local_storage := TCefState(settings.local_storage^);
+  Result.databases := TCefState(settings.databases^);
+  Result.webgl := TCefState(settings.webgl^);
+  Result.background_color := TCefColor(settings.background_color^);
+  Result.accept_language_list := CefString(PCharToUStr(settings.accept_language_list));
+  Result.chrome_status_bubble := TCefState(settings.chrome_status_bubble^);
+end;
+
+function CefWindowInfoToGoCefWindowInfo(const settings: TCefWindowInfo): RTCefWindowInfo;
+begin
+  Result.ex_style := @settings.ex_style;
+  Result.window_name := PChar(string(CefString(@settings.window_name)));
+  Result.style := @settings.style;
+  Result.x := @(integer(settings.bounds.x));
+  Result.y := @(integer(settings.bounds.y));
+  Result.Width := @(integer(settings.bounds.Width));
+  Result.Height := @(integer(settings.bounds.Height));
+  Result.parent_window := @settings.parent_window;
+  Result.menu := @settings.menu;
+  Result.windowless_rendering_enabled := @(integer(settings.windowless_rendering_enabled));
+  Result.transparent_painting_enabled := PInteger(0);
+  Result.window := @settings.window;
+end;
+
+function GoCefWindowInfoToCefWindowInfo(const settings: RTCefWindowInfo): TCefWindowInfo;
+begin
+  Result.ex_style := settings.ex_style^;
+  Result.window_name := CefString(PCharToUStr(settings.window_name));
+  Result.style := settings.style^;
+  Result.bounds.x:=settings.x^;
+  Result.bounds.y := settings.y^;
+  Result.bounds.Width := settings.Width^;
+  Result.bounds.Height := settings.Height^;
+  Result.parent_window := settings.parent_window^;
+  Result.menu := settings.menu^;
+  Result.windowless_rendering_enabled := settings.windowless_rendering_enabled^;
+  Result.window := settings.window^;
+end;
+
+function CefPopupFeaturesToGoCefPopupFeatures(const popupFeatures: TCefPopupFeatures): PTCefPopupFeatures;
+begin
+  Result.x := @(integer(popupFeatures.x));
+  Result.xSet := @(integer(popupFeatures.xSet));
+  Result.y := @(integer(popupFeatures.y));
+  Result.ySet := @(integer(popupFeatures.ySet));
+  Result.Width := @(integer(popupFeatures.Width));
+  Result.widthSet := @(integer(popupFeatures.widthSet));
+  Result.Height := @(integer(popupFeatures.Height));
+  Result.heightSet := @(integer(popupFeatures.heightSet));
+  Result.menuBarVisible := @(integer(popupFeatures.menuBarVisible));
+  Result.statusBarVisible := @(integer(popupFeatures.statusBarVisible));
+  Result.toolBarVisible := @(integer(popupFeatures.toolBarVisible));
+  Result.locationBarVisible := PInteger(0);
+  Result.scrollbarsVisible := @(integer(popupFeatures.scrollbarsVisible));
+  Result.isPopup := PInteger(0);
+  Result.resizable := PInteger(0);
+  Result.fullscreen := PInteger(0);
+  Result.dialog := PInteger(0);
+  Result.additionalFeatures := PTCefStringList(0);
+end;
+
+function GoCefPopupFeaturesToCefPopupFeatures(const popupFeatures: PTCefPopupFeatures): TCefPopupFeatures;
+begin
+  Result.x := popupFeatures.x^;
+  Result.xSet := popupFeatures.xSet^;
+  Result.y := popupFeatures.y^;
+  Result.ySet := popupFeatures.ySet^;
+  Result.Width := popupFeatures.Width^;
+  Result.widthSet := popupFeatures.widthSet^;
+  Result.Height := popupFeatures.Height^;
+  Result.heightSet := popupFeatures.heightSet^;
+  Result.menuBarVisible := popupFeatures.menuBarVisible^;
+  Result.statusBarVisible := popupFeatures.statusBarVisible^;
+  Result.toolBarVisible := popupFeatures.toolBarVisible^;
+  Result.scrollbarsVisible := popupFeatures.scrollbarsVisible^;
 end;
 
 end.

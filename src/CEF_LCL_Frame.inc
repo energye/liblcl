@@ -177,17 +177,17 @@ begin
   handleExceptionEnd
 end;
 
-function CEFFrame_Name(const TObj: ICefFrame): PChar; extdecl;
+procedure CEFFrame_Name(const TObj: ICefFrame; const Result: TString); extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.Name));
+  Result.SetValue(string(TObj.Url));
   handleExceptionEnd
 end;
 
-function CEFFrame_Url(const TObj: ICefFrame): PChar; extdecl;
+procedure CEFFrame_Url(const TObj: ICefFrame; const Result: TString); extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.Url));
+  Result.SetValue(string(TObj.Url));
   handleExceptionEnd
 end;
 
