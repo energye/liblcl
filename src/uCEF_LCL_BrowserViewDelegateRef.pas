@@ -63,16 +63,12 @@ end;
 
 procedure TBrowserViewDelegateRef.OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult: ICefBrowserViewDelegate);
 var
-  browserSettings: PRCefBrowserSettings;
+  browserSettings: RCefBrowserSettings;
 begin
-  try
-    if (GetDelegateForPopupBrowserViewPtr <> nil) then
-    begin
-      browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-      TCEFEventCallback.SendEvent(GetDelegateForPopupBrowserViewPtr, [browser_view, browserSettings, client, is_devtools, @aResult]);
-    end;
-  finally
-    browserSettings := nil;
+  if (GetDelegateForPopupBrowserViewPtr <> nil) then
+  begin
+    browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
+    TCEFEventCallback.SendEvent(GetDelegateForPopupBrowserViewPtr, [browser_view, @browserSettings, client, is_devtools, @aResult]);
   end;
 end;
 
