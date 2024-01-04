@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright 2019 Salvador DéŸ†z Fau. All rights reserved.
+//        Copyright © 2019 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -49,7 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uChildForm;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uChildForm,
+  Vcl.AppEvnts;
 
 const
   CEF_CREATENEXTCHILD  = WM_APP + $A50;
@@ -63,11 +64,9 @@ type
     Timer1: TTimer;
     Chromium1: TChromium;
     CEFWindowParent1: TCEFWindowParent;
-    AppEvents: TApplicationEvents;
 
     procedure GoBtnClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
-    procedure AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
 
     procedure FormShow(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -258,21 +257,6 @@ begin
     end;
 end;
 
-procedure TMainForm.AppEventsMessage(var Msg: tagMSG; var Handled: Boolean);
-begin
-  case Msg.message of
-    WM_SYSCHAR    : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleSysCharMsg(Msg, Handled);
-    WM_SYSKEYDOWN : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleSysKeyDownMsg(Msg, Handled);
-    WM_SYSKEYUP   : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleSysKeyUpMsg(Msg, Handled);
-    WM_KEYDOWN    : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleKeyDownMsg(Msg, Handled);
-    WM_KEYUP      : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleKeyUpMsg(Msg, Handled);
-    WM_CHAR       : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleCharMsg(Msg, Handled);
-    WM_MOUSEWHEEL : if (screen.FocusedForm is TChildForm) then TChildForm(screen.FocusedForm).HandleMouseWheelMsg(Msg, Handled);
-
-    else Handled := False;
-  end;
-end;
-
 procedure TMainForm.BrowserCreatedMsg(var aMessage : TMessage);
 begin
   FChildForm         := TChildForm.Create(self);
@@ -288,9 +272,8 @@ begin
 
     if (FChildForm <> nil) then
       begin
-        //FChildForm.ApplyPopupFeatures;
-        //FChildForm.Show;
-        PostMessage(FChildForm.Handle, CEF_SHOWCHILD, 0, 0);
+        FChildForm.ApplyPopupFeatures;
+        FChildForm.Show;
       end;
 
     FChildForm := TChildForm.Create(self);

@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright 2019 Salvador DéŸ†z Fau. All rights reserved.
+//        Copyright © 2019 Salvador Díaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -49,7 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, StdCtrls, ExtCtrls, SyncObjs,
   {$ENDIF}
-  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uChildForm;
+  uCEFChromium, uCEFWindowParent, uCEFInterfaces, uCEFConstants, uCEFTypes, uChildForm,
+  Vcl.AppEvnts;
 
 const
   CEF_CREATENEXTCHILD  = WM_APP + $A50;

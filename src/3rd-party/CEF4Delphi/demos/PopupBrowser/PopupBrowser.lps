@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="PopupBrowser.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="13"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uMainForm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="13"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uChildForm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="423"/>
+        <CursorPos X="40" Y="545"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="2">
+      <Position>
+        <Filename Value="PopupBrowser.lpr"/>
+        <Caret TopLine="13"/>
+      </Position>
+      <Position>
+        <Filename Value="uMainForm.pas"/>
+        <Caret TopLine="13"/>
+      </Position>
+      <Position>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="85" Column="33" TopLine="55"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+  <SkipCheckLCLInterfaces Value="True"/>
+</CONFIG>

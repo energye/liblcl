@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="PopupBrowser2.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <TopLine Value="17"/>
+        <CursorPos X="21" Y="67"/>
+        <UsageCount Value="25"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uMainForm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="MainForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="164"/>
+        <CursorPos X="69" Y="213"/>
+        <UsageCount Value="25"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uChildForm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ChildForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="84"/>
+        <CursorPos X="11" Y="115"/>
+        <UsageCount Value="25"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uMainForm.lfm"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="9"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="16">
+      <Position>
+        <Filename Value="PopupBrowser2.lpr"/>
+      </Position>
+      <Position>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="66" Column="35" TopLine="46"/>
+      </Position>
+      <Position>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="176" Column="71" TopLine="134"/>
+      </Position>
+      <Position>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="98" Column="34" TopLine="69"/>
+      </Position>
+      <Position>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="123" Column="64" TopLine="91"/>
+      </Position>
+      <Position>
+        <Filename Value="PopupBrowser2.lpr"/>
+        <Caret Line="67" Column="21" TopLine="17"/>
+      </Position>
+      <Position>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="98" Column="33" TopLine="55"/>
+      </Position>
+      <Position>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="92" TopLine="78"/>
+      </Position>
+      <Position>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="120" Column="40" TopLine="78"/>
+      </Position>
+      <Position>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="212" Column="42" TopLine="156"/>
+      </Position>
+      <Position>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="81" Column="15" TopLine="50"/>
+      </Position>
+      <Position>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="212" Column="49" TopLine="158"/>
+      </Position>
+      <Position>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="259" Column="38" TopLine="207"/>
+      </Position>
+      <Position>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="94" Column="32" TopLine="63"/>
+      </Position>
+      <Position>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="259" Column="38" TopLine="205"/>
+      </Position>
+      <Position>
+        <Filename Value="uMainForm.pas"/>
+        <Caret Line="94" Column="32" TopLine="86"/>
+      </Position>
+      <Position>
+        <Filename Value="uChildForm.pas"/>
+        <Caret Line="125" Column="72" TopLine="78"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

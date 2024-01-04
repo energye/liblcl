@@ -1,28 +1,26 @@
 object ChildForm: TChildForm
-  Left = 0
-  Top = 0
+  Left = 1772
+  Height = 256
+  Top = 454
+  Width = 352
   Caption = 'Popup'
   ClientHeight = 256
   ClientWidth = 352
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'Tahoma'
-  Font.Style = []
-  OldCreateOrder = False
-  Position = poScreenCenter
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  PixelsPerInch = 96
-  TextHeight = 13
+  Position = poScreenCenter
+  LCLVersion = '3.0.0.3'
   object CEFWindowParent1: TCEFWindowParent
     Left = 0
+    Height = 256
     Top = 0
     Width = 352
-    Height = 256
     Align = alClient
     TabOrder = 0
   end
