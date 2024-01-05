@@ -100,27 +100,6 @@ begin
   GlobalCEFApp.OnProcessMessageReceived := GlobalCEFApp_OnProcessMessageReceived;
 end;
 
-// ICefLoadHandler
-procedure CEFGlobalApp_SetOnRenderLoadingStateChange(AEventData: Pointer); extdecl;
-begin
-end;
-
-procedure CEFGlobalApp_SetOnRenderLoadStart(AEventData: Pointer); extdecl;
-begin
-end;
-
-procedure CEFGlobalApp_SetOnRenderLoadEnd(AEventData: Pointer); extdecl;
-begin
-end;
-
-procedure CEFGlobalApp_SetOnRenderLoadError(AEventData: Pointer); extdecl;
-begin
-end;
-
-procedure CEFGlobalApp_SetOnScheduleMessagePumpWork(AEventData: Pointer); extdecl;
-begin
-end;
-
 exports
   CEFGlobalApp_SetOnRegCustomSchemes,
   CEFGlobalApp_SetOnRegisterCustomPreferences,
@@ -137,9 +116,4 @@ exports
   CEFGlobalApp_SetOnContextReleased,
   CEFGlobalApp_SetOnUncaughtException,
   CEFGlobalApp_SetOnFocusedNodeChanged,
-  CEFGlobalApp_SetOnProcessMessageReceived,
-  CEFGlobalApp_SetOnRenderLoadingStateChange,
-  CEFGlobalApp_SetOnRenderLoadStart,
-  CEFGlobalApp_SetOnRenderLoadEnd,
-  CEFGlobalApp_SetOnRenderLoadError,
-  CEFGlobalApp_SetOnScheduleMessagePumpWork;
+  CEFGlobalApp_SetOnProcessMessageReceived;
