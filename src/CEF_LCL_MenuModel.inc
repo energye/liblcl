@@ -4,12 +4,12 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefMenuModelRef_New(const delegate: ICefMenuModelDelegate; out Result: ICefMenuModel) ; extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefMenuModelRef.New(delegate);
-  handleExceptionEnd
-end;
+//procedure CefMenuModelRef_New(const delegate: ICefMenuModelDelegate; out Result: ICefMenuModel) ; extdecl;
+//begin
+//  handleExceptionBegin
+//  Result := TCefMenuModelRef.New(delegate);
+//  handleExceptionEnd
+//end;
 
 function CefMenuModel_AddSeparator(const model :ICefMenuModel): LongBool ; extdecl;
 begin
@@ -22,13 +22,6 @@ function CefMenuModel_Clear(const model :ICefMenuModel): LongBool ; extdecl;
 begin
   handleExceptionBegin
   Result := model.Clear;
-  handleExceptionEnd
-end;
-
-function CefMenuModel_IsSubMenu(const model :ICefMenuModel): LongBool ; extdecl;
-begin
-  handleExceptionBegin
-  Result := model.IsSubMenu;
   handleExceptionEnd
 end;
 
@@ -92,20 +85,6 @@ function CefMenuModel_IsChecked(const model :ICefMenuModel; commandId: Integer):
 begin
   handleExceptionBegin
   Result := model.IsChecked(commandId);
-  handleExceptionEnd
-end;
-
-function CefMenuModel_SetColor(const model :ICefMenuModel; commandId: Integer; colorType: integer; color: Cardinal): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := model.SetColor(commandId, TCefMenuColorType(colorType), TCefColor(color));
-  handleExceptionEnd
-end;
-
-function CefMenuModel_SetFontList(const model :ICefMenuModel; commandId: Integer; PFontList: PChar): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := model.SetFontList(commandId, PCharToUStr(PFontList));
   handleExceptionEnd
 end;
 
@@ -207,18 +186,9 @@ begin
   handleExceptionEnd
 end;
 
-function CefMenuModel_GetColor(const model :ICefMenuModel; commandId: Integer; colorType: TCefMenuColorType; out color: TCefColor): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := model.GetColor(commandId, colorType, color);
-  handleExceptionEnd
-end;
-
 exports
-  CefMenuModelRef_New,
   CefMenuModel_AddSeparator,
   CefMenuModel_Clear,
-  CefMenuModel_IsSubMenu,
   CefMenuModel_GetCount,
   CefMenuModel_AddItem,
   CefMenuModel_AddCheckItem,
@@ -228,8 +198,6 @@ exports
   CefMenuModel_RemoveAt,
   CefMenuModel_SetChecked,
   CefMenuModel_IsChecked,
-  CefMenuModel_SetColor,
-  CefMenuModel_SetFontList,
   CefMenuModel_HasAccelerator,
   CefMenuModel_SetAccelerator,
   CefMenuModel_RemoveAccelerator,
@@ -243,5 +211,4 @@ exports
   CefMenuModel_GetLabel,
   CefMenuModel_GetGroupId,
   CefMenuModel_SetGroupId,
-  CefMenuModel_GetSubMenu,
-  CefMenuModel_GetColor;
+  CefMenuModel_GetSubMenu;

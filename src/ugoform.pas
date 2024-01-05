@@ -38,7 +38,6 @@ type
     procedure ProcessResource; override;
     procedure WndProc(var TheMessage: TLMessage); override;
     procedure CreateParams(var Params: TCreateParams); override;
-    procedure AfterConstruction(); override;
 
     // Energy
     procedure WMPaint(var Msg: TLMPaint); message LM_PAINT;
@@ -88,17 +87,9 @@ type
 var
   uFormRes: TFormResouces;
 
-
-procedure TGoForm.AfterConstruction();
-begin
-  inherited AfterConstruction();
-  WriteLn('AfterConstruction');
-end;
-
 constructor TGoForm.CreateNew(AOwner: TComponent; Num: Integer);
 begin
   inherited CreateNew(AOwner, Num);
-  WriteLn('CreateNew');
 end;
 
 procedure TGoForm.GoDeactivate();
