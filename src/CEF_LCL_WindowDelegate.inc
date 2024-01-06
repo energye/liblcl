@@ -61,20 +61,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure WindowDelegate_SetOnWindowChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).WindowChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnLayoutChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).LayoutChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
 procedure WindowDelegate_SetOnFocus(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
@@ -98,31 +84,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure WindowDelegate_SetOnWindowClosing(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).WindowClosingPtr := AEventData;
-  handleExceptionEnd
-end;
-
 procedure WindowDelegate_SetOnWindowDestroyed(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
   (AObj as TWindowDelegateRef).WindowDestroyedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnWindowActivationChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).WindowActivationChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnWindowBoundsChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).WindowBoundsChangedPtr := AEventData;
   handleExceptionEnd
 end;
 
@@ -137,13 +102,6 @@ procedure WindowDelegate_SetOnGetInitialBounds(const AObj: ICefWindowDelegate; A
 begin
   handleExceptionBegin
   (AObj as TWindowDelegateRef).GetInitialBoundsPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnGetInitialShowState(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).GetInitialShowStatePtr := AEventData;
   handleExceptionEnd
 end;
 
@@ -206,18 +164,12 @@ exports
   WindowDelegate_SetOnGetHeightForWidth,
   WindowDelegate_SetOnParentViewChanged,
   WindowDelegate_SetOnChildViewChanged,
-  WindowDelegate_SetOnWindowChanged,
-  WindowDelegate_SetOnLayoutChanged,
   WindowDelegate_SetOnFocus,
   WindowDelegate_SetOnBlur,
   WindowDelegate_SetOnWindowCreated,
-  WindowDelegate_SetOnWindowClosing,
   WindowDelegate_SetOnWindowDestroyed,
-  WindowDelegate_SetOnWindowActivationChanged,
-  WindowDelegate_SetOnWindowBoundsChanged,
   WindowDelegate_SetOnGetParentWindow,
   WindowDelegate_SetOnGetInitialBounds,
-  WindowDelegate_SetOnGetInitialShowState,
   WindowDelegate_SetOnIsFrameless,
   WindowDelegate_SetOnCanResize,
   WindowDelegate_SetOnCanMaximize,

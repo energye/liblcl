@@ -27,20 +27,14 @@ type
     GetHeightForWidthPtr: Pointer;
     ParentViewChangedPtr: Pointer;
     ChildViewChangedPtr: Pointer;
-    WindowChangedPtr: Pointer;
-    LayoutChangedPtr: Pointer;
     FocusPtr: Pointer;
     BlurPtr: Pointer;
 
     // ICefWindowDelegate
     WindowCreatedPtr: Pointer;
-    WindowClosingPtr: Pointer;
     WindowDestroyedPtr: Pointer;
-    WindowActivationChangedPtr: Pointer;
-    WindowBoundsChangedPtr: Pointer;
     GetParentWindowPtr: Pointer;
     GetInitialBoundsPtr: Pointer;
-    GetInitialShowStatePtr: Pointer;
     IsFramelessPtr: Pointer;
     CanResizePtr: Pointer;
     CanMaximizePtr: Pointer;
@@ -59,20 +53,14 @@ type
     procedure OnGetHeightForWidth(const view: ICefView; Width: integer; var aResult: integer); override;
     procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
     procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
-    procedure OnWindowChanged(const view: ICefView; added: boolean); override;
-    procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
     procedure OnFocus(const view: ICefView); override;
     procedure OnBlur(const view: ICefView); override;
 
     // ICefWindowDelegate
     procedure OnWindowCreated(const window_: ICefWindow); override;
-    procedure OnWindowClosing(const window_: ICefWindow); override;
     procedure OnWindowDestroyed(const window_: ICefWindow); override;
-    procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); override;
-    procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); override;
     procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult: ICefWindow); override;
     procedure OnGetInitialBounds(const window_: ICefWindow; var aResult: TCefRect); override;
-    procedure OnGetInitialShowState(const window_: ICefWindow; var aResult: TCefShowState); override;
     procedure OnIsFrameless(const window_: ICefWindow; var aResult: boolean); override;
     procedure OnCanResize(const window_: ICefWindow; var aResult: boolean); override;
     procedure OnCanMaximize(const window_: ICefWindow; var aResult: boolean); override;
@@ -135,22 +123,6 @@ begin
   end;
 end;
 
-procedure TWindowDelegateRef.OnWindowChanged(const view: ICefView; added: boolean);
-begin
-  if (WindowChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(WindowChangedPtr, [view, added]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
-begin
-  if (LayoutChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(LayoutChangedPtr, [view, @new_bounds]);
-  end;
-end;
-
 procedure TWindowDelegateRef.OnFocus(const view: ICefView);
 begin
   if (FocusPtr <> nil) then
@@ -177,35 +149,11 @@ begin
   end;
 end;
 
-procedure TWindowDelegateRef.OnWindowClosing(const window_: ICefWindow);
-begin
-  if (WindowClosingPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(WindowClosingPtr, [window_]);
-  end;
-end;
-
 procedure TWindowDelegateRef.OnWindowDestroyed(const window_: ICefWindow);
 begin
   if (WindowDestroyedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(WindowDestroyedPtr, [window_]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnWindowActivationChanged(const window_: ICefWindow; active: boolean);
-begin
-  if (WindowActivationChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(WindowActivationChangedPtr, [window_, active]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
-begin
-  if (WindowBoundsChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(WindowBoundsChangedPtr, [window_, @new_bounds]);
   end;
 end;
 
@@ -222,14 +170,6 @@ begin
   if (GetInitialBoundsPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(GetInitialBoundsPtr, [window_, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnGetInitialShowState(const window_: ICefWindow; var aResult: TCefShowState);
-begin
-  if (GetInitialShowStatePtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(GetInitialShowStatePtr, [window_, @aResult]);
   end;
 end;
 
@@ -299,19 +239,13 @@ begin
   GetHeightForWidthPtr := nil;
   ParentViewChangedPtr := nil;
   ChildViewChangedPtr := nil;
-  WindowChangedPtr := nil;
-  LayoutChangedPtr := nil;
   FocusPtr := nil;
   BlurPtr := nil;
 
   WindowCreatedPtr := nil;
-  WindowClosingPtr := nil;
   WindowDestroyedPtr := nil;
-  WindowActivationChangedPtr := nil;
-  WindowBoundsChangedPtr := nil;
   GetParentWindowPtr := nil;
   GetInitialBoundsPtr := nil;
-  GetInitialShowStatePtr := nil;
   IsFramelessPtr := nil;
   CanResizePtr := nil;
   CanMaximizePtr := nil;
@@ -330,19 +264,13 @@ begin
   GetHeightForWidthPtr := nil;
   ParentViewChangedPtr := nil;
   ChildViewChangedPtr := nil;
-  WindowChangedPtr := nil;
-  LayoutChangedPtr := nil;
   FocusPtr := nil;
   BlurPtr := nil;
 
   WindowCreatedPtr := nil;
-  WindowClosingPtr := nil;
   WindowDestroyedPtr := nil;
-  WindowActivationChangedPtr := nil;
-  WindowBoundsChangedPtr := nil;
   GetParentWindowPtr := nil;
   GetInitialBoundsPtr := nil;
-  GetInitialShowStatePtr := nil;
   IsFramelessPtr := nil;
   CanResizePtr := nil;
   CanMaximizePtr := nil;
