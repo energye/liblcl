@@ -34,10 +34,8 @@ type
 
     // ICefWindowDelegate
     WindowCreatedPtr: Pointer;
-    WindowClosingPtr: Pointer;
     WindowDestroyedPtr: Pointer;
     WindowActivationChangedPtr: Pointer;
-    WindowBoundsChangedPtr: Pointer;
     GetParentWindowPtr: Pointer;
     GetInitialBoundsPtr: Pointer;
     GetInitialShowStatePtr: Pointer;
@@ -66,10 +64,8 @@ type
 
     // ICefWindowDelegate
     procedure OnWindowCreated(const window_: ICefWindow); override;
-    procedure OnWindowClosing(const window_: ICefWindow); override;
     procedure OnWindowDestroyed(const window_: ICefWindow); override;
     procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); override;
-    procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); override;
     procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult: ICefWindow); override;
     procedure OnGetInitialBounds(const window_: ICefWindow; var aResult: TCefRect); override;
     procedure OnGetInitialShowState(const window_: ICefWindow; var aResult: TCefShowState); override;
@@ -177,14 +173,6 @@ begin
   end;
 end;
 
-procedure TWindowDelegateRef.OnWindowClosing(const window_: ICefWindow);
-begin
-  if (WindowClosingPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(WindowClosingPtr, [window_]);
-  end;
-end;
-
 procedure TWindowDelegateRef.OnWindowDestroyed(const window_: ICefWindow);
 begin
   if (WindowDestroyedPtr <> nil) then
@@ -198,14 +186,6 @@ begin
   if (WindowActivationChangedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(WindowActivationChangedPtr, [window_, active]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
-begin
-  if (WindowBoundsChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(WindowBoundsChangedPtr, [window_, @new_bounds]);
   end;
 end;
 
@@ -305,10 +285,8 @@ begin
   BlurPtr := nil;
 
   WindowCreatedPtr := nil;
-  WindowClosingPtr := nil;
   WindowDestroyedPtr := nil;
   WindowActivationChangedPtr := nil;
-  WindowBoundsChangedPtr := nil;
   GetParentWindowPtr := nil;
   GetInitialBoundsPtr := nil;
   GetInitialShowStatePtr := nil;
@@ -336,10 +314,8 @@ begin
   BlurPtr := nil;
 
   WindowCreatedPtr := nil;
-  WindowClosingPtr := nil;
   WindowDestroyedPtr := nil;
   WindowActivationChangedPtr := nil;
-  WindowBoundsChangedPtr := nil;
   GetParentWindowPtr := nil;
   GetInitialBoundsPtr := nil;
   GetInitialShowStatePtr := nil;
