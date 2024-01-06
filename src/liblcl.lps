@@ -553,9 +553,10 @@
       </Unit26>
       <Unit27>
         <Filename Value="CEF_LCL_Export.inc"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="12"/>
-        <CursorPos X="24" Y="15"/>
+        <CursorPos Y="12"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit27>
@@ -789,13 +790,10 @@
       </Unit57>
       <Unit58>
         <Filename Value="CEF_Events_Implement.inc"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="557"/>
-        <CursorPos X="24" Y="609"/>
+        <CursorPos X="5" Y="565"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit58>
       <Unit59>
         <Filename Value="CEF_LCL_Chromium_Event.inc"/>
@@ -836,12 +834,10 @@
       </Unit63>
       <Unit64>
         <Filename Value="uCEF_LCL_ClientHandlersRef.pas"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1101"/>
         <CursorPos X="5" Y="1134"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit64>
       <Unit65>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFContextMenuHandler.pas"/>
@@ -992,12 +988,10 @@
       </Unit84>
       <Unit85>
         <Filename Value="CEF_LCL_ClientHandlers.inc"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="393"/>
         <CursorPos X="39" Y="441"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit85>
       <Unit86>
         <Filename Value="CEF_LCL_DragData.inc"/>
@@ -1159,7 +1153,7 @@
     <OtherDefines Count="1">
       <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
     </OtherDefines>
-    <JumpHistory Count="6" HistoryIndex="5">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="15" Column="24" TopLine="12"/>
@@ -1168,21 +1162,6 @@
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="15" Column="24" TopLine="12"/>
       </Position2>
-      <Position3>
-        <Filename Value="CEF_LCL_ClientHandlers.inc"/>
-      </Position3>
-      <Position4>
-        <Filename Value="CEF_LCL_ClientHandlers.inc"/>
-        <Caret Line="441" Column="39" TopLine="393"/>
-      </Position4>
-      <Position5>
-        <Filename Value="uCEF_LCL_ClientHandlersRef.pas"/>
-        <Caret Line="244" Column="27" TopLine="219"/>
-      </Position5>
-      <Position6>
-        <Filename Value="CEF_Events_Implement.inc"/>
-        <Caret Line="884" Column="42" TopLine="862"/>
-      </Position6>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
