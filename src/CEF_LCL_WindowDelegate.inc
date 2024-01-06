@@ -133,6 +133,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure WindowDelegate_SetOnIsWindowModalDialog(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  (AObj as TWindowDelegateRef).IsWindowModalDialogPtr := AEventData;
+  handleExceptionEnd
+end;
+
 procedure WindowDelegate_SetOnGetInitialBounds(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
@@ -151,6 +158,20 @@ procedure WindowDelegate_SetOnIsFrameless(const AObj: ICefWindowDelegate; AEvent
 begin
   handleExceptionBegin
   (AObj as TWindowDelegateRef).IsFramelessPtr := AEventData;
+  handleExceptionEnd
+end;
+
+procedure WindowDelegate_SetOnWithStandardWindowButtons(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  (AObj as TWindowDelegateRef).WithStandardWindowButtonsPtr := AEventData;
+  handleExceptionEnd
+end;
+
+procedure WindowDelegate_SetOnGetTitlebarHeight(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  (AObj as TWindowDelegateRef).GetTitlebarHeightPtr := AEventData;
   handleExceptionEnd
 end;
 
@@ -196,6 +217,14 @@ begin
   handleExceptionEnd
 end;
 
+procedure WindowDelegate_SetOnWindowFullscreenTransition(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  (AObj as TWindowDelegateRef).WindowFullscreenTransitionPtr := AEventData;
+  handleExceptionEnd
+end;
+
+
 
 exports
   WindowDelegate_Create,
@@ -216,12 +245,16 @@ exports
   WindowDelegate_SetOnWindowActivationChanged,
   WindowDelegate_SetOnWindowBoundsChanged,
   WindowDelegate_SetOnGetParentWindow,
+  WindowDelegate_SetOnIsWindowModalDialog,
   WindowDelegate_SetOnGetInitialBounds,
   WindowDelegate_SetOnGetInitialShowState,
   WindowDelegate_SetOnIsFrameless,
+  WindowDelegate_SetOnWithStandardWindowButtons,
+  WindowDelegate_SetOnGetTitlebarHeight,
   WindowDelegate_SetOnCanResize,
   WindowDelegate_SetOnCanMaximize,
   WindowDelegate_SetOnCanMinimize,
   WindowDelegate_SetOnCanClose,
   WindowDelegate_SetOnAccelerator,
-  WindowDelegate_SetOnKeyEvent;
+  WindowDelegate_SetOnKeyEvent,
+  WindowDelegate_SetOnWindowFullscreenTransition;

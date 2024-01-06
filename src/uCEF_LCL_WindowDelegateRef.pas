@@ -39,15 +39,19 @@ type
     WindowActivationChangedPtr: Pointer;
     WindowBoundsChangedPtr: Pointer;
     GetParentWindowPtr: Pointer;
+    IsWindowModalDialogPtr: Pointer;
     GetInitialBoundsPtr: Pointer;
     GetInitialShowStatePtr: Pointer;
     IsFramelessPtr: Pointer;
+    WithStandardWindowButtonsPtr: Pointer;
+    GetTitlebarHeightPtr: Pointer;
     CanResizePtr: Pointer;
     CanMaximizePtr: Pointer;
     CanMinimizePtr: Pointer;
     CanClosePtr: Pointer;
     AcceleratorPtr: Pointer;
     KeyEventPtr: Pointer;
+    WindowFullscreenTransitionPtr: Pointer;
 
     constructor Create; override;
     destructor Destroy; override;
@@ -71,15 +75,19 @@ type
     procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); override;
     procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); override;
     procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult: ICefWindow); override;
+    procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean); override;
     procedure OnGetInitialBounds(const window_: ICefWindow; var aResult: TCefRect); override;
     procedure OnGetInitialShowState(const window_: ICefWindow; var aResult: TCefShowState); override;
     procedure OnIsFrameless(const window_: ICefWindow; var aResult: boolean); override;
+    procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult: boolean); override;
+    procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: single; var aResult: boolean); override;
     procedure OnCanResize(const window_: ICefWindow; var aResult: boolean); override;
     procedure OnCanMaximize(const window_: ICefWindow; var aResult: boolean); override;
     procedure OnCanMinimize(const window_: ICefWindow; var aResult: boolean); override;
     procedure OnCanClose(const window_: ICefWindow; var aResult: boolean); override;
     procedure OnAccelerator(const window_: ICefWindow; command_id: integer; var aResult: boolean); override;
     procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult: boolean); override;
+    procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); override;
 
   end;
 
@@ -217,6 +225,14 @@ begin
   end;
 end;
 
+procedure TWindowDelegateRef.OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
+begin
+  if (IsWindowModalDialogPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(IsWindowModalDialogPtr, [window_, @aResult]);
+  end;
+end;
+
 procedure TWindowDelegateRef.OnGetInitialBounds(const window_: ICefWindow; var aResult: TCefRect);
 begin
   if (GetInitialBoundsPtr <> nil) then
@@ -238,6 +254,22 @@ begin
   if (IsFramelessPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(IsFramelessPtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnWithStandardWindowButtons(const window_: ICefWindow; var aResult: boolean);
+begin
+  if (WithStandardWindowButtonsPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(WithStandardWindowButtonsPtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: single; var aResult: boolean);
+begin
+  if (GetTitlebarHeightPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(GetTitlebarHeightPtr, [window_, @titlebar_height, @aResult]);
   end;
 end;
 
@@ -286,6 +318,14 @@ begin
   if (KeyEventPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(KeyEventPtr, [window_, @event, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+begin
+  if (WindowFullscreenTransitionPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(WindowFullscreenTransitionPtr, [window_, is_completed]);
   end;
 end;
 
