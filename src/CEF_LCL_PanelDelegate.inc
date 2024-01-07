@@ -61,20 +61,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure PanelDelegate_SetOnWindowChanged(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).WindowChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure PanelDelegate_SetOnLayoutChanged(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).LayoutChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
 procedure PanelDelegate_SetOnFocus(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
@@ -98,7 +84,5 @@ exports
   PanelDelegate_SetOnGetHeightForWidth,
   PanelDelegate_SetOnParentViewChanged,
   PanelDelegate_SetOnChildViewChanged,
-  PanelDelegate_SetOnWindowChanged,
-  PanelDelegate_SetOnLayoutChanged,
   PanelDelegate_SetOnFocus,
   PanelDelegate_SetOnBlur;

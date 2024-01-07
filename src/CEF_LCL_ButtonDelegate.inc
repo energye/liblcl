@@ -62,20 +62,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure ButtonDelegate_SetOnWindowChanged(const AObj: ICefButtonDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TButtonDelegateRef).WindowChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure ButtonDelegate_SetOnLayoutChanged(const AObj: ICefButtonDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TButtonDelegateRef).LayoutChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
 procedure ButtonDelegate_SetOnFocus(const AObj: ICefButtonDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
@@ -114,8 +100,6 @@ exports
   ButtonDelegate_SetOnGetHeightForWidth,
   ButtonDelegate_SetOnParentViewChanged,
   ButtonDelegate_SetOnChildViewChanged,
-  ButtonDelegate_SetOnWindowChanged,
-  ButtonDelegate_SetOnLayoutChanged,
   ButtonDelegate_SetOnFocus,
   ButtonDelegate_SetOnBlur,
   ButtonDelegate_SetOnButtonPressed,
