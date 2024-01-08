@@ -143,6 +143,12 @@ procedure ChromiumEvent_OnExtensionGetExtensionResource(Sender: TObject; const e
 procedure ChromiumEvent_OnExtensionLoaded(Sender: TObject; const extension: ICefExtension);
 procedure ChromiumEvent_OnExtensionLoadFailed(Sender: TObject; Result: TCefErrorcode);
 procedure ChromiumEvent_OnExtensionUnloaded(Sender: TObject; const extension: ICefExtension);
+procedure ChromiumEvent_OnPrintStart(Sender: TObject; const browser: ICefBrowser);
+procedure ChromiumEvent_OnPrintSettings(Sender: TObject; const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
+procedure ChromiumEvent_OnPrintDialog(Sender: TObject; const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult : boolean);
+procedure ChromiumEvent_OnPrintJob(Sender: TObject; const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult : boolean);
+procedure ChromiumEvent_OnPrintReset(Sender: TObject; const browser: ICefBrowser);
+procedure ChromiumEvent_OnGetPDFPaperSize(Sender: TObject; const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult : TCefSize);
 
 {== window parent ==}
 procedure CEFWindowEvent_OnEnter(Sender: TObject);

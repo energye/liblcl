@@ -21,140 +21,200 @@ end;
 procedure CefClient_GetAudioHandler(const TObj: ICefClient; var aHandler: ICefAudioHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetAudioHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetAudioHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetCommandHandler(const TObj: ICefClient; var aHandler: ICefCommandHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetCommandHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetCommandHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetContextMenuHandler(const TObj: ICefClient; var aHandler: ICefContextMenuHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetContextMenuHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetContextMenuHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetDialogHandler(const TObj: ICefClient; var aHandler: ICefDialogHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetDialogHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetDialogHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetDisplayHandler(const TObj: ICefClient; var aHandler: ICefDisplayHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetDisplayHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetDisplayHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetDownloadHandler(const TObj: ICefClient; var aHandler: ICefDownloadHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetDownloadHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetDownloadHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetDragHandler(const TObj: ICefClient; var aHandler: ICefDragHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetDragHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetDragHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetFindHandler(const TObj: ICefClient; var aHandler: ICefFindHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetFindHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetFindHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetFocusHandler(const TObj: ICefClient; var aHandler: ICefFocusHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetFocusHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetFocusHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetFrameHandler(const TObj: ICefClient; var aHandler: ICefFrameHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetFrameHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetFrameHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetPermissionHandler(const TObj: ICefClient; var aHandler: ICefPermissionHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetPermissionHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetPermissionHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetJsdialogHandler(const TObj: ICefClient; var aHandler: ICefJsdialogHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetJsdialogHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetJsdialogHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetKeyboardHandler(const TObj: ICefClient; var aHandler: ICefKeyboardHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetKeyboardHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetKeyboardHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetLifeSpanHandler(const TObj: ICefClient; var aHandler: ICefLifeSpanHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetLifeSpanHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetLifeSpanHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetLoadHandler(const TObj: ICefClient; var aHandler: ICefLoadHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetLoadHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetLoadHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetPrintHandler(const TObj: ICefClient; var aHandler: ICefPrintHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetPrintHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetPrintHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetRenderHandler(const TObj: ICefClient; var aHandler: ICefRenderHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetRenderHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetRenderHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_GetRequestHandler(const TObj: ICefClient; var aHandler: ICefRequestHandler); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).GetRequestHandler(aHandler);
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).GetRequestHandler(aHandler);
+  end;
   handleExceptionEnd
 end;
 
 function CefClient_OnProcessMessageReceived(const TObj: ICefClient; const browser: ICefBrowser; const frame: ICefFrame; sourceProcess: TCefProcessId; const message_: ICefProcessMessage): boolean; extdecl;
 begin
   handleExceptionBegin
-  Result := (TObj as TClientRef).OnProcessMessageReceived(browser, frame, sourceProcess, message_);
+  if TObj is TClientRef then
+  begin
+    Result := (TObj as TClientRef).OnProcessMessageReceived(browser, frame, sourceProcess, message_);
+  end;
   handleExceptionEnd
 end;
 
 procedure CefClient_RemoveReferences(const TObj: ICefClient); extdecl;
 begin
   handleExceptionBegin
-  (TObj as TClientRef).RemoveReferences;
+  if TObj is TClientRef then
+  begin
+    (TObj as TClientRef).RemoveReferences;
+  end;
   handleExceptionEnd
 end;
 
