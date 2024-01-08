@@ -204,9 +204,9 @@ function CEFChromium_CreateBrowserByWindow(const AObj: TChromium; window: TCEFWi
 begin
   handleExceptionBegin
   if window = nil then
-  Result := AObj.CreateBrowser(nil, '')
+    Result := AObj.CreateBrowser(nil, '')
   else
-  Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
+    Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
   handleExceptionEnd
 end;
 
@@ -214,9 +214,9 @@ function CEFChromium_CreateBrowserByLinkedWindow(const AObj: TChromium; window: 
 begin
   handleExceptionBegin
   if window = nil then
-  Result := AObj.CreateBrowser(nil, '')
+    Result := AObj.CreateBrowser(nil, '')
   else
-  Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
+    Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
   handleExceptionEnd
 end;
 
