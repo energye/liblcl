@@ -389,6 +389,48 @@ begin
   EventMethodCode
 end;
 
+procedure CEFChromium_SetOnPrintStart(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnPrintStart}
+  {$DEFINE EventName := OnPrintStart}
+  EventMethodCode
+end;
+
+procedure CEFChromium_SetOnPrintSettings(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnPrintSettings}
+  {$DEFINE EventName := OnPrintSettings}
+  EventMethodCode
+end;
+
+procedure CEFChromium_SetOnPrintDialog(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnPrintDialog}
+  {$DEFINE EventName := OnPrintDialog}
+  EventMethodCode
+end;
+
+procedure CEFChromium_SetOnPrintJob(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnPrintJob}
+  {$DEFINE EventName := OnPrintJob}
+  EventMethodCode
+end;
+
+procedure CEFChromium_SetOnPrintReset(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnPrintReset}
+  {$DEFINE EventName := OnPrintReset}
+  EventMethodCode
+end;
+
+procedure CEFChromium_SetOnGetPDFPaperSize(const AObj: TChromium; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ChromiumEvent_OnGetPDFPaperSize}
+  {$DEFINE EventName := OnGetPDFPaperSize}
+  EventMethodCode
+end;
+
 procedure CEFChromium_SetOnAcceleratedPaint(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnAcceleratedPaint}
@@ -1040,6 +1082,12 @@ exports
   CEFChromium_SetOnExtensionLoaded,
   CEFChromium_SetOnExtensionLoadFailed,
   CEFChromium_SetOnExtensionUnloaded,
+  CEFChromium_SetOnPrintStart,
+  CEFChromium_SetOnPrintSettings,
+  CEFChromium_SetOnPrintDialog,
+  CEFChromium_SetOnPrintJob,
+  CEFChromium_SetOnPrintReset,
+  CEFChromium_SetOnGetPDFPaperSize,
   CEFChromium_SetOnAcceleratedPaint,
   CEFChromium_SetOnAllConnectionsClosed,
   CEFChromium_SetOnAudioStreamError,

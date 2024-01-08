@@ -846,6 +846,36 @@ begin
   SendEvent([Sender, extension]);
 end;
 
+procedure TLCLEvent.ChromiumEvent_OnPrintStart(Sender: TObject; const browser: ICefBrowser);
+begin
+  SendEvent([Sender, browser]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnPrintSettings(Sender: TObject; const browser: ICefBrowser; const settings: ICefPrintSettings; getDefaults: boolean);
+begin
+  SendEvent([Sender, browser, settings, LongBool(getDefaults)]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnPrintDialog(Sender: TObject; const browser: ICefBrowser; hasSelection: boolean; const callback: ICefPrintDialogCallback; var aResult : boolean);
+begin
+  SendEvent([Sender, browser, LongBool(hasSelection), callback, @aResult]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnPrintJob(Sender: TObject; const browser: ICefBrowser; const documentName, PDFFilePath: ustring; const callback: ICefPrintJobCallback; var aResult : boolean);
+begin
+  SendEvent([Sender,  browser, PChar(string(documentName)), PChar(string(PDFFilePath)), callback, @aResult]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnPrintReset(Sender: TObject; const browser: ICefBrowser);
+begin
+  SendEvent([Sender, browser]);
+end;
+
+procedure TLCLEvent.ChromiumEvent_OnGetPDFPaperSize(Sender: TObject; const browser: ICefBrowser; deviceUnitsPerInch: Integer; var aResult : TCefSize);
+begin
+  SendEvent([Sender, browser, deviceUnitsPerInch, @aResult]);
+end;
+
 
 {== window parent ==}
 procedure TLCLEvent.CEFWindowEvent_OnEnter(Sender: TObject);
