@@ -25,8 +25,6 @@ type
     GetHeightForWidthPtr: Pointer;
     ParentViewChangedPtr: Pointer;
     ChildViewChangedPtr: Pointer;
-    WindowChangedPtr: Pointer;
-    LayoutChangedPtr: Pointer;
     FocusPtr: Pointer;
     BlurPtr: Pointer;
     constructor Create; override;
@@ -38,11 +36,8 @@ type
     procedure OnGetHeightForWidth(const view: ICefView; Width: integer; var aResult: integer); override;
     procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
     procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
-    procedure OnWindowChanged(const view: ICefView; added: boolean);
     procedure OnFocus(const view: ICefView); override;
     procedure OnBlur(const view: ICefView); override;
-
-    procedure InitializeCEFMethods; override;
 
   end;
 
@@ -96,14 +91,6 @@ begin
   end;
 end;
 
-procedure TViewDelegateRef.OnWindowChanged(const view: ICefView; added: boolean);
-begin
-  if (WindowChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(WindowChangedPtr, [view, added]);
-  end;
-end;
-
 procedure TViewDelegateRef.OnFocus(const view: ICefView);
 begin
   if (FocusPtr <> nil) then
@@ -120,11 +107,6 @@ begin
   end;
 end;
 
-procedure TViewDelegateRef.InitializeCEFMethods;
-begin
-  inherited InitializeCEFMethods;
-end;
-
 
 constructor TViewDelegateRef.Create;
 begin
@@ -135,8 +117,6 @@ begin
   GetHeightForWidthPtr := nil;
   ParentViewChangedPtr := nil;
   ChildViewChangedPtr := nil;
-  WindowChangedPtr := nil;
-  LayoutChangedPtr := nil;
   FocusPtr := nil;
   BlurPtr := nil;
 end;
@@ -150,8 +130,6 @@ begin
   GetHeightForWidthPtr := nil;
   ParentViewChangedPtr := nil;
   ChildViewChangedPtr := nil;
-  WindowChangedPtr := nil;
-  LayoutChangedPtr := nil;
   FocusPtr := nil;
   BlurPtr := nil;
 end;
