@@ -11,10 +11,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefValueRef_UnWrap(const data: ICefValue; out Result: ICefValue); extdecl;
+procedure CefValueRef_UnWrap(const data: Pointer; out Result: ICefValue); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefValueRef.UnWrap(data.Wrap);
+  Result := TCefValueRef.UnWrap(data);
   handleExceptionEnd
 end;
 
