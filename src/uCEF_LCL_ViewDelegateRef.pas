@@ -43,8 +43,6 @@ type
     procedure OnFocus(const view: ICefView); override;
     procedure OnBlur(const view: ICefView); override;
 
-    procedure InitializeCEFMethods; override;
-
   end;
 
 implementation
@@ -127,11 +125,6 @@ begin
   begin
     TCEFEventCallback.SendEvent(BlurPtr, [view]);
   end;
-end;
-
-procedure TViewDelegateRef.InitializeCEFMethods;
-begin
-  inherited InitializeCEFMethods;
 end;
 
 

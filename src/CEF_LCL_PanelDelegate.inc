@@ -19,86 +19,86 @@ begin
 end;
 
 // ICefViewDelegate
-procedure  PanelDelegate_SetOnGetPreferredSize(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).GetPreferredSizePtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure PanelDelegate_SetOnGetMinimumSize(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).GetMinimumSizePtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure PanelDelegate_SetOnGetMaximumSize(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).GetMaximumSizePtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure PanelDelegate_SetOnGetHeightForWidth(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).GetHeightForWidthPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure PanelDelegate_SetOnParentViewChanged(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).ParentViewChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure PanelDelegate_SetOnChildViewChanged(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).ChildViewChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure PanelDelegate_SetOnWindowChanged(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).WindowChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure PanelDelegate_SetOnLayoutChanged(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).LayoutChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure PanelDelegate_SetOnFocus(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).FocusPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure PanelDelegate_SetOnBlur(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TPanelDelegateRef).BlurPtr := AEventData;
-  handleExceptionEnd
-end;
+//procedure  PanelDelegate_SetOnGetPreferredSize(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TPanelDelegateRef).GetPreferredSizePtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure PanelDelegate_SetOnGetMinimumSize(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TPanelDelegateRef).GetMinimumSizePtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure PanelDelegate_SetOnGetMaximumSize(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TPanelDelegateRef).GetMaximumSizePtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure PanelDelegate_SetOnGetHeightForWidth(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TPanelDelegateRef).GetHeightForWidthPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure PanelDelegate_SetOnParentViewChanged(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TPanelDelegateRef).ParentViewChangedPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure PanelDelegate_SetOnChildViewChanged(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TPanelDelegateRef).ChildViewChangedPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure PanelDelegate_SetOnWindowChanged(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TPanelDelegateRef).WindowChangedPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure PanelDelegate_SetOnLayoutChanged(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TPanelDelegateRef).LayoutChangedPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure PanelDelegate_SetOnFocus(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TPanelDelegateRef).FocusPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure PanelDelegate_SetOnBlur(const AObj: ICefPanelDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TPanelDelegateRef).BlurPtr := AEventData;
+//  handleExceptionEnd
+//end;
 
 exports
   PanelDelegateRef_Create,
-  PanelDelegateRef_CreateForCustom,
-  PanelDelegate_SetOnGetPreferredSize,
-  PanelDelegate_SetOnGetMinimumSize,
-  PanelDelegate_SetOnGetMaximumSize,
-  PanelDelegate_SetOnGetHeightForWidth,
-  PanelDelegate_SetOnParentViewChanged,
-  PanelDelegate_SetOnChildViewChanged,
-  PanelDelegate_SetOnWindowChanged,
-  PanelDelegate_SetOnLayoutChanged,
-  PanelDelegate_SetOnFocus,
-  PanelDelegate_SetOnBlur;
+  PanelDelegateRef_CreateForCustom;
+  //PanelDelegate_SetOnGetPreferredSize,
+  //PanelDelegate_SetOnGetMinimumSize,
+  //PanelDelegate_SetOnGetMaximumSize,
+  //PanelDelegate_SetOnGetHeightForWidth,
+  //PanelDelegate_SetOnParentViewChanged,
+  //PanelDelegate_SetOnChildViewChanged,
+  //PanelDelegate_SetOnWindowChanged,
+  //PanelDelegate_SetOnLayoutChanged,
+  //PanelDelegate_SetOnFocus,
+  //PanelDelegate_SetOnBlur;
