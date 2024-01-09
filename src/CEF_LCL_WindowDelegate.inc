@@ -19,75 +19,75 @@ begin
 end;
 
 // ICefViewDelegate
-procedure  WindowDelegate_SetOnGetPreferredSize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).GetPreferredSizePtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnGetMinimumSize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).GetMinimumSizePtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnGetMaximumSize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).GetMaximumSizePtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnGetHeightForWidth(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).GetHeightForWidthPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnParentViewChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).ParentViewChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnChildViewChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).ChildViewChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnWindowChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).WindowChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnLayoutChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).LayoutChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnFocus(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).FocusPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnBlur(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).BlurPtr := AEventData;
-  handleExceptionEnd
-end;
+//procedure  WindowDelegate_SetOnGetPreferredSize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TWindowDelegateRef).GetPreferredSizePtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure WindowDelegate_SetOnGetMinimumSize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TWindowDelegateRef).GetMinimumSizePtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure WindowDelegate_SetOnGetMaximumSize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TWindowDelegateRef).GetMaximumSizePtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure WindowDelegate_SetOnGetHeightForWidth(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TWindowDelegateRef).GetHeightForWidthPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure WindowDelegate_SetOnParentViewChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TWindowDelegateRef).ParentViewChangedPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure WindowDelegate_SetOnChildViewChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TWindowDelegateRef).ChildViewChangedPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure WindowDelegate_SetOnWindowChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TWindowDelegateRef).WindowChangedPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure WindowDelegate_SetOnLayoutChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TWindowDelegateRef).LayoutChangedPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure WindowDelegate_SetOnFocus(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TWindowDelegateRef).FocusPtr := AEventData;
+//  handleExceptionEnd
+//end;
+//
+//procedure WindowDelegate_SetOnBlur(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+//begin
+//  handleExceptionBegin
+//  (AObj as TWindowDelegateRef).BlurPtr := AEventData;
+//  handleExceptionEnd
+//end;
 
 
 // ICefWindowDelegate
@@ -200,16 +200,16 @@ end;
 exports
   WindowDelegate_Create,
   WindowDelegate_CreateForCustom,
-  WindowDelegate_SetOnGetPreferredSize,
-  WindowDelegate_SetOnGetMinimumSize,
-  WindowDelegate_SetOnGetMaximumSize,
-  WindowDelegate_SetOnGetHeightForWidth,
-  WindowDelegate_SetOnParentViewChanged,
-  WindowDelegate_SetOnChildViewChanged,
-  WindowDelegate_SetOnWindowChanged,
-  WindowDelegate_SetOnLayoutChanged,
-  WindowDelegate_SetOnFocus,
-  WindowDelegate_SetOnBlur,
+  //WindowDelegate_SetOnGetPreferredSize,
+  //WindowDelegate_SetOnGetMinimumSize,
+  //WindowDelegate_SetOnGetMaximumSize,
+  //WindowDelegate_SetOnGetHeightForWidth,
+  //WindowDelegate_SetOnParentViewChanged,
+  //WindowDelegate_SetOnChildViewChanged,
+  //WindowDelegate_SetOnWindowChanged,
+  //WindowDelegate_SetOnLayoutChanged,
+  //WindowDelegate_SetOnFocus,
+  //WindowDelegate_SetOnBlur,
   WindowDelegate_SetOnWindowCreated,
   WindowDelegate_SetOnWindowClosing,
   WindowDelegate_SetOnWindowDestroyed,
