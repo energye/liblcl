@@ -25,6 +25,7 @@
 {$I CEF_LCL_Application_Proc.inc}
 {$I CEF_LCL_AuthCallback.inc}
 {$I CEF_LCL_BaseRefCounted.inc}
+{$I CEF_LCL_BoxLayout.inc}
 {$I CEF_LCL_Browser.inc}
 {$I CEF_LCL_BinaryValue.inc}
 {$I CEF_LCL_BitmapBitBuffer.inc}
@@ -60,12 +61,14 @@
 {$I CEF_LCL_Extension.inc}
 {$I CEF_LCL_ExtensionHandler.inc}
 {$I CEF_LCL_FileDialogCallback.inc}
+{$I CEF_LCL_FillLayout.inc}
 {$I CEF_LCL_Frame.inc}
 {$I CEF_LCL_GetExtensionResourceCallback.inc}
 {$I CEF_LCL_Image.inc}
 {$I CEF_LCL_JsDialogCallback.inc}
 {$I CEF_LCL_LabelButton.inc}
 {$I CEF_LCL_LabelButtonComponent.inc}
+{$I CEF_LCL_Layout.inc}
 {$I CEF_LCL_LinkedWindowParent.inc}
 {$I CEF_LCL_MediaAccessCallback.inc}
 {$I CEF_LCL_MenuButton.inc}
