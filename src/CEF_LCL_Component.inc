@@ -11,7 +11,7 @@ CEFChromium 组件单元
 {$ifdef DARWIN}
 uCEFLazarusCocoa,
 {$endif}
-Messages, Variants, fpjson, jsonparser,
+Messages,
 uCEFBaseRefCounted, uCEFDownloadItemCallback, uCEFSchemeRegistrar,uCEFCommandLine, uCEFLibFunctions, uCEFBufferPanel, uCEFBitmapBitBuffer, uCEFDisplay,
 uCEFStringMultimap, uCEFCallback, uCEFChromium, uCEFWindowParent, uCEFLinkedWindowParent, uCEFInterfaces, uCEFApplication, uCEFv8Interceptor, uCEFTypes, uCEFv8Value, uCEFBinaryValue, uCEFDictionaryValue, uCEFListValue, uCEFValue, uCEFFrame,
 uCEFConstants, uCEFWinControl, uCEFChromiumEvents, uCEFMiscFunctions, uCEFClient, uCEFProcessMessage, uCEFWorkScheduler, uCEFRunFileDialogCallback, uCEFDownloadImageCallBack, uCEFPostData, uCEFPostDataElement, uCEFDownloadItem, uCEFRequest, uCEFResponse,

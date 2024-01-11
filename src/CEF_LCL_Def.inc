@@ -32,10 +32,12 @@ begin
 end;
 
 procedure CEF_Win_SetDraggableRegions(draggable_region: HRGN; regionsCount: NativeUInt; const regions: TCefDraggableRegionArray); extdecl;
+{$ifdef MSWINDOWS}
 var
   region: HRGN;
   idx, count: Integer;
   dragRegion: TCefDraggableRegion;
+{$endif}
 begin
   {$ifdef MSWINDOWS}
   //region = ::CreateRectRgn(it->bounds.x, it->bounds.y, it->bounds.x + it->bounds.width, it->bounds.y + it->bounds.height);
