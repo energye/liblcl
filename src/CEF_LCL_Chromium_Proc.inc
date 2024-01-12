@@ -703,6 +703,7 @@ begin
   handleExceptionEnd
 end;
 
+  {$IFDEF MSWINDOWS}
 //DefaultWindowInfoExStyle
 procedure CEFChromium_SetDefaultWindowInfoExStyle(const AObj: TChromium; value: DWORD); extdecl;
 begin
@@ -717,6 +718,7 @@ begin
   Result := AObj.DefaultWindowInfoExStyle;
   handleExceptionEnd
 end;
+{$ENDIF}
 
 //Block3rdPartyCookies
 procedure CEFChromium_SetBlock3rdPartyCookies(const AObj: TChromium; value: LongBool); extdecl;
@@ -1502,8 +1504,10 @@ exports
   CEFChromium_GetQuicAllowed,
   CEFChromium_SetOffline,
   CEFChromium_GetOffline,
+  {$IFDEF MSWINDOWS}
   CEFChromium_SetDefaultWindowInfoExStyle,
   CEFChromium_GetDefaultWindowInfoExStyle,
+  {$ENDIF}
   CEFChromium_SetBlock3rdPartyCookies,
   CEFChromium_GetBlock3rdPartyCookies,
   CEFChromium_SetAcceptCookies,
