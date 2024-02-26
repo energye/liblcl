@@ -47,13 +47,6 @@ type //Window Bind
 
   PointerArray = array of Pointer;
 
-type //IPC
-  //CEF IPC 事件处理函数
-  TCEFIPCEventCallbackPtr = function(fn: nativeuint; args: Pointer; argsCout: nativeint): Pointer; extdecl;
-  //IPC事件类
-  TIPCEventClass = class
-    class function SendEvent(IPCID: nativeuint; AArgs: array of const): boolean;
-  end;
 
 
 type//Chromium Windows Comp Message
@@ -69,8 +62,6 @@ type//Application.QueueAsyncCall UI主程序异步调用回调事件
   end;
 
 var
-  //CEF IPC 事件处理函数指针变量
-  GCEFIPCEventCallbackPtr: TCEFIPCEventCallbackPtr;
   //WindowBind 回调函数指针变量
   GCEFWindowBindPtr: TCEFWindowBindPtr;
   //Application.QueueAsyncCall UI主程序异步调用回调指针
@@ -104,8 +95,6 @@ begin
         vtWideChar: LParams[I] := Pointer(Ord(LV.VWideChar));
         vtPWideChar: LParams[I] := LV.VPWideChar;
         vtAnsiString: LParams[I] := LV.VAnsiString;
-        //          vtCurrency      = 12;
-        //          vtVariant       = 13;
         vtInterface: LParams[I] := LV.VInterface;
         vtWideString: LParams[I] := LV.VWideString;
         vtInt64: LParams[I] := LV.VInt64;
@@ -167,27 +156,6 @@ end;
 {===Window Bind Events TCEFWindowBindClass===}
 
 
-{===CEF IPC Events TIPCEventClass===}
-class function TIPCEventClass.SendEvent(IPCID: nativeuint; AArgs: array of const): boolean;
-  procedure SendEventSrc(IPCID: nativeuint; AArgs: array of const);
-  var
-    LParams: PointerArray;
-    LArgLen: integer;
-  begin
-    if Assigned(GCEFIPCEventCallbackPtr) then
-    begin
-      LArgLen := Length(AArgs);
-      LParams := ArgsToParamsPtr(AArgs);
-      if not (LParams = nil) then
-      begin
-        GCEFIPCEventCallbackPtr(IPCID, @LParams[0], LArgLen);
-      end;
-    end;
-  end;
-begin
-  SendEventSrc(IPCID, AArgs);
-  Result := True;
-end;
 {===CEF IPC Events TIPCEventClass===}
 
 class procedure ApplicationQueueAsyncCallEventClass.SendEvent(id: nativeuint);
