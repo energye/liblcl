@@ -248,6 +248,7 @@ begin
     TCEFEventCallback.SendEvent(FOnWMWindowPosChangedPtr, [@Message]);
   end;
 end;
+
 // On Messages, 设置各类消息事件的函数api
 procedure TGoForm.SetOnMessagesEvent(AType: Integer; AEvent: Pointer);
 begin

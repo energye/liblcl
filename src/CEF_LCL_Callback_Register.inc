@@ -8,7 +8,6 @@
 procedure SetCEFIPCCallbackFunc(APtr: Pointer); extdecl;
 begin
   handleExceptionBegin
-  GCEFIPCEventCallbackPtr := TCEFIPCEventCallbackPtr(APtr);
   handleExceptionEnd
 end;
 
@@ -16,7 +15,6 @@ end;
 procedure SetCEFWindowBindCallbackFunc(APtr: Pointer); extdecl;
 begin
   handleExceptionBegin
-  GCEFWindowBindPtr := TCEFWindowBindPtr(APtr);
   handleExceptionEnd
 end;
 
