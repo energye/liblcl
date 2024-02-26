@@ -481,7 +481,6 @@ begin
   Result.y := @(integer(settings.y));
   Result.Width := @(integer(settings.Width));
   Result.Height := @(integer(settings.Height));
-  Result.hidden := @(integer(settings.hidden));
   Result.parent_window := @settings.parent_window;
   Result.windowless_rendering_enabled := @(integer(settings.windowless_rendering_enabled));
   Result.shared_texture_enabled := @(integer(settings.shared_texture_enabled));
@@ -527,7 +526,6 @@ begin
   Result.y := settings.y^;
   Result.Width := settings.Width^;
   Result.Height := settings.Height^;
-  Result.hidden := settings.hidden^;
   Result.parent_window := settings.parent_window^;
   Result.windowless_rendering_enabled := settings.windowless_rendering_enabled^;
   Result.shared_texture_enabled := settings.shared_texture_enabled^;
