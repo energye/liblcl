@@ -19,7 +19,7 @@ begin
   handleExceptionBegin
   //ICefRequestContext
   requestContextSettings := new(PCefRequestContextSettings);
-  requestContextSettings^.size := NativeUInt(PRequestContextSettings^.size);
+  requestContextSettings^.size := SizeOf(TCefRequestContextSettings);
   requestContextSettings^.cache_path := CefString(PCharToUStr(PRequestContextSettings^.cachePath));
   requestContextSettings^.persist_session_cookies := Integer(PRequestContextSettings^.persistSessionCookies);
   requestContextSettings^.persist_user_preferences := Integer(PRequestContextSettings^.persistUserPreferences);

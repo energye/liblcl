@@ -31,99 +31,6 @@ type
     Value: PChar;
   end;
 
-  // string header
-  PStringHeader = ^StringHeader;
-
-  StringHeader = record
-    PValue: PChar;
-    ValueLength: nativeuint;
-    Value: string;
-  end;
-
-  //CEFChromium 配置
-  TCEFChromiumConfig = record
-    EnableMenu: PBoolean;
-    EnableViewSource: PBoolean;
-    EnableDevTools: PBoolean;
-    EnableWindowPopup: PBoolean;
-    EnableOpenUrlTab: PBoolean;
-    EnabledJavascript: PBoolean;
-  end;//配置 end
-
-  //键盘事件
-  RChromiumKeyEvent = record
-    KeyCode: integer; //键码
-    Message: integer; //键 WM_KEYUP 257抬起、WM_KEYDOWN 256按下
-  end;
-
-  //TCEFv8Context
-  RCEFV8Context = record
-    V8Context: ICefv8Context;
-    Browser: ICefBrowser;
-    Frame: ICefFrame;
-    Global: ICefv8Value;
-  end;
-
-  //ICefProcessMessage
-  PRCEFProcessMessage = ^RCEFProcessMessage;
-
-  RCEFProcessMessage = record
-    Name: PChar;
-    Data: Pointer;
-    DataLen: PInteger;
-  end;
-
-  //ICefFrame
-  PRCEFFrame = ^RCEFFrame;
-
-  RCEFFrame = record
-    Name: PChar;
-    Url: PChar;
-    Identifier: PChar;
-  end;
-
-  //ICefBrowser
-  RCEFBrowser = record
-    Identifier: integer;
-  end;
-
-  //函数调用 临时存放入参值
-  PRArguments = ^RArguments;
-  ArgumentsArray = array of PRArguments;
-  PArgumentsArray = ^ArgumentsArray;
-
-  RArguments = record
-    PStringValue: PChar;
-    StringValue: string;
-    IntegerValue: integer;
-    PDoubleValue: Pdouble;
-    DoubleValue: double;
-    BooleanValue: boolean;
-  end;
-
-
-  //Go to JS 绑定交互返回值
-  PRRetBindValue = ^RRetBindValue;
-
-  RRetBindValue = record
-    PException: Pointer;
-    PStringValue: Pointer;
-    PIntValue: PInteger;
-    DoubleValue: double;
-    PBooleanValue: PBoolean;
-    PVType: PInteger;
-  end;
-
-  PGoResult = ^GoResult;
-
-  GoResult = record
-    Value: Pointer;
-    ValueType: PInteger;
-    ValueLength: PInteger;
-    BindType: PInteger;
-    Exception: PInteger;
-  end;
-
   //Cef Cookie
   PRCefCookie = ^RCefCookie;
 
@@ -169,15 +76,6 @@ type
   PTCefBinaryValueArray = ^TCefBinaryValueArray;
   //PTCefX509CertificateArray = ^TCefX509CertificateArray;
 
-  PRTCefRect = ^RTCefRect;
-
-  RTCefRect = record
-    x: PInteger;
-    y: PInteger;
-    Width: PInteger;
-    Height: PInteger;
-  end;
-
   PTCefWindowHandle = ^TCefWindowHandle;
   PHMENU = ^HMENU;
   PHWND = ^HWND;
@@ -222,7 +120,6 @@ type
   PRCefBrowserSettings = ^RCefBrowserSettings;
 
   RCefBrowserSettings = record
-    size: PNativeuint;
     windowless_frame_rate: PInteger;
     standard_font_family: PChar;
     fixed_font_family: PChar;
@@ -276,7 +173,6 @@ type
   PRCefRequestContextSettings = ^RCefRequestContextSettings;
 
   RCefRequestContextSettings = record
-    size: PNativeuint;
     cachePath: PChar;
     persistSessionCookies: PInteger;
     persistUserPreferences: PInteger;
@@ -284,8 +180,6 @@ type
     cookieableSchemesList: PChar;
     cookieableSchemesExcludeDefaults: PInteger;
   end;
-
-function NewStringHeader(Data: ustring): PStringHeader;
 
 //string to hash
 function StrToHash(const SoureStr: string): cardinal;
@@ -301,8 +195,6 @@ function CopyByteArray(const Source: array of byte; Position, Count: integer): T
 function CopyStringToNewString(old: string): string;
 //释放VarRec数组
 procedure FreeArrayTVarRec(argsArray: array of TVarRec);
-//释放 PRCEFFrame
-procedure FreePRCEFFrame(frame: PRCEFFrame);
 
 function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): RCefBrowserSettings;
 function GoBrowserSettingsToCefBrowserSettings(const settings: RCefBrowserSettings): TCefBrowserSettings;
@@ -312,8 +204,6 @@ function GoCefWindowInfoToCefWindowInfo(const settings: RTCefWindowInfo): TCefWi
 
 function CefPopupFeaturesToGoCefPopupFeatures(const popupFeatures: TCefPopupFeatures): PTCefPopupFeatures;
 function GoCefPopupFeaturesToCefPopupFeatures(const popupFeatures: PTCefPopupFeatures): TCefPopupFeatures;
-
-//function GetCommonInstance(): CommonObject;
 
 var
   {$ifdef DARWIN}
@@ -351,17 +241,6 @@ var
   {$endif}
 
 implementation
-
-function NewStringHeader(Data: ustring): PStringHeader;
-var
-  PH: PStringHeader;
-begin
-  PH := new(PStringHeader);
-  PH^.Value := UTF8Encode(Data);
-  PH^.PValue := PChar(PH^.Value);
-  PH^.ValueLength := Length(PH^.PValue);
-  Result := PH;
-end;
 
 function ByteToInteger(const Data: array of byte; start: integer = 0): integer;
 var
@@ -472,22 +351,8 @@ begin
   end;
 end;
 
-//释放 PRCEFFrame
-procedure FreePRCEFFrame(frame: PRCEFFrame);
-begin
-  if frame <> nil then
-  begin
-    frame^.Name := nil;
-    frame^.Url := nil;
-    frame^.Identifier := nil;
-    frame := nil;
-  end;
-end;
-
-
 function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): RCefBrowserSettings;
 begin
-  Result.size := @settings.size;
   Result.windowless_frame_rate := @settings.windowless_frame_rate;
   Result.standard_font_family := PChar(string(CefString(@settings.standard_font_family)));
   Result.fixed_font_family := PChar(string(CefString(@settings.fixed_font_family)));
@@ -520,7 +385,7 @@ end;
 
 function GoBrowserSettingsToCefBrowserSettings(const settings: RCefBrowserSettings): TCefBrowserSettings;
 begin
-  Result.size := settings.size^;
+  Result.size := SizeOf(TCefBrowserSettings); //settings.size^;
   Result.windowless_frame_rate := settings.windowless_frame_rate^;
   Result.standard_font_family := CefString(PCharToUStr(settings.standard_font_family));
   Result.fixed_font_family := CefString(PCharToUStr(settings.fixed_font_family));
@@ -548,7 +413,6 @@ begin
   Result.background_color := TCefColor(settings.background_color^);
   Result.accept_language_list := CefString(PCharToUStr(settings.accept_language_list));
 end;
-
 
 function CefWindowInfoToGoCefWindowInfo(const settings: TCefWindowInfo): RTCefWindowInfo;
 begin
