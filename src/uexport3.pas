@@ -27,8 +27,10 @@
 {$I MyLCL_ActionList.inc}  //BASECLASS:TComponent
 {$I MyLCL_Action.inc}  //BASECLASS:TComponent
 {$I MyLCL_ToolButton.inc}  //BASECLASS:TControl
-//{$I MyLCL_IniFile.inc}  // 先牺牲掉它吧
-{$I MyLCL_Registry.inc}  //BASECLASS:TObject
+{$IFnDEF LINUX}  // 先牺牲掉它吧
+{$I MyLCL_IniFile.inc}
+{$I MyLCL_Registry.inc}
+{$ENDIF}
 {$I MyLCL_Clipboard.inc}  //BASECLASS:TObject
 {$I MyLCL_Monitor.inc}  //BASECLASS:TObject
 {$I MyLCL_PaintBox.inc}  //BASECLASS:TControl
