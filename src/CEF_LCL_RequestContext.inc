@@ -19,14 +19,13 @@ begin
   handleExceptionBegin
   //ICefRequestContext
   requestContextSettings := new(PCefRequestContextSettings);
-  requestContextSettings^.size := NativeUInt(PRequestContextSettings^.size);
+  requestContextSettings^.size := SizeOf(TCefRequestContextSettings);
   requestContextSettings^.cache_path := CefString(PCharToUStr(PRequestContextSettings^.cachePath));
   requestContextSettings^.persist_session_cookies := Integer(PRequestContextSettings^.persistSessionCookies);
   requestContextSettings^.persist_user_preferences := Integer(PRequestContextSettings^.persistUserPreferences);
   requestContextSettings^.accept_language_list := CefString(PCharToUStr(PRequestContextSettings^.acceptLanguageList));
   requestContextSettings^.cookieable_schemes_list := CefString(PCharToUStr(PRequestContextSettings^.cookieableSchemesList));
   requestContextSettings^.cookieable_schemes_exclude_defaults := Integer(PRequestContextSettings^.cookieableSchemesExcludeDefaults);
-
   Result := TCefRequestContextRef.New(requestContextSettings, handler);
   handleExceptionEnd
 end;
