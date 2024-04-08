@@ -7,7 +7,7 @@
 {== chromium ==}
 procedure TLCLEvent.ChromiumEvent_OnAcceleratedPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; shared_handle: Pointer);
 begin
-  SendEvent([Sender, browser, type_, dirtyRectsCount, dirtyRects, shared_handle]);
+  SendEvent([Sender, browser, type_, @dirtyRectsCount, dirtyRects, shared_handle]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnAllConnectionsClosed(Sender: TObject);
@@ -163,7 +163,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsMethodRawResult(Sender: TObject; const browser: ICefBrowser; message_id: integer; success: boolean; const Result: Pointer; result_size: nativeuint);
 begin
-  SendEvent([Sender, browser, message_id, success, Result, result_size]);
+  SendEvent([Sender, browser, message_id, success, Result, @result_size]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsMethodResult(Sender: TObject; const browser: ICefBrowser; message_id: integer; success: boolean; const Result: ICefValue);
@@ -173,12 +173,12 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsRawEvent(Sender: TObject; const browser: ICefBrowser; const method: ustring; const params: Pointer; params_size: nativeuint);
 begin
-  SendEvent([Sender, browser, PChar(string(method)), params, params_size]);
+  SendEvent([Sender, browser, PChar(string(method)), params, @params_size]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDevToolsRawMessage(Sender: TObject; const browser: ICefBrowser; const message_: Pointer; message_size: nativeuint; var aHandled: boolean);
 begin
-  SendEvent([Sender, browser, message_, message_size, @aHandled]);
+  SendEvent([Sender, browser, message_, @message_size, @aHandled]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDialogClosed(Sender: TObject; const browser: ICefBrowser);
@@ -278,7 +278,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnIMECompositionRangeChanged(Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: nativeuint; const character_bounds: PCefRect);
 begin
-  SendEvent([Sender, browser, selected_range, character_boundsCount, character_bounds]);
+  SendEvent([Sender, browser, selected_range, @character_boundsCount, character_bounds]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnJsDialog(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; dialogType: TCefJsDialogType; const messageText, defaultPromptText: ustring; const callback: ICefJsDialogCallback; out suppressMessage: boolean; out Result: boolean);
@@ -308,7 +308,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; const buffer: Pointer; Width, Height: integer);
 begin
-  SendEvent([Sender, browser, type_, uint32(dirtyRectsCount), dirtyRects, buffer, Width, Height]);
+  SendEvent([Sender, browser, type_, @dirtyRectsCount, dirtyRects, buffer, Width, Height]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnPopupShow(Sender: TObject; const browser: ICefBrowser; Show: boolean);
@@ -388,7 +388,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnSelectClientCertificate(Sender: TObject; const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: nativeuint; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult: boolean);
 begin
-  SendEvent([Sender, browser, isProxy, PChar(string(host)), port, certificatesCount, @certificates, callback, @aResult]);
+  SendEvent([Sender, browser, isProxy, PChar(string(host)), port, @certificatesCount, @certificates, callback, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnSetFocus(Sender: TObject; const browser: ICefBrowser; Source: TCefFocusSource; out Result: boolean);
@@ -741,7 +741,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnDraggableRegionsChanged(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; regionsCount: NativeUInt; const regions: PCefDraggableRegionArray);
 begin
-  SendEvent([Sender, browser, frame, Integer(regionsCount), regions]);
+  SendEvent([Sender, browser, frame, @regionsCount, regions]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetAuthCredentials(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback; out Result: Boolean);
