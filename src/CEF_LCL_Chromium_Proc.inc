@@ -450,10 +450,17 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_ExecuteDevToolsMethod(const AObj: TChromium; messageId: integer; PMethodName: PChar; const dictionaryValue: ICefDictionaryValue); extdecl;
+function CEFChromium_SendDevToolsMessage(const AObj: TChromium; message_: PChar): LongBool; extdecl;
 begin
   handleExceptionBegin
-  AObj.ExecuteDevToolsMethod(messageId, PCharToUStr(PMethodName), dictionaryValue);
+  Result := AObj.SendDevToolsMessage(PCharToUStr(message_));
+  handleExceptionEnd
+end;
+
+function CEFChromium_ExecuteDevToolsMethod(const AObj: TChromium; messageId: integer; PMethodName: PChar; const dictionaryValue: ICefDictionaryValue): Integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.ExecuteDevToolsMethod(messageId, PCharToUStr(PMethodName), dictionaryValue);
   handleExceptionEnd
 end;
 
@@ -1398,6 +1405,7 @@ exports
   CEFChromium_DeleteCookies,
   CEFChromium_SetProxy,
   CEFChromium_UpdatePreferences,
+  CEFChromium_SendDevToolsMessage,
   CEFChromium_ExecuteDevToolsMethod,
   CEFChromium_CreateClientHandler,
   CEFChromium_SetFocus,
