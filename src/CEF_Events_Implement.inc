@@ -92,9 +92,9 @@ begin
   SendEvent([Sender, browser, PChar(string(originUrl)), integer(dialogType), PChar(string(messageText)), PChar(string(defaultPromptText)), callback, @suppressMessage, @Result]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; const buffer: Pointer; Width, Height: integer);
+procedure TLCLEvent.ChromiumEvent_OnPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; Width, Height: integer);
 begin
-  SendEvent([Sender, browser, type_, uint32(dirtyRectsCount), dirtyRects, buffer, Width, Height]);
+  SendEvent([Sender, browser, type_, @dirtyRectsCount, dirtyRects, buffer, Width, Height]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnPopupShow(Sender: TObject; const browser: ICefBrowser; Show: boolean);
@@ -386,7 +386,6 @@ begin
   pNewUrl := nil;
 end;
 
-
 procedure TLCLEvent.ChromiumEvent_OnResourceLoadComplete(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse;
   status: TCefUrlRequestStatus; receivedContentLength: Int64);
 begin
@@ -400,7 +399,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnDraggableRegionsChanged(Sender: TObject; const browser: ICefBrowser; regionsCount: NativeUInt; regions: PCefDraggableRegionArray);
 begin
-  SendEvent([Sender, browser, browser.MainFrame, Integer(regionsCount), regions]);
+  SendEvent([Sender, browser, browser.MainFrame, @regionsCount, regions]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetAuthCredentials(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback; out Result: Boolean);
