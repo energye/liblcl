@@ -138,35 +138,37 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_CreateBrowser(const AObj: TChromium; window: TCEFWindowParent; const windowName: PChar; context: ICefRequestContext; const extraInfo: ICefDictionaryValue): LongBool; extdecl;
+function CEFChromium_CreateBrowserByWinControl(const AObj: TChromium; const aBrowserParent: TWinControl; const aWindowName: PChar; const aContext: ICefRequestContext; const aExtraInfo: ICefDictionaryValue): LongBool; extdecl;
 var
   aCookiesPath: string;
   aPersistSessionCookies: boolean;
 begin
   handleExceptionBegin
-  if extraInfo <> nil then
+  aCookiesPath := '';
+  aPersistSessionCookies := False;
+  if aExtraInfo <> nil then
   begin
-    aCookiesPath := extraInfo.GetString('cookiesPath');
-    aPersistSessionCookies := extraInfo.GetBool('persistSessionCookies');
+    aCookiesPath := aExtraInfo.GetString('cookiesPath');
+    aPersistSessionCookies := aExtraInfo.GetBool('persistSessionCookies');
   end;
-  if window = nil then
-  begin
-    Result := AObj.CreateBrowser(nil, PCharToUStr(windowName), context, aCookiesPath, aPersistSessionCookies);
-  end
-  else
-  begin
-    Result := AObj.CreateBrowser(window.Handle, window.BoundsRect, PCharToUStr(windowName), context, aCookiesPath, aPersistSessionCookies);
-  end;
+  Result := AObj.CreateBrowser(aBrowserParent.Handle, aBrowserParent.BoundsRect, PCharToUStr(aWindowName), aContext, aCookiesPath, aPersistSessionCookies);
   handleExceptionEnd
 end;
 
-function CEFChromium_CreateBrowserByWindow(const AObj: TChromium; window: TCEFWindowParent): LongBool; extdecl;
+function CEFChromium_CreateBrowserByWindowHandle(const AObj: TChromium; aParentHandle: HWND; var aParentRect: TRect; const aWindowName: PChar; const aContext: ICefRequestContext; const aExtraInfo: ICefDictionaryValue; aForceAsPopup : LongBool): LongBool; extdecl;
+var
+  aCookiesPath: string;
+  aPersistSessionCookies: boolean;
 begin
   handleExceptionBegin
-  if window = nil then
-    Result := AObj.CreateBrowser(nil, '')
-  else
-    Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
+  aCookiesPath := '';
+  aPersistSessionCookies := False;
+  if aExtraInfo <> nil then
+  begin
+    aCookiesPath := aExtraInfo.GetString('cookiesPath');
+    aPersistSessionCookies := aExtraInfo.GetBool('persistSessionCookies');
+  end;
+  Result := AObj.CreateBrowser(aParentHandle, aParentRect, PCharToUStr(aWindowName), aContext, aCookiesPath, aPersistSessionCookies);
   handleExceptionEnd
 end;
 
@@ -890,8 +892,8 @@ exports
   CEFChromium_Reload,
   CEFChromium_ReloadIgnoreCache,
   CEFChromium_StopLoad,
-  CEFChromium_CreateBrowser,
-  CEFChromium_CreateBrowserByWindow,
+  CEFChromium_CreateBrowserByWinControl,
+  CEFChromium_CreateBrowserByWindowHandle,
   CEFChromium_Initialized,
   CEFChromium_IsSameBrowser,
   CEFChromium_PrintToPDF,
