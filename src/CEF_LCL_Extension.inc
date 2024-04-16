@@ -4,6 +4,13 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
+procedure  CefExtensionRef_UnWrap(const TObj: ICefExtension; var Result: ICefExtension); extdecl;
+begin
+  handleExceptionBegin
+  Result := TCefExtensionRef.UnWrap(TObj.Wrap);
+  handleExceptionEnd
+end;
+
 function  CefExtension_GetIdentifier(const TObj: ICefExtension) : PChar; extdecl;
 begin
   handleExceptionBegin
@@ -117,6 +124,7 @@ begin
 end;
 
 exports
+  CefExtensionRef_UnWrap,
   CefExtension_GetIdentifier,
   CefExtension_GetPath,
   CefExtension_GetManifest,

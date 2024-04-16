@@ -1354,6 +1354,45 @@ begin
   handleExceptionEnd
 end;
 
+function CEFChromium_LoadExtension(const AObj: TChromium; const root_directory: PChar; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler;
+  const requestContext : ICefRequestContext): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.LoadExtension(PCharToUStr(root_directory), manifest, handler, requestContext);
+  handleExceptionEnd
+end;
+
+function CEFChromium_DidLoadExtension(const AObj: TChromium; const extension_id: PChar): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.DidLoadExtension(PCharToUStr(extension_id));
+  handleExceptionEnd
+end;
+
+function CEFChromium_HasExtension(const AObj: TChromium; const extension_id: PChar): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.HasExtension(PCharToUStr(extension_id));
+  handleExceptionEnd
+end;
+
+function CEFChromium_GetExtensions(const AObj: TChromium; const extension_ids: TStringList): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.GetExtensions(extension_ids);
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_GetExtension(const AObj: TChromium; const extension_id: PChar; var Result: ICefExtension); extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.GetExtension(PCharToUStr(extension_id));
+  handleExceptionEnd
+end;
+
+//FontOptions
+//PDFPrintOptions
+
 exports
   CEFChromium_Create,
   CEFChromium_Browser,
@@ -1521,4 +1560,9 @@ exports
   CEFChromium_IMEFinishComposingText,
   CEFChromium_IMECancelComposition,
   CEFChromium_HasDevTools,
-  CEFChromium_InitializeDragAndDrop;
+  CEFChromium_InitializeDragAndDrop,
+  CEFChromium_LoadExtension,
+  CEFChromium_DidLoadExtension,
+  CEFChromium_HasExtension,
+  CEFChromium_GetExtensions,
+  CEFChromium_GetExtension;
