@@ -192,37 +192,17 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_CreateBrowser(const AObj: TChromium; window:{$IFDEF WINDOWS} TCEFWindowParent{$ELSE} TCEFLinkedWindowParent {$ENDIF}; const windowName: PChar; context: ICefRequestContext; const extraInfo: ICefDictionaryValue): LongBool; extdecl;
+function CEFChromium_CreateBrowserByWinControl(const AObj: TChromium; const aBrowserParent: TWinControl; const aWindowName: PChar; const aContext: ICefRequestContext; const aExtraInfo: ICefDictionaryValue): LongBool; extdecl;
 begin
   handleExceptionBegin
-  if window = nil then
-  begin
-    Result := AObj.CreateBrowser(nil, PCharToUStr(windowName), context, extraInfo);
-  end
-  else
-  begin
-    Result := AObj.CreateBrowser(window.Handle, window.BoundsRect, PCharToUStr(windowName), context, extraInfo);
-  end;
+  Result := AObj.CreateBrowser(aBrowserParent, PCharToUStr(aWindowName), aContext, aExtraInfo);
   handleExceptionEnd
 end;
 
-function CEFChromium_CreateBrowserByWindow(const AObj: TChromium; window: TCEFWindowParent): LongBool; extdecl;
+function CEFChromium_CreateBrowserByWindowHandle(const AObj: TChromium; aParentHandle: TCefWindowHandle; aParentRect: TRect; const aWindowName: PChar; const aContext: ICefRequestContext; const aExtraInfo: ICefDictionaryValue; aForceAsPopup : LongBool): LongBool; extdecl;
 begin
   handleExceptionBegin
-  if window = nil then
-    Result := AObj.CreateBrowser(nil, '')
-  else
-    Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
-  handleExceptionEnd
-end;
-
-function CEFChromium_CreateBrowserByLinkedWindow(const AObj: TChromium; window: TCEFLinkedWindowParent): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  if window = nil then
-    Result := AObj.CreateBrowser(nil, '')
-  else
-    Result := AObj.CreateBrowser(window.Handle, window.BoundsRect);
+  Result := AObj.CreateBrowser(aParentHandle, aParentRect, PCharToUStr(aWindowName), aContext, aExtraInfo, aForceAsPopup);
   handleExceptionEnd
 end;
 
@@ -1414,9 +1394,8 @@ exports
   CEFChromium_ResetZoomLevel,
   CEFChromium_StopLoad,
   CEFChromium_CloseAllBrowsers,
-  CEFChromium_CreateBrowser,
-  CEFChromium_CreateBrowserByWindow,
-  CEFChromium_CreateBrowserByLinkedWindow,
+  CEFChromium_CreateBrowserByWinControl,
+  CEFChromium_CreateBrowserByWindowHandle,
   CEFChromium_CreateBrowserByBrowserViewComponent,
   CEFChromium_Initialized,
   CEFChromium_IsSameBrowser,
