@@ -1356,20 +1356,6 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_Fullscreen(const AObj: TChromium): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.Fullscreen;
-  handleExceptionEnd
-end;
-
-procedure CEFChromium_ExitFullscreen(const AObj: TChromium; will_cause_resize: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  AObj.ExitFullscreen(will_cause_resize);
-  handleExceptionEnd
-end;
-
 function CEFChromium_LoadExtension(const AObj: TChromium; const root_directory: PChar; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler;
   const requestContext : ICefRequestContext): LongBool; extdecl;
 begin
@@ -1403,34 +1389,6 @@ procedure CEFChromium_GetExtension(const AObj: TChromium; const extension_id: PC
 begin
   handleExceptionBegin
   Result := AObj.GetExtension(PCharToUStr(extension_id));
-  handleExceptionEnd
-end;
-
-procedure CEFChromium_GetWebsiteSetting(const AObj: TChromium; const requesting_url, top_level_url: PChar; content_type: TCefContentSettingTypes; var Result: ICefValue); extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.GetWebsiteSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type);
-  handleExceptionEnd
-end;
-
-procedure CEFChromium_SetWebsiteSetting(const AObj: TChromium; const requesting_url, top_level_url: PChar; content_type: TCefContentSettingTypes; const value: ICefValue); extdecl;
-begin
-  handleExceptionBegin
-  AObj.SetWebsiteSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type, value);
-  handleExceptionEnd
-end;
-
-function CEFChromium_GetContentSetting(const AObj: TChromium; const requesting_url, top_level_url: PChar; content_type: TCefContentSettingTypes): TCefContentSettingValues; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.GetContentSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type);
-  handleExceptionEnd
-end;
-
-procedure CEFChromium_SetContentSetting(const AObj: TChromium; const requesting_url, top_level_url: PChar; content_type: TCefContentSettingTypes; value: TCefContentSettingValues); extdecl;
-begin
-  handleExceptionBegin
-  AObj.SetContentSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type, value);
   handleExceptionEnd
 end;
 
@@ -1605,16 +1563,9 @@ exports
   CEFChromium_IMEFinishComposingText,
   CEFChromium_IMECancelComposition,
   CEFChromium_HasDevTools,
-  CEFChromium_InitializeDragAndDrop;
   CEFChromium_InitializeDragAndDrop,
-  CEFChromium_Fullscreen,
-  CEFChromium_ExitFullscreen,
   CEFChromium_LoadExtension,
   CEFChromium_DidLoadExtension,
   CEFChromium_HasExtension,
   CEFChromium_GetExtensions,
-  CEFChromium_GetExtension,
-  CEFChromium_GetWebsiteSetting,
-  CEFChromium_SetWebsiteSetting,
-  CEFChromium_GetContentSetting,
-  CEFChromium_SetContentSetting;
+  CEFChromium_GetExtension;
