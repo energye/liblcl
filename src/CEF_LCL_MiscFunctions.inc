@@ -142,6 +142,34 @@ begin
   handleExceptionEnd
 end;
 
+procedure Misc_InitializeWindowHandle(var Result: TCefWindowHandle); extdecl;
+begin
+  handleExceptionBegin
+  InitializeWindowHandle(Result);
+  handleExceptionEnd
+end;
+
+function Misc_ValidCefWindowHandle(aHandle: TCefWindowHandle): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := ValidCefWindowHandle(aHandle);
+  handleExceptionEnd
+end;
+
+function Misc_GetScreenDPI(): Integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := GetScreenDPI();
+  handleExceptionEnd
+end;
+
+procedure Misc_GetDeviceScaleFactor(var Result: single); extdecl;
+begin
+  handleExceptionBegin
+  Result := GetDeviceScaleFactor();
+  handleExceptionEnd
+end;
+
 exports
   Misc_WindowInfoAsChild,
   Misc_WindowInfoAsPopUp,
@@ -160,4 +188,8 @@ exports
   Misc_DeviceToLogicalTouch,
   Misc_DeviceToLogicalPoint,
   Misc_LogicalToDeviceInt32,
-  Misc_LogicalToDeviceRect;
+  Misc_LogicalToDeviceRect,
+  Misc_InitializeWindowHandle,
+  Misc_ValidCefWindowHandle,
+  Misc_GetScreenDPI,
+  Misc_GetDeviceScaleFactor;
