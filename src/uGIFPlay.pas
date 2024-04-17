@@ -170,8 +170,8 @@ type
     CurrentView: TBitmap;
     procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: integer; WithThemeSpace: boolean); override;
     procedure DoAutoSize; override;
-    procedure DoStartAnim;
-    procedure DoStopAnim;
+    procedure DoStart;
+    procedure DoStop;
     class function GetControlClassDefaultSize: TSize; override;
     procedure GifChanged;
     procedure LoadFromFile(const Filename: string); virtual;
@@ -206,8 +206,8 @@ type
     property OnMouseLeave;
     property OnMouseMove;
     property OnMouseUp;
-    property OnStartAnim: TNotifyEvent read FOnStart write FOnStart;
-    property OnStopAnim: TNotifyEvent read FOnStop write FOnStop;
+    property OnStart: TNotifyEvent read FOnStart write FOnStart;
+    property OnStop: TNotifyEvent read FOnStop write FOnStop;
     property ParentShowHint;
     property ShowHint;
     property Visible;
@@ -383,9 +383,9 @@ begin
   begin
     FWait.Enabled := Animate;
     if Animate then
-      DoStartAnim
+      DoStart
     else
-      DoStopAnim;
+      DoStop;
   end;
 end;
 
@@ -531,16 +531,16 @@ begin
   inherited SetColor(Value);
 end;
 
-procedure TGIFPlay.DoStartAnim;
+procedure TGIFPlay.DoStart;
 begin
-  if assigned(OnStartAnim) then
-    OnStartAnim(Self);
+  if assigned(OnStart) then
+    OnStart(Self);
 end;
 
-procedure TGIFPlay.DoStopAnim;
+procedure TGIFPlay.DoStop;
 begin
-  if assigned(OnStopAnim) then
-    OnStopAnim(Self);
+  if assigned(OnStop) then
+    OnStop(Self);
 end;
 
 { TGIFPlayLoader }

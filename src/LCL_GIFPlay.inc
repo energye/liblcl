@@ -243,6 +243,20 @@ begin
   EventMethodCode
 end;
 
+procedure GIFPlay_SetOnStart(AObj: TGIFPlay; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTNotifyEvent}
+  {$DEFINE EventName := OnStart}
+  EventMethodCode
+end;
+
+procedure GIFPlay_SetOnStop(AObj: TGIFPlay; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTNotifyEvent}
+  {$DEFINE EventName := OnStop}
+  EventMethodCode
+end;
+
 
 exports
   GIFPlay_Create,
@@ -278,5 +292,7 @@ exports
   GIFPlay_SetOnMouseEnter,
   GIFPlay_SetOnMouseLeave,
   GIFPlay_SetOnMouseMove,
-  GIFPlay_SetOnMouseUp
+  GIFPlay_SetOnMouseUp,
+  GIFPlay_SetOnStart,
+  GIFPlay_SetOnStop
   ;
