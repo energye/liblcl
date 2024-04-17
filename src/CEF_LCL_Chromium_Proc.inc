@@ -199,7 +199,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_CreateBrowserByWindowHandle(const AObj: TChromium; aParentHandle: TCefWindowHandle; aParentRect: TRect; const aWindowName: PChar; const aContext: ICefRequestContext; const aExtraInfo: ICefDictionaryValue; aForceAsPopup : LongBool): LongBool; extdecl;
+function CEFChromium_CreateBrowserByWindowHandle(const AObj: TChromium; aParentHandle: TCefWindowHandle; var aParentRect: TRect; const aWindowName: PChar; const aContext: ICefRequestContext; const aExtraInfo: ICefDictionaryValue; aForceAsPopup : LongBool): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.CreateBrowser(aParentHandle, aParentRect, PCharToUStr(aWindowName), aContext, aExtraInfo, aForceAsPopup);
