@@ -136,8 +136,7 @@ type
     constructor Create(GifStream: TMemoryStream);
     destructor Destroy; override;
     function LoadAllBitmap(var AGifList: TGIFPlayList): boolean;
-    function LoadFromLazarusResource(const ResName: string; var AGifList: TGIFPlayList): boolean;
-    function LoadFirstBitmap(var ABitmap: TBitmap): boolean;
+    //function LoadFirstBitmap(var ABitmap: TBitmap): boolean;
     property Empty: boolean read FEmpty;
     property Height: integer read FHeight;
     property Width: integer read FWidth;
@@ -186,7 +185,6 @@ type
     property Empty: boolean read FEmpty;
     property GifBitmaps: TGIFPlayList read FGifBitmaps;
     property CurrentImageIndex: integer read FCurrentImage;
-    function LoadFromLazarusResource(const ResName: string): boolean;
     procedure LoadFromStream(GifStream: TMemoryStream); virtual;
   published
     property Anchors;
@@ -288,8 +286,7 @@ begin
         case Method of
           //0 : Not specified...
           //1 : No change Background
-          2: BufferImg.Canvas.FillRect(
-              Rect(PosX, PosY, Bitmap.Width + PosX, Bitmap.Height + PosY));
+          2: BufferImg.Canvas.FillRect(Rect(PosX, PosY, Bitmap.Width + PosX, Bitmap.Height + PosY));
 
           3: BufferImg.Canvas.FillRect(Rect(0, 0, Width, Height));
         end;
@@ -302,32 +299,6 @@ begin
   end;
 end;
 
-function TGIFPlay.LoadFromLazarusResource(const ResName: string): boolean;
-var
-  GifLoader: TGIFPlayLoader;
-  StateAnimate: boolean;
-  Resource: TLResource;
-begin
-  Result := False;
-  StateAnimate := Animate;
-  FWait.Enabled := False;
-  ResetImage;
-  Resource := nil;
-  Resource := LazarusResources.Find(ResName);
-  if Resource <> nil then
-    if CompareText(LazarusResources.Find(ResName).ValueType, 'gif') = 0 then
-    begin
-      GifLoader := TGIFPlayLoader.Create(Filename);
-      FEmpty := not GifLoader.LoadFromLazarusResource(ResName, FGifBitmaps);
-      DefineSize(GifLoader.Width, GifLoader.Height);
-      GifLoader.Free;
-      Result := FEmpty;
-    end;
-  if not Empty then
-    GifChanged;
-  FWait.Enabled := StateAnimate;
-end;
-
 procedure TGIFPlay.LoadFromStream(GifStream: TMemoryStream);
 var
   GifLoader: TGIFPlayLoader;
@@ -336,10 +307,10 @@ begin
   if not assigned(GifStream) then
     exit;
   GifLoader := TGIFPlayLoader.Create(GifStream);
-  if (csDesigning in ComponentState) then
-    FEmpty := not GifLoader.LoadFirstBitmap(CurrentView)
-  else
-    FEmpty := not GifLoader.LoadAllBitmap(FGifBitmaps);
+  //if (csDesigning in ComponentState) then
+  //  FEmpty := not GifLoader.LoadFirstBitmap(CurrentView)
+  //else
+  FEmpty := not GifLoader.LoadAllBitmap(FGifBitmaps);
   DefineSize(GifLoader.Width, GifLoader.Height);
   GifLoader.Free;
 end;
@@ -352,10 +323,10 @@ begin
   if not FileExists(Filename) then
     exit;
   GifLoader := TGIFPlayLoader.Create(Filename);
-  if (csDesigning in ComponentState) then
-    FEmpty := not GifLoader.LoadFirstBitmap(CurrentView)
-  else
-    FEmpty := not GifLoader.LoadAllBitmap(FGifBitmaps);
+  //if (csDesigning in ComponentState) then
+  //  FEmpty := not GifLoader.LoadFirstBitmap(CurrentView)
+  //else
+  FEmpty := not GifLoader.LoadAllBitmap(FGifBitmaps);
   DefineSize(GifLoader.Width, GifLoader.Height);
   GifLoader.Free;
 end;
@@ -608,8 +579,7 @@ begin
     ReadScanLine(GifStream);
     // 为放置扫描线像素创建临时Fp图像
     FPImage := TLazIntfImage.Create(FLocalWidth, FLocalHeight);
-    ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(FLocalWidth,
-      FLocalHeight);
+    ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(FLocalWidth, FLocalHeight);
     FPImage.DataDescription := ImgFormatDescription;
 
     WriteScanLine(FPImage);
@@ -640,117 +610,58 @@ begin
 
 end;
 
-function TGIFPlayLoader.LoadFromLazarusResource(const ResName: string; var AGifList: TGIFPlayList): boolean;
-var
-  GifStream: TLazarusResourceStream;
-  Introducer: byte;
-  FPImage: TLazIntfImage;
-  ImgFormatDescription: TRawImageDescription;
-  GifBitmap: TGIFPlayImage;
-begin
-  Result := False;
-  if not assigned(AGifList) then
-    AGifList := TGIFPlayList.Create(True);
-
-  GifStream := TLazarusResourceStream.Create(ResName, nil);
-  GifStream.Position := 0;
-
-  ReadHeader(GifStream);
-  if (FGifHeader.Version <> '89a') then
-    Exit;
-
-  // 跳过第一个块扩展（如果存在）
-  repeat
-    Introducer := SkipBlock(GifStream);
-  until (Introducer = ID_IMAGE_DESCRIPTOR) or (Introducer = ID_TRAILER);
-
-  repeat
-    ReadGifBitmap(GifStream);
-    // 解码扫描线缓冲区中的Gif位图
-    ReadScanLine(GifStream);
-    // 为放置扫描线像素创建临时Fp图像
-    FPImage := TLazIntfImage.Create(FLocalWidth, FLocalHeight);
-    ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(FLocalWidth,
-      FLocalHeight);
-    FPImage.DataDescription := ImgFormatDescription;
-
-    WriteScanLine(FPImage);
-
-    GifBitmap := TGIFPlayImage.Create;
-    GifBitmap.FBitmap.LoadFromIntfImage(FPImage);
-    GifBitmap.FPosX := FGifDescriptor.Left;
-    GifBitmap.FPosY := FGifDescriptor.Top;
-    GifBitmap.FMethod := FDisposalMethod;
-    GifBitmap.FDelay := FGifGraphicsCtrlExt.DelayTime;
-
-    AGifList.Add(GifBitmap);
-
-    FPImage.Free;
-    FreeMem(FScanLine, FLineSize);
-    // 重置FGifUseGraphCtrlExt标志
-    FGifUseGraphCtrlExt := False;
-
-    repeat
-      Introducer := SkipBlock(GifStream);
-    until (Introducer = ID_IMAGE_DESCRIPTOR) or (Introducer = ID_TRAILER);
-
-  until (Introducer = ID_TRAILER);
-  GifStream.Free;
-  Result := True;
-end;
-
-function TGIFPlayLoader.LoadFirstBitmap(var ABitmap: TBitmap): boolean;
-var
-  GifStream: TMemoryStream;
-  Introducer: byte;
-  FPImage: TLazIntfImage;
-  ImgFormatDescription: TRawImageDescription;
-begin
-  Result := False;
-  if not FileExists(FFileName) and (FGifStream = nil) then
-    exit;
-  if not assigned(ABitmap) then
-    ABitmap := TBitmap.Create;
-
-  if FGifStream <> nil then
-    GifStream := FGifStream
-  else
-  begin
-    GifStream := TMemoryStream.Create;
-    GifStream.LoadFromFile(FFileName);
-    GifStream.Position := 0;
-  end;
-
-  ReadHeader(GifStream);
-  if (FGifHeader.Version <> '89a') then
-    Exit;
-
-  // 跳过第一个块扩展（如果存在）
-  repeat
-    Introducer := SkipBlock(GifStream);
-  until (Introducer = ID_IMAGE_DESCRIPTOR) or (Introducer = ID_TRAILER);
-
-  ReadGifBitmap(GifStream);
-  // 解码扫描线缓冲区中的Gif位图
-  ReadScanLine(GifStream);
-  // 为放置扫描线像素创建临时Fp图像
-  FPImage := TLazIntfImage.Create(FLocalWidth, FLocalHeight);
-  ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(FLocalWidth, FLocalHeight);
-  FPImage.DataDescription := ImgFormatDescription;
-
-  WriteScanLine(FPImage);
-
-  ABitmap.LoadFromIntfImage(FPImage);
-  FPImage.Free;
-  FreeMem(FScanLine, FLineSize);
-  // 重置FGifUseGraphCtrlExt标志
-  FGifUseGraphCtrlExt := False;
-
-  // 不是 Stream 加载的释放掉
-  if FGifStream = nil then
-    GifStream.Free;
-  Result := True;
-end;
+//function TGIFPlayLoader.LoadFirstBitmap(var ABitmap: TBitmap): boolean;
+//var
+//  GifStream: TMemoryStream;
+//  Introducer: byte;
+//  FPImage: TLazIntfImage;
+//  ImgFormatDescription: TRawImageDescription;
+//begin
+//  Result := False;
+//  if not FileExists(FFileName) and (FGifStream = nil) then
+//    exit;
+//  if not assigned(ABitmap) then
+//    ABitmap := TBitmap.Create;
+//
+//  if FGifStream <> nil then
+//    GifStream := FGifStream
+//  else
+//  begin
+//    GifStream := TMemoryStream.Create;
+//    GifStream.LoadFromFile(FFileName);
+//    GifStream.Position := 0;
+//  end;
+//
+//  ReadHeader(GifStream);
+//  if (FGifHeader.Version <> '89a') then
+//    Exit;
+//
+//  // 跳过第一个块扩展（如果存在）
+//  repeat
+//    Introducer := SkipBlock(GifStream);
+//  until (Introducer = ID_IMAGE_DESCRIPTOR) or (Introducer = ID_TRAILER);
+//
+//  ReadGifBitmap(GifStream);
+//  // 解码扫描线缓冲区中的Gif位图
+//  ReadScanLine(GifStream);
+//  // 为放置扫描线像素创建临时Fp图像
+//  FPImage := TLazIntfImage.Create(FLocalWidth, FLocalHeight);
+//  ImgFormatDescription.Init_BPP32_B8G8R8A8_BIO_TTB(FLocalWidth, FLocalHeight);
+//  FPImage.DataDescription := ImgFormatDescription;
+//
+//  WriteScanLine(FPImage);
+//
+//  ABitmap.LoadFromIntfImage(FPImage);
+//  FPImage.Free;
+//  FreeMem(FScanLine, FLineSize);
+//  // 重置FGifUseGraphCtrlExt标志
+//  FGifUseGraphCtrlExt := False;
+//
+//  // 不是 Stream 加载的释放掉
+//  if FGifStream = nil then
+//    GifStream.Free;
+//  Result := True;
+//end;
 
 procedure TGIFPlayLoader.SetTransparent(const AValue: boolean);
 begin
@@ -815,7 +726,7 @@ var
   FreeCode: cardinal;
   OldCode: cardinal;
   Prefix: array[0..CODE_TABLE_SIZE - 1] of cardinal;
-  Suffix, Stack: array [0..CODE_TABLE_SIZE - 1] of byte;
+  Suffix, Stack: array[0..CODE_TABLE_SIZE - 1] of byte;
   StackPointer: pbyte;
   DataComp, Target: pbyte;
   B, FInitialCodeSize, FirstChar: byte;
@@ -861,11 +772,13 @@ begin
   OldCode := CODE_TABLE_SIZE;
   CodeMask := (1 shl CodeSize) - 1;
   UnpackedSize := FLocalWidth * FLocalHeight;
+
   for I := 0 to ClearCode - 1 do
   begin
     Prefix[I] := CODE_TABLE_SIZE;
     Suffix[I] := I;
   end;
+
   StackPointer := @Stack;
   FirstChar := 0;
   Data := 0;
@@ -943,7 +856,6 @@ end;
 procedure TGIFPlayLoader.ReadHeader(Stream: TStream);
 begin
   Stream.Read(FGifHeader, SizeOf(FGifHeader));
-
   with FGifHeader do
   begin
     FGifBackgroundColor := BackgroundColor;
