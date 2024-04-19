@@ -128,4 +128,5 @@
 {$I CEF_LCL_WorkScheduler.inc}
 {$I CEF_LCL_X509Certificate.inc}
 {$I LCL_GIFPlay.inc}
+{$I LCL_LazIntfImage.inc}
 {$I Energy_Extend.inc}

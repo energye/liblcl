@@ -87,6 +87,13 @@ begin
   handleExceptionEnd
 end;
 
+procedure Bitmap_LoadFromIntfImage(AObj: TBitmap; IntfImage: TLazIntfImage); extdecl;
+begin
+  handleExceptionBegin
+  AObj.LoadFromIntfImage(IntfImage);
+  handleExceptionEnd
+end;
+
 //CLASSMETHOD:
 procedure Bitmap_SaveToStream(AObj: TBitmap; Stream: TStream); extdecl;
 begin
@@ -420,6 +427,7 @@ exports
   Bitmap_FreeImage,
   Bitmap_HandleAllocated,
   Bitmap_LoadFromStream,
+  Bitmap_LoadFromIntfImage,
   Bitmap_SaveToStream,
   Bitmap_SetSize,
   Bitmap_LoadFromResourceName,

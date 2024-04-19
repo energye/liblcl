@@ -51,6 +51,8 @@
   EditBtn,
   LResources,
   GraphType,
+  FPImage,
+  IntfGraphics,
 //CEFChromium 组件单元
 {$I CEF_LCL_Component.inc}
   uLinkLabel,
