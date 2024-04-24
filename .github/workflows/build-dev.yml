@@ -2,45 +2,117 @@ name: build
 
 on:
   push:
-    branches: [ "maina" ]
-#    tags:
-#      - 'v*.*.*'
+    #    branches: [ "maina" ]
+    tags:
+      - 'v*.*.*'
 
 jobs:
-  # linux
-  linux-amd64:
+  # macos-amd64
+  macos-amd64:
     runs-on: ${{ matrix.operating-system }}
 
     strategy:
       matrix:
-        operating-system: [ ubuntu-20.04 ]
+        operating-system: [ macos-12 ]
         lazarus-versions: [ 2.2.6 ]
 
     steps:
       - uses: actions/checkout@v4
 
       # 创建构建后的liblcl二进制压缩包存放目录和设置git仓库
-      # 同时构建所有 linux amd64
       - name: Config liblcl
         run: |
           mkdir $RUNNER_WORKSPACE/liblclbinary
           git config --global --add safe.directory ./
           git fetch
           chmod +x ./shell/add-package.sh
-          sudo apt-get install libgtk-3-dev
 
       # Laz 环境
       - name: Lazarus Build Environment
-        uses: sxmxta/lazarus@v1.0.15
+        uses: sxmxta/lazarus@v1.0.17
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           with-cache: false
 
-      # 编译 liblcl support Gtk3 :default
-      - name: Build Branch main for (liblcl.Linux64)
+      # 编译 liblcl :default
+      - name: Build Branch main for (liblcl.MacOSX64)
         run: |
           git clean -xdf
           # git checkout origin/main
           ./shell/add-package.sh
-          lazbuild -B --bm=Linux64 --ws=gtk3 "src/liblcl.lpi"
+          lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
 
+      # 编译 liblcl support flash
+      - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOSX)
+        run: |
+          git clean -xdf
+          git checkout origin/Flash-89.0.18
+          ./shell/add-package.sh
+          lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
+
+      # 版本发布上传liblcl二进制
+      - name: Release
+        uses: softprops/action-gh-release@v0.1.15
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: "../liblclbinary/**"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # macos-arm64
+  macos-arm64:
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        operating-system: [ macOS-14-arm64 ]
+        lazarus-versions: [ 3.2 ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # 创建构建后的liblcl二进制压缩包存放目录和设置git仓库
+      - name: Config liblcl
+        run: |
+          mkdir $RUNNER_WORKSPACE/liblclbinary
+          git config --global --add safe.directory ./
+          git fetch
+          chmod +x ./shell/add-package.sh
+
+      # Laz 环境
+      - name: Lazarus Build Environment
+        uses: sxmxta/lazarus@v1.0.17
+        with:
+          lazarus-version: ${{ matrix.lazarus-versions }}
+          with-cache: false
+
+      # 编译 liblcl :default
+      - name: Build Branch main for (liblcl.MacOSX64)
+        run: |
+          git clean -xdf
+          # git checkout origin/main
+          ./shell/add-package.sh
+          # 编译 liblcl support aarch64(arm64)
+          lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+
+      # 编译 liblcl support flash
+      - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOSX)
+        run: |
+          git clean -xdf
+          git checkout origin/Flash-89.0.18
+          ./shell/add-package.sh
+          # 编译 liblcl support aarch64(arm64)
+          lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+
+      # 版本发布上传liblcl二进制
+      - name: Release
+        uses: softprops/action-gh-release@v0.1.15
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: "../liblclbinary/**"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
