@@ -277,7 +277,7 @@ jobs:
 
     strategy:
       matrix:
-        operating-system: [ ubuntu-latest ]
+        operating-system: [ ubuntu-20.04 ]
         lazarus-versions: [ 3.2 ]
         include:
           - arch: aarch64
@@ -313,8 +313,9 @@ jobs:
           # 将目录装载为容器中的/app
           dockerRunArgs: |
             --volume "$RUNNER_WORKSPACE:/app"
-            # 将一些环境变量传递到容器
-            # env: |
+
+          # 将一些环境变量传递到容器
+          # env: |
           # artifact_name: git-${{ matrix.distro }}_${{ matrix.arch }}
 
           # 在容器中运行命令的shell
