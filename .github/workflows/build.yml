@@ -401,12 +401,10 @@ jobs:
       - name: Copy Shell
         run: |
           cp ./shell/generate-download.sh $RUNNER_WORKSPACE
-#          cp ./shell/generate-bin.sh $RUNNER_WORKSPACE
           cp ./shell/upload-liblcl.sh $RUNNER_WORKSPACE
           cp ./shell/generate-md5.sh $RUNNER_WORKSPACE
           cd $RUNNER_WORKSPACE
           chmod +x ./generate-download.sh
-#          chmod +x ./generate-bin.sh
           chmod +x ./upload-liblcl.sh
           chmod +x ./generate-md5.sh
 
