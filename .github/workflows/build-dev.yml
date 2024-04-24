@@ -2,7 +2,7 @@ name: build
 
 on:
   push:
-    #    branches: [ "maina" ]
+#     branches: [ "not present maina" ]
     tags:
       - 'v*.*.*'
 
@@ -59,7 +59,7 @@ jobs:
 
     strategy:
       matrix:
-        operating-system: [ macOS-14-arm64 ]
+        operating-system: [ macOS-14 ]
         lazarus-versions: [ 3.2 ]
 
     steps:
