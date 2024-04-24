@@ -2,9 +2,9 @@ name: build
 
 on:
   push:
-    branches: [ "not present maina" ]
-#    tags:
-#      - 'v*.*.*'
+#    branches: [ "not present maina" ]
+    tags:
+      - 'v*.*.*'
 
 jobs:
   # windows 64
@@ -203,7 +203,7 @@ jobs:
 
   # ------------------------------------------------------------------------------------------
 
-  # macos 当前只能使用 laz 2.2.6 构建
+  # macos 当前使用 laz 2.2.6 构建
   macos-amd-arm64:
     runs-on: ${{ matrix.operating-system }}
 
@@ -238,9 +238,11 @@ jobs:
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
-          # 编译 liblcl support aarch64(arm64)
-          lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
-          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+
+      - name: Build Branch main for (liblcl.MacOS(arm64))
+        run: |
+          lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOSX)
@@ -250,7 +252,10 @@ jobs:
           ./shell/add-package.sh
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
-          # 编译 liblcl support aarch64(arm64)
+
+      # 编译 liblcl support flash
+      - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOS(arm64))
+        run: |
           lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSARM64.zip $HOME/golcl/liblcl.dylib
 
