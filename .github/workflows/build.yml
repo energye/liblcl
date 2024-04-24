@@ -242,7 +242,7 @@ jobs:
       - name: Build Branch main for (liblcl.MacOS(arm64))
         run: |
           lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
-          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
+          zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOSX)
@@ -401,22 +401,22 @@ jobs:
       - name: Copy Shell
         run: |
           cp ./shell/generate-download.sh $RUNNER_WORKSPACE
-          cp ./shell/generate-bin.sh $RUNNER_WORKSPACE
+#          cp ./shell/generate-bin.sh $RUNNER_WORKSPACE
           cp ./shell/upload-liblcl.sh $RUNNER_WORKSPACE
           cp ./shell/generate-md5.sh $RUNNER_WORKSPACE
           cd $RUNNER_WORKSPACE
           chmod +x ./generate-download.sh
-          chmod +x ./generate-bin.sh
+#          chmod +x ./generate-bin.sh
           chmod +x ./upload-liblcl.sh
           chmod +x ./generate-md5.sh
 
       # 编译生成到liblclbinres.go二进制
-      - name: Compress and generate binaries
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cd $RUNNER_WORKSPACE
-          ./generate-bin.sh $RELEASE_VERSION $GITHUB_TOKEN
+#      - name: Compress and generate binaries
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: |
+#          cd $RUNNER_WORKSPACE
+#          ./generate-bin.sh $RELEASE_VERSION $GITHUB_TOKEN
 
       # 上传liblcl压缩包到服务器
       - name: Upload liblcl to Energy Server
