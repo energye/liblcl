@@ -241,7 +241,7 @@ jobs:
 
       - name: Build Branch main for (liblcl.MacOS(arm64))
         run: |
-          lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
 
       # 编译 liblcl support flash
