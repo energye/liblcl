@@ -80,3 +80,6 @@ procedure ChromiumEvent_OnGetAuthCredentials(Sender: TObject; const browser: ICe
 {== window parent ==}
 procedure CEFWindowEvent_OnEnter(Sender: TObject);
 procedure CEFWindowEvent_OnExit(Sender: TObject);
+
+// TTask
+procedure Task_OnExecute();

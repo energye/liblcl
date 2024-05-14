@@ -128,6 +128,44 @@ begin
   handleExceptionEnd
 end;
 
+function Misc_GetScreenDPI(): Integer; extdecl;
+begin
+  handleExceptionBegin
+  Result := GetScreenDPI();
+  handleExceptionEnd
+end;
+
+procedure Misc_GetDeviceScaleFactor(var Result: single); extdecl;
+begin
+  handleExceptionBegin
+  Result := GetDeviceScaleFactor();
+  handleExceptionEnd
+end;
+
+
+function Misc_CefPostTask(aThreadId : TCefThreadId; const aTask: ICefTask) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  CefPostTask(aThreadId, aTask);
+  Result := True
+  handleExceptionEnd
+end;
+
+function Misc_CefPostDelayedTask(aThreadId : TCefThreadId; const aTask : ICefTask; var aDelayMs : Int64) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  CefPostDelayedTask(aThreadId, aTask, aDelayMs);
+  Result := True
+  handleExceptionEnd
+end;
+
+function Misc_CefCurrentlyOn(aThreadId : TCefThreadId) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := CefCurrentlyOn(aThreadId);
+  handleExceptionEnd
+end;
+
 exports
   Misc_WindowInfoAsChild,
   Misc_WindowInfoAsPopUp,
@@ -144,4 +182,9 @@ exports
   Misc_DeviceToLogicalMouse,
   Misc_DeviceToLogicalPoint,
   Misc_LogicalToDeviceInt32,
-  Misc_LogicalToDeviceRect;
+  Misc_LogicalToDeviceRect,
+  Misc_GetScreenDPI,
+  Misc_GetDeviceScaleFactor,
+  Misc_CefPostTask,
+  Misc_CefPostDelayedTask,
+  Misc_CefCurrentlyOn;

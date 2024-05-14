@@ -418,3 +418,10 @@ procedure TLCLEvent.CEFWindowEvent_OnExit(Sender: TObject);
 begin
   SendEvent([Sender]);
 end;
+
+// TTask
+procedure TLCLEvent.Task_OnExecute();
+begin
+  SendEvent([]);
+end;
+
