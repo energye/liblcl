@@ -210,3 +210,6 @@ procedure MenuButtonComponent_OnMenuButtonPressed(const Sender: TObject; const m
 {==TCEFTextfieldComponent==}
 procedure TextfieldComponent_OnTextfieldKeyEvent(const Sender: TObject; const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean);
 procedure TextfieldComponent_OnAfterUserAction(const Sender: TObject; const textfield: ICefTextfield);
+
+// TTask
+procedure Task_OnExecute();

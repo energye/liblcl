@@ -11,7 +11,7 @@ CEFChromium 组件单元
 {$ifdef DARWIN}
 uCEFLazarusCocoa,
 {$endif}
-Messages, Variants, fpjson, jsonparser,
+Messages,
 uCEFBaseRefCounted, uCEFDownloadItemCallback, uCEFSchemeRegistrar,uCEFCommandLine, uCEFLibFunctions, uCEFBufferPanel, uCEFBitmapBitBuffer, uCEFDisplay,
 uCEFStringMultimap, uCEFCallback, uCEFChromium, uCEFWindowParent, uCEFLinkedWindowParent, uCEFInterfaces, uCEFApplication, uCEFv8Interceptor, uCEFTypes, uCEFv8Value, uCEFBinaryValue, uCEFDictionaryValue, uCEFListValue, uCEFValue, uCEFFrame,
 uCEFConstants, uCEFWinControl, uCEFChromiumEvents, uCEFMiscFunctions, uCEFClient, uCEFProcessMessage, uCEFWorkScheduler, uCEFRunFileDialogCallback, uCEFDownloadImageCallBack, uCEFPostData, uCEFPostDataElement, uCEFDownLoadItem, uCEFRequest, uCEFResponse,
@@ -32,5 +32,4 @@ uCEFExtension,
 uCEF_LCL_Entity, uCEF_LCL_Application, uCEF_LCL_Event, uCEF_LCL_V8AccessorRef, uCEF_LCL_V8HandlerRef, uCEF_LCL_V8InterceptorRef, uCEF_LCL_PdfPrintCallbackRef, uCEF_LCL_ClientRef, uCEF_LCL_ClientHandlersRef, uCEF_LCL_ResourceRequestHandlerRef,
 uCEF_LCL_V8ArrayBufferReleaseCallbackRef, uCEF_LCL_ValueConvert, uCEF_LCL_CompletionCallbackRef, uCEF_LCL_ExtensionHandlerRef, uCEF_LCL_AccessibilityHandlerRef, uCEF_LCL_CookieCallbacksRef, uCEF_LCL_RequestContextRef, uCEF_LCL_SchemeHandlerFactoryRef, uCEF_LCL_ResponseFilterRef,
 uCEF_LCL_DomVisitorRef, uCEF_LCL_WinAPICallbackRef, uCEF_LCL_TString, uCEF_LCL_RunFileDialogCallbackRef, uCEF_LCL_DownloadImageCallbackRef, uCEF_LCL_MenuModelDelegateRef, uCEF_LCL_ViewDelegateRef, uCEF_LCL_BrowserViewDelegateRef, uCEF_LCL_ButtonDelegateRef,
-uCEF_LCL_MenuButtonDelegateRef, uCEF_LCL_PanelDelegateRef, uCEF_LCL_TextfieldDelegateRef,uCEF_LCL_WindowDelegateRef,
-uGIFPlay,
+uCEF_LCL_MenuButtonDelegateRef, uCEF_LCL_PanelDelegateRef, uCEF_LCL_TextfieldDelegateRef,uCEF_LCL_WindowDelegateRef, uCEF_LCL_Task,
