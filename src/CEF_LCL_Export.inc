@@ -105,6 +105,7 @@
 {$I CEF_LCL_StreamReader.inc}
 {$I CEF_LCL_StreamWriter.inc}
 {$I CEF_LCL_StringMultiMap.inc}
+{$I CEF_LCL_Task.inc}
 {$I CEF_LCL_Textfield.inc}
 {$I CEF_LCL_TextfieldComponent.inc}
 {$I CEF_LCL_TextfieldDelegate.inc}

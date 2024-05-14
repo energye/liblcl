@@ -170,6 +170,28 @@ begin
   handleExceptionEnd
 end;
 
+
+function Misc_CefPostTask(aThreadId : TCefThreadId; const aTask: ICefTask) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := CefPostTask(aThreadId, aTask);
+  handleExceptionEnd
+end;
+
+function Misc_CefPostDelayedTask(aThreadId : TCefThreadId; const aTask : ICefTask; var aDelayMs : Int64) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := CefPostDelayedTask(aThreadId, aTask, aDelayMs);
+  handleExceptionEnd
+end;
+
+function Misc_CefCurrentlyOn(aThreadId : TCefThreadId) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := CefCurrentlyOn(aThreadId);
+  handleExceptionEnd
+end;
+
 exports
   Misc_WindowInfoAsChild,
   Misc_WindowInfoAsPopUp,
@@ -192,4 +214,7 @@ exports
   Misc_InitializeWindowHandle,
   Misc_ValidCefWindowHandle,
   Misc_GetScreenDPI,
-  Misc_GetDeviceScaleFactor;
+  Misc_GetDeviceScaleFactor,
+  Misc_CefPostTask,
+  Misc_CefPostDelayedTask,
+  Misc_CefCurrentlyOn;

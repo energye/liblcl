@@ -1158,3 +1158,9 @@ procedure TLCLEvent.TextfieldComponent_OnAfterUserAction(const Sender: TObject; 
 begin
   SendEvent([textfield]);
 end;
+
+// TTask
+procedure TLCLEvent.Task_OnExecute();
+begin
+  SendEvent([]);
+end;
