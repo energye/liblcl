@@ -422,6 +422,31 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFBrowser_GetFrameIdentifiers(const TObj: ICefBrowser; var Result: TStrings; var rFrameCount : NativeUInt; var rFrameIds: TCefFrameIdentifierArray); extdecl;
+var
+  frameIds : TStrings;
+  idx: Integer;
+  resultFrameCount : NativeUInt;
+  resultFrameIds: TCefFrameIdentifierArray;
+begin
+  handleExceptionBegin
+  TObj.GetFrameIdentifiers(resultFrameCount, resultFrameIds);
+  rFrameCount := resultFrameCount;
+  if resultFrameCount > 0 then
+  begin
+    rFrameIds := resultFrameIds;
+    frameIds := TStringList.Create;
+    for idx := 0 to resultFrameCount - 1 do
+    begin
+      frameIds.Add(IntToStr(resultFrameIds[idx]));
+    end;
+    Result := frameIds;
+  end
+  else
+    Result := nil;
+  handleExceptionEnd
+end;
+
 procedure CEFBrowser_Find(const TObj: ICefBrowser; PSearchText: PChar; forward_, matchCase, findNext: LongBool); extdecl;
 begin
   handleExceptionBegin
@@ -491,6 +516,7 @@ exports
   CEFBrowser_StopLoad,
   CEFBrowser_FrameCount,
   CEFBrowser_GetFrameNames,
+  CEFBrowser_GetFrameIdentifiers,
   CEFBrowser_Find,
   CEFBrowser_StopFinding,
   CEFBrowser_GetRequestContext,
