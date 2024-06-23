@@ -470,23 +470,48 @@ var
 begin
   handleExceptionBegin
   try
-  frameNames := TStringList.Create;
-  TObj.GetFrameNames(frameNames);
-  resultSize := frameNames.Count;
-  SetLength(resultArr, resultSize);
-  for idx := 0 to resultSize - 1 do
-  begin
-  frameNames.GetNameValue(idx, name, value);
-  resultArr[idx] := new(PRFrameNames);
-  resultArr[idx]^.Name := PChar(name);
-  resultArr[idx]^.Value := PChar(value);
-  end;
-  Result := @resultArr[0];
+    frameNames := TStringList.Create;
+    TObj.GetFrameNames(frameNames);
+    resultSize := frameNames.Count;
+    SetLength(resultArr, resultSize);
+    for idx := 0 to resultSize - 1 do
+    begin
+      frameNames.GetNameValue(idx, name, value);
+      resultArr[idx] := new(PRFrameNames);
+      resultArr[idx]^.Name := PChar(name);
+      resultArr[idx]^.Value := PChar(value);
+    end;
+    Result := @resultArr[0];
   finally
-  frameNames.Clear;
-  frameNames.Free;
-  SetLength(resultArr, 0);
+    frameNames.Clear;
+    frameNames.Free;
+    SetLength(resultArr, 0);
   end;
+  handleExceptionEnd
+end;
+
+procedure CEFBrowser_GetFrameIdentifiers(const TObj: ICefBrowser; var Result: TStrings; var rFrameCount : NativeUInt; var rFrameIds: TCefFrameIdentifierArray); extdecl;
+var
+  frameIds : TStrings;
+  idx: Integer;
+  resultFrameCount : NativeUInt;
+  resultFrameIds: TCefFrameIdentifierArray;
+begin
+  handleExceptionBegin
+  TObj.GetFrameIdentifiers(resultFrameCount, resultFrameIds);
+  rFrameCount := resultFrameCount;
+  if resultFrameCount > 0 then
+  begin
+    rFrameIds := resultFrameIds;
+    frameIds := TStringList.Create;
+    for idx := 0 to resultFrameCount - 1 do
+    begin
+      frameIds.Add(IntToStr(resultFrameIds[idx]));
+    end;
+    Result := frameIds;
+  end
+  else
+    Result := nil;
   handleExceptionEnd
 end;
 
@@ -568,6 +593,7 @@ exports
   CEFBrowser_StopLoad,
   CEFBrowser_FrameCount,
   CEFBrowser_GetFrameNames,
+  CEFBrowser_GetFrameIdentifiers,
   CEFBrowser_Find,
   CEFBrowser_StopFinding,
   CEFBrowser_GetRequestContext,
