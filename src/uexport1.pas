@@ -50,6 +50,8 @@
 {$I MyLCL_RichEdit.inc}  //BASECLASS:TWinControl
 {$I MyLCL_TrackBar.inc}  //BASECLASS:TWinControl
 {$I MyLCL_ImageList.inc}  //BASECLASS:TComponent
+{$I LCL_CustomOpenGLControl.inc}
+{$I LCL_OpenGLControl.inc}
 
 
 //{$ifdef windows}

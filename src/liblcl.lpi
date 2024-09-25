@@ -25,7 +25,6 @@
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="2"/>
       <MinorVersionNr Value="4"/>
-      <BuildNr Value="0"/>
       <CharSet Value="04B0"/>
       <StringTable Comments="LCL for Windows" CompanyName="yanghy" FileDescription="LCL and CEF 109.1.18 for Windows" InternalName="liblcl" LegalCopyright="Copyright yanghy" OriginalFilename="liblcl.dll" ProductName="liblcl" ProductVersion="2.4.0.0"/>
     </VersionInfo>
@@ -52,31 +51,34 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages Count="8">
+    <RequiredPackages Count="9">
       <Item1>
-        <PackageName Value="CEF4Delphi_Lazarus"/>
+        <PackageName Value="LazOpenGLContext"/>
       </Item1>
       <Item2>
-        <PackageName Value="atflatcontrols_package"/>
+        <PackageName Value="CEF4Delphi_Lazarus"/>
       </Item2>
       <Item3>
-        <PackageName Value="richmemopackage"/>
+        <PackageName Value="atflatcontrols_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="AnchorDockingDsgn"/>
+        <PackageName Value="richmemopackage"/>
       </Item4>
       <Item5>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="AnchorDockingDsgn"/>
       </Item5>
       <Item6>
-        <PackageName Value="DateTimeCtrls"/>
+        <PackageName Value="LazControls"/>
       </Item6>
       <Item7>
-        <PackageName Value="Printer4Lazarus"/>
+        <PackageName Value="DateTimeCtrls"/>
       </Item7>
       <Item8>
-        <PackageName Value="LCL"/>
+        <PackageName Value="Printer4Lazarus"/>
       </Item8>
+      <Item9>
+        <PackageName Value="LCL"/>
+      </Item9>
     </RequiredPackages>
     <Units Count="25">
       <Unit0>
