@@ -200,6 +200,7 @@ type
     procedure OnTMenuDrawItemEvent(Sender: TObject; ACanvas: TCanvas; ARect: TRect; AState: TOwnerDrawState);
 
     procedure OnTWndProcEvent(Sender: TObject; var TheMessage: TLMessage);
+    procedure OnTOpenGlCtrlMakeCurrentEvent(Sender: TObject; var Allow: boolean);
     // CEF 事件定义
     {$I CEF_Events_Declaration.inc}
   public
@@ -953,6 +954,10 @@ procedure TLCLEvent.OnTWndProcEvent(Sender: TObject;
 begin
   if Assigned(GMessageCallbackPtr) and CheckDataPtr then
     GMessageCallbackPtr(DataPtr, @TheMessage);
+end;
+procedure TLCLEvent.OnTOpenGlCtrlMakeCurrentEvent(Sender: TObject; var Allow: boolean);
+begin
+  SendEvent([Sender, @Allow]);
 end;
 
 // CEF 事件实现
