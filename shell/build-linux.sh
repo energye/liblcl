@@ -37,9 +37,9 @@ fi
 if [ "$branch" = "GTK2-106.1.1" ]; then
   ws=gtk2
   if [ "$arch" = "x64" ]; then
-    zipName="liblcl.Linux64GTK2.zip"
+    zipName="liblcl-106.Linux64.zip"
   elif [ "$arch" = "arm64" ]; then
-    zipName="liblcl.LinuxARM64GTK2.zip"
+    zipName="liblcl-106.LinuxARM64.zip"
   fi
 elif [ "$branch" = "Flash-89.0.18" ]; then
   ws=gtk2
