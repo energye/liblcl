@@ -206,10 +206,14 @@ jobs:
       # MacOS 给 Laz 执行权限
       - name: Lazarus execution permissions
         run: |
-          sudo chmod -R 777 /Applications/Lazarus/*
+          mkdir ~/app
+          sudo cp -r /Applications/Lazarus ~/app
+          ls ~/app
+          sudo rm -rf /usr/local/bin/lazbuild
+          sudo ln -s ~/app/Lazarus/lazbuild /usr/local/bin/lazbuild
 
       # 编译 liblcl :default
-      - name: Build Branch main for (liblcl.MacOSX64)w
+      - name: Build Branch main for (liblcl.MacOSX64)
         run: |
           git clean -xdf
           # git checkout origin/main
