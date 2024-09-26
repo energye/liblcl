@@ -7,12 +7,6 @@ begin
   handleExceptionEnd
 end;
 
-//function
-function OpenGLControl_Class(): TClass; extdecl;
-begin
-  Result := TOpenGLControl;
-end;
-
 //property event
 procedure OpenGLControl_SetOnConstrainedResize(AObj: TOpenGLControl; AEventData: Pointer); extdecl;
 begin
@@ -109,6 +103,55 @@ begin
   EventMethodCode
 end;
 
+procedure OpenGLControl_SetOnClick(AObj: TOpenGLControl; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTNotifyEvent}
+  {$DEFINE EventName := OnClick}
+  EventMethodCode
+end;
+
+procedure OpenGLControl_SetOnEnter(AObj: TOpenGLControl; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTNotifyEvent}
+  {$DEFINE EventName := OnEnter}
+  EventMethodCode
+end;
+
+procedure OpenGLControl_SetOnExit(AObj: TOpenGLControl; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTNotifyEvent}
+  {$DEFINE EventName := OnExit}
+  EventMethodCode
+end;
+
+procedure OpenGLControl_SetOnKeyDown(AObj: TOpenGLControl; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTKeyEvent}
+  {$DEFINE EventName := OnKeyDown}
+  EventMethodCode
+end;
+
+procedure OpenGLControl_SetOnKeyPress(AObj: TOpenGLControl; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTKeyPressEvent}
+  {$DEFINE EventName := OnKeyPress}
+  EventMethodCode
+end;
+
+procedure OpenGLControl_SetOnKeyUp(AObj: TOpenGLControl; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTKeyEvent}
+  {$DEFINE EventName := OnKeyUp}
+  EventMethodCode
+end;
+
+procedure OpenGLControl_SetOnResize(AObj: TOpenGLControl; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTNotifyEvent}
+  {$DEFINE EventName := OnResize}
+  EventMethodCode
+end;
+
 
 exports
   OpenGLControl_Create,
@@ -123,4 +166,11 @@ exports
   OpenGLControl_SetOnMouseUp,
   OpenGLControl_SetOnMouseWheel,
   OpenGLControl_SetOnMouseWheelDown,
-  OpenGLControl_SetOnMouseWheelUp;
+  OpenGLControl_SetOnMouseWheelUp,
+  OpenGLControl_SetOnClick,
+  OpenGLControl_SetOnEnter,
+  OpenGLControl_SetOnExit,
+  OpenGLControl_SetOnKeyDown,
+  OpenGLControl_SetOnKeyPress,
+  OpenGLControl_SetOnKeyUp,
+  OpenGLControl_SetOnResize;

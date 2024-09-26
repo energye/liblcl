@@ -1220,6 +1220,13 @@ begin
   Result := GlobalCEFApp.MustCreateLoadHandler;
 end;
 
+procedure CEFAppConfig_OsmodalLoop(value: LongBool); extdecl;
+begin
+  {$IFDEF MSWINDOWS}
+  GlobalCEFApp.OsmodalLoop := value;
+  {$ENDIF}
+end;
+
 procedure CEFAppConfig_SetMustCreateLoadHandler(value: LongBool); extdecl;
 begin
   GlobalCEFApp.MustCreateLoadHandler := value;
@@ -1543,6 +1550,7 @@ exports
   CEFAppConfig_MustCreateBrowserProcessHandler,
   CEFAppConfig_MustCreateRenderProcessHandler,
   CEFAppConfig_MustCreateLoadHandler,
+  CEFAppConfig_OsmodalLoop,
   CEFAppConfig_Status,
   CEFAppConfig_MissingLibFiles,
   CEFAppConfig_MustFreeLibrary,
