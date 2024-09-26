@@ -152,6 +152,13 @@ begin
   EventMethodCode
 end;
 
+procedure OpenGLControl_SetOnUTF8KeyPress(AObj: TOpenGLControl; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := OnTUTF8KeyPressEvent}
+  {$DEFINE EventName := OnUTF8KeyPress}
+  EventMethodCode
+end;
+
 
 exports
   OpenGLControl_Create,
@@ -173,4 +180,5 @@ exports
   OpenGLControl_SetOnKeyDown,
   OpenGLControl_SetOnKeyPress,
   OpenGLControl_SetOnKeyUp,
-  OpenGLControl_SetOnResize;
+  OpenGLControl_SetOnResize,
+  OpenGLControl_SetOnUTF8KeyPress;
