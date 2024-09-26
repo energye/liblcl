@@ -1369,6 +1369,33 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_InitializeDragAndDropByHWND(const AObj: TChromiumCore; const aDropTargetWnd : HWND); extdecl;
+begin
+  handleExceptionBegin
+  {$IFDEF MSWINDOWS}
+  AObj.InitializeDragAndDrop(aDropTargetWnd);
+  {$ENDIF MSWINDOWS}
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_ShutdownDragAndDrop(const AObj: TChromium); extdecl;
+begin
+  handleExceptionBegin
+  {$IFDEF MSWINDOWS}
+  AObj.ShutdownDragAndDrop();
+  {$ENDIF MSWINDOWS}
+  handleExceptionEnd
+end;
+
+function CEFChromium_SetNewBrowserParent(const AObj: TChromium; aNewParentHwnd : HWND): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  {$IFDEF MSWINDOWS}
+  Result := AObj.SetNewBrowserParent(aNewParentHwnd);
+  {$ENDIF MSWINDOWS}
+  handleExceptionEnd
+end;
+
 function CEFChromium_Fullscreen(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -1621,6 +1648,9 @@ exports
   CEFChromium_IMECancelComposition,
   CEFChromium_HasDevTools,
   CEFChromium_InitializeDragAndDrop,
+  CEFChromium_InitializeDragAndDropByHWND,
+  CEFChromium_ShutdownDragAndDrop,
+  CEFChromium_SetNewBrowserParent,
   CEFChromium_Fullscreen,
   CEFChromium_ExitFullscreen,
   CEFChromium_LoadExtension,
