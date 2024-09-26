@@ -227,12 +227,6 @@ begin
   handleExceptionEnd
 end;
 
-//function
-function CustomOpenGLControl_Class(): TClass; extdecl;
-begin
-  Result := TCustomOpenGLControl;
-end;
-
 //procedure
 procedure CustomOpenGLControl_Paint(AObj: TCustomOpenGLControl); extdecl;
 begin
