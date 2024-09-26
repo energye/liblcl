@@ -206,7 +206,7 @@ jobs:
       # MacOS 给 Laz 执行权限
       - name: Lazarus execution permissions
         run: |
-          sudo chmod +x /Applications/Lazarus/*
+          sudo chmod -R 777 /Applications/Lazarus/*
 
       # 编译 liblcl :default
       - name: Build Branch main for (liblcl.MacOSX64)w
@@ -214,7 +214,7 @@ jobs:
           git clean -xdf
           # git checkout origin/main
           ./shell/add-package.sh
-          lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
 
       - name: Build Branch main for (liblcl.MacOS(arm64))
