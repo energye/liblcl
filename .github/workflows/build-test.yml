@@ -206,10 +206,10 @@ jobs:
       # MacOS 给 Laz 执行权限
       - name: Lazarus execution permissions
         run: |
-          chmod +x /Application/Lazarus/*
+          chmod +x /Applications/Lazarus/*
 
       # 编译 liblcl :default
-      - name: Build Branch main for (liblcl.MacOSX64)
+      - name: Build Branch main for (liblcl.MacOSX64)w
         run: |
           git clean -xdf
           # git checkout origin/main
