@@ -209,21 +209,21 @@ jobs:
           cd ~
           mkdir ~/app
           cd app
-          sudo chown -R ${USER}:admin /Applications/Lazarus
-          ls -la /Applications/Lazarus
           sudo mv /Applications/Lazarus .
           sudo chown -R ${USER}:admin Lazarus
           sudo rm -rf /usr/local/bin/lazbuild
           sudo ln -s ~/app/Lazarus/lazbuild /usr/local/bin/lazbuild
+          LAZ_ROOT=~/app/Lazarus
           ls -la ~/app/Lazarus
 
       # 编译 liblcl :default
       - name: Build Branch main for (liblcl.MacOSX64)
         run: |
+          $LAZ_ROOT
           git clean -xdf
           # git checkout origin/main
           ./shell/add-package.sh
-          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi" --lazarusdir="/Users/runner/app/Lazarus"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
 
       - name: Build Branch main for (liblcl.MacOS(arm64))
