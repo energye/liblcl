@@ -212,7 +212,7 @@ jobs:
       # 编译 liblcl :default
       - name: Build Branch main for (liblcl.MacOSX64)
         run: |
-          git clean -xdf
+          sudo git clean -xdf
           # git checkout origin/main
           ./shell/add-package.sh
           sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
@@ -228,7 +228,7 @@ jobs:
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOSX)
         run: |
-          git clean -xdf
+          sudo git clean -xdf
           git checkout origin/Flash-89.0.18
           ./shell/add-package.sh
           sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
