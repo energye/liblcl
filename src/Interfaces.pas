@@ -1,13 +1,13 @@
 unit Interfaces;
 
-{$mode objfpc}
-{$H+}
+{$mode objfpc}{$H+}
 
 interface
 
 uses
   {$IFDEF Windows}{$IFnDEF DisableUTF8RTL}LazUTF8,{$ENDIF}{$ENDIF}
-  {$IFDEF UNIX}{$IFNDEF DisableCWString}cwstring,{$ENDIF}{$ENDIF}
+  {$IFDEF Unix}{$IFnDEF DisableCWString}cwstring,{$ENDIF}{$ENDIF}
+  {$IFDEF LCLCocoa}CocoaWSFactory,{$ENDIF}
   InterfaceBase;
 
 procedure CustomWidgetSetInitialization;
