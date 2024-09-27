@@ -229,7 +229,7 @@ jobs:
           sudo lazbuild --lazarusdir="/Users/runner/app/Lazarus" ./src/3rd-party/richmemo/ide/richmemo_design.lpk
           
           sudo lazbuild --lazarusdir="/Users/runner/app/Lazarus" --add-package ./src/3rd-party/ATFlatControls/atflatcontrols/atflatcontrols_package.lpk
-          sudo lazbuild  --lazarusdir="/Users/runner/app/Lazarus"./src/3rd-party/ATFlatControls/atflatcontrols/atflatcontrols_package.lpk
+          sudo lazbuild --lazarusdir="/Users/runner/app/Lazarus" ./src/3rd-party/ATFlatControls/atflatcontrols/atflatcontrols_package.lpk
           
           sudo lazbuild --lazarusdir="/Users/runner/app/Lazarus" --add-package-link ./src/3rd-party/DCPcrypt/dcpcrypt.lpk
           sudo lazbuild --lazarusdir="/Users/runner/app/Lazarus" ./src/3rd-party/DCPcrypt/dcpcrypt.lpk
