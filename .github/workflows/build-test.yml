@@ -209,11 +209,12 @@ jobs:
           cd ~
           mkdir ~/app
           cd app
+          ls -la /Applications/Lazarus
           sudo mv /Applications/Lazarus .
           sudo chown -R ${USER}:staff Lazarus
           sudo rm -rf /usr/local/bin/lazbuild
           sudo ln -s ~/app/Lazarus/lazbuild /usr/local/bin/lazbuild
-          ls -l
+          ls -la ~/app
 
       # 编译 liblcl :default
       - name: Build Branch main for (liblcl.MacOSX64)
