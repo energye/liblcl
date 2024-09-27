@@ -204,18 +204,10 @@ jobs:
           with-cache: false
 
       # MacOS 给 Laz 执行权限
-      - name: Lazarus execution permissions
+      - name: Lazarus Execution Permissions
         run: |
-          #cd ~
-          #mkdir ~/app
-          #cd app
           sudo chown -R ${USER}:admin /Applications/Lazarus
           ls -la /Applications/Lazarus
-          #sudo mv /Applications/Lazarus .
-          #sudo chown -R ${USER}:admin Lazarus
-          #sudo rm -rf /usr/local/bin/lazbuild
-          #sudo ln -s ~/app/Lazarus/lazbuild /usr/local/bin/lazbuild
-          #ls -la ~/app
 
       # 编译 liblcl :default
       - name: Build Branch main for (liblcl.MacOSX64)
@@ -225,11 +217,13 @@ jobs:
           ./shell/add-package.sh
           sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
+          rm -rf $HOME/golcl/liblcl.dylib
 
       - name: Build Branch main for (liblcl.MacOS(arm64))
         run: |
-          lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          sudo lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+          rm -rf $HOME/golcl/liblcl.dylib
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOSX)
@@ -237,14 +231,16 @@ jobs:
           git clean -xdf
           git checkout origin/Flash-89.0.18
           ./shell/add-package.sh
-          lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
+          rm -rf $HOME/golcl/liblcl.dylib
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOS(arm64))
         run: |
-          lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          sudo lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+          rm -rf $HOME/golcl/liblcl.dylib
 
 
   # ------------------------------------------------------------------------------------------
