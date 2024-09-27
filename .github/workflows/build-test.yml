@@ -206,9 +206,11 @@ jobs:
       # MacOS 给 Laz 执行权限
       - name: Lazarus execution permissions
         run: |
+          cd ~
           mkdir ~/app
-          sudo cp -r /Applications/Lazarus ~/app
-          ls ~/app
+          cd app
+          sudo mv /Applications/Lazarus .
+          sudo chown -R ${USER}:staff Lazarus
           sudo rm -rf /usr/local/bin/lazbuild
           sudo ln -s ~/app/Lazarus/lazbuild /usr/local/bin/lazbuild
 
