@@ -15,13 +15,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure Button_Free(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Free;
-  handleExceptionEnd
-end;
-
 //CLASSMETHOD:
 procedure Button_Click(AObj: TButton); extdecl;
 begin
@@ -30,331 +23,6 @@ begin
   handleExceptionEnd
 end;
 
-//CLASSMETHOD:
-function Button_CanFocus(AObj: TButton): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.CanFocus;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_ContainsControl(AObj: TButton; Control: TControl): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.ContainsControl(Control);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-//PARAMS:2=nonPtr
-function Button_ControlAtPos(AObj: TButton; var Pos: TPoint; AllowDisabled: LongBool; AllowWinControls: LongBool): TControl; extdecl;
-begin
-{$ifdef UsehandleException}Result := nil;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.ControlAtPos(Pos, AllowDisabled, AllowWinControls);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_DisableAlign(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.DisableAlign;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_EnableAlign(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.EnableAlign;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_FindChildControl(AObj: TButton; ControlName: PChar): TControl; extdecl;
-begin
-{$ifdef UsehandleException}Result := nil;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.FindChildControl(ControlName);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_FlipChildren(AObj: TButton; AllLevels: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  AObj.FlipChildren(AllLevels);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_Focused(AObj: TButton): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Focused;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_HandleAllocated(AObj: TButton): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.HandleAllocated;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_InsertControl(AObj: TButton; AControl: TControl); extdecl;
-begin
-  handleExceptionBegin
-  AObj.InsertControl(AControl);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_Invalidate(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Invalidate;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_PaintTo(AObj: TButton; DC: HDC; X: Integer; Y: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.PaintTo(DC, X, Y);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_RemoveControl(AObj: TButton; AControl: TControl); extdecl;
-begin
-  handleExceptionBegin
-  AObj.RemoveControl(AControl);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_Realign(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Realign;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_Repaint(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Repaint;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_ScaleBy(AObj: TButton; M: Integer; D: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.ScaleBy(M, D);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_ScrollBy(AObj: TButton; DeltaX: Integer; DeltaY: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.ScrollBy(DeltaX, DeltaY);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_SetBounds(AObj: TButton; ALeft: Integer; ATop: Integer; AWidth: Integer; AHeight: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.SetBounds(ALeft, ATop, AWidth, AHeight);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_SetFocus(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.SetFocus;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_Update(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Update;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_BringToFront(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.BringToFront;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-//RETURNISLASTPARAM:
-//PARAMS:2=nonPtr
-procedure Button_ClientToScreen(AObj: TButton; var Point: TPoint; var Result: TPoint); extdecl;
-begin
-  handleExceptionBegin
-  Result :=  AObj.ClientToScreen(Point);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-//RETURNISLASTPARAM:
-//PARAMS:2=nonPtr
-procedure Button_ClientToParent(AObj: TButton; var Point: TPoint; AParent: TWinControl; var Result: TPoint); extdecl;
-begin
-  handleExceptionBegin
-  Result :=  AObj.ClientToParent(Point, AParent);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_Dragging(AObj: TButton): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Dragging;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_HasParent(AObj: TButton): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.HasParent;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_Hide(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Hide;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_Perform(AObj: TButton; Msg: Cardinal; WParam: NativeUInt; LParam: NativeInt): NativeInt; extdecl;
-begin
-{$ifdef UsehandleException}Result := NativeInt(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Perform(Msg, WParam, LParam);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_Refresh(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Refresh;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-//RETURNISLASTPARAM:
-//PARAMS:2=nonPtr
-procedure Button_ScreenToClient(AObj: TButton; var Point: TPoint; var Result: TPoint); extdecl;
-begin
-  handleExceptionBegin
-  Result :=  AObj.ScreenToClient(Point);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-//RETURNISLASTPARAM:
-//PARAMS:2=nonPtr
-procedure Button_ParentToClient(AObj: TButton; var Point: TPoint; AParent: TWinControl; var Result: TPoint); extdecl;
-begin
-  handleExceptionBegin
-  Result :=  AObj.ParentToClient(Point, AParent);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_SendToBack(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.SendToBack;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_Show(AObj: TButton); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Show;
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_GetTextBuf(AObj: TButton; Buffer: PChar; BufSize: Integer): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.GetTextBuf(Buffer, BufSize);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_GetTextLen(AObj: TButton): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  {$ifdef darwin}Length(AObj.Caption){$else}AObj.GetTextLen{$endif};
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_SetTextBuf(AObj: TButton; Buffer: PChar); extdecl;
-begin
-  handleExceptionBegin
-  AObj.SetTextBuf(Buffer);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_FindComponent(AObj: TButton; AName: PChar): TComponent; extdecl;
-begin
-{$ifdef UsehandleException}Result := nil;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.FindComponent(AName);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_GetNamePath(AObj: TButton): PChar; extdecl;
-begin
-{$ifdef UsehandleException}Result := PChar(nil);{$endif}
-  handleExceptionBegin
-  Result :=  PChar(AObj.GetNamePath);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_Assign(AObj: TButton; Source: TPersistent); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Assign(Source);
-  handleExceptionEnd
-end;
 
 //CLASSMETHOD:
 function Button_ClassType(AObj: TButton): TClass; extdecl;
@@ -419,236 +87,6 @@ begin
   handleExceptionEnd
 end;
 
-//CLASSMETHOD:
-procedure Button_AnchorToNeighbour(AObj: TButton; ASide: TAnchorKind; ASpace: Integer; ASibling: TControl); extdecl;
-begin
-  handleExceptionBegin
-  AObj.AnchorToNeighbour(ASide, ASpace, ASibling);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_AnchorParallel(AObj: TButton; ASide: TAnchorKind; ASpace: Integer; ASibling: TControl); extdecl;
-begin
-  handleExceptionBegin
-  AObj.AnchorParallel(ASide, ASpace, ASibling);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_AnchorHorizontalCenterTo(AObj: TButton; ASibling: TControl); extdecl;
-begin
-  handleExceptionBegin
-  AObj.AnchorHorizontalCenterTo(ASibling);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_AnchorVerticalCenterTo(AObj: TButton; ASibling: TControl); extdecl;
-begin
-  handleExceptionBegin
-  AObj.AnchorVerticalCenterTo(ASibling);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_AnchorSame(AObj: TButton; ASide: TAnchorKind; ASibling: TControl); extdecl;
-begin
-  handleExceptionBegin
-  AObj.AnchorSame(ASide, ASibling);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_AnchorAsAlign(AObj: TButton; ATheAlign: TAlign; ASpace: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.AnchorAsAlign(ATheAlign, ASpace);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_AnchorClient(AObj: TButton; ASpace: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.AnchorClient(ASpace);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_ScaleDesignToForm(AObj: TButton; ASize: Integer): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.ScaleDesignToForm(ASize);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_ScaleFormToDesign(AObj: TButton; ASize: Integer): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.ScaleFormToDesign(ASize);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_Scale96ToForm(AObj: TButton; ASize: Integer): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Scale96ToForm(ASize);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_ScaleFormTo96(AObj: TButton; ASize: Integer): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.ScaleFormTo96(ASize);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_Scale96ToFont(AObj: TButton; ASize: Integer): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Scale96ToFont(ASize);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_ScaleFontTo96(AObj: TButton; ASize: Integer): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.ScaleFontTo96(ASize);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_ScaleScreenToFont(AObj: TButton; ASize: Integer): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.ScaleScreenToFont(ASize);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_ScaleFontToScreen(AObj: TButton; ASize: Integer): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.ScaleFontToScreen(ASize);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_Scale96ToScreen(AObj: TButton; ASize: Integer): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Scale96ToScreen(ASize);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-function Button_ScaleScreenTo96(AObj: TButton; ASize: Integer): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.ScaleScreenTo96(ASize);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_AutoAdjustLayout(AObj: TButton; AMode: TLayoutAdjustmentPolicy; AFromPPI: Integer; AToPPI: Integer; AOldFormWidth: Integer; ANewFormWidth: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.AutoAdjustLayout(AMode, AFromPPI, AToPPI, AOldFormWidth, ANewFormWidth);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-procedure Button_FixDesignFontsPPI(AObj: TButton; ADesignTimePPI: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.FixDesignFontsPPI(ADesignTimePPI);
-  handleExceptionEnd
-end;
-
-//CLASSMETHOD:
-//PARAMS:3=nonPtr
-procedure Button_ScaleFontsPPI(AObj: TButton; AToPPI: Integer; var AProportion: Double); extdecl;
-begin
-  handleExceptionBegin
-  AObj.ScaleFontsPPI(AToPPI, AProportion);
-  handleExceptionEnd
-end;
-
-function Button_GetAction(AObj: TButton): TBasicAction; extdecl;
-begin
-{$ifdef UsehandleException}Result := nil;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Action;
-  handleExceptionEnd
-end;
-
-procedure Button_SetAction(AObj: TButton; AValue: TBasicAction); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Action := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetAlign(AObj: TButton): TAlign; extdecl;
-begin
-{$ifdef UsehandleException}Result := Low(TAlign);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Align;
-  handleExceptionEnd
-end;
-
-procedure Button_SetAlign(AObj: TButton; AValue: TAlign); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Align := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetAnchors(AObj: TButton): TAnchors; extdecl;
-begin
-{$ifdef UsehandleException}Result := [];{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Anchors;
-  handleExceptionEnd
-end;
-
-procedure Button_SetAnchors(AObj: TButton; AValue: TAnchors); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Anchors := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetBiDiMode(AObj: TButton): TBiDiMode; extdecl;
-begin
-{$ifdef UsehandleException}Result := Low(TBiDiMode);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.BiDiMode;
-  handleExceptionEnd
-end;
-
-procedure Button_SetBiDiMode(AObj: TButton; AValue: TBiDiMode); extdecl;
-begin
-  handleExceptionBegin
-  AObj.BiDiMode := AValue;
-  handleExceptionEnd
-end;
 
 function Button_GetCancel(AObj: TButton): LongBool; extdecl;
 begin
@@ -680,20 +118,6 @@ begin
   handleExceptionEnd
 end;
 
-function Button_GetConstraints(AObj: TButton): TSizeConstraints; extdecl;
-begin
-{$ifdef UsehandleException}Result := nil;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Constraints;
-  handleExceptionEnd
-end;
-
-procedure Button_SetConstraints(AObj: TButton; AValue: TSizeConstraints); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Constraints := AValue;
-  handleExceptionEnd
-end;
 
 function Button_GetDefault(AObj: TButton): LongBool; extdecl;
 begin
@@ -710,20 +134,6 @@ begin
   handleExceptionEnd
 end;
 
-function Button_GetDoubleBuffered(AObj: TButton): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.DoubleBuffered;
-  handleExceptionEnd
-end;
-
-procedure Button_SetDoubleBuffered(AObj: TButton; AValue: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  AObj.DoubleBuffered := AValue;
-  handleExceptionEnd
-end;
 
 function Button_GetDragCursor(AObj: TButton): TCursor; extdecl;
 begin
@@ -770,36 +180,6 @@ begin
   handleExceptionEnd
 end;
 
-function Button_GetEnabled(AObj: TButton): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Enabled;
-  handleExceptionEnd
-end;
-
-procedure Button_SetEnabled(AObj: TButton; AValue: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Enabled := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetFont(AObj: TButton): TFont; extdecl;
-begin
-{$ifdef UsehandleException}Result := nil;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Font;
-  handleExceptionEnd
-end;
-
-procedure Button_SetFont(AObj: TButton; AValue: TFont); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Font := AValue;
-  handleExceptionEnd
-end;
-
 function Button_GetModalResult(AObj: TButton): TModalResult; extdecl;
 begin
 {$ifdef UsehandleException}Result := TModalResult(0);{$endif}
@@ -812,21 +192,6 @@ procedure Button_SetModalResult(AObj: TButton; AValue: TModalResult); extdecl;
 begin
   handleExceptionBegin
   AObj.ModalResult := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetParentDoubleBuffered(AObj: TButton): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.ParentDoubleBuffered;
-  handleExceptionEnd
-end;
-
-procedure Button_SetParentDoubleBuffered(AObj: TButton; AValue: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  AObj.ParentDoubleBuffered := AValue;
   handleExceptionEnd
 end;
 
@@ -872,66 +237,6 @@ procedure Button_SetPopupMenu(AObj: TButton; AValue: TPopupMenu); extdecl;
 begin
   handleExceptionBegin
   AObj.PopupMenu := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetShowHint(AObj: TButton): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.ShowHint;
-  handleExceptionEnd
-end;
-
-procedure Button_SetShowHint(AObj: TButton; AValue: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  AObj.ShowHint := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetTabOrder(AObj: TButton): TTabOrder; extdecl;
-begin
-{$ifdef UsehandleException}Result := TTabOrder(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.TabOrder;
-  handleExceptionEnd
-end;
-
-procedure Button_SetTabOrder(AObj: TButton; AValue: TTabOrder); extdecl;
-begin
-  handleExceptionBegin
-  AObj.TabOrder := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetTabStop(AObj: TButton): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.TabStop;
-  handleExceptionEnd
-end;
-
-procedure Button_SetTabStop(AObj: TButton; AValue: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  AObj.TabStop := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetVisible(AObj: TButton): LongBool; extdecl;
-begin
-{$ifdef UsehandleException}Result := False;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Visible;
-  handleExceptionEnd
-end;
-
-procedure Button_SetVisible(AObj: TButton; AValue: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Visible := AValue;
   handleExceptionEnd
 end;
 
@@ -1256,80 +561,6 @@ begin
   handleExceptionEnd
 end;
 
-function Button_GetParent(AObj: TButton): TWinControl; extdecl;
-begin
-{$ifdef UsehandleException}Result := nil;{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Parent;
-  handleExceptionEnd
-end;
-
-procedure Button_SetParent(AObj: TButton; AValue: TWinControl); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Parent := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetLeft(AObj: TButton): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Left;
-  handleExceptionEnd
-end;
-
-procedure Button_SetLeft(AObj: TButton; AValue: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Left := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetTop(AObj: TButton): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Top;
-  handleExceptionEnd
-end;
-
-procedure Button_SetTop(AObj: TButton; AValue: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Top := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetWidth(AObj: TButton): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Width;
-  handleExceptionEnd
-end;
-
-procedure Button_SetWidth(AObj: TButton; AValue: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Width := AValue;
-  handleExceptionEnd
-end;
-
-function Button_GetHeight(AObj: TButton): Integer; extdecl;
-begin
-{$ifdef UsehandleException}Result := Integer(0);{$endif}
-  handleExceptionBegin
-  Result :=  AObj.Height;
-  handleExceptionEnd
-end;
-
-procedure Button_SetHeight(AObj: TButton; AValue: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.Height := AValue;
-  handleExceptionEnd
-end;
 
 function Button_GetCursor(AObj: TButton): TCursor; extdecl;
 begin
@@ -1551,46 +782,7 @@ end;
 
 exports
   Button_Create,
-  Button_Free,
   Button_Click,
-  Button_CanFocus,
-  Button_ContainsControl,
-  Button_ControlAtPos,
-  Button_DisableAlign,
-  Button_EnableAlign,
-  Button_FindChildControl,
-  Button_FlipChildren,
-  Button_Focused,
-  Button_HandleAllocated,
-  Button_InsertControl,
-  Button_Invalidate,
-  Button_PaintTo,
-  Button_RemoveControl,
-  Button_Realign,
-  Button_Repaint,
-  Button_ScaleBy,
-  Button_ScrollBy,
-  Button_SetBounds,
-  Button_SetFocus,
-  Button_Update,
-  Button_BringToFront,
-  Button_ClientToScreen,
-  Button_ClientToParent,
-  Button_Dragging,
-  Button_HasParent,
-  Button_Hide,
-  Button_Perform,
-  Button_Refresh,
-  Button_ScreenToClient,
-  Button_ParentToClient,
-  Button_SendToBack,
-  Button_Show,
-  Button_GetTextBuf,
-  Button_GetTextLen,
-  Button_SetTextBuf,
-  Button_FindComponent,
-  Button_GetNamePath,
-  Button_Assign,
   Button_ClassType,
   Button_ClassName,
   Button_InstanceSize,
@@ -1598,72 +790,26 @@ exports
   Button_Equals,
   Button_GetHashCode,
   Button_ToString,
-  Button_AnchorToNeighbour,
-  Button_AnchorParallel,
-  Button_AnchorHorizontalCenterTo,
-  Button_AnchorVerticalCenterTo,
-  Button_AnchorSame,
-  Button_AnchorAsAlign,
-  Button_AnchorClient,
-  Button_ScaleDesignToForm,
-  Button_ScaleFormToDesign,
-  Button_Scale96ToForm,
-  Button_ScaleFormTo96,
-  Button_Scale96ToFont,
-  Button_ScaleFontTo96,
-  Button_ScaleScreenToFont,
-  Button_ScaleFontToScreen,
-  Button_Scale96ToScreen,
-  Button_ScaleScreenTo96,
-  Button_AutoAdjustLayout,
-  Button_FixDesignFontsPPI,
-  Button_ScaleFontsPPI,
-  Button_GetAction,
-  Button_SetAction,
-  Button_GetAlign,
-  Button_SetAlign,
-  Button_GetAnchors,
-  Button_SetAnchors,
-  Button_GetBiDiMode,
-  Button_SetBiDiMode,
   Button_GetCancel,
   Button_SetCancel,
   Button_GetCaption,
   Button_SetCaption,
-  Button_GetConstraints,
-  Button_SetConstraints,
   Button_GetDefault,
   Button_SetDefault,
-  Button_GetDoubleBuffered,
-  Button_SetDoubleBuffered,
   Button_GetDragCursor,
   Button_SetDragCursor,
   Button_GetDragKind,
   Button_SetDragKind,
   Button_GetDragMode,
   Button_SetDragMode,
-  Button_GetEnabled,
-  Button_SetEnabled,
-  Button_GetFont,
-  Button_SetFont,
   Button_GetModalResult,
   Button_SetModalResult,
-  Button_GetParentDoubleBuffered,
-  Button_SetParentDoubleBuffered,
   Button_GetParentFont,
   Button_SetParentFont,
   Button_GetParentShowHint,
   Button_SetParentShowHint,
   Button_GetPopupMenu,
   Button_SetPopupMenu,
-  Button_GetShowHint,
-  Button_SetShowHint,
-  Button_GetTabOrder,
-  Button_SetTabOrder,
-  Button_GetTabStop,
-  Button_SetTabStop,
-  Button_GetVisible,
-  Button_SetVisible,
   Button_SetOnClick,
   Button_SetOnContextPopup,
   Button_SetOnDragDrop,
@@ -1705,16 +851,6 @@ exports
   Button_GetControlStyle,
   Button_SetControlStyle,
   Button_GetFloating,
-  Button_GetParent,
-  Button_SetParent,
-  Button_GetLeft,
-  Button_SetLeft,
-  Button_GetTop,
-  Button_SetTop,
-  Button_GetWidth,
-  Button_SetWidth,
-  Button_GetHeight,
-  Button_SetHeight,
   Button_GetCursor,
   Button_SetCursor,
   Button_GetHint,
