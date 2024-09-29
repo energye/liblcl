@@ -127,7 +127,7 @@ fi
 echo "Upload ${HOME}/golcl/${fileName}"
 curl -F "liblcl=@${HOME}/golcl/${fileName}" -F "token=${token}"  -F "version=${version}" $uploadURL
 
-fileName="liblcl-87.MacOSX.zip"
+fileName="liblcl-87.MacOSX64.zip"
 ./generate-download.sh "$version" "$fileName"
 if [ ! -s "$HOME/golcl/$fileName" ];then
   echo "`date`, The ${fileName} size is zero, failed. "
