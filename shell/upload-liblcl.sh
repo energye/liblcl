@@ -19,7 +19,7 @@ fi
 echo "Upload ${HOME}/golcl/${fileName}"
 curl -F "liblcl=@${HOME}/golcl/${fileName}" -F "token=${token}"  -F "version=${version}" $uploadURL
 
-fileName="liblcl.Linux64GTK2.zip"
+fileName="liblcl-106.Linux64.zip"
 ./generate-download.sh "$version" "$fileName"
 if [ ! -s "$HOME/golcl/$fileName" ];then
   echo "`date`, The ${fileName} size is zero, failed. "
@@ -37,7 +37,7 @@ fi
 echo "Upload ${HOME}/golcl/${fileName}"
 curl -F "liblcl=@${HOME}/golcl/${fileName}" -F "token=${token}"  -F "version=${version}" $uploadURL
 
-fileName="liblcl.LinuxARM64GTK2.zip"
+fileName="liblcl-106.LinuxARM64.zip"
 ./generate-download.sh "$version" "$fileName"
 if [ ! -s "$HOME/golcl/$fileName" ];then
   echo "`date`, The ${fileName} size is zero, failed. "

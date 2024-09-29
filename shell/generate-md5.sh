@@ -14,15 +14,15 @@ unzip $fileName
 mv liblcl.so liblcl.Linux64.so
 md5sum liblcl.Linux64.so >> md5.txt
 
-fileName="liblcl.Linux64GTK2.zip"
+fileName="liblcl-106.Linux64.zip"
 ./generate-download.sh "$version" "$fileName"
 if [ ! -s "$HOME/golcl/$fileName" ];then
   echo "`date`, The ${fileName} size is zero, failed. "
   exit 1
 fi
 unzip $fileName
-mv liblcl.so liblcl.Linux64GTK2.so
-md5sum liblcl.Linux64GTK2.so >> md5.txt
+mv liblcl.so liblcl-106.Linux64.so
+md5sum liblcl-106.Linux64.so >> md5.txt
 
 fileName="liblcl.LinuxARM64.zip"
 ./generate-download.sh "$version" "$fileName"
@@ -34,15 +34,15 @@ unzip $fileName
 mv liblcl.so liblcl.LinuxARM64.so
 md5sum liblcl.LinuxARM64.so >> md5.txt
 
-fileName="liblcl.LinuxARM64GTK2.zip"
+fileName="liblcl-106.LinuxARM64.zip"
 ./generate-download.sh "$version" "$fileName"
 if [ ! -s "$HOME/golcl/$fileName" ];then
   echo "`date`, The ${fileName} size is zero, failed. "
   exit 1
 fi
 unzip $fileName
-mv liblcl.so liblcl.LinuxARM64GTK2.so
-md5sum liblcl.LinuxARM64GTK2.so >> md5.txt
+mv liblcl.so liblcl-106.LinuxARM64.so
+md5sum liblcl-106.LinuxARM64.so >> md5.txt
 
 fileName="liblcl.MacOSX64.zip"
 ./generate-download.sh "$version" "$fileName"
