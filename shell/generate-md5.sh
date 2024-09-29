@@ -134,15 +134,15 @@ unzip $fileName
 mv liblcl.dylib liblcl-87.MacOSARM64.dylib
 md5sum liblcl-87.MacOSARM64.dylib >> md5.txt
 
-fileName="liblcl-87.MacOSX.zip"
+fileName="liblcl-87.MacOSX64.zip"
 ./generate-download.sh "$version" "$fileName"
 if [ ! -s "$HOME/golcl/$fileName" ];then
   echo "`date`, The ${fileName} size is zero, failed. "
   exit 1
 fi
 unzip $fileName
-mv liblcl.dylib liblcl-87.MacOSX.dylib
-md5sum liblcl-87.MacOSX.dylib >> md5.txt
+mv liblcl.dylib liblcl-87.MacOSX64.dylib
+md5sum liblcl-87.MacOSX64.dylib >> md5.txt
 
 fileName="liblcl-87.Windows32.zip"
 ./generate-download.sh "$version" "$fileName"
