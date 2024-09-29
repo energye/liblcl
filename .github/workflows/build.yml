@@ -210,7 +210,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ macos-12 ]
-        lazarus-versions: [ 2.2.6 ]
+        lazarus-versions: [ 3.2 ]
 
     steps:
       - uses: actions/checkout@v4
@@ -230,34 +230,44 @@ jobs:
           lazarus-version: ${{ matrix.lazarus-versions }}
           with-cache: false
 
+      # MacOS 给 Laz 执行权限
+      - name: Lazarus Execution Permissions
+        run: |
+          sudo chown -R ${USER}:admin /Applications/Lazarus
+          ls -la /Applications/Lazarus
+
       # 编译 liblcl :default
       - name: Build Branch main for (liblcl.MacOSX64)
         run: |
-          git clean -xdf
+          sudo git clean -xdf
           # git checkout origin/main
           ./shell/add-package.sh
-          lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
 
       - name: Build Branch main for (liblcl.MacOS(arm64))
         run: |
-          lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          sudo lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOSX)
         run: |
-          git clean -xdf
+          sudo git clean -xdf
           git checkout origin/Flash-89.0.18
           ./shell/add-package.sh
-          lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSX.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
 
       # 编译 liblcl support flash
       - name: Build Branch Flash-89.0.18 for (liblcl-87.MacOS(arm64))
         run: |
-          lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          sudo lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
           zip -j $RUNNER_WORKSPACE/liblclbinary/liblcl-87.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
 
       # 版本发布上传liblcl二进制
       - name: Release
