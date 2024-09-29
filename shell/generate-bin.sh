@@ -20,7 +20,7 @@ if [ ! -s "$HOME/golcl/$fileName" ];then
   exit 1
 fi
 
-fileName="liblcl.Linux64GTK2.zip"
+fileName="liblcl-106.Linux64.zip"
 ./generate-download.sh "$version" "$fileName"
 if [ ! -s "$HOME/golcl/$fileName" ];then
   echo "`date`, The ${fileName} size is zero, failed. "
@@ -34,7 +34,7 @@ if [ ! -s "$HOME/golcl/$fileName" ];then
   exit 1
 fi
 
-fileName="liblcl.LinuxARM64GTK2.zip"
+fileName="liblcl-106.LinuxARM64.zip"
 ./generate-download.sh "$version" "$fileName"
 if [ ! -s "$HOME/golcl/$fileName" ];then
   echo "`date`, The ${fileName} size is zero, failed. "
