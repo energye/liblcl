@@ -30,6 +30,12 @@ begin
   GlobalCEFApp.OnBeforeChildProcessLaunch := GlobalCEFApp_OnBeforeChildProcessLaunch;
 end;
 
+procedure CEFGlobalApp_SetOnAlreadyRunningAppRelaunch(AEventData: Pointer); extdecl;
+begin
+  OnAlreadyRunningAppRelaunch_DataPtr := AEventData;
+  GlobalCEFApp.OnAlreadyRunningAppRelaunch := GlobalCEFApp_OnAlreadyRunningAppRelaunchEvent;
+end;
+
 procedure CEFGlobalApp_SetOnGetDefaultClient(AEventData: Pointer); extdecl;
 begin
   OnGetDefaultClient_DataPtr := AEventData;
@@ -140,6 +146,7 @@ exports
   CEFGlobalApp_SetOnRegisterCustomPreferences,
   CEFGlobalApp_SetOnContextInitialized,
   CEFGlobalApp_SetOnBeforeChildProcessLaunch,
+  CEFGlobalApp_SetOnAlreadyRunningAppRelaunch,
   CEFGlobalApp_SetOnGetDefaultClient,
   CEFGlobalApp_SetOnGetLocalizedString,
   CEFGlobalApp_SetOnGetDataResource,
