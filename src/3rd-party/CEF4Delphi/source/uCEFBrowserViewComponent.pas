@@ -25,7 +25,7 @@ uses
 type
   {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
   /// <summary>
-  /// Component hosting a ICefBrowserView instance. Used in Chrome runtime mode only.
+  /// Component hosting a ICefBrowserView instance.
   /// </summary>
   TCEFBrowserViewComponent = class(TCEFViewComponent, ICefBrowserViewDelegateEvents)
     protected
@@ -40,6 +40,7 @@ type
       FOnGetChromeToolbarType                   : TOnGetChromeToolbarTypeEvent;
       FOnUseFramelessWindowForPictureInPicture  : TOnUseFramelessWindowForPictureInPicture;
       FOnGestureCommand                         : TOnGestureCommandEvent;
+      FOnGetBrowserRuntimeStyle                 : TOnGetBrowserRuntimeStyleEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -48,6 +49,8 @@ type
       function  GetAsView : ICefView; override;
       function  GetAsBrowserView : ICefBrowserView; override;
       function  GetBrowser : ICefBrowser;
+      function  GetChromeToolbar : ICefView;
+      function  GetRuntimeStyle : TCefRuntimeStyle;
 
       // ICefBrowserViewDelegateEvents
       procedure doOnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser);
@@ -57,6 +60,7 @@ type
       procedure doOnGetChromeToolbarType(const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType);
       procedure doOnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
       procedure doOnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
+      procedure doOnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
 
     public
       /// <summary>
@@ -72,13 +76,18 @@ type
       /// </summary>
       function  GetForBrowser(const browser: ICefBrowser): boolean;
       /// <summary>
-      /// Sets whether accelerators registered with ICefWindow.SetAccelerator are
-      /// triggered before or after the event is sent to the ICefBrowser. If
-      /// |prefer_accelerators| is true (1) then the matching accelerator will be
-      /// triggered immediately and the event will not be sent to the ICefBrowser.
-      /// If |prefer_accelerators| is false (0) then the matching accelerator will
-      /// only be triggered if the event is not handled by web content or by
-      /// ICefKeyboardHandler. The default value is false (0).
+      /// Sets whether normal priority accelerators are first forwarded to the web
+      /// content (`keydown` event handler) or ICefKeyboardHandler. Normal priority
+      /// accelerators can be registered via ICefWindow.SetAccelerator (with
+      /// |high_priority|=false) or internally for standard accelerators supported
+      /// by Chrome style. If |prefer_accelerators| is true then the matching
+      /// accelerator will be triggered immediately (calling
+      /// ICefWindowDelegate.OnAccelerator or ICefCommandHandler.OnChromeCommand
+      /// respectively) and the event will not be forwarded to the web content or
+      /// ICefKeyboardHandler first. If |prefer_accelerators| is false then the
+      /// matching accelerator will only be triggered if the event is not handled by
+      /// web content (`keydown` event handler that calls `event.preventDefault()`)
+      /// or by ICefKeyboardHandler. The default value is false.
       /// </summary>
       procedure SetPreferAccelerators(prefer_accelerators: boolean);
 
@@ -91,6 +100,20 @@ type
       /// ICefBrowserView assiciated to this component.
       /// </summary>
       property BrowserView                              : ICefBrowserView                           read FBrowserView;
+      /// <summary>
+      /// Returns the Chrome toolbar associated with this BrowserView. Only
+      /// supported when using Chrome style. The ICefBrowserViewDelegate.GetChromeToolbarType
+      /// function must return a value other than
+      /// CEF_CTT_NONE and the toolbar will not be available until after this
+      /// BrowserView is added to a ICefWindow and
+      /// ICefViewDelegate.OnWindowChanged() has been called.
+      /// </summary>
+      property ChromeToolbar                            : ICefView                                  read GetChromeToolbar;
+      /// <summary>
+      /// Returns the runtime style for this BrowserView (ALLOY or CHROME). See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      property RuntimeStyle                             : TCefRuntimeStyle                          read GetRuntimeStyle;
 
     published
       /// <summary>
@@ -140,10 +163,15 @@ type
       /// <summary>
       /// Called when |browser_view| receives a gesture command. Return true (1) to
       /// handle (or disable) a |gesture_command| or false (0) to propagate the
-      /// gesture to the browser for default handling. With the Chrome runtime these
-      /// commands can also be handled via cef_command_handler_t::OnChromeCommand.
+      /// gesture to the browser for default handling. With Chrome style these
+      /// commands can also be handled via ICefCommandHandler.OnChromeCommand.
       /// </summary>
       property OnGestureCommand                         : TOnGestureCommandEvent                    read FOnGestureCommand                         write FOnGestureCommand;
+      /// <summary>
+      /// Optionally change the runtime style for this BrowserView. See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      property OnGetBrowserRuntimeStyle                 : TOnGetBrowserRuntimeStyleEvent            read FOnGetBrowserRuntimeStyle                 write FOnGetBrowserRuntimeStyle;
   end;
 
 {$IFDEF FPC}
@@ -195,6 +223,7 @@ begin
   FOnGetChromeToolbarType                  := nil;
   FOnUseFramelessWindowForPictureInPicture := nil;
   FOnGestureCommand                        := nil;
+  FOnGetBrowserRuntimeStyle                := nil;
 end;
 
 procedure TCEFBrowserViewComponent.DestroyView;
@@ -260,6 +289,22 @@ begin
     Result := nil;
 end;
 
+function TCEFBrowserViewComponent.GetChromeToolbar : ICefView;
+begin
+  if Initialized then
+    Result := FBrowserView.GetChromeToolbar
+   else
+    Result := nil;
+end;
+
+function TCEFBrowserViewComponent.GetRuntimeStyle : TCefRuntimeStyle;
+begin
+  if Initialized then
+    Result := FBrowserView.RuntimeStyle
+   else
+    Result := CEF_RUNTIME_STYLE_DEFAULT;
+end;
+
 procedure TCEFBrowserViewComponent.SetPreferAccelerators(prefer_accelerators: boolean);
 begin
   if Initialized then FBrowserView.SetPreferAccelerators(prefer_accelerators);
@@ -317,6 +362,14 @@ procedure TCEFBrowserViewComponent.doOnGestureCommand(const browser_view    : IC
 begin
   if assigned(FOnGestureCommand) then
     FOnGestureCommand(self, browser_view, gesture_command, aResult);
+end;
+
+procedure TCEFBrowserViewComponent.doOnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
+begin
+  aResult := CEF_RUNTIME_STYLE_DEFAULT;
+
+  if assigned(FOnGetBrowserRuntimeStyle) then
+    FOnGetBrowserRuntimeStyle(self, aResult);
 end;
 
 {$IFDEF FPC}

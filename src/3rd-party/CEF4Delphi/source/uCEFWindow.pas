@@ -171,12 +171,13 @@ type
       function  GetWindowAppIcon : ICefImage;
 
       /// <summary>
-      /// Add a View that will be overlayed on the Window contents with absolute
+      /// <para>Add a View that will be overlayed on the Window contents with absolute
       /// positioning and high z-order. Positioning is controlled by |docking_mode|
-      /// as described below. The returned cef_overlay_controller_t object is used
-      /// to control the overlay. Overlays are hidden by default.
-      ///
-      /// With CEF_DOCKING_MODE_CUSTOM:
+      /// as described below. Setting |can_activate| to true (1) will allow the
+      /// overlay view to receive input focus. The returned cef_overlay_controller_t
+      /// object is used to control the overlay. Overlays are hidden by default.</para>
+      /// <para>With CEF_DOCKING_MODE_CUSTOM:</para>
+      /// <code>
       ///   1. The overlay is initially hidden, sized to |view|'s preferred size,
       ///      and positioned in the top-left corner.
       ///   2. Optionally change the overlay position and/or size by calling
@@ -186,20 +187,21 @@ type
       ///      changes. Optionally change the overlay position and/or size when
       ///      OnLayoutChanged is called on the Window's delegate to indicate a
       ///      change in Window bounds.
-      ///
-      /// With other docking modes:
+      /// </code>
+      /// <para>With other docking modes:</para>
+      /// <code>
       ///   1. The overlay is initially hidden, sized to |view|'s preferred size,
       ///      and positioned based on |docking_mode|.
       ///   2. Call CefOverlayController::SetVisible(true) to show the overlay.
       ///   3. The overlay will be automatically re-sized if |view|'s layout changes
       ///      and re-positioned as appropriate when the Window resizes.
-      ///
-      /// Overlays created by this function will receive a higher z-order then any
+      /// </code>
+      /// <para>Overlays created by this function will receive a higher z-order then any
       /// child Views added previously. It is therefore recommended to call this
       /// function last after all other child Views have been added so that the
-      /// overlay displays as the top-most child of the Window.
+      /// overlay displays as the top-most child of the Window.</para>
       /// </summary>
-      function  AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController;
+      function  AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode; can_activate: boolean): ICefOverlayController;
 
       /// <summary>
       /// Show a menu with contents |menu_model|. |screen_point| specifies the menu
@@ -266,12 +268,19 @@ type
       procedure SendMouseEvents(button: TCefMouseButtonType; mouse_down, mouse_up: boolean);
 
       /// <summary>
-      /// Set the keyboard accelerator for the specified |command_id|. |key_code|
-      /// can be any virtual key or character value.
-      /// cef_window_delegate_t::OnAccelerator will be called if the keyboard
-      /// combination is triggered while this window has focus.
+      /// <para>Set the keyboard accelerator for the specified |command_id|. |key_code|
+      /// can be any virtual key or character value. Required modifier keys are
+      /// specified by |shift_pressed|, |ctrl_pressed| and/or |alt_pressed|.
+      /// ICefWindowDelegate.OnAccelerator will be called if the keyboard
+      /// combination is triggered while this window has focus.</para>
+      /// <para>The |high_priority| value will be considered if a child ICefBrowserView
+      /// has focus when the keyboard combination is triggered. If |high_priority|
+      /// is true (1) then the key event will not be forwarded to the web content
+      /// (`keydown` event handler) or ICefKeyboardHandler first. If
+      /// |high_priority| is false (0) then the behavior will depend on the
+      /// ICefBrowserView.SetPreferAccelerators configuration.</para>
       /// </summary>
-      procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: boolean);
+      procedure SetAccelerator(command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: boolean);
 
       /// <summary>
       /// Remove the keyboard accelerator for the specified |command_id|.
@@ -282,6 +291,45 @@ type
       /// Remove all keyboard accelerators.
       /// </summary>
       procedure RemoveAllAccelerators;
+
+      /// <summary>
+      /// <para>Override a standard theme color or add a custom color associated with
+      /// |color_id|. See cef_color_ids.h for standard ID values. Recommended usage
+      /// is as follows:</para>
+      /// <code>
+      /// 1. Customize the default native/OS theme by calling SetThemeColor before
+      ///    showing the first Window. When done setting colors call
+      ///    ICefWindow.ThemeChanged to trigger ICefViewDelegate.OnThemeChanged
+      ///    notifications.
+      /// 2. Customize the current native/OS or Chrome theme after it changes by
+      ///    calling SetThemeColor from the ICefWindowDelegate.OnThemeColorsChanged
+      ///    callback. ICefViewDelegate.OnThemeChanged notifications will then be
+      ///    triggered automatically.
+      /// </code>
+      /// <para>The configured color will be available immediately via
+      /// ICefView.GetThemeColor and will be applied to each View in this
+      /// Window's component hierarchy when ICefViewDelegate.OnThemeChanged is
+      /// called. See OnThemeColorsChanged documentation for additional details.</para>
+      /// <para>Clients wishing to add custom colors should use |color_id| values >=
+      /// CEF_ChromeColorsEnd.</para>
+      /// </summary>
+      procedure SetThemeColor(color_id: integer; color: TCefColor);
+
+      /// <summary>
+      /// <para>Trigger ICefViewDelegate.OnThemeChanged callbacks for each View in
+      /// this Window's component hierarchy. Unlike a native/OS or Chrome theme
+      /// change this function does not reset theme colors to standard values and
+      /// does not result in a call to ICefWindowDelegate.OnThemeColorsChanged.</para>
+      /// <para>Do not call this function from ICefViewDelegate.OnThemeColorsChanged
+      /// or ICefViewDelegate.OnThemeChanged.</para>
+      /// </summary>
+      procedure ThemeChanged;
+
+      /// <summary>
+      /// Returns the runtime style for this Window (ALLOY or CHROME). See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      function  GetRuntimeStyle: TCefRuntimeStyle;
 
     public
       /// <summary>
@@ -427,11 +475,12 @@ begin
   Result := TCefImageRef.UnWrap(PCefWindow(FData)^.get_window_app_icon(PCefWindow(FData)));
 end;
 
-function TCefWindowRef.AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController;
+function TCefWindowRef.AddOverlayView(const view: ICefView; docking_mode: TCefDockingMode; can_activate: boolean): ICefOverlayController;
 begin
   Result := TCefOverlayControllerRef.UnWrap(PCefWindow(FData)^.add_overlay_view(PCefWindow(FData),
                                                                                 CefGetData(view),
-                                                                                docking_mode));
+                                                                                docking_mode,
+                                                                                ord(can_activate)));
 end;
 
 procedure TCefWindowRef.ShowMenu(const menu_model      : ICefMenuModel;
@@ -493,14 +542,16 @@ procedure TCefWindowRef.SetAccelerator(command_id    : Integer;
                                        key_code      : Integer;
                                        shift_pressed : boolean;
                                        ctrl_pressed  : boolean;
-                                       alt_pressed   : boolean);
+                                       alt_pressed   : boolean;
+                                       high_priority : boolean);
 begin
   PCefWindow(FData)^.set_accelerator(PCefWindow(FData),
                                      command_id,
                                      key_code,
                                      ord(shift_pressed),
                                      ord(ctrl_pressed),
-                                     ord(alt_pressed));
+                                     ord(alt_pressed),
+                                     ord(high_priority));
 end;
 
 procedure TCefWindowRef.RemoveAccelerator(command_id: Integer);
@@ -511,6 +562,21 @@ end;
 procedure TCefWindowRef.RemoveAllAccelerators;
 begin
   PCefWindow(FData)^.remove_all_accelerators(PCefWindow(FData));
+end;
+
+procedure TCefWindowRef.SetThemeColor(color_id: integer; color: TCefColor);
+begin
+  PCefWindow(FData)^.set_theme_color(PCefWindow(FData), color_id, color);
+end;
+
+procedure TCefWindowRef.ThemeChanged;
+begin
+  PCefWindow(FData)^.theme_changed(PCefWindow(FData));
+end;
+
+function TCefWindowRef.GetRuntimeStyle: TCefRuntimeStyle;
+begin
+  Result := PCefWindow(FData)^.get_runtime_style(PCefWindow(FData));
 end;
 
 class function TCefWindowRef.UnWrap(data: Pointer): ICefWindow;

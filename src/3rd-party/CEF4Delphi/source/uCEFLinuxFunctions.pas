@@ -15,21 +15,27 @@ uses
   {$IFDEF LINUX}
     {$IFDEF FPC}
       ctypes, keysym, xf86keysym, x, xlib, LCLVersion,
-      {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
+      {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}         
       {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3objects, gtk3procs,{$ENDIF}
     {$ENDIF}
   {$ENDIF}
   uCEFLinuxTypes, uCEFTypes;
 
+{$IFNDEF FPC}
+const
+  // We define this constant only to avoid warnings in Delphi
+  LCL_FULLVERSION = 3000001;
+{$ENDIF}
+
 {$IFDEF LINUX}
 procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
 function  KeyboardCodeFromXKeysym(keysym : uint32) : integer;
-{$IFDEF LCLGTK2 or (LCLGTK3 and (LCL_FULLVERSION<3000000))}
+{$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2) or (DEFINED(LCLGTK3) and (LCL_FULLVERSION<3000000))}
 function  GetCefStateModifiers(state : uint32) : integer;
-{$ENDIF}
-{$IFDEF LCLGTK3 and (LCL_FULLVERSION>3000000)}
+{$IFEND}
+{$IF DEFINED(LCLGTK3) and (LCL_FULLVERSION>3000000)}
 function  GetCefStateModifiers(state : TGdkModifierType) : integer;
-{$ENDIF}
+{$IFEND}
 function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
 function  GetWindowsKeyCodeWithoutLocation(key_code : integer) : integer;
 function  GetControlCharacter(windows_key_code : integer; shift : boolean) : integer;
@@ -453,7 +459,7 @@ begin
   end;
 end;
 
-{$IFDEF LCLGTK2 or (LCLGTK3 and (LCL_FULLVERSION<3000000))}
+{$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2) or (DEFINED(LCLGTK3) and (LCL_FULLVERSION<3000000))}
 function GetCefStateModifiers(state : uint32) : integer;
 begin
   Result := EVENTFLAG_NONE;
@@ -479,8 +485,8 @@ begin
   if ((state and GDK_BUTTON3_MASK) <> 0) then
     Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
 end;
-{$ENDIF}
-{$IFDEF LCLGTK3 and (LCL_FULLVERSION>3000000)}
+{$IFEND}
+{$IF DEFINED(LCLGTK3) and (LCL_FULLVERSION>3000000)}
 function GetCefStateModifiers(state : TGdkModifierType) : integer;
 begin
   Result := EVENTFLAG_NONE;
@@ -506,9 +512,7 @@ begin
   if (GDK_BUTTON3_MASK in state) then
     Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
 end;
-{$ENDIF}
-
-
+{$IFEND}
 
 function GdkEventToWindowsKeyCode(event: PGdkEventKey) : integer;
 var

@@ -249,10 +249,10 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_SetValueByAccessor(const TObj: ICefv8Value; const key: PChar; settings: Cardinal; attribute: Cardinal): LongBool; extdecl;
+function CefV8Value_SetValueByAccessor(const TObj: ICefv8Value; const key: PChar;  attribute: Cardinal): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.SetValueByAccessor(PCharToUStr(key), TCefV8AccessControls(settings), TCefV8PropertyAttributes(attribute));
+  Result := TObj.SetValueByAccessor(PCharToUStr(key), TCefV8PropertyAttributes(attribute));
   handleExceptionEnd
 end;
 

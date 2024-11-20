@@ -129,87 +129,6 @@ type
       procedure ResolveHost(const origin: ustring; const callback: ICefResolveCallback);
 
       /// <summary>
-      /// Load an extension.
-      ///
-      /// If extension resources will be read from disk using the default load
-      /// implementation then |root_directory| should be the absolute path to the
-      /// extension resources directory and |manifest| should be NULL. If extension
-      /// resources will be provided by the client (e.g. via cef_request_handler_t
-      /// and/or cef_extension_handler_t) then |root_directory| should be a path
-      /// component unique to the extension (if not absolute this will be internally
-      /// prefixed with the PK_DIR_RESOURCES path) and |manifest| should contain the
-      /// contents that would otherwise be read from the "manifest.json" file on
-      /// disk.
-      ///
-      /// The loaded extension will be accessible in all contexts sharing the same
-      /// storage (HasExtension returns true (1)). However, only the context on
-      /// which this function was called is considered the loader (DidLoadExtension
-      /// returns true (1)) and only the loader will receive
-      /// cef_request_context_handler_t callbacks for the extension.
-      ///
-      /// cef_extension_handler_t::OnExtensionLoaded will be called on load success
-      /// or cef_extension_handler_t::OnExtensionLoadFailed will be called on load
-      /// failure.
-      ///
-      /// If the extension specifies a background script via the "background"
-      /// manifest key then cef_extension_handler_t::OnBeforeBackgroundBrowser will
-      /// be called to create the background browser. See that function for
-      /// additional information about background scripts.
-      ///
-      /// For visible extension views the client application should evaluate the
-      /// manifest to determine the correct extension URL to load and then pass that
-      /// URL to the cef_browser_host_t::CreateBrowser* function after the extension
-      /// has loaded. For example, the client can look for the "browser_action"
-      /// manifest key as documented at
-      /// https://developer.chrome.com/extensions/browserAction. Extension URLs take
-      /// the form "chrome-extension://<extension_id>/<path>".
-      ///
-      /// Browsers that host extensions differ from normal browsers as follows:
-      ///  - Can access chrome.* JavaScript APIs if allowed by the manifest. Visit
-      ///    chrome://extensions-support for the list of extension APIs currently
-      ///    supported by CEF.
-      ///  - Main frame navigation to non-extension content is blocked.
-      ///  - Pinch-zooming is disabled.
-      ///  - CefBrowserHost::GetExtension returns the hosted extension.
-      ///  - CefBrowserHost::IsBackgroundHost returns true for background hosts.
-      ///
-      /// See https://developer.chrome.com/extensions for extension implementation
-      /// and usage documentation.
-      /// </summary>
-      procedure LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
-
-      /// <summary>
-      /// Returns true (1) if this context was used to load the extension identified
-      /// by |extension_id|. Other contexts sharing the same storage will also have
-      /// access to the extension (see HasExtension). This function must be called
-      /// on the browser process UI thread.
-      /// </summary>
-      function  DidLoadExtension(const extension_id: ustring): boolean;
-
-      /// <summary>
-      /// Returns true (1) if this context has access to the extension identified by
-      /// |extension_id|. This may not be the context that was used to load the
-      /// extension (see DidLoadExtension). This function must be called on the
-      /// browser process UI thread.
-      /// </summary>
-      function  HasExtension(const extension_id: ustring): boolean;
-
-      /// <summary>
-      /// Retrieve the list of all extensions that this context has access to (see
-      /// HasExtension). |extension_ids| will be populated with the list of
-      /// extension ID values. Returns true (1) on success. This function must be
-      /// called on the browser process UI thread.
-      /// </summary>
-      function  GetExtensions(const extension_ids: TStringList): boolean;
-
-      /// <summary>
-      /// Returns the extension matching |extension_id| or NULL if no matching
-      /// extension is accessible in this context (see HasExtension). This function
-      /// must be called on the browser process UI thread.
-      /// </summary>
-      function  GetExtension(const extension_id: ustring): ICefExtension;
-
-      /// <summary>
       /// Returns the MediaRouter object associated with this context.  If
       /// |callback| is non-NULL it will be executed asnychronously on the UI thread
       /// after the manager's context has been initialized.
@@ -264,24 +183,63 @@ type
       /// </summary>
       procedure SetContentSetting(const requesting_url, top_level_url: ustring; content_type: TCefContentSettingTypes; value: TCefContentSettingValues);
 
+      /// <summary>
+      /// Sets the Chrome color scheme for all browsers that share this request
+      /// context. |variant| values of SYSTEM, LIGHT and DARK change the underlying
+      /// color mode (e.g. light vs dark). Other |variant| values determine how
+      /// |user_color| will be applied in the current color mode. If |user_color| is
+      /// transparent (0) the default color will be used.
+      /// </summary>
+      procedure SetChromeColorScheme(variant: TCefColorVariant; user_color: TCefColor);
+
+      /// <summary>
+      /// Returns the current Chrome color scheme mode (SYSTEM, LIGHT or DARK). Must
+      /// be called on the browser process UI thread.
+      /// </summary>
+      function GetChromeColorSchemeMode: TCefColorVariant;
+
+      /// <summary>
+      /// Returns the current Chrome color scheme color, or transparent (0) for the
+      /// default color. Must be called on the browser process UI thread.
+      /// </summary>
+      function GetChromeColorSchemeColor: TCefColor;
+
+      /// <summary>
+      /// Returns the current Chrome color scheme variant. Must be called on the
+      /// browser process UI thread.
+      /// </summary>
+      function GetChromeColorSchemeVariant: TCefColorVariant;
+
     public
       class function UnWrap(data: Pointer): ICefRequestContext; reintroduce;
       /// <summary>
       /// Returns the global context object.
       /// </summary>
       class function Global: ICefRequestContext; reintroduce;
-
       /// <summary>
       /// Creates a new context object with the specified |settings| and optional
       /// |handler|.
       /// </summary>
+      /// <param name="settings">Pointer to TCefRequestContextSettings.</param>
+      /// <param name="handler">Optional handler for the request context.</param>
       class function New(const settings: PCefRequestContextSettings; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
-      class function New(const aCache, aAcceptLanguageList, aCookieableSchemesList : ustring; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : boolean; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
-
+      /// <summary>
+      /// Creates a new context object with the specified settings and optional
+      /// |handler|.
+      /// </summary>
+      /// <param name="aCache">The directory where cache data for this request context will be stored on disk. See TCefRequestContextSettings.cache_path for more information.</param>
+      /// <param name="aAcceptLanguageList">Comma delimited ordered list of language codes without any whitespace that will be used in the "Accept-Language" HTTP header. See TCefRequestContextSettings.accept_language_list for more information.</param>
+      /// <param name="aCookieableSchemesList">Comma delimited list of schemes supported by the associated ICefCookieManager. See TCefRequestContextSettings.cookieable_schemes_list for more information.</param>
+      /// <param name="aCookieableSchemesExcludeDefaults">Setting this parameter to true will disable all loading and saving of cookies. See TCefRequestContextSettings.cookieable_schemes_list for more information.</param>
+      /// <param name="aPersistSessionCookies">To persist session cookies (cookies without an expiry date or validity interval) by default when using the global cookie manager set this value to true. See TCefRequestContextSettings.persist_session_cookies for more information.</param>
+      /// <param name="handler">Optional handler for the request context.</param>
+      class function New(const aCache, aAcceptLanguageList, aCookieableSchemesList : ustring; aCookieableSchemesExcludeDefaults, aPersistSessionCookies : boolean; const handler: ICefRequestContextHandler = nil): ICefRequestContext; overload;
       /// <summary>
       /// Creates a new context object that shares storage with |other| and uses an
       /// optional |handler|.
       /// </summary>
+      /// <param name="other">Another ICefRequestContext instance that will share storage with the new ICefRequestContext instance.</param>
+      /// <param name="handler">Optional handler for the request context.</param>
       class function Shared(const other: ICefRequestContext; const handler: ICefRequestContextHandler): ICefRequestContext;
   end;
 
@@ -304,7 +262,7 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager, uCEFRequestContextHandler,
-  uCEFExtension, uCEFStringList, uCEFMediaRouter, uCEFValue;
+  uCEFStringList, uCEFMediaRouter, uCEFValue;
 
 function TCefRequestContextRef.ClearSchemeHandlerFactories: Boolean;
 begin
@@ -369,7 +327,6 @@ class function TCefRequestContextRef.New(const aCache                           
                                          const aCookieableSchemesList            : ustring;
                                                aCookieableSchemesExcludeDefaults : boolean;
                                                aPersistSessionCookies            : boolean;
-                                               aPersistUserPreferences           : boolean;
                                          const handler                           : ICefRequestContextHandler): ICefRequestContext;
 var
   TempSettings : TCefRequestContextSettings;
@@ -377,7 +334,6 @@ begin
   TempSettings.size                                 := SizeOf(TCefRequestContextSettings);
   TempSettings.cache_path                           := CefString(aCache);
   TempSettings.persist_session_cookies              := Ord(aPersistSessionCookies);
-  TempSettings.persist_user_preferences             := Ord(aPersistUserPreferences);
   TempSettings.accept_language_list                 := CefString(aAcceptLanguageList);
   TempSettings.cookieable_schemes_list              := CefString(aCookieableSchemesList);
   TempSettings.cookieable_schemes_exclude_defaults  := Ord(aCookieableSchemesExcludeDefaults);
@@ -407,52 +363,6 @@ var
 begin
   TempOrigin := CefString(origin);
   PCefRequestContext(FData)^.resolve_host(PCefRequestContext(FData), @TempOrigin, CefGetData(callback));
-end;
-
-procedure TCefRequestContextRef.LoadExtension(const root_directory: ustring; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);
-var
-  TempDir : TCefString;
-begin
-  TempDir := CefString(root_directory);
-  PCefRequestContext(FData)^.load_extension(PCefRequestContext(FData), @TempDir, CefGetData(manifest), CefGetData(handler));
-end;
-
-function TCefRequestContextRef.DidLoadExtension(const extension_id: ustring): boolean;
-var
-  TempID : TCefString;
-begin
-  TempID := CefString(extension_id);
-  Result := PCefRequestContext(FData)^.did_load_extension(PCefRequestContext(FData), @TempID) <> 0;
-end;
-
-function TCefRequestContextRef.HasExtension(const extension_id: ustring): boolean;
-var
-  TempID : TCefString;
-begin
-  TempID := CefString(extension_id);
-  Result := PCefRequestContext(FData)^.has_extension(PCefRequestContext(FData), @TempID) <> 0;
-end;
-
-function TCefRequestContextRef.GetExtensions(const extension_ids: TStringList): boolean;
-var
-  TempSL : ICefStringList;
-begin
-  Result := False;
-  TempSL := TCefStringListOwn.Create;
-
-  if (PCefRequestContext(FData)^.get_extensions(PCefRequestContext(FData), TempSL.Handle) <> 0) then
-    begin
-      TempSL.CopyToStrings(extension_ids);
-      Result := True;
-    end;
-end;
-
-function TCefRequestContextRef.GetExtension(const extension_id: ustring): ICefExtension;
-var
-  TempID : TCefString;
-begin
-  TempID := CefString(extension_id);
-  Result := TCefExtensionRef.UnWrap(PCefRequestContext(FData)^.get_extension(PCefRequestContext(FData), @TempID));
 end;
 
 function TCefRequestContextRef.GetMediaRouter(const callback: ICefCompletionCallback): ICefMediaRouter;
@@ -494,6 +404,26 @@ begin
   TempRequestingURL := CefString(requesting_url);
   TempTopLevelURL   := CefString(top_level_url);
   PCefRequestContext(FData)^.set_content_setting(PCefRequestContext(FData), @TempRequestingURL, @TempTopLevelURL, content_type, value);
+end;
+
+procedure TCefRequestContextRef.SetChromeColorScheme(variant: TCefColorVariant; user_color: TCefColor);
+begin
+  PCefRequestContext(FData)^.set_chrome_color_scheme(PCefRequestContext(FData), variant, user_color);
+end;
+
+function TCefRequestContextRef.GetChromeColorSchemeMode: TCefColorVariant;
+begin
+  Result := PCefRequestContext(FData)^.get_chrome_color_scheme_mode(PCefRequestContext(FData));
+end;
+
+function TCefRequestContextRef.GetChromeColorSchemeColor: TCefColor;
+begin
+  Result := PCefRequestContext(FData)^.get_chrome_color_scheme_color(PCefRequestContext(FData));
+end;
+
+function TCefRequestContextRef.GetChromeColorSchemeVariant: TCefColorVariant;
+begin
+  Result := PCefRequestContext(FData)^.get_chrome_color_scheme_variant(PCefRequestContext(FData));
 end;
 
 function TCefRequestContextRef.RegisterSchemeHandlerFactory(const schemeName : ustring;

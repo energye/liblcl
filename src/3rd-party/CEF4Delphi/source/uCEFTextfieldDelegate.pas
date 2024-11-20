@@ -43,7 +43,7 @@ type
   TCefTextfieldDelegateOwn = class(TCefViewDelegateOwn, ICefTextfieldDelegate)
     protected
       /// <summary>
-      /// Called when |textfield| recieves a keyboard event. |event| contains
+      /// Called when |textfield| receives a keyboard event. |event| contains
       /// information about the keyboard event. Return true (1) if the keyboard
       /// event was handled or false (0) otherwise for default handling.
       /// </summary>
@@ -80,6 +80,7 @@ type
       procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
+      procedure OnThemeChanged(const view: ICefView); override;
 
       // ICefTextfieldDelegate
       procedure OnKeyEvent(const textfield: ICefTextfield; const event: TCefKeyEvent; var aResult : boolean); override;
@@ -309,6 +310,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomTextfieldDelegate.OnBlur', e) then raise;
+  end;
+end;
+
+procedure TCustomTextfieldDelegate.OnThemeChanged(const view: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefTextfieldDelegateEvents(FEvents).doOnThemeChanged(view);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomTextfieldDelegate.OnThemeChanged', e) then raise;
   end;
 end;
 

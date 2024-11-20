@@ -267,10 +267,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_AddOverlayView(const AWindow: ICefWindow; const view: ICefView; docking_mode: TCefDockingMode; out Result: ICefOverlayController); extdecl;
+procedure ICEFWindow_AddOverlayView(const AWindow: ICefWindow; const view: ICefView; docking_mode: TCefDockingMode; can_activate: boolean; out Result: ICefOverlayController); extdecl;
 begin
   handleExceptionBegin
-  Result := AWindow.AddOverlayView(view, docking_mode);
+  Result := AWindow.AddOverlayView(view, docking_mode, can_activate);
   handleExceptionEnd
 end;
 
@@ -337,10 +337,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_SetAccelerator(const AWindow: ICefWindow; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: LongBool); extdecl;
+procedure ICEFWindow_SetAccelerator(const AWindow: ICefWindow; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: LongBool); extdecl;
 begin
   handleExceptionBegin
-  AWindow.SetAccelerator(command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed);
+  AWindow.SetAccelerator(command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed, high_priority);
   handleExceptionEnd
 end;
 

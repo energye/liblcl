@@ -58,12 +58,9 @@
 {$I CEF_LCL_DownloadImageCallback.inc}
 {$I CEF_LCL_DownloadItem.inc}
 {$I CEF_LCL_DragData.inc}
-{$I CEF_LCL_Extension.inc}
-{$I CEF_LCL_ExtensionHandler.inc}
 {$I CEF_LCL_FileDialogCallback.inc}
 {$I CEF_LCL_FillLayout.inc}
 {$I CEF_LCL_Frame.inc}
-{$I CEF_LCL_GetExtensionResourceCallback.inc}
 {$I CEF_LCL_Image.inc}
 {$I CEF_LCL_JsDialogCallback.inc}
 {$I CEF_LCL_LabelButton.inc}

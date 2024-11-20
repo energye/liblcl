@@ -62,7 +62,7 @@ type
 
   // ICefDownloadHandler
   TOnCanDownloadEvent             = procedure(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: boolean) of object;
-  TOnBeforeDownload               = procedure(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback) of object;
+  TOnBeforeDownload               = procedure(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback; var aResult : boolean) of object;
   TOnDownloadUpdated              = procedure(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback) of object;
 
   // ICefJsDialogHandler
@@ -73,6 +73,7 @@ type
 
   // ICefLifeSpanHandler
   TOnBeforePopup                  = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean; var Result: Boolean) of object;
+  TOnBeforeDevToolsPopup          = procedure(Sender: TObject; const browser: ICefBrowser; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var use_default_window: boolean) of object;
   TOnAfterCreated                 = procedure(Sender: TObject; const browser: ICefBrowser) of object;
   TOnBeforeClose                  = procedure(Sender: TObject; const browser: ICefBrowser) of object;
   TOnClose                        = procedure(Sender: TObject; const browser: ICefBrowser; var aAction : TCefCloseBrowserAction) of object;
@@ -84,7 +85,9 @@ type
   TOnCertificateError             = procedure(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: Boolean) of object;
   TOnSelectClientCertificate      = procedure(Sender: TObject; const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult : boolean) of object;
   TOnRenderViewReady              = procedure(Sender: Tobject; const browser: ICefBrowser) of object;
-  TOnRenderProcessTerminated      = procedure(Sender: TObject; const browser: ICefBrowser; status: TCefTerminationStatus) of object;
+  TOnRenderProcessUnresponsive    = procedure(Sender: Tobject; const browser: ICefBrowser; const callback: ICefUnresponsiveProcessCallback; var aResult: boolean) of object;
+  TOnRenderProcessResponsive      = procedure(Sender: Tobject; const browser: ICefBrowser) of object;
+  TOnRenderProcessTerminated      = procedure(Sender: TObject; const browser: ICefBrowser; status: TCefTerminationStatus; error_code: integer; const error_string: ustring) of object;
   TOnGetResourceRequestHandler    = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; is_navigation, is_download: boolean; const request_initiator: ustring; var disable_default_handling: boolean; var aExternalResourceRequestHandler : ICefResourceRequestHandler) of object;
   TOnDocumentAvailableInMainFrame = procedure(Sender: Tobject; const browser: ICefBrowser) of object;
 
@@ -102,7 +105,7 @@ type
   TOnCanSaveCookie                = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie; var aResult : boolean) of object;
 
   // ICefDialogHandler
-  TOnFileDialog                   = procedure(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback; var Result: Boolean) of Object;
+  TOnFileDialog                   = procedure(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters, accept_extensions, accept_descriptions: TStrings; const callback: ICefFileDialogCallback; var Result: Boolean) of Object;
 
   // ICefRenderHandler
   TOnGetAccessibilityHandler      = procedure(Sender: TObject; var aAccessibilityHandler : ICefAccessibilityHandler) of Object;
@@ -113,7 +116,7 @@ type
   TOnPopupShow                    = procedure(Sender: TObject; const browser: ICefBrowser; show: Boolean) of Object;
   TOnPopupSize                    = procedure(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect) of Object;
   TOnPaint                        = procedure(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer) of Object;
-  TOnAcceleratedPaint             = procedure(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer) of Object;
+  TOnAcceleratedPaint             = procedure(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const info: PCefAcceleratedPaintInfo) of Object;
   TOnGetTouchHandleSize           = procedure(Sender: TObject; const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize) of Object;
   TOnTouchHandleStateChanged      = procedure(Sender: TObject; const browser: ICefBrowser; const state: TCefTouchHandleState) of Object;
   TOnStartDragging                = procedure(Sender: TObject; const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer; out Result: Boolean) of Object;
@@ -156,16 +159,6 @@ type
   TOnDevToolsEventRawEvent        = procedure(Sender: TObject; const browser: ICefBrowser; const method: ustring; const params: Pointer; params_size: NativeUInt) of object;
   TOnDevToolsAgentAttachedEvent   = procedure(Sender: TObject; const browser: ICefBrowser) of object;
   TOnDevToolsAgentDetachedEvent   = procedure(Sender: TObject; const browser: ICefBrowser) of object;
-
-  // ICefExtensionHandler
-  TOnExtensionLoadFailedEvent     = procedure(Sender: TObject; result: TCefErrorcode) of object;
-  TOnExtensionLoadedEvent         = procedure(Sender: TObject; const extension: ICefExtension) of object;
-  TOnExtensionUnloadedEvent       = procedure(Sender: TObject; const extension: ICefExtension) of object;
-  TOnBeforeBackgroundBrowserEvent = procedure(Sender: TObject; const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings; var aResult : boolean) of object;
-  TOnBeforeBrowserEvent           = procedure(Sender: TObject; const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: Integer; const url: ustring; active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var aResult : boolean) of object;
-  TOnGetActiveBrowserEvent        = procedure(Sender: TObject; const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; var aRsltBrowser : ICefBrowser) of object;
-  TOnCanAccessBrowserEvent        = procedure(Sender: TObject; const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser; var aResult : boolean) of object;
-  TOnGetExtensionResourceEvent    = procedure(Sender: TObject; const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback; var aResult : boolean) of object;
 
   // ICefPrintHandler
   TOnPrintStartEvent              = procedure(Sender: TObject; const browser: ICefBrowser) of object;

@@ -37,10 +37,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GetFrameById(const TObj: ICefBrowser; frameId: PInt64; var Result: ICefFrame); extdecl;
+procedure CEFBrowser_GetFrameById(const TObj: ICefBrowser; frameId: PChar; var Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetFrameByident(FrameId^);
+  Result := TObj.GetFrameByIdentifier(PCharToUStr(frameId));
   if Result = nil then
   begin
     exit;
@@ -53,7 +53,7 @@ end;
 procedure CEFBrowser_GetFrameByName(const TObj: ICefBrowser; PName: PChar; var Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetFrame(PCharToUStr(PName));
+  Result := TObj.GetFrameByName(PCharToUStr(PName));
   if Result = nil then
   begin
     exit;
@@ -306,15 +306,6 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowser_IsBackgroundHost(const TObj: ICefBrowser) : LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := False;
-  if TObj.GetHost <> nil then
-    Result := TObj.GetHost.IsBackgroundHost;
-  handleExceptionEnd
-end;
-
 procedure CEFBrowser_SetAudioMuted(const TObj: ICefBrowser; mute: LongBool); extdecl;
 begin
   handleExceptionBegin
@@ -504,28 +495,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GetFrameIdentifiers(const TObj: ICefBrowser; var Result: TStrings; var rFrameCount : NativeUInt; var rFrameIds: TCefFrameIdentifierArray); extdecl;
+function CEFBrowser_GetFrameIdentifiers(const TObj: ICefBrowser; var ResultIds: TStrings): Boolean; extdecl;
 var
   frameIds : TStrings;
-  idx: Integer;
-  resultFrameCount : NativeUInt;
-  resultFrameIds: TCefFrameIdentifierArray;
 begin
   handleExceptionBegin
-  TObj.GetFrameIdentifiers(resultFrameCount, resultFrameIds);
-  rFrameCount := resultFrameCount;
-  if resultFrameCount > 0 then
-  begin
-    rFrameIds := resultFrameIds;
-    frameIds := TStringList.Create;
-    for idx := 0 to resultFrameCount - 1 do
-    begin
-      frameIds.Add(IntToStr(resultFrameIds[idx]));
-    end;
-    Result := frameIds;
-  end
-  else
-    Result := nil;
+  frameIds := TStringList.Create;
+  Result := TObj.GetFrameIdentifiers(frameIds);
+  ResultIds := frameIds;
   handleExceptionEnd
 end;
 

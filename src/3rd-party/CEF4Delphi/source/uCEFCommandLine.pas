@@ -45,8 +45,18 @@ type
       procedure PrependWrapper(const wrapper: ustring);
 
     public
+      /// <summary>
+      /// Returns a ICefCommandLine instance using a PCefCommandLine data pointer.
+      /// </summary>
       class function UnWrap(data: Pointer): ICefCommandLine;
+      /// <summary>
+      /// Create a new ICefCommandLine instance.
+      /// </summary>
       class function New: ICefCommandLine;
+      /// <summary>
+      /// Returns the singleton global ICefCommandLine object. The returned object
+      /// will be read-only.
+      /// </summary>
       class function Global: ICefCommandLine;
   end;
 
@@ -144,7 +154,11 @@ begin
               TempValue := TempStrMap.Value[i];
 
               if (length(TempKey) > 0) and (length(TempValue) > 0) then
+                {$IFDEF VER140}
+                switches.Add(TempKey + '=' + TempValue)  // Only for Delphi 6
+                {$ELSE}
                 switches.Add(TempKey + switches.NameValueSeparator + TempValue)
+                {$ENDIF}
                else
                 if (length(TempKey) > 0) then
                   switches.Add(TempKey)

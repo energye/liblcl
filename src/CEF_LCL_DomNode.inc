@@ -40,10 +40,10 @@ begin
   handleExceptionEnd
 end;
 
-function  CefDomNode_GetFormControlElementType(const TObj: ICefDomNode): PChar; extdecl;
+function  CefDomNode_GetFormControlElementType(const TObj: ICefDomNode): Integer; extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetFormControlElementType));
+  Result := Integer(TObj.GetFormControlElementType);
   handleExceptionEnd
 end;
 

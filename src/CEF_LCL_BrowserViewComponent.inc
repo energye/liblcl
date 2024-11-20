@@ -24,7 +24,6 @@ begin
   requestContextSettings^.size := SizeOf(TCefRequestContextSettings);// NativeUInt(PRequestContextSettings^.size);
   requestContextSettings^.cache_path := CefString(PCharToUStr(PRequestContextSettings^.cachePath));
   requestContextSettings^.persist_session_cookies := Integer(PRequestContextSettings^.persistSessionCookies);
-  requestContextSettings^.persist_user_preferences := Integer(PRequestContextSettings^.persistUserPreferences);
   requestContextSettings^.accept_language_list := CefString(PCharToUStr(PRequestContextSettings^.acceptLanguageList));
   requestContextSettings^.cookieable_schemes_list := CefString(PCharToUStr(PRequestContextSettings^.cookieableSchemesList));
   requestContextSettings^.cookieable_schemes_exclude_defaults := Integer(PRequestContextSettings^.cookieableSchemesExcludeDefaults);

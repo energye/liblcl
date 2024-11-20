@@ -205,7 +205,6 @@ type
   RCefRequestContextSettings = record
     cachePath: PChar;
     persistSessionCookies: PInteger;
-    persistUserPreferences: PInteger;
     acceptLanguageList: PChar;
     cookieableSchemesList: PChar;
     cookieableSchemesExcludeDefaults: PInteger;

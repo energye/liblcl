@@ -290,7 +290,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_ExecuteJavaScript(const AObj: TChromium; aCode, aScriptURL : PChar; startLine: integer = 0); extdecl;
+procedure CEFChromium_ExecuteJavaScript(const AObj: TChromium; aCode, aScriptURL : PChar; const aFrame : ICefFrame; startLine: integer = 0); extdecl;
 var
   code, scriptURL : ustring;
 begin
@@ -301,7 +301,7 @@ begin
   begin
   scriptURL := 'about:blank';
   end;
-  AObj.ExecuteJavaScript(code, scriptURL, startLine);
+  AObj.ExecuteJavaScript(code, scriptURL, aFrame, startLine);
   handleExceptionEnd
 end;
 
@@ -526,17 +526,6 @@ begin
   handleExceptionBegin
   {$ifdef mswindows}
   Result:= AObj.BrowserHandle;
-  {$else}
-  Result := 0;
-  {$endif}
-  handleExceptionEnd
-end;
-
-function CEFChromium_WidgetHandle(const AObj: TChromium): THandle ; extdecl;
-begin
-  handleExceptionBegin
-  {$ifdef mswindows}
-  Result:= AObj.WidgetHandle;
   {$else}
   Result := 0;
   {$endif}
@@ -1075,13 +1064,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure  CEFChromium_RetrieveHTMLByFrameIdentifier(const AObj: TChromium; var aFrameIdentifier : int64); extdecl;
-begin
-  handleExceptionBegin
-  AObj.RetrieveHTML(aFrameIdentifier);
-  handleExceptionEnd
-end;
-
 procedure  CEFChromium_RetrieveTextByFrameName(const AObj: TChromium; const aFrameName : PChar); extdecl;
 begin
   handleExceptionBegin
@@ -1093,13 +1075,6 @@ procedure  CEFChromium_RetrieveTextByFrame(const AObj: TChromium; const aFrame :
 begin
   handleExceptionBegin
   AObj.RetrieveText(aFrame);
-  handleExceptionEnd
-end;
-
-procedure  CEFChromium_RetrieveTextByFrameIdentifier(const AObj: TChromium; var aFrameIdentifier : int64); extdecl;
-begin
-  handleExceptionBegin
-  AObj.RetrieveText(aFrameIdentifier);
   handleExceptionEnd
 end;
 
@@ -1125,25 +1100,25 @@ begin
   st := cdstAll;
   // TCefClearDataStorageTypes = default cdstAll
   if aStorageTypes = 0 then
-  st := cdstAppCache
+    st := cdstAppCache
   else if aStorageTypes = 1 then
-  st := cdstCookies
+    st := cdstCookies
   else if aStorageTypes = 2 then
-  st := cdstFileSystems
+    st := cdstFileSystems
   else if aStorageTypes = 3 then
-  st := cdstIndexeddb
+    st := cdstIndexeddb
   else if aStorageTypes = 4 then
-  st := cdstLocalStorage
+    st := cdstLocalStorage
   else if aStorageTypes = 5 then
-  st := cdstShaderCache
+    st := cdstShaderCache
   else if aStorageTypes = 6 then
-  st := cdstWebsql
+    st := cdstWebsql
   else if aStorageTypes = 7 then
-  st := cdstServiceWorkers
+    st := cdstServiceWorkers
   else if aStorageTypes = 8 then
-  st := cdstCacheStorage
+    st := cdstCacheStorage
   else if aStorageTypes = 9 then
-  st := cdstAll;
+    st := cdstAll;
   AObj.ClearDataForOrigin(PCharToUStr(aOrigin), st);
   handleExceptionEnd
 end;
@@ -1410,42 +1385,6 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_LoadExtension(const AObj: TChromium; const root_directory: PChar; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler;
-  const requestContext : ICefRequestContext): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.LoadExtension(PCharToUStr(root_directory), manifest, handler, requestContext);
-  handleExceptionEnd
-end;
-
-function CEFChromium_DidLoadExtension(const AObj: TChromium; const extension_id: PChar): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.DidLoadExtension(PCharToUStr(extension_id));
-  handleExceptionEnd
-end;
-
-function CEFChromium_HasExtension(const AObj: TChromium; const extension_id: PChar): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.HasExtension(PCharToUStr(extension_id));
-  handleExceptionEnd
-end;
-
-function CEFChromium_GetExtensions(const AObj: TChromium; const extension_ids: TStringList): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.GetExtensions(extension_ids);
-  handleExceptionEnd
-end;
-
-procedure CEFChromium_GetExtension(const AObj: TChromium; const extension_id: PChar; var Result: ICefExtension); extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.GetExtension(PCharToUStr(extension_id));
-  handleExceptionEnd
-end;
-
 procedure CEFChromium_GetWebsiteSetting(const AObj: TChromium; const requesting_url, top_level_url: PChar; content_type: TCefContentSettingTypes; var Result: ICefValue); extdecl;
 begin
   handleExceptionBegin
@@ -1542,7 +1481,6 @@ exports
   CEFChromium_FrameIsFocused,
   CEFChromium_TryCloseBrowser,
   CEFChromium_BrowserHandle,
-  CEFChromium_WidgetHandle,
   CEFChromium_RenderHandle,
   CEFChromium_SetCustomHeader,//
   CEFChromium_GetCustomHeader,
@@ -1613,10 +1551,8 @@ exports
   CEFChromium_CloseAllConnections,
   CEFChromium_RetrieveHTMLByFrameName,
   CEFChromium_RetrieveHTMLByFrame,
-  CEFChromium_RetrieveHTMLByFrameIdentifier,
   CEFChromium_RetrieveTextByFrameName,
   CEFChromium_RetrieveTextByFrame,
-  CEFChromium_RetrieveTextByFrameIdentifier,
   CEFChromium_ResolveHost,
   CEFChromium_SetUserAgentOverride,
   CEFChromium_ClearDataForOrigin,
@@ -1653,11 +1589,6 @@ exports
   CEFChromium_SetNewBrowserParent,
   CEFChromium_Fullscreen,
   CEFChromium_ExitFullscreen,
-  CEFChromium_LoadExtension,
-  CEFChromium_DidLoadExtension,
-  CEFChromium_HasExtension,
-  CEFChromium_GetExtensions,
-  CEFChromium_GetExtension,
   CEFChromium_GetWebsiteSetting,
   CEFChromium_SetWebsiteSetting,
   CEFChromium_GetContentSetting,

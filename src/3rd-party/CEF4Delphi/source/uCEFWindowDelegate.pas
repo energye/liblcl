@@ -27,6 +27,7 @@ type
       procedure OnWindowDestroyed(const window_: ICefWindow);
       procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean);
       procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
+      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
       procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
       procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
@@ -34,13 +35,16 @@ type
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean);
       procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean);
       procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
+      procedure OnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState);
       procedure OnCanResize(const window_: ICefWindow; var aResult : boolean);
       procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean);
       procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean);
       procedure OnCanClose(const window_: ICefWindow; var aResult : boolean);
       procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean);
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
-      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+      procedure OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
+      procedure OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
+      procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
 
     public
       /// <summary>
@@ -82,6 +86,16 @@ type
       /// screen coordinates.
       /// </summary>
       procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); virtual;
+      /// <summary>
+      /// Called when |window| is transitioning to or from fullscreen mode. On MacOS
+      /// the transition occurs asynchronously with |is_competed| set to false (0)
+      /// when the transition starts and true (1) after the transition completes. On
+      /// other platforms the transition occurs synchronously with |is_completed|
+      /// set to true (1) after the transition completes. With Alloy style you must
+      /// also implement ICefDisplayHandler.OnFullscreenModeChange to handle
+      /// fullscreen transitions initiated by browser content.
+      /// </summary>
+      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); virtual;
       /// <summary>
       /// Return the parent for |window| or NULL if the |window| does not have a
       /// parent. Windows with parents will not get a taskbar button. Set |is_menu|
@@ -134,6 +148,16 @@ type
       /// </summary>
       procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean); virtual;
       /// <summary>
+      /// <para>Return whether the view should accept the initial mouse-down event,
+      /// allowing it to respond to click-through behavior. If STATE_ENABLED is
+      /// returned, the view will be sent a mouseDown: message for an initial mouse-
+      /// down event, activating the view with one click, instead of clicking first
+      /// to make the window active and then clicking the view.</para>
+      /// <para>This function is only supported on macOS. For more details, refer to the
+      /// documentation of acceptsFirstMouse.</para>
+      /// </summary>
+      procedure OnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState); virtual;
+      /// <summary>
       /// Return true (1) if |window| can be resized.
       /// </summary>
       procedure OnCanResize(const window_: ICefWindow; var aResult : boolean); virtual;
@@ -163,15 +187,42 @@ type
       /// </summary>
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); virtual;
       /// <summary>
-      /// Called when |window| is transitioning to or from fullscreen mode. On MacOS
-      /// the transition occurs asynchronously with |is_competed| set to false (0)
-      /// when the transition starts and true (1) after the transition completes. On
-      /// other platforms the transition occurs synchronously with |is_completed|
-      /// set to true (1) after the transition completes. With the Alloy runtime you
-      /// must also implement ICefDisplayHandler.OnFullscreenModeChange to
-      /// handle fullscreen transitions initiated by browser content.
+      /// <para>Called after the native/OS or Chrome theme for |window| has changed.
+      /// |chrome_theme| will be true (1) if the notification is for a Chrome theme.</para>
+      /// <para>Native/OS theme colors are configured globally and do not need to be
+      /// customized for each Window individually. An example of a native/OS theme
+      /// change that triggers this callback is when the user switches between dark
+      /// and light mode during application lifespan. Native/OS theme changes can be
+      /// disabled by passing the `--force-dark-mode` or `--force-light-mode`
+      /// command-line flag.</para>
+      /// <para>Chrome theme colors will be applied and this callback will be triggered
+      /// if/when a BrowserView is added to the Window's component hierarchy. Chrome
+      /// theme colors can be configured on a per-RequestContext basis using
+      /// ICefRequestContext.SetChromeColorScheme or (Chrome style only) by
+      /// visiting chrome://settings/manageProfile. Any theme changes using those
+      /// mechanisms will also trigger this callback. Chrome theme colors will be
+      /// persisted and restored from disk cache.</para>
+      /// <para>This callback is not triggered on Window creation so clients that wish to
+      /// customize the initial native/OS theme must call
+      /// ICefWindow.SetThemeColor and ICefWindow.ThemeChanged before showing
+      /// the first Window.</para>
+      /// <para>Theme colors will be reset to standard values before this callback is
+      /// called for the first affected Window. Call ICefWindow.SetThemeColor
+      /// from inside this callback to override a standard color or add a custom
+      /// color. ICefViewDelegate.OnThemeChanged will be called after this
+      /// callback for the complete |window| component hierarchy.</para>
       /// </summary>
-      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); virtual;
+      procedure OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer); virtual;
+      /// <summary>
+      /// Optionally change the runtime style for this Window. See
+      /// TCefRuntimeStyle documentation for details.
+      /// </summary>
+      procedure OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle); virtual;
+      /// <summary>
+      /// Return Linux-specific window properties for correctly handling by window
+      /// managers.
+      /// </summary>
+      procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean); virtual;
       /// <summary>
       /// Links the methods in the internal CEF record data pointer with the methods in this class.
       /// </summary>
@@ -200,6 +251,7 @@ type
       procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
       procedure OnFocus(const view: ICefView); override;
       procedure OnBlur(const view: ICefView); override;
+      procedure OnThemeChanged(const view: ICefView); override;
 
       // ICefWindowDelegate
       procedure OnWindowCreated(const window_: ICefWindow); override;
@@ -207,6 +259,7 @@ type
       procedure OnWindowDestroyed(const window_: ICefWindow); override;
       procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); override;
       procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); override;
+      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); override;
       procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); override;
       procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean); override;
       procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); override;
@@ -214,13 +267,16 @@ type
       procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean); override;
+      procedure OnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState); override;
       procedure OnCanResize(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnCanClose(const window_: ICefWindow; var aResult : boolean); override;
       procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean); override;
       procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); override;
-      procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); override;
+      procedure OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer); override;
+      procedure OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle); override;
+      procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean); override;
 
     public
       /// <summary>
@@ -262,6 +318,11 @@ end;
 procedure TCefWindowDelegateRef.OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
 begin
   PCefWindowDelegate(FData)^.on_window_bounds_changed(PCefWindowDelegate(FData), CefGetData(window_), @new_bounds);
+end;
+
+procedure TCefWindowDelegateRef.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+begin
+  PCefWindowDelegate(FData)^.on_window_fullscreen_transition(PCefWindowDelegate(FData), CefGetData(window_), ord(is_completed));
 end;
 
 procedure TCefWindowDelegateRef.OnGetParentWindow(const window_            : ICefWindow;
@@ -311,6 +372,11 @@ begin
   aResult := (PCefWindowDelegate(FData)^.get_titlebar_height(PCefWindowDelegate(FData), CefGetData(window_), @titlebar_height) <> 0);
 end;
 
+procedure TCefWindowDelegateRef.OnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState);
+begin
+  aResult := PCefWindowDelegate(FData)^.accepts_first_mouse(PCefWindowDelegate(FData), CefGetData(window_));
+end;
+
 procedure TCefWindowDelegateRef.OnCanResize(const window_: ICefWindow; var aResult : boolean);
 begin
   aResult := (PCefWindowDelegate(FData)^.can_resize(PCefWindowDelegate(FData), CefGetData(window_)) <> 0);
@@ -341,9 +407,36 @@ begin
   aResult := (PCefWindowDelegate(FData)^.on_key_event(PCefWindowDelegate(FData), CefGetData(window_), @event) <> 0);
 end;
 
-procedure TCefWindowDelegateRef.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+procedure TCefWindowDelegateRef.OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
 begin
-  PCefWindowDelegate(FData)^.on_window_fullscreen_transition(PCefWindowDelegate(FData), CefGetData(window_), ord(is_completed));
+  PCefWindowDelegate(FData)^.on_theme_colors_changed(PCefWindowDelegate(FData), CefGetData(window_), chrome_theme);
+end;
+
+procedure TCefWindowDelegateRef.OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
+begin
+  aResult := PCefWindowDelegate(FData)^.get_window_runtime_style(PCefWindowDelegate(FData));
+end;
+
+procedure TCefWindowDelegateRef.OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+var
+  TempProperties : TCefLinuxWindowProperties;
+begin
+  aResult := False;
+
+  CefStringInitialize(@TempProperties.wayland_app_id);
+  CefStringInitialize(@TempProperties.wm_class_class);
+  CefStringInitialize(@TempProperties.wm_class_name);
+  CefStringInitialize(@TempProperties.wm_role_name);
+
+  if (PCefWindowDelegate(FData)^.get_linux_window_properties(PCefWindowDelegate(FData), CefGetData(window_), @TempProperties) <> 0) then
+    begin
+      aResult := True;
+
+      properties.wayland_app_id := CefString(@TempProperties.wayland_app_id);
+      properties.wm_class_class := CefString(@TempProperties.wm_class_class);
+      properties.wm_class_name  := CefString(@TempProperties.wm_class_name);
+      properties.wm_role_name   := CefString(@TempProperties.wm_role_name);
+    end;
 end;
 
 class function TCefWindowDelegateRef.UnWrap(data: Pointer): ICefWindowDelegate;
@@ -369,6 +462,16 @@ begin
     TCefWindowDelegateOwn(TempObject).OnWindowCreated(TCefWindowRef.UnWrap(window_));
 end;
 
+procedure cef_window_delegate_on_window_closing(self: PCefWindowDelegate; window_: PCefWindow); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    TCefWindowDelegateOwn(TempObject).OnWindowClosing(TCefWindowRef.UnWrap(window_));
+end;
+
 procedure cef_window_delegate_on_window_destroyed(self: PCefWindowDelegate; window_: PCefWindow); stdcall;
 var
   TempObject : TObject;
@@ -388,6 +491,30 @@ begin
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
     TCefWindowDelegateOwn(TempObject).OnWindowActivationChanged(TCefWindowRef.UnWrap(window_),
                                                                 active <> 0);
+end;
+
+procedure cef_window_delegate_on_window_bounds_changed(self: PCefWindowDelegate; window_: PCefWindow; const new_bounds: PCefRect); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    TCefWindowDelegateOwn(TempObject).OnWindowBoundsChanged(TCefWindowRef.UnWrap(window_),
+                                                            new_bounds^);
+end;
+
+procedure cef_window_delegate_on_window_fullscreen_transition(self         : PCefWindowDelegate;
+                                                              window_      : PCefWindow;
+                                                              is_completed : integer); stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    TCefWindowDelegateOwn(TempObject).OnWindowFullscreenTransition(TCefWindowRef.UnWrap(window_),
+                                                                   is_completed <> 0);
 end;
 
 function cef_window_delegate_get_parent_window(self              : PCefWindowDelegate;
@@ -467,16 +594,59 @@ end;
 
 function cef_window_delegate_is_frameless(self: PCefWindowDelegate; window_: PCefWindow): Integer; stdcall;
 var
-  TempObject      : TObject;
-  TempIsFrameless : boolean;
+  TempObject : TObject;
+  TempResult : boolean;
 begin
   TempObject      := CefGetObject(self);
-  TempIsFrameless := False;
+  TempResult := False;
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnIsFrameless(TCefWindowRef.UnWrap(window_), TempIsFrameless);
+    TCefWindowDelegateOwn(TempObject).OnIsFrameless(TCefWindowRef.UnWrap(window_),
+                                                    TempResult);
 
-  Result := ord(TempIsFrameless);
+  Result := ord(TempResult);
+end;
+
+function cef_window_delegate_with_standard_window_buttons(self: PCefWindowDelegate; window_: PCefWindow): Integer; stdcall;
+var
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempObject := CefGetObject(self);
+  TempResult := True;
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    TCefWindowDelegateOwn(TempObject).OnWithStandardWindowButtons(TCefWindowRef.UnWrap(window_), TempResult);
+
+  Result := ord(TempResult);
+end;
+
+function cef_window_delegate_get_titlebar_height(self: PCefWindowDelegate; window_: PCefWindow; titlebar_height: PSingle): Integer; stdcall;
+var
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempObject := CefGetObject(self);
+  TempResult := False;
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    TCefWindowDelegateOwn(TempObject).OnGetTitlebarHeight(TCefWindowRef.UnWrap(window_),
+                                                          titlebar_height^,
+                                                          TempResult);
+
+  Result := ord(TempResult);
+end;
+
+function cef_window_delegate_accepts_first_mouse(self: PCefWindowDelegate; window_: PCefWindow): TCefState; stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+  Result     := STATE_DEFAULT;
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    TCefWindowDelegateOwn(TempObject).OnAcceptsFirstMouse(TCefWindowRef.UnWrap(window_),
+                                                          Result);
 end;
 
 function cef_window_delegate_can_resize(self: PCefWindowDelegate; window_: PCefWindow): Integer; stdcall;
@@ -567,17 +737,52 @@ begin
   Result := ord(TempResult);
 end;
 
-procedure cef_window_delegate_on_window_fullscreen_transition(self         : PCefWindowDelegate;
-                                                              window_      : PCefWindow;
-                                                              is_completed : integer); stdcall;
+procedure cef_window_delegate_on_theme_colors_changed(self: PCefWindowDelegate; window_: PCefWindow; chrome_theme: Integer); stdcall;
 var
   TempObject : TObject;
 begin
   TempObject := CefGetObject(self);
 
   if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
-    TCefWindowDelegateOwn(TempObject).OnWindowFullscreenTransition(TCefWindowRef.UnWrap(window_),
-                                                                   is_completed <> 0);
+    TCefWindowDelegateOwn(TempObject).OnThemeColorsChanged(TCefWindowRef.UnWrap(window_),
+                                                           chrome_theme);
+end;
+
+function cef_window_delegate_get_window_runtime_style(self: PCefWindowDelegate): TCefRuntimeStyle; stdcall;
+var
+  TempObject : TObject;
+begin
+  TempObject := CefGetObject(self);
+  Result     := CEF_RUNTIME_STYLE_DEFAULT;
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    TCefWindowDelegateOwn(TempObject).OnGetWindowRuntimeStyle(Result);
+end;
+
+function cef_window_delegate_get_linux_window_properties(self: PCefWindowDelegate; window_: PCefWindow; properties: PCefLinuxWindowProperties): Integer; stdcall;
+var
+  TempProperties : TLinuxWindowProperties;
+  TempObject : TObject;
+  TempResult : boolean;
+begin
+  TempObject := CefGetObject(self);
+  TempResult := False;
+
+  if (TempObject <> nil) and (TempObject is TCefWindowDelegateOwn) then
+    begin
+      TCefWindowDelegateOwn(TempObject).OnGetLinuxWindowProperties(TCefWindowRef.UnWrap(window_),
+                                                                   TempProperties,
+                                                                   TempResult);
+      if TempResult then
+        begin
+          CefStringSet(@properties^.wayland_app_id, TempProperties.wayland_app_id);
+          CefStringSet(@properties^.wm_class_class, TempProperties.wm_class_class);
+          CefStringSet(@properties^.wm_class_name,  TempProperties.wm_class_name);
+          CefStringSet(@properties^.wm_role_name,   TempProperties.wm_role_name);
+        end;
+    end;
+
+  Result := ord(TempResult);
 end;
 
 constructor TCefWindowDelegateOwn.Create;
@@ -594,20 +799,28 @@ begin
   with PCefWindowDelegate(FData)^ do
     begin
       on_window_created                := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_created;
+      on_window_closing                := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_closing;
       on_window_destroyed              := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_destroyed;
       on_window_activation_changed     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_activation_changed;
+      on_window_bounds_changed         := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_bounds_changed;
+      on_window_fullscreen_transition  := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_fullscreen_transition;
       get_parent_window                := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_parent_window;
       is_window_modal_dialog           := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_is_window_modal_dialog;
       get_initial_bounds               := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_initial_bounds;
       get_initial_show_state           := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_initial_show_state;
       is_frameless                     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_is_frameless;
+      with_standard_window_buttons     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_with_standard_window_buttons;
+      get_titlebar_height              := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_titlebar_height;
+      accepts_first_mouse              := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_accepts_first_mouse;
       can_resize                       := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_can_resize;
       can_maximize                     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_can_maximize;
       can_minimize                     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_can_minimize;
       can_close                        := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_can_close;
       on_accelerator                   := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_accelerator;
       on_key_event                     := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_key_event;
-      on_window_fullscreen_transition  := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_window_fullscreen_transition;
+      on_theme_colors_changed          := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_on_theme_colors_changed;
+      get_window_runtime_style         := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_window_runtime_style;
+      get_linux_window_properties      := {$IFDEF FPC}@{$ENDIF}cef_window_delegate_get_linux_window_properties;
     end;
 end;
 
@@ -632,6 +845,11 @@ begin
 end;
 
 procedure TCefWindowDelegateOwn.OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
+begin
+  //
+end;
+
+procedure TCefWindowDelegateOwn.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
 begin
   //
 end;
@@ -671,6 +889,11 @@ begin
   //
 end;
 
+procedure TCefWindowDelegateOwn.OnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState);
+begin
+  //
+end;
+
 procedure TCefWindowDelegateOwn.OnCanResize(const window_: ICefWindow; var aResult : boolean);
 begin
   //
@@ -701,11 +924,20 @@ begin
   //
 end;
 
-procedure TCefWindowDelegateOwn.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+procedure TCefWindowDelegateOwn.OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
 begin
   //
 end;
 
+procedure TCefWindowDelegateOwn.OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
+begin
+  aResult := CEF_RUNTIME_STYLE_DEFAULT;
+end;
+
+procedure TCefWindowDelegateOwn.OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+begin
+  aResult := False;
+end;
 
 // **************************************************************
 // ******************* TCustomWindowDelegate ********************
@@ -828,6 +1060,17 @@ begin
   end;
 end;
 
+procedure TCustomWindowDelegate.OnThemeChanged(const view: ICefView);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnThemeChanged(view);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnThemeChanged', e) then raise;
+  end;
+end;
+
 procedure TCustomWindowDelegate.OnWindowCreated(const window_: ICefWindow);
 begin
   try
@@ -880,6 +1123,17 @@ begin
   except
     on e : exception do
       if CustomExceptionHandler('TCustomWindowDelegate.OnWindowBoundsChanged', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnWindowFullscreenTransition(window_, is_completed);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnWindowFullscreenTransition', e) then raise;
   end;
 end;
 
@@ -960,6 +1214,17 @@ begin
   end;
 end;
 
+procedure TCustomWindowDelegate.OnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState);
+begin
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnAcceptsFirstMouse(window_, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnAcceptsFirstMouse', e) then raise;
+  end;
+end;
+
 procedure TCustomWindowDelegate.OnCanResize(const window_: ICefWindow; var aResult : boolean);
 begin
   try
@@ -1026,17 +1291,41 @@ begin
   end;
 end;
 
-procedure TCustomWindowDelegate.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
+procedure TCustomWindowDelegate.OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
 begin
   try
     if (FEvents <> nil) then
-      ICefWindowDelegateEvents(FEvents).doOnWindowFullscreenTransition(window_, is_completed);
+      ICefWindowDelegateEvents(FEvents).doOnThemeColorsChanged(window_, chrome_theme);
   except
     on e : exception do
-      if CustomExceptionHandler('TCustomWindowDelegate.OnWindowFullscreenTransition', e) then raise;
+      if CustomExceptionHandler('TCustomWindowDelegate.OnThemeColorsChanged', e) then raise;
   end;
 end;
 
+procedure TCustomWindowDelegate.OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
+begin
+  aResult := CEF_RUNTIME_STYLE_DEFAULT;
+
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnGetWindowRuntimeStyle(aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnGetWindowRuntimeStyle', e) then raise;
+  end;
+end;
+
+procedure TCustomWindowDelegate.OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+begin
+  aResult := False;
+
+  try
+    if (FEvents <> nil) then
+      ICefWindowDelegateEvents(FEvents).doOnGetLinuxWindowProperties(window_, properties, aResult);
+  except
+    on e : exception do
+      if CustomExceptionHandler('TCustomWindowDelegate.OnGetLinuxWindowProperties', e) then raise;
+  end;
+end;
 
 end.
-

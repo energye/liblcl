@@ -189,15 +189,6 @@ begin
   {$endif}
 end;
 
-procedure CEFChromium_SetOnWidgetCompMsg(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$ifdef windows}
-  {$DEFINE EventMethodName := ChromiumEvent_OnWidgetCompMsg}
-  {$DEFINE EventName := OnWidgetCompMsg}
-  EventMethodCode
-  {$endif}
-end;
-
 procedure CEFChromium_SetOnBrowserCompMsg(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$ifdef windows}
@@ -330,62 +321,6 @@ procedure CEFChromium_SetOnGetAuthCredentials(const AObj: TChromium; AEventData:
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnGetAuthCredentials}
   {$DEFINE EventName := OnGetAuthCredentials}
-  EventMethodCode
-end;
-
-procedure CEFChromium_SetOnExtensionBeforeBackgroundBrowser(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionBeforeBackgroundBrowser}
-  {$DEFINE EventName := OnExtensionBeforeBackgroundBrowser}
-  EventMethodCode
-end;
-
-procedure CEFChromium_SetOnExtensionBeforeBrowser(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionBeforeBrowser}
-  {$DEFINE EventName := OnExtensionBeforeBrowser}
-  EventMethodCode
-end;
-
-procedure CEFChromium_SetOnExtensionCanAccessBrowser(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionCanAccessBrowser}
-  {$DEFINE EventName := OnExtensionCanAccessBrowser}
-  EventMethodCode
-end;
-
-procedure CEFChromium_SetOnExtensionGetActiveBrowser(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionGetActiveBrowser}
-  {$DEFINE EventName := OnExtensionGetActiveBrowser}
-  EventMethodCode
-end;
-
-procedure CEFChromium_SetOnExtensionGetExtensionResource(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionGetExtensionResource}
-  {$DEFINE EventName := OnExtensionGetExtensionResource}
-  EventMethodCode
-end;
-
-procedure CEFChromium_SetOnExtensionLoaded(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionLoaded}
-  {$DEFINE EventName := OnExtensionLoaded}
-  EventMethodCode
-end;
-
-procedure CEFChromium_SetOnExtensionLoadFailed(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionLoadFailed}
-  {$DEFINE EventName := OnExtensionLoadFailed}
-  EventMethodCode
-end;
-
-procedure CEFChromium_SetOnExtensionUnloaded(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := ChromiumEvent_OnExtensionUnloaded}
-  {$DEFINE EventName := OnExtensionUnloaded}
   EventMethodCode
 end;
 
@@ -1053,7 +988,6 @@ exports
   CEFChromium_SetOnBeforeDownload,
   CEFChromium_SetOnDownloadUpdated,
   CEFChromium_SetOnRenderCompMsg,
-  CEFChromium_SetOnWidgetCompMsg,
   CEFChromium_SetOnBrowserCompMsg,
   CEFChromium_SetOnRenderProcessTerminated,
   CEFChromium_SetOnRenderViewReady,
@@ -1074,14 +1008,6 @@ exports
   CEFChromium_SetOnFrameDetached,
   CEFChromium_SetOnMainFrameChanged,
   CEFChromium_SetOnGetAuthCredentials,
-  CEFChromium_SetOnExtensionBeforeBackgroundBrowser,//
-  CEFChromium_SetOnExtensionBeforeBrowser,
-  CEFChromium_SetOnExtensionCanAccessBrowser,
-  CEFChromium_SetOnExtensionGetActiveBrowser,
-  CEFChromium_SetOnExtensionGetExtensionResource,
-  CEFChromium_SetOnExtensionLoaded,
-  CEFChromium_SetOnExtensionLoadFailed,
-  CEFChromium_SetOnExtensionUnloaded,
   CEFChromium_SetOnPrintStart,
   CEFChromium_SetOnPrintSettings,
   CEFChromium_SetOnPrintDialog,

@@ -159,10 +159,10 @@ begin
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_AddOverlayView(const TObj: TCEFWindowComponent; const view: ICefView; docking_mode: TCefDockingMode): ICefOverlayController; extdecl;
+procedure CEFWindowComponent_AddOverlayView(const TObj: TCEFWindowComponent; const view: ICefView; docking_mode: TCefDockingMode; can_activate: boolean; out Result: ICefOverlayController); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.AddOverlayView(view, docking_mode);
+  Result := TObj.AddOverlayView(view, docking_mode, can_activate);
   handleExceptionEnd
 end;
 
@@ -201,10 +201,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_SetAccelerator(const TObj: TCEFWindowComponent; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: LongBool); extdecl;
+procedure CEFWindowComponent_SetAccelerator(const TObj: TCEFWindowComponent; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: LongBool); extdecl;
 begin
   handleExceptionBegin
-  TObj.SetAccelerator(command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed);
+  TObj.SetAccelerator(command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed, high_priority);
   handleExceptionEnd
 end;
 

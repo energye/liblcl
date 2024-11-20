@@ -72,48 +72,221 @@ function CefGetData(const i: ICefBaseRefCounted): Pointer; {$IFDEF SUPPORTS_INLI
 function CefStringAlloc(const str: ustring): TCefString;
 function CefStringClearAndGet(str: PCefString): ustring;
 
+/// <summary>Converts ustring to TCefString.</summary>
 function  CefString(const str: ustring): TCefString; overload;
+/// <summary>Converts PCefString to ustring.</summary>
 function  CefString(const str: PCefString): ustring; overload;
 function  CefUserFreeString(const str: ustring): PCefStringUserFree;
 procedure CefStringFree(const str: PCefString);
 function  CefStringFreeAndGet(const str: PCefStringUserFree): ustring;
-procedure CefStringSet(const str: PCefString; const value: ustring);
+procedure CefStringSet(const str: PCefString; const value: ustring); overload;
+procedure CefStringSet(const aDstStr, aSrcStr: TCefString); overload;
 procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE}inline;{$ENDIF}
 
+/// <summary>
+/// Register a new V8 extension with the specified JavaScript extension code and
+/// handler. Functions implemented by the handler are prototyped using the
+/// keyword 'native'. The calling of a native function is restricted to the
+/// scope in which the prototype of the native function is defined. This
+/// function may only be called on the render process main thread.
+///
+/// Example JavaScript extension code: <pre>
+///   // create the 'example' global object if it doesn't already exist.
+///   if (!example)
+///     example = {};
+///   // create the 'example.test' global object if it doesn't already exist.
+///   if (!example.test)
+///     example.test = {};
+///   (function() {
+///     // Define the function 'example.test.myfunction'.
+///     example.test.myfunction = function() {
+///       // Call CefV8Handler::Execute() with the function name 'MyFunction'
+///       // and no arguments.
+///       native function MyFunction();
+///       return MyFunction();
+///     };
+///     // Define the getter function for parameter 'example.test.myparam'.
+///     example.test.__defineGetter__('myparam', function() {
+///       // Call CefV8Handler::Execute() with the function name 'GetMyParam'
+///       // and no arguments.
+///       native function GetMyParam();
+///       return GetMyParam();
+///     });
+///     // Define the setter function for parameter 'example.test.myparam'.
+///     example.test.__defineSetter__('myparam', function(b) {
+///       // Call CefV8Handler::Execute() with the function name 'SetMyParam'
+///       // and a single argument.
+///       native function SetMyParam();
+///       if(b) SetMyParam(b);
+///     });
+///
+///     // Extension definitions can also contain normal JavaScript variables
+///     // and functions.
+///     var myint = 0;
+///     example.test.increment = function() {
+///       myint += 1;
+///       return myint;
+///     };
+///   })();
+/// </pre>
+///
+/// Example usage in the page: <pre>
+///   // Call the function.
+///   example.test.myfunction();
+///   // Set the parameter.
+///   example.test.myparam = value;
+///   // Get the parameter.
+///   value = example.test.myparam;
+///   // Call another function.
+///   example.test.increment();
+/// </pre>
+/// </summary>
 function CefRegisterExtension(const name, code: ustring; const Handler: ICefv8Handler): Boolean;
-
+/// <summary>
+/// Post a task for execution on the specified thread. Equivalent to using
+/// TCefTaskRunnerRef.GetForThread(threadId).PostTask(task).
+/// </summary>
 function CefPostTask(aThreadId : TCefThreadId; const aTask: ICefTask) : boolean;
+/// <summary>
+/// Post a task for delayed execution on the specified thread. Equivalent to
+/// using TCefTaskRunnerRef.GetForThread(threadId).PostDelayedTask(task,
+/// delay_ms).
+/// </summary>
 function CefPostDelayedTask(aThreadId : TCefThreadId; const aTask : ICefTask; aDelayMs : Int64) : boolean;
+/// <summary>
+/// Returns true (1) if called on the specified thread. Equivalent to using
+/// TCefTaskRunnerRef.GetForThread(threadId).BelongsToCurrentThread().
+/// </summary>
 function CefCurrentlyOn(aThreadId : TCefThreadId) : boolean;
 
 {$IFDEF MSWINDOWS}
+/// <summary>
+/// Converts a TCefTime value to TSystemTime.
+/// </summary>
 function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
+/// <summary>
+/// Converts a TSystemTime value to TCefTime.
+/// </summary>
 function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
 {$ELSE}
   {$IFDEF LINUX}
     {$IFDEF FPC}
+    /// <summary>
+    /// Converts a TCefTime value to TSystemTime.
+    /// </summary>
     function CefTimeToSystemTime(const dt: TCefTime): TSystemTime;
+    /// <summary>
+    /// Converts a TSystemTime value to TCefTime.
+    /// </summary>
     function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
     {$ENDIF}
   {$ENDIF}
 {$ENDIF}
-
+/// <summary>
+/// Returns a new TCefTime with a valid time in case the original has errors.
+/// </summary>
 function FixCefTime(const dt : TCefTime): TCefTime;
+/// <summary>
+/// Converts a TCefTime value to TDateTime.
+/// </summary>
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
+/// <summary>
+/// Converts a TDateTime value to TCefTime.
+/// </summary>
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
+/// <summary>
+/// Converts a TDateTime value to TCefBaseTime.
+/// </summary>
 function DateTimeToCefBaseTime(dt: TDateTime): TCefBaseTime;
+/// <summary>
+/// Converts TCefTime to a double which is the number of seconds since
+/// epoch (Jan 1, 1970). Webkit uses this format to represent time. A value of 0
+/// means "not initialized".
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_to_doublet)</see></para>
+/// </remarks>
 function CefTimeToDouble(const dt: TCefTime): double;
+/// <summary>
+/// Converts TCefTime from a double which is the number of seconds since
+/// epoch (Jan 1, 1970). Webkit uses this format to represent time. A value of 0
+/// means "not initialized".
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_from_doublet)</see></para>
+/// </remarks>
 function DoubleToCefTime(const dt: double): TCefTime;
+/// <summary>
+/// Converts cef_time_t to time_t. time_t is almost always an integral value holding the number of seconds (not counting leap seconds) since 00:00, Jan 1 1970 UTC, corresponding to POSIX time.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_to_timet)</see></para>
+/// </remarks>
 function CefTimeToUnixTime(const dt: TCefTime): int64;
+/// <summary>
+/// Converts cef_time_t from time_t. time_t is almost always an integral value holding the number of seconds (not counting leap seconds) since 00:00, Jan 1 1970 UTC, corresponding to POSIX time.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_from_timet)</see></para>
+/// </remarks>
 function UnixTimeToCefTime(const dt: int64): TCefTime;
+/// <summary>
+/// Retrieve the current system time in a TCefTime type.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_now)</see></para>
+/// </remarks>
 function CefTimeNow: TCefTime;
+/// <summary>
+/// Retrieve the current system time in a double type.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_now)</see></para>
+/// </remarks>
 function DoubleTimeNow: double;
+/// <summary>
+/// Retrieve the delta in milliseconds between two time values.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_delta)</see></para>
+/// </remarks>
 function CefTimeDelta(const cef_time1, cef_time2: TCefTime): int64;
+/// <summary>
+/// Retrieve the current system time in a TCefBaseTime type.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_basetime_now)</see></para>
+/// </remarks>
 function CefBaseTimeNow: TCefBaseTime;
+/// <summary>
+/// Converts TCefTime to TCefBaseTime.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_to_basetime)</see></para>
+/// </remarks>
 function CetTimeToCefBaseTime(const ct: TCefTime) : TCefBaseTime;
+/// <summary>
+/// Converts TCefBaseTime to TCefTime.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_from_basetime)</see></para>
+/// </remarks>
 function CetTimeFromCefBaseTime(const cbt: TCefBaseTime) : TCefTime;
+/// <summary>
+/// Converts TCefBaseTime to TDateTime.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_time_from_basetime)</see></para>
+/// </remarks>
 function CefBaseTimeToDateTime(const cbt: TCefBaseTime) : TDateTime;
+/// <summary>
+/// Returns the time interval between now and from_ in milliseconds.
+/// This funcion should only be used by TCEFTimerWorkScheduler.
+/// </summary>
 function GetTimeIntervalMilliseconds(const from_: TCefTime): integer;
+/// <summary>
+/// Initialize a TCefTime variable.
+/// </summary>
 procedure InitializeCefTime(var aTime : TCefTime);
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
@@ -122,21 +295,27 @@ function cef_string_utf16_copy(const src: PChar16; src_len: NativeUInt; output: 
 function cef_string_copy(const src: PCefChar; src_len: NativeUInt; output: PCefString): Integer;
 
 {$IFDEF MSWINDOWS}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
 {$ENDIF}
 
 {$IFDEF MACOSX}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aHidden : boolean = False);
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False);
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aHidden : boolean = False); deprecated;
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False); deprecated;
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aHidden : boolean = False); deprecated;
 {$ENDIF}
 
 {$IFDEF LINUX}
-procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');
-procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
-procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''); deprecated;
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''); deprecated;
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''); deprecated;
+{$ENDIF}
+
+{$IFDEF ANDROID}
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = ''; aExStyle : DWORD = 0); deprecated;
 {$ENDIF}
 
 {$IFDEF MSWINDOWS}
@@ -168,34 +347,249 @@ const
 
 {$ENDIF}
 
+/// <summary>
+/// Returns true if aPath is a relative path.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisrelativew">See the PathIsRelativeW article.</see></para>
+/// </remarks>
 function CustomPathIsRelative(const aPath : string) : boolean;
+/// <summary>
+/// Simplifies a path by removing navigation elements such as "." and ".." to produce a direct, well-formed path.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathcanonicalizew">See the PathCanonicalizeW article.</see></para>
+/// </remarks>
 function CustomPathCanonicalize(const aOriginalPath : string; var aCanonicalPath : string) : boolean;
+/// <summary>
+/// Returns the absolute path version of aPath.
+/// </summary>
 function CustomAbsolutePath(const aPath : string; aMustExist : boolean = False) : string;
+/// <summary>
+/// Tests aPath to determine if it conforms to a valid URL format.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisurlw">See the PathIsURLW article.</see></para>
+/// </remarks>
 function CustomPathIsURL(const aPath : string) : boolean;
+/// <summary>
+/// Determines if aPath is a valid Universal Naming Convention (UNC) path, as opposed to a path based on a drive letter.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathisuncw">See the PathIsUNCW article.</see></para>
+/// </remarks>
 function CustomPathIsUNC(const aPath : string) : boolean;
+/// <summary>
+/// Retrieves the fully qualified path for the current module.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew">See the GetModuleFileNameW article.</see></para>
+/// </remarks>
 function GetModulePath : string;
-
+/// <summary>
+/// Returns true (1) if the certificate status represents an error.
+/// </summary>
 function CefIsCertStatusError(Status : TCefCertStatus) : boolean;
-
+/// <summary>
+/// Crash reporting is configured using an INI-style config file named
+/// "crash_reporter.cfg". On Windows and Linux this file must be placed next to
+/// the main application executable. On macOS this file must be placed in the
+/// top-level app bundle Resources directory (e.g.
+/// "<appname>.app/Contents/Resources"). File contents are as follows:
+///
+/// <pre>
+///  # Comments start with a hash character and must be on their own line.
+///
+///  [Config]
+///  ProductName=<Value of the "prod" crash key; defaults to "cef">
+///  ProductVersion=<Value of the "ver" crash key; defaults to the CEF version>
+///  AppName=<Windows only; App-specific folder name component for storing crash
+///           information; default to "CEF">
+///  ExternalHandler=<Windows only; Name of the external handler exe to use
+///                   instead of re-launching the main exe; default to empty>
+///  BrowserCrashForwardingEnabled=<macOS only; True if browser process crashes
+///                                 should be forwarded to the system crash
+///                                 reporter; default to false>
+///  ServerURL=<crash server URL; default to empty>
+///  RateLimitEnabled=<True if uploads should be rate limited; default to true>
+///  MaxUploadsPerDay=<Max uploads per 24 hours, used if rate limit is enabled;
+///                    default to 5>
+///  MaxDatabaseSizeInMb=<Total crash report disk usage greater than this value
+///                       will cause older reports to be deleted; default to 20>
+///  MaxDatabaseAgeInDays=<Crash reports older than this value will be deleted;
+///                        default to 5>
+///
+///  [CrashKeys]
+///  my_key1=<small|medium|large>
+///  my_key2=<small|medium|large>
+/// </pre>
+///
+/// <b>Config section:</b>
+///
+/// If "ProductName" and/or "ProductVersion" are set then the specified values
+/// will be included in the crash dump metadata. On macOS if these values are
+/// set to NULL then they will be retrieved from the Info.plist file using the
+/// "CFBundleName" and "CFBundleShortVersionString" keys respectively.
+///
+/// If "AppName" is set on Windows then crash report information (metrics,
+/// database and dumps) will be stored locally on disk under the
+/// "C:\Users\[CurrentUser]\AppData\Local\[AppName]\User Data" folder. On other
+/// platforms the cef_settings_t.root_cache_path value will be used.
+///
+/// If "ExternalHandler" is set on Windows then the specified exe will be
+/// launched as the crashpad-handler instead of re-launching the main process
+/// exe. The value can be an absolute path or a path relative to the main exe
+/// directory. On Linux the cef_settings_t.browser_subprocess_path value will be
+/// used. On macOS the existing subprocess app bundle will be used.
+///
+/// If "BrowserCrashForwardingEnabled" is set to true (1) on macOS then browser
+/// process crashes will be forwarded to the system crash reporter. This results
+/// in the crash UI dialog being displayed to the user and crash reports being
+/// logged under "~/Library/Logs/DiagnosticReports". Forwarding of crash reports
+/// from non-browser processes and Debug builds is always disabled.
+///
+/// If "ServerURL" is set then crashes will be uploaded as a multi-part POST
+/// request to the specified URL. Otherwise, reports will only be stored locally
+/// on disk.
+///
+/// If "RateLimitEnabled" is set to true (1) then crash report uploads will be
+/// rate limited as follows:
+///  1. If "MaxUploadsPerDay" is set to a positive value then at most the
+///     specified number of crashes will be uploaded in each 24 hour period.
+///  2. If crash upload fails due to a network or server error then an
+///     incremental backoff delay up to a maximum of 24 hours will be applied
+///     for retries.
+///  3. If a backoff delay is applied and "MaxUploadsPerDay" is > 1 then the
+///     "MaxUploadsPerDay" value will be reduced to 1 until the client is
+///     restarted. This helps to avoid an upload flood when the network or
+///     server error is resolved.
+/// Rate limiting is not supported on Linux.
+///
+/// If "MaxDatabaseSizeInMb" is set to a positive value then crash report
+/// storage on disk will be limited to that size in megabytes. For example, on
+/// Windows each dump is about 600KB so a "MaxDatabaseSizeInMb" value of 20
+/// equates to about 34 crash reports stored on disk. Not supported on Linux.
+///
+/// If "MaxDatabaseAgeInDays" is set to a positive value then crash reports
+/// older than the specified age in days will be deleted. Not supported on
+/// Linux.
+///
+/// <b>CrashKeys section:</b>
+///
+/// A maximum of 26 crash keys of each size can be specified for use by the
+/// application. Crash key values will be truncated based on the specified size
+/// (small = 64 bytes, medium = 256 bytes, large = 1024 bytes). The value of
+/// crash keys can be set from any thread or process using the
+/// CefSetCrashKeyValue function. These key/value pairs will be sent to the
+/// crash server along with the crash dump file.
+/// </summary>
 function  CefCrashReportingEnabled : boolean;
+/// <summary>
+/// Sets or clears a specific key-value pair from the crash metadata.
+/// </summary>
 procedure CefSetCrashKeyValue(const aKey, aValue : ustring);
-
 /// <summary>
 /// Add a log message. See the LogSeverity defines for supported |severity|
 /// values.
 /// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (cef_log)</see></para>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (LogSeverity)</see></para>
+/// </remarks>
 procedure CefLog(const aFile : string; aLine, aSeverity : integer; const aMessage : string);
 procedure CefDebugLog(const aMessage : string; aSeverity : integer = CEF_LOG_SEVERITY_ERROR);
 procedure CefKeyEventLog(const aEvent : TCefKeyEvent);
 procedure CefMouseEventLog(const aEvent : TCefMouseEvent);
 procedure OutputDebugMessage(const aMessage : string);
 function  CustomExceptionHandler(const aFunctionName : string; const aException : exception) : boolean;
-
+/// <summary>
+/// Gets the current log verbose level (LogSeverity).
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (cef_get_min_log_level)</see></para>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (LogSeverity)</see></para>
+/// </remarks>
+function CefGetMinLogLevel: integer;
+/// <summary>
+/// Gets the current vlog level for the given file.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (cef_get_vlog_level)</see></para>
+/// </remarks>
+function CefGetVLogLevel(const file_start : string): integer;
+/// <summary>
+/// Gets the log severity name.
+/// </summary>
+/// <remarks>
+/// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_logging.h">CEF source file: /include/base/cef_logging.h (LogSeverity)</see></para>
+/// </remarks>
+function CefGetLogSeverityName(aSeverity: integer): ustring;
+/// <summary>
+/// Register a scheme handler factory with the global request context. An NULL
+/// |DomainName| value for a standard scheme will cause the factory to match
+/// all domain names. The |DomainName| value will be ignored for non-standard
+/// schemes. If |SchemeName| is a built-in scheme and no handler is returned by
+/// |factory| then the built-in scheme handler factory will be called. If
+/// |SchemeName| is a custom scheme then you must also implement the
+/// ICefApp.OnRegisterCustomSchemes function in all processes. This
+/// function may be called multiple times to change or remove the factory that
+/// matches the specified |SchemeName| and optional |DomainName|. Returns
+/// false (0) if an error occurs. This function may be called on any thread in
+/// the browser process. Using this function is equivalent to calling cef_reques
+/// t_context_t::cef_request_context_get_global_context()->register_scheme_handl
+/// er_factory().
+/// </summary>
 function CefRegisterSchemeHandlerFactory(const SchemeName, DomainName : ustring; const handler: TCefResourceHandlerClass = nil): Boolean;
+/// <summary>
+/// Clear all scheme handler factories registered with the global request
+/// context. Returns false (0) on error. This function may be called on any
+/// thread in the browser process. Using this function is equivalent to calling
+/// cef_request_context_t::cef_request_context_get_global_context()->clear_schem
+/// e_handler_factories().
+/// </summary>
 function CefClearSchemeHandlerFactories : boolean;
-
+/// <summary>
+/// <para>Add an entry to the cross-origin access whitelist.</para>
+/// <para>The same-origin policy restricts how scripts hosted from different origins
+/// (scheme + domain + port) can communicate. By default, scripts can only
+/// access resources with the same origin. Scripts hosted on the HTTP and HTTPS
+/// schemes (but no other schemes) can use the "Access-Control-Allow-Origin"
+/// header to allow cross-origin requests. For example,
+/// https://source.example.com can make XMLHttpRequest requests on
+/// http://target.example.com if the http://target.example.com request returns
+/// an "Access-Control-Allow-Origin: https://source.example.com" response
+/// header.</para>
+/// <para>Scripts in separate frames or iframes and hosted from the same protocol and
+/// domain suffix can execute cross-origin JavaScript if both pages set the
+/// document.domain value to the same domain suffix. For example,
+/// scheme://foo.example.com and scheme://bar.example.com can communicate using
+/// JavaScript if both domains set document.domain="example.com".</para>
+/// <para>This function is used to allow access to origins that would otherwise
+/// violate the same-origin policy. Scripts hosted underneath the fully
+/// qualified |source_origin| URL (like http://www.example.com) will be allowed
+/// access to all resources hosted on the specified |target_protocol| and
+/// |target_domain|. If |target_domain| is non-NULL and
+/// |allow_target_subdomains| is false (0) only exact domain matches will be
+/// allowed. If |target_domain| contains a top- level domain component (like
+/// "example.com") and |allow_target_subdomains| is true (1) sub-domain matches
+/// will be allowed. If |target_domain| is NULL and |allow_target_subdomains| if
+/// true (1) all domains and IP addresses will be allowed.</para>
+/// <para>This function cannot be used to bypass the restrictions on local or display
+/// isolated schemes. See the comments on CefRegisterCustomScheme for more
+/// information.</para>
+/// <para>This function may be called on any thread. Returns false (0) if
+/// |source_origin| is invalid or the whitelist cannot be accessed.</para>
+/// </summary>
 function CefAddCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
+/// <summary>
+/// Remove an entry from the cross-origin access whitelist. Returns false (0) if
+/// |source_origin| is invalid or the whitelist cannot be accessed.
+/// </summary>
 function CefRemoveCrossOriginWhitelistEntry(const SourceOrigin, TargetProtocol, TargetDomain: ustring; AllowTargetSubdomains: Boolean): Boolean;
+/// <summary>
+/// Remove all entries from the cross-origin access whitelist. Returns false (0)
+/// if the whitelist cannot be accessed.
+/// </summary>
 function CefClearCrossOriginWhitelist: Boolean;
 
 procedure UInt64ToFileVersionInfo(const aVersion : uint64; var aVersionInfo : TFileVersionInfo);
@@ -223,30 +617,154 @@ function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string
 function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
 function Is32BitProcess : boolean;
 
+/// <summary>
+/// Combines specified |base_url| and |relative_url| into a ustring.
+/// </summary>
 function  CefResolveUrl(const base_url, relative_url: ustring): ustring;
+/// <summary>
+/// Parse the specified |url| into its component parts. Returns false (0) if the
+/// URL is invalid.
+/// </summary>
 function  CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
+/// <summary>
+/// Creates a URL from the specified |parts|, which must contain a non-NULL spec
+/// or a non-NULL host and path (at a minimum), but not both.
+/// </summary>
 function  CefCreateUrl(var parts: TUrlParts): ustring;
+/// <summary>
+/// This is a convenience function for formatting a URL in a concise and human-
+/// friendly way to help users make security-related decisions (or in other
+/// circumstances when people need to distinguish sites, origins, or otherwise-
+/// simplified URLs from each other). Internationalized domain names (IDN) may
+/// be presented in Unicode if the conversion is considered safe. The returned
+/// value will (a) omit the path for standard schemes, excepting file and
+/// filesystem, and (b) omit the port if it is the default for the scheme. Do
+/// not use this for URLs which will be parsed or sent to other applications.
+/// </summary>
 function  CefFormatUrlForSecurityDisplay(const originUrl: string): string;
+/// <summary>
+/// Returns the mime type for the specified file extension or an NULL string if
+/// unknown.
+/// </summary>
 function  CefGetMimeType(const extension: ustring): ustring;
+/// <summary>
+/// Get the extensions associated with the given mime type. This should be
+/// passed in lower case. There could be multiple extensions for a given mime
+/// type, like "html,htm" for "text/html", or "txt,text,html,..." for "text/*".
+/// Any existing elements in the provided vector will not be erased.
+/// </summary>
 procedure CefGetExtensionsForMimeType(const mimeType: ustring; var extensions: TStringList);
-
+/// <summary>
+/// Encodes |data| as a base64 string.
+/// </summary>
 function CefBase64Encode(const data: Pointer; dataSize: NativeUInt): ustring;
+/// <summary>
+/// Decodes the base64 encoded string |data|. The returned value will be NULL if
+/// the decoding fails.
+/// </summary>
 function CefBase64Decode(const data: ustring): ICefBinaryValue;
+/// <summary>
+/// Escapes characters in |text| which are unsuitable for use as a query
+/// parameter value. Everything except alphanumerics and -_.!~*'() will be
+/// converted to "%XX". If |use_plus| is true (1) spaces will change to "+". The
+/// result is basically the same as encodeURIComponent in Javacript.
+/// </summary>
 function CefUriEncode(const text: ustring; usePlus: Boolean): ustring;
+/// <summary>
+/// Unescapes |text| and returns the result. Unescaping consists of looking for
+/// the exact pattern "%XX" where each X is a hex digit and converting to the
+/// character with the numerical value of those digits (e.g. "i%20=%203%3b"
+/// unescapes to "i = 3;"). If |convert_to_utf8| is true (1) this function will
+/// attempt to interpret the initial decoded result as UTF-8. If the result is
+/// convertable into UTF-8 it will be returned as converted. Otherwise the
+/// initial decoded result will be returned.  The |unescape_rule| parameter
+/// supports further customization the decoding process.
+/// </summary>
 function CefUriDecode(const text: ustring; convertToUtf8: Boolean; unescapeRule: TCefUriUnescapeRule): ustring;
-
+/// <summary>
+/// Retrieve the path associated with the specified |aPathKey|.
+/// Can be called on any thread in the browser process.
+/// </summary>
 function CefGetPath(const aPathKey : TCefPathKey) : ustring;
-
+/// <summary>
+/// Returns true (1) if the application text direction is right-to-left.
+/// </summary>
 function CefIsRTL : boolean;
-
+/// <summary>
+/// Creates a directory and all parent directories if they don't already exist.
+/// Returns true (1) on successful creation or if the directory already exists.
+/// The directory is only readable by the current user. Calling this function on
+/// the browser process UI or IO threads is not allowed.
+/// </summary>
 function CefCreateDirectory(const fullPath: ustring): Boolean;
+/// <summary>
+/// Get the temporary directory provided by the system.
+/// WARNING: In general, you should use the temp directory variants below
+/// instead of this function. Those variants will ensure that the proper
+/// permissions are set so that other users on the system can't edit them while
+/// they're open (which could lead to security issues).
+/// </summary>
 function CefGetTempDirectory(out tempDir: ustring): Boolean;
+/// <summary>
+/// Creates a new directory. On Windows if |prefix| is provided the new
+/// directory name is in the format of "prefixyyyy". Returns true (1) on success
+/// and sets |newTempPath| to the full path of the directory that was created.
+/// The directory is only readable by the current user. Calling this function on
+/// the browser process UI or IO threads is not allowed.
+/// </summary>
 function CefCreateNewTempDirectory(const prefix: ustring; out newTempPath: ustring): Boolean;
+/// <summary>
+/// Creates a directory within another directory. Extra characters will be
+/// appended to |prefix| to ensure that the new directory does not have the same
+/// name as an existing directory. Returns true (1) on success and sets
+/// |newDir| to the full path of the directory that was created. The directory
+/// is only readable by the current user. Calling this function on the browser
+/// process UI or IO threads is not allowed.
+/// </summary>
 function CefCreateTempDirectoryInDirectory(const baseDir, prefix: ustring; out newDir: ustring): Boolean;
+/// <summary>
+/// Returns true (1) if the given path exists and is a directory. Calling this
+/// function on the browser process UI or IO threads is not allowed.
+/// </summary>
 function CefDirectoryExists(const path: ustring): Boolean;
+/// <summary>
+/// Deletes the given path whether it's a file or a directory. If |path| is a
+/// directory all contents will be deleted.  If |recursive| is true (1) any sub-
+/// directories and their contents will also be deleted (equivalent to executing
+/// "rm -rf", so use with caution). On POSIX environments if |path| is a
+/// symbolic link then only the symlink will be deleted. Returns true (1) on
+/// successful deletion or if |path| does not exist. Calling this function on
+/// the browser process UI or IO threads is not allowed.
+/// </summary>
 function CefDeleteFile(const path: ustring; recursive: Boolean): Boolean;
+/// <summary>
+/// Writes the contents of |srcDir| into a zip archive at |destFile|. If
+/// |includeHiddenFiles| is true (1) files starting with "." will be included.
+/// Returns true (1) on success.  Calling this function on the browser process
+/// UI or IO threads is not allowed.
+/// </summary>
 function CefZipDirectory(const srcDir, destFile: ustring; includeHiddenFiles: Boolean): Boolean;
+/// <summary>
+/// Loads the existing "Certificate Revocation Lists" file that is managed by
+/// Google Chrome. This file can generally be found in Chrome's User Data
+/// directory (e.g. "C:\Users\[User]\AppData\Local\Google\Chrome\User Data\" on
+/// Windows) and is updated periodically by Chrome's component updater service.
+/// Must be called in the browser process after the context has been
+/// initialized. See https://dev.chromium.org/Home/chromium-security/crlsets for
+/// background.
+/// </summary>
 procedure CefLoadCRLSetsFile(const path : ustring);
+/// <summary>
+/// <para>Return a user-agent string.</para>
+/// <para>This function tries to replicate the BuildUserAgentFromOSAndProduct
+/// function in Chromium but it's safer to call the 'Browser.getVersion'
+/// DevTools method.</para>
+/// </summary>
+/// <remarks>
+/// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:content/common/user_agent.cc">Chromium source file: content/common/user_agent.cc (BuildUserAgentFromOSAndProduct)</see></para>
+/// <para><see href="https://chromedevtools.github.io/devtools-protocol/tot/Browser/#method-getVersion">See the Browser.getVersion article.</see></para>
+/// </remarks>
+function  GetDefaultCEFUserAgent : string;
 
 {$IFDEF MSWINDOWS}
 function  CefIsKeyDown(aWparam : WPARAM) : boolean;
@@ -260,9 +778,10 @@ procedure DropEffectToDragOperation(aEffect : Longint; var aAllowedOps : TCefDra
 procedure DragOperationToDropEffect(const aDragOperations : TCefDragOperations; var aEffect: Longint);
 
 function  GetWindowsMajorMinorVersion(var wMajorVersion, wMinorVersion : DWORD) : boolean;
+function  GetIsWow64Process2(var aProcessMachine, aNativeMachine : WORD) : boolean;
+function  IsWowProcess: boolean;
 function  RunningWindows10OrNewer : boolean;
 function  GetDPIForHandle(aHandle : HWND; var aDPI : UINT) : boolean;
-function  GetDefaultCEFUserAgent : string;
 {$IFDEF DELPHI14_UP}
 function  TouchPointToPoint(aHandle : HWND; const TouchPoint: TTouchInput): TPoint;
 function  GetDigitizerStatus(var aDigitizerStatus : TDigitizerStatus; aDPI : cardinal = 0) : boolean;
@@ -284,14 +803,34 @@ function GetDeviceScaleFactor : single;
 function DeleteDirContents(const aDirectory : string; const aExcludeFiles : TStringList = nil) : boolean;
 function DeleteFileList(const aFileList : TStringList) : boolean;
 function MoveFileList(const aFileList : TStringList; const aSrcDirectory, aDstDirectory : string) : boolean;
-
+/// <summary>
+/// Returns a URI with a DATA scheme using |aString| as the URI's data.
+/// </summary>
 function CefGetDataURI(const aString, aMimeType : ustring) : ustring; overload;
+/// <summary>
+/// Returns a URI with a DATA scheme encoding |aData| as a base64 string.
+/// </summary>
 function CefGetDataURI(aData : pointer; aSize : integer; const aMimeType : ustring; const aCharset : ustring = '') : ustring; overload;
 
 function ValidCefWindowHandle(aHandle : TCefWindowHandle) : boolean;
 procedure InitializeWindowHandle(var aHandle : TCefWindowHandle);
 
+/// <summary>
+/// Returns a command line switch value if it exists.
+/// </summary>
 function GetCommandLineSwitchValue(const aKey : string; var aValue : ustring) : boolean;
+/// <summary>
+/// Returns true if the command line switch has a "type" value.
+/// </summary>
+function IsCEFSubprocess : boolean;
+
+{$IFNDEF FPC}{$IFNDEF DELPHI7_UP}
+function PosEx(const SubStr, S: string; Offset: Cardinal = 1): Integer;
+{$ENDIF}{$ENDIF}
+/// <summary>
+/// Convert an editting command to string.
+/// </summary>
+function EditingCommandToString(aEditingCommand : TCefEditingCommand): ustring;
 
 implementation
 
@@ -299,7 +838,7 @@ uses
   {$IFDEF LINUX}{$IFDEF FMX}uCEFLinuxFunctions, Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
   {$IFDEF MACOSX}{$IFDEF FPC}CocoaAll,{$ELSE}Posix.Unistd, Posix.Stdio,{$ENDIF}{$ENDIF}
   uCEFApplicationCore, uCEFSchemeHandlerFactory, uCEFValue,
-  uCEFBinaryValue, uCEFStringList;
+  uCEFBinaryValue, uCEFStringList, uCEFWindowInfoWrapper;
 
 function CefColorGetA(color: TCefColor): Byte;
 begin
@@ -423,6 +962,12 @@ procedure CefStringSet(const str: PCefString; const value: ustring);
 begin
   if (str <> nil) and (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
     cef_string_utf16_set(PWideChar(value), Length(value), str, Ord(True));
+end;
+
+procedure CefStringSet(const aDstStr, aSrcStr: TCefString);
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    cef_string_utf16_set(aSrcStr.str, aSrcStr.length, @aDstStr, Ord(True));
 end;
 
 procedure CefStringInitialize(const aCefString : PCefString); {$IFDEF SUPPORTS_INLINE} inline; {$ENDIF}
@@ -768,172 +1313,82 @@ end;
 {$IFDEF MSWINDOWS}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aExStyle : DWORD);
 begin
-  aWindowInfo.ex_style                     := aExStyle;
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.style                        := WS_CHILD or WS_VISIBLE or WS_CLIPCHILDREN or WS_CLIPSIBLINGS or WS_TABSTOP;
-  aWindowInfo.bounds.x                     := aRect.left;
-  aWindowInfo.bounds.y                     := aRect.top;
-  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
-  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
-  aWindowInfo.parent_window                := aParent;
-  aWindowInfo.menu                         := 0;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  TCEFWindowInfoWrapper.AsChild(aWindowInfo, aParent, aRect);
+  aWindowInfo.ex_style    := aExStyle;
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : DWORD);
 begin
-  aWindowInfo.ex_style                     := aExStyle;
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.style                        := WS_OVERLAPPEDWINDOW or WS_CLIPCHILDREN or WS_CLIPSIBLINGS or WS_VISIBLE;
-  aWindowInfo.bounds.x                     := integer(CW_USEDEFAULT);
-  aWindowInfo.bounds.y                     := integer(CW_USEDEFAULT);
-  aWindowInfo.bounds.width                 := integer(CW_USEDEFAULT);
-  aWindowInfo.bounds.height                := integer(CW_USEDEFAULT);
-  aWindowInfo.parent_window                := aParent;
-  aWindowInfo.menu                         := 0;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  TCEFWindowInfoWrapper.AsPopup(aWindowInfo, aParent, aWindowName);
+  aWindowInfo.ex_style := aExStyle;
 end;
 
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : DWORD);
 begin
-  aWindowInfo.ex_style                     := aExStyle;
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.style                        := 0;
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
-  aWindowInfo.parent_window                := aParent;
-  aWindowInfo.menu                         := 0;
-  aWindowInfo.windowless_rendering_enabled := ord(True);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  TCEFWindowInfoWrapper.AsWindowless(aWindowInfo, aParent);
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 {$ENDIF}
 
 {$IFDEF MACOSX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aHidden : boolean);
 begin
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := aRect.left;
-  aWindowInfo.bounds.y                     := aRect.top;
-  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
-  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
-  aWindowInfo.hidden                       := Ord(aHidden);
-  aWindowInfo.parent_view                  := aParent;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  {$IFDEF FPC}
-  aWindowInfo.view                         := 0;
-  {$ELSE}
-  aWindowInfo.view                         := nil;
-  {$ENDIF}
+  TCEFWindowInfoWrapper.AsChild(aWindowInfo, aParent, aRect);
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
 begin
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
-  aWindowInfo.hidden                       := Ord(aHidden);
-  aWindowInfo.parent_view                  := aParent;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  {$IFDEF FPC}
-  aWindowInfo.view                         := 0;
-  {$ELSE}
-  aWindowInfo.view                         := nil;
-  {$ENDIF}
+  // WindowInfoAsPopUp only exists for Windows. The macos version of cefclient
+  // calls WindowInfoAsChild with aParent set to NULL to create a popup window.
+  TCEFWindowInfoWrapper.AsChild(aWindowInfo, aParent, Rect(0, 0, 0, 0));
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aHidden : boolean);
 begin
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
-  aWindowInfo.hidden                       := Ord(aHidden);
-  aWindowInfo.parent_view                  := aParent;
-  aWindowInfo.windowless_rendering_enabled := ord(True);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  {$IFDEF FPC}
-  aWindowInfo.view                         := 0;
-  {$ELSE}
-  aWindowInfo.view                         := nil;
-  {$ENDIF}
+  TCEFWindowInfoWrapper.AsWindowless(aWindowInfo, aParent);
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 {$ENDIF}
 
 {$IFDEF LINUX}
 procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring = '');
-var
-  TempParent : TCefWindowHandle;
 begin
-  TempParent := aParent;
-  {$IFDEF FPC}
-    {$IFDEF LCLGTK2}
-    if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
-      TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
-    {$ENDIF}
-    {$IFDEF LCLGTK3}
-    if ValidCefWindowHandle(aParent) then
-      TempParent := gdk_x11_window_get_xid(TGtk3Container(aParent).Widget^.window);
-    {$ENDIF}
-  {$ENDIF}
-
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := aRect.left;
-  aWindowInfo.bounds.y                     := aRect.top;
-  aWindowInfo.bounds.width                 := aRect.right  - aRect.left;
-  aWindowInfo.bounds.height                := aRect.bottom - aRect.top;
-  aWindowInfo.parent_window                := TempParent;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  TCEFWindowInfoWrapper.AsChild(aWindowInfo, aParent, aRect);
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 
-// WindowInfoAsPopUp only exists for Windows. The Linux version of cefclient
-// calls WindowInfoAsChild with aParent set to NULL to create a popup window.
 procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
-  aWindowInfo.parent_window                := aParent;
-  aWindowInfo.windowless_rendering_enabled := ord(False);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  // WindowInfoAsPopUp only exists for Windows. The Linux version of cefclient
+  // calls WindowInfoAsChild with aParent set to NULL to create a popup window.
+  TCEFWindowInfoWrapper.AsChild(aWindowInfo, aParent, Rect(0, 0, 0, 0));
+  aWindowInfo.window_name := CefString(aWindowName);
 end;
 
 procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring = '');
 begin
-  aWindowInfo.window_name                  := CefString(aWindowName);
-  aWindowInfo.bounds.x                     := 0;
-  aWindowInfo.bounds.y                     := 0;
-  aWindowInfo.bounds.width                 := 0;
-  aWindowInfo.bounds.height                := 0;
-  aWindowInfo.parent_window                := aParent;
-  aWindowInfo.windowless_rendering_enabled := ord(True);
-  aWindowInfo.shared_texture_enabled       := ord(False);
-  aWindowInfo.external_begin_frame_enabled := ord(False);
-  aWindowInfo.window                       := 0;
+  TCEFWindowInfoWrapper.AsWindowless(aWindowInfo, aParent);
+  aWindowInfo.window_name := CefString(aWindowName);
+end;
+{$ENDIF}
+
+{$IFDEF ANDROID}
+procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; aRect : TRect; const aWindowName : ustring; aExStyle : DWORD);
+begin
+  //
+end;
+
+procedure WindowInfoAsPopUp(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : DWORD);
+begin
+  //
+end;
+
+procedure WindowInfoAsWindowless(var aWindowInfo : TCefWindowInfo; aParent : TCefWindowHandle; const aWindowName : ustring; aExStyle : DWORD);
+begin
+  //
 end;
 {$ENDIF}
 
@@ -974,6 +1429,39 @@ begin
 
       cef_log(@TempFile[1], aLine, aSeverity, @TempMessage[1]);
     end;
+end;
+
+function CefGetMinLogLevel: integer;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
+    Result := cef_get_min_log_level()
+   else
+    Result := 0;
+end;
+
+function CefGetVLogLevel(const file_start : string): integer;
+var
+  TempFile : AnsiString;
+begin
+  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (length(file_start) > 0) then
+    begin
+      TempFile := AnsiString(file_start + #0);
+      Result   := cef_get_vlog_level(@TempFile[1], length(file_start) + 1);
+    end
+   else
+    Result := 0;
+end;
+
+function CefGetLogSeverityName(aSeverity: integer): ustring;
+begin
+  case aSeverity of
+    CEF_LOG_SEVERITY_VERBOSE : Result := 'VERBOSE';
+    CEF_LOG_SEVERITY_INFO    : Result := 'INFO';
+    CEF_LOG_SEVERITY_WARNING : Result := 'WARNING';
+    CEF_LOG_SEVERITY_ERROR   : Result := 'ERROR';
+    CEF_LOG_SEVERITY_FATAL   : Result := 'FATAL';
+    else                       Result := 'UNKNOWN';
+  end;
 end;
 
 procedure CefDebugLog(const aMessage : string; aSeverity : integer);
@@ -1387,6 +1875,10 @@ begin
       TempList.Add(TempDir + 'vulkan-1.dll');
       TempList.Add(TempDir + 'libEGL.dll');
       TempList.Add(TempDir + 'libGLESv2.dll');
+      {$IFDEF WIN64}
+      TempList.Add(TempDir + 'dxcompiler.dll');
+      TempList.Add(TempDir + 'dxil.dll');
+      {$ENDIF}
       {$ENDIF}
       {$IFDEF LINUX}
       TempList.Add(TempDir + 'libEGL.so');
@@ -2210,6 +2702,47 @@ begin
     end;
 end;
 
+function GetDefaultCEFUserAgent : string;
+var
+  TempOS : string;
+  {$IFDEF MSWINDOWS}
+  TempMajorVer, TempMinorVer : DWORD;
+  {$ENDIF}
+begin
+  // See GetUserAgentPlatform() and BuildOSCpuInfo() in
+  // https://source.chromium.org/chromium/chromium/src/+/main:content/common/user_agent.cc
+  {$IFDEF MSWINDOWS}
+  TempOS := 'Windows NT ';
+
+  if GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) then
+    TempOS := TempOS + inttostr(TempMajorVer) + '.' + inttostr(TempMinorVer)
+   else
+    TempOS := TempOS + '10.0'; // oldest Windows version supported by Chromium
+
+  if IsWowProcess then
+    TempOS := TempOS + '; WOW64'
+   else
+    {$IFDEF TARGET_64BITS}
+    TempOS := TempOS + '; Win64; x64';
+    {$ELSE}
+    TempOS := TempOS + '; Win32; x86';
+    {$ENDIF};
+  {$ENDIF}
+
+  {$IFDEF MACOSX}
+  TempOS := 'Macintosh; Intel Mac OS X 10_15_7';
+  {$ENDIF}
+
+  {$IFDEF LINUX}
+  TempOS := 'X11; Linux ' + {$IFDEF TARGET_64BITS}'x86_64'{$ELSE}'i686'{$ENDIF};
+  {$ENDIF}
+
+  Result  := 'Mozilla/5.0' + ' (' + TempOS + ') ' +
+             'AppleWebKit/537.36 (KHTML, like Gecko) ' +
+             'Chrome/' + inttostr(CEF_CHROMEELF_VERSION_MAJOR) + '.0.0.0 ' +
+             'Safari/537.36';
+end;
+
 {$IFDEF MSWINDOWS}
 function CefIsKeyDown(aWparam : WPARAM) : boolean;
 begin
@@ -2411,6 +2944,51 @@ begin
   end;
 end;
 
+function GetIsWow64Process2(var aProcessMachine, aNativeMachine : WORD) : boolean;
+type
+  TIsWow64Process2Func = function(hProcess: THandle; ProcessMachine, NativeMachine : PWORD): BOOL; stdcall;
+var
+  TempHandle : THandle;
+  TempIsWow64Process2Func : TIsWow64Process2Func;
+begin
+  Result          := False;
+  aProcessMachine := 0;
+  aNativeMachine  := 0;
+
+  try
+    TempHandle := LoadLibrary(Kernel32DLL);
+
+    if (TempHandle <> 0) then
+      try
+        {$IFDEF FPC}Pointer({$ENDIF}TempIsWow64Process2Func{$IFDEF FPC}){$ENDIF} := GetProcAddress(TempHandle, 'IsWow64Process2');
+
+        Result := assigned(TempIsWow64Process2Func) and
+                  TempIsWow64Process2Func(GetCurrentProcess(), @aProcessMachine, @aNativeMachine);
+      finally
+        FreeLibrary(TempHandle);
+      end;
+  except
+    on e : exception do
+      if CustomExceptionHandler('GetIsWow64Process2', e) then raise;
+  end;
+end;
+
+function IsWowProcess: boolean;
+const
+  IMAGE_FILE_MACHINE_I386  = $014C;
+  IMAGE_FILE_MACHINE_AMD64 = $8664;
+var
+  Temp64bit : BOOL;
+  TempProcessMachine, TempNativeMachine : WORD;
+begin
+  if GetIsWow64Process2(TempProcessMachine, TempNativeMachine) then
+    Result := (TempProcessMachine = IMAGE_FILE_MACHINE_I386) and
+              (TempNativeMachine  = IMAGE_FILE_MACHINE_AMD64)
+   else
+    Result := ProcessUnderWow64(GetCurrentProcess(), @Temp64bit) and
+              Temp64bit;
+end;
+
 // GetDpiForWindow is only available in Windows 10 (version 1607) or newer
 function GetDPIForHandle(aHandle : HWND; var aDPI : UINT) : boolean;
 type
@@ -2450,36 +3028,6 @@ var
   TempMajorVer, TempMinorVer : DWORD;
 begin
   Result := GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and (TempMajorVer >= 10);
-end;
-
-function GetDefaultCEFUserAgent : string;
-var
-  TempOS, TempChromiumVersion : string;
-  TempMajorVer, TempMinorVer : DWORD;
-  Temp64bit : BOOL;
-begin
-  if GetWindowsMajorMinorVersion(TempMajorVer, TempMinorVer) and
-     (TempMajorVer >= 4) then
-    TempOS := 'Windows NT'
-   else
-    TempOS := 'Windows';
-
-  TempOS := TempOS + ' ' + inttostr(TempMajorVer) + '.' + inttostr(TempMinorVer);
-
-  if ProcessUnderWow64(GetCurrentProcess(), @Temp64bit) and Temp64bit then
-    TempOS := TempOS + '; WOW64';
-
-  if (GlobalCEFApp <> nil) then
-    TempChromiumVersion := GlobalCEFApp.ChromeVersion
-   else
-    TempChromiumVersion := inttostr(CEF_CHROMEELF_VERSION_MAJOR)   + '.' +
-                           inttostr(CEF_CHROMEELF_VERSION_MINOR)   + '.' +
-                           inttostr(CEF_CHROMEELF_VERSION_RELEASE) + '.' +
-                           inttostr(CEF_CHROMEELF_VERSION_BUILD);
-
-  Result  := 'Mozilla/5.0' + ' (' + TempOS + ') ' +
-             'AppleWebKit/537.36 (KHTML, like Gecko) ' +
-             'Chrome/' + TempChromiumVersion + ' Safari/537.36';
 end;
 
 {$IFDEF DELPHI14_UP}
@@ -2819,6 +3367,175 @@ begin
       end
      else
       dec(i);
+end;
+
+function IsCEFSubprocess : boolean;
+var
+  TempValue : ustring;
+begin
+  Result := GetCommandLineSwitchValue('type', TempValue) and (length(TempValue) > 0);
+end;
+
+{$IFNDEF FPC}{$IFNDEF DELPHI7_UP}
+function PosEx(const SubStr, S: string; Offset: Cardinal = 1): Integer;
+var
+  TempString : string;
+begin
+  if Offset <= 1 then
+    Result := Pos(SubStr, S)
+   else
+    begin
+      TempString := copy(S, Offset, length(S));
+      Result     := Pos(SubStr, TempString);
+      if (Result > 0) then inc(Result, Offset - 1);
+    end;
+end;
+{$ENDIF}{$ENDIF}
+
+function EditingCommandToString(aEditingCommand : TCefEditingCommand): ustring;
+begin
+  case aEditingCommand of
+    ecAlignCenter                                  : Result := 'AlignCenter';
+    ecAlignJustified                               : Result := 'AlignJustified';
+    ecAlignLeft                                    : Result := 'AlignLeft';
+    ecAlignRight                                   : Result := 'AlignRight';
+    ecBackColor                                    : Result := 'BackColor';
+    ecBackwardDelete                               : Result := 'BackwardDelete';
+    ecBold                                         : Result := 'Bold';
+    ecCopy                                         : Result := 'Copy';
+    ecCreateLink                                   : Result := 'CreateLink';
+    ecCut                                          : Result := 'Cut';
+    ecDefaultParagraphSeparator                    : Result := 'DefaultParagraphSeparator';
+    ecDelete                                       : Result := 'Delete';
+    ecDeleteBackward                               : Result := 'DeleteBackward';
+    ecDeleteBackwardByDecomposingPreviousCharacter : Result := 'DeleteBackwardByDecomposingPreviousCharacter';
+    ecDeleteForward                                : Result := 'DeleteForward';
+    ecDeleteToBeginningOfLine                      : Result := 'DeleteToBeginningOfLine';
+    ecDeleteToBeginningOfParagraph                 : Result := 'DeleteToBeginningOfParagraph';
+    ecDeleteToEndOfLine                            : Result := 'DeleteToEndOfLine';
+    ecDeleteToEndOfParagraph                       : Result := 'DeleteToEndOfParagraph';
+    ecDeleteToMark                                 : Result := 'DeleteToMark';
+    ecDeleteWordBackward                           : Result := 'DeleteWordBackward';
+    ecDeleteWordForward                            : Result := 'DeleteWordForward';
+    ecFindString                                   : Result := 'FindString';
+    ecFontName                                     : Result := 'FontName';
+    ecFontSize                                     : Result := 'FontSize';
+    ecFontSizeDelta                                : Result := 'FontSizeDelta';
+    ecForeColor                                    : Result := 'ForeColor';
+    ecFormatBlock                                  : Result := 'FormatBlock';
+    ecForwardDelete                                : Result := 'ForwardDelete';
+    ecHiliteColor                                  : Result := 'HiliteColor';
+    ecIgnoreSpelling                               : Result := 'IgnoreSpelling';
+    ecIndent                                       : Result := 'Indent';
+    ecInsertBacktab                                : Result := 'InsertBacktab';
+    ecInsertHorizontalRule                         : Result := 'InsertHorizontalRule';
+    ecInsertHTML                                   : Result := 'InsertHTML';
+    ecInsertImage                                  : Result := 'InsertImage';
+    ecInsertLineBreak                              : Result := 'InsertLineBreak';
+    ecInsertNewline                                : Result := 'InsertNewline';
+    ecInsertNewlineInQuotedContent                 : Result := 'InsertNewlineInQuotedContent';
+    ecInsertOrderedList                            : Result := 'InsertOrderedList';
+    ecInsertParagraph                              : Result := 'InsertParagraph';
+    ecInsertTab                                    : Result := 'InsertTab';
+    ecInsertText                                   : Result := 'InsertText';
+    ecInsertUnorderedList                          : Result := 'InsertUnorderedList';
+    ecItalic                                       : Result := 'Italic';
+    ecJustifyCenter                                : Result := 'JustifyCenter';
+    ecJustifyFull                                  : Result := 'JustifyFull';
+    ecJustifyLeft                                  : Result := 'JustifyLeft';
+    ecJustifyNone                                  : Result := 'JustifyNone';
+    ecJustifyRight                                 : Result := 'JustifyRight';
+    ecMakeTextWritingDirectionLeftToRight          : Result := 'MakeTextWritingDirectionLeftToRight';
+    ecMakeTextWritingDirectionNatural              : Result := 'MakeTextWritingDirectionNatural';
+    ecMakeTextWritingDirectionRightToLeft          : Result := 'MakeTextWritingDirectionRightToLeft';
+    ecMoveBackward                                 : Result := 'MoveBackward';
+    ecMoveBackwardAndModifySelection               : Result := 'MoveBackwardAndModifySelection';
+    ecMoveDown                                     : Result := 'MoveDown';
+    ecMoveDownAndModifySelection                   : Result := 'MoveDownAndModifySelection';
+    ecMoveForward                                  : Result := 'MoveForward';
+    ecMoveForwardAndModifySelection                : Result := 'MoveForwardAndModifySelection';
+    ecMoveLeft                                     : Result := 'MoveLeft';
+    ecMoveLeftAndModifySelection                   : Result := 'MoveLeftAndModifySelection';
+    ecMovePageDown                                 : Result := 'MovePageDown';
+    ecMovePageDownAndModifySelection               : Result := 'MovePageDownAndModifySelection';
+    ecMovePageUp                                   : Result := 'MovePageUp';
+    ecMovePageUpAndModifySelection                 : Result := 'MovePageUpAndModifySelection';
+    ecMoveParagraphBackward                        : Result := 'MoveParagraphBackward';
+    ecMoveParagraphBackwardAndModifySelection      : Result := 'MoveParagraphBackwardAndModifySelection';
+    ecMoveParagraphForward                         : Result := 'MoveParagraphForward';
+    ecMoveParagraphForwardAndModifySelection       : Result := 'MoveParagraphForwardAndModifySelection';
+    ecMoveRight                                    : Result := 'MoveRight';
+    ecMoveRightAndModifySelection                  : Result := 'MoveRightAndModifySelection';
+    ecMoveToBeginningOfDocument                    : Result := 'MoveToBeginningOfDocument';
+    ecMoveToBeginningOfDocumentAndModifySelection  : Result := 'MoveToBeginningOfDocumentAndModifySelection';
+    ecMoveToBeginningOfLine                        : Result := 'MoveToBeginningOfLine';
+    ecMoveToBeginningOfLineAndModifySelection      : Result := 'MoveToBeginningOfLineAndModifySelection';
+    ecMoveToBeginningOfParagraph                   : Result := 'MoveToBeginningOfParagraph';
+    ecMoveToBeginningOfParagraphAndModifySelection : Result := 'MoveToBeginningOfParagraphAndModifySelection';
+    ecMoveToBeginningOfSentence                    : Result := 'MoveToBeginningOfSentence';
+    ecMoveToBeginningOfSentenceAndModifySelection  : Result := 'MoveToBeginningOfSentenceAndModifySelection';
+    ecMoveToEndOfDocument                          : Result := 'MoveToEndOfDocument';
+    ecMoveToEndOfDocumentAndModifySelection        : Result := 'MoveToEndOfDocumentAndModifySelection';
+    ecMoveToEndOfLine                              : Result := 'MoveToEndOfLine';
+    ecMoveToEndOfLineAndModifySelection            : Result := 'MoveToEndOfLineAndModifySelection';
+    ecMoveToEndOfParagraph                         : Result := 'MoveToEndOfParagraph';
+    ecMoveToEndOfParagraphAndModifySelection       : Result := 'MoveToEndOfParagraphAndModifySelection';
+    ecMoveToEndOfSentence                          : Result := 'MoveToEndOfSentence';
+    ecMoveToEndOfSentenceAndModifySelection        : Result := 'MoveToEndOfSentenceAndModifySelection';
+    ecMoveToLeftEndOfLine                          : Result := 'MoveToLeftEndOfLine';
+    ecMoveToLeftEndOfLineAndModifySelection        : Result := 'MoveToLeftEndOfLineAndModifySelection';
+    ecMoveToRightEndOfLine                         : Result := 'MoveToRightEndOfLine';
+    ecMoveToRightEndOfLineAndModifySelection       : Result := 'MoveToRightEndOfLineAndModifySelection';
+    ecMoveUp                                       : Result := 'MoveUp';
+    ecMoveUpAndModifySelection                     : Result := 'MoveUpAndModifySelection';
+    ecMoveWordBackward                             : Result := 'MoveWordBackward';
+    ecMoveWordBackwardAndModifySelection           : Result := 'MoveWordBackwardAndModifySelection';
+    ecMoveWordForward                              : Result := 'MoveWordForward';
+    ecMoveWordForwardAndModifySelection            : Result := 'MoveWordForwardAndModifySelection';
+    ecMoveWordLeft                                 : Result := 'MoveWordLeft';
+    ecMoveWordLeftAndModifySelection               : Result := 'MoveWordLeftAndModifySelection';
+    ecMoveWordRight                                : Result := 'MoveWordRight';
+    ecMoveWordRightAndModifySelection              : Result := 'MoveWordRightAndModifySelection';
+    ecOutdent                                      : Result := 'Outdent';
+    ecOverWrite                                    : Result := 'OverWrite';
+    ecPaste                                        : Result := 'Paste';
+    ecPasteAndMatchStyle                           : Result := 'PasteAndMatchStyle';
+    ecPasteGlobalSelection                         : Result := 'PasteGlobalSelection';
+    ecPrint                                        : Result := 'Print';
+    ecRedo                                         : Result := 'Redo';
+    ecRemoveFormat                                 : Result := 'RemoveFormat';
+    ecScrollLineDown                               : Result := 'ScrollLineDown';
+    ecScrollLineUp                                 : Result := 'ScrollLineUp';
+    ecScrollPageBackward                           : Result := 'ScrollPageBackward';
+    ecScrollPageForward                            : Result := 'ScrollPageForward';
+    ecScrollToBeginningOfDocument                  : Result := 'ScrollToBeginningOfDocument';
+    ecScrollToEndOfDocument                        : Result := 'ScrollToEndOfDocument';
+    ecSelectAll                                    : Result := 'SelectAll';
+    ecSelectLine                                   : Result := 'SelectLine';
+    ecSelectParagraph                              : Result := 'SelectParagraph';
+    ecSelectSentence                               : Result := 'SelectSentence';
+    ecSelectToMark                                 : Result := 'SelectToMark';
+    ecSelectWord                                   : Result := 'SelectWord';
+    ecSetMark                                      : Result := 'SetMark';
+    ecStrikethrough                                : Result := 'Strikethrough';
+    ecStyleWithCSS                                 : Result := 'StyleWithCSS';
+    ecSubscript                                    : Result := 'Subscript';
+    ecSuperscript                                  : Result := 'Superscript';
+    ecSwapWithMark                                 : Result := 'SwapWithMark';
+    ecToggleBold                                   : Result := 'ToggleBold';
+    ecToggleItalic                                 : Result := 'ToggleItalic';
+    ecToggleUnderline                              : Result := 'ToggleUnderline';
+    ecTranspose                                    : Result := 'Transpose';
+    ecUnderline                                    : Result := 'Underline';
+    ecUndo                                         : Result := 'Undo';
+    ecUnlink                                       : Result := 'Unlink';
+    ecUnscript                                     : Result := 'Unscript';
+    ecUnselect                                     : Result := 'Unselect';
+    ecUseCSS                                       : Result := 'UseCSS';
+    ecYank                                         : Result := 'Yank';
+    ecYankAndSelect                                : Result := 'YankAndSelect';
+    else                                             Result := '';
+  end;
 end;
 
 end.
