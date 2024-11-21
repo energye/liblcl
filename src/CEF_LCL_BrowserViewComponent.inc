@@ -72,6 +72,20 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFBrowserViewComponent_ChromeToolbar(const TObj: TCEFBrowserViewComponent; out Result: ICefView); extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.ChromeToolbar;
+  handleExceptionEnd
+end;
+
+function CEFBrowserViewComponent_RuntimeStyle(const TObj: TCEFBrowserViewComponent): TCefRuntimeStyle; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.RuntimeStyle;
+  handleExceptionEnd
+end;
+
 //event
 procedure CEFBrowserViewComponent_SetOnBrowserCreated(const AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
 begin
@@ -131,6 +145,8 @@ exports
   CEFBrowserViewComponent_RequestFocus,
   CEFBrowserViewComponent_Browser,
   CEFBrowserViewComponent_BrowserView,
+  CEFBrowserViewComponent_ChromeToolbar,
+  CEFBrowserViewComponent_RuntimeStyle,
   CEFBrowserViewComponent_SetOnBrowserCreated,
   CEFBrowserViewComponent_SetOnBrowserDestroyed,
   CEFBrowserViewComponent_SetOnGetDelegateForPopupBrowserView,

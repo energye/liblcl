@@ -45,9 +45,17 @@ begin
   handleExceptionEnd
 end;
 
+function CefBrowserView_RuntimeStyle(const TObj: ICefBrowserView): TCefRuntimeStyle; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.RuntimeStyle;
+  handleExceptionEnd
+end;
+
 exports
   CefBrowserViewRef_Create,
   CefBrowserViewRef_GetForBrowser,
   CefBrowserView_Browser,
   CefBrowserView_ChromeToolbar,
-  CefBrowserView_SetPreferAccelerators;
+  CefBrowserView_SetPreferAccelerators,
+  CefBrowserView_RuntimeStyle;
