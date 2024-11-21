@@ -11,28 +11,15 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_CreateBrowserView(const TObj: TCEFBrowserViewComponent; client: ICefClient; PUrl: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings;
-  const extra_info: ICefDictionaryValue): LongBool; extdecl;
+function CEFBrowserViewComponent_CreateBrowserView(const TObj: TCEFBrowserViewComponent; client: ICefClient; url: PChar; borwserSettings: PRCefBrowserSettings;
+  const extra_info: ICefDictionaryValue; request_context: ICefRequestContext): LongBool; extdecl;
 var
-  request_context: ICefRequestContext;
-  requestContextSettings: PCefRequestContextSettings;
-  settings: TCefBrowserSettings;
+  cefBrowserSettings: TCefBrowserSettings;
 begin
   handleExceptionBegin
-  //ICefRequestContext
-  requestContextSettings := new(PCefRequestContextSettings);
-  requestContextSettings^.size := SizeOf(TCefRequestContextSettings);// NativeUInt(PRequestContextSettings^.size);
-  requestContextSettings^.cache_path := CefString(PCharToUStr(PRequestContextSettings^.cachePath));
-  requestContextSettings^.persist_session_cookies := Integer(PRequestContextSettings^.persistSessionCookies);
-  requestContextSettings^.accept_language_list := CefString(PCharToUStr(PRequestContextSettings^.acceptLanguageList));
-  requestContextSettings^.cookieable_schemes_list := CefString(PCharToUStr(PRequestContextSettings^.cookieableSchemesList));
-  requestContextSettings^.cookieable_schemes_exclude_defaults := Integer(PRequestContextSettings^.cookieableSchemesExcludeDefaults);
-  request_context := TCefRequestContextRef.New(requestContextSettings);
-
   //TCefBrowserSettings
-  settings := GoBrowserSettingsToCefBrowserSettings(PBorwserSettings^);
-
-  Result := TObj.CreateBrowserView(client, PCharToUStr(PUrl), settings, extra_info, request_context);
+  cefBrowserSettings := GoBrowserSettingsToCefBrowserSettings(borwserSettings^);
+  Result := TObj.CreateBrowserView(client, PCharToUStr(url), cefBrowserSettings, extra_info, request_context);
   handleExceptionEnd
 end;
 

@@ -349,10 +349,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_AddChildView(const TObj: TCEFWindowComponent; const BrowserViewComponent: TCEFBrowserViewComponent); extdecl;
+procedure CEFWindowComponent_AddChildView(const TObj: TCEFWindowComponent; const view: ICefView); extdecl;
 begin
   handleExceptionBegin
-  TObj.AddChildView(BrowserViewComponent.BrowserView);
+  TObj.AddChildView(view);
   handleExceptionEnd
 end;
 
