@@ -210,6 +210,13 @@ type
     cookieableSchemesExcludeDefaults: PInteger;
   end;
 
+  PLinuxWindowProperties = record
+    wayland_app_id : PChar;
+    wm_class_class : PChar;
+    wm_class_name  : PChar;
+    wm_role_name   : PChar;
+  end;
+
 //string to hash
 function StrToHash(const SoureStr: string): cardinal;
 //PChar 转 UnicodeString
@@ -233,6 +240,9 @@ function GoCefWindowInfoToCefWindowInfo(const settings: RTCefWindowInfo): TCefWi
 
 function CefPopupFeaturesToGoCefPopupFeatures(const popupFeatures: TCefPopupFeatures): PTCefPopupFeatures;
 function GoCefPopupFeaturesToCefPopupFeatures(const popupFeatures: PTCefPopupFeatures): TCefPopupFeatures;
+
+function CefLinuxWindowPropertiesToGoLinuxWindowProperties(const properties: TLinuxWindowProperties): PLinuxWindowProperties;
+function GoLinuxWindowPropertiesToCefLinuxWindowProperties(const properties: PLinuxWindowProperties): TLinuxWindowProperties;
 
 //function GetCommonInstance(): CommonObject;
 
@@ -569,6 +579,22 @@ begin
   Result.Height := popupFeatures.Height^;
   Result.heightSet := popupFeatures.heightSet^;
   Result.isPopup := popupFeatures.isPopup^;
+end;
+
+function CefLinuxWindowPropertiesToGoLinuxWindowProperties(const properties: TLinuxWindowProperties): PLinuxWindowProperties;
+begin
+  Result.wayland_app_id := PChar(properties.wayland_app_id);
+  Result.wm_class_class := PChar(properties.wm_class_class);
+  Result.wm_class_name  := PChar(properties.wm_class_name);
+  Result.wm_role_name   := PChar(properties.wm_role_name);
+end;
+
+function GoLinuxWindowPropertiesToCefLinuxWindowProperties(const properties: PLinuxWindowProperties): TLinuxWindowProperties;
+begin
+  Result.wayland_app_id := string(properties.wayland_app_id);
+  Result.wm_class_class := string(properties.wm_class_class);
+  Result.wm_class_name  := string(properties.wm_class_name);
+  Result.wm_role_name   := string(properties.wm_role_name);
 end;
 
 end.

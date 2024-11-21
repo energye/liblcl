@@ -222,6 +222,20 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFWindowComponent_SetThemeColor(const TObj: TCEFWindowComponent; color_id: integer; color: TCefColor); extdecl;
+begin
+  handleExceptionBegin
+  TObj.SetThemeColor(color_id, color);
+  handleExceptionEnd
+end;
+
+procedure CEFWindowComponent_ThemeChanged(const TObj: TCEFWindowComponent); extdecl;
+begin
+  handleExceptionBegin
+  TObj.ThemeChanged();
+  handleExceptionEnd
+end;
+
 //property
 procedure CEFWindowComponent_SetTitle(const TObj: TCEFWindowComponent; PTitle: PChar); extdecl;
 begin
@@ -339,6 +353,13 @@ procedure CEFWindowComponent_AddChildView(const TObj: TCEFWindowComponent; const
 begin
   handleExceptionBegin
   TObj.AddChildView(BrowserViewComponent.BrowserView);
+  handleExceptionEnd
+end;
+
+function CEFWindowComponent_RuntimeStyle(const TObj: TCEFWindowComponent): TCefRuntimeStyle; extdecl;
+begin
+  handleExceptionBegin
+  Result := TObj.RuntimeStyle;
   handleExceptionEnd
 end;
 
@@ -462,6 +483,27 @@ begin
   EventMethodCode
 end;
 
+procedure CEFWindowComponent_SetOnThemeColorsChanged(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := WindowComponent_OnThemeColorsChanged}
+  {$DEFINE EventName := OnThemeColorsChanged}
+  EventMethodCode
+end;
+
+procedure CEFWindowComponent_SetOnGetWindowRuntimeStyle(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := WindowComponent_OnGetWindowRuntimeStyle}
+  {$DEFINE EventName := OnGetWindowRuntimeStyle}
+  EventMethodCode
+end;
+
+procedure CEFWindowComponent_SetOnGetLinuxWindowProperties(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := WindowComponent_OnGetLinuxWindowProperties}
+  {$DEFINE EventName := OnGetLinuxWindowProperties}
+  EventMethodCode
+end;
+
 exports
   CEFWindowComponent_Create,
   CEFWindowComponent_CreateTopLevelWindow,
@@ -486,6 +528,8 @@ exports
   CEFWindowComponent_SetAccelerator,
   CEFWindowComponent_RemoveAccelerator,
   CEFWindowComponent_RemoveAllAccelerators,
+  CEFWindowComponent_SetThemeColor,
+  CEFWindowComponent_ThemeChanged,
   CEFWindowComponent_SetAlwaysOnTop,
   CEFWindowComponent_SetFullscreen,
   CEFWindowComponent_SetBackgroundColor,
@@ -511,6 +555,7 @@ exports
   CEFWindowComponent_IsMaximized,
   CEFWindowComponent_IsMinimized,
   CEFWindowComponent_AddChildView,
+  CEFWindowComponent_RuntimeStyle,
   CEFWindowComponent_SetOnWindowCreated,
   CEFWindowComponent_SetOnWindowDestroyed,
   CEFWindowComponent_SetOnWindowActivationChanged,
@@ -527,4 +572,7 @@ exports
   CEFWindowComponent_SetOnCanClose,
   CEFWindowComponent_SetOnAccelerator,
   CEFWindowComponent_SetOnKeyEvent,
-  CEFWindowComponent_SetOnWindowFullscreenTransition;
+  CEFWindowComponent_SetOnWindowFullscreenTransition,
+  CEFWindowComponent_SetOnThemeColorsChanged,
+  CEFWindowComponent_SetOnGetWindowRuntimeStyle,
+  CEFWindowComponent_SetOnGetLinuxWindowProperties;

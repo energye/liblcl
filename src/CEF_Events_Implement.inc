@@ -974,6 +974,25 @@ begin
   SendEvent([Sender, window_, is_completed]);
 end;
 
+procedure TLCLEvent.WindowComponent_OnThemeColorsChanged(const Sender: TObject; const window_: ICefWindow; chrome_theme: Integer);
+begin
+  SendEvent([Sender, window_, chrome_theme]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnGetWindowRuntimeStyle(const Sender: TObject; var aResult : TCefRuntimeStyle);
+begin
+  SendEvent([Sender, @aResult]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnGetLinuxWindowProperties(const Sender: TObject; const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+var
+  TempGolangProperties: PLinuxWindowProperties;
+begin
+  TempGolangProperties := CefLinuxWindowPropertiesToGoLinuxWindowProperties(properties);
+  SendEvent([Sender, window_, @TempGolangProperties, @aResult]);
+  properties := GoLinuxWindowPropertiesToCefLinuxWindowProperties(TempGolangProperties);
+end;
+
 {==CEFBrowserViewComponent==}
 procedure TLCLEvent.BrowserViewComponent_OnBrowserCreated(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser);
 begin

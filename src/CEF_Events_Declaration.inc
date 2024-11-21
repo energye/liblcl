@@ -176,6 +176,9 @@ procedure WindowComponent_OnCanClose(const Sender: TObject; const window: ICefWi
 procedure WindowComponent_OnAccelerator(const Sender: TObject; const window: ICefWindow; command_id: Integer; var aResult : boolean);
 procedure WindowComponent_OnKeyEvent(const Sender: TObject; const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
 procedure WindowComponent_OnWindowFullscreenTransition(const Sender: TObject; const window_: ICefWindow; is_completed: boolean);
+procedure WindowComponent_OnThemeColorsChanged(const Sender: TObject; const window_: ICefWindow; chrome_theme: Integer);
+procedure WindowComponent_OnGetWindowRuntimeStyle(const Sender: TObject; var aResult : TCefRuntimeStyle);
+procedure WindowComponent_OnGetLinuxWindowProperties(const Sender: TObject; const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
 
 {==CEFBrowserViewComponent==}
 procedure BrowserViewComponent_OnBrowserCreated(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser);
