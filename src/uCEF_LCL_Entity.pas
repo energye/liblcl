@@ -175,7 +175,6 @@ type
     databases: PInteger;
     webgl: PInteger;
     background_color: PCardinal;
-    accept_language_list: PChar;
     chrome_status_bubble: PInteger;
     chrome_zoom_bubble: PInteger;
   end;
@@ -419,7 +418,6 @@ begin
   Result.databases := @(integer(settings.databases));
   Result.webgl := @(integer(settings.webgl));
   Result.background_color := @(cardinal(settings.background_color));
-  Result.accept_language_list := PChar('');
   Result.chrome_status_bubble := @(integer(settings.chrome_status_bubble));
   Result.chrome_zoom_bubble := @(integer(settings.chrome_zoom_bubble));
 end;
