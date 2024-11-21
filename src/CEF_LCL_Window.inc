@@ -358,6 +358,27 @@ begin
   handleExceptionEnd
 end;
 
+procedure ICEFWindow_SetThemeColor(const AWindow: ICefWindow; color_id: integer; color: TCefColor); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.SetThemeColor(color_id, color);
+  handleExceptionEnd
+end;
+
+procedure ICEFWindow_ThemeChanged(const AWindow: ICefWindow); extdecl;
+begin
+  handleExceptionBegin
+  AWindow.ThemeChanged();
+  handleExceptionEnd
+end;
+
+function ICEFWindow_RuntimeStyle(const AWindow: ICefWindow): TCefRuntimeStyle; extdecl;
+begin
+  handleExceptionBegin
+  Result := AWindow.RuntimeStyle;
+  handleExceptionEnd
+end;
+
 exports
   ICEFWindowRef_CreateTopLevel,
   ICEFWindow_Show,
@@ -401,4 +422,7 @@ exports
   ICEFWindow_SendMouseEvents,
   ICEFWindow_SetAccelerator,
   ICEFWindow_RemoveAccelerator,
-  ICEFWindow_RemoveAllAccelerators;
+  ICEFWindow_RemoveAllAccelerators,
+  ICEFWindow_SetThemeColor,
+  ICEFWindow_ThemeChanged,
+  ICEFWindow_RuntimeStyle;
