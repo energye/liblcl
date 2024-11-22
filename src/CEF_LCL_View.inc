@@ -305,7 +305,7 @@ begin
   handleExceptionEnd
 end;
 
-function  View_GetBackgroundColor(const AObj: ICefView) : TCefColor; extdecl;
+procedure View_GetBackgroundColor(const AObj: ICefView; out Result: TCefColor); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.GetBackgroundColor;
