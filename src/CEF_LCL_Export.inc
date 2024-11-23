@@ -74,6 +74,7 @@
 {$I CEF_LCL_MenuModel.inc}
 {$I CEF_LCL_MenuModelDelegate.inc}
 {$I CEF_LCL_MiscFunctions.inc}
+{$I CEF_LCL_NavigationEntry.inc}
 {$I CEF_LCL_Panel.inc}
 {$I CEF_LCL_PanelComponent.inc}
 {$I CEF_LCL_PanelDelegate.inc}
@@ -100,6 +101,7 @@
 {$I CEF_LCL_SchemeRegistrarRef.inc}
 {$I CEF_LCL_ScrollView.inc}
 {$I CEF_LCL_ScrollViewComponent.inc}
+{$I CEF_LCL_SSLStatus.inc}
 {$I CEF_LCL_StreamReader.inc}
 {$I CEF_LCL_StreamWriter.inc}
 {$I CEF_LCL_StringMultiMap.inc}
@@ -114,6 +116,8 @@
 {$I CEF_LCL_v8Exception.inc}
 {$I CEF_LCL_v8Handler.inc}
 {$I CEF_LCL_v8Interceptor.inc}
+{$I CEF_LCL_V8StackFrame.inc}
+{$I CEF_LCL_V8StackTrace.inc}
 {$I CEF_LCL_v8Value.inc}
 {$I CEF_LCL_Value.inc}
 {$I CEF_LCL_ValueConvert.inc}
