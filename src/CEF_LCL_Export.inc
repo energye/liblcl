@@ -68,10 +68,14 @@
 {$I CEF_LCL_Layout.inc}
 {$I CEF_LCL_LinkedWindowParent.inc}
 {$I CEF_LCL_MediaAccessCallback.inc}
+{$I CEF_LCL_MediaObserver.inc}
 {$I CEF_LCL_MediaRoute.inc}
 {$I CEF_LCL_MediaRouteArray.inc}
+{$I CEF_LCL_MediaRouteCreateCallback.inc}
 {$I CEF_LCL_MediaRouter.inc}
 {$I CEF_LCL_MediaSink.inc}
+{$I CEF_LCL_MediaSinkArray.inc}
+{$I CEF_LCL_MediaSinkDeviceInfoCallback.inc}
 {$I CEF_LCL_MediaSource.inc}
 {$I CEF_LCL_MenuButton.inc}
 {$I CEF_LCL_MenuButtonDelegate.inc}
