@@ -28,4 +28,4 @@ end;
 exports
   CefV8Accessor_Create,
   CefV8Accessor_Get,
-  CefV8Accessor_Set
+  CefV8Accessor_Set;
