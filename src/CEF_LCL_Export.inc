@@ -75,6 +75,7 @@
 {$I CEF_LCL_MenuModelDelegate.inc}
 {$I CEF_LCL_MiscFunctions.inc}
 {$I CEF_LCL_NavigationEntry.inc}
+{$I CEF_LCL_OverlayController.inc}
 {$I CEF_LCL_Panel.inc}
 {$I CEF_LCL_PanelComponent.inc}
 {$I CEF_LCL_PanelDelegate.inc}
