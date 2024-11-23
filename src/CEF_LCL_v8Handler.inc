@@ -18,14 +18,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Handler_Destroy(const AObj: ICefv8Handler); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TV8HandlerRef).Destroy();
-  handleExceptionEnd
-end;
-
 exports
   CefV8Handler_Create,
-  CefV8Handler_Execute,
-  CefV8Handler_Destroy;
+  CefV8Handler_Execute;

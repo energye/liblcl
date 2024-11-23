@@ -4,7 +4,7 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefV8InterceptorRef_Create(var Result: ICefV8Interceptor); extdecl;
+procedure CefV8InterceptorRef_Create(out Result: ICefV8Interceptor); extdecl;
 begin
   handleExceptionBegin
   Result := TV8InterceptorRef.Create;
@@ -39,17 +39,9 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8Interceptor_Destroy(const AObj: ICefV8Interceptor); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TV8InterceptorRef).Destroy();
-  handleExceptionEnd
-end;
-
 exports
   CefV8InterceptorRef_Create,
   CefV8Interceptor_GetByName,
   CefV8Interceptor_GetByIndex,
   CefV8Interceptor_SetByName,
-  CefV8Interceptor_SetByIndex,
-  CefV8Interceptor_Destroy;
+  CefV8Interceptor_SetByIndex;

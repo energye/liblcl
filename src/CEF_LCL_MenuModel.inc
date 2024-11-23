@@ -32,7 +32,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefMenuModel_GetCount(const model :ICefMenuModel): Integer ; extdecl;
+function CefMenuModel_GetCount(const model :ICefMenuModel): NativeUInt ; extdecl;
 begin
   handleExceptionBegin
   Result := model.GetCount;
