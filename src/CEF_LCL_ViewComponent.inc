@@ -438,6 +438,13 @@ begin
   EventMethodCode
 end;
 
+procedure  ViewComponent_SetOnThemeChanged(const AObj: TCEFViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := ViewComponent_OnThemeChanged}
+  {$DEFINE EventName := OnThemeChanged}
+  EventMethodCode
+end;
+
 
 exports
   ViewComponent_Create,
@@ -501,4 +508,5 @@ exports
   ViewComponent_SetOnWindowChanged,
   ViewComponent_SetOnLayoutChanged,
   ViewComponent_SetOnFocus,
-  ViewComponent_SetOnBlur;
+  ViewComponent_SetOnBlur,
+  ViewComponent_SetOnThemeChanged;

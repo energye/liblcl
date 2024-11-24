@@ -23,11 +23,11 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).GetPreferredSizePtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnGetPreferredSizePtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).GetPreferredSizePtr := AEvent;
+    (AObj as TPanelDelegateRef).OnGetPreferredSizePtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
@@ -55,11 +55,11 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).GetMinimumSizePtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnGetMinimumSizePtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).GetMinimumSizePtr := AEvent;
+    (AObj as TPanelDelegateRef).OnGetMinimumSizePtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
@@ -87,11 +87,11 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).GetMaximumSizePtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnGetMaximumSizePtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).GetMaximumSizePtr := AEvent;
+    (AObj as TPanelDelegateRef).OnGetMaximumSizePtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
@@ -119,11 +119,11 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).GetHeightForWidthPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnGetHeightForWidthPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).GetHeightForWidthPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnGetHeightForWidthPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
@@ -151,11 +151,11 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).ParentViewChangedPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnParentViewChangedPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).ParentViewChangedPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnParentViewChangedPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
@@ -183,11 +183,11 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).ChildViewChangedPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnChildViewChangedPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).ChildViewChangedPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnChildViewChangedPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
@@ -215,11 +215,11 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).WindowChangedPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnWindowChangedPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).WindowChangedPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnWindowChangedPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
@@ -247,11 +247,11 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).LayoutChangedPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnLayoutChangedPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).LayoutChangedPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnLayoutChangedPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
@@ -279,11 +279,11 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).FocusPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnFocusPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).FocusPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnFocusPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
@@ -311,11 +311,11 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).BlurPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnBlurPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).BlurPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnBlurPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
@@ -343,11 +343,11 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    //(AObj as TTextfieldDelegateRef).OnThemeChangedPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnThemeChangedPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    //(AObj as TPanelDelegateRef).OnThemeChangedPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnThemeChangedPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin

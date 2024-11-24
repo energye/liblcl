@@ -1001,12 +1001,12 @@ end;
 {==CEFBrowserViewComponent==}
 procedure TLCLEvent.BrowserViewComponent_OnBrowserCreated(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser);
 begin
-  SendEvent([Sender, browser_view, browser]);
+  SendEvent([browser_view, browser]);
 end;
 
 procedure TLCLEvent.BrowserViewComponent_OnBrowserDestroyed(const Sender: TObject; const browser_view: ICefBrowserView; const browser: ICefBrowser);
 begin
-  SendEvent([Sender, browser_view, browser]);
+  SendEvent([browser_view, browser]);
 end;
 
 procedure TLCLEvent.BrowserViewComponent_OnGetDelegateForPopupBrowserView(const Sender: TObject; const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
@@ -1014,27 +1014,32 @@ var
   browserSettings: RCefBrowserSettings;
 begin
   browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-  SendEvent([Sender, browser_view, @browserSettings, client, is_devtools, @aResult]);
+  SendEvent([browser_view, @browserSettings, client, is_devtools, @aResult]);
 end;
 
 procedure TLCLEvent.BrowserViewComponent_OnPopupBrowserViewCreated(const Sender: TObject; const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean);
 begin
-  SendEvent([Sender, browser_view, popup_browser_view, is_devtools, @aResult]);
+  SendEvent([browser_view, popup_browser_view, is_devtools, @aResult]);
 end;
 
 procedure TLCLEvent.BrowserViewComponent_OnGetChromeToolbarType(const Sender: TObject; const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType);
 begin
-  SendEvent([Sender, browser_view, @aChromeToolbarType]);
+  SendEvent([browser_view, @aChromeToolbarType]);
 end;
 
 procedure TLCLEvent.BrowserViewComponent_OnUseFramelessWindowForPictureInPicture(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean);
 begin
-  SendEvent([Sender, browser_view, @aResult]);
+  SendEvent([browser_view, @aResult]);
 end;
 
 procedure TLCLEvent.BrowserViewComponent_OnGestureCommand(const Sender: TObject; const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
 begin
-  SendEvent([Sender, browser_view, gesture_command, @aResult]);
+  SendEvent([browser_view, gesture_command, @aResult]);
+end;
+
+procedure TLCLEvent.BrowserViewComponent_OnGetBrowserRuntimeStyle(const Sender: TObject; var aResult: TCefRuntimeStyle);
+begin
+  SendEvent([@aResult]);
 end;
 
 {==TBufferPanel==}
@@ -1151,6 +1156,11 @@ begin
 end;
 
 procedure TLCLEvent.ViewComponent_OnBlur(const Sender: TObject; const view: ICefView);
+begin
+  SendEvent([view]);
+end;
+
+procedure TLCLEvent.ViewComponent_OnThemeChanged(const Sender: TObject; const view: ICefView);
 begin
   SendEvent([view]);
 end;

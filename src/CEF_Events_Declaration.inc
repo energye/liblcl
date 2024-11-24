@@ -179,6 +179,7 @@ procedure BrowserViewComponent_OnPopupBrowserViewCreated(const Sender: TObject; 
 procedure BrowserViewComponent_OnGetChromeToolbarType(const Sender: TObject; const browser_view: ICefBrowserView; var aChromeToolbarType: TCefChromeToolbarType);
 procedure BrowserViewComponent_OnUseFramelessWindowForPictureInPicture(const Sender: TObject; const browser_view: ICefBrowserView; var aResult : boolean);
 procedure BrowserViewComponent_OnGestureCommand(const Sender: TObject; const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
+procedure BrowserViewComponent_OnGetBrowserRuntimeStyle(const Sender: TObject; var aResult: TCefRuntimeStyle);
 
 {==TBufferPanel==}
 {$IFDEF MSWINDOWS}
@@ -203,6 +204,7 @@ procedure ViewComponent_OnWindowChanged(const Sender: TObject; const view: ICefV
 procedure ViewComponent_OnLayoutChanged(const Sender: TObject; const view: ICefView; new_bounds: TCefRect);
 procedure ViewComponent_OnFocus(const Sender: TObject; const view: ICefView);
 procedure ViewComponent_OnBlur(const Sender: TObject; const view: ICefView);
+procedure ViewComponent_OnThemeChanged(const Sender: TObject; const view: ICefView);
 
 {==TCEFButtonComponent==}
 procedure ButtonComponent_OnButtonPressed(const Sender: TObject; const button: ICefButton);

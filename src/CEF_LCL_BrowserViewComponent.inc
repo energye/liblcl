@@ -123,6 +123,13 @@ begin
   EventMethodCode
 end;
 
+procedure CEFBrowserViewComponent_SetOnGetBrowserRuntimeStyle(const AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := BrowserViewComponent_OnGetBrowserRuntimeStyle}
+  {$DEFINE EventName := OnGetBrowserRuntimeStyle}
+  EventMethodCode
+end;
+
 
 exports
   CEFBrowserViewComponent_Create,
@@ -140,4 +147,5 @@ exports
   CEFBrowserViewComponent_SetOnPopupBrowserViewCreated,
   CEFBrowserViewComponent_SetOnGetChromeToolbarType,
   CEFBrowserViewComponent_SetOnUseFramelessWindowForPictureInPicture,
-  CEFBrowserViewComponent_SetOnGestureCommand;
+  CEFBrowserViewComponent_SetOnGestureCommand,
+  CEFBrowserViewComponent_SetOnGetBrowserRuntimeStyle;
