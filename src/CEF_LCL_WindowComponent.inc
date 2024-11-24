@@ -434,6 +434,13 @@ begin
   EventMethodCode
 end;
 
+procedure CEFWindowComponent_SetOnAcceptsFirstMouse(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := WindowComponent_OnAcceptsFirstMouse}
+  {$DEFINE EventName := OnAcceptsFirstMouse}
+  EventMethodCode
+end;
+
 procedure CEFWindowComponent_SetOnCanResize(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := WindowComponent_OnCanResize}
@@ -566,6 +573,7 @@ exports
   CEFWindowComponent_SetOnIsFrameless,
   CEFWindowComponent_SetOnWithStandardWindowButtons,
   CEFWindowComponent_SetOnGetTitlebarHeight,
+  CEFWindowComponent_SetOnAcceptsFirstMouse,
   CEFWindowComponent_SetOnCanResize,
   CEFWindowComponent_SetOnCanMaximize,
   CEFWindowComponent_SetOnCanMinimize,

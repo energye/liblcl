@@ -21,49 +21,56 @@ end;
 procedure BrowserViewDelegate_SetOnBrowserCreated(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TBrowserViewDelegateRef).BrowserCreatedPtr := AEvent;
+  (AObj as TBrowserViewDelegateRef).OnBrowserCreatedPtr := AEvent;
   handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnBrowserDestroyed(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TBrowserViewDelegateRef).BrowserDestroyedPtr := AEvent;
+  (AObj as TBrowserViewDelegateRef).OnBrowserDestroyedPtr := AEvent;
   handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnGetDelegateForPopupBrowserView(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TBrowserViewDelegateRef).GetDelegateForPopupBrowserViewPtr := AEvent;
+  (AObj as TBrowserViewDelegateRef).OnGetDelegateForPopupBrowserViewPtr := AEvent;
   handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnPopupBrowserViewCreated(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TBrowserViewDelegateRef).PopupBrowserViewCreatedPtr := AEvent;
+  (AObj as TBrowserViewDelegateRef).OnPopupBrowserViewCreatedPtr := AEvent;
   handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnGetChromeToolbarType(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TBrowserViewDelegateRef).GetChromeToolbarTypePtr := AEvent;
+  (AObj as TBrowserViewDelegateRef).OnGetChromeToolbarTypePtr := AEvent;
   handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnUseFramelessWindowForPictureInPicture(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TBrowserViewDelegateRef).UseFramelessWindowForPictureInPicturePtr := AEvent;
+  (AObj as TBrowserViewDelegateRef).OnUseFramelessWindowForPictureInPicturePtr := AEvent;
   handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnGestureCommand(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TBrowserViewDelegateRef).GestureCommandPtr := AEvent;
+  (AObj as TBrowserViewDelegateRef).OnGestureCommandPtr := AEvent;
+  handleExceptionEnd
+end;
+
+procedure BrowserViewDelegate_SetOnGetBrowserRuntimeStyle(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  (AObj as TBrowserViewDelegateRef).OnGetBrowserRuntimeStylePtr := AEvent;
   handleExceptionEnd
 end;
 
@@ -77,4 +84,5 @@ exports
   BrowserViewDelegate_SetOnPopupBrowserViewCreated,
   BrowserViewDelegate_SetOnGetChromeToolbarType,
   BrowserViewDelegate_SetOnUseFramelessWindowForPictureInPicture,
-  BrowserViewDelegate_SetOnGestureCommand;
+  BrowserViewDelegate_SetOnGestureCommand,
+  BrowserViewDelegate_SetOnGetBrowserRuntimeStyle;

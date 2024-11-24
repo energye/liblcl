@@ -14,59 +14,67 @@ interface
 uses
   Classes, SysUtils, uCEFInterfaces, uCEFTypes,
   uCEFWindowDelegate,
-  uCEF_LCL_EventCallback;
+  uCEF_LCL_Entity, uCEF_LCL_EventCallback;
 
 type
 
   TWindowDelegateRef = class(TCefWindowDelegateOwn)
   public
     // ICefViewDelegate
-    GetPreferredSizePtr: Pointer;
-    GetMinimumSizePtr: Pointer;
-    GetMaximumSizePtr: Pointer;
-    GetHeightForWidthPtr: Pointer;
-    ParentViewChangedPtr: Pointer;
-    ChildViewChangedPtr: Pointer;
-    WindowChangedPtr: Pointer;
-    LayoutChangedPtr: Pointer;
-    FocusPtr: Pointer;
-    BlurPtr: Pointer;
+    OnGetPreferredSizePtr: Pointer;
+    OnGetMinimumSizePtr: Pointer;
+    OnGetMaximumSizePtr: Pointer;
+    OnGetHeightForWidthPtr: Pointer;
+    OnParentViewChangedPtr: Pointer;
+    OnChildViewChangedPtr: Pointer;
+    OnWindowChangedPtr: Pointer;
+    OnLayoutChangedPtr: Pointer;
+    OnFocusPtr: Pointer;
+    OnBlurPtr: Pointer;
+    OnThemeChangedPtr: Pointer;
 
     // ICefWindowDelegate
-    WindowCreatedPtr: Pointer;
-    WindowClosingPtr: Pointer;
-    WindowDestroyedPtr: Pointer;
-    WindowActivationChangedPtr: Pointer;
-    WindowBoundsChangedPtr: Pointer;
-    GetParentWindowPtr: Pointer;
-    IsWindowModalDialogPtr: Pointer;
-    GetInitialBoundsPtr: Pointer;
-    GetInitialShowStatePtr: Pointer;
-    IsFramelessPtr: Pointer;
-    WithStandardWindowButtonsPtr: Pointer;
-    GetTitlebarHeightPtr: Pointer;
-    CanResizePtr: Pointer;
-    CanMaximizePtr: Pointer;
-    CanMinimizePtr: Pointer;
-    CanClosePtr: Pointer;
-    AcceleratorPtr: Pointer;
-    KeyEventPtr: Pointer;
-    WindowFullscreenTransitionPtr: Pointer;
+    OnWindowCreatedPtr: Pointer;
+    OnWindowClosingPtr: Pointer;
+    OnWindowDestroyedPtr: Pointer;
+    OnWindowActivationChangedPtr: Pointer;
+    OnWindowBoundsChangedPtr: Pointer;
+    OnWindowFullscreenTransitionPtr: Pointer;
+    OnGetParentWindowPtr: Pointer;
+    OnIsWindowModalDialogPtr: Pointer;
+    OnGetInitialBoundsPtr: Pointer;
+    OnGetInitialShowStatePtr: Pointer;
+    OnIsFramelessPtr: Pointer;
+    OnWithStandardWindowButtonsPtr: Pointer;
+    OnGetTitlebarHeightPtr: Pointer;
+    OnAcceptsFirstMousePtr: Pointer;
+    OnCanResizePtr: Pointer;
+    OnCanMaximizePtr: Pointer;
+    OnCanMinimizePtr: Pointer;
+    OnCanClosePtr: Pointer;
+    OnAcceleratorPtr: Pointer;
+    OnKeyEventPtr: Pointer;
+    OnThemeColorsChangedPtr: Pointer;
+    OnGetWindowRuntimeStylePtr: Pointer;
+    OnGetLinuxWindowPropertiesPtr: Pointer;
 
     constructor Create; override;
     destructor Destroy; override;
   protected
+    procedure PtrSetNil();
+
     // ICefViewDelegate
-    procedure OnGetPreferredSize(const view: ICefView; var aResult: TCefSize); override;
-    procedure OnGetMinimumSize(const view: ICefView; var aResult: TCefSize); override;
-    procedure OnGetMaximumSize(const view: ICefView; var aResult: TCefSize); override;
-    procedure OnGetHeightForWidth(const view: ICefView; Width: integer; var aResult: integer); override;
+    procedure OnGetPreferredSize(const view: ICefView; var aResult : TCefSize); override;
+    procedure OnGetMinimumSize(const view: ICefView; var aResult : TCefSize); override;
+    procedure OnGetMaximumSize(const view: ICefView; var aResult : TCefSize); override;
+    procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); override;
     procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
     procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
     procedure OnWindowChanged(const view: ICefView; added: boolean); override;
     procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
     procedure OnFocus(const view: ICefView); override;
     procedure OnBlur(const view: ICefView); override;
+    procedure OnThemeChanged(const view: ICefView); override;
 
     // ICefWindowDelegate
     procedure OnWindowCreated(const window_: ICefWindow); override;
@@ -74,104 +82,128 @@ type
     procedure OnWindowDestroyed(const window_: ICefWindow); override;
     procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); override;
     procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); override;
-    procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult: ICefWindow); override;
-    procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean); override;
-    procedure OnGetInitialBounds(const window_: ICefWindow; var aResult: TCefRect); override;
-    procedure OnGetInitialShowState(const window_: ICefWindow; var aResult: TCefShowState); override;
-    procedure OnIsFrameless(const window_: ICefWindow; var aResult: boolean); override;
-    procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult: boolean); override;
-    procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: single; var aResult: boolean); override;
-    procedure OnCanResize(const window_: ICefWindow; var aResult: boolean); override;
-    procedure OnCanMaximize(const window_: ICefWindow; var aResult: boolean); override;
-    procedure OnCanMinimize(const window_: ICefWindow; var aResult: boolean); override;
-    procedure OnCanClose(const window_: ICefWindow; var aResult: boolean); override;
-    procedure OnAccelerator(const window_: ICefWindow; command_id: integer; var aResult: boolean); override;
-    procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult: boolean); override;
     procedure OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean); override;
+    procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); override;
+    procedure OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean); override;
+    procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); override;
+    procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState); override;
+    procedure OnIsFrameless(const window_: ICefWindow; var aResult : boolean); override;
+    procedure OnWithStandardWindowButtons(const window_: ICefWindow; var aResult : boolean); override;
+    procedure OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean); override;
+    procedure OnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState); override;
+    procedure OnCanResize(const window_: ICefWindow; var aResult : boolean); override;
+    procedure OnCanMaximize(const window_: ICefWindow; var aResult : boolean); override;
+    procedure OnCanMinimize(const window_: ICefWindow; var aResult : boolean); override;
+    procedure OnCanClose(const window_: ICefWindow; var aResult : boolean); override;
+    procedure OnAccelerator(const window_: ICefWindow; command_id: Integer; var aResult : boolean); override;
+    procedure OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult : boolean); override;
+    procedure OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer); override;
+    procedure OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle); override;
+    procedure OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean); override;
 
   end;
 
 implementation
 
 
+constructor TWindowDelegateRef.Create;
+begin
+  inherited Create;
+  PtrSetNil();
+end;
+
+destructor TWindowDelegateRef.Destroy;
+begin
+  inherited Destroy;
+  PtrSetNil();
+end;
+
 // ICefViewDelegate
 procedure TWindowDelegateRef.OnGetPreferredSize(const view: ICefView; var aResult: TCefSize);
 begin
-  if (GetPreferredSizePtr <> nil) then
+  if (OnGetPreferredSizePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GetPreferredSizePtr, [view, @aResult]);
+    TCEFEventCallback.SendEvent(OnGetPreferredSizePtr, [view, @aResult]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnGetMinimumSize(const view: ICefView; var aResult: TCefSize);
 begin
-  if (GetMinimumSizePtr <> nil) then
+  if (OnGetMinimumSizePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GetMinimumSizePtr, [view, @aResult]);
+    TCEFEventCallback.SendEvent(OnGetMinimumSizePtr, [view, @aResult]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnGetMaximumSize(const view: ICefView; var aResult: TCefSize);
 begin
-  if (GetMaximumSizePtr <> nil) then
+  if (OnGetMaximumSizePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GetMaximumSizePtr, [view, @aResult]);
+    TCEFEventCallback.SendEvent(OnGetMaximumSizePtr, [view, @aResult]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnGetHeightForWidth(const view: ICefView; Width: integer; var aResult: integer);
 begin
-  if (GetHeightForWidthPtr <> nil) then
+  if (OnGetHeightForWidthPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GetHeightForWidthPtr, [view, Width, @aResult]);
+    TCEFEventCallback.SendEvent(OnGetHeightForWidthPtr, [view, Width, @aResult]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
 begin
-  if (ParentViewChangedPtr <> nil) then
+  if (OnParentViewChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ParentViewChangedPtr, [view, added, parent]);
+    TCEFEventCallback.SendEvent(OnParentViewChangedPtr, [view, added, parent]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
 begin
-  if (ChildViewChangedPtr <> nil) then
+  if (OnChildViewChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ChildViewChangedPtr, [view, added, child]);
+    TCEFEventCallback.SendEvent(OnChildViewChangedPtr, [view, added, child]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnWindowChanged(const view: ICefView; added: boolean);
 begin
-  if (WindowChangedPtr <> nil) then
+  if (OnWindowChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(WindowChangedPtr, [view, added]);
+    TCEFEventCallback.SendEvent(OnWindowChangedPtr, [view, added]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
 begin
-  if (LayoutChangedPtr <> nil) then
+  if (OnLayoutChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(LayoutChangedPtr, [view, @new_bounds]);
+    TCEFEventCallback.SendEvent(OnLayoutChangedPtr, [view, @new_bounds]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnFocus(const view: ICefView);
 begin
-  if (FocusPtr <> nil) then
+  if (OnFocusPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(FocusPtr, [view]);
+    TCEFEventCallback.SendEvent(OnFocusPtr, [view]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnBlur(const view: ICefView);
 begin
-  if (BlurPtr <> nil) then
+  if (OnBlurPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(BlurPtr, [view]);
+    TCEFEventCallback.SendEvent(OnBlurPtr, [view]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnThemeChanged(const view: ICefView);
+begin
+  if (OnThemeChangedPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnThemeChangedPtr, [view]);
   end;
 end;
 
@@ -179,217 +211,232 @@ end;
 // ICefWindowDelegate
 procedure TWindowDelegateRef.OnWindowCreated(const window_: ICefWindow);
 begin
-  if (WindowCreatedPtr <> nil) then
+  if (OnWindowCreatedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(WindowCreatedPtr, [window_]);
+    TCEFEventCallback.SendEvent(OnWindowCreatedPtr, [window_]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnWindowClosing(const window_: ICefWindow);
 begin
-  if (WindowClosingPtr <> nil) then
+  if (OnWindowClosingPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(WindowClosingPtr, [window_]);
+    TCEFEventCallback.SendEvent(OnWindowClosingPtr, [window_]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnWindowDestroyed(const window_: ICefWindow);
 begin
-  if (WindowDestroyedPtr <> nil) then
+  if (OnWindowDestroyedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(WindowDestroyedPtr, [window_]);
+    TCEFEventCallback.SendEvent(OnWindowDestroyedPtr, [window_]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnWindowActivationChanged(const window_: ICefWindow; active: boolean);
 begin
-  if (WindowActivationChangedPtr <> nil) then
+  if (OnWindowActivationChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(WindowActivationChangedPtr, [window_, active]);
+    TCEFEventCallback.SendEvent(OnWindowActivationChangedPtr, [window_, active]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
 begin
-  if (WindowBoundsChangedPtr <> nil) then
+  if (OnWindowBoundsChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(WindowBoundsChangedPtr, [window_, @new_bounds]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult: ICefWindow);
-begin
-  if (GetParentWindowPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(GetParentWindowPtr, [window_, @is_menu, @can_activate_menu, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
-begin
-  if (IsWindowModalDialogPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(IsWindowModalDialogPtr, [window_, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnGetInitialBounds(const window_: ICefWindow; var aResult: TCefRect);
-begin
-  if (GetInitialBoundsPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(GetInitialBoundsPtr, [window_, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnGetInitialShowState(const window_: ICefWindow; var aResult: TCefShowState);
-begin
-  if (GetInitialShowStatePtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(GetInitialShowStatePtr, [window_, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnIsFrameless(const window_: ICefWindow; var aResult: boolean);
-begin
-  if (IsFramelessPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(IsFramelessPtr, [window_, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnWithStandardWindowButtons(const window_: ICefWindow; var aResult: boolean);
-begin
-  if (WithStandardWindowButtonsPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(WithStandardWindowButtonsPtr, [window_, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: single; var aResult: boolean);
-begin
-  if (GetTitlebarHeightPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(GetTitlebarHeightPtr, [window_, @titlebar_height, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnCanResize(const window_: ICefWindow; var aResult: boolean);
-begin
-  if (CanResizePtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(CanResizePtr, [window_, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnCanMaximize(const window_: ICefWindow; var aResult: boolean);
-begin
-  if (CanMaximizePtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(CanMaximizePtr, [window_, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnCanMinimize(const window_: ICefWindow; var aResult: boolean);
-begin
-  if (CanMinimizePtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(CanMinimizePtr, [window_, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnCanClose(const window_: ICefWindow; var aResult: boolean);
-begin
-  if (CanClosePtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(CanClosePtr, [window_, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnAccelerator(const window_: ICefWindow; command_id: integer; var aResult: boolean);
-begin
-  if (AcceleratorPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(AcceleratorPtr, [window_, command_id, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult: boolean);
-begin
-  if (KeyEventPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(KeyEventPtr, [window_, @event, @aResult]);
+    TCEFEventCallback.SendEvent(OnWindowBoundsChangedPtr, [window_, @new_bounds]);
   end;
 end;
 
 procedure TWindowDelegateRef.OnWindowFullscreenTransition(const window_: ICefWindow; is_completed: boolean);
 begin
-  if (WindowFullscreenTransitionPtr <> nil) then
+  if (OnWindowFullscreenTransitionPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(WindowFullscreenTransitionPtr, [window_, is_completed]);
+    TCEFEventCallback.SendEvent(OnWindowFullscreenTransitionPtr, [window_, is_completed]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult: ICefWindow);
+begin
+  if (OnGetParentWindowPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnGetParentWindowPtr, [window_, @is_menu, @can_activate_menu, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnIsWindowModalDialog(const window_: ICefWindow; var aResult: boolean);
+begin
+  if (OnIsWindowModalDialogPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnIsWindowModalDialogPtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnGetInitialBounds(const window_: ICefWindow; var aResult: TCefRect);
+begin
+  if (OnGetInitialBoundsPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnGetInitialBoundsPtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnGetInitialShowState(const window_: ICefWindow; var aResult: TCefShowState);
+begin
+  if (OnGetInitialShowStatePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnGetInitialShowStatePtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnIsFrameless(const window_: ICefWindow; var aResult: boolean);
+begin
+  if (OnIsFramelessPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnIsFramelessPtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnWithStandardWindowButtons(const window_: ICefWindow; var aResult: boolean);
+begin
+  if (OnWithStandardWindowButtonsPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnWithStandardWindowButtonsPtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnGetTitlebarHeight(const window_: ICefWindow; var titlebar_height: single; var aResult: boolean);
+begin
+  if (OnGetTitlebarHeightPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnGetTitlebarHeightPtr, [window_, @titlebar_height, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnAcceptsFirstMouse(const window_: ICefWindow; var aResult: TCefState);
+begin
+  if (OnAcceptsFirstMousePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnAcceptsFirstMousePtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnCanResize(const window_: ICefWindow; var aResult: boolean);
+begin
+  if (OnCanResizePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnCanResizePtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnCanMaximize(const window_: ICefWindow; var aResult: boolean);
+begin
+  if (OnCanMaximizePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnCanMaximizePtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnCanMinimize(const window_: ICefWindow; var aResult: boolean);
+begin
+  if (OnCanMinimizePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnCanMinimizePtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnCanClose(const window_: ICefWindow; var aResult: boolean);
+begin
+  if (OnCanClosePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnCanClosePtr, [window_, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnAccelerator(const window_: ICefWindow; command_id: integer; var aResult: boolean);
+begin
+  if (OnAcceleratorPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnAcceleratorPtr, [window_, command_id, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnKeyEvent(const window_: ICefWindow; const event: TCefKeyEvent; var aResult: boolean);
+begin
+  if (OnKeyEventPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnKeyEventPtr, [window_, @event, @aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnThemeColorsChanged(const window_: ICefWindow; chrome_theme: Integer);
+begin
+  if (OnThemeColorsChangedPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnThemeColorsChangedPtr, [window_, chrome_theme]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnGetWindowRuntimeStyle(var aResult: TCefRuntimeStyle);
+begin
+  if (OnGetWindowRuntimeStylePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnGetWindowRuntimeStylePtr, [@aResult]);
+  end;
+end;
+
+procedure TWindowDelegateRef.OnGetLinuxWindowProperties(const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
+var
+  TempLinuxWindowProperties: PLinuxWindowProperties;
+begin
+  if (OnGetLinuxWindowPropertiesPtr <> nil) then
+  begin
+    TempLinuxWindowProperties := CefLinuxWindowPropertiesToGoLinuxWindowProperties(properties);
+    TCEFEventCallback.SendEvent(OnGetLinuxWindowPropertiesPtr, [window_, @properties, @aResult]);
+    properties := GoLinuxWindowPropertiesToCefLinuxWindowProperties(TempLinuxWindowProperties);
   end;
 end;
 
 
-constructor TWindowDelegateRef.Create;
+procedure TWindowDelegateRef.PtrSetNil();
 begin
-  inherited Create;
-  GetPreferredSizePtr := nil;
-  GetMinimumSizePtr := nil;
-  GetMaximumSizePtr := nil;
-  GetHeightForWidthPtr := nil;
-  ParentViewChangedPtr := nil;
-  ChildViewChangedPtr := nil;
-  WindowChangedPtr := nil;
-  LayoutChangedPtr := nil;
-  FocusPtr := nil;
-  BlurPtr := nil;
+   // ICefViewDelegate
+   OnGetPreferredSizePtr := nil;
+   OnGetMinimumSizePtr := nil;
+   OnGetMaximumSizePtr := nil;
+   OnGetHeightForWidthPtr := nil;
+   OnParentViewChangedPtr := nil;
+   OnChildViewChangedPtr := nil;
+   OnWindowChangedPtr := nil;
+   OnLayoutChangedPtr := nil;
+   OnFocusPtr := nil;
+   OnBlurPtr := nil;
+   OnThemeChangedPtr := nil;
 
-  WindowCreatedPtr := nil;
-  WindowClosingPtr := nil;
-  WindowDestroyedPtr := nil;
-  WindowActivationChangedPtr := nil;
-  WindowBoundsChangedPtr := nil;
-  GetParentWindowPtr := nil;
-  GetInitialBoundsPtr := nil;
-  GetInitialShowStatePtr := nil;
-  IsFramelessPtr := nil;
-  CanResizePtr := nil;
-  CanMaximizePtr := nil;
-  CanMinimizePtr := nil;
-  CanClosePtr := nil;
-  AcceleratorPtr := nil;
-  KeyEventPtr := nil;
-end;
-
-destructor TWindowDelegateRef.Destroy;
-begin
-  inherited Destroy;
-  GetPreferredSizePtr := nil;
-  GetMinimumSizePtr := nil;
-  GetMaximumSizePtr := nil;
-  GetHeightForWidthPtr := nil;
-  ParentViewChangedPtr := nil;
-  ChildViewChangedPtr := nil;
-  WindowChangedPtr := nil;
-  LayoutChangedPtr := nil;
-  FocusPtr := nil;
-  BlurPtr := nil;
-
-  WindowCreatedPtr := nil;
-  WindowClosingPtr := nil;
-  WindowDestroyedPtr := nil;
-  WindowActivationChangedPtr := nil;
-  WindowBoundsChangedPtr := nil;
-  GetParentWindowPtr := nil;
-  GetInitialBoundsPtr := nil;
-  GetInitialShowStatePtr := nil;
-  IsFramelessPtr := nil;
-  CanResizePtr := nil;
-  CanMaximizePtr := nil;
-  CanMinimizePtr := nil;
-  CanClosePtr := nil;
-  AcceleratorPtr := nil;
-  KeyEventPtr := nil;
+   // ICefWindowDelegate
+   OnWindowCreatedPtr :=nil;
+   OnWindowClosingPtr :=nil;
+   OnWindowDestroyedPtr :=nil;
+   OnWindowActivationChangedPtr :=nil;
+   OnWindowBoundsChangedPtr :=nil;
+   OnWindowFullscreenTransitionPtr :=nil;
+   OnGetParentWindowPtr :=nil;
+   OnIsWindowModalDialogPtr :=nil;
+   OnGetInitialBoundsPtr :=nil;
+   OnGetInitialShowStatePtr :=nil;
+   OnIsFramelessPtr :=nil;
+   OnWithStandardWindowButtonsPtr :=nil;
+   OnGetTitlebarHeightPtr :=nil;
+   OnAcceptsFirstMousePtr :=nil;
+   OnCanResizePtr :=nil;
+   OnCanMaximizePtr :=nil;
+   OnCanMinimizePtr :=nil;
+   OnCanClosePtr :=nil;
+   OnAcceleratorPtr :=nil;
+   OnKeyEventPtr :=nil;
+   OnThemeColorsChangedPtr :=nil;
+   OnGetWindowRuntimeStylePtr :=nil;
+   OnGetLinuxWindowPropertiesPtr :=nil;
 end;
 
 end.

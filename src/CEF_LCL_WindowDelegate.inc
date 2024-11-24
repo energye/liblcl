@@ -18,227 +18,171 @@ begin
   handleExceptionEnd
 end;
 
-// ICefViewDelegate
-//procedure  WindowDelegate_SetOnGetPreferredSize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-//begin
-//  handleExceptionBegin
-//  (AObj as TWindowDelegateRef).GetPreferredSizePtr := AEventData;
-//  handleExceptionEnd
-//end;
-//
-//procedure WindowDelegate_SetOnGetMinimumSize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-//begin
-//  handleExceptionBegin
-//  (AObj as TWindowDelegateRef).GetMinimumSizePtr := AEventData;
-//  handleExceptionEnd
-//end;
-//
-//procedure WindowDelegate_SetOnGetMaximumSize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-//begin
-//  handleExceptionBegin
-//  (AObj as TWindowDelegateRef).GetMaximumSizePtr := AEventData;
-//  handleExceptionEnd
-//end;
-//
-//procedure WindowDelegate_SetOnGetHeightForWidth(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-//begin
-//  handleExceptionBegin
-//  (AObj as TWindowDelegateRef).GetHeightForWidthPtr := AEventData;
-//  handleExceptionEnd
-//end;
-//
-//procedure WindowDelegate_SetOnParentViewChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-//begin
-//  handleExceptionBegin
-//  (AObj as TWindowDelegateRef).ParentViewChangedPtr := AEventData;
-//  handleExceptionEnd
-//end;
-//
-//procedure WindowDelegate_SetOnChildViewChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-//begin
-//  handleExceptionBegin
-//  (AObj as TWindowDelegateRef).ChildViewChangedPtr := AEventData;
-//  handleExceptionEnd
-//end;
-//
-//procedure WindowDelegate_SetOnWindowChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-//begin
-//  handleExceptionBegin
-//  (AObj as TWindowDelegateRef).WindowChangedPtr := AEventData;
-//  handleExceptionEnd
-//end;
-//
-//procedure WindowDelegate_SetOnLayoutChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-//begin
-//  handleExceptionBegin
-//  (AObj as TWindowDelegateRef).LayoutChangedPtr := AEventData;
-//  handleExceptionEnd
-//end;
-//
-//procedure WindowDelegate_SetOnFocus(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-//begin
-//  handleExceptionBegin
-//  (AObj as TWindowDelegateRef).FocusPtr := AEventData;
-//  handleExceptionEnd
-//end;
-//
-//procedure WindowDelegate_SetOnBlur(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-//begin
-//  handleExceptionBegin
-//  (AObj as TWindowDelegateRef).BlurPtr := AEventData;
-//  handleExceptionEnd
-//end;
-
-
 // ICefWindowDelegate
 procedure WindowDelegate_SetOnWindowCreated(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).WindowCreatedPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnWindowCreatedPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnWindowClosing(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).WindowClosingPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnWindowClosingPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnWindowDestroyed(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).WindowDestroyedPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnWindowDestroyedPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnWindowActivationChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).WindowActivationChangedPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnWindowActivationChangedPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnWindowBoundsChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).WindowBoundsChangedPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnWindowBoundsChangedPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnGetParentWindow(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).GetParentWindowPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnGetParentWindowPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnIsWindowModalDialog(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).IsWindowModalDialogPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnIsWindowModalDialogPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnGetInitialBounds(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).GetInitialBoundsPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnGetInitialBoundsPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnGetInitialShowState(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).GetInitialShowStatePtr := AEventData;
+  (AObj as TWindowDelegateRef).OnGetInitialShowStatePtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnIsFrameless(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).IsFramelessPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnIsFramelessPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnWithStandardWindowButtons(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).WithStandardWindowButtonsPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnWithStandardWindowButtonsPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnGetTitlebarHeight(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).GetTitlebarHeightPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnGetTitlebarHeightPtr := AEventData;
+  handleExceptionEnd
+end;
+
+procedure WindowDelegate_SetOnAcceptsFirstMouse(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  (AObj as TWindowDelegateRef).OnAcceptsFirstMousePtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnCanResize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).CanResizePtr := AEventData;
+  (AObj as TWindowDelegateRef).OnCanResizePtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnCanMaximize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).CanMaximizePtr := AEventData;
+  (AObj as TWindowDelegateRef).OnCanMaximizePtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnCanMinimize(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).CanMinimizePtr := AEventData;
+  (AObj as TWindowDelegateRef).OnCanMinimizePtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnCanClose(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).CanClosePtr := AEventData;
+  (AObj as TWindowDelegateRef).OnCanClosePtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnAccelerator(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).AcceleratorPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnAcceleratorPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnKeyEvent(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).KeyEventPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnKeyEventPtr := AEventData;
   handleExceptionEnd
 end;
 
 procedure WindowDelegate_SetOnWindowFullscreenTransition(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).WindowFullscreenTransitionPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnWindowFullscreenTransitionPtr := AEventData;
   handleExceptionEnd
 end;
 
+procedure WindowDelegate_SetOnThemeColorsChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  (AObj as TWindowDelegateRef).OnThemeColorsChangedPtr := AEventData;
+  handleExceptionEnd
+end;
 
+procedure WindowDelegate_SetOnGetWindowRuntimeStyle(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  (AObj as TWindowDelegateRef).OnGetWindowRuntimeStylePtr := AEventData;
+  handleExceptionEnd
+end;
+
+procedure WindowDelegate_SetOnGetLinuxWindowProperties(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  (AObj as TWindowDelegateRef).OnGetLinuxWindowPropertiesPtr := AEventData;
+  handleExceptionEnd
+end;
 
 exports
   WindowDelegate_Create,
   WindowDelegate_CreateForCustom,
-  //WindowDelegate_SetOnGetPreferredSize,
-  //WindowDelegate_SetOnGetMinimumSize,
-  //WindowDelegate_SetOnGetMaximumSize,
-  //WindowDelegate_SetOnGetHeightForWidth,
-  //WindowDelegate_SetOnParentViewChanged,
-  //WindowDelegate_SetOnChildViewChanged,
-  //WindowDelegate_SetOnWindowChanged,
-  //WindowDelegate_SetOnLayoutChanged,
-  //WindowDelegate_SetOnFocus,
-  //WindowDelegate_SetOnBlur,
   WindowDelegate_SetOnWindowCreated,
   WindowDelegate_SetOnWindowClosing,
   WindowDelegate_SetOnWindowDestroyed,
@@ -251,10 +195,14 @@ exports
   WindowDelegate_SetOnIsFrameless,
   WindowDelegate_SetOnWithStandardWindowButtons,
   WindowDelegate_SetOnGetTitlebarHeight,
+  WindowDelegate_SetOnAcceptsFirstMouse,
   WindowDelegate_SetOnCanResize,
   WindowDelegate_SetOnCanMaximize,
   WindowDelegate_SetOnCanMinimize,
   WindowDelegate_SetOnCanClose,
   WindowDelegate_SetOnAccelerator,
   WindowDelegate_SetOnKeyEvent,
-  WindowDelegate_SetOnWindowFullscreenTransition;
+  WindowDelegate_SetOnWindowFullscreenTransition,
+  WindowDelegate_SetOnThemeColorsChanged,
+  WindowDelegate_SetOnGetWindowRuntimeStyle,
+  WindowDelegate_SetOnGetLinuxWindowProperties;

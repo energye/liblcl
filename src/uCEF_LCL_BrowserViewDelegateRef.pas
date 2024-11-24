@@ -21,147 +21,208 @@ type
 
   TBrowserViewDelegateRef = class(TCefBrowserViewDelegateOwn)
   public
-    // ICefViewDelegate
-    GetPreferredSizePtr: Pointer;
-    GetMinimumSizePtr: Pointer;
-    GetMaximumSizePtr: Pointer;
-    GetHeightForWidthPtr: Pointer;
-    ParentViewChangedPtr: Pointer;
-    ChildViewChangedPtr: Pointer;
-    WindowChangedPtr: Pointer;
-    LayoutChangedPtr: Pointer;
-    FocusPtr: Pointer;
-    BlurPtr: Pointer;
+    OnGetPreferredSizePtr: Pointer;
+    OnGetMinimumSizePtr: Pointer;
+    OnGetMaximumSizePtr: Pointer;
+    OnGetHeightForWidthPtr: Pointer;
+    OnParentViewChangedPtr: Pointer;
+    OnChildViewChangedPtr: Pointer;
+    OnWindowChangedPtr: Pointer;
+    OnLayoutChangedPtr: Pointer;
+    OnFocusPtr: Pointer;
+    OnBlurPtr: Pointer;
+    OnThemeChangedPtr: Pointer;
 
-    BrowserCreatedPtr: Pointer;
-    BrowserDestroyedPtr: Pointer;
-    GetDelegateForPopupBrowserViewPtr: Pointer;
-    PopupBrowserViewCreatedPtr: Pointer;
-    GetChromeToolbarTypePtr: Pointer;
-    UseFramelessWindowForPictureInPicturePtr: Pointer;
-    GestureCommandPtr: Pointer;
-    // override
+    OnBrowserCreatedPtr: Pointer;
+    OnBrowserDestroyedPtr: Pointer;
+    OnGetDelegateForPopupBrowserViewPtr: Pointer;
+    OnPopupBrowserViewCreatedPtr: Pointer;
+    OnGetChromeToolbarTypePtr: Pointer;
+    OnUseFramelessWindowForPictureInPicturePtr: Pointer;
+    OnGestureCommandPtr: Pointer;
+    OnGetBrowserRuntimeStylePtr: Pointer;
+  public
     constructor Create; override;
     destructor Destroy; override;
   protected
     // ICefViewDelegate
-    procedure OnGetPreferredSize(const view: ICefView; var aResult: TCefSize); override;
-    procedure OnGetMinimumSize(const view: ICefView; var aResult: TCefSize); override;
-    procedure OnGetMaximumSize(const view: ICefView; var aResult: TCefSize); override;
-    procedure OnGetHeightForWidth(const view: ICefView; Width: integer; var aResult: integer); override;
+    procedure OnGetPreferredSize(const view: ICefView; var aResult : TCefSize); override;
+    procedure OnGetMinimumSize(const view: ICefView; var aResult : TCefSize); override;
+    procedure OnGetMaximumSize(const view: ICefView; var aResult : TCefSize); override;
+    procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); override;
     procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
     procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
     procedure OnWindowChanged(const view: ICefView; added: boolean); override;
     procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
     procedure OnFocus(const view: ICefView); override;
     procedure OnBlur(const view: ICefView); override;
+    procedure OnThemeChanged(const view: ICefView); override;
 
+    // ICefBrowserViewDelegate
     procedure OnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser); override;
     procedure OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser); override;
-    procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult: ICefBrowserViewDelegate); override;
-    procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult: boolean); override;
-    procedure OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult : TCefChromeToolbarType); override;
+    procedure OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate); override;
+    procedure OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult : boolean); override;
+    procedure OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult: TCefChromeToolbarType); override;
     procedure OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean); override;
     procedure OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean); override;
+    procedure OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle); override;
 
   end;
 
 implementation
 
+
+constructor TBrowserViewDelegateRef.Create;
+begin
+  inherited Create;
+
+  OnGetPreferredSizePtr := nil;
+  OnGetMinimumSizePtr := nil;
+  OnGetMaximumSizePtr := nil;
+  OnGetHeightForWidthPtr := nil;
+  OnParentViewChangedPtr := nil;
+  OnChildViewChangedPtr := nil;
+  OnWindowChangedPtr := nil;
+  OnLayoutChangedPtr := nil;
+  OnFocusPtr := nil;
+  OnBlurPtr := nil;
+  OnThemeChangedPtr := nil;
+  OnBrowserCreatedPtr := nil;
+  OnBrowserDestroyedPtr := nil;
+  OnGetDelegateForPopupBrowserViewPtr := nil;
+  OnPopupBrowserViewCreatedPtr := nil;
+  OnGetChromeToolbarTypePtr := nil;
+  OnUseFramelessWindowForPictureInPicturePtr := nil;
+  OnGestureCommandPtr := nil;
+end;
+
+destructor TBrowserViewDelegateRef.Destroy;
+begin
+  inherited Destroy;
+
+  OnGetPreferredSizePtr := nil;
+  OnGetMinimumSizePtr := nil;
+  OnGetMaximumSizePtr := nil;
+  OnGetHeightForWidthPtr := nil;
+  OnParentViewChangedPtr := nil;
+  OnChildViewChangedPtr := nil;
+  OnWindowChangedPtr := nil;
+  OnLayoutChangedPtr := nil;
+  OnFocusPtr := nil;
+  OnBlurPtr := nil;
+  OnThemeChangedPtr := nil;
+  OnBrowserCreatedPtr := nil;
+  OnBrowserDestroyedPtr := nil;
+  OnGetDelegateForPopupBrowserViewPtr := nil;
+  OnPopupBrowserViewCreatedPtr := nil;
+  OnGetChromeToolbarTypePtr := nil;
+  OnUseFramelessWindowForPictureInPicturePtr := nil;
+  OnGestureCommandPtr := nil;
+end;
+
 // ICefViewDelegate
 procedure TBrowserViewDelegateRef.OnGetPreferredSize(const view: ICefView; var aResult: TCefSize);
 begin
-  if (GetPreferredSizePtr <> nil) then
+  if (OnGetPreferredSizePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GetPreferredSizePtr, [view, @aResult]);
+    TCEFEventCallback.SendEvent(OnGetPreferredSizePtr, [view, @aResult]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnGetMinimumSize(const view: ICefView; var aResult: TCefSize);
 begin
-  if (GetMinimumSizePtr <> nil) then
+  if (OnGetMinimumSizePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GetMinimumSizePtr, [view, @aResult]);
+    TCEFEventCallback.SendEvent(OnGetMinimumSizePtr, [view, @aResult]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnGetMaximumSize(const view: ICefView; var aResult: TCefSize);
 begin
-  if (GetMaximumSizePtr <> nil) then
+  if (OnGetMaximumSizePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GetMaximumSizePtr, [view, @aResult]);
+    TCEFEventCallback.SendEvent(OnGetMaximumSizePtr, [view, @aResult]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnGetHeightForWidth(const view: ICefView; Width: integer; var aResult: integer);
 begin
-  if (GetHeightForWidthPtr <> nil) then
+  if (OnGetHeightForWidthPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GetHeightForWidthPtr, [view, Width, @aResult]);
+    TCEFEventCallback.SendEvent(OnGetHeightForWidthPtr, [view, Width, @aResult]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
 begin
-  if (ParentViewChangedPtr <> nil) then
+  if (OnParentViewChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ParentViewChangedPtr, [view, added, parent]);
+    TCEFEventCallback.SendEvent(OnParentViewChangedPtr, [view, added, parent]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
 begin
-  if (ChildViewChangedPtr <> nil) then
+  if (OnChildViewChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(ChildViewChangedPtr, [view, added, child]);
+    TCEFEventCallback.SendEvent(OnChildViewChangedPtr, [view, added, child]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnWindowChanged(const view: ICefView; added: boolean);
 begin
-  if (WindowChangedPtr <> nil) then
+  if (OnWindowChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(WindowChangedPtr, [view, added]);
+    TCEFEventCallback.SendEvent(OnWindowChangedPtr, [view, added]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
 begin
-  if (LayoutChangedPtr <> nil) then
+  if (OnLayoutChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(LayoutChangedPtr, [view, @new_bounds]);
+    TCEFEventCallback.SendEvent(OnLayoutChangedPtr, [view, @new_bounds]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnFocus(const view: ICefView);
 begin
-  if (FocusPtr <> nil) then
+  if (OnFocusPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(FocusPtr, [view]);
+    TCEFEventCallback.SendEvent(OnFocusPtr, [view]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnBlur(const view: ICefView);
 begin
-  if (BlurPtr <> nil) then
+  if (OnBlurPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(BlurPtr, [view]);
+    TCEFEventCallback.SendEvent(OnBlurPtr, [view]);
+  end;
+end;
+
+procedure TBrowserViewDelegateRef.OnThemeChanged(const view: ICefView);
+begin
+  if (OnThemeChangedPtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnThemeChangedPtr, [view]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnBrowserCreated(const browser_view: ICefBrowserView; const browser: ICefBrowser);
 begin
-  if (BrowserCreatedPtr <> nil) then
+  if (OnBrowserCreatedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(BrowserCreatedPtr, [browser_view, browser]);
+    TCEFEventCallback.SendEvent(OnBrowserCreatedPtr, [browser_view, browser]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnBrowserDestroyed(const browser_view: ICefBrowserView; const browser: ICefBrowser);
 begin
-  if (BrowserDestroyedPtr <> nil) then
+  if (OnBrowserDestroyedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(BrowserDestroyedPtr, [browser_view, browser]);
+    TCEFEventCallback.SendEvent(OnBrowserDestroyedPtr, [browser_view, browser]);
   end;
 end;
 
@@ -169,90 +230,51 @@ procedure TBrowserViewDelegateRef.OnGetDelegateForPopupBrowserView(const browser
 var
   browserSettings: RCefBrowserSettings;
 begin
-  if (GetDelegateForPopupBrowserViewPtr <> nil) then
+  if (OnGetDelegateForPopupBrowserViewPtr <> nil) then
   begin
     browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-    TCEFEventCallback.SendEvent(GetDelegateForPopupBrowserViewPtr, [browser_view, @browserSettings, client, is_devtools, @aResult]);
+    TCEFEventCallback.SendEvent(OnGetDelegateForPopupBrowserViewPtr, [browser_view, @browserSettings, client, is_devtools, @aResult]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnPopupBrowserViewCreated(const browser_view, popup_browser_view: ICefBrowserView; is_devtools: boolean; var aResult: boolean);
 begin
-  if (PopupBrowserViewCreatedPtr <> nil) then
+  if (OnPopupBrowserViewCreatedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(PopupBrowserViewCreatedPtr, [browser_view, popup_browser_view, is_devtools, @aResult]);
+    TCEFEventCallback.SendEvent(OnPopupBrowserViewCreatedPtr, [browser_view, popup_browser_view, is_devtools, @aResult]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnGetChromeToolbarType(const browser_view: ICefBrowserView; var aResult : TCefChromeToolbarType);
 begin
-  if (GetChromeToolbarTypePtr <> nil) then
+  if (OnGetChromeToolbarTypePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GetChromeToolbarTypePtr, [browser_view, @aResult]);
+    TCEFEventCallback.SendEvent(OnGetChromeToolbarTypePtr, [browser_view, @aResult]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnUseFramelessWindowForPictureInPicture(const browser_view: ICefBrowserView; var aResult: boolean);
 begin
-  if (UseFramelessWindowForPictureInPicturePtr <> nil) then
+  if (OnUseFramelessWindowForPictureInPicturePtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(UseFramelessWindowForPictureInPicturePtr, [browser_view, @aResult]);
+    TCEFEventCallback.SendEvent(OnUseFramelessWindowForPictureInPicturePtr, [browser_view, @aResult]);
   end;
 end;
 
 procedure TBrowserViewDelegateRef.OnGestureCommand(const browser_view: ICefBrowserView; gesture_command: TCefGestureCommand; var aResult : boolean);
 begin
-  if (GestureCommandPtr <> nil) then
+  if (OnGestureCommandPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(GestureCommandPtr, [browser_view, gesture_command, @aResult]);
+    TCEFEventCallback.SendEvent(OnGestureCommandPtr, [browser_view, gesture_command, @aResult]);
   end;
 end;
 
-
-constructor TBrowserViewDelegateRef.Create;
+procedure TBrowserViewDelegateRef.OnGetBrowserRuntimeStyle(var aResult : TCefRuntimeStyle);
 begin
-  inherited Create;
-  GetPreferredSizePtr := nil;
-  GetMinimumSizePtr := nil;
-  GetMaximumSizePtr := nil;
-  GetHeightForWidthPtr := nil;
-  ParentViewChangedPtr := nil;
-  ChildViewChangedPtr := nil;
-  WindowChangedPtr := nil;
-  LayoutChangedPtr := nil;
-  FocusPtr := nil;
-  BlurPtr := nil;
-
-  BrowserCreatedPtr := nil;
-  BrowserDestroyedPtr := nil;
-  GetDelegateForPopupBrowserViewPtr := nil;
-  PopupBrowserViewCreatedPtr := nil;
-  GetChromeToolbarTypePtr := nil;
-  UseFramelessWindowForPictureInPicturePtr := nil;
-  GestureCommandPtr := nil;
-end;
-
-destructor TBrowserViewDelegateRef.Destroy;
-begin
-  inherited Destroy;
-  GetPreferredSizePtr := nil;
-  GetMinimumSizePtr := nil;
-  GetMaximumSizePtr := nil;
-  GetHeightForWidthPtr := nil;
-  ParentViewChangedPtr := nil;
-  ChildViewChangedPtr := nil;
-  WindowChangedPtr := nil;
-  LayoutChangedPtr := nil;
-  FocusPtr := nil;
-  BlurPtr := nil;
-
-  BrowserCreatedPtr := nil;
-  BrowserDestroyedPtr := nil;
-  GetDelegateForPopupBrowserViewPtr := nil;
-  PopupBrowserViewCreatedPtr := nil;
-  GetChromeToolbarTypePtr := nil;
-  UseFramelessWindowForPictureInPicturePtr := nil;
-  GestureCommandPtr := nil;
+  if (OnGetBrowserRuntimeStylePtr <> nil) then
+  begin
+    TCEFEventCallback.SendEvent(OnGetBrowserRuntimeStylePtr, [@aResult]);
+  end;
 end;
 
 end.

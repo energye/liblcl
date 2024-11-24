@@ -891,97 +891,102 @@ end;
 {== CEFWindowComponent ==}
 procedure TLCLEvent.WindowComponent_OnWindowCreated(const Sender: TObject; const window: ICefWindow);
 begin
-  SendEvent([Sender, window]);
+  SendEvent([window]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnWindowDestroyed(const Sender: TObject; const window: ICefWindow);
 begin
-  SendEvent([Sender, window]);
+  SendEvent([window]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnWindowActivationChanged(const Sender: TObject; const window: ICefWindow; active: boolean);
 begin
-  SendEvent([Sender, window, active]);
+  SendEvent([window, active]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnGetParentWindow(const Sender: TObject; const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
 begin
-  SendEvent([Sender, window, @is_menu, @can_activate_menu, @aResult]);
+  SendEvent([window, @is_menu, @can_activate_menu, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnIsWindowModalDialog(const Sender: TObject; const window_: ICefWindow; var aResult : boolean);
 begin
-  SendEvent([Sender, window_, @aResult]);
+  SendEvent([window_, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnGetInitialBounds(const Sender: TObject; const window: ICefWindow; var aResult : TCefRect);
 begin
-  SendEvent([Sender, window, @aResult]);
+  SendEvent([window, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnGetInitialShowState(const Sender: TObject; const window: ICefWindow; var aResult : TCefShowState);
 begin
-  SendEvent([Sender, window, @aResult]);
+  SendEvent([window, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnIsFrameless(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
 begin
-  SendEvent([Sender, window, @aResult]);
+  SendEvent([window, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnWithStandardWindowButtons(const Sender: TObject; const window_: ICefWindow; var aResult : boolean);
 begin
-  SendEvent([Sender, window_, @aResult]);
+  SendEvent([window_, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnGetTitlebarHeight(const Sender: TObject; const window_: ICefWindow; var titlebar_height: Single; var aResult : boolean);
 begin
-  SendEvent([Sender, window_, @titlebar_height, @aResult]);
+  SendEvent([window_, @titlebar_height, @aResult]);
+end;
+
+procedure TLCLEvent.WindowComponent_OnAcceptsFirstMouse(const Sender: TObject; const window_: ICefWindow; var aResult: TCefState);
+begin
+  SendEvent([window_, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnCanResize(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
 begin
-  SendEvent([Sender, window, @aResult]);
+  SendEvent([window, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnCanMaximize(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
 begin
-  SendEvent([Sender, window, @aResult]);
+  SendEvent([window, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnCanMinimize(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
 begin
-  SendEvent([Sender, window, @aResult]);
+  SendEvent([window, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnCanClose(const Sender: TObject; const window: ICefWindow; var aResult : boolean);
 begin
-  SendEvent([Sender, window, @aResult]);
+  SendEvent([window, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnAccelerator(const Sender: TObject; const window: ICefWindow; command_id: Integer; var aResult : boolean);
 begin
-  SendEvent([Sender, window, command_id, @aResult]);
+  SendEvent([window, command_id, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnKeyEvent(const Sender: TObject; const window: ICefWindow; const event: TCefKeyEvent; var aResult : boolean);
 begin
-  SendEvent([Sender, window, @event, @aResult]);
+  SendEvent([window, @event, @aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnWindowFullscreenTransition(const Sender: TObject; const window_: ICefWindow; is_completed: boolean);
 begin
-  SendEvent([Sender, window_, is_completed]);
+  SendEvent([window_, is_completed]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnThemeColorsChanged(const Sender: TObject; const window_: ICefWindow; chrome_theme: Integer);
 begin
-  SendEvent([Sender, window_, chrome_theme]);
+  SendEvent([window_, chrome_theme]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnGetWindowRuntimeStyle(const Sender: TObject; var aResult : TCefRuntimeStyle);
 begin
-  SendEvent([Sender, @aResult]);
+  SendEvent([@aResult]);
 end;
 
 procedure TLCLEvent.WindowComponent_OnGetLinuxWindowProperties(const Sender: TObject; const window_: ICefWindow; var properties: TLinuxWindowProperties; var aResult: boolean);
@@ -989,7 +994,7 @@ var
   TempGolangProperties: PLinuxWindowProperties;
 begin
   TempGolangProperties := CefLinuxWindowPropertiesToGoLinuxWindowProperties(properties);
-  SendEvent([Sender, window_, @TempGolangProperties, @aResult]);
+  SendEvent([window_, @TempGolangProperties, @aResult]);
   properties := GoLinuxWindowPropertiesToCefLinuxWindowProperties(TempGolangProperties);
 end;
 
