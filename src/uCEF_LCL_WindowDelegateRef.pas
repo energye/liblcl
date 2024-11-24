@@ -6,6 +6,7 @@
 
 unit uCEF_LCL_WindowDelegateRef;
 
+{$MACRO ON}
 {$mode objfpc}{$H+}
 {$I cef.inc}
 
@@ -21,17 +22,7 @@ type
   TWindowDelegateRef = class(TCefWindowDelegateOwn)
   public
     // ICefViewDelegate
-    OnGetPreferredSizePtr: Pointer;
-    OnGetMinimumSizePtr: Pointer;
-    OnGetMaximumSizePtr: Pointer;
-    OnGetHeightForWidthPtr: Pointer;
-    OnParentViewChangedPtr: Pointer;
-    OnChildViewChangedPtr: Pointer;
-    OnWindowChangedPtr: Pointer;
-    OnLayoutChangedPtr: Pointer;
-    OnFocusPtr: Pointer;
-    OnBlurPtr: Pointer;
-    OnThemeChangedPtr: Pointer;
+    {$I CEF_LCL_View_Include_Ptr.inc}
 
     // ICefWindowDelegate
     OnWindowCreatedPtr: Pointer;
@@ -58,23 +49,14 @@ type
     OnGetWindowRuntimeStylePtr: Pointer;
     OnGetLinuxWindowPropertiesPtr: Pointer;
 
+  public
     constructor Create; override;
     destructor Destroy; override;
-  protected
     procedure PtrSetNil();
+  protected
 
     // ICefViewDelegate
-    procedure OnGetPreferredSize(const view: ICefView; var aResult : TCefSize); override;
-    procedure OnGetMinimumSize(const view: ICefView; var aResult : TCefSize); override;
-    procedure OnGetMaximumSize(const view: ICefView; var aResult : TCefSize); override;
-    procedure OnGetHeightForWidth(const view: ICefView; width: Integer; var aResult: Integer); override;
-    procedure OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView); override;
-    procedure OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView); override;
-    procedure OnWindowChanged(const view: ICefView; added: boolean); override;
-    procedure OnLayoutChanged(const view: ICefView; new_bounds: TCefRect); override;
-    procedure OnFocus(const view: ICefView); override;
-    procedure OnBlur(const view: ICefView); override;
-    procedure OnThemeChanged(const view: ICefView); override;
+    {$I CEF_LCL_View_Include_Defs.inc}
 
     // ICefWindowDelegate
     procedure OnWindowCreated(const window_: ICefWindow); override;
@@ -119,94 +101,8 @@ begin
 end;
 
 // ICefViewDelegate
-procedure TWindowDelegateRef.OnGetPreferredSize(const view: ICefView; var aResult: TCefSize);
-begin
-  if (OnGetPreferredSizePtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnGetPreferredSizePtr, [view, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnGetMinimumSize(const view: ICefView; var aResult: TCefSize);
-begin
-  if (OnGetMinimumSizePtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnGetMinimumSizePtr, [view, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnGetMaximumSize(const view: ICefView; var aResult: TCefSize);
-begin
-  if (OnGetMaximumSizePtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnGetMaximumSizePtr, [view, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnGetHeightForWidth(const view: ICefView; Width: integer; var aResult: integer);
-begin
-  if (OnGetHeightForWidthPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnGetHeightForWidthPtr, [view, Width, @aResult]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnParentViewChanged(const view: ICefView; added: boolean; const parent: ICefView);
-begin
-  if (OnParentViewChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnParentViewChangedPtr, [view, added, parent]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnChildViewChanged(const view: ICefView; added: boolean; const child: ICefView);
-begin
-  if (OnChildViewChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnChildViewChangedPtr, [view, added, child]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnWindowChanged(const view: ICefView; added: boolean);
-begin
-  if (OnWindowChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnWindowChangedPtr, [view, added]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnLayoutChanged(const view: ICefView; new_bounds: TCefRect);
-begin
-  if (OnLayoutChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnLayoutChangedPtr, [view, @new_bounds]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnFocus(const view: ICefView);
-begin
-  if (OnFocusPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnFocusPtr, [view]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnBlur(const view: ICefView);
-begin
-  if (OnBlurPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnBlurPtr, [view]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnThemeChanged(const view: ICefView);
-begin
-  if (OnThemeChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnThemeChangedPtr, [view]);
-  end;
-end;
-
+{$define ImplViewClassName := TWindowDelegateRef}
+{$I CEF_LCL_View_Include_Defs_Impl.inc}
 
 // ICefWindowDelegate
 procedure TWindowDelegateRef.OnWindowCreated(const window_: ICefWindow);
@@ -401,17 +297,7 @@ end;
 procedure TWindowDelegateRef.PtrSetNil();
 begin
    // ICefViewDelegate
-   OnGetPreferredSizePtr := nil;
-   OnGetMinimumSizePtr := nil;
-   OnGetMaximumSizePtr := nil;
-   OnGetHeightForWidthPtr := nil;
-   OnParentViewChangedPtr := nil;
-   OnChildViewChangedPtr := nil;
-   OnWindowChangedPtr := nil;
-   OnLayoutChangedPtr := nil;
-   OnFocusPtr := nil;
-   OnBlurPtr := nil;
-   OnThemeChangedPtr := nil;
+  {$I CEF_LCL_View_Include_PtrSetNil.inc}
 
    // ICefWindowDelegate
    OnWindowCreatedPtr :=nil;

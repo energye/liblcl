@@ -1,0 +1,11 @@
+OnGetPreferredSizePtr: Pointer;
+OnGetMinimumSizePtr: Pointer;
+OnGetMaximumSizePtr: Pointer;
+OnGetHeightForWidthPtr: Pointer;
+OnParentViewChangedPtr: Pointer;
+OnChildViewChangedPtr: Pointer;
+OnWindowChangedPtr: Pointer;
+OnLayoutChangedPtr: Pointer;
+OnFocusPtr: Pointer;
+OnBlurPtr: Pointer;
+OnThemeChangedPtr: Pointer;
