@@ -165,7 +165,7 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_GetException(TObj: ICefv8Value): ICefV8Exception; extdecl;
+procedure CefV8Value_GetException(TObj: ICefv8Value; out Result: ICefV8Exception); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetException();
