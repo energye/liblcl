@@ -11,15 +11,14 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_CreateBrowserView(const TObj: TCEFBrowserViewComponent; client: ICefClient; url: PChar; borwserSettings: PRCefBrowserSettings;
+function CEFBrowserViewComponent_CreateBrowserView(const TObj: TCEFBrowserViewComponent; client: ICefClient; url: PChar; var borwserSettings: PMCefBrowserSettings;
   const extra_info: ICefDictionaryValue; request_context: ICefRequestContext): LongBool; extdecl;
 var
-  cefBrowserSettings: TCefBrowserSettings;
+  TempBrowserSettings: TCefBrowserSettings;
 begin
   handleExceptionBegin
-  //TCefBrowserSettings
-  cefBrowserSettings := GoBrowserSettingsToCefBrowserSettings(borwserSettings^);
-  Result := TObj.CreateBrowserView(client, PCharToUStr(url), cefBrowserSettings, extra_info, request_context);
+  TempBrowserSettings := GoBrowserSettingsToCefBrowserSettings(borwserSettings);
+  Result := TObj.CreateBrowserView(client, PCharToUStr(url), TempBrowserSettings, extra_info, request_context);
   handleExceptionEnd
 end;
 

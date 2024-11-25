@@ -1127,9 +1127,10 @@ function TLifeSpanHandlerRef.OnBeforePopup(const browser: ICefBrowser; const fra
   var extra_info: ICefDictionaryValue; var noJavascriptAccess: boolean): boolean;
 var
   beforePopupInfo  : RBeforePopupInfo;
-  rpopupFeatures   : PTCefPopupFeatures;
-  rwindowInfo      : RTCefWindowInfo;
-  rbrowserSettings : RCefBrowserSettings;
+  rpopupFeatures   : PMCefPopupFeatures;
+  rwindowInfo      : PMCefWindowInfo;
+  rbrowserSettings : PMCefBrowserSettings;
+  TempTargetDisposition: Integer;
 begin
   Result := False;
   if (BeforePopupPtr <> nil) then
@@ -1137,7 +1138,8 @@ begin
     //popup info
     beforePopupInfo.TargetUrl := PChar(string(targetUrl));
     beforePopupInfo.TargetFrameName := PChar(string(targetFrameName));
-    beforePopupInfo.TargetDisposition := PInteger(Integer(targetDisposition));
+    TempTargetDisposition := Integer(targetDisposition);
+    beforePopupInfo.TargetDisposition := PInteger(@TempTargetDisposition);
     beforePopupInfo.UserGesture := @userGesture;
     // popupFeatures
     rpopupFeatures := CefPopupFeaturesToGoCefPopupFeatures(popupFeatures);
@@ -1449,10 +1451,13 @@ begin
 end;
 
 procedure TRenderHandlerRef.OnTouchHandleStateChanged(const browser: ICefBrowser; const state: TCefTouchHandleState);
+var
+  TempTouchHandleState: PMCefTouchHandleState;
 begin
   if (TouchHandleStateChangedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(TouchHandleStateChangedPtr, [browser, @state]);
+    TempTouchHandleState := TouchHandleStateToGo(state);
+    TCEFEventCallback.SendEvent(TouchHandleStateChangedPtr, [browser, @TempTouchHandleState]);
   end
   else
     inherited OnTouchHandleStateChanged(browser, state);

@@ -50,70 +50,21 @@ begin
   SendEvent([Sender, browser, PChar(string(url)), PChar(string(request_method)), @aResult]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnCanSaveCookie(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie; var aResult: boolean);
+procedure TLCLEvent.ChromiumEvent_OnCanSaveCookie(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest;
+  const response: ICefResponse; const cookie: PCefCookie; var aResult: boolean);
 var
-  PInCookie: PRCefCookie;
-  name, value, domain, path: ustring;
+  TempCookie: PMCefCookie;
 begin
-  name := CefString(@cookie^.name);
-  value := CefString(@cookie^.value);
-  domain := CefString(@cookie^.domain);
-  path := CefString(@cookie^.path);
-  PInCookie := new(PRCefCookie);
-  PInCookie^.url := PChar('');
-  PInCookie^.Name := PChar(string(name));
-  PInCookie^.Value := PChar(string(value));
-  PInCookie^.domain := PChar(string(domain));
-  PInCookie^.path := PChar(string(path));
-  PInCookie^.secure := @cookie^.secure;
-  PInCookie^.httponly := @cookie^.httponly;
-  PInCookie^.hasExpires := @cookie^.has_expires;
-  PInCookie^.creation := @cookie^.creation;
-  PInCookie^.lastAccess := @cookie^.last_access;
-  PInCookie^.expires := @cookie^.expires;
-  PInCookie^.Count := PInteger(0);
-  PInCookie^.total := PInteger(0);
-  PInCookie^.aID := PInteger(0);
-  PInCookie^.sameSite := PInteger(integer(@cookie^.same_site));
-  PInCookie^.priority := PInteger(@cookie^.priority);
-  PInCookie^.setImmediately := @aResult;
-  PInCookie^.deleteCookie := PBoolean(False);
-  PInCookie^.Result := @aResult;
-  SendEvent([Sender, browser, frame, request, response, PInCookie, @aResult]);
-  PInCookie := nil;
+  TempCookie := CefCookieToGoCookie(cookie^);
+  SendEvent([Sender, browser, frame, request, response, @TempCookie, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCanSendCookie(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const cookie: PCefCookie; var aResult: boolean);
 var
-  PInCookie: PRCefCookie;
-  name, value, domain, path: ustring;
+  TempCookie: PMCefCookie;
 begin
-  name := CefString(@cookie^.name);
-  value := CefString(@cookie^.value);
-  domain := CefString(@cookie^.domain);
-  path := CefString(@cookie^.path);
-  PInCookie := new(PRCefCookie);
-  PInCookie^.url := PChar('');
-  PInCookie^.Name := PChar(string(name));
-  PInCookie^.Value := PChar(string(value));
-  PInCookie^.domain := PChar(string(domain));
-  PInCookie^.path := PChar(string(path));
-  PInCookie^.secure := @cookie^.secure;
-  PInCookie^.httponly := @cookie^.httponly;
-  PInCookie^.hasExpires := @cookie^.has_expires;
-  PInCookie^.creation := @cookie^.creation;
-  PInCookie^.lastAccess := @cookie^.last_access;
-  PInCookie^.expires := @cookie^.expires;
-  PInCookie^.Count := PInteger(0);
-  PInCookie^.total := PInteger(0);
-  PInCookie^.aID := PInteger(0);
-  PInCookie^.sameSite := PInteger(integer(@cookie^.same_site));
-  PInCookie^.priority := PInteger(@cookie^.priority);
-  PInCookie^.setImmediately := @aResult;
-  PInCookie^.deleteCookie := PBoolean(False);
-  PInCookie^.Result := @aResult;
-  SendEvent([Sender, browser, frame, request, PInCookie, @aResult]);
-  PInCookie := nil;
+  TempCookie := CefCookieToGoCookie(cookie^);
+  SendEvent([Sender, browser, frame, request, @TempCookie, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCertificateError(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: boolean);
@@ -455,8 +406,11 @@ begin
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnTouchHandleStateChanged(Sender: TObject; const browser: ICefBrowser; const state: TCefTouchHandleState);
+var
+  TempTouchHandleState: PMCefTouchHandleState;
 begin
-  SendEvent([Sender, browser, @state]);
+  TempTouchHandleState := TouchHandleStateToGo(state);
+  SendEvent([Sender, browser, @TempTouchHandleState]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnUpdateDragCursor(Sender: TObject; const browser: ICefBrowser; operation: TCefDragOperation);
@@ -590,14 +544,16 @@ procedure TLCLEvent.ChromiumEvent_OnBeforePopup(Sender: TObject; const browser: 
   var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean;  var Result: Boolean);
 var
   beforePopupInfo  : RBeforePopupInfo;
-  rpopupFeatures   : PTCefPopupFeatures;
-  rwindowInfo      : RTCefWindowInfo;
-  rbrowserSettings : RCefBrowserSettings;
+  rpopupFeatures   : PMCefPopupFeatures;
+  rwindowInfo      : PMCefWindowInfo;
+  rbrowserSettings : PMCefBrowserSettings;
+  TempTargetDisposition: Integer;
 begin
     //popup info
     beforePopupInfo.TargetUrl := PChar(string(targetUrl));
     beforePopupInfo.TargetFrameName := PChar(string(targetFrameName));
-    beforePopupInfo.TargetDisposition := PInteger(Integer(targetDisposition));
+    TempTargetDisposition := Integer(targetDisposition);
+    beforePopupInfo.TargetDisposition := PInteger(@TempTargetDisposition);
     beforePopupInfo.UserGesture := @userGesture;
     // popupFeatures
     rpopupFeatures := CefPopupFeaturesToGoCefPopupFeatures(popupFeatures);
@@ -699,33 +655,32 @@ begin
   SendEvent([Sender]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnCookiesVisited(Sender: TObject; const name_, value, domain, path: ustring; secure, httponly, hasExpires: Boolean; const creation, lastAccess, expires: TDateTime;
-  count, total, aID : Integer; same_site : TCefCookieSameSite; priority : TCefCookiePriority; var aDeleteCookie, aResult : Boolean);
+procedure TLCLEvent.ChromiumEvent_OnCookiesVisited(Sender: TObject;
+  const name_, value, domain, path    : ustring;
+  secure, httponly, hasExpires        : Boolean;
+  const creation, lastAccess, expires : TDateTime;
+  count, total, aID                   : Integer;
+  same_site : TCefCookieSameSite; priority : TCefCookiePriority; var aDeleteCookie, aResult : Boolean);
 var
-  cookie: PRCefCookie;
+  TempGoCookie: PMCefCookie;
 begin
-  cookie := new(PRCefCookie);
-  cookie^.url := PChar('');
-  cookie^.Name := PChar(string(name_));
-  cookie^.Value := PChar(string(value));
-  cookie^.domain := PChar(string(domain));
-  cookie^.path := PChar(string(path));
-  cookie^.secure := @secure;
-  cookie^.httponly := @httponly;
-  cookie^.hasExpires := @hasExpires;
-  cookie^.creation := @creation;
-  cookie^.lastAccess := @lastAccess;
-  cookie^.expires := @expires;
-  cookie^.Count := PInteger(count);
-  cookie^.total := PInteger(total);
-  cookie^.aID := PInteger(aID);
-  cookie^.sameSite := PInteger(integer(same_site));
-  cookie^.priority := PInteger(priority);
-  cookie^.setImmediately := @aResult;
-  cookie^.deleteCookie := @aDeleteCookie;
-  cookie^.Result := @aResult;
-  SendEvent([Sender, cookie]);
-  cookie := nil;
+  TempGoCookie.name := ToPChar(name_);
+  TempGoCookie.value := ToPChar(value);
+  TempGoCookie.domain := ToPChar(domain);
+  TempGoCookie.path := ToPChar(path);
+  TempGoCookie.secure := PBoolean(@secure);
+  TempGoCookie.httponly := PBoolean(@httponly);
+  TempGoCookie.has_expires := PBoolean(@hasExpires);
+  TempGoCookie.creation := PDouble(@creation);
+  TempGoCookie.last_access := PDouble(@lastAccess);
+  TempGoCookie.expires := PDouble(@expires);
+  TempGoCookie.same_site := PInteger(@same_site);
+  TempGoCookie.priority := PInteger(@priority);
+  TempGoCookie.Count := PInteger(@count);
+  TempGoCookie.total := PInteger(@total);
+  TempGoCookie.id := PInteger(@aID);
+
+  SendEvent([Sender, @TempGoCookie, @aDeleteCookie, @aResult]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnCookieVisitorDestroyed(Sender: TObject; aID: integer);
@@ -1011,7 +966,7 @@ end;
 
 procedure TLCLEvent.BrowserViewComponent_OnGetDelegateForPopupBrowserView(const Sender: TObject; const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult : ICefBrowserViewDelegate);
 var
-  browserSettings: RCefBrowserSettings;
+  browserSettings: PMCefBrowserSettings;
 begin
   browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
   SendEvent([browser_view, @browserSettings, client, is_devtools, @aResult]);
@@ -1054,9 +1009,10 @@ begin
   SendEvent([Sender, PChar(string(aText)), replacement_range, relative_cursor_pos]);
 end;
 
-procedure TLCLEvent.BufferPanel_OnIMESetComposition(Sender: TObject; const aText : ustring; const underlines : TCefCompositionUnderlineDynArray; const replacement_range, selection_range : TCefRange);
+procedure TLCLEvent.BufferPanel_OnIMESetComposition(Sender: TObject; const aText : ustring; const underlines : TCefCompositionUnderlineDynArray;
+  const replacement_range, selection_range : TCefRange);
 begin
-  SendEvent([Sender, PChar(string(aText)), @underlines, Integer(Length(underlines)), @replacement_range, @selection_range]);
+  SendEvent([Sender, ToPChar(aText), @underlines, Integer(Length(underlines)), @replacement_range, @selection_range]);
 end;
 
 procedure TLCLEvent.BufferPanel_OnCustomTouch(Sender: TObject; var aMessage: TMessage; var aHandled : boolean);

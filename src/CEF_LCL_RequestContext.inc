@@ -12,19 +12,13 @@ begin
   handleExceptionEnd
 end;
 
-procedure  RequestContextRef_New(const PRequestContextSettings: PRCefRequestContextSettings; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
+procedure  RequestContextRef_New(var RequestContextSettings: PMCefRequestContextSettings; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
 var
-  requestContextSettings: TCefRequestContextSettings;
+  TempRequestContextSettings: TCefRequestContextSettings;
 begin
   handleExceptionBegin
-  //ICefRequestContext
-  requestContextSettings.size := SizeOf(TCefRequestContextSettings);
-  requestContextSettings.cache_path := CefString(PCharToUStr(PRequestContextSettings^.cachePath));
-  requestContextSettings.persist_session_cookies := Integer(PRequestContextSettings^.persistSessionCookies);
-  requestContextSettings.accept_language_list := CefString(PCharToUStr(PRequestContextSettings^.acceptLanguageList));
-  requestContextSettings.cookieable_schemes_list := CefString(PCharToUStr(PRequestContextSettings^.cookieableSchemesList));
-  requestContextSettings.cookieable_schemes_exclude_defaults := Integer(PRequestContextSettings^.cookieableSchemesExcludeDefaults);
-  Result := TCefRequestContextRef.New(@requestContextSettings, handler);
+  TempRequestContextSettings := RequestContextSettingsToPas(RequestContextSettings);
+  Result := TCefRequestContextRef.New(@TempRequestContextSettings, handler);
   handleExceptionEnd
 end;
 

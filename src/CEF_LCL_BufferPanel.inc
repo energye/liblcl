@@ -2038,6 +2038,13 @@ begin
   EventMethodCode
 end;
 
+procedure BufferPanelCompositionUnderline_Get(AObj: TCefCompositionUnderlineDynArray; index: Integer; out Result: TCefCompositionUnderline); extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj[index];
+  handleExceptionEnd
+end;
+
 exports
   BufferPanel_Create,
   BufferPanel_Free,
@@ -2303,4 +2310,5 @@ exports
   BufferPanel_SetOnKeyDown,
   BufferPanel_SetOnKeyUp,
   BufferPanel_SetOnKeyPress,
-  BufferPanel_SetOnUTF8KeyPress;
+  BufferPanel_SetOnUTF8KeyPress,
+  BufferPanelCompositionUnderline_Get;

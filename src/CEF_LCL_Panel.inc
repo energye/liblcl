@@ -25,10 +25,13 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFPanel_SetToBoxLayout(const AObj: ICefPanel; const settings: TCefBoxLayoutSettings; out Result: ICefBoxLayout); extdecl;
+procedure CEFPanel_SetToBoxLayout(const AObj: ICefPanel; var settings: PCefBoxLayoutSettings; out Result: ICefBoxLayout); extdecl;
+var
+  TempSettings: TCefBoxLayoutSettings;
 begin
   handleExceptionBegin
-  Result := AObj.SetToBoxLayout(settings);
+  TempSettings := GoBoxLayoutSettingsToCefBoxLayoutSettings(settings);
+  Result := AObj.SetToBoxLayout(TempSettings);
   handleExceptionEnd
 end;
 

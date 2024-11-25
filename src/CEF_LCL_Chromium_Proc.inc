@@ -356,7 +356,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SetCookie(const AObj: TChromium; CefCookie: PRCefCookie); extdecl;
+procedure CEFChromium_SetCookie(const AObj: TChromium; var CefCookie: PMCefCookie); extdecl;
 var
   url, name, value, domain, path: ustring;
   secure, httponly, hasExpires: LongBool;
@@ -367,23 +367,22 @@ var
   aID: integer;
 begin
   handleExceptionBegin
-  url := PCharToUStr(CefCookie.url);
-  name := PCharToUStr(CefCookie.name);
-  value := PCharToUStr(CefCookie.value);
-  domain := PCharToUStr(CefCookie.domain);
-  path := PCharToUStr(CefCookie.path);
-  secure := LongBool(PLongBool(CefCookie.secure));
-  httponly := LongBool(PLongBool(CefCookie.httponly));
-  hasExpires := LongBool(PLongBool(CefCookie.hasExpires));
-  creation := Double(PDouble(CefCookie.creation)^);
-  lastAccess := Double(PDouble(CefCookie.lastAccess)^);
-  expires := Double(PDouble(CefCookie.expires)^);
-  sameSite := TCefCookieSameSite(Integer(CefCookie.sameSite));
-  priority := TCefCookiePriority(Integer(CefCookie.priority));
-  aSetImmediately := LongBool(PLongBool(CefCookie.setImmediately));
-  aID := Integer(CefCookie.aID);
+  url                := PCharToUStr(CefCookie.url);
+  name               := PCharToUStr(CefCookie.name);
+  value              := PCharToUStr(CefCookie.value);
+  domain             := PCharToUStr(CefCookie.domain);
+  path               := PCharToUStr(CefCookie.path);
+  secure             := Boolean(CefCookie.secure^);
+  httponly           := Boolean(CefCookie.httponly^);
+  hasExpires         := Boolean(CefCookie.has_expires^);
+  creation           := Double(CefCookie.creation^);
+  lastAccess         := Double(CefCookie.last_access^);
+  expires            := Double(CefCookie.expires^);
+  sameSite           := TCefCookieSameSite(CefCookie.same_site^);
+  priority           := TCefCookiePriority(CefCookie.priority^);
+  aSetImmediately    := Boolean(CefCookie.setImmediately^);
+  aID                := Integer(CefCookie.id^);
   AObj.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, sameSite, priority, aSetImmediately, aID);
-  CefCookie := nil;
   handleExceptionEnd
 end;
 
@@ -408,18 +407,18 @@ end;
 
 //cookie end
 
-procedure CEFChromium_SetProxy(const AObj: TChromium; const proxy: PRChromiumProxy); extdecl;
+procedure CEFChromium_SetProxy(const AObj: TChromium; var proxy: PChromiumProxy); extdecl;
 begin
   handleExceptionBegin
-  AObj.ProxyType := Integer(proxy.ProxyType);
-  AObj.ProxyScheme := TCefProxyScheme(Integer(proxy.ProxyScheme));
-  AObj.ProxyServer := PCharToUStr(proxy.ProxyServer);
-  AObj.ProxyPort := Integer(proxy.ProxyPort);
-  AObj.ProxyUsername := PCharToUStr(proxy.ProxyUsername);
-  AObj.ProxyPassword := PCharToUStr(proxy.ProxyPassword);
+  AObj.ProxyType      := Integer(proxy.ProxyType^);
+  AObj.ProxyScheme    := TCefProxyScheme(Integer(proxy.ProxyScheme^));
+  AObj.ProxyServer    := PCharToUStr(proxy.ProxyServer);
+  AObj.ProxyPort      := Integer(proxy.ProxyPort^);
+  AObj.ProxyUsername  := PCharToUStr(proxy.ProxyUsername);
+  AObj.ProxyPassword  := PCharToUStr(proxy.ProxyPassword);
   AObj.ProxyScriptURL := PCharToUStr(proxy.ProxyScriptURL);
-  AObj.ProxyByPassList := PCharToUStr(proxy.ProxyByPassList);
-  AObj.MaxConnectionsPerProxy := Integer(proxy.MaxConnectionsPerProxy);
+  AObj.ProxyByPassList        := PCharToUStr(proxy.ProxyByPassList);
+  AObj.MaxConnectionsPerProxy := Integer(proxy.MaxConnectionsPerProxy^);
   handleExceptionEnd
 end;
 
@@ -1290,21 +1289,22 @@ begin
   handleExceptionEnd
 end;
 
-procedure  CEFChromium_IMESetComposition(const AObj: TChromium; const text: PChar; const replacement_range, selection_range : TCefRange; const PUnderlines : PTCefCompositionUnderlineDynArray; size: Integer); extdecl;
+procedure  CEFChromium_IMESetComposition(const AObj: TChromium; const text: PChar; const replacement_range, selection_range : TCefRange;
+  const PUnderlines : PTCefCompositionUnderlineDynArray; size: Integer); extdecl;
 var
   i: integer;
   underlines : TCefCompositionUnderlineDynArray;
 begin
   handleExceptionBegin
   try
-  SetLength(underlines, size);
-  for i := 0 to  size - 1 do
-  begin
-  underlines[i] := PUnderlines^[i];
-  end;
-  AObj.IMESetComposition(PChar(text), underlines, @replacement_range, @selection_range);
+    SetLength(underlines, size);
+    for i := 0 to  size - 1 do
+    begin
+      underlines[i] := PUnderlines^[i];
+    end;
+    AObj.IMESetComposition(PChar(text), underlines, @replacement_range, @selection_range);
   finally
-  SetLength(underlines, 0);
+    SetLength(underlines, 0);
   end;
   handleExceptionEnd
 end;

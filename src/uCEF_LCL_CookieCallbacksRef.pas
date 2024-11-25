@@ -52,35 +52,37 @@ type
 implementation
 
 {== CookieVisitor ==}
-function TCookieVisitorRef.visit(const Name, Value, domain, path: ustring; secure, httponly, hasExpires: boolean; const creation, lastAccess, expires: TDateTime; Count, total: integer; same_site: TCefCookieSameSite; priority: TCefCookiePriority; out deleteCookie: boolean): boolean;
+function TCookieVisitorRef.visit(const Name, Value, domain, path: ustring;
+  secure, httponly, hasExpires: boolean;
+  const creation, lastAccess, expires: TDateTime;
+  Count, total: integer;
+  same_site: TCefCookieSameSite; priority: TCefCookiePriority; out deleteCookie: boolean): boolean;
 var
-  cookie: PRCefCookie;
+  TempGoCookie: PMCefCookie;
 begin
   Result := False;
   if (visitPtr <> nil) then
   begin
-    cookie := new(PRCefCookie);
-    cookie^.url := PChar('');
-    cookie^.Name := PChar(string(Name));
-    cookie^.Value := PChar(string(Value));
-    cookie^.domain := PChar(string(domain));
-    cookie^.path := PChar(string(path));
-    cookie^.secure := @secure;
-    cookie^.httponly := @httponly;
-    cookie^.hasExpires := @hasExpires;
-    cookie^.creation := @creation;
-    cookie^.lastAccess := @lastAccess;
-    cookie^.expires := @expires;
-    cookie^.Count := PInteger(Count);
-    cookie^.total := PInteger(total);
-    cookie^.aID := PInteger(0);
-    cookie^.sameSite := PInteger(integer(same_site));
-    cookie^.priority := PInteger(priority);
-    cookie^.setImmediately := @Result;
-    cookie^.deleteCookie := @deleteCookie;
-    cookie^.Result := @Result;
-    TCEFEventCallback.SendEvent(visitPtr, [cookie, @Result]);
-    cookie := nil;
+    //TempGoCookie := SizeOf(PMCefCookie);
+    TempGoCookie.url            := ToPChar('');
+    TempGoCookie.name           := ToPChar(Name);
+    TempGoCookie.value          := ToPChar(value);
+    TempGoCookie.domain         := ToPChar(domain);
+    TempGoCookie.path           := ToPChar(path);
+    TempGoCookie.secure         := PBoolean(@secure);
+    TempGoCookie.httponly       := PBoolean(@httponly);
+    TempGoCookie.has_expires    := PBoolean(@hasExpires);
+    TempGoCookie.creation       := PDouble(@creation);
+    TempGoCookie.last_access    := PDouble(@lastAccess);
+    TempGoCookie.expires        := PDouble(@expires);
+    TempGoCookie.same_site      := PInteger(@same_site);
+    TempGoCookie.priority       := PInteger(@priority);
+    TempGoCookie.Count          := PInteger(@count);
+    TempGoCookie.total          := PInteger(@total);
+    TempGoCookie.id             := PInteger(0);
+    TempGoCookie.setImmediately := PBoolean(False);
+
+    TCEFEventCallback.SendEvent(visitPtr, [@TempGoCookie, @deleteCookie, @Result]);
   end
   else
     Result := inherited visit(Name, Value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, Count, total, same_site, priority, deleteCookie);

@@ -102,7 +102,7 @@ end;
 
 procedure TBrowserViewDelegateRef.OnGetDelegateForPopupBrowserView(const browser_view: ICefBrowserView; const settings: TCefBrowserSettings; const client: ICefClient; is_devtools: boolean; var aResult: ICefBrowserViewDelegate);
 var
-  browserSettings: RCefBrowserSettings;
+  browserSettings: PMCefBrowserSettings;
 begin
   if (OnGetDelegateForPopupBrowserViewPtr <> nil) then
   begin
