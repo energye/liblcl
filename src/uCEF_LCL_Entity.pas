@@ -216,6 +216,26 @@ type
     wm_role_name   : PChar;
   end;
 
+  PPCefInsets = ^PCefInsets;
+  PCefInsets = record
+    top    : PInteger;
+    left   : PInteger;
+    bottom : PInteger;
+    right  : PInteger;
+  end;
+
+  PCefBoxLayoutSettings = record
+    horizontal                       : PInteger; //Integer;
+    inside_border_horizontal_spacing : PInteger; //Integer;
+    inside_border_vertical_spacing   : PInteger; //Integer;
+    inside_border_insets             : PPCefInsets; //TCefInsets;
+    between_child_spacing            : PInteger; //Integer;
+    main_axis_alignment              : PInteger; //TCefAxisAlignment;
+    cross_axis_alignment             : PInteger; //TCefAxisAlignment;
+    minimum_cross_axis_size          : PInteger; //Integer;
+    default_flex                     : PInteger; //Integer;
+  end;
+
 //string to hash
 function StrToHash(const SoureStr: string): cardinal;
 //PChar 转 UnicodeString
@@ -242,6 +262,11 @@ function GoCefPopupFeaturesToCefPopupFeatures(const popupFeatures: PTCefPopupFea
 
 function CefLinuxWindowPropertiesToGoLinuxWindowProperties(const properties: TLinuxWindowProperties): PLinuxWindowProperties;
 function GoLinuxWindowPropertiesToCefLinuxWindowProperties(const properties: PLinuxWindowProperties): TLinuxWindowProperties;
+
+function CefBoxLayoutSettingsToGoBoxLayoutSettings(const value: TCefBoxLayoutSettings): PCefBoxLayoutSettings;
+function GoBoxLayoutSettingsToCefBoxLayoutSettings(const value: PCefBoxLayoutSettings): TCefBoxLayoutSettings;
+function CefInsetsToGoInsets(const value: TCefInsets): PCefInsets;
+function GoInsetsToCefInsets(const value: PCefInsets): TCefInsets;
 
 //function GetCommonInstance(): CommonObject;
 
@@ -594,5 +619,51 @@ begin
   Result.wm_class_name  := string(properties.wm_class_name);
   Result.wm_role_name   := string(properties.wm_role_name);
 end;
+
+function CefBoxLayoutSettingsToGoBoxLayoutSettings(const value: TCefBoxLayoutSettings): PCefBoxLayoutSettings;
+var
+  TempGoInsets: PCefInsets;
+begin
+    TempGoInsets := CefInsetsToGoInsets(value.inside_border_insets);
+    Result.horizontal                       := @(Integer(value.horizontal));
+    Result.inside_border_horizontal_spacing := @(Integer(value.inside_border_horizontal_spacing));
+    Result.inside_border_vertical_spacing   := @(Integer(value.inside_border_vertical_spacing));
+    Result.inside_border_insets             := @TempGoInsets;
+    Result.between_child_spacing            := @(Integer(value.between_child_spacing));
+    Result.main_axis_alignment              := @(Integer(value.main_axis_alignment));
+    Result.cross_axis_alignment             := @(Integer(value.cross_axis_alignment));
+    Result.minimum_cross_axis_size          := @(Integer(value.minimum_cross_axis_size));
+    Result.default_flex                     := @(Integer(value.default_flex));
+end;
+
+function GoBoxLayoutSettingsToCefBoxLayoutSettings(const value: PCefBoxLayoutSettings): TCefBoxLayoutSettings;
+begin
+    Result.horizontal                       := value.horizontal^;
+    Result.inside_border_horizontal_spacing := value.inside_border_horizontal_spacing^;
+    Result.inside_border_vertical_spacing   := value.inside_border_vertical_spacing^;
+    Result.inside_border_insets             := GoInsetsToCefInsets(PPCefInsets(value.inside_border_insets)^);
+    Result.between_child_spacing            := value.between_child_spacing^;
+    Result.main_axis_alignment              := TCefAxisAlignment(value.main_axis_alignment^);
+    Result.cross_axis_alignment             := TCefAxisAlignment(value.cross_axis_alignment^);
+    Result.minimum_cross_axis_size          := value.minimum_cross_axis_size^;
+    Result.default_flex                     := value.default_flex^;
+end;
+
+function CefInsetsToGoInsets(const value: TCefInsets): PCefInsets;
+begin
+  Result.top    := @(Integer(value.top));
+  Result.left   := @(Integer(value.left));
+  Result.bottom := @(Integer(value.bottom));
+  Result.right  := @(Integer(value.right));
+end;
+
+function GoInsetsToCefInsets(const value: PCefInsets): TCefInsets;
+begin
+  Result.top    := value.top^;
+  Result.left   := value.left^;
+  Result.bottom := value.bottom^;
+  Result.right  := value.right^;
+end;
+
 
 end.
