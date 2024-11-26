@@ -1409,6 +1409,8 @@ begin
 end;
 
 procedure CEFChromium_SetContentSetting(const AObj: TChromium; const requesting_url, top_level_url: PChar; content_type: TCefContentSettingTypes; value: TCefContentSettingValues); extdecl;
+var
+  aSettings : TCefBrowserSettings;
 begin
   handleExceptionBegin
   AObj.SetContentSetting(PCharToUStr(requesting_url), PCharToUStr(top_level_url), content_type, value);
