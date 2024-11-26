@@ -232,7 +232,8 @@ begin
   SendEvent([Sender]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnIMECompositionRangeChanged(Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: nativeuint; const character_bounds: PCefRect);
+procedure TLCLEvent.ChromiumEvent_OnIMECompositionRangeChanged(Sender: TObject; const browser: ICefBrowser; const selected_range: PCefRange; character_boundsCount: nativeuint;
+  const character_bounds: PCefRect);
 begin
   SendEvent([Sender, browser, selected_range, @character_boundsCount, character_bounds]);
 end;
