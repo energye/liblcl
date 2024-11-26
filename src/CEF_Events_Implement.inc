@@ -55,6 +55,7 @@ procedure TLCLEvent.ChromiumEvent_OnCanSaveCookie(Sender: TObject; const browser
 var
   TempCookie: PMCefCookie;
 begin
+  TempCookie := InitCookie();
   TempCookie := CefCookieToGoCookie(cookie^);
   SendEvent([Sender, browser, frame, request, response, @TempCookie, @aResult]);
 end;
@@ -63,6 +64,7 @@ procedure TLCLEvent.ChromiumEvent_OnCanSendCookie(Sender: TObject; const browser
 var
   TempCookie: PMCefCookie;
 begin
+  TempCookie := InitCookie();
   TempCookie := CefCookieToGoCookie(cookie^);
   SendEvent([Sender, browser, frame, request, @TempCookie, @aResult]);
 end;
@@ -665,6 +667,7 @@ procedure TLCLEvent.ChromiumEvent_OnCookiesVisited(Sender: TObject;
 var
   TempGoCookie: PMCefCookie;
 begin
+  TempGoCookie := InitCookie();
   TempGoCookie.name := ToPChar(name_);
   TempGoCookie.value := ToPChar(value);
   TempGoCookie.domain := ToPChar(domain);

@@ -201,6 +201,7 @@ begin
   Result := False;
   if (CanSendCookiePtr <> nil) then
   begin
+    TempCookie := InitCookie();
     TempCookie := CefCookieToGoCookie(cookie^);
     TCEFEventCallback.SendEvent(CanSendCookiePtr, [browser, frame, request, @TempCookie, @Result]);
   end
@@ -215,6 +216,7 @@ begin
   Result := False;
   if (CanSaveCookiePtr <> nil) then
   begin
+    TempCookie := InitCookie();
     TempCookie := CefCookieToGoCookie(cookie^);
     TCEFEventCallback.SendEvent(CanSaveCookiePtr, [browser, frame, request, response, @TempCookie, @Result]);
   end

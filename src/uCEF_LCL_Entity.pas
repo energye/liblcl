@@ -287,6 +287,7 @@ function GoBoxLayoutSettingsToCefBoxLayoutSettings(const value: PCefBoxLayoutSet
 function CefInsetsToGoInsets(const value: TCefInsets): PCefInsets;
 function GoInsetsToCefInsets(const value: PCefInsets): TCefInsets;
 
+function InitCookie(): PMCefCookie;
 function CefCookieToGoCookie(const value: TCefCookie): PMCefCookie;
 function GoCookieToCefCookie(const value: PMCefCookie): TCefCookie;
 
@@ -706,14 +707,30 @@ begin
   Result.right  := value.right^;
 end;
 
+function InitCookie(): PMCefCookie;
+begin
+  Result.url := nil;
+  Result.Name := nil;
+  Result.Value := nil;
+  Result.domain := nil;
+  Result.path := nil;
+  Result.secure := nil;
+  Result.httponly := nil;
+  Result.creation := nil;
+  Result.last_access := nil;
+  Result.has_expires := nil;
+  Result.expires := nil;
+  Result.same_site := nil;
+  Result.priority := nil;
+  Result.Count := nil;
+  Result.total := nil;
+  Result.id := nil;
+  Result.setImmediately := nil;
+end;
 
 function CefCookieToGoCookie(const value: TCefCookie): PMCefCookie;
 begin
-  Result.url := PChar('');
-  Result.Count := PInteger(0);
-  Result.total := PInteger(0);
-  Result.id := PInteger(0);
-  Result.setImmediately := PBoolean(false);
+  Result := InitCookie();
   Result.Name := ToPChar(CefString(@value.name));
   Result.Value := ToPChar(CefString(@value.value));
   Result.domain := ToPChar(CefString(@value.domain));
@@ -726,7 +743,6 @@ begin
   Result.expires := @(value.expires);
   Result.same_site := @(value.same_site);
   Result.priority := @(value.priority);
-
 end;
 
 function GoCookieToCefCookie(const value: PMCefCookie): TCefCookie;

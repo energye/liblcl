@@ -63,8 +63,7 @@ begin
   Result := False;
   if (visitPtr <> nil) then
   begin
-    //TempGoCookie := SizeOf(PMCefCookie);
-    TempGoCookie.url            := ToPChar('');
+    TempGoCookie := InitCookie();
     TempGoCookie.name           := ToPChar(Name);
     TempGoCookie.value          := ToPChar(value);
     TempGoCookie.domain         := ToPChar(domain);
@@ -79,8 +78,6 @@ begin
     TempGoCookie.priority       := PInteger(@priority);
     TempGoCookie.Count          := PInteger(@count);
     TempGoCookie.total          := PInteger(@total);
-    TempGoCookie.id             := PInteger(0);
-    TempGoCookie.setImmediately := PBoolean(False);
 
     TCEFEventCallback.SendEvent(visitPtr, [@TempGoCookie, @deleteCookie, @Result]);
   end
