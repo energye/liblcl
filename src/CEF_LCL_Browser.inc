@@ -144,8 +144,8 @@ end;
 procedure CEFBrowser_Print(const TObj: ICefBrowser); extdecl;
 begin
   handleExceptionBegin
-  if TObj.GetHost <> nil then
-    TObj.GetHost.Print();
+  if TObj.Host <> nil then
+    TObj.Host.Print();
   handleExceptionEnd
 end;
 
@@ -154,10 +154,10 @@ var
   TempSettings: TCefPdfPrintSettings;
 begin
   handleExceptionBegin
-  if TObj.GetHost <> nil then
+  if TObj.Host <> nil then
   begin
     TempSettings := PdfPrintSettingsToPas(pdfPrintSettings);
-    TObj.GetHost.PrintToPdf(PCharToUStr(PPath), @TempSettings, callback)
+    TObj.Host.PrintToPdf(PCharToUStr(PPath), @TempSettings, callback);
   end;
   handleExceptionEnd
 end;

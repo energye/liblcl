@@ -181,6 +181,7 @@ type
 
   PPMCefPdfPrintSettings = ^PMCefPdfPrintSettings;
 
+  // TCefPdfPrintSettings
   PMCefPdfPrintSettings = record
     landscape: PInteger;
     print_background: PInteger;
@@ -198,6 +199,7 @@ type
     header_template: PChar;
     footer_template: PChar;
     generate_tagged_pdf: PInteger;
+    generate_document_outline : PInteger;
   end;
 
   PPMCefRequestContextSettings = ^PMCefRequestContextSettings;
@@ -490,17 +492,17 @@ function GoBrowserSettingsToCefBrowserSettings(const settings: PMCefBrowserSetti
 begin
   Result.size := SizeOf(TCefBrowserSettings);
   Result.windowless_frame_rate := settings.windowless_frame_rate^;
-  Result.standard_font_family := CefString(PCharToUStr(settings.standard_font_family));
-  Result.fixed_font_family := CefString(PCharToUStr(settings.fixed_font_family));
-  Result.serif_font_family := CefString(PCharToUStr(settings.serif_font_family));
-  Result.sans_serif_font_family := CefString(PCharToUStr(settings.sans_serif_font_family));
-  Result.cursive_font_family := CefString(PCharToUStr(settings.cursive_font_family));
-  Result.fantasy_font_family := CefString(PCharToUStr(settings.fantasy_font_family));
+  Result.standard_font_family := CefStringAlloc(PCharToUStr(settings.standard_font_family));
+  Result.fixed_font_family := CefStringAlloc(PCharToUStr(settings.fixed_font_family));
+  Result.serif_font_family := CefStringAlloc(PCharToUStr(settings.serif_font_family));
+  Result.sans_serif_font_family := CefStringAlloc(PCharToUStr(settings.sans_serif_font_family));
+  Result.cursive_font_family := CefStringAlloc(PCharToUStr(settings.cursive_font_family));
+  Result.fantasy_font_family := CefStringAlloc(PCharToUStr(settings.fantasy_font_family));
   Result.default_font_size := settings.default_font_size^;
   Result.default_fixed_font_size := settings.default_fixed_font_size^;
   Result.minimum_font_size := settings.minimum_font_size^;
   Result.minimum_logical_font_size := settings.minimum_logical_font_size^;
-  Result.default_encoding := CefString(PCharToUStr(settings.default_encoding));
+  Result.default_encoding := CefStringAlloc(PCharToUStr(settings.default_encoding));
   Result.remote_fonts := TCefState(settings.remote_fonts^);
   Result.javascript := TCefState(settings.javascript^);
   Result.javascript_close_windows := TCefState(settings.javascript_close_windows^);
@@ -567,7 +569,7 @@ function GoCefWindowInfoToCefWindowInfo(const settings: PMCefWindowInfo): TCefWi
 begin
   {$IFDEF MSWINDOWS}
   Result.ex_style := settings.ex_style^;
-  Result.window_name := CefString(PCharToUStr(settings.window_name));
+  Result.window_name := CefStringAlloc(PCharToUStr(settings.window_name));
   Result.style := settings.style^;
   Result.bounds.x := settings.x^;
   Result.bounds.y := settings.y^;
@@ -582,7 +584,7 @@ begin
   Result.window := settings.window^;
   {$ENDIF}
   {$IFDEF MACOSX}
-  Result.window_name := CefString(PCharToUStr(settings.window_name));
+  Result.window_name := CefStringAlloc(PCharToUStr(settings.window_name));
   Result.bounds.x := settings.x^;
   Result.bounds.y := settings.y^;
   Result.bounds.Width := settings.Width^;
@@ -595,7 +597,7 @@ begin
   Result.view := settings.view^;
   {$ENDIF}
   {$IFDEF LINUX}
-  Result.window_name := CefString(PCharToUStr(settings.window_name));
+  Result.window_name := CefStringAlloc(PCharToUStr(settings.window_name));
   Result.bounds.x := settings.x^;
   Result.bounds.y := settings.y^;
   Result.bounds.Width := settings.Width^;
@@ -729,10 +731,10 @@ end;
 
 function GoCookieToCefCookie(const value: PMCefCookie): TCefCookie;
 begin
-  Result.name := CefString(PCharToUStr(value.Name));
-  Result.value := CefString(PCharToUStr(value.Value));
-  Result.domain := CefString(PCharToUStr(value.Domain));
-  Result.path := CefString(PCharToUStr(value.Path));
+  Result.name := CefStringAlloc(PCharToUStr(value.Name));
+  Result.value := CefStringAlloc(PCharToUStr(value.Value));
+  Result.domain := CefStringAlloc(PCharToUStr(value.Domain));
+  Result.path := CefStringAlloc(PCharToUStr(value.Path));
   Result.secure := Integer(value.secure^);
   Result.httponly := Integer(value.httponly^);
   Result.creation := DateTimeToCefBaseTime(value.creation^);
@@ -755,10 +757,10 @@ end;
 function RequestContextSettingsToPas(const value: PMCefRequestContextSettings): TCefRequestContextSettings;
 begin
   Result.size := SizeOf(TCefRequestContextSettings);
-  Result.cache_path := CefString(PCharToUStr(value.CachePath));
+  Result.cache_path := CefStringAlloc(PCharToUStr(value.CachePath));
   Result.persist_session_cookies := Integer(value.PersistSessionCookies^);
-  Result.accept_language_list := CefString(PCharToUStr(value.AcceptLanguageList));
-  Result.cookieable_schemes_list := CefString(PCharToUStr(value.CookieableSchemesList));
+  Result.accept_language_list := CefStringAlloc(PCharToUStr(value.AcceptLanguageList));
+  Result.cookieable_schemes_list := CefStringAlloc(PCharToUStr(value.CookieableSchemesList));
   Result.cookieable_schemes_exclude_defaults := integer(value.CookieableSchemesExcludeDefaults^);
 end;
 
@@ -780,6 +782,7 @@ begin
   Result.header_template := ToPChar(CefString(@AData.header_template));
   Result.footer_template := ToPChar(CefString(@AData.footer_template));
   Result.generate_tagged_pdf := @(AData.generate_tagged_pdf);
+  Result.generate_document_outline := @(AData.generate_document_outline);
 end;
 
 function PdfPrintSettingsToPas(const AData: PMCefPdfPrintSettings): TCefPdfPrintSettings;
@@ -795,11 +798,12 @@ begin
   Result.margin_right := double(AData.margin_right^);
   Result.margin_bottom := double(AData.margin_bottom^);
   Result.margin_left := double(AData.margin_left^);
-  Result.page_ranges := CefString(PCharToUStr(AData.page_ranges));
+  Result.page_ranges := CefStringAlloc(PCharToUStr(AData.page_ranges));
   Result.display_header_footer := Integer(AData.display_header_footer^);
-  Result.header_template := CefString(PCharToUStr(AData.header_template));
-  Result.footer_template := CefString(PCharToUStr(AData.footer_template));
+  Result.header_template := CefStringAlloc(PCharToUStr(AData.header_template));
+  Result.footer_template := CefStringAlloc(PCharToUStr(AData.footer_template));
   Result.generate_tagged_pdf := integer(AData.generate_tagged_pdf^);
+  Result.generate_document_outline := integer(AData.generate_document_outline^);
 end;
 
 function TouchHandleStateToGo(const AData: TCefTouchHandleState): PMCefTouchHandleState;
