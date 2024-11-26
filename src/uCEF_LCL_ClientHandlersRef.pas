@@ -1084,7 +1084,7 @@ begin
   Result := False;
   if (PreKeyEventPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(PreKeyEventPtr, [browser, event, @osEvent, @isKeyboardShortcut, @Result]);
+    TCEFEventCallback.SendEvent(PreKeyEventPtr, [browser, event, osEvent, @isKeyboardShortcut, @Result]);
   end
   else
     Result := inherited OnPreKeyEvent(browser, event, osEvent, isKeyboardShortcut);
@@ -1095,7 +1095,7 @@ begin
   Result := False;
   if (KeyEventPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(KeyEventPtr, [browser, event, @osEvent, @Result]);
+    TCEFEventCallback.SendEvent(KeyEventPtr, [browser, event, osEvent, @Result]);
   end
   else
     Result := inherited OnKeyEvent(browser, event, osEvent);
