@@ -40,7 +40,7 @@
 {$I MyLCL_ParaAttributes.inc}  //BASECLASS:TObject
 {$I MyLCL_TextAttributes.inc}  //BASECLASS:TObject
 {$I MyLCL_IconOptions.inc}  //BASECLASS:TObject
-{$I MyLCL_Exception.inc}  //BASECLASS:TObject
+//{$I MyLCL_Exception.inc}  //BASECLASS:TObject
 {$I MyLCL_ScrollBar.inc}  //BASECLASS:TWinControl
 {$I MyLCL_MaskEdit.inc}  //BASECLASS:TWinControl
 {$I MyLCL_Shape.inc}  //BASECLASS:TControl

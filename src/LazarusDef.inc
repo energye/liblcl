@@ -14,10 +14,30 @@ begin
   Result := seUTF8;
 end;
 
-function DLibVersion: Cardinal; extdecl;
+procedure GetLCLVersion(var AMajor: Word; var AMinor: Word; var ARelease: Word; var APatch: Word; var AFullVersion: Cardinal; var AVersion: PChar); extdecl;
 begin
-  // 共8位，2位2位的
-  Result := $02020400;
+  AMajor := Word(lcl_major);
+  AMinor := Word(lcl_minor);
+  ARelease := Word(lcl_release);
+  APatch := Word(lcl_patch);
+  AFullVersion := Cardinal(lcl_fullversion);
+  AVersion := PChar(lcl_version);
+end;
+
+function WidgetUI(): Integer; extdecl;
+begin
+  {$IFDEF LCLWIN32}
+    Result := 100;
+  {$ENDIF}
+  {$IFDEF LCLCOCOA}
+    Result := 200;
+  {$ENDIF}
+  {$IFDEF LCLGTK2}
+    Result := 300;
+  {$ENDIF}
+  {$IFDEF LCLGTK3}
+    Result := 310;
+  {$ENDIF}
 end;
 
 // 一些初始
@@ -1205,7 +1225,8 @@ exports
 
   // 库的信息
   DLibStringEncoding,
-  DLibVersion,
+  GetLCLVersion,
+  WidgetUI,
 
   // TApplication
   Application_Instance,
