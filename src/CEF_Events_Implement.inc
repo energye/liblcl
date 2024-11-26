@@ -683,7 +683,6 @@ begin
   TempGoCookie.Count := PInteger(@count);
   TempGoCookie.total := PInteger(@total);
   TempGoCookie.id := PInteger(@aID);
-
   SendEvent([Sender, @TempGoCookie, @aDeleteCookie, @aResult]);
 end;
 

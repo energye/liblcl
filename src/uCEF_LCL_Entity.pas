@@ -259,10 +259,9 @@ function PCharToUStr(const Value: PChar): unicodestring;
 //String 转 UnicodeString
 function StrToUStr(const Value: string): unicodestring;
 
-function ToPChar(AStr: string): PChar;
-function ToPChar(AStr: unicodestring): PChar;
-function ToPChar(AStr: ustring): PChar;
-
+// 需要使用 inline，否则乱码
+function ToPChar(AStr: string): PChar; inline;
+function ToPChar(AStr: unicodestring): PChar; inline;
 
 function ByteToInteger(const Data: array of byte; start: integer = 0): integer;
 //复制Byte数组到Dest
@@ -341,17 +340,12 @@ var
 
 implementation
 
-function ToPChar(AStr: string): PChar;
+function ToPChar(AStr: string): PChar; inline;
 begin
   Result := PChar(AStr);
 end;
 
-function ToPChar(AStr: unicodestring): PChar;
-begin
-  Result := PChar(UTF8Encode(AStr)); //PWideChar(AStr);
-end;
-
-function ToPChar(AStr: ustring): PChar;
+function ToPChar(AStr: unicodestring): PChar; inline;
 begin
   Result := PChar(UTF8Encode(AStr)); //PWideChar(AStr);
 end;
