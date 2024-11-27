@@ -23,7 +23,7 @@ begin
   handleExceptionBegin
   if AObj is TMenuButtonDelegateRef then
   begin
-    (AObj as TMenuButtonDelegateRef).OnBlurPtr := AEvent;
+    (AObj as TMenuButtonDelegateRef).OnButtonPressedPtr := AEvent;
   end
   else
     (AObj as TButtonDelegateRef).OnButtonPressedPtr := AEvent;
