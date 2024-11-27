@@ -152,6 +152,7 @@ procedure CEFWindowEvent_OnExit(Sender: TObject);
 procedure WindowComponent_OnWindowCreated(const Sender: TObject; const window: ICefWindow);
 procedure WindowComponent_OnWindowDestroyed(const Sender: TObject; const window: ICefWindow);
 procedure WindowComponent_OnWindowActivationChanged(const Sender: TObject; const window: ICefWindow; active: boolean);
+procedure WindowComponent_OnWindowBoundsChanged(const Sender: TObject; const window_: ICefWindow; const new_bounds: TCefRect);
 procedure WindowComponent_OnGetParentWindow(const Sender: TObject; const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
 procedure WindowComponent_OnIsWindowModalDialog(const Sender: TObject; const window_: ICefWindow; var aResult : boolean);
 procedure WindowComponent_OnGetInitialBounds(const Sender: TObject; const window: ICefWindow; var aResult : TCefRect);

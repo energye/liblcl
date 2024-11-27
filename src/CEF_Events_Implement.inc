@@ -862,6 +862,11 @@ begin
   SendEvent([window, active]);
 end;
 
+procedure TLCLEvent.WindowComponent_OnWindowBoundsChanged(const Sender: TObject; const window_: ICefWindow; const new_bounds: TCefRect);
+begin
+  SendEvent([window_, @new_bounds]);
+end;
+
 procedure TLCLEvent.WindowComponent_OnGetParentWindow(const Sender: TObject; const window: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
 begin
   SendEvent([window, @is_menu, @can_activate_menu, @aResult]);

@@ -385,6 +385,13 @@ begin
   EventMethodCode
 end;
 
+procedure CEFWindowComponent_SetOnWindowBoundsChanged(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := WindowComponent_OnWindowBoundsChanged}
+  {$DEFINE EventName := OnWindowBoundsChanged}
+  EventMethodCode
+end;
+
 procedure CEFWindowComponent_SetOnGetParentWindow(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := WindowComponent_OnGetParentWindow}
@@ -566,6 +573,7 @@ exports
   CEFWindowComponent_SetOnWindowCreated,
   CEFWindowComponent_SetOnWindowDestroyed,
   CEFWindowComponent_SetOnWindowActivationChanged,
+  CEFWindowComponent_SetOnWindowBoundsChanged,
   CEFWindowComponent_SetOnGetParentWindow,
   CEFWindowComponent_SetOnIsWindowModalDialog,
   CEFWindowComponent_SetOnGetInitialBounds,
