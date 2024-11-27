@@ -371,6 +371,13 @@ begin
   EventMethodCode
 end;
 
+procedure CEFWindowComponent_SetOnWindowClosing(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
+begin
+  {$DEFINE EventMethodName := WindowComponent_OnWindowClosing}
+  {$DEFINE EventName := OnWindowClosing}
+  EventMethodCode
+end;
+
 procedure CEFWindowComponent_SetOnWindowDestroyed(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := WindowComponent_OnWindowDestroyed}
@@ -571,6 +578,7 @@ exports
   CEFWindowComponent_AddChildView,
   CEFWindowComponent_RuntimeStyle,
   CEFWindowComponent_SetOnWindowCreated,
+  CEFWindowComponent_SetOnWindowClosing,
   CEFWindowComponent_SetOnWindowDestroyed,
   CEFWindowComponent_SetOnWindowActivationChanged,
   CEFWindowComponent_SetOnWindowBoundsChanged,

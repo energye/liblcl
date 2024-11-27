@@ -150,6 +150,7 @@ procedure CEFWindowEvent_OnExit(Sender: TObject);
 
 {== CEFWindowComponent ==}
 procedure WindowComponent_OnWindowCreated(const Sender: TObject; const window: ICefWindow);
+procedure WindowComponent_OnWindowClosing(const Sender: TObject; const window: ICefWindow);
 procedure WindowComponent_OnWindowDestroyed(const Sender: TObject; const window: ICefWindow);
 procedure WindowComponent_OnWindowActivationChanged(const Sender: TObject; const window: ICefWindow; active: boolean);
 procedure WindowComponent_OnWindowBoundsChanged(const Sender: TObject; const window_: ICefWindow; const new_bounds: TCefRect);

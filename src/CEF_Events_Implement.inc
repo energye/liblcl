@@ -852,6 +852,11 @@ begin
   SendEvent([window]);
 end;
 
+procedure TLCLEvent.WindowComponent_OnWindowClosing(const Sender: TObject; const window: ICefWindow);
+begin
+  SendEvent([window]);
+end;
+
 procedure TLCLEvent.WindowComponent_OnWindowDestroyed(const Sender: TObject; const window: ICefWindow);
 begin
   SendEvent([window]);
