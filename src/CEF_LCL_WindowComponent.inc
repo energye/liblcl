@@ -96,7 +96,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_SetBackgroundColor(const TObj: TCEFWindowComponent; var AValue : TCefColor); extdecl;
+procedure CEFWindowComponent_SetBackgroundColor(const TObj: TCEFWindowComponent; AValue : TCefColor); extdecl;
 begin
   handleExceptionBegin
   TObj.BackgroundColor := AValue;
