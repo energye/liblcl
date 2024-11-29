@@ -1805,14 +1805,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure  BufferPanel_ChangeCompositionRange(AObj: TBufferPanel; const selection_range : TCefRange; const character_bounds : TCefRectDynArray); extdecl;
+procedure  BufferPanel_ChangeCompositionRange(AObj: TBufferPanel; var selection_range : TCefRange; const character_bounds : TCefRectDynArray); extdecl;
 begin
   handleExceptionBegin
   AObj.ChangeCompositionRange(selection_range, character_bounds);
   handleExceptionEnd
 end;
 
-procedure  BufferPanel_DrawOrigPopupBuffer(AObj: TBufferPanel; const aSrcRect, aDstRect : TRect); extdecl;
+procedure  BufferPanel_DrawOrigPopupBuffer(AObj: TBufferPanel; var aSrcRect, aDstRect : TRect); extdecl;
 begin
   handleExceptionBegin
   AObj.DrawOrigPopupBuffer(aSrcRect, aDstRect);

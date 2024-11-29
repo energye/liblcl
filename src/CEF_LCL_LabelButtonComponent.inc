@@ -46,14 +46,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure  LabelButtonComponent_SetMinimumSize(const AObj: TCEFLabelButtonComponent; const size_: TCefSize); extdecl;
+procedure  LabelButtonComponent_SetMinimumSize(const AObj: TCEFLabelButtonComponent; var size_: TCefSize); extdecl;
 begin
   handleExceptionBegin
   AObj.SetMinimumSize(size_);
   handleExceptionEnd
 end;
 
-procedure  LabelButtonComponent_SetMaximumSize(const AObj: TCEFLabelButtonComponent; const size_: TCefSize); extdecl;
+procedure  LabelButtonComponent_SetMaximumSize(const AObj: TCEFLabelButtonComponent; var size_: TCefSize); extdecl;
 begin
   handleExceptionBegin
   AObj.SetMaximumSize(size_);

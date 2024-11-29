@@ -274,7 +274,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_ShowMenu(const AWindow: ICefWindow; const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition); extdecl;
+procedure ICEFWindow_ShowMenu(const AWindow: ICefWindow; const menu_model: ICefMenuModel; var screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition); extdecl;
 begin
   handleExceptionBegin
   AWindow.ShowMenu(menu_model, screen_point, anchor_position);

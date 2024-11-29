@@ -166,7 +166,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_ShowMenu(const TObj: TCEFWindowComponent; const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition); extdecl;
+procedure CEFWindowComponent_ShowMenu(const TObj: TCEFWindowComponent; const menu_model: ICefMenuModel; var screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition); extdecl;
 begin
   handleExceptionBegin
   TObj.ShowMenu(menu_model, screen_point, anchor_position);

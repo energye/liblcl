@@ -1289,7 +1289,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure  CEFChromium_IMESetComposition(const AObj: TChromium; const text: PChar; const replacement_range, selection_range : TCefRange;
+procedure  CEFChromium_IMESetComposition(const AObj: TChromium; const text: PChar; var replacement_range, selection_range : TCefRange;
   const PUnderlines : PTCefCompositionUnderlineDynArray; size: Integer); extdecl;
 var
   i: integer;
@@ -1309,7 +1309,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure  CEFChromium_IMECommitText(const AObj: TChromium; const text: PChar; const replacement_range : TCefRange; relative_cursor_pos : integer); extdecl;
+procedure  CEFChromium_IMECommitText(const AObj: TChromium; const text: PChar; var replacement_range : TCefRange; relative_cursor_pos : integer); extdecl;
 begin
   handleExceptionBegin
   AObj.IMECommitText(PChar(text), @replacement_range, relative_cursor_pos);

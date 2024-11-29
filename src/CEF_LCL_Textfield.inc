@@ -102,7 +102,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure Textfield_SelectRange(const AObj: ICefTextfield; const range: TCefRange); extdecl;
+procedure Textfield_SelectRange(const AObj: ICefTextfield; var range: TCefRange); extdecl;
 begin
   handleExceptionBegin
   AObj.SelectRange(range);
@@ -165,14 +165,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure Textfield_ApplyTextColor(const AObj: ICefTextfield; color: TCefColor; const range: TCefRange); extdecl;
+procedure Textfield_ApplyTextColor(const AObj: ICefTextfield; color: TCefColor; var range: TCefRange); extdecl;
 begin
   handleExceptionBegin
   AObj.ApplyTextColor(color, range);
   handleExceptionEnd
 end;
 
-procedure Textfield_ApplyTextStyle(const AObj: ICefTextfield; style: TCefTextStyle; add: LongBool; const range: TCefRange); extdecl;
+procedure Textfield_ApplyTextStyle(const AObj: ICefTextfield; style: TCefTextStyle; add: LongBool; var range: TCefRange); extdecl;
 begin
   handleExceptionBegin
   AObj.ApplyTextStyle(style, add, range);
