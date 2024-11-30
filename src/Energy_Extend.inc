@@ -18,7 +18,7 @@ begin
   handleExceptionEnd
 end;
 
-function Ext_ReadStringProperty(Sender: TObject): PChar;
+function Ext_ReadStringProperty(Sender: TObject): PChar;  extdecl;
 var
   LTypeData: PTypeData;
   PropCount, I, Count: smallint;
