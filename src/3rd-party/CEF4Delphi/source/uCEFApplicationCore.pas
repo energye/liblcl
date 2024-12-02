@@ -1756,6 +1756,8 @@ type
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_load_handler_capi.h">CEF source file: /include/capi/cef_load_handler_capi.h (cef_load_handler_t)</see></para>
       /// </remarks>
       property OnLoadError                       : TOnRenderLoadError                       read FOnLoadError                       write FOnLoadError;
+
+      property SetLibHandle                      : {$IFDEF FPC}TLibHandle{$ELSE}THandle{$ENDIF}  write FLibHandle;
   end;
 
   TCEFDirectoryDeleterThread = class(TThread)
@@ -2401,7 +2403,8 @@ begin
       Result := GetModulePath + LIBCEF_DLL;
       {$ELSE}
         {$IFDEF MACOSX}
-        Result := GetModulePath + LIBCEF_PREFIX + LIBCEF_DLL;
+        Result := IncludeTrailingPathDelimiter(GetModulePath + LIBCEF_PREFIX + LIBCEF_DLL);
+        Result := '@executable_path/../Frameworks/Chromium Embedded Framework.framework/' + LIBCEF_DLL;
         {$ELSE}
         Result := LIBCEF_DLL;
         {$ENDIF}
@@ -3815,8 +3818,9 @@ var
   TempError  : {$IFDEF MSWINDOWS}DWORD;{$ELSE}Integer;{$ENDIF}
 begin
   Result := False;
-
-  if (FStatus <> asLoading) or FLibLoaded or (FLibHandle <> 0) then
+  WriteLn('pas=FStatus <> asLoading: ', FStatus <> asLoading);
+  WriteLn('pas=FLibLoaded or (FLibHandle <> 0): ', FLibLoaded , ' ',  (FLibHandle <> 0));
+  if (FStatus <> asLoading) or FLibLoaded then
     begin
       FStatus           := asErrorLoadingLibrary;
       FLastErrorMessage := 'GlobalCEFApp can only be initialized once per process.';
@@ -3831,16 +3835,20 @@ begin
       chdir(GetModulePath);
     end;
 
+  if (FLibHandle = 0) then
+  begin
   {$IFDEF MSWINDOWS}
   FLibHandle := LoadLibraryExW(PWideChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
   {$ELSE}
     {$IFDEF FPC}
-    FLibHandle := LoadLibrary(LibCefPath);
+    FLibHandle := LoadLibrary(PChar(LibCefPath));
     {$ELSE}
     FLibHandle := LoadLibrary(PChar(LibCefPath));
     {$ENDIF}
   {$ENDIF}
-
+  end;
+  WriteLn('pas=FLibHandle: ', FLibHandle);
+  WriteLn('pas=LibCefPath: ', LibCefPath);
   if (FLibHandle = 0) then
     begin
       FStatus := asErrorLoadingLibrary;
