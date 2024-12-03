@@ -2404,7 +2404,6 @@ begin
       {$ELSE}
         {$IFDEF MACOSX}
         Result := IncludeTrailingPathDelimiter(GetModulePath + LIBCEF_PREFIX + LIBCEF_DLL);
-        Result := '@executable_path/../Frameworks/Chromium Embedded Framework.framework/' + LIBCEF_DLL;
         {$ELSE}
         Result := LIBCEF_DLL;
         {$ENDIF}
