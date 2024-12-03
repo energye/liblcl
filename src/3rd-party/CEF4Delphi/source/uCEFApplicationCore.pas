@@ -3817,22 +3817,21 @@ var
   TempError  : {$IFDEF MSWINDOWS}DWORD;{$ELSE}Integer;{$ENDIF}
 begin
   Result := False;
-  WriteLn('pas=FStatus <> asLoading: ', FStatus <> asLoading);
-  WriteLn('pas=FLibLoaded or (FLibHandle <> 0): ', FLibLoaded , ' ',  (FLibHandle <> 0));
   if (FStatus <> asLoading) or FLibLoaded then
-    begin
-      FStatus           := asErrorLoadingLibrary;
-      FLastErrorMessage := 'GlobalCEFApp can only be initialized once per process.';
+  //if (FStatus <> asLoading) or FLibLoaded or (FLibHandle <> 0) then
+  begin
+    FStatus           := asErrorLoadingLibrary;
+    FLastErrorMessage := 'GlobalCEFApp can only be initialized once per process.';
 
-      ShowErrorMessageDlg(FLastErrorMessage);
-      exit;
-    end;
+    ShowErrorMessageDlg(FLastErrorMessage);
+    exit;
+  end;
 
   if FSetCurrentDir then
-    begin
-      TempOldDir := GetCurrentDir;
-      chdir(GetModulePath);
-    end;
+  begin
+    TempOldDir := GetCurrentDir;
+    chdir(GetModulePath);
+  end;
 
   if (FLibHandle = 0) then
   begin
@@ -3840,14 +3839,13 @@ begin
   FLibHandle := LoadLibraryExW(PWideChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
   {$ELSE}
     {$IFDEF FPC}
-    FLibHandle := LoadLibrary(PChar(LibCefPath));
+    FLibHandle := LoadLibrary(LibCefPath);
     {$ELSE}
     FLibHandle := LoadLibrary(PChar(LibCefPath));
     {$ENDIF}
   {$ENDIF}
   end;
-  WriteLn('pas=FLibHandle: ', FLibHandle);
-  WriteLn('pas=LibCefPath: ', LibCefPath);
+
   if (FLibHandle = 0) then
     begin
       FStatus := asErrorLoadingLibrary;
