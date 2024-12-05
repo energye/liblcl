@@ -2403,7 +2403,7 @@ begin
       Result := GetModulePath + LIBCEF_DLL;
       {$ELSE}
         {$IFDEF MACOSX}
-        Result := IncludeTrailingPathDelimiter(GetModulePath + LIBCEF_PREFIX + LIBCEF_DLL);
+        Result := GetModulePath + LIBCEF_PREFIX + LIBCEF_DLL;
         {$ELSE}
         Result := LIBCEF_DLL;
         {$ENDIF}
@@ -3832,7 +3832,7 @@ begin
     TempOldDir := GetCurrentDir;
     chdir(GetModulePath);
   end;
-
+  WriteLn('FLibHandle 1: ', FLibHandle);
   if (FLibHandle = 0) then
   begin
   {$IFDEF MSWINDOWS}
@@ -3845,7 +3845,7 @@ begin
     {$ENDIF}
   {$ENDIF}
   end;
-
+  WriteLn('FLibHandle 2: ', FLibHandle);
   if (FLibHandle = 0) then
     begin
       FStatus := asErrorLoadingLibrary;
@@ -3865,7 +3865,7 @@ begin
         FLastErrorMessage := 'Error loading ' + LIBCEF_DLL;
         {$ENDIF}
       {$ENDIF}
-
+      WriteLn('FLibHandle 3: ', FLastErrorMessage);
       ShowErrorMessageDlg(FLastErrorMessage);
       exit;
     end;
