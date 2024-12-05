@@ -3645,6 +3645,7 @@ type
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_devtools_message_observer_capi.h">CEF source file: /include/capi/cef_devtools_message_observer_capi.h (cef_dev_tools_message_observer_t)</see></para>
       /// </remarks>
       property OnDevToolsAgentDetached                : TOnDevToolsAgentDetachedEvent     read FOnDevToolsAgentDetached                write FOnDevToolsAgentDetached;
+      {$IFDEF LINUX}
       /// <summary>
       /// Called when printing has started for the specified |browser|. This
       /// function will be called before the other OnPrint*() functions and
@@ -3704,6 +3705,7 @@ type
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_print_handler_capi.h">CEF source file: /include/capi/cef_print_handler_capi.h (cef_print_handler_t)</see></para>
       /// </remarks>
       property OnGetPDFPaperSize                      : TOnGetPDFPaperSizeEvent           read FOnGetPDFPaperSize                      write FOnGetPDFPaperSize;
+      {$ENDIF}
       /// <summary>
       /// Called when a new frame is created. This will be the first notification
       /// that references |frame|. Any commands that require transport to the

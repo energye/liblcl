@@ -1355,11 +1355,6 @@ begin
   Result := 0; // 非特定版本，当前版本或当前最新版本
 end;
 
-procedure CEFAppConfig_SetLibHandle(var ACEFLibHandle: Pointer); extdecl;
-begin
-  GlobalCEFApp.SetLibHandle := {$IFDEF FPC}TLibHandle{$ELSE}THandle{$ENDIF}(ACEFLibHandle);
-end;
-
 exports
   CEFApplication_QueueAsyncCall,
   SetApplicationQueueAsyncCallFunc,
@@ -1607,5 +1602,4 @@ exports
   CEFAppConfig_SetMustCreateLoadHandler,
   CEFAppConfig_SetMustFreeLibrary,
   CEFAppConfig_UpdateDeviceScaleFactor,
-  CEFAppConfig_SpecificVersion,
-  CEFAppConfig_SetLibHandle;
+  CEFAppConfig_SpecificVersion;

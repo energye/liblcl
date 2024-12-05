@@ -1756,8 +1756,6 @@ type
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_load_handler_capi.h">CEF source file: /include/capi/cef_load_handler_capi.h (cef_load_handler_t)</see></para>
       /// </remarks>
       property OnLoadError                       : TOnRenderLoadError                       read FOnLoadError                       write FOnLoadError;
-
-      property SetLibHandle                      : {$IFDEF FPC}TLibHandle{$ELSE}THandle{$ENDIF}  write FLibHandle;
   end;
 
   TCEFDirectoryDeleterThread = class(TThread)
@@ -3817,24 +3815,21 @@ var
   TempError  : {$IFDEF MSWINDOWS}DWORD;{$ELSE}Integer;{$ENDIF}
 begin
   Result := False;
-  if (FStatus <> asLoading) or FLibLoaded then
-  //if (FStatus <> asLoading) or FLibLoaded or (FLibHandle <> 0) then
-  begin
-    FStatus           := asErrorLoadingLibrary;
-    FLastErrorMessage := 'GlobalCEFApp can only be initialized once per process.';
+  if (FStatus <> asLoading) or FLibLoaded or (FLibHandle <> 0) then
+    begin
+      FStatus           := asErrorLoadingLibrary;
+      FLastErrorMessage := 'GlobalCEFApp can only be initialized once per process.';
 
-    ShowErrorMessageDlg(FLastErrorMessage);
-    exit;
-  end;
+      ShowErrorMessageDlg(FLastErrorMessage);
+      exit;
+    end;
 
   if FSetCurrentDir then
-  begin
-    TempOldDir := GetCurrentDir;
-    chdir(GetModulePath);
-  end;
-  WriteLn('FLibHandle 1: ', FLibHandle);
-  if (FLibHandle = 0) then
-  begin
+    begin
+      TempOldDir := GetCurrentDir;
+      chdir(GetModulePath);
+    end;
+
   {$IFDEF MSWINDOWS}
   FLibHandle := LoadLibraryExW(PWideChar(LibCefPath), 0, LOAD_WITH_ALTERED_SEARCH_PATH);
   {$ELSE}
@@ -3844,8 +3839,7 @@ begin
     FLibHandle := LoadLibrary(PChar(LibCefPath));
     {$ENDIF}
   {$ENDIF}
-  end;
-  WriteLn('FLibHandle 2: ', FLibHandle);
+
   if (FLibHandle = 0) then
     begin
       FStatus := asErrorLoadingLibrary;
@@ -3865,7 +3859,7 @@ begin
         FLastErrorMessage := 'Error loading ' + LIBCEF_DLL;
         {$ENDIF}
       {$ENDIF}
-      WriteLn('FLibHandle 3: ', FLastErrorMessage);
+
       ShowErrorMessageDlg(FLastErrorMessage);
       exit;
     end;

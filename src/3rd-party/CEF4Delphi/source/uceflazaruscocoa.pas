@@ -18,7 +18,6 @@ uses
 
 {$IFDEF DARWIN}  // $IFDEF MACOSX
 type
-  // CefAppProtocol CrAppProtocol
   CrAppProtocol = objcprotocol
     function isHandlingSendEvent: LCLObjCBoolean; message 'isHandlingSendEvent';
   end;
@@ -40,8 +39,7 @@ type
 
   procedure AddCrDelegate;
 
-var
-  LastMacOsKeyDownCode: cushort;
+var   LastMacOsKeyDownCode: cushort;
 {$ENDIF}
 
 implementation
@@ -68,22 +66,23 @@ type
   end;
 
 procedure TChromeAppDelegateIntercept.tryToTerminateApplication(app: NSApplication);
-begin
-  Application.MainForm.Close;
-end;
+  begin
+    Application.MainForm.Close;
+  end;
+
 
 function TChromeAppDelegateIntercept.initWithDelegate(delegate: id): id;
-begin
-  fLCLDelegate := delegate;
-  fLCLDelegate.retain;
-  result := self;
-end;
+  begin
+    fLCLDelegate:=delegate;
+    fLCLDelegate.retain;
+    result:=self;
+  end;
 
 
 procedure TChromeAppDelegateIntercept.dealloc;
 begin
   fLCLDelegate.release;
-  fLCLDelegate := nil;
+  fLCLDelegate:=nil;
   inherited dealloc;
 end;
 
@@ -91,34 +90,32 @@ end;
 function TChromeAppDelegateIntercept.respondsToSelector(aSelector: SEL): LCLObjCBoolean;
 begin
   if aSelector = objcselector('tryToTerminateApplication:') then
-    result := true
+    result:=true
   else if assigned(fLCLDelegate) then
-    result := fLCLDelegate.respondsToSelector(aSelector)
+    result:=fLCLDelegate.respondsToSelector(aSelector)
   else
-    result := false;
+    result:=false;
 end;
 
 
 procedure TChromeAppDelegateIntercept.forwardInvocation(invocation: NSInvocation);
 begin
   { this only gets called in case we can't handle the invocation }
-  // 只有在我们无法处理调用的情况下才会调用它
   if assigned(fLCLDelegate) then
-  begin
-    invocation.setTarget(fLCLDelegate);
-    invocation.invoke;
-  end;
+    begin
+      invocation.setTarget(fLCLDelegate);
+      invocation.invoke;
+    end;
 end;
 
 
 function TChromeAppDelegateIntercept.methodSignatureForSelector(sel_: SEL): NSMethodSignature;
 begin
   { if the original delegate can handle it, send it there. Otherwise we try to handle it }
-  // 如果原来的代表可以处理，就把它送到那里。否则，我们会尽力处理
   if assigned(fLCLDelegate) then
-    result := fLCLDelegate.methodSignatureForSelector(sel_);
+    result:=fLCLDelegate.methodSignatureForSelector(sel_);
   if not assigned(result) then
-    result := inherited;
+    result:=inherited;
 end;
 
 
@@ -136,26 +133,26 @@ end;
 
 function TCrCocoaApplication.isHandlingSendEvent: LCLObjCBoolean;
 begin
-  result := fHandlingSendEvent;
+  result:=fHandlingSendEvent;
 end;
 
 procedure TCrCocoaApplication.setHandlingSendEvent(handlingSendEvent: LCLObjCBoolean);
 begin
-  fHandlingSendEvent := handlingSendEvent;
+  fHandlingSendEvent:=handlingSendEvent;
 end;
 
 procedure TCrCocoaApplication.sendEvent(theEvent: NSEvent);
 var
   CurrentHandling: LCLObjCBoolean;
 begin
-  CurrentHandling := isHandlingSendEvent;
+  CurrentHandling:=isHandlingSendEvent;
   setHandlingSendEvent(true);
-  if (theEvent.type_ = NSKeyDown) then
-  begin
+  if (theEvent.type_ = NSKeyDown)
+  then begin
     LastMacOsKeyDownCode := theEvent.keyCode;
-  end;
+    end;
   inherited;
-  LastMacOsKeyDownCode := 0;
+  LastMacOsKeyDownCode:=0;
   setHandlingSendEvent(CurrentHandling);
 end;
 
@@ -163,7 +160,7 @@ procedure TCrCocoaApplication.terminate(sender: id);
 var
   AppDelegate: TChromeAppDelegateIntercept;
 begin
-  AppDelegate := TChromeAppDelegateIntercept(NSApp.delegate);
+  AppDelegate:=TChromeAppDelegateIntercept(NSApp.delegate);
   AppDelegate.tryToTerminateApplication(CocoaWidgetSet.NSApp);
 end;
 
