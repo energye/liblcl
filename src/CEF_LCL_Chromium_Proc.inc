@@ -1417,6 +1417,12 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_WindowHandle(const AObj: TChromium; var Result: TCefWindowHandle); extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.WindowHandle;
+  handleExceptionEnd
+end;
 
 //FontOptions
 //PDFPrintOptions
@@ -1598,4 +1604,5 @@ exports
   CEFChromium_GetWebsiteSetting,
   CEFChromium_SetWebsiteSetting,
   CEFChromium_GetContentSetting,
-  CEFChromium_SetContentSetting;
+  CEFChromium_SetContentSetting,
+  CEFChromium_WindowHandle;
