@@ -130,7 +130,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure View_SetBounds(const AObj: ICefView; const bounds_: TCefRect); extdecl;
+procedure View_SetBounds(const AObj: ICefView; var bounds_: TCefRect); extdecl;
 begin
   handleExceptionBegin
   AObj.SetBounds(bounds_);
@@ -151,7 +151,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure View_SetSize(const AObj: ICefView; const size_: TCefSize); extdecl;
+procedure View_SetSize(const AObj: ICefView; var size_: TCefSize); extdecl;
 begin
   handleExceptionBegin
   AObj.SetSize(size_);
@@ -165,7 +165,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure View_SetPosition(const AObj: ICefView; const position_: TCefPoint); extdecl;
+procedure View_SetPosition(const AObj: ICefView; var position_: TCefPoint); extdecl;
 begin
   handleExceptionBegin
   AObj.SetPosition(position_);
@@ -305,7 +305,7 @@ begin
   handleExceptionEnd
 end;
 
-function  View_GetBackgroundColor(const AObj: ICefView) : TCefColor; extdecl;
+procedure View_GetBackgroundColor(const AObj: ICefView; out Result: TCefColor); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.GetBackgroundColor;

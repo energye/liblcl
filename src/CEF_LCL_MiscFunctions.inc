@@ -192,6 +192,11 @@ begin
   handleExceptionEnd
 end;
 
+function Misc_CefIsRTL(): LongBool; extdecl;
+begin
+  Result := CefIsRTL();
+end;
+
 exports
   Misc_WindowInfoAsChild,
   Misc_WindowInfoAsPopUp,
@@ -217,4 +222,5 @@ exports
   Misc_GetDeviceScaleFactor,
   Misc_CefPostTask,
   Misc_CefPostDelayedTask,
-  Misc_CefCurrentlyOn;
+  Misc_CefCurrentlyOn,
+  Misc_CefIsRTL;

@@ -60,14 +60,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure  TextfieldComponent_ApplyTextColor(const AObj: TCEFTextfieldComponent; color: TCefColor; const range: TCefRange); extdecl;
+procedure  TextfieldComponent_ApplyTextColor(const AObj: TCEFTextfieldComponent; color: TCefColor; var range: TCefRange); extdecl;
 begin
   handleExceptionBegin
   AObj.ApplyTextColor(color, range);
   handleExceptionEnd
 end;
 
-procedure  TextfieldComponent_ApplyTextStyle(const AObj: TCEFTextfieldComponent; style: TCefTextStyle; add: LongBool; const range: TCefRange); extdecl;
+procedure  TextfieldComponent_ApplyTextStyle(const AObj: TCEFTextfieldComponent; style: TCefTextStyle; add: LongBool; var range: TCefRange); extdecl;
 begin
   handleExceptionBegin
   AObj.ApplyTextStyle(style, add, range);

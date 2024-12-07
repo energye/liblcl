@@ -11,7 +11,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure MenuButton_ShowMenu(const AObj: ICefMenuButton; const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position: TCefMenuAnchorPosition); extdecl;
+procedure MenuButton_ShowMenu(const AObj: ICefMenuButton; const menu_model: ICefMenuModel; var screen_point: TCefPoint; anchor_position: TCefMenuAnchorPosition); extdecl;
 begin
   handleExceptionBegin
   AObj.ShowMenu(menu_model, screen_point, anchor_position);

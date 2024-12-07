@@ -319,7 +319,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure  ViewComponent_SetBounds(const AObj: TCEFViewComponent; const bounds_: TCefRect);  extdecl;
+procedure  ViewComponent_SetBounds(const AObj: TCEFViewComponent; var bounds_: TCefRect);  extdecl;
 begin
   handleExceptionBegin
   AObj.Bounds := bounds_;
@@ -333,7 +333,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure  ViewComponent_SetSize(const AObj: TCEFViewComponent; const size_: TCefSize);  extdecl;
+procedure  ViewComponent_SetSize(const AObj: TCEFViewComponent; var size_: TCefSize);  extdecl;
 begin
   handleExceptionBegin
   AObj.Size := size_;
@@ -347,7 +347,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure  ViewComponent_SetPosition(const AObj: TCEFViewComponent; const position_: TCefPoint);  extdecl;
+procedure  ViewComponent_SetPosition(const AObj: TCEFViewComponent; var position_: TCefPoint);  extdecl;
 begin
   handleExceptionBegin
   AObj.Position := position_;

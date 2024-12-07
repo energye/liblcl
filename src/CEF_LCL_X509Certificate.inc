@@ -176,14 +176,14 @@ begin
 end;
 
 {== ICefSslInfo ==}
-function CefSslInfo_GetCertStatus(const AObj: ICefSslInfo): TCefCertStatus;
+function CefSslInfo_GetCertStatus(const AObj: ICefSslInfo): TCefCertStatus; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.GetCertStatus;
   handleExceptionEnd
 end;
 
-procedure CefSslInfo_GetX509Certificate(const AObj: ICefSslInfo; var Result: ICefX509Certificate);
+procedure CefSslInfo_GetX509Certificate(const AObj: ICefSslInfo; var Result: ICefX509Certificate); extdecl;
 begin
   handleExceptionBegin
   Result := AObj.GetX509Certificate();

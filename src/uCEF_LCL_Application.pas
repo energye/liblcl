@@ -69,6 +69,7 @@ procedure GlobalCEFApp_OnRenderLoadError(const browser: ICefBrowser; const frame
 // ScheduleMessagePumpWork
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS: int64);
 
+
 var
   // 渲染进程回调事件函数指针
   // ICefApp
@@ -144,6 +145,7 @@ procedure GlobalCEFApp_OnGetDefaultClient(var aClient: ICefClient);
 begin
   TCEFEventCallback.SendEvent(OnGetDefaultClient_DataPtr, [aClient]);
 end;
+
 
 // ICefResourceBundleHandler
 procedure GlobalCEFApp_OnGetLocalizedString(stringId: Integer; out stringVal: ustring; var aResult : Boolean);
@@ -232,7 +234,6 @@ end;
 // ScheduleMessagePumpWork
 procedure GlobalCEFApp_OnScheduleMessagePumpWork(const aDelayMS: int64);
 begin
-  // callback ptr OnScheduleMessagePumpWork_DataPtr
   if (GlobalCEFWorkScheduler <> nil) then
   begin
     GlobalCEFWorkScheduler.ScheduleMessagePumpWork(aDelayMS);
