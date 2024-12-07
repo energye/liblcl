@@ -85,7 +85,7 @@ end;
 procedure WindowDelegate_SetOnIsFrameless(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).IsFramelessPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnIsFramelessPtr := AEventData;
   handleExceptionEnd
 end;
 
@@ -127,9 +127,10 @@ end;
 procedure WindowDelegate_SetOnKeyEvent(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TWindowDelegateRef).KeyEventPtr := AEventData;
+  (AObj as TWindowDelegateRef).OnKeyEventPtr := AEventData;
   handleExceptionEnd
 end;
+
 
 exports
   WindowDelegate_Create,

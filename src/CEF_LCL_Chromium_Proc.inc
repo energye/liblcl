@@ -299,7 +299,7 @@ begin
   scriptURL := PCharToUStr(aScriptURL);
   if scriptURL = '' then
   begin
-  scriptURL := 'about:blank';
+    scriptURL := 'about:blank';
   end;
   AObj.ExecuteJavaScript(code, scriptURL, aFrame, startLine);
   handleExceptionEnd

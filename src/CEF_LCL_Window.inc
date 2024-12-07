@@ -247,7 +247,7 @@ begin
       end;
   end;
   {$else}
-  icon.AddPng(scaleFactor^, @data[0], length(data));
+    icon.AddPng(scaleFactor^, @data[0], length(data));
   {$endif}
   AWindow.WindowAppIcon := icon;
   handleExceptionEnd

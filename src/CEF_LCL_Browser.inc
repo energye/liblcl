@@ -298,34 +298,20 @@ begin
       devToolsWinName := DEVTOOLS_WINDOWNAME;
     end;
 
-  //try
-  //  try
-  //  WindowInfoAsPopUp(windowInfo, TObj.Host.WindowHandle, devToolsWinName);
-  //  client := TCustomClientHandler.Create(Chromium, True);
-  //  FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
-  //  TObj.Host.ShowDevTools(@windowInfo, client, @browserSettings, nil);
-  //  finally
-  //  client:=nil;
-  //  end;
-  //except
-  //  on E: Exception do
-  //  CallException(E);
-  //end;
-
-  try
     try
-      FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
-      WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect);
-      client := TCustomClientHandler.Create(Chromium, True);
-      FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
-      TObj.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
-    finally
-      client := nil
+      try
+        FillChar(windowInfo, SizeOf(TCefWindowInfo), 0);
+        WindowInfoAsChild(windowInfo, windowParent.Handle, windowParent.ClientRect);
+        client := TCustomClientHandler.Create(Chromium, True);
+        FillChar(browserSettings, SizeOf(TCefBrowserSettings), 0);
+        TObj.GetHost.ShowDevTools(@windowInfo, client, @browserSettings, nil);
+      finally
+        client := nil
+      end;
+    except
+    on E: Exception do
+      CallException(E);
     end;
-  except
-  on E: Exception do
-    CallException(E);
-  end;
 
   end;
   handleExceptionEnd
@@ -420,7 +406,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GetFrameNames(const TObj: ICefBrowser; var Result: Pointer; var resultSize: Integer); extdecl;
+procedure CEFBrowser_GetFrameNames(const TObj: ICefBrowser; var Result: Pointer; var ResultSize: Integer); extdecl;
 var
   frameNames : TStrings;
   idx: Integer;
@@ -431,9 +417,9 @@ begin
   try
     frameNames := TStringList.Create;
     TObj.GetFrameNames(frameNames);
-    resultSize := frameNames.Count;
-    SetLength(resultArr, resultSize);
-    for idx := 0 to resultSize - 1 do
+    ResultSize := frameNames.Count;
+    SetLength(resultArr, ResultSize);
+    for idx := 0 to ResultSize - 1 do
     begin
       frameNames.GetNameValue(idx, name, value);
       resultArr[idx] := new(PRFrameNames);
@@ -457,20 +443,18 @@ var
   resultFrameIds: TCefFrameIdentifierArray;
 begin
   handleExceptionBegin
+  Result := true;
+  frameIds := nil;
   TObj.GetFrameIdentifiers(resultFrameCount, resultFrameIds);
-  rFrameCount := resultFrameCount;
   if resultFrameCount > 0 then
   begin
-    rFrameIds := resultFrameIds;
     frameIds := TStringList.Create;
     for idx := 0 to resultFrameCount - 1 do
     begin
       frameIds.Add(IntToStr(resultFrameIds[idx]));
     end;
-    Result := frameIds;
-  end
-  else
-    Result := nil;
+  end;
+  ResultIds := frameIds;
   handleExceptionEnd
 end;
 

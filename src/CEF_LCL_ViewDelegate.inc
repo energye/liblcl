@@ -338,7 +338,6 @@ begin
   handleExceptionEnd
 end;
 
-
 exports
   ViewDelegateRef_Create,
   ViewDelegateRef_CreateForCustom,

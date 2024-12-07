@@ -179,7 +179,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure View_SetInsets(const AObj: ICefView; const insets: TCefInsets); extdecl;
+procedure View_SetInsets(const AObj: ICefView; var insets: TCefInsets); extdecl;
 begin
   handleExceptionBegin
   AObj.SetInsets(insets);

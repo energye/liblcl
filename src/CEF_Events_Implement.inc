@@ -5,9 +5,13 @@
 //----------------------------------------
 
 {== chromium ==}
-procedure TLCLEvent.ChromiumEvent_OnAcceleratedPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; shared_handle: Pointer);
+procedure TLCLEvent.ChromiumEvent_OnAcceleratedPaint(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer);
+var
+  TempPaintInfo: TCefAcceleratedPaintInfo;
 begin
-  SendEvent([Sender, browser, type_, @dirtyRectsCount, dirtyRects, shared_handle]);
+  TempPaintInfo.shared_texture_handle := shared_handle;
+  TempPaintInfo.format := nil;
+  SendEvent([Sender, browser, type_, @dirtyRectsCount, dirtyRects, @TempPaintInfo]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnAllConnectionsClosed(Sender: TObject);
