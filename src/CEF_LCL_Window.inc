@@ -195,13 +195,13 @@ begin
   {$ifdef DARWIN}
   if dataSize >0 then
   begin
-  try
-  SetLength(tmpData, dataSize);
-  Move(data[0], tmpData[0], dataSize);
-  icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
-  finally
-  SetLength(tmpData, 0);
-  end;
+      try
+          SetLength(tmpData, dataSize);
+          Move(data[0], tmpData[0], dataSize);
+          icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
+      finally
+          SetLength(tmpData, 0);
+      end;
   end;
   {$else}
   icon.AddPng(scaleFactor^, @data[0], length(data));
@@ -218,7 +218,7 @@ begin
   icon := AWindow.WindowIcon;
   if (icon <> nil) and not(icon.IsEmpty) then
   begin
-  Result := icon.Wrap;
+    Result := icon.Wrap;
   end;
   handleExceptionEnd
 end;
@@ -238,16 +238,16 @@ begin
   {$ifdef DARWIN}
   if dataSize >0 then
   begin
-  try
-  SetLength(tmpData, dataSize);
-  Move(data[0], tmpData[0], dataSize);
-  icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
-  finally
-  SetLength(tmpData, 0);
-  end;
+      try
+          SetLength(tmpData, dataSize);
+          Move(data[0], tmpData[0], dataSize);
+          icon.AddPng(scaleFactor^, @tmpData[0], dataSize);
+      finally
+          SetLength(tmpData, 0);
+      end;
   end;
   {$else}
-  icon.AddPng(scaleFactor^, @data[0], length(data));
+    icon.AddPng(scaleFactor^, @data[0], length(data));
   {$endif}
   AWindow.WindowAppIcon := icon;
   handleExceptionEnd
@@ -260,14 +260,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_AddOverlayView(const AWindow: ICefWindow; const view: ICefView; docking_mode: Integer; out Result: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  Result := nil;
-  handleExceptionEnd
-end;
-
-procedure ICEFWindow_ShowMenu(const AWindow: ICefWindow; const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition); extdecl;
+procedure ICEFWindow_ShowMenu(const AWindow: ICefWindow; const menu_model: ICefMenuModel; var screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition); extdecl;
 begin
   handleExceptionBegin
   AWindow.ShowMenu(menu_model, screen_point, anchor_position);
@@ -330,7 +323,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure ICEFWindow_SetAccelerator(const AWindow: ICefWindow; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: LongBool); extdecl;
+procedure ICEFWindow_SetAccelerator(const AWindow: ICefWindow; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: LongBool); extdecl;
 begin
   handleExceptionBegin
   AWindow.SetAccelerator(command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed);
@@ -381,7 +374,6 @@ exports
   ICEFWindow_GetWindowIcon,
   ICEFWindow_SetWindowAppIcon,
   ICEFWindow_GetWindowAppIcon,
-  ICEFWindow_AddOverlayView,
   ICEFWindow_ShowMenu,
   ICEFWindow_CancelMenu,
   ICEFWindow_GetDisplay,

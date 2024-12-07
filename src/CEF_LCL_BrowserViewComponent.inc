@@ -11,27 +11,14 @@ begin
   handleExceptionEnd
 end;
 
-function CEFBrowserViewComponent_CreateBrowserView(const TObj: TCEFBrowserViewComponent; client: ICefClient; PUrl: PChar; PRequestContextSettings: PRCefRequestContextSettings; PBorwserSettings: PRCefBrowserSettings;
-  const extra_info: ICefDictionaryValue): LongBool; extdecl;
+function CEFBrowserViewComponent_CreateBrowserView(const TObj: TCEFBrowserViewComponent; client: ICefClient; url: PChar; var borwserSettings: PMCefBrowserSettings;
+  const extra_info: ICefDictionaryValue; request_context: ICefRequestContext): LongBool; extdecl;
 var
-  request_context: ICefRequestContext;
-  requestContextSettings: PCefRequestContextSettings;
-  settings: TCefBrowserSettings;
+  TempBrowserSettings: TCefBrowserSettings;
 begin
   handleExceptionBegin
-  //ICefRequestContext
-  requestContextSettings := new(PCefRequestContextSettings);
-  requestContextSettings^.size := SizeOf(TCefRequestContextSettings);// NativeUInt(PRequestContextSettings^.size);
-  requestContextSettings^.cache_path := CefString(PCharToUStr(PRequestContextSettings^.cachePath));
-  requestContextSettings^.persist_session_cookies := Integer(PRequestContextSettings^.persistSessionCookies);
-  requestContextSettings^.persist_user_preferences := Integer(PRequestContextSettings^.persistUserPreferences);
-  requestContextSettings^.accept_language_list := CefString(PCharToUStr(PRequestContextSettings^.acceptLanguageList));
-  request_context := TCefRequestContextRef.New(requestContextSettings);
-
-  //TCefBrowserSettings
-  settings := GoBrowserSettingsToCefBrowserSettings(PBorwserSettings^);
-
-  Result := TObj.CreateBrowserView(client, PCharToUStr(PUrl), settings, extra_info, request_context);
+  TempBrowserSettings := GoBrowserSettingsToCefBrowserSettings(borwserSettings);
+  Result := TObj.CreateBrowserView(client, PCharToUStr(url), TempBrowserSettings, extra_info, request_context);
   handleExceptionEnd
 end;
 
@@ -100,10 +87,6 @@ begin
   EventMethodCode
 end;
 
-procedure CEFBrowserViewComponent_SetOnGetChromeToolbarType(const AObj: TCEFBrowserViewComponent; AEventData: Pointer); extdecl;
-begin
-end;
-
 
 exports
   CEFBrowserViewComponent_Create,
@@ -116,5 +99,4 @@ exports
   CEFBrowserViewComponent_SetOnBrowserCreated,
   CEFBrowserViewComponent_SetOnBrowserDestroyed,
   CEFBrowserViewComponent_SetOnGetDelegateForPopupBrowserView,
-  CEFBrowserViewComponent_SetOnPopupBrowserViewCreated,
-  CEFBrowserViewComponent_SetOnGetChromeToolbarType;
+  CEFBrowserViewComponent_SetOnPopupBrowserViewCreated;

@@ -12,7 +12,7 @@ unit uCEF_LCL_ExtensionHandlerRef;
 interface
 
 uses
-  uCEFTypes, uCEFInterfaces, uCEFExtensionHandler,
+  uCEFTypes, uCEFInterfaces,
   uCEF_LCL_EventCallback;
 
 type

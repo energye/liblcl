@@ -9,12 +9,12 @@ begin
   Result := TCefDisplayRef.Primary();
 end;
 
-procedure CEFDisplayRef_NearestPoint(const point: TCefPoint; input_pixel_coords: LongBool; var Result: ICefDisplay); extdecl;
+procedure CEFDisplayRef_NearestPoint(var point: TCefPoint; input_pixel_coords: LongBool; var Result: ICefDisplay); extdecl;
 begin
   Result := TCefDisplayRef.NearestPoint(point, input_pixel_coords);
 end;
 
-procedure CEFDisplayRef_MatchingBounds(const bounds: TCefRect; input_pixel_coords: LongBool; var Result: ICefDisplay); extdecl;
+procedure CEFDisplayRef_MatchingBounds(var bounds: TCefRect; input_pixel_coords: LongBool; var Result: ICefDisplay); extdecl;
 begin
   Result := TCefDisplayRef.MatchingBounds(bounds, input_pixel_coords);
 end;

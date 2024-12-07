@@ -138,16 +138,6 @@ begin
   GlobalCEFApp.MainBundlePath := PCharToUStr(value);
 end;
 
-function CEFAppConfig_ChromeRuntime(): LongBool; extdecl;
-begin
-  Result := GlobalCEFApp.ChromeRuntime;
-end;
-
-procedure CEFAppConfig_SetChromeRuntime(value: LongBool) ; extdecl;
-begin
-  GlobalCEFApp.ChromeRuntime := value;
-end;
-
 function CEFAppConfig_MultiThreadedMessageLoop(): LongBool; extdecl;
 begin
   Result := GlobalCEFApp.MultiThreadedMessageLoop;
@@ -228,16 +218,6 @@ begin
   GlobalCEFApp.PersistSessionCookies := value;
 end;
 
-function CEFAppConfig_PersistUserPreferences(): LongBool; extdecl;
-begin
-  Result := GlobalCEFApp.PersistUserPreferences;
-end;
-
-procedure CEFAppConfig_SetPersistUserPreferences(value: LongBool) ; extdecl;
-begin
-  GlobalCEFApp.PersistUserPreferences := value;
-end;
-
 function CEFAppConfig_UserAgent(): PChar; extdecl;
 begin
   Result := PChar(string(GlobalCEFApp.UserAgent));
@@ -315,16 +295,6 @@ end;
 procedure CEFAppConfig_SetLocalesDirPath(value: PChar) ; extdecl;
 begin
   GlobalCEFApp.LocalesDirPath := PCharToUStr(value);
-end;
-
-function CEFAppConfig_PackLoadingDisabled(): LongBool; extdecl;
-begin
-  Result := GlobalCEFApp.PackLoadingDisabled;
-end;
-
-procedure CEFAppConfig_SetPackLoadingDisabled(value: LongBool) ; extdecl;
-begin
-  GlobalCEFApp.PackLoadingDisabled := value;
 end;
 
 function CEFAppConfig_RemoteDebuggingPort(): Integer; extdecl;
@@ -1351,8 +1321,6 @@ exports
   CEFAppConfig_SetFrameworkDirPath,
   CEFAppConfig_MainBundlePath,
   CEFAppConfig_SetMainBundlePath,
-  CEFAppConfig_ChromeRuntime,
-  CEFAppConfig_SetChromeRuntime,
   CEFAppConfig_MultiThreadedMessageLoop,
   CEFAppConfig_SetMultiThreadedMessageLoop,
   CEFAppConfig_ExternalMessagePump,
@@ -1369,8 +1337,6 @@ exports
   CEFAppConfig_SetUserDataPath,
   CEFAppConfig_PersistSessionCookies,
   CEFAppConfig_SetPersistSessionCookies,
-  CEFAppConfig_PersistUserPreferences,
-  CEFAppConfig_SetPersistUserPreferences,
   CEFAppConfig_UserAgent,
   CEFAppConfig_SetUserAgent,
   CEFAppConfig_UserAgentProduct,
@@ -1387,8 +1353,6 @@ exports
   CEFAppConfig_SetResourcesDirPath,
   CEFAppConfig_LocalesDirPath,
   CEFAppConfig_SetLocalesDirPath,
-  CEFAppConfig_PackLoadingDisabled,
-  CEFAppConfig_SetPackLoadingDisabled,
   CEFAppConfig_RemoteDebuggingPort,
   CEFAppConfig_SetRemoteDebuggingPort,
   CEFAppConfig_UncaughtExceptionStackSize,

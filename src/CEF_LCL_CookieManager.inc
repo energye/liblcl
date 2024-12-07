@@ -18,7 +18,7 @@ begin
   handleExceptionEnd
 end;
 
-function  CefCookieManager_SetCookie(const AObj: ICefCookieManager; CefCookie: PRCefCookie; const callback: ICefSetCookieCallback): LongBool; extdecl;
+function  CefCookieManager_SetCookie(const AObj: ICefCookieManager; var CefCookie: PMCefCookie; const callback: ICefSetCookieCallback): LongBool; extdecl;
 var
   url, name, value, domain, path: ustring;
   secure, httponly, hasExpires: LongBool;
@@ -27,21 +27,20 @@ var
   priority: TCefCookiePriority;
 begin
   handleExceptionBegin
-  url := PCharToUStr(CefCookie.url);
-  name := PCharToUStr(CefCookie.name);
-  value := PCharToUStr(CefCookie.value);
-  domain := PCharToUStr(CefCookie.domain);
-  path := PCharToUStr(CefCookie.path);
-  secure := PLongBool(CefCookie.secure)^;
-  httponly := PLongBool(CefCookie.httponly)^;
-  hasExpires := PLongBool(CefCookie.hasExpires)^;
-  creation := Double(PDouble(CefCookie.creation)^);
-  lastAccess := Double(PDouble(CefCookie.lastAccess)^);
-  expires := Double(PDouble(CefCookie.expires)^);
-  sameSite := TCefCookieSameSite(CefCookie.sameSite^);
-  priority := TCefCookiePriority(CefCookie.priority^);
+  url       := PCharToUStr(CefCookie.url);
+  name      := PCharToUStr(CefCookie.name);
+  value     := PCharToUStr(CefCookie.value);
+  domain    := PCharToUStr(CefCookie.domain);
+  path      := PCharToUStr(CefCookie.path);
+  secure    := Boolean(CefCookie.secure^);
+  httponly  := Boolean(CefCookie.httponly^);
+  hasExpires    := Boolean(CefCookie.has_expires^);
+  creation      := Double(CefCookie.creation^);
+  lastAccess    := Double(CefCookie.last_access^);
+  expires       := Double(CefCookie.expires^);
+  sameSite      := TCefCookieSameSite(CefCookie.same_site^);
+  priority      := TCefCookiePriority(CefCookie.priority^);
   Result := AObj.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, sameSite, priority, callback);
-  CefCookie := nil;
   handleExceptionEnd
 end;
 

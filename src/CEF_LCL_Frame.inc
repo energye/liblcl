@@ -170,10 +170,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFFrame_Identifier(const TObj: ICefFrame; var Result: Int64); extdecl;
+procedure CEFFrame_Identifier(const TObj: ICefFrame; var Result: PChar); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.Identifier;
+  Result := IntToPChar(TObj.Identifier);
   handleExceptionEnd
 end;
 

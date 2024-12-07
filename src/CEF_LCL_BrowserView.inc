@@ -4,16 +4,13 @@
 // Licensed under Lazarus.modifiedLGPL
 //----------------------------------------
 
-procedure CefBrowserViewRef_Create(const client: ICefClient; const url: PChar; const PBorwserSettings: PRCefBrowserSettings; const extra_info: ICefDictionaryValue; const request_context: ICefRequestContext; const delegate: ICefBrowserViewDelegate; out Result: ICefBrowserView); extdecl;
+procedure CefBrowserViewRef_Create(const client: ICefClient; const url: PChar; var borwserSettings: PMCefBrowserSettings; const extra_info: ICefDictionaryValue; const request_context: ICefRequestContext; const delegate: ICefBrowserViewDelegate; out Result: ICefBrowserView); extdecl;
 var
-  settings: TCefBrowserSettings;
+  TempBrowserSettings: TCefBrowserSettings;
 begin
   handleExceptionBegin
-
-  //TCefBrowserSettings
-  settings := GoBrowserSettingsToCefBrowserSettings(PBorwserSettings^);
-
-  Result := TCefBrowserViewRef.CreateBrowserView(client, PCharToUStr(url), settings, extra_info, request_context, delegate);
+  TempBrowserSettings := GoBrowserSettingsToCefBrowserSettings(borwserSettings);
+  Result := TCefBrowserViewRef.CreateBrowserView(client, PCharToUStr(url), TempBrowserSettings, extra_info, request_context, delegate);
   handleExceptionEnd
 end;
 

@@ -14,7 +14,7 @@ end;
 function  CefExtension_GetIdentifier(const TObj: ICefExtension) : PChar; extdecl;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetIdentifier));
+  Result := ToPChar(TObj.GetIdentifier);
   handleExceptionEnd
 end;
 

@@ -224,7 +224,7 @@ end;
 procedure CEFChromium_PrintToPDF(const AObj: TChromium; FilePath: PChar); extdecl;
 begin
   handleExceptionBegin
-  AObj.PrintToPDF(PCharToUStr(FilePath),  AObj.Browser.MainFrame.GetName, AObj.Browser.MainFrame.Url);
+  AObj.PrintToPDF(PCharToUStr(FilePath), '', AObj.Browser.FocusedFrame.Url);
   handleExceptionEnd
 end;
 
@@ -284,7 +284,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_ExecuteJavaScript(const AObj: TChromium; aCode, aScriptURL : PChar; startLine: integer = 0); extdecl;
+procedure CEFChromium_ExecuteJavaScript(const AObj: TChromium; aCode, aScriptURL : PChar; const aFrame : ICefFrame; startLine: integer = 0); extdecl;
 var
   code, scriptURL : ustring;
 begin
@@ -293,9 +293,9 @@ begin
   scriptURL := PCharToUStr(aScriptURL);
   if scriptURL = '' then
   begin
-  scriptURL := 'about:blank';
+    scriptURL := 'about:blank';
   end;
-  AObj.ExecuteJavaScript(code, scriptURL, startLine);
+  AObj.ExecuteJavaScript(code, scriptURL, aFrame, startLine);
   handleExceptionEnd
 end;
 
@@ -350,7 +350,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SetCookie(const AObj: TChromium; CefCookie: PRCefCookie); extdecl;
+procedure CEFChromium_SetCookie(const AObj: TChromium; var CefCookie: PMCefCookie); extdecl;
 var
   url, name, value, domain, path: ustring;
   secure, httponly, hasExpires: LongBool;
@@ -361,23 +361,22 @@ var
   aID: integer;
 begin
   handleExceptionBegin
-  url := PCharToUStr(CefCookie.url);
-  name := PCharToUStr(CefCookie.name);
-  value := PCharToUStr(CefCookie.value);
-  domain := PCharToUStr(CefCookie.domain);
-  path := PCharToUStr(CefCookie.path);
-  secure := LongBool(PLongBool(CefCookie.secure));
-  httponly := LongBool(PLongBool(CefCookie.httponly));
-  hasExpires := LongBool(PLongBool(CefCookie.hasExpires));
-  creation := Double(PDouble(CefCookie.creation)^);
-  lastAccess := Double(PDouble(CefCookie.lastAccess)^);
-  expires := Double(PDouble(CefCookie.expires)^);
-  sameSite := TCefCookieSameSite(Integer(CefCookie.sameSite));
-  priority := TCefCookiePriority(Integer(CefCookie.priority));
-  aSetImmediately := LongBool(PLongBool(CefCookie.setImmediately));
-  aID := Integer(CefCookie.aID);
+  url                := PCharToUStr(CefCookie.url);
+  name               := PCharToUStr(CefCookie.name);
+  value              := PCharToUStr(CefCookie.value);
+  domain             := PCharToUStr(CefCookie.domain);
+  path               := PCharToUStr(CefCookie.path);
+  secure             := Boolean(CefCookie.secure^);
+  httponly           := Boolean(CefCookie.httponly^);
+  hasExpires         := Boolean(CefCookie.has_expires^);
+  creation           := Double(CefCookie.creation^);
+  lastAccess         := Double(CefCookie.last_access^);
+  expires            := Double(CefCookie.expires^);
+  sameSite           := TCefCookieSameSite(CefCookie.same_site^);
+  priority           := TCefCookiePriority(CefCookie.priority^);
+  aSetImmediately    := Boolean(CefCookie.setImmediately^);
+  aID                := Integer(CefCookie.id^);
   AObj.SetCookie(url, name, value, domain, path, secure, httponly, hasExpires, creation, lastAccess, expires, sameSite, priority, aSetImmediately, aID);
-  CefCookie := nil;
   handleExceptionEnd
 end;
 
@@ -402,18 +401,18 @@ end;
 
 //cookie end
 
-procedure CEFChromium_SetProxy(const AObj: TChromium; const proxy: PRChromiumProxy); extdecl;
+procedure CEFChromium_SetProxy(const AObj: TChromium; var proxy: PChromiumProxy); extdecl;
 begin
   handleExceptionBegin
-  AObj.ProxyType := Integer(proxy.ProxyType);
-  AObj.ProxyScheme := TCefProxyScheme(Integer(proxy.ProxyScheme));
-  AObj.ProxyServer := PCharToUStr(proxy.ProxyServer);
-  AObj.ProxyPort := Integer(proxy.ProxyPort);
-  AObj.ProxyUsername := PCharToUStr(proxy.ProxyUsername);
-  AObj.ProxyPassword := PCharToUStr(proxy.ProxyPassword);
+  AObj.ProxyType      := Integer(proxy.ProxyType^);
+  AObj.ProxyScheme    := TCefProxyScheme(Integer(proxy.ProxyScheme^));
+  AObj.ProxyServer    := PCharToUStr(proxy.ProxyServer);
+  AObj.ProxyPort      := Integer(proxy.ProxyPort^);
+  AObj.ProxyUsername  := PCharToUStr(proxy.ProxyUsername);
+  AObj.ProxyPassword  := PCharToUStr(proxy.ProxyPassword);
   AObj.ProxyScriptURL := PCharToUStr(proxy.ProxyScriptURL);
-  AObj.ProxyByPassList := PCharToUStr(proxy.ProxyByPassList);
-  AObj.MaxConnectionsPerProxy := Integer(proxy.MaxConnectionsPerProxy);
+  AObj.ProxyByPassList        := PCharToUStr(proxy.ProxyByPassList);
+  AObj.MaxConnectionsPerProxy := Integer(proxy.MaxConnectionsPerProxy^);
   handleExceptionEnd
 end;
 
@@ -526,17 +525,6 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_WidgetHandle(const AObj: TChromium): THandle ; extdecl;
-begin
-  handleExceptionBegin
-  {$ifdef mswindows}
-  Result:= AObj.WidgetHandle;
-  {$else}
-  Result := 0;
-  {$endif}
-  handleExceptionEnd
-end;
-
 function CEFChromium_RenderHandle(const AObj: TChromium): THandle ; extdecl;
 begin
   handleExceptionBegin
@@ -632,34 +620,6 @@ begin
   handleExceptionEnd
 end;
 
-//BatterySaverModeState
-procedure CEFChromium_SetBatterySaverModeState(const AObj: TChromium; value: Integer); extdecl;
-begin
-  handleExceptionBegin
-  handleExceptionEnd
-end;
-
-function CEFChromium_GetBatterySaverModeState(const AObj: TChromium): Integer; extdecl;
-begin
-  handleExceptionBegin
-  Result := -1;
-  handleExceptionEnd
-end;
-
-//HighEfficiencyMode
-procedure CEFChromium_SetHighEfficiencyMode(const AObj: TChromium; value: Integer); extdecl;
-begin
-  handleExceptionBegin
-  handleExceptionEnd
-end;
-
-function CEFChromium_GetHighEfficiencyMode(const AObj: TChromium): Integer; extdecl;
-begin
-  handleExceptionBegin
-  Result := -1;
-  handleExceptionEnd
-end;
-
 //LoadImagesAutomatically
 procedure CEFChromium_SetLoadImagesAutomatically(const AObj: TChromium; value: LongBool); extdecl;
 begin
@@ -705,6 +665,7 @@ begin
   handleExceptionEnd
 end;
 
+  {$IFDEF MSWINDOWS}
 //DefaultWindowInfoExStyle
 procedure CEFChromium_SetDefaultWindowInfoExStyle(const AObj: TChromium; value: DWORD); extdecl;
 begin
@@ -719,6 +680,7 @@ begin
   Result := AObj.DefaultWindowInfoExStyle;
   handleExceptionEnd
 end;
+{$ENDIF}
 
 //Block3rdPartyCookies
 procedure CEFChromium_SetBlock3rdPartyCookies(const AObj: TChromium; value: LongBool); extdecl;
@@ -869,19 +831,6 @@ function CEFChromium_GetSpellChecking(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.SpellChecking;
-  handleExceptionEnd
-end;
-
-procedure CEFChromium_SetAlwaysOpenPDFExternally(const AObj: TChromium; value: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  handleExceptionEnd
-end;
-
-function CEFChromium_GetAlwaysOpenPDFExternally(const AObj: TChromium): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := False;
   handleExceptionEnd
 end;
 
@@ -1065,13 +1014,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure  CEFChromium_RetrieveHTMLByFrameIdentifier(const AObj: TChromium; var aFrameIdentifier : int64); extdecl;
-begin
-  handleExceptionBegin
-  AObj.RetrieveHTML(aFrameIdentifier);
-  handleExceptionEnd
-end;
-
 procedure  CEFChromium_RetrieveTextByFrameName(const AObj: TChromium; const aFrameName : PChar); extdecl;
 begin
   handleExceptionBegin
@@ -1083,13 +1025,6 @@ procedure  CEFChromium_RetrieveTextByFrame(const AObj: TChromium; const aFrame :
 begin
   handleExceptionBegin
   AObj.RetrieveText(aFrame);
-  handleExceptionEnd
-end;
-
-procedure  CEFChromium_RetrieveTextByFrameIdentifier(const AObj: TChromium; var aFrameIdentifier : int64); extdecl;
-begin
-  handleExceptionBegin
-  AObj.RetrieveText(aFrameIdentifier);
   handleExceptionEnd
 end;
 
@@ -1108,33 +1043,9 @@ begin
 end;
 
 procedure  CEFChromium_ClearDataForOrigin(const AObj: TChromium; const aOrigin : PChar; aStorageTypes : Integer); extdecl;
-var
-  st: TCefClearDataStorageTypes;
 begin
   handleExceptionBegin
-  st := cdstAll;
-  // TCefClearDataStorageTypes = default cdstAll
-  if aStorageTypes = 0 then
-  st := cdstAppCache
-  else if aStorageTypes = 1 then
-  st := cdstCookies
-  else if aStorageTypes = 2 then
-  st := cdstFileSystems
-  else if aStorageTypes = 3 then
-  st := cdstIndexeddb
-  else if aStorageTypes = 4 then
-  st := cdstLocalStorage
-  else if aStorageTypes = 5 then
-  st := cdstShaderCache
-  else if aStorageTypes = 6 then
-  st := cdstWebsql
-  else if aStorageTypes = 7 then
-  st := cdstServiceWorkers
-  else if aStorageTypes = 8 then
-  st := cdstCacheStorage
-  else if aStorageTypes = 9 then
-  st := cdstAll;
-  AObj.ClearDataForOrigin(PCharToUStr(aOrigin), st);
+  AObj.ClearDataForOrigin(PCharToUStr(aOrigin), TCefClearDataStorageTypes(aStorageTypes));
   handleExceptionEnd
 end;
 
@@ -1142,12 +1053,6 @@ procedure  CEFChromium_ClearCache(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ClearCache();
-  handleExceptionEnd
-end;
-
-procedure  CEFChromium_ToggleAudioMuted(const AObj: TChromium); extdecl;
-begin
-  handleExceptionBegin
   handleExceptionEnd
 end;
 
@@ -1249,6 +1154,18 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_ZoomCommand(const AObj: TChromium; command: Integer); extdecl;
+begin
+  handleExceptionBegin
+  if command = 1 then
+    AObj.IncZoomPct
+  else if command = 2 then
+    AObj.DecZoomPct
+  else if command = 3 then
+    AObj.ResetZoomPct;
+  handleExceptionEnd
+end;
+
 procedure  CEFChromium_WasResized(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
@@ -1270,26 +1187,27 @@ begin
   handleExceptionEnd
 end;
 
-procedure  CEFChromium_IMESetComposition(const AObj: TChromium; const text: PChar; const replacement_range, selection_range : TCefRange; const PUnderlines : PTCefCompositionUnderlineDynArray; size: Integer); extdecl;
+procedure  CEFChromium_IMESetComposition(const AObj: TChromium; const text: PChar; var replacement_range, selection_range : TCefRange;
+  const PUnderlines : PTCefCompositionUnderlineDynArray; size: Integer); extdecl;
 var
   i: integer;
   underlines : TCefCompositionUnderlineDynArray;
 begin
   handleExceptionBegin
   try
-  SetLength(underlines, size);
-  for i := 0 to  size - 1 do
-  begin
-  underlines[i] := PUnderlines^[i];
-  end;
-  AObj.IMESetComposition(PChar(text), underlines, @replacement_range, @selection_range);
+    SetLength(underlines, size);
+    for i := 0 to  size - 1 do
+    begin
+      underlines[i] := PUnderlines^[i];
+    end;
+    AObj.IMESetComposition(PChar(text), underlines, @replacement_range, @selection_range);
   finally
-  SetLength(underlines, 0);
+    SetLength(underlines, 0);
   end;
   handleExceptionEnd
 end;
 
-procedure  CEFChromium_IMECommitText(const AObj: TChromium; const text: PChar; const replacement_range : TCefRange; relative_cursor_pos : integer); extdecl;
+procedure  CEFChromium_IMECommitText(const AObj: TChromium; const text: PChar; var replacement_range : TCefRange; relative_cursor_pos : integer); extdecl;
 begin
   handleExceptionBegin
   AObj.IMECommitText(PChar(text), @replacement_range, relative_cursor_pos);
@@ -1317,7 +1235,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_InitializeDragAndDrop(const AObj: TChromium; const aDropTargetCtrl : TWinControl);
+procedure CEFChromium_InitializeDragAndDrop(const AObj: TChromium; const aDropTargetCtrl : TWinControl); extdecl;
 begin
   handleExceptionBegin
   {$IFDEF MSWINDOWS}
@@ -1326,39 +1244,37 @@ begin
   handleExceptionEnd
 end;
 
-function CEFChromium_LoadExtension(const AObj: TChromium; const root_directory: PChar; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler;
-  const requestContext : ICefRequestContext): LongBool; extdecl;
+procedure CEFChromium_InitializeDragAndDropByHWND(const AObj: TChromiumCore; const aDropTargetWnd : HWND); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.LoadExtension(PCharToUStr(root_directory), manifest, handler, requestContext);
+  {$IFDEF MSWINDOWS}
+  AObj.InitializeDragAndDrop(aDropTargetWnd);
+  {$ENDIF MSWINDOWS}
   handleExceptionEnd
 end;
 
-function CEFChromium_DidLoadExtension(const AObj: TChromium; const extension_id: PChar): LongBool; extdecl;
+procedure CEFChromium_ShutdownDragAndDrop(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.DidLoadExtension(PCharToUStr(extension_id));
+  {$IFDEF MSWINDOWS}
+  AObj.ShutdownDragAndDrop();
+  {$ENDIF MSWINDOWS}
   handleExceptionEnd
 end;
 
-function CEFChromium_HasExtension(const AObj: TChromium; const extension_id: PChar): LongBool; extdecl;
+function CEFChromium_SetNewBrowserParent(const AObj: TChromium; aNewParentHwnd : HWND): LongBool; extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.HasExtension(PCharToUStr(extension_id));
+  {$IFDEF MSWINDOWS}
+  Result := AObj.SetNewBrowserParent(aNewParentHwnd);
+  {$ENDIF MSWINDOWS}
   handleExceptionEnd
 end;
 
-function CEFChromium_GetExtensions(const AObj: TChromium; const extension_ids: TStringList): LongBool; extdecl;
+procedure CEFChromium_WindowHandle(const AObj: TChromium; var Result: TCefWindowHandle); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.GetExtensions(extension_ids);
-  handleExceptionEnd
-end;
-
-procedure CEFChromium_GetExtension(const AObj: TChromium; const extension_id: PChar; var Result: ICefExtension); extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.GetExtension(PCharToUStr(extension_id));
+  Result := AObj.WindowHandle;
   handleExceptionEnd
 end;
 
@@ -1429,7 +1345,6 @@ exports
   CEFChromium_FrameIsFocused,
   CEFChromium_TryCloseBrowser,
   CEFChromium_BrowserHandle,
-  CEFChromium_WidgetHandle,
   CEFChromium_RenderHandle,
   CEFChromium_SetCustomHeader,//
   CEFChromium_GetCustomHeader,
@@ -1441,18 +1356,16 @@ exports
   CEFChromium_GetWebRTCMultipleRoutes,
   CEFChromium_SetWebRTCNonproxiedUDP,
   CEFChromium_GetWebRTCNonproxiedUDP,
-  CEFChromium_SetBatterySaverModeState,
-  CEFChromium_GetBatterySaverModeState,
-  CEFChromium_SetHighEfficiencyMode,
-  CEFChromium_GetHighEfficiencyMode,
   CEFChromium_SetLoadImagesAutomatically,
   CEFChromium_GetLoadImagesAutomatically,
   CEFChromium_SetQuicAllowed,
   CEFChromium_GetQuicAllowed,
   CEFChromium_SetOffline,
   CEFChromium_GetOffline,
+  {$IFDEF MSWINDOWS}
   CEFChromium_SetDefaultWindowInfoExStyle,
   CEFChromium_GetDefaultWindowInfoExStyle,
+  {$ENDIF}
   CEFChromium_SetBlock3rdPartyCookies,
   CEFChromium_GetBlock3rdPartyCookies,
   CEFChromium_SetAcceptCookies,
@@ -1474,8 +1387,6 @@ exports
   CEFChromium_GetSpellCheckerDicts,
   CEFChromium_SetSpellChecking,
   CEFChromium_GetSpellChecking,
-  CEFChromium_SetAlwaysOpenPDFExternally,
-  CEFChromium_GetAlwaysOpenPDFExternally,
   CEFChromium_SetAlwaysAuthorizePlugins,
   CEFChromium_GetAlwaysAuthorizePlugins,
   CEFChromium_SetAllowOutdatedPlugins,
@@ -1500,15 +1411,12 @@ exports
   CEFChromium_CloseAllConnections,
   CEFChromium_RetrieveHTMLByFrameName,
   CEFChromium_RetrieveHTMLByFrame,
-  CEFChromium_RetrieveHTMLByFrameIdentifier,
   CEFChromium_RetrieveTextByFrameName,
   CEFChromium_RetrieveTextByFrame,
-  CEFChromium_RetrieveTextByFrameIdentifier,
   CEFChromium_ResolveHost,
   CEFChromium_SetUserAgentOverride,
   CEFChromium_ClearDataForOrigin,
   CEFChromium_ClearCache,
-  CEFChromium_ToggleAudioMuted,
   CEFChromium_ClipboardCopy,
   CEFChromium_ClipboardPaste,
   CEFChromium_ClipboardCut,
@@ -1523,6 +1431,7 @@ exports
   CEFChromium_ResetZoomStep,
   CEFChromium_ResetZoomPct,
   CEFChromium_ReadZoom,
+  CEFChromium_ZoomCommand,
   CEFChromium_WasResized,
   CEFChromium_WasHidden,
   CEFChromium_NotifyScreenInfoChanged,
@@ -1532,8 +1441,7 @@ exports
   CEFChromium_IMECancelComposition,
   CEFChromium_HasDevTools,
   CEFChromium_InitializeDragAndDrop,
-  CEFChromium_LoadExtension,
-  CEFChromium_DidLoadExtension,
-  CEFChromium_HasExtension,
-  CEFChromium_GetExtensions,
-  CEFChromium_GetExtension;
+  CEFChromium_InitializeDragAndDropByHWND,
+  CEFChromium_ShutdownDragAndDrop,
+  CEFChromium_SetNewBrowserParent,
+  CEFChromium_WindowHandle;

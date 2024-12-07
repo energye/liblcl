@@ -18,44 +18,35 @@ begin
   handleExceptionEnd
 end;
 
-{
-TTextfieldDelegateRef
-TPanelDelegateRef
-TWindowDelegateRef
-TBrowserViewDelegateRef
-TButtonDelegateRef
-TMenuButtonDelegateRef
-}
-
 procedure  ViewDelegate_SetOnGetPreferredSize(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
 begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).GetPreferredSizePtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnGetPreferredSizePtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).GetPreferredSizePtr := AEvent;
+    (AObj as TPanelDelegateRef).OnGetPreferredSizePtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
-    (AObj as TWindowDelegateRef).GetPreferredSizePtr := AEvent;
+    (AObj as TWindowDelegateRef).OnGetPreferredSizePtr := AEvent;
   end
   else if AObj is TBrowserViewDelegateRef then
   begin
-    (AObj as TBrowserViewDelegateRef).GetPreferredSizePtr := AEvent;
+    (AObj as TBrowserViewDelegateRef).OnGetPreferredSizePtr := AEvent;
   end
   else if AObj is TButtonDelegateRef then
   begin
-    (AObj as TButtonDelegateRef).GetPreferredSizePtr := AEvent;
+    (AObj as TButtonDelegateRef).OnGetPreferredSizePtr := AEvent;
   end
   else if AObj is TMenuButtonDelegateRef then
   begin
-    (AObj as TMenuButtonDelegateRef).GetPreferredSizePtr := AEvent;
+    (AObj as TMenuButtonDelegateRef).OnGetPreferredSizePtr := AEvent;
   end
   else
-    (AObj as TViewDelegateRef).GetPreferredSizePtr := AEvent;
+    (AObj as TViewDelegateRef).OnGetPreferredSizePtr := AEvent;
   handleExceptionEnd
 end;
 
@@ -64,30 +55,30 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).GetMinimumSizePtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnGetMinimumSizePtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).GetMinimumSizePtr := AEvent;
+    (AObj as TPanelDelegateRef).OnGetMinimumSizePtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
-    (AObj as TWindowDelegateRef).GetMinimumSizePtr := AEvent;
+    (AObj as TWindowDelegateRef).OnGetMinimumSizePtr := AEvent;
   end
   else if AObj is TBrowserViewDelegateRef then
   begin
-    (AObj as TBrowserViewDelegateRef).GetMinimumSizePtr := AEvent;
+    (AObj as TBrowserViewDelegateRef).OnGetMinimumSizePtr := AEvent;
   end
   else if AObj is TButtonDelegateRef then
   begin
-    (AObj as TButtonDelegateRef).GetMinimumSizePtr := AEvent;
+    (AObj as TButtonDelegateRef).OnGetMinimumSizePtr := AEvent;
   end
   else if AObj is TMenuButtonDelegateRef then
   begin
-    (AObj as TMenuButtonDelegateRef).GetMinimumSizePtr := AEvent;
+    (AObj as TMenuButtonDelegateRef).OnGetMinimumSizePtr := AEvent;
   end
   else
-   (AObj as TViewDelegateRef).GetMinimumSizePtr := AEvent;
+   (AObj as TViewDelegateRef).OnGetMinimumSizePtr := AEvent;
   handleExceptionEnd
 end;
 
@@ -96,30 +87,30 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).GetMaximumSizePtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnGetMaximumSizePtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).GetMaximumSizePtr := AEvent;
+    (AObj as TPanelDelegateRef).OnGetMaximumSizePtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
-    (AObj as TWindowDelegateRef).GetMaximumSizePtr := AEvent;
+    (AObj as TWindowDelegateRef).OnGetMaximumSizePtr := AEvent;
   end
   else if AObj is TBrowserViewDelegateRef then
   begin
-    (AObj as TBrowserViewDelegateRef).GetMaximumSizePtr := AEvent;
+    (AObj as TBrowserViewDelegateRef).OnGetMaximumSizePtr := AEvent;
   end
   else if AObj is TButtonDelegateRef then
   begin
-    (AObj as TButtonDelegateRef).GetMaximumSizePtr := AEvent;
+    (AObj as TButtonDelegateRef).OnGetMaximumSizePtr := AEvent;
   end
   else if AObj is TMenuButtonDelegateRef then
   begin
-    (AObj as TMenuButtonDelegateRef).GetMaximumSizePtr := AEvent;
+    (AObj as TMenuButtonDelegateRef).OnGetMaximumSizePtr := AEvent;
   end
   else
-    (AObj as TViewDelegateRef).GetMaximumSizePtr := AEvent;
+    (AObj as TViewDelegateRef).OnGetMaximumSizePtr := AEvent;
   handleExceptionEnd
 end;
 
@@ -128,30 +119,30 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).GetHeightForWidthPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnGetHeightForWidthPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).GetHeightForWidthPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnGetHeightForWidthPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
-    (AObj as TWindowDelegateRef).GetHeightForWidthPtr := AEvent;
+    (AObj as TWindowDelegateRef).OnGetHeightForWidthPtr := AEvent;
   end
   else if AObj is TBrowserViewDelegateRef then
   begin
-    (AObj as TBrowserViewDelegateRef).GetHeightForWidthPtr := AEvent;
+    (AObj as TBrowserViewDelegateRef).OnGetHeightForWidthPtr := AEvent;
   end
   else if AObj is TButtonDelegateRef then
   begin
-    (AObj as TButtonDelegateRef).GetHeightForWidthPtr := AEvent;
+    (AObj as TButtonDelegateRef).OnGetHeightForWidthPtr := AEvent;
   end
   else if AObj is TMenuButtonDelegateRef then
   begin
-    (AObj as TMenuButtonDelegateRef).GetHeightForWidthPtr := AEvent;
+    (AObj as TMenuButtonDelegateRef).OnGetHeightForWidthPtr := AEvent;
   end
   else
-    (AObj as TViewDelegateRef).GetHeightForWidthPtr := AEvent;
+    (AObj as TViewDelegateRef).OnGetHeightForWidthPtr := AEvent;
   handleExceptionEnd
 end;
 
@@ -160,30 +151,30 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).ParentViewChangedPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnParentViewChangedPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).ParentViewChangedPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnParentViewChangedPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
-    (AObj as TWindowDelegateRef).ParentViewChangedPtr := AEvent;
+    (AObj as TWindowDelegateRef).OnParentViewChangedPtr := AEvent;
   end
   else if AObj is TBrowserViewDelegateRef then
   begin
-    (AObj as TBrowserViewDelegateRef).ParentViewChangedPtr := AEvent;
+    (AObj as TBrowserViewDelegateRef).OnParentViewChangedPtr := AEvent;
   end
   else if AObj is TButtonDelegateRef then
   begin
-    (AObj as TButtonDelegateRef).ParentViewChangedPtr := AEvent;
+    (AObj as TButtonDelegateRef).OnParentViewChangedPtr := AEvent;
   end
   else if AObj is TMenuButtonDelegateRef then
   begin
-    (AObj as TMenuButtonDelegateRef).ParentViewChangedPtr := AEvent;
+    (AObj as TMenuButtonDelegateRef).OnParentViewChangedPtr := AEvent;
   end
   else
-    (AObj as TViewDelegateRef).ParentViewChangedPtr := AEvent;
+    (AObj as TViewDelegateRef).OnParentViewChangedPtr := AEvent;
   handleExceptionEnd
 end;
 
@@ -192,30 +183,94 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).ChildViewChangedPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnChildViewChangedPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).ChildViewChangedPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnChildViewChangedPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
-    (AObj as TWindowDelegateRef).ChildViewChangedPtr := AEvent;
+    (AObj as TWindowDelegateRef).OnChildViewChangedPtr := AEvent;
   end
   else if AObj is TBrowserViewDelegateRef then
   begin
-    (AObj as TBrowserViewDelegateRef).ChildViewChangedPtr := AEvent;
+    (AObj as TBrowserViewDelegateRef).OnChildViewChangedPtr := AEvent;
   end
   else if AObj is TButtonDelegateRef then
   begin
-    (AObj as TButtonDelegateRef).ChildViewChangedPtr := AEvent;
+    (AObj as TButtonDelegateRef).OnChildViewChangedPtr := AEvent;
   end
   else if AObj is TMenuButtonDelegateRef then
   begin
-    (AObj as TMenuButtonDelegateRef).ChildViewChangedPtr := AEvent;
+    (AObj as TMenuButtonDelegateRef).OnChildViewChangedPtr := AEvent;
   end
   else
-    (AObj as TViewDelegateRef).ChildViewChangedPtr := AEvent;
+    (AObj as TViewDelegateRef).OnChildViewChangedPtr := AEvent;
+  handleExceptionEnd
+end;
+
+procedure  ViewDelegate_SetOnWindowChanged(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  if AObj is TTextfieldDelegateRef then
+  begin
+    (AObj as TTextfieldDelegateRef).OnWindowChangedPtr := AEvent;
+  end
+  else if AObj is TPanelDelegateRef then
+  begin
+    (AObj as TPanelDelegateRef).OnWindowChangedPtr := AEvent;
+  end
+  else if AObj is TWindowDelegateRef then
+  begin
+    (AObj as TWindowDelegateRef).OnWindowChangedPtr := AEvent;
+  end
+  else if AObj is TBrowserViewDelegateRef then
+  begin
+    (AObj as TBrowserViewDelegateRef).OnWindowChangedPtr := AEvent;
+  end
+  else if AObj is TButtonDelegateRef then
+  begin
+    (AObj as TButtonDelegateRef).OnWindowChangedPtr := AEvent;
+  end
+  else if AObj is TMenuButtonDelegateRef then
+  begin
+    (AObj as TMenuButtonDelegateRef).OnWindowChangedPtr := AEvent;
+  end
+  else
+    (AObj as TViewDelegateRef).OnWindowChangedPtr := AEvent;
+  handleExceptionEnd
+end;
+
+procedure  ViewDelegate_SetOnLayoutChanged(const AObj: ICefViewDelegate; const AEvent: Pointer); extdecl;
+begin
+  handleExceptionBegin
+  if AObj is TTextfieldDelegateRef then
+  begin
+    (AObj as TTextfieldDelegateRef).OnLayoutChangedPtr := AEvent;
+  end
+  else if AObj is TPanelDelegateRef then
+  begin
+    (AObj as TPanelDelegateRef).OnLayoutChangedPtr := AEvent;
+  end
+  else if AObj is TWindowDelegateRef then
+  begin
+    (AObj as TWindowDelegateRef).OnLayoutChangedPtr := AEvent;
+  end
+  else if AObj is TBrowserViewDelegateRef then
+  begin
+    (AObj as TBrowserViewDelegateRef).OnLayoutChangedPtr := AEvent;
+  end
+  else if AObj is TButtonDelegateRef then
+  begin
+    (AObj as TButtonDelegateRef).OnLayoutChangedPtr := AEvent;
+  end
+  else if AObj is TMenuButtonDelegateRef then
+  begin
+    (AObj as TMenuButtonDelegateRef).OnLayoutChangedPtr := AEvent;
+  end
+  else
+    (AObj as TViewDelegateRef).OnLayoutChangedPtr := AEvent;
   handleExceptionEnd
 end;
 
@@ -224,30 +279,30 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).FocusPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnFocusPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).FocusPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnFocusPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
-    (AObj as TWindowDelegateRef).FocusPtr := AEvent;
+    (AObj as TWindowDelegateRef).OnFocusPtr := AEvent;
   end
   else if AObj is TBrowserViewDelegateRef then
   begin
-    (AObj as TBrowserViewDelegateRef).FocusPtr := AEvent;
+    (AObj as TBrowserViewDelegateRef).OnFocusPtr := AEvent;
   end
   else if AObj is TButtonDelegateRef then
   begin
-    (AObj as TButtonDelegateRef).FocusPtr := AEvent;
+    (AObj as TButtonDelegateRef).OnFocusPtr := AEvent;
   end
   else if AObj is TMenuButtonDelegateRef then
   begin
-    (AObj as TMenuButtonDelegateRef).FocusPtr := AEvent;
+    (AObj as TMenuButtonDelegateRef).OnFocusPtr := AEvent;
   end
   else
-    (AObj as TViewDelegateRef).FocusPtr := AEvent;
+    (AObj as TViewDelegateRef).OnFocusPtr := AEvent;
   handleExceptionEnd
 end;
 
@@ -256,33 +311,32 @@ begin
   handleExceptionBegin
   if AObj is TTextfieldDelegateRef then
   begin
-    (AObj as TTextfieldDelegateRef).BlurPtr := AEvent;
+    (AObj as TTextfieldDelegateRef).OnBlurPtr := AEvent;
   end
   else if AObj is TPanelDelegateRef then
   begin
-    (AObj as TPanelDelegateRef).BlurPtr := AEvent;
+    (AObj as TPanelDelegateRef).OnBlurPtr := AEvent;
   end
   else if AObj is TWindowDelegateRef then
   begin
-    (AObj as TWindowDelegateRef).BlurPtr := AEvent;
+    (AObj as TWindowDelegateRef).OnBlurPtr := AEvent;
   end
   else if AObj is TBrowserViewDelegateRef then
   begin
-    (AObj as TBrowserViewDelegateRef).BlurPtr := AEvent;
+    (AObj as TBrowserViewDelegateRef).OnBlurPtr := AEvent;
   end
   else if AObj is TButtonDelegateRef then
   begin
-    (AObj as TButtonDelegateRef).BlurPtr := AEvent;
+    (AObj as TButtonDelegateRef).OnBlurPtr := AEvent;
   end
   else if AObj is TMenuButtonDelegateRef then
   begin
-    (AObj as TMenuButtonDelegateRef).BlurPtr := AEvent;
+    (AObj as TMenuButtonDelegateRef).OnBlurPtr := AEvent;
   end
   else
-    (AObj as TViewDelegateRef).BlurPtr := AEvent;
+    (AObj as TViewDelegateRef).OnBlurPtr := AEvent;
   handleExceptionEnd
 end;
-
 
 exports
   ViewDelegateRef_Create,
@@ -293,5 +347,7 @@ exports
   ViewDelegate_SetOnGetHeightForWidth,
   ViewDelegate_SetOnParentViewChanged,
   ViewDelegate_SetOnChildViewChanged,
+  ViewDelegate_SetOnWindowChanged,
+  ViewDelegate_SetOnLayoutChanged,
   ViewDelegate_SetOnFocus,
   ViewDelegate_SetOnBlur;

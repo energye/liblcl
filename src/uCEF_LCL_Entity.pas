@@ -32,20 +32,20 @@ type
   end;
 
   //Cef Cookie
-  PRCefCookie = ^RCefCookie;
+  PPMCefCookie = ^PMCefCookie;
 
-  RCefCookie = record
-    url, Name, Value, domain, path: PChar;//string
-    secure, httponly, hasExpires: Pointer;//boolean
-    creation, lastAccess, expires: Pointer;//double
-    Count, total, aID, sameSite, priority: PInteger;//integer
-    setImmediately, deleteCookie, Result: Pointer;//boolean
+  PMCefCookie = record
+    url, Name, Value, domain, path         : PChar;   //string
+    secure, httponly, has_expires          : PBoolean;  //boolean
+    creation, last_access, expires         : PDouble;  //double
+    Count, total, id, same_site, priority  : PInteger; //integer
+    setImmediately                         : PBoolean;  //boolean
   end;
 
   //Proxy
-  PRChromiumProxy = ^RChromiumProxy;
+  PPChromiumProxy = ^PChromiumProxy;
 
-  RChromiumProxy = record
+  PChromiumProxy = record
     ProxyType, ProxyScheme: PInteger;
     ProxyServer: PChar;
     ProxyPort: PInteger;
@@ -81,7 +81,7 @@ type
   PHWND = ^HWND;
   PTCefStringList = ^TCefStringList;
 
-  PTCefPopupFeatures = record
+  PMCefPopupFeatures = record
     x: PInteger;
     xSet: PInteger;
     y: PInteger;
@@ -102,7 +102,7 @@ type
     additionalFeatures: PTCefStringList;
   end;
 
-  RTCefWindowInfo = record
+  PMCefWindowInfo = record
     {$IFDEF MSWINDOWS}
     ex_style: PDWORD;
     window_name: PChar;
@@ -147,9 +147,9 @@ type
     {$ENDIF}
   end;
 
-  PRCefBrowserSettings = ^RCefBrowserSettings;
+  PPMCefBrowserSettings = ^PMCefBrowserSettings;
 
-  RCefBrowserSettings = record
+  PMCefBrowserSettings = record
     windowless_frame_rate: PInteger;
     standard_font_family: PChar;
     fixed_font_family: PChar;
@@ -175,14 +175,14 @@ type
     databases: PInteger;
     webgl: PInteger;
     background_color: PCardinal;
-    accept_language_list: PChar;
     chrome_status_bubble: PInteger;
     chrome_zoom_bubble: PInteger;
   end;
 
-  PRCefPdfPrintSettings = ^RCefPdfPrintSettings;
+  PPMCefPdfPrintSettings = ^PMCefPdfPrintSettings;
 
-  RCefPdfPrintSettings = record
+  // TCefPdfPrintSettings
+  PMCefPdfPrintSettings = record
     landscape: PInteger;
     print_background: PInteger;
     scale: PDouble;
@@ -198,25 +198,72 @@ type
     display_header_footer: PInteger;
     header_template: PChar;
     footer_template: PChar;
+    generate_tagged_pdf: PInteger;
+    generate_document_outline : PInteger;
   end;
 
-  PRCefRequestContextSettings = ^RCefRequestContextSettings;
+  PPMCefRequestContextSettings = ^PMCefRequestContextSettings;
 
-  RCefRequestContextSettings = record
+  PMCefRequestContextSettings = record
     cachePath: PChar;
     persistSessionCookies: PInteger;
-    persistUserPreferences: PInteger;
     acceptLanguageList: PChar;
     cookieableSchemesList: PChar;
     cookieableSchemesExcludeDefaults: PInteger;
+  end;
+
+  PPCefInsets = ^PCefInsets;
+  PCefInsets = record
+    top    : PInteger;
+    left   : PInteger;
+    bottom : PInteger;
+    right  : PInteger;
+  end;
+
+  PCefBoxLayoutSettings = record
+    horizontal                       : PInteger; //Integer;
+    inside_border_horizontal_spacing : PInteger; //Integer;
+    inside_border_vertical_spacing   : PInteger; //Integer;
+    inside_border_insets             : PPCefInsets; //TCefInsets;
+    between_child_spacing            : PInteger; //Integer;
+    main_axis_alignment              : PInteger; //TCefAxisAlignment;
+    cross_axis_alignment             : PInteger; //TCefAxisAlignment;
+    minimum_cross_axis_size          : PInteger; //Integer;
+    default_flex                     : PInteger; //Integer;
+  end;
+
+  PPMCefTouchHandleState = ^PMCefTouchHandleState;
+
+  PMCefTouchHandleState = record
+    touch_handle_id   : PInteger;
+    flags             : PCardinal; //cardinal;
+    enabled           : PInteger;
+    orientation       : PInteger; // TCefHorizontalAlignment;
+    mirror_vertical   : PInteger;
+    mirror_horizontal : PInteger;
+    origin            : PCefPoint; // TCefPoint;
+    alpha             : PSingle;
+  end;
+
+  // 兼容新版本CEF结构
+  TCefAcceleratedPaintInfo = record
+    shared_texture_handle: Pointer;
+    format: PInteger; // 无效字段
   end;
 
 //string to hash
 function StrToHash(const SoureStr: string): cardinal;
 //PChar 转 UnicodeString
 function PCharToUStr(const Value: PChar): unicodestring;
+//PChar 转 Int64
+function PCharToInt64(const Value: PChar): int64;
 //String 转 UnicodeString
 function StrToUStr(const Value: string): unicodestring;
+
+// 需要使用 inline，否则乱码
+function ToPChar(AStr: string): PChar; inline;
+function ToPChar(AStr: unicodestring): PChar; inline;
+function IntToPChar(AVal: Int64): PChar; inline;
 
 function ByteToInteger(const Data: array of byte; start: integer = 0): integer;
 //复制Byte数组到Dest
@@ -226,14 +273,30 @@ function CopyStringToNewString(old: string): string;
 //释放VarRec数组
 procedure FreeArrayTVarRec(argsArray: array of TVarRec);
 
-function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): RCefBrowserSettings;
-function GoBrowserSettingsToCefBrowserSettings(const settings: RCefBrowserSettings): TCefBrowserSettings;
+function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): PMCefBrowserSettings;
+function GoBrowserSettingsToCefBrowserSettings(const settings: PMCefBrowserSettings): TCefBrowserSettings;
 
-function CefWindowInfoToGoCefWindowInfo(const settings: TCefWindowInfo): RTCefWindowInfo;
-function GoCefWindowInfoToCefWindowInfo(const settings: RTCefWindowInfo): TCefWindowInfo;
+function CefWindowInfoToGoCefWindowInfo(const settings: TCefWindowInfo): PMCefWindowInfo;
+function GoCefWindowInfoToCefWindowInfo(const settings: PMCefWindowInfo): TCefWindowInfo;
 
-function CefPopupFeaturesToGoCefPopupFeatures(const popupFeatures: TCefPopupFeatures): PTCefPopupFeatures;
-function GoCefPopupFeaturesToCefPopupFeatures(const popupFeatures: PTCefPopupFeatures): TCefPopupFeatures;
+function CefPopupFeaturesToGoCefPopupFeatures(const popupFeatures: TCefPopupFeatures): PMCefPopupFeatures;
+function GoCefPopupFeaturesToCefPopupFeatures(const popupFeatures: PMCefPopupFeatures): TCefPopupFeatures;
+
+function CefBoxLayoutSettingsToGoBoxLayoutSettings(const value: TCefBoxLayoutSettings): PCefBoxLayoutSettings;
+function GoBoxLayoutSettingsToCefBoxLayoutSettings(const value: PCefBoxLayoutSettings): TCefBoxLayoutSettings;
+function CefInsetsToGoInsets(const value: TCefInsets): PCefInsets;
+function GoInsetsToCefInsets(const value: PCefInsets): TCefInsets;
+
+function InitCookie(): PMCefCookie;
+function CefCookieToGoCookie(const value: TCefCookie): PMCefCookie;
+function GoCookieToCefCookie(const value: PMCefCookie): TCefCookie;
+
+function RequestContextSettingsToGo(const value: TCefRequestContextSettings): PMCefRequestContextSettings;
+function RequestContextSettingsToPas(const value: PMCefRequestContextSettings): TCefRequestContextSettings;
+
+function PdfPrintSettingsToGo(const AData: TCefPdfPrintSettings): PMCefPdfPrintSettings;
+function PdfPrintSettingsToPas(const AData: PMCefPdfPrintSettings): TCefPdfPrintSettings;
+
 
 var
   {$ifdef DARWIN}
@@ -272,6 +335,21 @@ var
 
 implementation
 
+function ToPChar(AStr: string): PChar; inline;
+begin
+  Result := PChar(AStr);
+end;
+
+function ToPChar(AStr: unicodestring): PChar; inline;
+begin
+  Result := PChar(UTF8Encode(AStr)); //PWideChar(AStr);
+end;
+
+function IntToPChar(AVal: Int64): PChar; inline;
+begin
+  Result := PChar(IntToStr(AVal)); //PWideChar(AStr);
+end;
+
 function ByteToInteger(const Data: array of byte; start: integer = 0): integer;
 var
   byt: TBytes;
@@ -298,6 +376,13 @@ begin
   if Value <> nil then
     //关于PChar 默认编码不是UTF8
     Result := StrToUStr(StrPas(Value));
+end;
+
+function PCharToInt64(const Value: PChar): int64;
+begin
+  Result := 0;
+  if Value <> nil then
+    Result := StrToInt64(StrPas(Value));
 end;
 
 //String 转 UnicodeString
@@ -381,7 +466,7 @@ begin
   end;
 end;
 
-function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): RCefBrowserSettings;
+function CefBrowserSettingsToGoBrowserSettings(const settings: TCefBrowserSettings): PMCefBrowserSettings;
 begin
   Result.windowless_frame_rate := @settings.windowless_frame_rate;
   Result.standard_font_family := PChar(string(CefString(@settings.standard_font_family)));
@@ -408,26 +493,25 @@ begin
   Result.databases := @(integer(settings.databases));
   Result.webgl := @(integer(settings.webgl));
   Result.background_color := @(cardinal(settings.background_color));
-  Result.accept_language_list := PChar(string(CefString(@settings.accept_language_list)));
-  Result.chrome_status_bubble := PInteger(0);
-  Result.chrome_zoom_bubble := PInteger(0);
+  Result.chrome_status_bubble := nil;
+  Result.chrome_zoom_bubble := nil;
 end;
 
-function GoBrowserSettingsToCefBrowserSettings(const settings: RCefBrowserSettings): TCefBrowserSettings;
+function GoBrowserSettingsToCefBrowserSettings(const settings: PMCefBrowserSettings): TCefBrowserSettings;
 begin
-  Result.size := SizeOf(TCefBrowserSettings); //settings.size^;
+  Result.size := SizeOf(TCefBrowserSettings);
   Result.windowless_frame_rate := settings.windowless_frame_rate^;
-  Result.standard_font_family := CefString(PCharToUStr(settings.standard_font_family));
-  Result.fixed_font_family := CefString(PCharToUStr(settings.fixed_font_family));
-  Result.serif_font_family := CefString(PCharToUStr(settings.serif_font_family));
-  Result.sans_serif_font_family := CefString(PCharToUStr(settings.sans_serif_font_family));
-  Result.cursive_font_family := CefString(PCharToUStr(settings.cursive_font_family));
-  Result.fantasy_font_family := CefString(PCharToUStr(settings.fantasy_font_family));
+  Result.standard_font_family := CefStringAlloc(PCharToUStr(settings.standard_font_family));
+  Result.fixed_font_family := CefStringAlloc(PCharToUStr(settings.fixed_font_family));
+  Result.serif_font_family := CefStringAlloc(PCharToUStr(settings.serif_font_family));
+  Result.sans_serif_font_family := CefStringAlloc(PCharToUStr(settings.sans_serif_font_family));
+  Result.cursive_font_family := CefStringAlloc(PCharToUStr(settings.cursive_font_family));
+  Result.fantasy_font_family := CefStringAlloc(PCharToUStr(settings.fantasy_font_family));
   Result.default_font_size := settings.default_font_size^;
   Result.default_fixed_font_size := settings.default_fixed_font_size^;
   Result.minimum_font_size := settings.minimum_font_size^;
   Result.minimum_logical_font_size := settings.minimum_logical_font_size^;
-  Result.default_encoding := CefString(PCharToUStr(settings.default_encoding));
+  Result.default_encoding := CefStringAlloc(PCharToUStr(settings.default_encoding));
   Result.remote_fonts := TCefState(settings.remote_fonts^);
   Result.javascript := TCefState(settings.javascript^);
   Result.javascript_close_windows := TCefState(settings.javascript_close_windows^);
@@ -441,10 +525,9 @@ begin
   Result.databases := TCefState(settings.databases^);
   Result.webgl := TCefState(settings.webgl^);
   Result.background_color := TCefColor(settings.background_color^);
-  Result.accept_language_list := CefString(PCharToUStr(settings.accept_language_list));
 end;
 
-function CefWindowInfoToGoCefWindowInfo(const settings: TCefWindowInfo): RTCefWindowInfo;
+function CefWindowInfoToGoCefWindowInfo(const settings: TCefWindowInfo): PMCefWindowInfo;
 begin
   {$IFDEF MSWINDOWS}
   Result.ex_style := @settings.ex_style;
@@ -489,11 +572,11 @@ begin
   {$ENDIF}
 end;
 
-function GoCefWindowInfoToCefWindowInfo(const settings: RTCefWindowInfo): TCefWindowInfo;
+function GoCefWindowInfoToCefWindowInfo(const settings: PMCefWindowInfo): TCefWindowInfo;
 begin
   {$IFDEF MSWINDOWS}
   Result.ex_style := settings.ex_style^;
-  Result.window_name := CefString(PCharToUStr(settings.window_name));
+  Result.window_name := CefStringAlloc(PCharToUStr(settings.window_name));
   Result.style := settings.style^;
   Result.x := settings.x^;
   Result.y := settings.y^;
@@ -502,13 +585,12 @@ begin
   Result.parent_window := settings.parent_window^;
   Result.menu := settings.menu^;
   Result.windowless_rendering_enabled := settings.windowless_rendering_enabled^;
-  //Result.transparent_painting_enabled := PInteger(0);
   Result.shared_texture_enabled := settings.shared_texture_enabled^;
   Result.external_begin_frame_enabled := settings.external_begin_frame_enabled^;
   Result.window := settings.window^;
   {$ENDIF}
   {$IFDEF MACOSX}
-  Result.window_name := CefString(PCharToUStr(settings.window_name));
+  Result.window_name := CefStringAlloc(PCharToUStr(settings.window_name));
   Result.x := settings.x^;
   Result.y := settings.y^;
   Result.Width := settings.Width^;
@@ -521,7 +603,7 @@ begin
   Result.view := settings.view^;
   {$ENDIF}
   {$IFDEF LINUX}
-  Result.window_name := CefString(PCharToUStr(settings.window_name));
+  Result.window_name := CefStringAlloc(PCharToUStr(settings.window_name));
   Result.x := settings.x^;
   Result.y := settings.y^;
   Result.Width := settings.Width^;
@@ -534,7 +616,7 @@ begin
   {$ENDIF}
 end;
 
-function CefPopupFeaturesToGoCefPopupFeatures(const popupFeatures: TCefPopupFeatures): PTCefPopupFeatures;
+function CefPopupFeaturesToGoCefPopupFeatures(const popupFeatures: TCefPopupFeatures): PMCefPopupFeatures;
 begin
   Result.x := @(integer(popupFeatures.x));
   Result.xSet := @(integer(popupFeatures.xSet));
@@ -545,18 +627,18 @@ begin
   Result.Height := @(integer(popupFeatures.Height));
   Result.heightSet := @(integer(popupFeatures.heightSet));
   Result.menuBarVisible := @(integer(popupFeatures.menuBarVisible));
-  Result.statusBarVisible := @(integer(popupFeatures.statusBarVisible));
+  Result.statusBarVisible :=@(integer(popupFeatures.statusBarVisible));
   Result.toolBarVisible := @(integer(popupFeatures.toolBarVisible));
-  Result.locationBarVisible := PInteger(0);
   Result.scrollbarsVisible := @(integer(popupFeatures.scrollbarsVisible));
-  Result.isPopup := PInteger(0);
-  Result.resizable := PInteger(0);
-  Result.fullscreen := PInteger(0);
-  Result.dialog := PInteger(0);
-  Result.additionalFeatures := PTCefStringList(0);
+  Result.locationBarVisible := nil;
+  Result.isPopup := nil;
+  Result.resizable := nil;
+  Result.fullscreen := nil;
+  Result.dialog := nil;
+  Result.additionalFeatures := nil;
 end;
 
-function GoCefPopupFeaturesToCefPopupFeatures(const popupFeatures: PTCefPopupFeatures): TCefPopupFeatures;
+function GoCefPopupFeaturesToCefPopupFeatures(const popupFeatures: PMCefPopupFeatures): TCefPopupFeatures;
 begin
   Result.x := popupFeatures.x^;
   Result.xSet := popupFeatures.xSet^;
@@ -570,6 +652,156 @@ begin
   Result.statusBarVisible := popupFeatures.statusBarVisible^;
   Result.toolBarVisible := popupFeatures.toolBarVisible^;
   Result.scrollbarsVisible := popupFeatures.scrollbarsVisible^;
+end;
+
+function CefBoxLayoutSettingsToGoBoxLayoutSettings(const value: TCefBoxLayoutSettings): PCefBoxLayoutSettings;
+var
+  TempGoInsets: PCefInsets;
+begin
+    TempGoInsets := CefInsetsToGoInsets(value.inside_border_insets);
+    Result.horizontal                       := @(Integer(value.horizontal));
+    Result.inside_border_horizontal_spacing := @(Integer(value.inside_border_horizontal_spacing));
+    Result.inside_border_vertical_spacing   := @(Integer(value.inside_border_vertical_spacing));
+    Result.inside_border_insets             := @TempGoInsets;
+    Result.between_child_spacing            := @(Integer(value.between_child_spacing));
+    Result.main_axis_alignment              := @(Integer(value.main_axis_alignment));
+    Result.cross_axis_alignment             := @(Integer(value.cross_axis_alignment));
+    Result.minimum_cross_axis_size          := @(Integer(value.minimum_cross_axis_size));
+    Result.default_flex                     := @(Integer(value.default_flex));
+end;
+
+function GoBoxLayoutSettingsToCefBoxLayoutSettings(const value: PCefBoxLayoutSettings): TCefBoxLayoutSettings;
+begin
+    Result.horizontal                       := value.horizontal^;
+    Result.inside_border_horizontal_spacing := value.inside_border_horizontal_spacing^;
+    Result.inside_border_vertical_spacing   := value.inside_border_vertical_spacing^;
+    Result.inside_border_insets             := GoInsetsToCefInsets(PPCefInsets(value.inside_border_insets)^);
+    Result.between_child_spacing            := value.between_child_spacing^;
+    Result.main_axis_alignment              := TCefMainAxisAlignment(value.main_axis_alignment^);
+    Result.cross_axis_alignment             := TCefCrossAxisAlignment(value.cross_axis_alignment^);
+    Result.minimum_cross_axis_size          := value.minimum_cross_axis_size^;
+    Result.default_flex                     := value.default_flex^;
+end;
+
+function CefInsetsToGoInsets(const value: TCefInsets): PCefInsets;
+begin
+  Result.top    := @(Integer(value.top));
+  Result.left   := @(Integer(value.left));
+  Result.bottom := @(Integer(value.bottom));
+  Result.right  := @(Integer(value.right));
+end;
+
+function GoInsetsToCefInsets(const value: PCefInsets): TCefInsets;
+begin
+  Result.top    := value.top^;
+  Result.left   := value.left^;
+  Result.bottom := value.bottom^;
+  Result.right  := value.right^;
+end;
+
+function InitCookie(): PMCefCookie;
+begin
+  Result.url := nil;
+  Result.Name := nil;
+  Result.Value := nil;
+  Result.domain := nil;
+  Result.path := nil;
+  Result.secure := nil;
+  Result.httponly := nil;
+  Result.creation := nil;
+  Result.last_access := nil;
+  Result.has_expires := nil;
+  Result.expires := nil;
+  Result.same_site := nil;
+  Result.priority := nil;
+  Result.Count := nil;
+  Result.total := nil;
+  Result.id := nil;
+  Result.setImmediately := nil;
+end;
+
+function CefCookieToGoCookie(const value: TCefCookie): PMCefCookie;
+begin
+  Result := InitCookie();
+  Result.Name := ToPChar(CefString(@value.name));
+  Result.Value := ToPChar(CefString(@value.value));
+  Result.domain := ToPChar(CefString(@value.domain));
+  Result.path := ToPChar(CefString(@value.path));
+  Result.secure := @(value.secure);
+  Result.httponly := @(value.httponly);
+  Result.creation := @(value.creation);
+  Result.last_access := @(value.last_access);
+  Result.has_expires := @(value.has_expires);
+  Result.expires := @(value.expires);
+  Result.same_site := @(value.same_site);
+  Result.priority := @(value.priority);
+end;
+
+function GoCookieToCefCookie(const value: PMCefCookie): TCefCookie;
+begin
+  Result.name := CefStringAlloc(PCharToUStr(value.Name));
+  Result.value := CefStringAlloc(PCharToUStr(value.Value));
+  Result.domain := CefStringAlloc(PCharToUStr(value.Domain));
+  Result.path := CefStringAlloc(PCharToUStr(value.Path));
+  Result.secure := Integer(value.secure^);
+  Result.httponly := Integer(value.httponly^);
+  Result.creation := DateTimeToCefTime(value.creation^);
+  Result.last_access := DateTimeToCefTime(value.last_access^);
+  Result.has_expires := Integer(value.has_expires^);
+  Result.expires := DateTimeToCefTime(value.expires^);
+  Result.same_site := TCefCookieSameSite(value.same_site^);
+  Result.priority := TCefCookiePriority(value.priority^);
+end;
+
+function RequestContextSettingsToGo(const value: TCefRequestContextSettings): PMCefRequestContextSettings;
+begin
+  Result.CachePath := ToPChar(CefString(@value.cache_path));
+  Result.PersistSessionCookies := @(value.persist_session_cookies);
+  Result.AcceptLanguageList := ToPChar(CefString(@value.accept_language_list));
+  Result.CookieableSchemesList := nil;
+  Result.CookieableSchemesExcludeDefaults := nil;
+end;
+
+function RequestContextSettingsToPas(const value: PMCefRequestContextSettings): TCefRequestContextSettings;
+begin
+  Result.size := SizeOf(TCefRequestContextSettings);
+  Result.cache_path := CefStringAlloc(PCharToUStr(value.CachePath));
+  Result.persist_session_cookies := Integer(value.PersistSessionCookies^);
+  Result.accept_language_list := CefStringAlloc(PCharToUStr(value.AcceptLanguageList));
+end;
+
+function PdfPrintSettingsToGo(const AData: TCefPdfPrintSettings): PMCefPdfPrintSettings;
+begin
+  Result.landscape := @(AData.landscape);
+  Result.print_background := nil;
+  Result.scale := @(AData.scale_factor);
+  Result.paper_width := @(AData.page_width);
+  Result.paper_height := @(AData.page_height);
+  Result.prefer_css_page_size := nil;
+  Result.margin_type := @(AData.margin_type);
+  Result.margin_top := @(AData.margin_top);
+  Result.margin_right := @(AData.margin_right);
+  Result.margin_bottom := @(AData.margin_bottom);
+  Result.margin_left := @(AData.margin_left);
+  Result.page_ranges := nil;
+  Result.display_header_footer := nil;
+  Result.header_template := nil;
+  Result.footer_template := nil;
+  Result.generate_tagged_pdf := nil;
+  Result.generate_document_outline := nil;
+end;
+
+function PdfPrintSettingsToPas(const AData: PMCefPdfPrintSettings): TCefPdfPrintSettings;
+begin
+  Result.landscape := Integer(AData.landscape^);
+  Result.scale_factor := Trunc(double(AData.scale^));
+  Result.page_width := Trunc(double(AData.paper_width^));
+  Result.page_height := Trunc(double(AData.paper_height^));
+  Result.margin_type := TCefPdfPrintMarginType(AData.margin_type^);
+  Result.margin_top := Trunc(double(AData.margin_top^));
+  Result.margin_right := Trunc(double(AData.margin_right^));
+  Result.margin_bottom := Trunc(double(AData.margin_bottom^));
+  Result.margin_left := Trunc(double(AData.margin_left^));
 end;
 
 end.

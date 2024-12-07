@@ -20,29 +20,38 @@ end;
 
 procedure BrowserViewDelegate_SetOnBrowserCreated(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  (AObj as TBrowserViewDelegateRef).BrowserCreatedPtr := AEvent;
+  handleExceptionBegin
+  (AObj as TBrowserViewDelegateRef).OnBrowserCreatedPtr := AEvent;
+  handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnBrowserDestroyed(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  (AObj as TBrowserViewDelegateRef).BrowserDestroyedPtr := AEvent;
+  handleExceptionBegin
+  (AObj as TBrowserViewDelegateRef).OnBrowserDestroyedPtr := AEvent;
+  handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnGetDelegateForPopupBrowserView(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  (AObj as TBrowserViewDelegateRef).GetDelegateForPopupBrowserViewPtr := AEvent;
+  handleExceptionBegin
+  (AObj as TBrowserViewDelegateRef).OnGetDelegateForPopupBrowserViewPtr := AEvent;
+  handleExceptionEnd
 end;
 
 procedure BrowserViewDelegate_SetOnPopupBrowserViewCreated(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  (AObj as TBrowserViewDelegateRef).PopupBrowserViewCreatedPtr := AEvent;
+  handleExceptionBegin
+  (AObj as TBrowserViewDelegateRef).OnPopupBrowserViewCreatedPtr := AEvent;
+  handleExceptionEnd
 end;
 
-function BrowserViewDelegate_GetChromeToolbarType(const AObj: ICefBrowserViewDelegate): Integer; extdecl;
+procedure BrowserViewDelegate_SetOnGetChromeToolbarType(const AObj: ICefBrowserViewDelegate; const AEvent: Pointer); extdecl;
 begin
-  Result := (AObj as TBrowserViewDelegateRef).GetChromeToolbarType;
+  handleExceptionBegin
+  (AObj as TBrowserViewDelegateRef).OnGetChromeToolbarTypePtr := AEvent;
+  handleExceptionEnd
 end;
-
 
 exports
   BrowserViewDelegateRef_Create,
@@ -51,4 +60,4 @@ exports
   BrowserViewDelegate_SetOnBrowserDestroyed,
   BrowserViewDelegate_SetOnGetDelegateForPopupBrowserView,
   BrowserViewDelegate_SetOnPopupBrowserViewCreated,
-  BrowserViewDelegate_GetChromeToolbarType;
+  BrowserViewDelegate_SetOnGetChromeToolbarType;

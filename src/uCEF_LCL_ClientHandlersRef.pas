@@ -66,7 +66,7 @@ type
     constructor Create; override;
     destructor Destroy; override;
   protected
-    function OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): boolean; override;
+    function OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean; override;
     procedure RemoveReferences; override;
   end;
 
@@ -109,7 +109,7 @@ type
     constructor Create; override;
     destructor Destroy; override;
   protected
-    procedure OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); override;
+    procedure  OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback); override;
     procedure OnDownloadUpdated(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback); override;
     procedure RemoveReferences; override;
   end;
@@ -269,7 +269,7 @@ type
     procedure OnPopupShow(const browser: ICefBrowser; Show: boolean); override;
     procedure OnPopupSize(const browser: ICefBrowser; const rect: PCefRect); override;
     procedure OnPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; const buffer: Pointer; Width, Height: integer); override;
-    procedure OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; shared_handle: Pointer); override;
+    procedure OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer); override;
     function OnStartDragging(const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: integer): boolean; override;
     procedure OnUpdateDragCursor(const browser: ICefBrowser; operation: TCefDragOperation); override;
     procedure OnScrollOffsetChanged(const browser: ICefBrowser; x, y: double); override;
@@ -380,6 +380,7 @@ begin
   inherited Destroy;
 end;
 
+
 {== ContextMenuHandler ==}
 procedure TContextMenuHandlerRef.OnBeforeContextMenu(const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel);
 begin
@@ -447,12 +448,12 @@ begin
 end;
 
 {== DialogHandler ==}
-function TDialogHandlerRef.OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): boolean;
+function TDialogHandlerRef.OnFileDialog(const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback): Boolean;
 begin
   Result := False;
   if (FileDialogPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(FileDialogPtr, [browser, mode, PChar(string(title)), PChar(string(defaultFilePath)), acceptFilters, callback, @Result]);
+    TCEFEventCallback.SendEvent(FileDialogPtr, [browser, mode, PChar(string(title)), PChar(string(defaultFilePath)), acceptFilters, Pointer(nil), Pointer(nil), callback, @Result]);
   end
   else
     Result := inherited OnFileDialog(browser, mode, title, defaultFilePath, acceptFilters, selectedAcceptFilter, callback);
@@ -613,12 +614,11 @@ begin
 end;
 
 {== DownloadHandler ==}
-
 procedure TDownloadHandlerRef.OnBeforeDownload(const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
 begin
   if (BeforeDownloadPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(BeforeDownloadPtr, [browser, downloadItem, PChar(string(suggestedName)), callback]);
+    TCEFEventCallback.SendEvent(BeforeDownloadPtr, [browser, downloadItem, PChar(string(suggestedName)), callback, Pointer(nil)]);
   end
   else
     inherited OnBeforeDownload(browser, downloadItem, suggestedName, callback);
@@ -883,9 +883,10 @@ function TLifeSpanHandlerRef.OnBeforePopup(const browser: ICefBrowser; const fra
   var extra_info: ICefDictionaryValue; var noJavascriptAccess: boolean): boolean;
 var
   beforePopupInfo  : RBeforePopupInfo;
-  rpopupFeatures   : PTCefPopupFeatures;
-  rwindowInfo      : RTCefWindowInfo;
-  rbrowserSettings : RCefBrowserSettings;
+  rpopupFeatures   : PMCefPopupFeatures;
+  rwindowInfo      : PMCefWindowInfo;
+  rbrowserSettings : PMCefBrowserSettings;
+  TempTargetDisposition: Integer;
 begin
   Result := False;
   if (BeforePopupPtr <> nil) then
@@ -893,7 +894,8 @@ begin
     //popup info
     beforePopupInfo.TargetUrl := PChar(string(targetUrl));
     beforePopupInfo.TargetFrameName := PChar(string(targetFrameName));
-    beforePopupInfo.TargetDisposition := PInteger(Integer(targetDisposition));
+    TempTargetDisposition := Integer(targetDisposition);
+    beforePopupInfo.TargetDisposition := PInteger(@TempTargetDisposition);
     beforePopupInfo.UserGesture := @userGesture;
     // popupFeatures
     rpopupFeatures := CefPopupFeaturesToGoCefPopupFeatures(popupFeatures);
@@ -1069,14 +1071,10 @@ begin
 end;
 
 procedure TPrintHandlerRef.GetPDFPaperSize(deviceUnitsPerInch: Integer; var aResult: TCefSize);
-var
-  ResultBool: boolean;
-  browser: Pointer;
 begin
   if (PDFPaperSizePtr <> nil) then
   begin
-    browser := nil;
-    TCEFEventCallback.SendEvent(PDFPaperSizePtr, [browser, deviceUnitsPerInch, @ResultBool]);
+    TCEFEventCallback.SendEvent(PDFPaperSizePtr, [Pointer(0), deviceUnitsPerInch, @aResult]);
   end
   else
     inherited GetPDFPaperSize(deviceUnitsPerInch, aResult);
@@ -1189,10 +1187,14 @@ begin
 end;
 
 procedure TRenderHandlerRef.OnAcceleratedPaint(const browser: ICefBrowser; kind: TCefPaintElementType; dirtyRectsCount: nativeuint; const dirtyRects: PCefRectArray; shared_handle: Pointer);
+var
+  TempPaintInfo: TCefAcceleratedPaintInfo;
 begin
   if (AcceleratedPaintPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(AcceleratedPaintPtr, [browser, kind, dirtyRectsCount, dirtyRects, shared_handle]);
+    TempPaintInfo.shared_texture_handle := shared_handle;
+    TempPaintInfo.format := nil;
+    TCEFEventCallback.SendEvent(AcceleratedPaintPtr, [browser, kind, dirtyRectsCount, dirtyRects, @TempPaintInfo]);
   end
   else
     inherited OnAcceleratedPaint(browser, kind, dirtyRectsCount, dirtyRects, shared_handle);
@@ -1372,7 +1374,7 @@ procedure TRequestHandlerRef.OnRenderProcessTerminated(const browser: ICefBrowse
 begin
   if (RenderProcessTerminatedPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(RenderProcessTerminatedPtr, [browser, status]);
+    TCEFEventCallback.SendEvent(RenderProcessTerminatedPtr, [browser, status, 0, PChar('')]);
   end
   else
     inherited OnRenderProcessTerminated(browser, status);

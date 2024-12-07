@@ -1805,14 +1805,14 @@ begin
   handleExceptionEnd
 end;
 
-procedure  BufferPanel_ChangeCompositionRange(AObj: TBufferPanel; const selection_range : TCefRange; const character_bounds : TCefRectDynArray); extdecl;
+procedure  BufferPanel_ChangeCompositionRange(AObj: TBufferPanel; var selection_range : TCefRange; const character_bounds : TCefRectDynArray); extdecl;
 begin
   handleExceptionBegin
   AObj.ChangeCompositionRange(selection_range, character_bounds);
   handleExceptionEnd
 end;
 
-procedure  BufferPanel_DrawOrigPopupBuffer(AObj: TBufferPanel; const aSrcRect, aDstRect : TRect); extdecl;
+procedure  BufferPanel_DrawOrigPopupBuffer(AObj: TBufferPanel; var aSrcRect, aDstRect : TRect); extdecl;
 begin
   handleExceptionBegin
   AObj.DrawOrigPopupBuffer(aSrcRect, aDstRect);
@@ -2036,6 +2036,13 @@ begin
   {$DEFINE EventMethodName := OnTUTF8KeyPressEvent}
   {$DEFINE EventName := OnUTF8KeyPress}
   EventMethodCode
+end;
+
+procedure BufferPanelCompositionUnderline_Get(AObj: TCefCompositionUnderlineDynArray; index: Integer; out Result: TCefCompositionUnderline); extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj[index];
+  handleExceptionEnd
 end;
 
 exports
@@ -2303,4 +2310,5 @@ exports
   BufferPanel_SetOnKeyDown,
   BufferPanel_SetOnKeyUp,
   BufferPanel_SetOnKeyPress,
-  BufferPanel_SetOnUTF8KeyPress;
+  BufferPanel_SetOnUTF8KeyPress,
+  BufferPanelCompositionUnderline_Get;

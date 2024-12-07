@@ -22,13 +22,12 @@
       <EnableI18N LFM="False"/>
     </i18n>
     <VersionInfo>
-        <UseVersionInfo Value="True"/>
-        <MajorVersionNr Value="2"/>
-        <MinorVersionNr Value="4"/>
-        <RevisionNr Value="0"/>
-        <BuildNr Value="0"/>
-        <CharSet Value="04B0"/>
-        <StringTable Comments="LCL for Windows" CompanyName="yanghy" FileDescription="LCL and CEF 89.0.18 for Windows" InternalName="liblcl" LegalCopyright="Copyright yanghy" OriginalFilename="liblcl.dll" ProductName="liblcl" ProductVersion="2.4.0.0"/>
+      <UseVersionInfo Value="True"/>
+      <MajorVersionNr Value="2"/>
+      <MinorVersionNr Value="5"/>
+      <Language Value="0804"/>
+      <CharSet Value="04B0"/>
+      <StringTable Comments="LCL for Windows" CompanyName="yanghy" FileDescription="LCL and CEF 89.0.18 for Windows" InternalName="liblcl" LegalCopyright="Copyright yanghy" OriginalFilename="liblcl.dll" ProductName="liblcl" ProductVersion="2.5.0.0"/>
     </VersionInfo>
     <MacroValues Count="1">
       <Macro4 Name="LCLWidgetType" Value="win32"/>
@@ -38,7 +37,7 @@
       <SharedMatrixOptions Count="9">
         <Item1 ID="400096739333" Type="IDEMacro" MacroName="LCLWidgetType" Value="carbon"/>
         <Item2 ID="558457850193" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
-        <Item3 ID="550541662141" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+        <Item3 ID="374570744772" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
         <Item4 ID="929688853515" Modes="Win32" Type="IDEMacro" MacroName="LCLWidgetType" Value="win32"/>
         <Item5 ID="028265915746" Type="IDEMacro" MacroName="LCLWidgetType" Value="win32"/>
         <Item6 ID="316477307003" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>

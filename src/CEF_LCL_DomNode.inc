@@ -40,10 +40,80 @@ begin
   handleExceptionEnd
 end;
 
-function  CefDomNode_GetFormControlElementType(const TObj: ICefDomNode): PChar; extdecl;
+function  CefDomNode_GetFormControlElementType(const TObj: ICefDomNode): Integer; extdecl;
+var
+  eleType: string;
 begin
   handleExceptionBegin
-  Result := PChar(string(TObj.GetFormControlElementType));
+  eleType := string(TObj.GetFormControlElementType);
+  if eleType = 'BUTTON_BUTTON' then
+    Result := 1
+  else if eleType = 'BUTTON_SUBMIT' then
+    Result := 2
+  else if eleType = 'BUTTON_RESET' then
+    Result := 3
+  else if eleType = 'BUTTON_SELECT_LIST' then
+    Result := 4
+  else if eleType = 'BUTTON_POPOVER' then
+    Result := 5
+  else if eleType = 'FIELDSET' then
+    Result := 6
+  else if eleType = 'INPUT_BUTTON' then
+    Result := 7
+  else if eleType = 'INPUT_CHECKBOX' then
+    Result := 8
+  else if eleType = 'INPUT_COLOR' then
+    Result := 9
+  else if eleType = 'INPUT_DATE' then
+    Result := 10
+  else if eleType = 'INPUT_DATETIME_LOCAL' then
+    Result := 11
+  else if eleType = 'INPUT_EMAIL' then
+    Result := 12
+  else if eleType = 'INPUT_FILE' then
+    Result := 13
+  else if eleType = 'INPUT_HIDDEN' then
+    Result := 14
+  else if eleType = 'INPUT_IMAGE' then
+    Result := 15
+  else if eleType = 'INPUT_MONTH' then
+    Result := 16
+  else if eleType = 'INPUT_NUMBER' then
+    Result := 17
+  else if eleType = 'INPUT_PASSWORD' then
+    Result := 18
+  else if eleType = 'INPUT_RADIO' then
+    Result := 19
+  else if eleType = 'INPUT_RANGE' then
+    Result := 21
+  else if eleType = 'INPUT_RESET' then
+    Result := 22
+  else if eleType = 'INPUT_SEARCH' then
+    Result := 23
+  else if eleType = 'INPUT_SUBMIT' then
+    Result := 24
+  else if eleType = 'INPUT_TELEPHONE' then
+    Result := 25
+  else if eleType = 'INPUT_TEXT' then
+    Result := 26
+  else if eleType = 'INPUT_TIME' then
+    Result := 27
+  else if eleType = 'INPUT_URL' then
+    Result := 28
+  else if eleType = 'INPUT_WEEK' then
+    Result := 29
+  else if eleType = 'OUTPUT' then
+    Result := 30
+  else if eleType = 'SELECT_ONE' then
+    Result := 31
+  else if eleType = 'SELECT_MULTIPLE' then
+    Result := 32
+  else if eleType = 'SELECT_LIST' then
+    Result := 33
+  else if eleType = 'TEXT_AREA' then
+    Result := 34
+  else
+    Result := 0;
   handleExceptionEnd
 end;
 

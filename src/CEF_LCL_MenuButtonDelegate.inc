@@ -21,7 +21,7 @@ end;
 procedure MenuButtonDelegate_SetOnMenuButtonPressed(const AObj: ICefMenuButtonDelegate; const AEvent: Pointer); extdecl;
 begin
   handleExceptionBegin
-  (AObj as TMenuButtonDelegateRef).MenuButtonPressedPtr := AEvent;
+  (AObj as TMenuButtonDelegateRef).OnMenuButtonPressedPtr := AEvent;
   handleExceptionEnd
 end;
 

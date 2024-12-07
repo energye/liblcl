@@ -12,27 +12,21 @@ begin
   handleExceptionEnd
 end;
 
-procedure  RequestContextRef_New(const PRequestContextSettings: PRCefRequestContextSettings; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
+procedure  RequestContextRef_New(var RequestContextSettings: PMCefRequestContextSettings; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
 var
-  requestContextSettings: PCefRequestContextSettings;
+  TempRequestContextSettings: TCefRequestContextSettings;
 begin
   handleExceptionBegin
-  //ICefRequestContext
-  requestContextSettings := new(PCefRequestContextSettings);
-  requestContextSettings^.size := SizeOf(TCefRequestContextSettings);
-  requestContextSettings^.cache_path := CefString(PCharToUStr(PRequestContextSettings^.cachePath));
-  requestContextSettings^.persist_session_cookies := Integer(PRequestContextSettings^.persistSessionCookies);
-  requestContextSettings^.persist_user_preferences := Integer(PRequestContextSettings^.persistUserPreferences);
-  requestContextSettings^.accept_language_list := CefString(PCharToUStr(PRequestContextSettings^.acceptLanguageList));
-
-  Result := TCefRequestContextRef.New(requestContextSettings, handler);
+  TempRequestContextSettings := RequestContextSettingsToPas(RequestContextSettings);
+  Result := TCefRequestContextRef.New(@TempRequestContextSettings, handler);
   handleExceptionEnd
 end;
 
-procedure  RequestContextRef_NewTwo(const aCache, aAcceptLanguageList, aCookieableSchemesList : PChar; aCookieableSchemesExcludeDefaults, aPersistSessionCookies, aPersistUserPreferences : LongBool; const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
+procedure  RequestContextRef_NewTwo(const aCache, aAcceptLanguageList, aCookieableSchemesList : PChar; aCookieableSchemesExcludeDefaults, aPersistSessionCookies: LongBool;
+  const handler: ICefRequestContextHandler; out Result: ICefRequestContext); extdecl;
 begin
   handleExceptionBegin
-  Result := TCefRequestContextRef.New(PCharToUStr(aCache), PCharToUStr(aAcceptLanguageList), aPersistSessionCookies, aPersistUserPreferences, False, handler);
+  Result := TCefRequestContextRef.New(PCharToUStr(aCache), PCharToUStr(aAcceptLanguageList), aPersistSessionCookies, aCookieableSchemesExcludeDefaults, aCookieableSchemesExcludeDefaults,  handler);
   handleExceptionEnd
 end;
 
@@ -166,48 +160,12 @@ begin
   handleExceptionEnd
 end;
 
-procedure RequestContext_LoadExtension(const TObj: ICefRequestContext; const root_directory: PChar; const manifest: ICefDictionaryValue; const handler: ICefExtensionHandler);  extdecl;
-begin
-  handleExceptionBegin
-  TObj.LoadExtension(PCharToUStr(root_directory), manifest, handler);
-  handleExceptionEnd
-end;
-
-function  RequestContext_DidLoadExtension(const TObj: ICefRequestContext; const extension_id: PChar): LongBool;  extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.DidLoadExtension(PCharToUStr(extension_id));
-  handleExceptionEnd
-end;
-
-function  RequestContext_HasExtension(const TObj: ICefRequestContext; const extension_id: PChar): LongBool;  extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.HasExtension(PCharToUStr(extension_id));
-  handleExceptionEnd
-end;
-
-function  RequestContext_GetExtensions(const TObj: ICefRequestContext; const extension_ids: TStringList): LongBool;  extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.GetExtensions(extension_ids);
-  handleExceptionEnd
-end;
-
-procedure  RequestContext_GetExtension(const TObj: ICefRequestContext; const extension_id: PChar; var Result: ICefExtension);  extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.GetExtension(PCharToUStr(extension_id));
-  handleExceptionEnd
-end;
-
 procedure  RequestContext_GetMediaRouter(const TObj: ICefRequestContext; const callback: ICefCompletionCallback; var Result: ICefMediaRouter);  extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetMediaRouter();
   handleExceptionEnd
 end;
-
 
 exports
   RequestContextRef_Global,
@@ -231,9 +189,4 @@ exports
   RequestContext_ClearHttpAuthCredentials,
   RequestContext_CloseAllConnections,
   RequestContext_ResolveHost,
-  RequestContext_LoadExtension,
-  RequestContext_DidLoadExtension,
-  RequestContext_HasExtension,
-  RequestContext_GetExtensions,
-  RequestContext_GetExtension,
   RequestContext_GetMediaRouter;

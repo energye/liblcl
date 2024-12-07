@@ -89,7 +89,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_SetBackgroundColor(const TObj: TCEFWindowComponent; var AValue : TCefColor); extdecl;
+procedure CEFWindowComponent_SetBackgroundColor(const TObj: TCEFWindowComponent; AValue : TCefColor); extdecl;
 begin
   handleExceptionBegin
   TObj.BackgroundColor := AValue;
@@ -152,14 +152,7 @@ begin
   handleExceptionEnd
 end;
 
-function CEFWindowComponent_AddOverlayView(const TObj: TCEFWindowComponent; const view: ICefView; docking_mode: Integer): Pointer; extdecl;
-begin
-  handleExceptionBegin
-  Result := nil;
-  handleExceptionEnd
-end;
-
-procedure CEFWindowComponent_ShowMenu(const TObj: TCEFWindowComponent; const menu_model: ICefMenuModel; const screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition); extdecl;
+procedure CEFWindowComponent_ShowMenu(const TObj: TCEFWindowComponent; const menu_model: ICefMenuModel; var screen_point: TCefPoint; anchor_position : TCefMenuAnchorPosition); extdecl;
 begin
   handleExceptionBegin
   TObj.ShowMenu(menu_model, screen_point, anchor_position);
@@ -194,7 +187,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_SetAccelerator(const TObj: TCEFWindowComponent; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed: LongBool); extdecl;
+procedure CEFWindowComponent_SetAccelerator(const TObj: TCEFWindowComponent; command_id, key_code : Integer; shift_pressed, ctrl_pressed, alt_pressed, high_priority: LongBool); extdecl;
 begin
   handleExceptionBegin
   TObj.SetAccelerator(command_id, key_code, shift_pressed, ctrl_pressed, alt_pressed);
@@ -328,10 +321,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFWindowComponent_AddChildView(const TObj: TCEFWindowComponent; const BrowserViewComponent: TCEFBrowserViewComponent); extdecl;
+procedure CEFWindowComponent_AddChildView(const TObj: TCEFWindowComponent; const view: ICefView); extdecl;
 begin
   handleExceptionBegin
-  TObj.AddChildView(BrowserViewComponent.BrowserView);
+  TObj.AddChildView(view);
   handleExceptionEnd
 end;
 
@@ -350,10 +343,6 @@ begin
   EventMethodCode
 end;
 
-procedure CEFWindowComponent_SetOnWindowActivationChanged(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
-begin
-end;
-
 procedure CEFWindowComponent_SetOnGetParentWindow(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := WindowComponent_OnGetParentWindow}
@@ -366,10 +355,6 @@ begin
   {$DEFINE EventMethodName := WindowComponent_OnGetInitialBounds}
   {$DEFINE EventName := OnGetInitialBounds}
   EventMethodCode
-end;
-
-procedure CEFWindowComponent_SetOnGetInitialShowState(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
-begin
 end;
 
 procedure CEFWindowComponent_SetOnIsFrameless(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
@@ -434,7 +419,6 @@ exports
   CEFWindowComponent_Maximize,
   CEFWindowComponent_Minimize,
   CEFWindowComponent_Restore,
-  CEFWindowComponent_AddOverlayView,
   CEFWindowComponent_ShowMenu,
   CEFWindowComponent_CancelMenu,
   CEFWindowComponent_SetDraggableRegions,
@@ -471,10 +455,8 @@ exports
   CEFWindowComponent_AddChildView,
   CEFWindowComponent_SetOnWindowCreated,
   CEFWindowComponent_SetOnWindowDestroyed,
-  CEFWindowComponent_SetOnWindowActivationChanged,
   CEFWindowComponent_SetOnGetParentWindow,
   CEFWindowComponent_SetOnGetInitialBounds,
-  CEFWindowComponent_SetOnGetInitialShowState,
   CEFWindowComponent_SetOnIsFrameless,
   CEFWindowComponent_SetOnCanResize,
   CEFWindowComponent_SetOnCanMaximize,
