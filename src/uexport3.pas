@@ -45,7 +45,7 @@
 {$I MyLCL_Bevel.inc}  //BASECLASS:TControl
 {$I MyLCL_ScrollBox.inc}  //BASECLASS:TWinControl
 {$I MyLCL_CheckListBox.inc}  //BASECLASS:TWinControl
-{$I MyLCL_Gauge.inc}  //BASECLASS:TControl
+//{$I MyLCL_Gauge.inc}  //BASECLASS:TControl
 {$I MyLCL_ImageButton.inc}  //BASECLASS:TControl
 {$I MyLCL_FindDialog.inc}  //BASECLASS:TComponent
 {$I MyLCL_ReplaceDialog.inc}  //BASECLASS:TComponent
