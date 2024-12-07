@@ -296,60 +296,6 @@ begin
   EventMethodCode
 end;
 
-procedure CEFChromium_SetOnPrintStart(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$IFDEF Linux}
-  {$DEFINE EventMethodName := ChromiumEvent_OnPrintStart}
-  {$DEFINE EventName := OnPrintStart}
-  EventMethodCode
-  {$ENDIF}
-end;
-
-procedure CEFChromium_SetOnPrintSettings(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$IFDEF Linux}
-  {$DEFINE EventMethodName := ChromiumEvent_OnPrintSettings}
-  {$DEFINE EventName := OnPrintSettings}
-  EventMethodCode
-  {$ENDIF}
-end;
-
-procedure CEFChromium_SetOnPrintDialog(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$IFDEF Linux}
-  {$DEFINE EventMethodName := ChromiumEvent_OnPrintDialog}
-  {$DEFINE EventName := OnPrintDialog}
-  EventMethodCode
-  {$ENDIF}
-end;
-
-procedure CEFChromium_SetOnPrintJob(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$IFDEF Linux}
-  {$DEFINE EventMethodName := ChromiumEvent_OnPrintJob}
-  {$DEFINE EventName := OnPrintJob}
-  EventMethodCode
-  {$ENDIF}
-end;
-
-procedure CEFChromium_SetOnPrintReset(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$IFDEF Linux}
-  {$DEFINE EventMethodName := ChromiumEvent_OnPrintReset}
-  {$DEFINE EventName := OnPrintReset}
-  EventMethodCode
-  {$ENDIF}
-end;
-
-procedure CEFChromium_SetOnGetPDFPaperSize(const AObj: TChromium; AEventData: Pointer); extdecl;
-begin
-  {$IFDEF Linux}
-  {$DEFINE EventMethodName := ChromiumEvent_OnGetPDFPaperSize}
-  {$DEFINE EventName := OnGetPDFPaperSize}
-  EventMethodCode
-  {$ENDIF}
-end;
-
 procedure CEFChromium_SetOnAcceleratedPaint(const AObj: TChromium; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := ChromiumEvent_OnAcceleratedPaint}
@@ -876,12 +822,6 @@ exports
   CEFChromium_SetOnResourceRedirect,
   CEFChromium_SetOnResourceLoadComplete,
   CEFChromium_SetOnGetAuthCredentials,
-  CEFChromium_SetOnPrintStart,
-  CEFChromium_SetOnPrintSettings,
-  CEFChromium_SetOnPrintDialog,
-  CEFChromium_SetOnPrintJob,
-  CEFChromium_SetOnPrintReset,
-  CEFChromium_SetOnGetPDFPaperSize,
   CEFChromium_SetOnAcceleratedPaint,
   CEFChromium_SetOnAllConnectionsClosed,
   CEFChromium_SetOnAudioStreamError,
