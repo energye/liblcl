@@ -1094,33 +1094,9 @@ begin
 end;
 
 procedure  CEFChromium_ClearDataForOrigin(const AObj: TChromium; const aOrigin : PChar; aStorageTypes : Integer); extdecl;
-var
-  st: TCefClearDataStorageTypes;
 begin
   handleExceptionBegin
-  st := cdstAll;
-  // TCefClearDataStorageTypes = default cdstAll
-  if aStorageTypes = 0 then
-    st := cdstAppCache
-  else if aStorageTypes = 1 then
-    st := cdstCookies
-  else if aStorageTypes = 2 then
-    st := cdstFileSystems
-  else if aStorageTypes = 3 then
-    st := cdstIndexeddb
-  else if aStorageTypes = 4 then
-    st := cdstLocalStorage
-  else if aStorageTypes = 5 then
-    st := cdstShaderCache
-  else if aStorageTypes = 6 then
-    st := cdstWebsql
-  else if aStorageTypes = 7 then
-    st := cdstServiceWorkers
-  else if aStorageTypes = 8 then
-    st := cdstCacheStorage
-  else if aStorageTypes = 9 then
-    st := cdstAll;
-  AObj.ClearDataForOrigin(PCharToUStr(aOrigin), st);
+  AObj.ClearDataForOrigin(PCharToUStr(aOrigin), TCefClearDataStorageTypes(aStorageTypes));
   handleExceptionEnd
 end;
 
