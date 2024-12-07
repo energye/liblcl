@@ -443,6 +443,7 @@ end;
 
 exports
   CEFWindowComponent_Create,
+  CEFWindowComponent_CreateTopLevelWindow,
   CEFWindowComponent_Show,
   CEFWindowComponent_Hide,
   CEFWindowComponent_CenterWindow,
