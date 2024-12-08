@@ -358,7 +358,7 @@
       <Unit0>
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="10"/>
+        <TopLine Value="13"/>
         <CursorPos X="16" Y="36"/>
         <UsageCount Value="93"/>
         <Loaded Value="True"/>
@@ -555,10 +555,9 @@
       </Unit25>
       <Unit26>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="15"/>
-        <CursorPos X="15" Y="17"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="33"/>
+        <CursorPos X="28" Y="51"/>
         <UsageCount Value="44"/>
         <Loaded Value="True"/>
       </Unit26>
@@ -1474,10 +1473,12 @@
       </Unit142>
       <Unit143>
         <Filename Value="uCEF_LCL_Entity.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="565"/>
-        <CursorPos X="5" Y="605"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="434"/>
+        <CursorPos X="5" Y="492"/>
         <UsageCount Value="18"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit143>
       <Unit144>
