@@ -559,8 +559,8 @@
       <Unit28>
         <Filename Value="CEF_LCL_Application_Proc.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1459"/>
-        <CursorPos X="39" Y="1517"/>
+        <TopLine Value="1108"/>
+        <CursorPos X="48" Y="1139"/>
         <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit28>
@@ -822,8 +822,7 @@
       <Unit64>
         <Filename Value="LazarusDef.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1012"/>
-        <CursorPos Y="1027"/>
+        <TopLine Value="1000"/>
         <UsageCount Value="11"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit64>
@@ -912,7 +911,7 @@
     <OtherDefines Count="1">
       <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
     </OtherDefines>
-    <JumpHistory Count="4" HistoryIndex="3">
+    <JumpHistory Count="6" HistoryIndex="5">
       <Position1>
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="87" Column="33" TopLine="80"/>
@@ -929,6 +928,14 @@
         <Filename Value="liblcl.lpr"/>
         <Caret Line="50" Column="11" TopLine="13"/>
       </Position4>
+      <Position5>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="82" Column="36" TopLine="15"/>
+      </Position5>
+      <Position6>
+        <Filename Value="liblcl.lpr"/>
+        <Caret Line="50" Column="11" TopLine="13"/>
+      </Position6>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
