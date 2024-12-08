@@ -34,31 +34,17 @@ begin
   handleExceptionEnd
 end;
 
-procedure  CefX509Certificate_GetValidStart(const AObj: ICefX509Certificate; var Result: TCefTime); extdecl;
+procedure  CefX509Certificate_GetValidStart(const AObj: ICefX509Certificate; var Result: int64); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.GetValidStart;
+  Result := DateTimeToUnix(CefTimeToDateTime(AObj.GetValidStart));
   handleExceptionEnd
 end;
 
-procedure  CefX509Certificate_GetValidExpiry(const AObj: ICefX509Certificate; var Result: TCefTime); extdecl;
+procedure  CefX509Certificate_GetValidExpiry(const AObj: ICefX509Certificate; var Result: int64); extdecl;
 begin
   handleExceptionBegin
-  Result := AObj.GetValidExpiry;
-  handleExceptionEnd
-end;
-
-procedure  CefX509Certificate_GetValidStartAsDateTime(const AObj: ICefX509Certificate; var Result: TDateTime); extdecl;
-begin
-  handleExceptionBegin
-  Result := 0;
-  handleExceptionEnd
-end;
-
-procedure  CefX509Certificate_GetValidExpiryAsDateTime(const AObj: ICefX509Certificate; var Result: TDateTime); extdecl;
-begin
-  handleExceptionBegin
-  Result := 0;
+  Result := DateTimeToUnix(CefTimeToDateTime(AObj.GetValidExpiry));
   handleExceptionEnd
 end;
 
@@ -197,8 +183,6 @@ exports
   CefX509Certificate_GetSerialNumber,
   CefX509Certificate_GetValidStart,
   CefX509Certificate_GetValidExpiry,
-  CefX509Certificate_GetValidStartAsDateTime,
-  CefX509Certificate_GetValidExpiryAsDateTime,
   CefX509Certificate_GetDerEncoded,
   CefX509Certificate_GetPemEncoded,
   CefX509Certificate_GetIssuerChainSize,
