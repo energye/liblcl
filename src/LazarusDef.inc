@@ -14,10 +14,30 @@ begin
   Result := seUTF8;
 end;
 
-function DLibVersion: Cardinal; extdecl;
+procedure GetLCLVersion(var AMajor: Word; var AMinor: Word; var ARelease: Word; var APatch: Word; var AFullVersion: Cardinal; var AVersion: PChar); extdecl;
 begin
-  // 共8位，2位2位的
-  Result := $02020500;
+  AMajor := Word(lcl_major);
+  AMinor := Word(lcl_minor);
+  ARelease := Word(lcl_release);
+  APatch := Word(lcl_patch);
+  AFullVersion := Cardinal(lcl_fullversion);
+  AVersion := PChar(lcl_version);
+end;
+
+function WidgetUI(): Integer; extdecl;
+begin
+  {$IFDEF LCLWIN32}
+    Result := 100;
+  {$ENDIF}
+  {$IFDEF LCLCOCOA}
+    Result := 200;
+  {$ENDIF}
+  {$IFDEF LCLGTK2}
+    Result := 300;
+  {$ENDIF}
+  {$IFDEF LCLGTK3}
+    Result := 310;
+  {$ENDIF}
 end;
 
 // 一些初始
@@ -1009,11 +1029,12 @@ function DLibAbout: PChar; extdecl;
 var
   LVal: string;
 begin
-  LVal := 'Author:不在乎y(ying32)'#13#10 +
-          'Official website: https://z-kit.cc'#13#10 +
-          'github: https://github.com/ying32'#13#10 +
-          'Based on Lazarus ' + lcl_version + #13#10 +
+  LVal := 'Author: YangHY'#13#10 +
+          'Website: https://energye.github.io'#13#10 +
+          'Github: https://github.com/energye'#13#10 +
+          'Based on Lazarus: ' + lcl_version + #13#10 +
           'Third party library list:'#13#10;
+  LVal := LVal + '    CEF4Delphi'#13#10;
   LVal := LVal + '    TRichMemo'#13#10;
   LVal := LVal + '    TATGauge';
   Result := PChar(LVal);
@@ -1205,7 +1226,8 @@ exports
 
   // 库的信息
   DLibStringEncoding,
-  DLibVersion,
+  GetLCLVersion,
+  WidgetUI,
 
   // TApplication
   Application_Instance,

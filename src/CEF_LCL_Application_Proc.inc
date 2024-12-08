@@ -633,11 +633,6 @@ begin
   GlobalCEFApp.UpdateDeviceScaleFactor();
 end;
 
-function CEFAppConfig_SpecificVersion(): Integer; extdecl;
-begin
-  Result := 49; // Windows XP liblcl特定版本
-end;
-
 exports
   CEFApplication_QueueAsyncCall,
   SetApplicationQueueAsyncCallFunc,
@@ -755,5 +750,4 @@ exports
   CEFAppConfig_SetMustCreateRenderProcessHandler,
   CEFAppConfig_SetMustCreateLoadHandler,
   CEFAppConfig_SetMustFreeLibrary,
-  CEFAppConfig_UpdateDeviceScaleFactor,
-  CEFAppConfig_SpecificVersion;
+  CEFAppConfig_UpdateDeviceScaleFactor;
