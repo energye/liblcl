@@ -353,11 +353,10 @@
       <Unit0>
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="25"/>
+        <TopLine Value="13"/>
         <CursorPos X="11" Y="50"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
         <Filename Value="uEventCallback.pas"/>
@@ -550,18 +549,18 @@
       </Unit26>
       <Unit27>
         <Filename Value="CEF_LCL_Export.inc"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="81"/>
+        <TopLine Value="15"/>
         <CursorPos X="36" Y="82"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit27>
       <Unit28>
         <Filename Value="CEF_LCL_Application_Proc.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1008"/>
-        <CursorPos X="5" Y="1041"/>
+        <TopLine Value="1459"/>
+        <CursorPos X="39" Y="1517"/>
         <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit28>
@@ -822,12 +821,10 @@
       </Unit63>
       <Unit64>
         <Filename Value="LazarusDef.inc"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="6"/>
-        <CursorPos X="16" Y="152"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1012"/>
+        <CursorPos Y="1027"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit64>
       <Unit65>
@@ -915,19 +912,23 @@
     <OtherDefines Count="1">
       <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
     </OtherDefines>
-    <JumpHistory Count="3" HistoryIndex="2">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="63" Column="23" TopLine="83"/>
+        <Caret Line="87" Column="33" TopLine="80"/>
       </Position1>
       <Position2>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="87" Column="33" TopLine="80"/>
+        <Caret Line="94" Column="33" TopLine="81"/>
       </Position2>
       <Position3>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="94" Column="33" TopLine="81"/>
+        <Caret Line="82" Column="36" TopLine="15"/>
       </Position3>
+      <Position4>
+        <Filename Value="liblcl.lpr"/>
+        <Caret Line="50" Column="11" TopLine="13"/>
+      </Position4>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
