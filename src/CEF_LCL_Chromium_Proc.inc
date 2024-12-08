@@ -230,7 +230,7 @@ end;
 procedure CEFChromium_PrintToPDF(const AObj: TChromium; FilePath: PChar); extdecl;
 begin
   handleExceptionBegin
-  AObj.PrintToPDF(PCharToUStr(FilePath));
+  AObj.PrintToPDF(PCharToUStr(FilePath), '', AObj.Browser.FocusedFrame.Url);
   handleExceptionEnd
 end;
 
@@ -626,37 +626,6 @@ begin
   handleExceptionEnd
 end;
 
-//BatterySaverModeState
-procedure CEFChromium_SetBatterySaverModeState(const AObj: TChromium; value: Integer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.BatterySaverModeState := TCefBatterySaverModeState(value); //defalt bsmsDefault
-  handleExceptionEnd
-end;
-
-function CEFChromium_GetBatterySaverModeState(const AObj: TChromium): Integer; extdecl;
-begin
-  handleExceptionBegin
-  Result := Integer(AObj.BatterySaverModeState);
-  handleExceptionEnd
-end;
-
-//HighEfficiencyMode
-procedure CEFChromium_SetHighEfficiencyMode(const AObj: TChromium; value: Integer); extdecl;
-begin
-  handleExceptionBegin
-  // TCefHighEfficiencyModeState
-  AObj.HighEfficiencyMode := TCefState(value); //defalt STATE_DEFAULT
-  handleExceptionEnd
-end;
-
-function CEFChromium_GetHighEfficiencyMode(const AObj: TChromium): Integer; extdecl;
-begin
-  handleExceptionBegin
-  Result := Integer(AObj.HighEfficiencyMode);
-  handleExceptionEnd
-end;
-
 //LoadImagesAutomatically
 procedure CEFChromium_SetLoadImagesAutomatically(const AObj: TChromium; value: LongBool); extdecl;
 begin
@@ -868,20 +837,6 @@ function CEFChromium_GetSpellChecking(const AObj: TChromium): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := AObj.SpellChecking;
-  handleExceptionEnd
-end;
-
-procedure CEFChromium_SetAlwaysOpenPDFExternally(const AObj: TChromium; value: LongBool); extdecl;
-begin
-  handleExceptionBegin
-  AObj.AlwaysOpenPDFExternally := value; //default False
-  handleExceptionEnd
-end;
-
-function CEFChromium_GetAlwaysOpenPDFExternally(const AObj: TChromium): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := AObj.AlwaysOpenPDFExternally;
   handleExceptionEnd
 end;
 
@@ -1104,13 +1059,6 @@ procedure  CEFChromium_ClearCache(const AObj: TChromium); extdecl;
 begin
   handleExceptionBegin
   AObj.ClearCache();
-  handleExceptionEnd
-end;
-
-procedure  CEFChromium_ToggleAudioMuted(const AObj: TChromium); extdecl;
-begin
-  handleExceptionBegin
-  AObj.ToggleAudioMuted();
   handleExceptionEnd
 end;
 
@@ -1414,10 +1362,6 @@ exports
   CEFChromium_GetWebRTCMultipleRoutes,
   CEFChromium_SetWebRTCNonproxiedUDP,
   CEFChromium_GetWebRTCNonproxiedUDP,
-  CEFChromium_SetBatterySaverModeState,
-  CEFChromium_GetBatterySaverModeState,
-  CEFChromium_SetHighEfficiencyMode,
-  CEFChromium_GetHighEfficiencyMode,
   CEFChromium_SetLoadImagesAutomatically,
   CEFChromium_GetLoadImagesAutomatically,
   CEFChromium_SetQuicAllowed,
@@ -1449,8 +1393,6 @@ exports
   CEFChromium_GetSpellCheckerDicts,
   CEFChromium_SetSpellChecking,
   CEFChromium_GetSpellChecking,
-  CEFChromium_SetAlwaysOpenPDFExternally,
-  CEFChromium_GetAlwaysOpenPDFExternally,
   CEFChromium_SetAlwaysAuthorizePlugins,
   CEFChromium_GetAlwaysAuthorizePlugins,
   CEFChromium_SetAllowOutdatedPlugins,
@@ -1481,7 +1423,6 @@ exports
   CEFChromium_SetUserAgentOverride,
   CEFChromium_ClearDataForOrigin,
   CEFChromium_ClearCache,
-  CEFChromium_ToggleAudioMuted,
   CEFChromium_ClipboardCopy,
   CEFChromium_ClipboardPaste,
   CEFChromium_ClipboardCut,

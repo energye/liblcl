@@ -98,27 +98,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefContextMenuHandler_RunQuickMenu(const AObj: ICefContextMenuHandler; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TContextMenuHandlerRef).RunQuickMenuPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure CefContextMenuHandler_OnQuickMenuCommand(const AObj: ICefContextMenuHandler; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TContextMenuHandlerRef).QuickMenuCommandPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure CefContextMenuHandler_OnQuickMenuDismissed(const AObj: ICefContextMenuHandler; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TContextMenuHandlerRef).QuickMenuDismissedPtr := AEventData;
-  handleExceptionEnd
-end;
-
 {== DialogHandler ==}
 procedure CefDialogHandlerRef_Create(var Result: ICefDialogHandler); extdecl;
 begin
@@ -209,13 +188,6 @@ procedure CefDisplayHandler_OnCursorChange(const AObj: ICefDisplayHandler; AEven
 begin
   handleExceptionBegin
   (AObj as TDisplayHandlerRef).CursorChangePtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure CefDisplayHandler_OnMediaAccessChange(const AObj: ICefDisplayHandler; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TDisplayHandlerRef).MediaAccessChangePtr := AEventData;
   handleExceptionEnd
 end;
 
@@ -347,35 +319,6 @@ procedure CefFrameHandler_OnMainFrameChanged(const AObj: TFrameHandlerRef; AEven
 begin
   handleExceptionBegin
   AObj.MainFrameChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-{== PermissionHandler ==}
-procedure CefPermissionHandlerRef_Create(var Result: TPermissionHandlerRef); extdecl;
-begin
-  handleExceptionBegin
-  Result := TPermissionHandlerRef.Create;
-  handleExceptionEnd
-end;
-
-procedure CefPermissionHandler_OnRequestMediaAccessPermission(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.RequestMediaAccessPermissionPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure CefPermissionHandler_OnShowPermissionPrompt(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.ShowPermissionPromptPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure CefPermissionHandler_OnDismissPermissionPrompt(const AObj: TPermissionHandlerRef; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  AObj.DismissPermissionPromptPtr := AEventData;
   handleExceptionEnd
 end;
 
@@ -630,20 +573,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefRenderHandler_GetTouchHandleSize(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TRenderHandlerRef).TouchHandleSizePtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure CefRenderHandler_OnTouchHandleStateChanged(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TRenderHandlerRef).TouchHandleStateChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
 procedure CefRenderHandler_OnStartDragging(const AObj: ICefRenderHandler; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
@@ -771,9 +700,6 @@ exports
   CefContextMenuHandler_RunContextMenu,
   CefContextMenuHandler_OnContextMenuCommand,
   CefContextMenuHandler_OnContextMenuDismissed,
-  CefContextMenuHandler_RunQuickMenu,
-  CefContextMenuHandler_OnQuickMenuCommand,
-  CefContextMenuHandler_OnQuickMenuDismissed,
   CefDialogHandlerRef_Create,
   CefDialogHandler_OnFileDialog,
   CefDisplayHandlerRef_Create,
@@ -787,7 +713,6 @@ exports
   CefDisplayHandler_OnAutoResize,
   CefDisplayHandler_OnLoadingProgressChange,
   CefDisplayHandler_OnCursorChange,
-  CefDisplayHandler_OnMediaAccessChange,
   CefDownloadHandlerRef_Create,
   CefDownloadHandler_CanDownload,
   CefDownloadHandler_OnBeforeDownload,
@@ -806,10 +731,6 @@ exports
   CefFrameHandler_OnFrameAttached,
   CefFrameHandler_OnFrameDetached,
   CefFrameHandler_OnMainFrameChanged,
-  CefPermissionHandlerRef_Create,
-  CefPermissionHandler_OnRequestMediaAccessPermission,
-  CefPermissionHandler_OnShowPermissionPrompt,
-  CefPermissionHandler_OnDismissPermissionPrompt,
   CefJsDialogHandlerRef_Create,
   CefJsDialogHandler_OnJsdialog,
   CefJsDialogHandler_OnBeforeUnloadDialog,
@@ -845,8 +766,6 @@ exports
   CefRenderHandler_OnPopupSize,
   CefRenderHandler_OnPaint,
   CefRenderHandler_OnAcceleratedPaint,
-  CefRenderHandler_GetTouchHandleSize,
-  CefRenderHandler_OnTouchHandleStateChanged,
   CefRenderHandler_OnStartDragging,
   CefRenderHandler_OnUpdateDragCursor,
   CefRenderHandler_OnScrollOffsetChanged,

@@ -26,10 +26,7 @@ type
 
     // ICefWindowDelegate
     OnWindowCreatedPtr: Pointer;
-    OnWindowClosingPtr: Pointer;
     OnWindowDestroyedPtr: Pointer;
-    OnWindowActivationChangedPtr: Pointer;
-    OnWindowBoundsChangedPtr: Pointer;
     OnGetParentWindowPtr: Pointer;
     OnIsWindowModalDialogPtr: Pointer;
     OnGetInitialBoundsPtr: Pointer;
@@ -53,10 +50,7 @@ type
 
     // ICefWindowDelegate
     procedure OnWindowCreated(const window_: ICefWindow); override;
-    procedure OnWindowClosing(const window_: ICefWindow); override;
     procedure OnWindowDestroyed(const window_: ICefWindow); override;
-    procedure OnWindowActivationChanged(const window_: ICefWindow; active: boolean); override;
-    procedure OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect); override;
     procedure OnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow); override;
     procedure OnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect); override;
     procedure OnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState); override;
@@ -98,35 +92,11 @@ begin
   end;
 end;
 
-procedure TWindowDelegateRef.OnWindowClosing(const window_: ICefWindow);
-begin
-  if (OnWindowClosingPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnWindowClosingPtr, [window_]);
-  end;
-end;
-
 procedure TWindowDelegateRef.OnWindowDestroyed(const window_: ICefWindow);
 begin
   if (OnWindowDestroyedPtr <> nil) then
   begin
     TCEFEventCallback.SendEvent(OnWindowDestroyedPtr, [window_]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnWindowActivationChanged(const window_: ICefWindow; active: boolean);
-begin
-  if (OnWindowActivationChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnWindowActivationChangedPtr, [window_, active]);
-  end;
-end;
-
-procedure TWindowDelegateRef.OnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
-begin
-  if (OnWindowBoundsChangedPtr <> nil) then
-  begin
-    TCEFEventCallback.SendEvent(OnWindowBoundsChangedPtr, [window_, @new_bounds]);
   end;
 end;
 
@@ -218,10 +188,7 @@ begin
 
    // ICefWindowDelegate
    OnWindowCreatedPtr :=nil;
-   OnWindowClosingPtr :=nil;
    OnWindowDestroyedPtr :=nil;
-   OnWindowActivationChangedPtr :=nil;
-   OnWindowBoundsChangedPtr :=nil;
    OnGetParentWindowPtr :=nil;
    OnIsWindowModalDialogPtr :=nil;
    OnGetInitialBoundsPtr :=nil;

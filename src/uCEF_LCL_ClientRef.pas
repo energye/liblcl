@@ -38,7 +38,6 @@ type
     FFindHandler: ICefFindHandler;
     FPrintHandler: ICefPrintHandler;
     FFrameHandler: ICefFrameHandler;
-    FPermissionHandler: ICefPermissionHandler;
   public
 
     procedure GetAudioHandler(var aHandler: ICefAudioHandler); override;
@@ -51,7 +50,6 @@ type
     procedure GetFindHandler(var aHandler: ICefFindHandler); override;
     procedure GetFocusHandler(var aHandler: ICefFocusHandler); override;
     procedure GetFrameHandler(var aHandler: ICefFrameHandler); override;
-    procedure GetPermissionHandler(var aHandler: ICefPermissionHandler); override;
     procedure GetJsdialogHandler(var aHandler: ICefJsdialogHandler); override;
     procedure GetKeyboardHandler(var aHandler: ICefKeyboardHandler); override;
     procedure GetLifeSpanHandler(var aHandler: ICefLifeSpanHandler); override;
@@ -159,15 +157,6 @@ begin
   aHandler := FFrameHandler;
 end;
 
-procedure TClientRef.GetPermissionHandler(var aHandler: ICefPermissionHandler);
-begin
-  if FPermissionHandler = nil then
-  begin
-    FPermissionHandler := TPermissionHandlerRef.Create;
-  end;
-  aHandler := FPermissionHandler;
-end;
-
 procedure TClientRef.GetJsdialogHandler(var aHandler: ICefJsdialogHandler);
 begin
   if FJsDialogHandler = nil then
@@ -255,7 +244,6 @@ begin
   if (FFindHandler <> nil) then FFindHandler.RemoveReferences;
   if (FPrintHandler <> nil) then FPrintHandler.RemoveReferences;
   if (FFrameHandler <> nil) then FFrameHandler.RemoveReferences;
-  if (FPermissionHandler <> nil) then FPermissionHandler.RemoveReferences;
   FAudioHandler := nil;
   FCommandHandler := nil;
   FContextMenuHandler := nil;
@@ -266,7 +254,6 @@ begin
   FFindHandler := nil;
   FFocusHandler := nil;
   FFrameHandler := nil;
-  FPermissionHandler := nil;
   FJsDialogHandler := nil;
   FKeyboardHandler := nil;
   FLifeSpanHandler := nil;
@@ -290,7 +277,6 @@ begin
   FFindHandler := nil;
   FFocusHandler := nil;
   FFrameHandler := nil;
-  FPermissionHandler := nil;
   FJsDialogHandler := nil;
   FKeyboardHandler := nil;
   FLifeSpanHandler := nil;

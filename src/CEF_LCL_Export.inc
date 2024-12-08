@@ -68,7 +68,6 @@
 {$I CEF_LCL_LabelButtonComponent.inc}
 {$I CEF_LCL_Layout.inc}
 {$I CEF_LCL_LinkedWindowParent.inc}
-{$I CEF_LCL_MediaAccessCallback.inc}
 {$I CEF_LCL_MediaObserver.inc}
 {$I CEF_LCL_MediaRoute.inc}
 {$I CEF_LCL_MediaRouteArray.inc}
@@ -90,10 +89,8 @@
 {$I CEF_LCL_PanelComponent.inc}
 {$I CEF_LCL_PanelDelegate.inc}
 {$I CEF_LCL_PdfPrintCallback.inc}
-{$I CEF_LCL_PermissionPromptCallback.inc}
 {$I CEF_LCL_PostData.inc}
 {$I CEF_LCL_PostDataElement.inc}
-{$I CEF_LCL_PreferenceRegistrar.inc}
 {$I CEF_LCL_PrintDialogCallback.inc}
 {$I CEF_LCL_PrintJobCallback.inc}
 {$I CEF_LCL_PrintSettings.inc}
@@ -107,7 +104,6 @@
 {$I CEF_LCL_ResponseFilter.inc}
 {$I CEF_LCL_RunContextMenuCallback.inc}
 {$I CEF_LCL_RunFileDialogCallback.inc}
-{$I CEF_LCL_RunQuickMenuCallback.inc}
 {$I CEF_LCL_SchemeHandlerFactory.inc}
 {$I CEF_LCL_SchemeRegistrarRef.inc}
 {$I CEF_LCL_ScrollView.inc}

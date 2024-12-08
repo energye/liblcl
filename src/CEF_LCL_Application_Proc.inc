@@ -946,48 +946,6 @@ begin
   GlobalCEFApp.KioskPrinting := value;
 end;
 
-function CEFAppConfig_TreatInsecureOriginAsSecure(): PChar; extdecl;
-begin
-  Result := PChar(string(GlobalCEFApp.TreatInsecureOriginAsSecure));
-end;
-
-procedure CEFAppConfig_SetTreatInsecureOriginAsSecure(value: PChar); extdecl;
-begin
-  GlobalCEFApp.TreatInsecureOriginAsSecure := PCharToUStr(value);
-end;
-
-function CEFAppConfig_NetLogEnabled(): LongBool; extdecl;
-begin
-  Result := GlobalCEFApp.NetLogEnabled;
-end;
-
-procedure CEFAppConfig_SetNetLogEnabled(value: LongBool); extdecl;
-begin
-  GlobalCEFApp.NetLogEnabled := value;
-end;
-
-function CEFAppConfig_NetLogFile(): PChar; extdecl;
-begin
-  Result := PChar(string(GlobalCEFApp.NetLogFile));
-end;
-
-procedure CEFAppConfig_SetNetLogFile(value: PChar); extdecl;
-begin
-  GlobalCEFApp.NetLogFile := PCharToUStr(value);
-end;
-
-function CEFAppConfig_NetLogCaptureMode(): TCefNetLogCaptureMode; extdecl;
-begin
-    // type = TCefNetLogCaptureMode
-    Result := GlobalCEFApp.NetLogCaptureMode;
-end;
-
-procedure CEFAppConfig_SetNetLogCaptureMode(value: TCefNetLogCaptureMode); extdecl;
-begin
-  // type = TCefNetLogCaptureMode
-  GlobalCEFApp.NetLogCaptureMode := value;
-end;
-
 function CEFAppConfig_EnableHighDPISupport(): LongBool; extdecl;
 begin
   Result := False;
@@ -1495,14 +1453,6 @@ exports
   CEFAppConfig_SetAllowInsecureLocalhost,
   CEFAppConfig_KioskPrinting,
   CEFAppConfig_SetKioskPrinting,
-  CEFAppConfig_TreatInsecureOriginAsSecure,
-  CEFAppConfig_SetTreatInsecureOriginAsSecure,
-  CEFAppConfig_NetLogEnabled,
-  CEFAppConfig_SetNetLogEnabled,
-  CEFAppConfig_NetLogFile,
-  CEFAppConfig_SetNetLogFile,
-  CEFAppConfig_NetLogCaptureMode,
-  CEFAppConfig_SetNetLogCaptureMode,
   CEFAppConfig_EnableHighDPISupport,
   CEFAppConfig_SetEnableHighDPISupport,
   CEFAppConfig_DeleteCache,

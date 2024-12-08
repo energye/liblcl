@@ -26,31 +26,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure WindowDelegate_SetOnWindowClosing(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).OnWindowClosingPtr := AEventData;
-  handleExceptionEnd
-end;
-
 procedure WindowDelegate_SetOnWindowDestroyed(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
 begin
   handleExceptionBegin
   (AObj as TWindowDelegateRef).OnWindowDestroyedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnWindowActivationChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).OnWindowActivationChangedPtr := AEventData;
-  handleExceptionEnd
-end;
-
-procedure WindowDelegate_SetOnWindowBoundsChanged(const AObj: ICefWindowDelegate; AEventData: Pointer); extdecl;
-begin
-  handleExceptionBegin
-  (AObj as TWindowDelegateRef).OnWindowBoundsChangedPtr := AEventData;
   handleExceptionEnd
 end;
 
@@ -136,10 +115,7 @@ exports
   WindowDelegate_Create,
   WindowDelegate_CreateForCustom,
   WindowDelegate_SetOnWindowCreated,
-  WindowDelegate_SetOnWindowClosing,
   WindowDelegate_SetOnWindowDestroyed,
-  WindowDelegate_SetOnWindowActivationChanged,
-  WindowDelegate_SetOnWindowBoundsChanged,
   WindowDelegate_SetOnGetParentWindow,
   WindowDelegate_SetOnIsWindowModalDialog,
   WindowDelegate_SetOnGetInitialBounds,

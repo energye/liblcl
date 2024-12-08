@@ -118,7 +118,7 @@ begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
   begin
-    TObj.GetHost.RunFileDialog(mode, PCharToUStr(PTitle), PCharToUStr(PDefaultFilePath), acceptFilters, callback);
+    TObj.GetHost.RunFileDialog(mode, PCharToUStr(PTitle), PCharToUStr(PDefaultFilePath), acceptFilters, 0, callback);
   end;
   handleExceptionEnd
 end;

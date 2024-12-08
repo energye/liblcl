@@ -118,16 +118,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefClient_GetPermissionHandler(const TObj: ICefClient; var aHandler: ICefPermissionHandler); extdecl;
-begin
-  handleExceptionBegin
-  if TObj is TClientRef then
-  begin
-    (TObj as TClientRef).GetPermissionHandler(aHandler);
-  end;
-  handleExceptionEnd
-end;
-
 procedure CefClient_GetJsdialogHandler(const TObj: ICefClient; var aHandler: ICefJsdialogHandler); extdecl;
 begin
   handleExceptionBegin
@@ -231,7 +221,6 @@ exports
   CefClient_GetFindHandler,
   CefClient_GetFocusHandler,
   CefClient_GetFrameHandler,
-  CefClient_GetPermissionHandler,
   CefClient_GetJsdialogHandler,
   CefClient_GetKeyboardHandler,
   CefClient_GetLifeSpanHandler,

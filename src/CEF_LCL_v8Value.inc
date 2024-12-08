@@ -95,13 +95,6 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_IsPromise(const TObj: ICefv8Value): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.IsPromise;
-  handleExceptionEnd
-end;
-
 function CefV8Value_IsSame(const TObj: ICefv8Value; const that: ICefv8Value): LongBool; extdecl;
 begin
   handleExceptionBegin
@@ -385,20 +378,6 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_ResolvePromise(const TObj: ICefv8Value; const arg: ICefv8Value): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.ResolvePromise(arg);
-  handleExceptionEnd
-end;
-
-function CefV8Value_RejectPromise(const TObj: ICefv8Value; const errorMsg: PChar): LongBool; extdecl;
-begin
-  handleExceptionBegin
-  Result := TObj.RejectPromise(PCharToUStr(errorMsg));
-  handleExceptionEnd
-end;
-
 procedure CefV8Value_Free(var data: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
@@ -492,13 +471,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefV8ValueRef_NewPromise(var Result: ICefv8Value); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefv8ValueRef.NewPromise();
-  handleExceptionEnd
-end;
-
 procedure CefV8ValueRef_UnWrap(const data: ICefv8Value; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
@@ -520,7 +492,6 @@ exports
   CefV8Value_IsArray,
   CefV8Value_IsArrayBuffer,
   CefV8Value_IsFunction,
-  CefV8Value_IsPromise,
   CefV8Value_IsSame,
   CefV8Value_GetBoolValue,
   CefV8Value_GetIntValue,
@@ -556,8 +527,6 @@ exports
   CefV8Value_ExecuteFunction,
   CefV8Value_ExecuteFunctionWithContext,
   CefV8Value_ExecuteFunctionWithContextForArgsBytes,
-  CefV8Value_ResolvePromise,
-  CefV8Value_RejectPromise,
   CefV8Value_Free,
   CefV8ValueRef_NewUndefined,
   CefV8ValueRef_NewNull,
@@ -571,5 +540,4 @@ exports
   CefV8ValueRef_NewArray,
   CefV8ValueRef_NewArrayBuffer,
   CefV8ValueRef_NewFunction,
-  CefV8ValueRef_NewPromise,
   CefV8ValueRef_UnWrap;

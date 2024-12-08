@@ -343,31 +343,10 @@ begin
   EventMethodCode
 end;
 
-procedure CEFWindowComponent_SetOnWindowClosing(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := WindowComponent_OnWindowClosing}
-  {$DEFINE EventName := OnWindowClosing}
-  EventMethodCode
-end;
-
 procedure CEFWindowComponent_SetOnWindowDestroyed(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
 begin
   {$DEFINE EventMethodName := WindowComponent_OnWindowDestroyed}
   {$DEFINE EventName := OnWindowDestroyed}
-  EventMethodCode
-end;
-
-procedure CEFWindowComponent_SetOnWindowActivationChanged(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := WindowComponent_OnWindowActivationChanged}
-  {$DEFINE EventName := OnWindowActivationChanged}
-  EventMethodCode
-end;
-
-procedure CEFWindowComponent_SetOnWindowBoundsChanged(const AObj: TCEFWindowComponent; AEventData: Pointer); extdecl;
-begin
-  {$DEFINE EventMethodName := WindowComponent_OnWindowBoundsChanged}
-  {$DEFINE EventName := OnWindowBoundsChanged}
   EventMethodCode
 end;
 
@@ -490,10 +469,7 @@ exports
   CEFWindowComponent_IsMinimized,
   CEFWindowComponent_AddChildView,
   CEFWindowComponent_SetOnWindowCreated,
-  CEFWindowComponent_SetOnWindowClosing,
   CEFWindowComponent_SetOnWindowDestroyed,
-  CEFWindowComponent_SetOnWindowActivationChanged,
-  CEFWindowComponent_SetOnWindowBoundsChanged,
   CEFWindowComponent_SetOnGetParentWindow,
   CEFWindowComponent_SetOnGetInitialBounds,
   CEFWindowComponent_SetOnGetInitialShowState,

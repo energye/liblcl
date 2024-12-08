@@ -297,9 +297,6 @@ function RequestContextSettingsToPas(const value: PMCefRequestContextSettings): 
 function PdfPrintSettingsToGo(const AData: TCefPdfPrintSettings): PMCefPdfPrintSettings;
 function PdfPrintSettingsToPas(const AData: PMCefPdfPrintSettings): TCefPdfPrintSettings;
 
-function TouchHandleStateToGo(const AData: TCefTouchHandleState): PMCefTouchHandleState;
-function TouchHandleStateToPas(const AData: PMCefTouchHandleState): TCefTouchHandleState;
-
 
 
 var
@@ -751,10 +748,10 @@ begin
   Result.path := CefStringAlloc(PCharToUStr(value.Path));
   Result.secure := Integer(value.secure^);
   Result.httponly := Integer(value.httponly^);
-  Result.creation := DateTimeToCefBaseTime(value.creation^);
-  Result.last_access := DateTimeToCefBaseTime(value.last_access^);
+  Result.creation := DateTimeToCefTime(value.creation^);
+  Result.last_access := DateTimeToCefTime(value.last_access^);
   Result.has_expires := Integer(value.has_expires^);
-  Result.expires := DateTimeToCefBaseTime(value.expires^);
+  Result.expires := DateTimeToCefTime(value.expires^);
   Result.same_site := TCefCookieSameSite(value.same_site^);
   Result.priority := TCefCookiePriority(value.priority^);
 end;
@@ -781,20 +778,20 @@ end;
 function PdfPrintSettingsToGo(const AData: TCefPdfPrintSettings): PMCefPdfPrintSettings;
 begin
   Result.landscape := @(AData.landscape);
-  Result.print_background := @(AData.print_background);
-  Result.scale := @(AData.scale);
-  Result.paper_width := @(AData.paper_width);
-  Result.paper_height := @(AData.paper_height);
-  Result.prefer_css_page_size := @(AData.prefer_css_page_size);
+  Result.scale := @(AData.scale_factor);
+  Result.paper_width := @(AData.page_width);
+  Result.paper_height := @(AData.page_height);
+  Result.prefer_css_page_size := nil;
   Result.margin_type := @(AData.margin_type);
   Result.margin_top := @(AData.margin_top);
   Result.margin_right := @(AData.margin_right);
   Result.margin_bottom := @(AData.margin_bottom);
   Result.margin_left := @(AData.margin_left);
-  Result.page_ranges := ToPChar(CefString(@AData.page_ranges));
-  Result.display_header_footer := @(AData.display_header_footer);
-  Result.header_template := ToPChar(CefString(@AData.header_template));
-  Result.footer_template := ToPChar(CefString(@AData.footer_template));
+  Result.print_background := @(AData.backgrounds_enabled);
+  Result.page_ranges := nil;
+  Result.display_header_footer := nil;
+  Result.header_template := nil;
+  Result.footer_template := nil;
   Result.generate_tagged_pdf := nil;
   Result.generate_document_outline := nil;
 end;
@@ -802,44 +799,15 @@ end;
 function PdfPrintSettingsToPas(const AData: PMCefPdfPrintSettings): TCefPdfPrintSettings;
 begin
   Result.landscape := Integer(AData.landscape^);
-  Result.print_background := Integer(AData.print_background^);
-  Result.scale := double(AData.scale^);
-  Result.paper_width := double(AData.paper_width^);
-  Result.paper_height := double(AData.paper_height^);
-  Result.prefer_css_page_size := Integer(AData.prefer_css_page_size^);
+  Result.scale_factor := Trunc(double(AData.scale^));
+  Result.page_width := Trunc(double(AData.paper_width^));
+  Result.page_height := Trunc(double(AData.paper_height^));
   Result.margin_type := TCefPdfPrintMarginType(AData.margin_type^);
-  Result.margin_top := double(AData.margin_top^);
-  Result.margin_right := double(AData.margin_right^);
-  Result.margin_bottom := double(AData.margin_bottom^);
-  Result.margin_left := double(AData.margin_left^);
-  Result.page_ranges := CefStringAlloc(PCharToUStr(AData.page_ranges));
-  Result.display_header_footer := Integer(AData.display_header_footer^);
-  Result.header_template := CefStringAlloc(PCharToUStr(AData.header_template));
-  Result.footer_template := CefStringAlloc(PCharToUStr(AData.footer_template));
-end;
-
-function TouchHandleStateToGo(const AData: TCefTouchHandleState): PMCefTouchHandleState;
-begin
-  Result.touch_handle_id   := @(AData.touch_handle_id);
-  Result.flags             := @(AData.flags);
-  Result.enabled           := @(AData.enabled);
-  Result.orientation       := @(AData.orientation);
-  Result.mirror_vertical   := @(AData.mirror_vertical);
-  Result.mirror_horizontal := @(AData.mirror_horizontal);
-  Result.origin            := @(AData.origin);
-  Result.alpha             := @(AData.alpha);
-end;
-
-function TouchHandleStateToPas(const AData: PMCefTouchHandleState): TCefTouchHandleState;
-begin
-  Result.touch_handle_id   := integer(AData.touch_handle_id^);
-  Result.flags             := integer(AData.flags^);
-  Result.enabled           := integer(AData.enabled^);
-  Result.orientation       := TCefHorizontalAlignment(AData.orientation^);
-  Result.mirror_vertical   := integer(AData.mirror_vertical^);
-  Result.mirror_horizontal := integer(AData.mirror_horizontal^);
-  Result.origin            := TCefPoint(AData.origin^);
-  Result.alpha             := integer(AData.alpha^);
+  Result.margin_top := Trunc(double(AData.margin_top^));
+  Result.margin_right := Trunc(double(AData.margin_right^));
+  Result.margin_bottom := Trunc(double(AData.margin_bottom^));
+  Result.margin_left := Trunc(double(AData.margin_left^));
+  Result.backgrounds_enabled := Integer(AData.print_background^);
 end;
 
 

@@ -87,34 +87,6 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFDisplayRef_ScreenPointToPixels(const aScreenPoint : TPoint; var Result: TPoint); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefDisplayRef.ScreenPointToPixels(aScreenPoint);
-  handleExceptionEnd
-end;
-
-procedure CEFDisplayRef_ScreenPointFromPixels(const aPixelsPoint : TPoint; var Result: TPoint); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefDisplayRef.ScreenPointFromPixels(aPixelsPoint);
-  handleExceptionEnd
-end;
-
-procedure CEFDisplayRef_ScreenRectToPixels(const aScreenRect : TRect; var Result: TRect); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefDisplayRef.ScreenRectToPixels(aScreenRect);
-  handleExceptionEnd
-end;
-
-procedure CEFDisplayRef_ScreenRectFromPixels(const aPixelsRect : TRect; var Result: TRect); extdecl;
-begin
-  handleExceptionBegin
-  Result := TCefDisplayRef.ScreenRectFromPixels(aPixelsRect);
-  handleExceptionEnd
-end;
-
 procedure CEFDisplay_ID(const ADisplay: ICefDisplay; var Result: int64) ; extdecl;
 begin
   handleExceptionBegin
@@ -158,10 +130,6 @@ exports
   CEFDisplayRef_GetCount,
   CEFDisplayRef_GetAlls,
   CEFDisplayRef_Get,
-  CEFDisplayRef_ScreenPointToPixels,
-  CEFDisplayRef_ScreenPointFromPixels,
-  CEFDisplayRef_ScreenRectToPixels,
-  CEFDisplayRef_ScreenRectFromPixels,
   CEFDisplay_ID,
   CEFDisplay_DeviceScaleFactor,
   CEFDisplay_Rotation,
