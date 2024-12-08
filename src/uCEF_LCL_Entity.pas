@@ -185,8 +185,14 @@ type
 function StrToHash(const SoureStr: string): cardinal;
 //PChar 转 UnicodeString
 function PCharToUStr(const Value: PChar): unicodestring;
+function PCharToInt64(const Value: PChar): int64;
 //String 转 UnicodeString
 function StrToUStr(const Value: string): unicodestring;
+
+// 需要使用 inline，否则乱码
+function ToPChar(AStr: string): PChar; inline;
+function ToPChar(AStr: unicodestring): PChar; inline;
+function IntToPChar(AVal: Int64): PChar; inline;
 
 function ByteToInteger(const Data: array of byte; start: integer = 0): integer;
 //复制Byte数组到Dest
@@ -242,6 +248,23 @@ var
 
 implementation
 
+
+function ToPChar(AStr: string): PChar; inline;
+begin
+  Result := PChar(AStr);
+end;
+
+function ToPChar(AStr: unicodestring): PChar; inline;
+begin
+  Result := PChar(UTF8Encode(AStr)); //PWideChar(AStr);
+end;
+
+function IntToPChar(AVal: Int64): PChar; inline;
+begin
+  Result := PChar(IntToStr(AVal)); //PWideChar(AStr);
+end;
+
+
 function ByteToInteger(const Data: array of byte; start: integer = 0): integer;
 var
   byt: TBytes;
@@ -268,6 +291,13 @@ begin
   if Value <> nil then
     //关于PChar 默认编码不是UTF8
     Result := StrToUStr(StrPas(Value));
+end;
+
+function PCharToInt64(const Value: PChar): int64;
+begin
+  Result := 0;
+  if Value <> nil then
+    Result := StrToInt64(StrPas(Value));
 end;
 
 //String 转 UnicodeString
@@ -433,7 +463,7 @@ end;
 function GoCefWindowInfoToCefWindowInfo(const settings: RTCefWindowInfo): TCefWindowInfo;
 begin
   Result.ex_style := settings.ex_style^;
-  Result.window_name := CefString(PCharToUStr(settings.window_name));
+  Result.window_name := CefStringAlloc(PCharToUStr(settings.window_name));
   Result.style := settings.style^;
   Result.x := settings.x^;
   Result.y := settings.y^;

@@ -37,10 +37,10 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_GetFrameById(const TObj: ICefBrowser; frameId: PInt64; var Result: ICefFrame); extdecl;
+procedure CEFBrowser_GetFrameById(const TObj: ICefBrowser; frameId: PChar; var Result: ICefFrame); extdecl;
 begin
   handleExceptionBegin
-  Result := TObj.GetFrameByident(FrameId^);
+  Result := TObj.GetFrameByident(PCharToInt64(frameId));
   if Result = nil then
   begin
     exit;

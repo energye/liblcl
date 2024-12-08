@@ -44,7 +44,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnFileDialog(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback; out Result: Boolean);
 begin
-  SendEvent([Sender, browser, mode, PChar(string(title)), PChar(string(defaultFilePath)), acceptFilters, callback, @Result]);
+  SendEvent([Sender, browser, mode, ToPchar(title), ToPchar(defaultFilePath), acceptFilters, Pointer(nil), Pointer(nil), callback, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnGetAccessibilityHandler(Sender: TObject; var aAccessibilityHandler: ICefAccessibilityHandler);
@@ -246,8 +246,10 @@ begin
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnBeforeDownload(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const suggestedName: ustring; const callback: ICefBeforeDownloadCallback);
+var
+  Result: Boolean;
 begin
-  SendEvent([Sender, browser, downloadItem, PChar(string(suggestedName)), callback]);
+  SendEvent([Sender, browser, downloadItem, PChar(string(suggestedName)), callback, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnDownloadUpdated(Sender: TObject; const browser: ICefBrowser; const downloadItem: ICefDownloadItem; const callback: ICefDownloadItemCallback);
@@ -267,11 +269,13 @@ var
   rpopupFeatures   : PTCefPopupFeatures;
   rwindowInfo      : RTCefWindowInfo;
   rbrowserSettings : RCefBrowserSettings;
+  TempTargetDisposition: Integer;
 begin
     //popup info
     beforePopupInfo.TargetUrl := PChar(string(targetUrl));
     beforePopupInfo.TargetFrameName := PChar(string(targetFrameName));
-    beforePopupInfo.TargetDisposition := PInteger(Integer(targetDisposition));
+    TempTargetDisposition := Integer(targetDisposition);
+    beforePopupInfo.TargetDisposition := PInteger(@TempTargetDisposition);
     beforePopupInfo.UserGesture := @userGesture;
     // popupFeatures
     rpopupFeatures := CefPopupFeaturesToGoCefPopupFeatures(popupFeatures);
@@ -279,12 +283,8 @@ begin
     rwindowInfo := CefWindowInfoToGoCefWindowInfo(windowInfo);
     // settings
     rbrowserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-    //WriteLn('pas= size 1 ', browserSettings.size^, ' windowless_frame_rate: ', browserSettings.windowless_frame_rate^, ' standard_font_family: ', string(browserSettings.standard_font_family));
-    //WriteLn('pas= size 1 ', rwindowInfo.x^, ' ', rwindowInfo.y^, ' ', rwindowInfo.width^, ' ', rwindowInfo.height^);
     //event
-    SendEvent([Sender, browser, frame, @beforePopupInfo, @rpopupFeatures, @rwindowInfo, client, @rbrowserSettings, Pointer(0), @noJavascriptAccess, @Result]);
-    //WriteLn('pas= size 2 ', browserSettings.size^, ' windowless_frame_rate: ', browserSettings.windowless_frame_rate^, ' standard_font_family: ', string(browserSettings.standard_font_family));
-    //WriteLn('pas= size 2 ', rwindowInfo.x^, ' ', rwindowInfo.y^, ' ', rwindowInfo.width^, ' ', rwindowInfo.height^);
+    SendEvent([Sender, browser, frame, @beforePopupInfo, @rpopupFeatures, @rwindowInfo, @client, @rbrowserSettings, Pointer(0), @noJavascriptAccess, @Result]);
     windowInfo := GoCefWindowInfoToCefWindowInfo(rwindowInfo);
     settings := GoBrowserSettingsToCefBrowserSettings(rbrowserSettings);
 end;
@@ -338,7 +338,7 @@ end;
 
 procedure TLCLEvent.ChromiumEvent_OnRenderProcessTerminated(Sender: TObject; const browser: ICefBrowser; status: TCefTerminationStatus);
 begin
-  SendEvent([Sender, browser, status]);
+  SendEvent([Sender, browser, status, 0, PChar('')]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnRenderViewReady(Sender: Tobject; const browser: ICefBrowser);

@@ -24,10 +24,10 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="2"/>
-      <MinorVersionNr Value="4"/>
-      <BuildNr Value="0"/>
+      <MinorVersionNr Value="5"/>
+      <Language Value="0804"/>
       <CharSet Value="04B0"/>
-      <StringTable Comments="LCL for Windows" CompanyName="yanghy" FileDescription="LCL and CEF 49.0.2623 for WindowsXP SP3" InternalName="liblcl" LegalCopyright="Copyright yanghy" OriginalFilename="liblcl.dll" ProductName="liblcl" ProductVersion="2.4.0.0"/>
+      <StringTable Comments="LCL for Windows" CompanyName="yanghy" FileDescription="LCL and CEF 49.0.2623 for WindowsXP SP3" InternalName="liblcl" LegalCopyright="Copyright yanghy" OriginalFilename="liblcl.dll" ProductName="liblcl" ProductVersion="2.5.0.0"/>
     </VersionInfo>
     <MacroValues Count="1">
       <Macro4 Name="LCLWidgetType" Value="win32"/>

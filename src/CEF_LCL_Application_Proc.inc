@@ -456,7 +456,7 @@ end;
 
 function CEFAppConfig_LibCefVersion(): PChar; extdecl;
 begin
-  Result := PChar(string(GlobalCEFApp.LibCefVersion));
+  Result := PChar('49.0.2623');
 end;
 
 function CEFAppConfig_LibCefPath(): PChar; extdecl;

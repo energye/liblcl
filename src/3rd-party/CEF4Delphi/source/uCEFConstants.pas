@@ -379,7 +379,7 @@ const
   CEF_TIMER_DEPLETEWORK_CYCLES = 10;
   CEF_TIMER_DEPLETEWORK_DELAY  = 50;
 
-  CEF4DELPHI_URL = 'https://github.com/salvadordf/CEF4Delphi';
+  CEF4DELPHI_URL = 'https://github.com/energye/liblcl';
   CRLF           = #13 + #10;
 
   // These contants are declared in the "Windows" unit but
