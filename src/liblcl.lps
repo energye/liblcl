@@ -357,7 +357,7 @@
       <Unit0>
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="8"/>
+        <TopLine Value="13"/>
         <CursorPos Y="62"/>
         <UsageCount Value="71"/>
         <Loaded Value="True"/>
@@ -554,9 +554,9 @@
       </Unit26>
       <Unit27>
         <Filename Value="CEF_LCL_Export.inc"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="82"/>
-        <CursorPos X="39" Y="106"/>
+        <CursorPos X="13" Y="11"/>
         <UsageCount Value="35"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -598,8 +598,8 @@
       <Unit33>
         <Filename Value="CEF_LCL_Application_Proc.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1427"/>
-        <CursorPos X="33" Y="1455"/>
+        <TopLine Value="1242"/>
+        <CursorPos X="5" Y="1269"/>
         <UsageCount Value="20"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit33>
@@ -629,11 +629,10 @@
       </Unit36>
       <Unit37>
         <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="424"/>
         <CursorPos X="43" Y="472"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit37>
       <Unit38>
@@ -646,11 +645,10 @@
       </Unit38>
       <Unit39>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFChromiumCore.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="195"/>
         <CursorPos X="20" Y="243"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
       </Unit39>
       <Unit40>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFBufferPanel.pas"/>
@@ -787,20 +785,18 @@
       </Unit56>
       <Unit57>
         <Filename Value="CEF_Events_Declaration.inc"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="96"/>
         <CursorPos X="94" Y="140"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit57>
       <Unit58>
         <Filename Value="CEF_Events_Implement.inc"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="752"/>
         <CursorPos X="5" Y="796"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit58>
       <Unit59>
@@ -973,11 +969,10 @@
       </Unit81>
       <Unit82>
         <Filename Value="LazarusDef.inc"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="141"/>
-        <CursorPos X="2" Y="153"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1003"/>
+        <CursorPos X="15" Y="1044"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit82>
       <Unit83>
@@ -1081,12 +1076,10 @@
       </Unit95>
       <Unit96>
         <Filename Value="CEF_LCL_X509Certificate.inc"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="144"/>
         <CursorPos X="38" Y="183"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit96>
       <Unit97>
@@ -1252,11 +1245,10 @@
       </Unit118>
       <Unit119>
         <Filename Value="CEF_LCL_WindowDelegate.inc"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="71"/>
         <CursorPos X="39" Y="118"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit119>
       <Unit120>
@@ -1292,78 +1284,34 @@
     <OtherDefines Count="1">
       <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
     </OtherDefines>
-    <JumpHistory Count="18" HistoryIndex="17">
+    <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
-        <Filename Value="CEF_Events_Declaration.inc"/>
-        <Caret Line="61" Column="173" TopLine="12"/>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="136" Column="19" TopLine="26"/>
       </Position1>
       <Position2>
-        <Filename Value="CEF_Events_Implement.inc"/>
-        <Caret Line="290" Column="5" TopLine="242"/>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="70" Column="36" TopLine="26"/>
       </Position2>
       <Position3>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="136" Column="19" TopLine="26"/>
+        <Caret Line="91" Column="34" TopLine="41"/>
       </Position3>
       <Position4>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="70" Column="36" TopLine="26"/>
+        <Caret Line="93" Column="33" TopLine="43"/>
       </Position4>
       <Position5>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="91" Column="34" TopLine="41"/>
+        <Caret Line="106" Column="39" TopLine="82"/>
       </Position5>
       <Position6>
-        <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="93" Column="33" TopLine="43"/>
+        <Filename Value="liblcl.lpr"/>
+        <Caret Line="62" TopLine="13"/>
       </Position6>
       <Position7>
-        <Filename Value="CEF_Events_Declaration.inc"/>
-        <Caret Line="12" Column="119" TopLine="12"/>
-      </Position7>
-      <Position8>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="106" Column="39" TopLine="82"/>
-      </Position8>
-      <Position9>
-        <Filename Value="CEF_LCL_WindowComponent.inc"/>
-      </Position9>
-      <Position10>
-        <Filename Value="CEF_Events_Implement.inc"/>
-        <Caret Line="263" Column="6" TopLine="242"/>
-      </Position10>
-      <Position11>
-        <Filename Value="CEF_Events_Declaration.inc"/>
-        <Caret Line="139" Column="92" TopLine="96"/>
-      </Position11>
-      <Position12>
-        <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="344" Column="5" TopLine="307"/>
-      </Position12>
-      <Position13>
-        <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="351" Column="5" TopLine="307"/>
-      </Position13>
-      <Position14>
-        <Filename Value="CEF_Events_Declaration.inc"/>
-        <Caret Line="140" Column="94" TopLine="96"/>
-      </Position14>
-      <Position15>
-        <Filename Value="CEF_Events_Implement.inc"/>
-        <Caret Line="796" Column="5" TopLine="752"/>
-      </Position15>
-      <Position16>
-        <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="464" Column="31" TopLine="425"/>
-      </Position16>
-      <Position17>
-        <Filename Value="CEF_LCL_WindowComponent.inc"/>
-        <Caret Line="472" Column="43" TopLine="424"/>
-      </Position17>
-      <Position18>
-        <Filename Value="CEF_LCL_WindowDelegate.inc"/>
-        <Caret Line="118" Column="39" TopLine="71"/>
-      </Position18>
+      </Position7>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

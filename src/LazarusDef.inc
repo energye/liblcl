@@ -1029,11 +1029,12 @@ function DLibAbout: PChar; extdecl;
 var
   LVal: string;
 begin
-  LVal := 'Author:不在乎y(ying32)'#13#10 +
-          'Official website: https://z-kit.cc'#13#10 +
-          'github: https://github.com/ying32'#13#10 +
-          'Based on Lazarus ' + lcl_version + #13#10 +
+  LVal := 'Author: YangHY'#13#10 +
+          'Website: https://energye.github.io'#13#10 +
+          'Github: https://github.com/energye'#13#10 +
+          'Based on Lazarus: ' + lcl_version + #13#10 +
           'Third party library list:'#13#10;
+  LVal := LVal + '    CEF4Delphi'#13#10;
   LVal := LVal + '    TRichMemo'#13#10;
   LVal := LVal + '    TATGauge';
   Result := PChar(LVal);

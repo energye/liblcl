@@ -27,7 +27,7 @@
       <MinorVersionNr Value="5"/>
       <Language Value="0804"/>
       <CharSet Value="04B0"/>
-      <StringTable Comments="LCL for Windows" CompanyName="yanghy" FileDescription="LCL and CEF 109.1.18 for Windows" InternalName="liblcl" LegalCopyright="Copyright yanghy" OriginalFilename="liblcl.dll" ProductName="liblcl" ProductVersion="2.5.0.0"/>
+      <StringTable Comments="LCL for Windows" CompanyName="yanghy" FileDescription="LCL and CEF 101.0.18 for Windows" InternalName="liblcl" LegalCopyright="Copyright yanghy" OriginalFilename="liblcl.dll" ProductName="liblcl" ProductVersion="2.5.0.0"/>
     </VersionInfo>
     <MacroValues Count="1">
       <Macro4 Name="LCLWidgetType" Value="win32"/>
