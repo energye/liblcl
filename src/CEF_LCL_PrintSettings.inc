@@ -39,7 +39,7 @@ begin
   handleExceptionEnd
 end;
 
-procedure CefPrintSettings_SetPrinterPrintableArea(const AObj: ICefPrintSettings; const physicalSizeDeviceUnits: TCefSize; const printableAreaDeviceUnits: TCefRect; landscapeNeedsFlip: LongBool); extdecl;
+procedure CefPrintSettings_SetPrinterPrintableArea(const AObj: ICefPrintSettings; const physicalSizeDeviceUnits: TCefSize; var printableAreaDeviceUnits: TCefRect; landscapeNeedsFlip: LongBool); extdecl;
 begin
   handleExceptionBegin
   AObj.SetPrinterPrintableArea(@physicalSizeDeviceUnits, @printableAreaDeviceUnits, landscapeNeedsFlip);
