@@ -555,7 +555,7 @@
         <Filename Value="CEF_LCL_Export.inc"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="13" Y="11"/>
+        <CursorPos X="2" Y="20"/>
         <UsageCount Value="35"/>
         <Loaded Value="True"/>
       </Unit27>
@@ -596,8 +596,8 @@
       <Unit33>
         <Filename Value="CEF_LCL_Application_Proc.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1239"/>
-        <CursorPos X="6" Y="1180"/>
+        <TopLine Value="1080"/>
+        <CursorPos X="46" Y="1111"/>
         <UsageCount Value="20"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit33>
