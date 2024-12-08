@@ -1220,29 +1220,7 @@ end;
 
 function CEFAppConfig_Status(): Integer; extdecl;
 begin
-  // type = TCefAplicationStatus = asLoading asLoaded asInitialized asShuttingDown asUnloaded asErrorMissingFiles asErrorDLLVersion asErrorLoadingLibrary asErrorInitializingLibrary asErrorExecutingProcess
-  if GlobalCEFApp.Status = TCefAplicationStatus.asLoading then
-  Result := 0
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asLoaded then
-  Result := 1
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asInitialized then
-  Result := 2
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asShuttingDown then
-  Result := 3
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asUnloaded then
-  Result := 4
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorMissingFiles then
-  Result := 5
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorDLLVersion then
-  Result := 6
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorLoadingLibrary then
-  Result := 7
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorInitializingLibrary then
-  Result := 8
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorExecutingProcess then
-  Result := 9
-  else
-  Result := 0;
+  Result := GlobalCEFApp.Status;
 end;
 
 function CEFAppConfig_MissingLibFiles(): PChar; extdecl;
@@ -1308,11 +1286,6 @@ end;
 procedure CEFAppConfig_UpdateDeviceScaleFactor(); extdecl;
 begin
   GlobalCEFApp.UpdateDeviceScaleFactor();
-end;
-
-function CEFAppConfig_SpecificVersion(): Integer; extdecl;
-begin
-  Result := 109; // 特定 Windows 7, 8/8.1 and Windows Server 2012 liblcl特定版本
 end;
 
 exports
@@ -1557,5 +1530,4 @@ exports
   CEFAppConfig_SetMustCreateRenderProcessHandler,
   CEFAppConfig_SetMustCreateLoadHandler,
   CEFAppConfig_SetMustFreeLibrary,
-  CEFAppConfig_UpdateDeviceScaleFactor,
-  CEFAppConfig_SpecificVersion;
+  CEFAppConfig_UpdateDeviceScaleFactor;
