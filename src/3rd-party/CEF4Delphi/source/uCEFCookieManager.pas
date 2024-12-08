@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -143,16 +143,16 @@ begin
   TempCookie.path        := CefString(path);
   TempCookie.secure      := Ord(secure);
   TempCookie.httponly    := Ord(httponly);
-  TempCookie.creation    := DateTimeToCefBaseTime(creation);
-  TempCookie.last_access := DateTimeToCefBaseTime(lastAccess);
+  TempCookie.creation    := DateTimeToCefTime(creation);
+  TempCookie.last_access := DateTimeToCefTime(lastAccess);
   TempCookie.has_expires := Ord(hasExpires);
   TempCookie.same_site   := same_site;
   TempCookie.priority    := priority;
 
   if hasExpires then
-    TempCookie.expires := DateTimeToCefBaseTime(expires)
+    TempCookie.expires := DateTimeToCefTime(expires)
    else
-    TempCookie.expires := 0;
+    FillChar(TempCookie.expires, SizeOf(TCefTime), 0);
 
   Result := PCefCookieManager(FData)^.set_cookie(PCefCookieManager(FData), @TempURL, @TempCookie, CefGetData(callback)) <> 0;
 end;

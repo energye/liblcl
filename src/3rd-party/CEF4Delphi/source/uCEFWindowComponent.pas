@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -57,31 +57,28 @@ uses
     LCLProc, LCLType, LCLIntf, LResources, InterfaceBase,
     {$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFConstants, uCEFViewsFrameworkEvents, uCEFPanelComponent;
+  uCEFTypes, uCEFInterfaces, uCEFViewsFrameworkEvents, uCEFPanelComponent;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TCEFWindowComponent = class(TCEFPanelComponent, ICefWindowDelegateEvents)
     protected
-      FWindow                    : ICefWindow;
-      FWindowDlg                 : ICefWindowDelegate;
+      FWindow                 : ICefWindow;
+      FWindowDlg              : ICefWindowDelegate;
 
       // ICefWindowDelegateEvents
-      FOnWindowCreated           : TOnWindowCreatedEvent;
-      FOnWindowClosing           : TOnWindowClosingEvent;
-      FOnWindowDestroyed         : TOnWindowDestroyedEvent;
-      FOnWindowActivationChanged : TOnWindowActivationChangedEvent;
-      FOnWindowBoundsChanged     : TOnWindowBoundsChangedEvent;
-      FOnGetParentWindow         : TOnGetParentWindowEvent;
-      FOnGetInitialBounds        : TOnGetInitialBoundsEvent;
-      FOnGetInitialShowState     : TOnGetInitialShowStateEvent;
-      FOnIsFrameless             : TOnIsFramelessEvent;
-      FOnCanResize               : TOnCanResizeEvent;
-      FOnCanMaximize             : TOnCanMaximizeEvent;
-      FOnCanMinimize             : TOnCanMinimizeEvent;
-      FOnCanClose                : TOnCanCloseEvent;
-      FOnAccelerator             : TOnAcceleratorEvent;
-      FOnKeyEvent                : TOnWindowKeyEventEvent;
+      FOnWindowCreated        : TOnWindowCreatedEvent;
+      FOnWindowDestroyed      : TOnWindowDestroyedEvent;
+      FOnGetParentWindow      : TOnGetParentWindowEvent;
+      FOnGetInitialBounds     : TOnGetInitialBoundsEvent;
+      FOnGetInitialShowState  : TOnGetInitialShowStateEvent;
+      FOnIsFrameless          : TOnIsFramelessEvent;
+      FOnCanResize            : TOnCanResizeEvent;
+      FOnCanMaximize          : TOnCanMaximizeEvent;
+      FOnCanMinimize          : TOnCanMinimizeEvent;
+      FOnCanClose             : TOnCanCloseEvent;
+      FOnAccelerator          : TOnAcceleratorEvent;
+      FOnKeyEvent             : TOnWindowKeyEventEvent;
 
       procedure DestroyView; override;
       procedure Initialize; override;
@@ -111,10 +108,7 @@ type
 
       // ICefWindowDelegateEvents
       procedure doOnWindowCreated(const window_: ICefWindow);
-      procedure doOnWindowClosing(const window_: ICefWindow);
       procedure doOnWindowDestroyed(const window_: ICefWindow);
-      procedure doOnWindowActivationChanged(const window_: ICefWindow; active: boolean);
-      procedure doOnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
       procedure doOnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);
       procedure doOnGetInitialBounds(const window_: ICefWindow; var aResult : TCefRect);
       procedure doOnGetInitialShowState(const window_: ICefWindow; var aResult : TCefShowState);
@@ -166,21 +160,18 @@ type
       property IsMinimized              : boolean            read GetIsMinimized;
 
     published
-      property OnWindowCreated           : TOnWindowCreatedEvent            read FOnWindowCreated             write FOnWindowCreated;
-      property OnWindowClosing           : TOnWindowClosingEvent            read FOnWindowClosing             write FOnWindowClosing;
-      property OnWindowDestroyed         : TOnWindowDestroyedEvent          read FOnWindowDestroyed           write FOnWindowDestroyed;
-      property OnWindowActivationChanged : TOnWindowActivationChangedEvent  read FOnWindowActivationChanged   write FOnWindowActivationChanged;
-      property OnWindowBoundsChanged     : TOnWindowBoundsChangedEvent      read FOnWindowBoundsChanged       write FOnWindowBoundsChanged;
-      property OnGetParentWindow         : TOnGetParentWindowEvent          read FOnGetParentWindow           write FOnGetParentWindow;
-      property OnGetInitialBounds        : TOnGetInitialBoundsEvent         read FOnGetInitialBounds          write FOnGetInitialBounds;
-      property OnGetInitialShowState     : TOnGetInitialShowStateEvent      read FOnGetInitialShowState       write FOnGetInitialShowState;
-      property OnIsFrameless             : TOnIsFramelessEvent              read FOnIsFrameless               write FOnIsFrameless;
-      property OnCanResize               : TOnCanResizeEvent                read FOnCanResize                 write FOnCanResize;
-      property OnCanMaximize             : TOnCanMaximizeEvent              read FOnCanMaximize               write FOnCanMaximize;
-      property OnCanMinimize             : TOnCanMinimizeEvent              read FOnCanMinimize               write FOnCanMinimize;
-      property OnCanClose                : TOnCanCloseEvent                 read FOnCanClose                  write FOnCanClose;
-      property OnAccelerator             : TOnAcceleratorEvent              read FOnAccelerator               write FOnAccelerator;
-      property OnKeyEvent                : TOnWindowKeyEventEvent           read FOnKeyEvent                  write FOnKeyEvent;
+      property OnWindowCreated        : TOnWindowCreatedEvent       read FOnWindowCreated       write FOnWindowCreated;
+      property OnWindowDestroyed      : TOnWindowDestroyedEvent     read FOnWindowDestroyed     write FOnWindowDestroyed;
+      property OnGetParentWindow      : TOnGetParentWindowEvent     read FOnGetParentWindow     write FOnGetParentWindow;
+      property OnGetInitialBounds     : TOnGetInitialBoundsEvent    read FOnGetInitialBounds    write FOnGetInitialBounds;
+      property OnGetInitialShowState  : TOnGetInitialShowStateEvent read FOnGetInitialShowState write FOnGetInitialShowState;
+      property OnIsFrameless          : TOnIsFramelessEvent         read FOnIsFrameless         write FOnIsFrameless;
+      property OnCanResize            : TOnCanResizeEvent           read FOnCanResize           write FOnCanResize;
+      property OnCanMaximize          : TOnCanMaximizeEvent         read FOnCanMaximize         write FOnCanMaximize;
+      property OnCanMinimize          : TOnCanMinimizeEvent         read FOnCanMinimize         write FOnCanMinimize;
+      property OnCanClose             : TOnCanCloseEvent            read FOnCanClose            write FOnCanClose;
+      property OnAccelerator          : TOnAcceleratorEvent         read FOnAccelerator         write FOnAccelerator;
+      property OnKeyEvent             : TOnWindowKeyEventEvent      read FOnKeyEvent            write FOnKeyEvent;
   end;
 
 {$IFDEF FPC}
@@ -223,23 +214,20 @@ procedure TCEFWindowComponent.Initialize;
 begin
   inherited Initialize;
 
-  FWindow                    := nil;
-  FWindowDlg                 := nil;
-  FOnWindowCreated           := nil;
-  FOnWindowClosing           := nil;
-  FOnWindowDestroyed         := nil;
-  FOnWindowActivationChanged := nil;
-  FOnWindowBoundsChanged     := nil;
-  FOnGetParentWindow         := nil;
-  FOnGetInitialBounds        := nil;
-  FOnGetInitialShowState     := nil;
-  FOnIsFrameless             := nil;
-  FOnCanResize               := nil;
-  FOnCanMaximize             := nil;
-  FOnCanMinimize             := nil;
-  FOnCanClose                := nil;
-  FOnAccelerator             := nil;
-  FOnKeyEvent                := nil;
+  FWindow                 := nil;
+  FWindowDlg              := nil;
+  FOnWindowCreated        := nil;
+  FOnWindowDestroyed      := nil;
+  FOnGetParentWindow      := nil;
+  FOnGetInitialBounds     := nil;
+  FOnGetInitialShowState  := nil;
+  FOnIsFrameless          := nil;
+  FOnCanResize            := nil;
+  FOnCanMaximize          := nil;
+  FOnCanMinimize          := nil;
+  FOnCanClose             := nil;
+  FOnAccelerator          := nil;
+  FOnKeyEvent             := nil;
 end;
 
 procedure TCEFWindowComponent.CreateTopLevelWindow;
@@ -304,30 +292,12 @@ begin
     FOnWindowCreated(self, window_);
 end;
 
-procedure TCEFWindowComponent.doOnWindowClosing(const window_: ICefWindow);
-begin
-  if assigned(FOnWindowClosing) then
-    FOnWindowClosing(self, window_);
-end;
-
 procedure TCEFWindowComponent.doOnWindowDestroyed(const window_: ICefWindow);
 begin
   if assigned(FOnWindowDestroyed) then
     FOnWindowDestroyed(self, window_);
 
   FWindow := nil;
-end;
-
-procedure TCEFWindowComponent.doOnWindowActivationChanged(const window_: ICefWindow; active: boolean);
-begin
-  if assigned(FOnWindowActivationChanged) then
-    FOnWindowActivationChanged(self, window_, active);
-end;
-
-procedure TCEFWindowComponent.doOnWindowBoundsChanged(const window_: ICefWindow; const new_bounds: TCefRect);
-begin
-  if assigned(FOnWindowBoundsChanged) then
-    FOnWindowBoundsChanged(self, window_, new_bounds);
 end;
 
 procedure TCEFWindowComponent.doOnGetParentWindow(const window_: ICefWindow; var is_menu, can_activate_menu: boolean; var aResult : ICefWindow);

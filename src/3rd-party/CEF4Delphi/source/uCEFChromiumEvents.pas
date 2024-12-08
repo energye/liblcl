@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -76,9 +76,6 @@ type
   TOnRunContextMenu               = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; const model: ICefMenuModel; const callback: ICefRunContextMenuCallback; var aResult : Boolean) of object;
   TOnContextMenuCommand           = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const params: ICefContextMenuParams; commandId: Integer; eventFlags: TCefEventFlags; out Result: Boolean) of object;
   TOnContextMenuDismissed         = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame) of object;
-  TOnRunQuickMenuEvent            = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; location: TCefPoint; size: TCefSize; edit_state_flags: TCefQuickMenuEditStateFlags; const callback: ICefRunQuickMenuCallback; var aResult : Boolean) of object;
-  TOnQuickMenuCommandEvent        = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; command_id: integer; event_flags: TCefEventFlags; var aResult: Boolean) of object;
-  TOnQuickMenuDismissedEvent      = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame) of object;
 
   // ICefKeyboardHandler
   TOnPreKeyEvent                  = procedure(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: Boolean; out Result: Boolean) of object;
@@ -95,7 +92,6 @@ type
   TOnAutoResize                   = procedure(Sender: TObject; const browser: ICefBrowser; const new_size: PCefSize; out Result: Boolean) of object;
   TOnLoadingProgressChange        = procedure(Sender: TObject; const browser: ICefBrowser; const progress: double) of object;
   TOnCursorChange                 = procedure(Sender: TObject; const browser: ICefBrowser; cursor_: TCefCursorHandle; cursorType: TCefCursorType; const customCursorInfo: PCefCursorInfo; var aResult : boolean) of Object;
-  TOnMediaAccessChange            = procedure(Sender: TObject; const browser: ICefBrowser; has_video_access, has_audio_access: boolean) of Object;
 
   // ICefDownloadHandler
   TOnCanDownloadEvent             = procedure(Sender: TObject; const browser: ICefBrowser; const url, request_method: ustring; var aResult: boolean) of object;
@@ -118,6 +114,7 @@ type
   TOnBeforeBrowse                 = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; user_gesture, isRedirect: Boolean; out Result: Boolean) of object;
   TOnOpenUrlFromTab               = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; out Result: Boolean) of object;
   TOnGetAuthCredentials           = procedure(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback; out Result: Boolean) of object;
+  TOnQuotaRequest                 = procedure(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; newSize: Int64; const callback: ICefCallback; out Result: Boolean) of object;
   TOnCertificateError             = procedure(Sender: TObject; const browser: ICefBrowser; certError: TCefErrorcode; const requestUrl: ustring; const sslInfo: ICefSslInfo; const callback: ICefCallback; out Result: Boolean) of object;
   TOnSelectClientCertificate      = procedure(Sender: TObject; const browser: ICefBrowser; isProxy: boolean; const host: ustring; port: integer; certificatesCount: NativeUInt; const certificates: TCefX509CertificateArray; const callback: ICefSelectClientCertificateCallback; var aResult : boolean) of object;
   TOnRenderViewReady              = procedure(Sender: Tobject; const browser: ICefBrowser) of object;
@@ -139,7 +136,7 @@ type
   TOnCanSaveCookie                = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; const response: ICefResponse; const cookie: PCefCookie; var aResult : boolean) of object;
 
   // ICefDialogHandler
-  TOnFileDialog                   = procedure(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; const callback: ICefFileDialogCallback; var Result: Boolean) of Object;
+  TOnFileDialog                   = procedure(Sender: TObject; const browser: ICefBrowser; mode: TCefFileDialogMode; const title, defaultFilePath: ustring; const acceptFilters: TStrings; selectedAcceptFilter: Integer; const callback: ICefFileDialogCallback; out Result: Boolean) of Object;
 
   // ICefRenderHandler
   TOnGetAccessibilityHandler      = procedure(Sender: TObject; var aAccessibilityHandler : ICefAccessibilityHandler) of Object;
@@ -151,8 +148,6 @@ type
   TOnPopupSize                    = procedure(Sender: TObject; const browser: ICefBrowser; const rect: PCefRect) of Object;
   TOnPaint                        = procedure(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; const buffer: Pointer; width, height: Integer) of Object;
   TOnAcceleratedPaint             = procedure(Sender: TObject; const browser: ICefBrowser; type_: TCefPaintElementType; dirtyRectsCount: NativeUInt; const dirtyRects: PCefRectArray; shared_handle: Pointer) of Object;
-  TOnGetTouchHandleSize           = procedure(Sender: TObject; const browser: ICefBrowser; orientation: TCefHorizontalAlignment; var size: TCefSize) of Object;
-  TOnTouchHandleStateChanged      = procedure(Sender: TObject; const browser: ICefBrowser; const state: TCefTouchHandleState) of Object;
   TOnStartDragging                = procedure(Sender: TObject; const browser: ICefBrowser; const dragData: ICefDragData; allowedOps: TCefDragOperations; x, y: Integer; out Result: Boolean) of Object;
   TOnUpdateDragCursor             = procedure(Sender: TObject; const browser: ICefBrowser; operation: TCefDragOperation) of Object;
   TOnScrollOffsetChanged          = procedure(Sender: TObject; const browser: ICefBrowser; x, y: Double) of Object;
@@ -220,11 +215,6 @@ type
 
   // ICefCommandHandler
   TOnChromeCommandEvent           = procedure(Sender: TObject; const browser: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition; var aResult: boolean) of object;
-
-  // ICefPermissionHandler
-  TOnRequestMediaAccessPermissionEvent = procedure(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefMediaAccessCallback; var aResult: boolean) of object;
-  TOnShowPermissionPromptEvent         = procedure(Sender: TObject; const browser: ICefBrowser; prompt_id: uint64; const requesting_origin: ustring; requested_permissions: cardinal; const callback: ICefPermissionPromptCallback; var aResult: boolean) of object;
-  TOnDismissPermissionPromptEvent      = procedure(Sender: TObject; const browser: ICefBrowser; prompt_id: uint64; result: TCefPermissionRequestResult) of object;
 
   // Custom
   TOnTextResultAvailableEvent              = procedure(Sender: TObject; const aText : ustring) of object;

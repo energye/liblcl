@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -143,8 +143,8 @@ begin
               FArgVCopy[i] := System.AnsiStrings.AnsiStrAlloc(length(aArgv[i]) + 1);
               System.AnsiStrings.StrCopy(FArgVCopy[i], aArgv[i]);
             {$ELSE}
-              FArgVCopy[i] := {$IFDEF DELPHI16_UP}System.{$ENDIF}SysUtils.AnsiStrAlloc(length(aArgv[i]) + 1);
-              {$IFDEF DELPHI16_UP}System.{$ENDIF}SysUtils.StrCopy(FArgVCopy[i], aArgv[i]);
+              FArgVCopy[i] := System.SysUtils.AnsiStrAlloc(length(aArgv[i]) + 1);
+              System.SysUtils.StrCopy(FArgVCopy[i], aArgv[i]);
             {$ENDIF}
           {$ENDIF}
 

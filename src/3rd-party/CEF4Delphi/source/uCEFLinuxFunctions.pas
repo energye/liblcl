@@ -1,3 +1,40 @@
+// ************************************************************************
+// ***************************** CEF4Delphi *******************************
+// ************************************************************************
+//
+// CEF4Delphi is based on DCEF3 which uses CEF to embed a chromium-based
+// browser in Delphi applications.
+//
+// The original license of DCEF3 still applies to CEF4Delphi.
+//
+// For more information about CEF4Delphi visit :
+//         https://www.briskbard.com/index.php?lang=en&pageid=cef
+//
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
+//
+// ************************************************************************
+// ************ vvvv Original license and comments below vvvv *************
+// ************************************************************************
+(*
+ *                       Delphi Chromium Embedded 3
+ *
+ * Usage allowed under the restrictions of the Lesser GNU General Public License
+ * or alternatively the restrictions of the Mozilla Public License 1.1
+ *
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
+ * the specific language governing rights and limitations under the License.
+ *
+ * Unit owner : Henri Gourvest <hgourvest@gmail.com>
+ * Web site   : http://www.progdigy.com
+ * Repository : http://code.google.com/p/delphichromiumembedded/
+ * Group      : http://groups.google.com/group/delphichromiumembedded
+ *
+ * Embarcadero Technologies, Inc is not permitted to use or redistribute
+ * this source code without explicit permission.
+ *
+ *)
+
 unit uCEFLinuxFunctions;
 
 {$IFDEF FPC}
@@ -14,32 +51,19 @@ interface
 uses
   {$IFDEF LINUX}
     {$IFDEF FPC}
-      ctypes, keysym, xf86keysym, x, xlib, LCLVersion,
+      ctypes, keysym, xf86keysym, x, xlib,
       {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
-      {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGObject2, LazGLib2, gtk3objects, gtk3procs,{$ENDIF}
     {$ENDIF}
   {$ENDIF}
   uCEFLinuxTypes, uCEFTypes;
 
-{$IFNDEF FPC}
-const
-  // We define this constant only to avoid warnings in Delphi
-  LCL_FULLVERSION = 3000001;
-{$ENDIF}
-
 {$IFDEF LINUX}
 procedure GdkEventKeyToCEFKeyEvent(GdkEvent: PGdkEventKey; var aCEFKeyEvent : TCEFKeyEvent);
 function  KeyboardCodeFromXKeysym(keysym : uint32) : integer;
-{$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2) or (DEFINED(LCLGTK3) and (LCL_FULLVERSION<3000000))}
 function  GetCefStateModifiers(state : uint32) : integer;
-{$IFEND}
-{$IF DEFINED(LCLGTK3) and (LCL_FULLVERSION>3000000)}
-function  GetCefStateModifiers(state : TGdkModifierType) : integer;
-{$IFEND}
 function  GdkEventToWindowsKeyCode(Event: PGdkEventKey) : integer;
 function  GetWindowsKeyCodeWithoutLocation(key_code : integer) : integer;
 function  GetControlCharacter(windows_key_code : integer; shift : boolean) : integer;
-
 {$IFDEF FMX}
 type
    TXErrorHandler   = function (para1:PDisplay; para2:PXErrorEvent):longint; cdecl;
@@ -58,11 +82,6 @@ function gdk_screen_get_default:PGdkScreen; cdecl; external 'libgdk-3.so';
 function gdk_screen_get_resolution(screen:PGdkScreen):gdouble; cdecl; external 'libgdk-3.so';
 {$ENDIF}
 {$IFDEF FPC}
-{$IFDEF LCLGTK3}
-function gdk_x11_window_get_xid(window: PGdkWindow): TXID; cdecl; external 'libgdk-3.so.0';
-function gdk_x11_get_default_xdisplay: PDisplay; cdecl; external 'libgdk-3.so.0';
-procedure gdk_set_allowed_backends(const backends: PGchar); cdecl; external 'libgdk-3.so.0';
-{$ENDIF}
 procedure ShowX11Message(const aMessage : string);
 {$ENDIF}{$ENDIF}
 
@@ -459,7 +478,6 @@ begin
   end;
 end;
 
-{$IF DEFINED(LINUXFMX) or DEFINED(LCLGTK2) or (DEFINED(LCLGTK3) and (LCL_FULLVERSION<3000000))}
 function GetCefStateModifiers(state : uint32) : integer;
 begin
   Result := EVENTFLAG_NONE;
@@ -485,34 +503,6 @@ begin
   if ((state and GDK_BUTTON3_MASK) <> 0) then
     Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
 end;
-{$IFEND}
-{$IF DEFINED(LCLGTK3) and (LCL_FULLVERSION>3000000)}
-function GetCefStateModifiers(state : TGdkModifierType) : integer;
-begin
-  Result := EVENTFLAG_NONE;
-
-  if (GDK_SHIFT_MASK in state) then
-    Result := Result or EVENTFLAG_SHIFT_DOWN;
-
-  if (GDK_LOCK_MASK in state) then
-    Result := Result or EVENTFLAG_CAPS_LOCK_ON;
-
-  if (GDK_CONTROL_MASK in state) then
-    Result := Result or EVENTFLAG_CONTROL_DOWN;
-
-  if (GDK_MOD1_MASK in state) then
-    Result := Result or EVENTFLAG_ALT_DOWN;
-
-  if (GDK_BUTTON1_MASK in state) then
-    Result := Result or EVENTFLAG_LEFT_MOUSE_BUTTON;
-
-  if (GDK_BUTTON2_MASK in state) then
-    Result := Result or EVENTFLAG_MIDDLE_MOUSE_BUTTON;
-
-  if (GDK_BUTTON3_MASK in state) then
-    Result := Result or EVENTFLAG_RIGHT_MOUSE_BUTTON;
-end;
-{$IFEND}
 
 function GdkEventToWindowsKeyCode(event: PGdkEventKey) : integer;
 var
@@ -659,4 +649,3 @@ end;
 {$ENDIF}{$ENDIF}
 
 end.
-

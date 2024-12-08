@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -51,9 +51,9 @@ interface
 {$IFDEF MSWINDOWS}
 uses
   {$IFDEF DELPHI16_UP}
-  System.Classes, Winapi.Messages;
+  Winapi.Messages;
   {$ELSE}
-  Classes, Messages;
+  Messages;
   {$ENDIF}
 {$ENDIF}
 
@@ -475,6 +475,9 @@ const
   FILE_DIALOG_OPEN_MULTIPLE        = $00000001;
   FILE_DIALOG_OPEN_FOLDER          = $00000002;
   FILE_DIALOG_SAVE                 = $00000003;
+  FILE_DIALOG_TYPE_MASK            = $000000FF;
+  FILE_DIALOG_OVERWRITEPROMPT_FLAG = $01000000;
+  FILE_DIALOG_HIDEREADONLY_FLAG    = $02000000;
 
   // /include/internal/cef_types.h (cef_uri_unescape_rule_t)
   UU_NONE                                     = 0;
@@ -598,6 +601,7 @@ const
   CEF_MRCR_CANCELLED                = 8;
   CEF_MRCR_ROUTE_ALREADY_EXISTS     = 9;
   CEF_MRCR_ROUTE_ALREADY_TERMINATED = 11;
+  CEF_MRCR_TOTAL_COUNT              = 12;
 
   // /include/internal/cef_types.h (cef_cookie_priority_t)
   CEF_COOKIE_PRIORITY_LOW    = -1;
@@ -623,56 +627,11 @@ const
   CEF_DOCKING_MODE_BOTTOM_LEFT   = 3;
   CEF_DOCKING_MODE_BOTTOM_RIGHT  = 4;
   CEF_DOCKING_MODE_CUSTOM        = 5;
-
   // /include/internal/cef_types.h (cef_show_state_t)
   CEF_SHOW_STATE_NORMAL      = 1;
   CEF_SHOW_STATE_MINIMIZED   = 2;
   CEF_SHOW_STATE_MAXIMIZED   = 3;
   CEF_SHOW_STATE_FULLSCREEN  = 4;
-
-  // /include/internal/cef_types.h (cef_quick_menu_edit_state_flags_t)
-  QM_EDITFLAG_NONE         = 0;
-  QM_EDITFLAG_CAN_ELLIPSIS = 1 shl 0;
-  QM_EDITFLAG_CAN_CUT      = 1 shl 1;
-  QM_EDITFLAG_CAN_COPY     = 1 shl 2;
-  QM_EDITFLAG_CAN_PASTE    = 1 shl 3;
-
-  // /include/internal/cef_types.h (cef_touch_handle_state_flags_t)
-  CEF_THS_FLAG_NONE        = 0;
-  CEF_THS_FLAG_ENABLED     = 1 shl 0;
-  CEF_THS_FLAG_ORIENTATION = 1 shl 1;
-  CEF_THS_FLAG_ORIGIN      = 1 shl 2;
-  CEF_THS_FLAG_ALPHA       = 1 shl 3;
-
-  // /include/internal/cef_types.h (cef_media_access_permission_types_t)
-  CEF_MEDIA_PERMISSION_NONE                  = 0;
-  CEF_MEDIA_PERMISSION_DEVICE_AUDIO_CAPTURE  = 1 shl 0;
-  CEF_MEDIA_PERMISSION_DEVICE_VIDEO_CAPTURE  = 1 shl 1;
-  CEF_MEDIA_PERMISSION_DESKTOP_AUDIO_CAPTURE = 1 shl 2;
-  CEF_MEDIA_PERMISSION_DESKTOP_VIDEO_CAPTURE = 1 shl 3;
-
-  // /include/internal/cef_types.h (cef_permission_request_types_t)
-  CEF_PERMISSION_TYPE_NONE                       = 0;
-  CEF_PERMISSION_TYPE_ACCESSIBILITY_EVENTS       = 1 shl 0;
-  CEF_PERMISSION_TYPE_AR_SESSION                 = 1 shl 1;
-  CEF_PERMISSION_TYPE_CAMERA_PAN_TILT_ZOOM       = 1 shl 2;
-  CEF_PERMISSION_TYPE_CAMERA_STREAM              = 1 shl 3;
-  CEF_PERMISSION_TYPE_CLIPBOARD                  = 1 shl 4;
-  CEF_PERMISSION_TYPE_DISK_QUOTA                 = 1 shl 5;
-  CEF_PERMISSION_TYPE_LOCAL_FONTS                = 1 shl 6;
-  CEF_PERMISSION_TYPE_GEOLOCATION                = 1 shl 7;
-  CEF_PERMISSION_TYPE_IDLE_DETECTION             = 1 shl 8;
-  CEF_PERMISSION_TYPE_MIC_STREAM                 = 1 shl 9;
-  CEF_PERMISSION_TYPE_MIDI_SYSEX                 = 1 shl 10;
-  CEF_PERMISSION_TYPE_MULTIPLE_DOWNLOADS         = 1 shl 11;
-  CEF_PERMISSION_TYPE_NOTIFICATIONS              = 1 shl 12;
-  CEF_PERMISSION_TYPE_PROTECTED_MEDIA_IDENTIFIER = 1 shl 13;
-  CEF_PERMISSION_TYPE_REGISTER_PROTOCOL_HANDLER  = 1 shl 14;
-  CEF_PERMISSION_TYPE_SECURITY_ATTESTATION       = 1 shl 15;
-  CEF_PERMISSION_TYPE_STORAGE_ACCESS             = 1 shl 16;
-  CEF_PERMISSION_TYPE_U2F_API_REQUEST            = 1 shl 17;
-  CEF_PERMISSION_TYPE_VR_SESSION                 = 1 shl 18;
-  CEF_PERMISSION_TYPE_WINDOW_MANAGEMENT          = 1 shl 19;
 
   // /include/cef_api_hash.h (used as "cef_api_hash" parameters)
   CEF_API_HASH_PLATFORM  = 0;
@@ -694,16 +653,10 @@ const
   CEF_PROXYTYPE_FIXED_SERVERS = 3;
   CEF_PROXYTYPE_PAC_SCRIPT    = 4;
 
-  // /include/base/cef_logging.h (LogSeverity)
   // Used in the severity parameter in the 'cef_log' function, also known as 'CefLog' in CEF4Delphi.
-  // The log severities are used to index into the array of names, see log_severity_names.
-  // /base/allocator/partition_allocator/partition_alloc_base/logging.h
-  // /base/logging.cc
-  CEF_LOG_SEVERITY_VERBOSE = -1;
   CEF_LOG_SEVERITY_INFO    = 0;
   CEF_LOG_SEVERITY_WARNING = 1;
   CEF_LOG_SEVERITY_ERROR   = 2;
-  CEF_LOG_SEVERITY_FATAL   = 3;   // This severity log level causes a crash
 
   CEF_MAX_CONNECTIONS_PER_PROXY_DEFAULT_VALUE = 32;
   CEF_MAX_CONNECTIONS_PER_PROXY_MIN_VALUE     = 7;
@@ -805,43 +758,6 @@ const
   {$IFDEF CEF4DELHI_ALLOC_DEBUG}
   CEF4DELPHI_ALLOC_PADDING = Pointer($44332211); // Some random value used as padding
   {$ENDIF}
-
-  // If any of the platform IDs are not defined then we set them as 0 to avoid build errors on older Delphi versions.
-  {$IF NOT DECLARED(pidWin32)}
-  pidWin32 = 0;
-  {$IFEND}
-
-  {$IF NOT DECLARED(pidWin64)}
-  pidWin64 = 0;
-  {$IFEND}
-
-  {$IF NOT DECLARED(pfidWindows)}
-  pfidWindows = pidWin32 or pidWin64;
-  {$IFEND}
-
-  {$IF NOT DECLARED(pidOSX32)}
-  pidOSX32 = 0;
-  {$IFEND}
-
-  {$IF NOT DECLARED(pidOSX64)}
-  pidOSX64 = 0;
-  {$IFEND}
-
-  {$IF NOT DECLARED(pidOSXArm64)}
-  pidOSXArm64 = 0;
-  {$IFEND}
-
-  {$IF NOT DECLARED(pfidOSX)}
-  pfidOSX = pidOSX32 or pidOSX64 or pidOSXArm64;
-  {$IFEND}
-
-  {$IF NOT DECLARED(pidLinux64)}
-  pidLinux64 = 0;
-  {$IFEND}
-
-  {$IF NOT DECLARED(pfidLinux)}
-  pfidLinux = pidLinux64;
-  {$IFEND}
 
   implementation
 

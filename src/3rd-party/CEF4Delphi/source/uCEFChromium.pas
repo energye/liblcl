@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -59,10 +59,10 @@ uses
     Messages,
     {$ENDIF}
   {$ENDIF}
-  uCEFConstants, uCEFTypes, uCEFInterfaces, uCEFChromiumCore;
+  uCEFTypes, uCEFInterfaces, uCEFChromiumCore;
 
 type
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TChromium = class(TChromiumCore)
     protected
       function  GetParentFormHandle : TCefWindowHandle; override;

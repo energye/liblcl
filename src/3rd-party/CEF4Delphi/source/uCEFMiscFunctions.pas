@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -72,11 +72,9 @@ uses
     {$IFDEF LINUX}{$IFDEF FPC}
       ctypes, keysym, xf86keysym, x, xlib,
       {$IFDEF LCLGTK2}gtk2, glib2, gdk2, gtk2proc, gtk2int, Gtk2Def, gdk2x, Gtk2Extra,{$ENDIF}
-      {$IFDEF LCLGTK3}LazGdk3, LazGtk3, LazGLib2, gtk3widgets,{$ENDIF}
     {$ENDIF}{$ENDIF}
   {$ENDIF}
-  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler,
-  {$IFDEF LINUX}{$IFDEF FPC}uCEFLinuxFunctions,{$ENDIF}{$ENDIF} uCEFConstants;
+  uCEFTypes, uCEFInterfaces, uCEFLibFunctions, uCEFResourceHandler, uCEFConstants;
 
 const
   Kernel32DLL = 'kernel32.dll';
@@ -131,20 +129,6 @@ function SystemTimeToCefTime(const dt: TSystemTime): TCefTime;
 function FixCefTime(const dt : TCefTime): TCefTime;
 function CefTimeToDateTime(const dt: TCefTime): TDateTime;
 function DateTimeToCefTime(dt: TDateTime): TCefTime;
-function DateTimeToCefBaseTime(dt: TDateTime): TCefBaseTime;
-function CefTimeToDouble(const dt: TCefTime): double;
-function DoubleToCefTime(const dt: double): TCefTime;
-function CefTimeToUnixTime(const dt: TCefTime): int64;
-function UnixTimeToCefTime(const dt: int64): TCefTime;
-function CefTimeNow: TCefTime;
-function DoubleTimeNow: double;
-function CefTimeDelta(const cef_time1, cef_time2: TCefTime): int64;
-function CefBaseTimeNow: TCefBaseTime;
-function CetTimeToCefBaseTime(const ct: TCefTime) : TCefBaseTime;
-function CetTimeFromCefBaseTime(const cbt: TCefBaseTime) : TCefTime;
-function CefBaseTimeToDateTime(const cbt: TCefBaseTime) : TDateTime;
-function GetTimeIntervalMilliseconds(const from_: TCefTime): integer;
-procedure InitializeCefTime(var aTime : TCefTime);
 
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
 function cef_string_utf8_copy(const src: PAnsiChar; src_len: NativeUInt; output: PCefStringUtf8): Integer;
@@ -244,7 +228,6 @@ function FileVersionInfoToString(const aVersionInfo : TFileVersionInfo) : string
 function CheckFilesExist(var aList : TStringList; var aMissingFiles : string) : boolean;
 function Is32BitProcess : boolean;
 
-function  CefResolveUrl(const base_url, relative_url: ustring): ustring;
 function  CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
 function  CefCreateUrl(var parts: TUrlParts): ustring;
 function  CefFormatUrlForSecurityDisplay(const originUrl: string): string;
@@ -634,126 +617,6 @@ begin
   Result.millisecond  := TempMSec;
 end;
 
-function DateTimeToCefBaseTime(dt: TDateTime): TCefBaseTime;
-begin
-  Result := CetTimeToCefBaseTime(DateTimeToCefTime(dt));
-end;
-
-function CefTimeToDouble(const dt: TCefTime): double;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_to_doublet(@dt, Result);
-end;
-
-function DoubleToCefTime(const dt: double): TCefTime;
-begin
-  FillChar(Result, SizeOf(TCefTime), #0);
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_from_doublet(dt, Result);
-end;
-
-function CefTimeToUnixTime(const dt: TCefTime): int64;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_to_timet(@dt, Result);
-end;
-
-function UnixTimeToCefTime(const dt: int64): TCefTime;
-begin                         
-  FillChar(Result, SizeOf(TCefTime), #0);
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_from_timet(dt, Result);
-end;
-
-function CefTimeNow: TCefTime;
-begin
-  FillChar(Result, SizeOf(TCefTime), #0);
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_now(Result);
-end;
-
-function DoubleTimeNow: double;
-var
-  TempTime : TCefTime;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    begin
-      FillChar(TempTime, SizeOf(TCefTime), #0);
-      if (cef_time_now(TempTime) <> 0) then
-        cef_time_to_doublet(@TempTime, Result);
-    end;
-end;
-
-function CefTimeDelta(const cef_time1, cef_time2: TCefTime): int64;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    cef_time_delta(@cef_time1, @cef_time2, Result);
-end;
-
-function CefBaseTimeNow: TCefBaseTime;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    Result := cef_basetime_now();
-end;
-
-function CetTimeToCefBaseTime(const ct: TCefTime) : TCefBaseTime;
-var
-  TempResult : TCefBaseTime;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (cef_time_to_basetime(@ct, @TempResult) <> 0) then
-    Result := TempResult;
-end;
-
-function CetTimeFromCefBaseTime(const cbt: TCefBaseTime) : TCefTime;
-var
-  TempResult : TCefTime;
-begin
-  FillChar(Result, SizeOf(TCefTime), #0);
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (cef_time_from_basetime(cbt, @TempResult) <> 0) then
-    Result := TempResult;
-end;
-
-function CefBaseTimeToDateTime(const cbt: TCefBaseTime) : TDateTime;
-var
-  TempResult : TCefTime;
-begin
-  Result := 0;
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded and (cef_time_from_basetime(cbt, @TempResult) <> 0) then
-    Result := CefTimeToDateTime(TempResult);
-end;
-
-function GetTimeIntervalMilliseconds(const from_: TCefTime): integer;
-var
-  TempFrom : double;
-  TempDelay : integer;
-begin
-  Result   := -1;
-  TempFrom := CefTimeToDouble(from_);
-
-  if (TempFrom = 0) then exit;
-
-  TempDelay := ceil((TempFrom - DoubleTimeNow) * 1000);
-  Result    := max(0, TempDelay);
-end;
-
-procedure InitializeCefTime(var aTime : TCefTime);
-begin
-  aTime.year         := 0;
-  aTime.month        := 0;
-  aTime.day_of_week  := 0;
-  aTime.day_of_month := 0;
-  aTime.hour         := 0;
-  aTime.minute       := 0;
-  aTime.second       := 0;
-  aTime.millisecond  := 0;
-end;
-
 function cef_string_wide_copy(const src: PWideChar; src_len: NativeUInt;  output: PCefStringWide): Integer;
 begin
   if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
@@ -903,16 +766,11 @@ procedure WindowInfoAsChild(var aWindowInfo : TCefWindowInfo; aParent : TCefWind
 var
   TempParent : TCefWindowHandle;
 begin
+  // TODO: Find a way to get the right "parent_window" in FMX
   TempParent := aParent;
   {$IFDEF FPC}
-    {$IFDEF LCLGTK2}
-    if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
-      TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
-    {$ENDIF}
-    {$IFDEF LCLGTK3}
-    if ValidCefWindowHandle(aParent) then
-      TempParent := gdk_x11_window_get_xid(TGtk3Container(aParent).Widget^.window);
-    {$ENDIF}
+  if ValidCefWindowHandle(aParent) and (PGtkWidget(aParent)^.window <> nil) then
+    TempParent := gdk_window_xwindow(PGtkWidget(aParent)^.window);
   {$ENDIF}
 
   aWindowInfo.window_name                  := CefString(aWindowName);
@@ -1408,6 +1266,8 @@ begin
       TempList.Add(TempDir + 'vulkan-1.dll');
       TempList.Add(TempDir + 'libEGL.dll');
       TempList.Add(TempDir + 'libGLESv2.dll');
+      TempList.Add(TempDir + 'swiftshader\libEGL.dll');
+      TempList.Add(TempDir + 'swiftshader\libGLESv2.dll');
       {$ENDIF}
       {$IFDEF LINUX}
       TempList.Add(TempDir + 'libEGL.so');
@@ -1415,6 +1275,8 @@ begin
       TempList.Add(TempDir + 'libvk_swiftshader.so');
       TempList.Add(TempDir + 'vk_swiftshader_icd.json');
       TempList.Add(TempDir + 'libvulkan.so.1');
+      TempList.Add(TempDir + 'swiftshader/libEGL.so');
+      TempList.Add(TempDir + 'swiftshader/libGLESv2.so');
       {$ENDIF}
       TempList.Add(TempDir + 'icudtl.dat');
 
@@ -1775,24 +1637,6 @@ begin
     Result := Result.Remove(Result.IndexOf(MAC_APP_SUBPATH));
   {$ENDIF}
   {$ENDIF}
-end;
-
-function CefResolveUrl(const base_url, relative_url: ustring): ustring;
-var
-  TempBaseURL, TempRelativeURL, TempResolvedURL : TCefString;
-begin
-  Result := '';
-
-  if (GlobalCEFApp <> nil) and GlobalCEFApp.LibLoaded then
-    begin
-      TempBaseURL     := CefString(base_url);
-      TempRelativeURL := CefString(relative_url);
-
-      CefStringInitialize(@TempResolvedURL);
-
-      if (cef_resolve_url(@TempBaseURL, @TempRelativeURL, @TempResolvedURL) <> 0) then
-        Result := CefStringClearAndGet(@TempResolvedURL);
-    end;
 end;
 
 function CefParseUrl(const url: ustring; var parts: TUrlParts): Boolean;
@@ -2430,8 +2274,7 @@ var
 {$ELSE}
 {$IFDEF FMX}
 var
-  TempService : IFMXScreenService;
-  TempWidth, TempWidthMM : integer;
+  TempService: IFMXScreenService;
 {$ENDIF}
 {$ENDIF}
 begin
@@ -2458,24 +2301,13 @@ begin
          else
           Result := USER_DEFAULT_SCREEN_DPI;
     {$ELSE}
-    Result := -1;
     if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, TempService) then
-      Result := round(TempService.GetScreenScale * USER_DEFAULT_SCREEN_DPI);
-
-    if (Result < 0) then
+      Result := round(TempService.GetScreenScale * USER_DEFAULT_SCREEN_DPI)
+     else
       begin
         Result := round(gdk_screen_get_resolution(gdk_screen_get_default));
-
         if (Result < 0) then
-          begin
-            TempWidthMM := gdk_screen_width_mm;
-            TempWidth   := gdk_screen_width;
-
-            if (TempWidthMM > 0) and (TempWidth > 0) then
-              Result := round(TempWidth / (TempWidthMM / 25.4))
-             else
-              Result := USER_DEFAULT_SCREEN_DPI;
-          end;
+          Result := round(gdk_screen_width / (gdk_screen_width_mm / 25.4));
       end;
     {$ENDIF}
   {$ENDIF}
@@ -2533,7 +2365,7 @@ begin
               if (TempRec.Name <> '.') and (TempRec.Name <> '..') then
                 begin
                   if DeleteDirContents(TempPath, aExcludeFiles) then
-                    Result := ((TempRec.Name = 'Network') or RemoveDir(TempPath)) and Result
+                    Result := RemoveDir(TempPath) and Result
                    else
                     Result := False;
                 end;

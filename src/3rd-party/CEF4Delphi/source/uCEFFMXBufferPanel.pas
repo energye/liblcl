@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -52,12 +52,12 @@ uses
   FMX.Graphics,
   {$ENDIF}
   FMX.Types, FMX.Controls, FMX.Forms,
-  uCEFTypes, uCEFConstants;
+  uCEFTypes;
 
 type
   TDialogKeyEvent = procedure(Sender: TObject; var Key: Word; Shift: TShiftState) of object;
 
-  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pfidWindows or pfidOSX or pfidLinux)]{$ENDIF}{$ENDIF}
+  {$IFNDEF FPC}{$IFDEF DELPHI16_UP}[ComponentPlatformsAttribute(pidWin32 or pidWin64)]{$ENDIF}{$ENDIF}
   TFMXBufferPanel = class(TControl)
     protected
       {$IFDEF MSWINDOWS}
@@ -417,12 +417,9 @@ begin
   {$ENDIF}
 
   {$IFDEF LINUX}
-  if (Screen.DisplayCount = 1) then
-    aResultScale := Screen.Displays[0].Scale
-   else
-    aResultScale := Screen.DisplayFromForm(GetParentForm).Scale;
-
-  Result := True;
+  // TODO: Get the scale of the screen where the parent form is located in FMXLinux
+  Result       := False;
+  aResultScale := 1;
   {$ENDIF}
 
   {$IFDEF MACOS}

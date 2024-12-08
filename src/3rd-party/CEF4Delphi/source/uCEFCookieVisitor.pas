@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -107,7 +107,7 @@ begin
   TempObject := CefGetObject(self);
 
   if (cookie^.has_expires <> 0) then
-    exp := CefBaseTimeToDateTime(cookie^.expires)
+    exp := CefTimeToDateTime(cookie^.expires)
    else
     exp := 0;
 
@@ -119,8 +119,8 @@ begin
                                                          Boolean(cookie^.secure),
                                                          Boolean(cookie^.httponly),
                                                          Boolean(cookie^.has_expires),
-                                                         CefBaseTimeToDateTime(cookie^.creation),
-                                                         CefBaseTimeToDateTime(cookie^.last_access),
+                                                         CefTimeToDateTime(cookie^.creation),
+                                                         CefTimeToDateTime(cookie^.last_access),
                                                          exp,
                                                          count,
                                                          total,

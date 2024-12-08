@@ -10,7 +10,7 @@
 // For more information about CEF4Delphi visit :
 //         https://www.briskbard.com/index.php?lang=en&pageid=cef
 //
-//        Copyright © 2023 Salvador Diaz Fau. All rights reserved.
+//        Copyright © 2022 Salvador Diaz Fau. All rights reserved.
 //
 // ************************************************************************
 // ************ vvvv Original license and comments below vvvv *************
@@ -62,10 +62,8 @@ type
       function  GetSubject: ICefX509CertPrincipal;
       function  GetIssuer: ICefX509CertPrincipal;
       function  GetSerialNumber: ICefBinaryValue;
-      function  GetValidStart: TCefBaseTime;
-      function  GetValidExpiry: TCefBaseTime;
-      function  GetValidStartAsDateTime: TDateTime;
-      function  GetValidExpiryAsDateTime: TDateTime;
+      function  GetValidStart: TCefTime;
+      function  GetValidExpiry: TCefTime;
       function  GetDerEncoded: ICefBinaryValue;
       function  GetPemEncoded: ICefBinaryValue;
       function  GetIssuerChainSize: NativeUInt;
@@ -96,24 +94,14 @@ begin
   Result := TCefBinaryValueRef.UnWrap(PCefX509Certificate(FData)^.get_serial_number(PCefX509Certificate(FData)));
 end;
 
-function TCEFX509CertificateRef.GetValidStart: TCefBaseTime;
+function TCEFX509CertificateRef.GetValidStart: TCefTime;
 begin
   Result := PCefX509Certificate(FData)^.get_valid_start(PCefX509Certificate(FData));
 end;
 
-function TCEFX509CertificateRef.GetValidExpiry: TCefBaseTime;
+function TCEFX509CertificateRef.GetValidExpiry: TCefTime;
 begin
   Result := PCefX509Certificate(FData)^.get_valid_expiry(PCefX509Certificate(FData));
-end;
-
-function TCEFX509CertificateRef.GetValidStartAsDateTime: TDateTime;
-begin
-  Result := CefBaseTimeToDateTime(GetValidStart);
-end;
-
-function TCEFX509CertificateRef.GetValidExpiryAsDateTime: TDateTime;
-begin
-  Result := CefBaseTimeToDateTime(GetValidExpiry);
 end;
 
 function TCEFX509CertificateRef.GetDerEncoded: ICefBinaryValue;
