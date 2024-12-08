@@ -363,7 +363,6 @@
         <CursorPos X="10" Y="50"/>
         <UsageCount Value="92"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
         <Filename Value="uEventCallback.pas"/>
@@ -553,12 +552,12 @@
       </Unit26>
       <Unit27>
         <Filename Value="CEF_LCL_Export.inc"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="83"/>
+        <TopLine Value="5"/>
         <CursorPos X="23" Y="63"/>
         <UsageCount Value="45"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit27>
       <Unit28>
         <Filename Value="MiniWebviewLinux.inc"/>
@@ -596,8 +595,8 @@
       <Unit33>
         <Filename Value="CEF_LCL_Application_Proc.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="1358"/>
-        <CursorPos X="21" Y="1362"/>
+        <TopLine Value="1501"/>
+        <CursorPos X="28" Y="1517"/>
         <UsageCount Value="21"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit33>
@@ -635,12 +634,10 @@
       </Unit37>
       <Unit38>
         <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1076"/>
         <CursorPos X="123" Y="1096"/>
         <UsageCount Value="12"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit38>
       <Unit39>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFChromiumCore.pas"/>
@@ -943,12 +940,10 @@
       </Unit78>
       <Unit79>
         <Filename Value="CEF_LCL_Browser.inc"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="91"/>
         <CursorPos X="23" Y="128"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit79>
       <Unit80>
         <Filename Value="CEF_LCL_BrowserView.inc"/>
@@ -968,8 +963,8 @@
       <Unit82>
         <Filename Value="LazarusDef.inc"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="119"/>
-        <CursorPos X="27" Y="146"/>
+        <TopLine Value="989"/>
+        <CursorPos X="25" Y="1040"/>
         <UsageCount Value="11"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit82>
@@ -1057,13 +1052,10 @@
       </Unit93>
       <Unit94>
         <Filename Value="CEF_LCL_View.inc"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="128"/>
         <CursorPos Y="181"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit94>
       <Unit95>
         <Filename Value="CEF_LCL_Window.inc"/>
@@ -1235,25 +1227,21 @@
       </Unit117>
       <Unit118>
         <Filename Value="CEF_LCL_ViewComponent.inc"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="-1"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit118>
       <Unit119>
         <Filename Value="CEF_LCL_Value.inc"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="5" Y="26"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit119>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
     </OtherDefines>
-    <JumpHistory Count="7" HistoryIndex="6">
+    <JumpHistory Count="4" HistoryIndex="3">
       <Position1>
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="41" Column="32" TopLine="16"/>
@@ -1263,23 +1251,13 @@
         <Caret Line="63" Column="23" TopLine="16"/>
       </Position2>
       <Position3>
-        <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="63" Column="23" TopLine="5"/>
       </Position3>
       <Position4>
-        <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
-        <Caret Line="1015" Column="30" TopLine="962"/>
+        <Filename Value="liblcl.lpr"/>
+        <Caret Line="50" Column="10" TopLine="10"/>
       </Position4>
-      <Position5>
-        <Filename Value="CEF_LCL_Chromium_Proc.inc"/>
-        <Caret Line="1035" Column="30" TopLine="982"/>
-      </Position5>
-      <Position6>
-        <Filename Value="CEF_LCL_Export.inc"/>
-        <Caret Line="63" Column="23" TopLine="83"/>
-      </Position6>
-      <Position7>
-        <Filename Value="CEF_LCL_View.inc"/>
-      </Position7>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

@@ -1188,27 +1188,9 @@ begin
   GlobalCEFApp.LocalesRequired := PCharToUStr(value);
 end;
 
-function CEFAppConfig_ProcessType(): integer; extdecl;
+function CEFAppConfig_ProcessType(): Integer; extdecl;
 begin
-  // type = TCefProcessType = ptBrowser, ptRenderer, ptZygote, ptGPU, ptUtility, ptBroker, ptCrashpad, ptOther
-  if GlobalCEFApp.ProcessType = TCefProcessType.ptBrowser then
-  Result := 0
-  else if GlobalCEFApp.ProcessType = TCefProcessType.ptRenderer then
-  Result := 1
-  else if GlobalCEFApp.ProcessType = TCefProcessType.ptZygote then
-  Result := 2
-  else if GlobalCEFApp.ProcessType = TCefProcessType.ptGPU then
-  Result := 3
-  else if GlobalCEFApp.ProcessType = TCefProcessType.ptUtility then
-  Result := 4
-  else if GlobalCEFApp.ProcessType = TCefProcessType.ptBroker then
-  Result := 5
-  else if GlobalCEFApp.ProcessType = TCefProcessType.ptCrashpad then
-  Result := 6
-  else if GlobalCEFApp.ProcessType = TCefProcessType.ptOther then
-  Result := 7
-  else
-  Result := 0;
+  Result := Integer(GlobalCEFApp.ProcessType);
 end;
 
 function CEFAppConfig_MustCreateResourceBundleHandler(): LongBool; extdecl;
@@ -1260,29 +1242,7 @@ end;
 
 function CEFAppConfig_Status(): Integer; extdecl;
 begin
-  // type = TCefAplicationStatus = asLoading asLoaded asInitialized asShuttingDown asUnloaded asErrorMissingFiles asErrorDLLVersion asErrorLoadingLibrary asErrorInitializingLibrary asErrorExecutingProcess
-  if GlobalCEFApp.Status = TCefAplicationStatus.asLoading then
-  Result := 0
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asLoaded then
-  Result := 1
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asInitialized then
-  Result := 2
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asShuttingDown then
-  Result := 3
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asUnloaded then
-  Result := 4
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorMissingFiles then
-  Result := 5
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorDLLVersion then
-  Result := 6
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorLoadingLibrary then
-  Result := 7
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorInitializingLibrary then
-  Result := 8
-  else if GlobalCEFApp.Status = TCefAplicationStatus.asErrorExecutingProcess then
-  Result := 9
-  else
-  Result := 0;
+  Result := Integer(GlobalCEFApp.Status);
 end;
 
 function CEFAppConfig_MissingLibFiles(): PChar; extdecl;
@@ -1348,11 +1308,6 @@ end;
 procedure CEFAppConfig_UpdateDeviceScaleFactor(); extdecl;
 begin
   GlobalCEFApp.UpdateDeviceScaleFactor();
-end;
-
-function CEFAppConfig_SpecificVersion(): Integer; extdecl;
-begin
-  Result := 0; // 非特定版本，当前版本或当前最新版本
 end;
 
 exports
@@ -1601,5 +1556,4 @@ exports
   CEFAppConfig_SetMustCreateRenderProcessHandler,
   CEFAppConfig_SetMustCreateLoadHandler,
   CEFAppConfig_SetMustFreeLibrary,
-  CEFAppConfig_UpdateDeviceScaleFactor,
-  CEFAppConfig_SpecificVersion;
+  CEFAppConfig_UpdateDeviceScaleFactor;
