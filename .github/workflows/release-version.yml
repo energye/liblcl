@@ -84,7 +84,7 @@ jobs:
 
       - name: Build Dynamic library LCL END
         run: |
-          ll D:/bins
+          ls -l D:/bins
         shell: bash
 
       - name: Release Dynamic library # 版本发布上传liblcl二进制
@@ -95,3 +95,91 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+
+  windows-32:
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        operating-system: [ windows-2019 ]
+        lazarus-versions: [ 3.6 ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Config Base Environment  # 配置基础环境
+        run: |
+          git config --global --add safe.directory ./
+          git fetch
+          mkdir D:/bins
+          mv ./.github/shell D:/shell
+        shell: bash
+
+      - name: Install Golang Environment # Install Golang
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.20'
+
+      - name: Install Lazarus Environment # Install Lazarus
+        uses: energye/setup-lazarus@v1.0.0
+        with:
+          lazarus-version: ${{ matrix.lazarus-versions }}
+          with-cache: true
+          os-arch: i386
+
+      - name: Build Dynamic library LCL (main)
+        run: |
+          git clean -xdf
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
+          7z a D:/bins/liblcl.Windows32.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (109.1.18)
+        run: |
+          git clean -xdf
+          git checkout origin/109.1.18
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-109.Windows32.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (101.0.18)
+        run: |
+          git clean -xdf
+          git checkout origin/101.0.18
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-101.Windows32.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (89.0.18)
+        run: |
+          git clean -xdf
+          git checkout origin/Flash-89.0.18
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-89.Windows32.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (49.0.2623)
+        run: |
+          git clean -xdf
+          git checkout origin/WindowsXP-49.0.2623
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-49.Windows32.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL END
+        run: |
+          ls -l D:/bins
+        shell: bash
+
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
+        uses: softprops/action-gh-release@v0.1.15
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: D:/bins/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
