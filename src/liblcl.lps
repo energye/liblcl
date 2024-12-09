@@ -3,10 +3,10 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Count="8" Active="Win64">
+    <BuildModes Count="7" Active="Win64">
       <Item1 Name="Win64">
         <MacroValues Count="1">
-          <Macro5 Name="LCLWidgetType" Value="win32"/>
+          <Macro1 Name="LCLWidgetType" Value="win32"/>
         </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
@@ -32,7 +32,6 @@
             <Optimizations>
               <OptimizationLevel Value="4"/>
             </Optimizations>
-            <SmallerCode Value="True"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -51,50 +50,9 @@
           </Other>
         </CompilerOptions>
       </Item1>
-      <Item2 Name="Linux64">
+      <Item2 Name="Linux32">
         <MacroValues Count="1">
-          <Macro6 Name="LCLWidgetType" Value="gtk2"/>
-        </MacroValues>
-        <CompilerOptions>
-          <Version Value="11"/>
-          <PathDelim Value="\"/>
-          <Target>
-            <Filename Value="${Home}\golcl\liblcl"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\gtk2;3rd-party\ATFlatControls\atflatcontrols"/>
-            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <CodeGeneration>
-            <SmartLinkUnit Value="True"/>
-            <RelocatableUnit Value="True"/>
-            <Optimizations>
-              <OptimizationLevel Value="4"/>
-            </Optimizations>
-            <SmallerCode Value="True"/>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <GenerateDebugInfo Value="False"/>
-              <DebugInfoType Value="dsDwarf3"/>
-            </Debugging>
-            <LinkSmart Value="True"/>
-            <Options>
-              <ExecutableType Value="Library"/>
-            </Options>
-          </Linking>
-          <Other>
-            <CustomOptions Value="-dRMLCLTRUNK"/>
-            <OtherDefines Count="1">
-              <Define0 Value="RMLCLTRUNK"/>
-            </OtherDefines>
-          </Other>
-        </CompilerOptions>
-      </Item2>
-      <Item3 Name="Linux32">
-        <MacroValues Count="1">
-          <Macro6 Name="LCLWidgetType" Value="gtk2"/>
+          <Macro3 Name="LCLWidgetType" Value="gtk2"/>
         </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
@@ -132,10 +90,52 @@
             </OtherDefines>
           </Other>
         </CompilerOptions>
+      </Item2>
+      <Item3 Name="Linux64">
+        <MacroValues Count="1">
+          <Macro3 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="${Home}\golcl\liblcl"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\gtk2;3rd-party\ATFlatControls\atflatcontrols"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <RelocatableUnit Value="True"/>
+            <TargetCPU Value="x86_64"/>
+            <TargetOS Value="linux"/>
+            <Optimizations>
+              <OptimizationLevel Value="4"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+              <DebugInfoType Value="dsDwarf3"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+          <Other>
+            <CustomOptions Value="-dRMLCLTRUNK"/>
+            <OtherDefines Count="1">
+              <Define0 Value="RMLCLTRUNK"/>
+            </OtherDefines>
+          </Other>
+        </CompilerOptions>
       </Item3>
       <Item4 Name="LinuxARM">
         <MacroValues Count="1">
-          <Macro8 Name="LCLWidgetType" Value="gtk2"/>
+          <Macro3 Name="LCLWidgetType" Value="gtk2"/>
         </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
@@ -168,7 +168,45 @@
           </Linking>
         </CompilerOptions>
       </Item4>
-      <Item5 Name="MacOS64(cocoa)">
+      <Item5 Name="LinuxARM64">
+        <MacroValues Count="1">
+          <Macro3 Name="LCLWidgetType" Value="gtk2"/>
+        </MacroValues>
+        <CompilerOptions>
+          <Version Value="11"/>
+          <PathDelim Value="\"/>
+          <Target>
+            <Filename Value="${Home}\golcl\liblcl"/>
+          </Target>
+          <SearchPaths>
+            <IncludeFiles Value="$(ProjOutDir)"/>
+            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\gtk2;3rd-party\ATFlatControls\atflatcontrols"/>
+            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+          </SearchPaths>
+          <CodeGeneration>
+            <SmartLinkUnit Value="True"/>
+            <RelocatableUnit Value="True"/>
+            <TargetCPU Value="aarch64"/>
+            <TargetOS Value="linux"/>
+            <Optimizations>
+              <OptimizationLevel Value="4"/>
+            </Optimizations>
+          </CodeGeneration>
+          <Linking>
+            <Debugging>
+              <GenerateDebugInfo Value="False"/>
+            </Debugging>
+            <LinkSmart Value="True"/>
+            <Options>
+              <ExecutableType Value="Library"/>
+            </Options>
+          </Linking>
+        </CompilerOptions>
+      </Item5>
+      <Item6 Name="MacOS64(cocoa)">
+        <MacroValues Count="1">
+          <Macro2 Name="LCLWidgetType" Value="cocoa"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <PathDelim Value="\"/>
@@ -188,7 +226,6 @@
             <Optimizations>
               <OptimizationLevel Value="4"/>
             </Optimizations>
-            <SmallerCode Value="True"/>
           </CodeGeneration>
           <Linking>
             <Debugging>
@@ -206,8 +243,8 @@
             </ExecuteAfter>
           </Other>
         </CompilerOptions>
-      </Item5>
-      <Item6 Name="MacOS64(cocoa)ARM64">
+      </Item6>
+      <Item7 Name="MacOS64(cocoa)ARM64">
         <MacroValues Count="1">
           <Macro2 Name="LCLWidgetType" Value="cocoa"/>
         </MacroValues>
@@ -228,7 +265,7 @@
             <TargetCPU Value="aarch64"/>
             <TargetOS Value="darwin"/>
             <Optimizations>
-              <OptimizationLevel Value="2"/>
+              <OptimizationLevel Value="4"/>
             </Optimizations>
           </CodeGeneration>
           <Linking>
@@ -241,111 +278,20 @@
             </Options>
           </Linking>
           <Other>
-            <CustomOptions Value="-dRMLCLTRUNK"/>
             <OtherDefines Count="1">
               <Define0 Value="RMLCLTRUNK"/>
             </OtherDefines>
           </Other>
         </CompilerOptions>
-      </Item6>
-      <Item7 Name="Debug">
-        <CompilerOptions>
-          <Version Value="11"/>
-          <PathDelim Value="\"/>
-          <Target>
-            <Filename Value="C:\Users\Administrator\golcl\liblcl"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\win32;3rd-party\ATFlatControls\atflatcontrols"/>
-            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <Parsing>
-            <SyntaxOptions>
-              <SyntaxMode Value="Delphi"/>
-              <IncludeAssertionCode Value="True"/>
-            </SyntaxOptions>
-          </Parsing>
-          <CodeGeneration>
-            <RelocatableUnit Value="True"/>
-            <Checks>
-              <IOChecks Value="True"/>
-              <RangeChecks Value="True"/>
-              <OverflowChecks Value="True"/>
-              <StackChecks Value="True"/>
-            </Checks>
-            <VerifyObjMethodCallValidity Value="True"/>
-            <TargetCPU Value="x86_64"/>
-            <TargetOS Value="win64"/>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <DebugInfoType Value="dsDwarf3"/>
-              <UseHeaptrc Value="True"/>
-              <TrashVariables Value="True"/>
-              <UseExternalDbgSyms Value="True"/>
-            </Debugging>
-            <Options>
-              <ExecutableType Value="Library"/>
-            </Options>
-          </Linking>
-          <Other>
-            <CustomOptions Value="-dUSED_BY_LAZLOGGER_DUMMY"/>
-            <OtherDefines Count="1">
-              <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
-            </OtherDefines>
-          </Other>
-        </CompilerOptions>
       </Item7>
-      <Item8 Name="Release">
-        <CompilerOptions>
-          <Version Value="11"/>
-          <PathDelim Value="\"/>
-          <Target>
-            <Filename Value="C:\Users\Administrator\golcl\liblcl"/>
-          </Target>
-          <SearchPaths>
-            <IncludeFiles Value="$(ProjOutDir)"/>
-            <OtherUnitFiles Value="3rd-party\richmemo;3rd-party\richmemo\win32;3rd-party\ATFlatControls\atflatcontrols"/>
-            <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
-          </SearchPaths>
-          <Parsing>
-            <SyntaxOptions>
-              <SyntaxMode Value="Delphi"/>
-            </SyntaxOptions>
-          </Parsing>
-          <CodeGeneration>
-            <SmartLinkUnit Value="True"/>
-            <RelocatableUnit Value="True"/>
-            <TargetCPU Value="x86_64"/>
-            <TargetOS Value="win64"/>
-            <Optimizations>
-              <OptimizationLevel Value="3"/>
-            </Optimizations>
-          </CodeGeneration>
-          <Linking>
-            <Debugging>
-              <GenerateDebugInfo Value="False"/>
-            </Debugging>
-            <LinkSmart Value="True"/>
-            <Options>
-              <ExecutableType Value="Library"/>
-            </Options>
-          </Linking>
-          <Other>
-            <CustomOptions Value="-dUSED_BY_LAZLOGGER_DUMMY"/>
-            <OtherDefines Count="1">
-              <Define0 Value="USED_BY_LAZLOGGER_DUMMY"/>
-            </OtherDefines>
-          </Other>
-        </CompilerOptions>
-      </Item8>
-      <SessionEnabledMatrixOptions Count="5">
+      <SessionEnabledMatrixOptions Count="7">
         <Item1 Mode="Win64" Option="028265915746"/>
-        <Item2 Mode="Linux64" Option="316477307003"/>
-        <Item3 Mode="Linux32" Option="316477307003"/>
+        <Item2 Mode="Linux32" Option="184723594569"/>
+        <Item3 Mode="Linux64" Option="184723594569"/>
         <Item4 Mode="LinuxARM" Option="184723594569"/>
-        <Item5 Mode="MacOS64(cocoa)ARM64" Option="558457850193"/>
+        <Item5 Mode="LinuxARM64" Option="184723594569"/>
+        <Item6 Mode="MacOS64(cocoa)" Option="374570744772"/>
+        <Item7 Mode="MacOS64(cocoa)ARM64" Option="374570744772"/>
       </SessionEnabledMatrixOptions>
     </BuildModes>
     <ManyBuildModesSelection Value="Win32,Win64"/>
@@ -357,6 +303,7 @@
         <CursorPos X="11" Y="50"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
         <Filename Value="uEventCallback.pas"/>
@@ -448,8 +395,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uExport1"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="20"/>
-        <CursorPos X="12" Y="20"/>
+        <CursorPos X="9" Y="56"/>
         <UsageCount Value="27"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit13>
@@ -492,8 +438,7 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="uExport3"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="13"/>
-        <CursorPos X="31" Y="22"/>
+        <CursorPos X="43" Y="51"/>
         <UsageCount Value="27"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit18>
@@ -552,9 +497,10 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="15"/>
-        <CursorPos X="36" Y="82"/>
+        <CursorPos X="36" Y="23"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit27>
       <Unit28>
         <Filename Value="CEF_LCL_Application_Proc.inc"/>
