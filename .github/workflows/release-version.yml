@@ -208,7 +208,7 @@ jobs:
 
       - name: Build Dynamic library LCL (main AMD64)
         run: |
-          git clean -xdf
+          sudo git clean -xdf
           $HOME/shell/add-package.sh
           sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j $HOME/bins/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
@@ -224,7 +224,7 @@ jobs:
 
       - name: Build Dynamic library LCL (109.1.18 AMD64)
         run: |
-          git clean -xdf
+          sudo git clean -xdf
           git checkout origin/109.1.18
           $HOME/shell/add-package.sh
           sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
@@ -241,7 +241,7 @@ jobs:
 
       - name: Build Dynamic library LCL (101.0.18 AMD64)
         run: |
-          git clean -xdf
+          sudo git clean -xdf
           git checkout origin/101.0.18
           $HOME/shell/add-package.sh
           sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
@@ -258,7 +258,7 @@ jobs:
 
       - name: Build Dynamic library LCL (89.0.18 AMD64)
         run: |
-          git clean -xdf
+          sudo git clean -xdf
           git checkout origin/Flash-89.0.18
           $HOME/shell/add-package.sh
           sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
