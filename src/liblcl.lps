@@ -300,7 +300,7 @@
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
         <TopLine Value="25"/>
-        <CursorPos X="11" Y="50"/>
+        <CursorPos Y="53"/>
         <UsageCount Value="27"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -383,6 +383,7 @@
         <UnitName Value="uExport1"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
+        <CursorPos X="27" Y="54"/>
         <UsageCount Value="27"/>
       </Unit13>
       <Unit14>
@@ -419,12 +420,10 @@
         <Filename Value="uexport3.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uExport3"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="19"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="16"/>
         <CursorPos X="43" Y="47"/>
         <UsageCount Value="27"/>
-        <Loaded Value="True"/>
       </Unit18>
       <Unit19>
         <Filename Value="uexport4.pas"/>
@@ -471,7 +470,8 @@
       </Unit26>
       <Unit27>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <EditorIndex Value="2"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
         <TopLine Value="15"/>
         <CursorPos X="25" Y="29"/>
         <UsageCount Value="13"/>
@@ -803,7 +803,7 @@
     <OtherDefines Count="1">
       <Define0 Value="RMLCLTRUNK"/>
     </OtherDefines>
-    <JumpHistory Count="6" HistoryIndex="5">
+    <JumpHistory Count="7" HistoryIndex="6">
       <Position1>
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="87" Column="33" TopLine="80"/>
@@ -828,6 +828,10 @@
         <Filename Value="liblcl.lpr"/>
         <Caret Line="50" Column="11" TopLine="25"/>
       </Position6>
+      <Position7>
+        <Filename Value="liblcl.lpr"/>
+        <Caret Line="53" TopLine="25"/>
+      </Position7>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>

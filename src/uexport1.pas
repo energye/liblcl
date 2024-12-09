@@ -50,10 +50,8 @@
 {$I MyLCL_RichEdit.inc}  //BASECLASS:TWinControl
 {$I MyLCL_TrackBar.inc}  //BASECLASS:TWinControl
 {$I MyLCL_ImageList.inc}  //BASECLASS:TComponent
-{$IFnDEF LINUX}  // 先牺牲掉它吧
 {$I LCL_CustomOpenGLControl.inc}
 {$I LCL_OpenGLControl.inc}
-{$ENDIF}
 
 
 //{$ifdef windows}
