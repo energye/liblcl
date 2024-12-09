@@ -30,7 +30,7 @@ uses
   uCEFBrowserViewComponent, uCEFWindowComponent, uCEFPanelComponent, uCEFScrollViewComponent, uCEFTextfieldComponent, uCEFViewComponent, uCEFViewsFrameworkEvents, 
   uCEFAudioHandler, uCEFDevToolsMessageObserver, uCEFMediaSinkDeviceInfoCallback, uCEFJson, uCEFBitmapBitBuffer, uCEFPrintDialogCallback, uCEFPrintHandler, uCEFPrintJobCallback, 
   uCEFLinuxFunctions, uCEFLinuxTypes, uCEFLinuxConstants, uCEFWorkSchedulerQueueThread, uCEFLinkedWinControlBase, uCEFLazarusCocoa, uCEFBrowserWindow, uCEFOsrBrowserWindow, 
-  uCEFTimerWorkScheduler, uCEFFrameHandler, uCEFOverlayController, uCEFFileDialogInfo, uCEFArgCopy, uCEFCommandHandler, uCEFDownloadItem, LazarusPackageIntf;
+  uCEFTimerWorkScheduler, uCEFFrameHandler, uCEFOverlayController, uCEFFileDialogInfo, uCEFArgCopy, uCEFCommandHandler, uCEFDownLoadItem, LazarusPackageIntf;
 
 implementation
 

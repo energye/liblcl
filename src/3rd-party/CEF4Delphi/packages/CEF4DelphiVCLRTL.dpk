@@ -72,7 +72,7 @@ contains
   uCEFDomVisitor in '..\source\uCEFDomVisitor.pas',
   uCEFDownloadHandler in '..\source\uCEFDownloadHandler.pas',
   uCEFDownloadImageCallBack in '..\source\uCEFDownloadImageCallBack.pas',
-  uCEFDownloadItem in '..\source\uCEFDownloadItem.pas',
+  uCEFDownLoadItem in '..\source\uCEFDownLoadItem.pas',
   uCEFDownloadItemCallback in '..\source\uCEFDownloadItemCallback.pas',
   uCEFDragAndDropMgr in '..\source\uCEFDragAndDropMgr.pas',
   uCEFDragData in '..\source\uCEFDragData.pas',

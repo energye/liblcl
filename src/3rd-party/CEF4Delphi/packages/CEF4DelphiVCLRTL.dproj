@@ -153,7 +153,7 @@
         <DCCReference Include="..\source\uCEFDomVisitor.pas"/>
         <DCCReference Include="..\source\uCEFDownloadHandler.pas"/>
         <DCCReference Include="..\source\uCEFDownloadImageCallBack.pas"/>
-        <DCCReference Include="..\source\uCEFDownloadItem.pas"/>
+        <DCCReference Include="..\source\uCEFDownLoadItem.pas"/>
         <DCCReference Include="..\source\uCEFDownloadItemCallback.pas"/>
         <DCCReference Include="..\source\uCEFDragAndDropMgr.pas"/>
         <DCCReference Include="..\source\uCEFDragData.pas"/>

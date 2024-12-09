@@ -104,7 +104,7 @@ contains
   uCEFResourceBundleHandler in '..\source\uCEFResourceBundleHandler.pas',
   uCEFSetCookieCallback in '..\source\uCEFSetCookieCallback.pas',
   uCEFDeleteCookiesCallback in '..\source\uCEFDeleteCookiesCallback.pas',
-  uCEFDownloadItem in '..\source\uCEFDownloadItem.pas',
+  uCEFDownLoadItem in '..\source\uCEFDownLoadItem.pas',
   uCEFBeforeDownloadCallback in '..\source\uCEFBeforeDownloadCallback.pas',
   uCEFDownloadItemCallback in '..\source\uCEFDownloadItemCallback.pas',
   uCEFAuthCallback in '..\source\uCEFAuthCallback.pas',
