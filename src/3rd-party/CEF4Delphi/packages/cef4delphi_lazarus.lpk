@@ -846,8 +846,8 @@
         <UnitName Value="uCEFCommandHandler"/>
       </Item201>
       <Item202>
-        <Filename Value="..\source\uCEFDownloadItem.pas"/>
-        <UnitName Value="uCEFDownloadItem"/>
+        <Filename Value="..\source\uCEFDownLoadItem.pas"/>
+        <UnitName Value="uCEFDownLoadItem"/>
       </Item202>
     </Files>
     <CompatibilityMode Value="True"/>

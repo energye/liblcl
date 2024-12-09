@@ -298,30 +298,30 @@
       </SessionEnabledMatrixOptions>
     </BuildModes>
     <ManyBuildModesSelection Value="Win32,Win64"/>
-    <Units Count="126">
+    <Units Count="127">
       <Unit0>
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
         <TopLine Value="31"/>
         <CursorPos Y="62"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="uEventCallback.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit1>
       <Unit2>
         <Filename Value="ulinklabel.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLinkLabel"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit2>
       <Unit3>
         <Filename Value="ImageButton.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit3>
       <Unit4>
         <Filename Value="ucomponents.pas"/>
@@ -330,44 +330,44 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="9" Y="31"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit4>
       <Unit5>
         <Filename Value="ugoform.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uGoForm"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit5>
       <Unit6>
         <Filename Value="uMiniWebview.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="30" Y="13"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit6>
       <Unit7>
         <Filename Value="ucontrolpatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uControlPatchs"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit7>
       <Unit8>
         <Filename Value="umacospatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uMacOSPatchs"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit8>
       <Unit9>
         <Filename Value="ulinuxpatchs.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uLinuxPatchs"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit9>
       <Unit10>
         <Filename Value="xbutton.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="xButton"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit10>
       <Unit11>
         <Filename Value="urichedit.pas"/>
@@ -375,12 +375,12 @@
         <UnitName Value="uRichEdit"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="52"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit11>
       <Unit12>
         <Filename Value="uFormDesignerFile.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit12>
       <Unit13>
         <Filename Value="uexport1.pas"/>
@@ -389,7 +389,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="9" Y="56"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit13>
       <Unit14>
         <Filename Value="uexport2.pas"/>
@@ -397,19 +397,19 @@
         <UnitName Value="uExport2"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="25"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit14>
       <Unit15>
         <Filename Value="UseAll.inc"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit15>
       <Unit16>
         <Filename Value="uexceptionhandle.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uExceptionHandle"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit16>
       <Unit17>
         <Filename Value="ugauge.pas"/>
@@ -417,7 +417,7 @@
         <UnitName Value="uGauge"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="73"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit17>
       <Unit18>
         <Filename Value="uexport3.pas"/>
@@ -426,19 +426,19 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="17"/>
         <CursorPos X="9" Y="50"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit18>
       <Unit19>
         <Filename Value="uexport4.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="24"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit19>
       <Unit20>
         <Filename Value="uCEF_LCL_Event.pas"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="71"/>
+        <UsageCount Value="72"/>
       </Unit20>
       <Unit21>
         <Filename Value="uCEF_LCL_V8ObjectAccessor.pas"/>
@@ -469,7 +469,6 @@
       </Unit26>
       <Unit27>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="20"/>
         <CursorPos X="22" Y="24"/>
@@ -757,10 +756,11 @@
       </Unit67>
       <Unit68>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFDownloadHandler.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="121"/>
-        <CursorPos X="89" Y="154"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="65"/>
+        <CursorPos Y="83"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit68>
       <Unit69>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFFrameHandler.pas"/>
@@ -1147,11 +1147,20 @@
         <CursorPos X="70" Y="55"/>
         <UsageCount Value="10"/>
       </Unit125>
+      <Unit126>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFDownLoadItem.pas"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="4"/>
+        <CursorPos X="3" Y="9"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit126>
     </Units>
     <OtherDefines Count="1">
       <Define0 Value="RMLCLTRUNK"/>
     </OtherDefines>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="11" HistoryIndex="10">
       <Position1>
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="93" Column="33" TopLine="43"/>
@@ -1187,6 +1196,14 @@
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="24" Column="22" TopLine="20"/>
       </Position9>
+      <Position10>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFDownloadHandler.pas"/>
+        <Caret Line="85" Column="53" TopLine="65"/>
+      </Position10>
+      <Position11>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFDownloadHandler.pas"/>
+        <Caret Line="83" TopLine="65"/>
+      </Position11>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
