@@ -2,9 +2,9 @@ name: Build Linux docker i386
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - 'v*.*.*'
+#  push:
+#    tags:
+#      - 'v*.*.*'
 
 jobs:
   linux-i386:

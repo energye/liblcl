@@ -1,0 +1,96 @@
+name: Release Version
+
+on:
+  workflow_dispatch:
+#  push:
+#    branches: [ "notpresent" ]
+#    tags:
+#      - 'v*.*.*'
+
+jobs:
+  windows-64:
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        operating-system: [ windows-2019 ]
+        lazarus-versions: [ 3.6 ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Config Base Environment  # 配置基础环境
+        run: |
+          mkdir D:/bins
+          git config --global --add safe.directory .\
+          git fetch
+        shell: bash # git bash
+
+      - name: Install Golang Environment # Install Golang
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.20'
+
+      - name: Install Lazarus Environment # Install Lazarus
+        uses: energye/setup-lazarus@v1.0.0
+        with:
+          lazarus-version: ${{ matrix.lazarus-versions }}
+          with-cache: true
+
+      - name: Build Dynamic library LCL (main)
+        run: |
+          git clean -xdf
+          ./.github/shell/add-package.bat
+          lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
+          7z a D:/bins/liblcl.Windows64.zip $HOME/golcl/liblcl.dll
+        shell: bash # git bash
+
+      - name: Build Dynamic library LCL (109.1.18)
+        run: |
+          git clean -xdf
+          git checkout origin/109.1.18
+          ./.github/shell/add-package.bat
+          lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-109.Windows64.zip $HOME/golcl/liblcl.dll
+        shell: bash # git bash
+
+      - name: Build Dynamic library LCL (101.0.18)
+        run: |
+          git clean -xdf
+          git checkout origin/101.0.18
+          ./.github/shell/add-package.bat
+          lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-101.Windows64.zip $HOME/golcl/liblcl.dll
+        shell: bash # git bash
+
+      - name: Build Dynamic library LCL (89.0.18)
+        run: |
+          git clean -xdf
+          git checkout origin/Flash-89.0.18
+          ./.github/shell/add-package.bat
+          lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-89.Windows64.zip $HOME/golcl/liblcl.dll
+        shell: bash # git bash
+
+      - name: Build Dynamic library LCL (49.0.2623)
+        run: |
+          git clean -xdf
+          git checkout origin/WindowsXP-49.0.2623
+          ./.github/shell/add-package.bat
+          lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-49.Windows64.zip $HOME/golcl/liblcl.dll
+        shell: bash # git bash
+
+      - name: Build Dynamic library LCL END
+        run: |
+          ll D:/bins
+        shell: bash # git bash
+
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
+        uses: softprops/action-gh-release@v0.1.15
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: D:/bins/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

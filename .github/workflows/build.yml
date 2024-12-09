@@ -3,8 +3,8 @@ name: build
 on:
   push:
 #    branches: [ "notpresent" ]
-    tags:
-      - 'v*.*.*'
+#    tags:
+#      - 'v*.*.*'
 
 jobs:
   # windows 64

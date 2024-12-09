@@ -1,8 +1,9 @@
 name: build-dev
 
 on:
-  push:
-     branches: [ "notpresent" ]
+  workflow_dispatch:
+#  push:
+#    branches: [ "main" ]
 #    tags:
 #      - 'v*.*.*'
 
