@@ -430,6 +430,7 @@
       </Unit26>
       <Unit27>
         <Filename Value="CEF_LCL_Export.inc"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos X="7" Y="10"/>
         <UsageCount Value="34"/>
@@ -716,11 +717,10 @@
       </Unit67>
       <Unit68>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFDownloadHandler.pas"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="84"/>
         <CursorPos X="69" Y="85"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit68>
       <Unit69>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFFrameHandler.pas"/>
@@ -1076,15 +1076,13 @@
       <Unit121>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFDownloadItem.pas"/>
         <UnitName Value="uCEFDownLoadItem"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="23"/>
         <CursorPos X="22" Y="38"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit121>
     </Units>
-    <JumpHistory Count="11" HistoryIndex="10">
+    <JumpHistory Count="10" HistoryIndex="9">
       <Position1>
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="136" Column="19" TopLine="17"/>
@@ -1124,10 +1122,6 @@
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="10" Column="7"/>
       </Position10>
-      <Position11>
-        <Filename Value="3rd-party\CEF4Delphi\source\uCEFDownloadHandler.pas"/>
-        <Caret Line="85" Column="69" TopLine="71"/>
-      </Position11>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
