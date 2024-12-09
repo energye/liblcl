@@ -47,7 +47,9 @@
 {$I MyLCL_Bevel.inc}  //BASECLASS:TControl
 {$I MyLCL_ScrollBox.inc}  //BASECLASS:TWinControl
 {$I MyLCL_CheckListBox.inc}  //BASECLASS:TWinControl
-//{$I MyLCL_Gauge.inc}  //BASECLASS:TControl
+{$IFnDEF LINUX}  // 先牺牲掉它吧
+{$I MyLCL_Gauge.inc}  //BASECLASS:TControl
+{$ENDIF}
 {$I MyLCL_ImageButton.inc}  //BASECLASS:TControl
 {$I MyLCL_FindDialog.inc}  //BASECLASS:TComponent
 {$I MyLCL_ReplaceDialog.inc}  //BASECLASS:TComponent

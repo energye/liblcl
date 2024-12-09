@@ -29,20 +29,15 @@
       <StringTable Comments="LCL for Windows" CompanyName="yanghy" FileDescription="LCL and CEF 130.1.16 for Windows" InternalName="liblcl" LegalCopyright="Copyright yanghy" OriginalFilename="liblcl.dll" ProductName="liblcl" ProductVersion="2.5.0.0"/>
     </VersionInfo>
     <MacroValues Count="1">
-      <Macro4 Name="LCLWidgetType" Value="win32"/>
+      <Macro2 Name="LCLWidgetType" Value="win32"/>
     </MacroValues>
     <BuildModes Count="1">
       <Item1 Name="Win32" Default="True"/>
-      <SharedMatrixOptions Count="9">
-        <Item1 ID="400096739333" Type="IDEMacro" MacroName="LCLWidgetType" Value="carbon"/>
-        <Item2 ID="558457850193" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
-        <Item3 ID="374570744772" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
-        <Item4 ID="929688853515" Modes="Win32" Type="IDEMacro" MacroName="LCLWidgetType" Value="win32"/>
-        <Item5 ID="028265915746" Type="IDEMacro" MacroName="LCLWidgetType" Value="win32"/>
-        <Item6 ID="316477307003" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
-        <Item7 ID="411076831854" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
-        <Item8 ID="184723594569" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
-        <Item9 ID="471587070140" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
+      <SharedMatrixOptions Count="4">
+        <Item1 ID="558457850193" Type="IDEMacro" MacroName="LCLWidgetType" Value="cocoa"/>
+        <Item2 ID="028265915746" Modes="Win32" Type="IDEMacro" MacroName="LCLWidgetType" Value="win32"/>
+        <Item3 ID="411076831854" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
+        <Item4 ID="471587070140" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
@@ -199,7 +194,6 @@
       <Optimizations>
         <OptimizationLevel Value="4"/>
       </Optimizations>
-      <SmallerCode Value="True"/>
     </CodeGeneration>
     <Linking>
       <Debugging>
