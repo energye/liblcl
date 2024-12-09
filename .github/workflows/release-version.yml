@@ -179,7 +179,7 @@ jobs:
 
     strategy:
       matrix:
-        operating-system: [ macos-12 ]
+        operating-system: [ macos-13 ]
         lazarus-versions: [ 3.6 ]
 
     steps:
