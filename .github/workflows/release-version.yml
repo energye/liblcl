@@ -21,10 +21,10 @@ jobs:
 
       - name: Config Base Environment  # 配置基础环境
         run: |
-          mkdir D:/bins
-          git config --global --add safe.directory .\
+          git config --global --add safe.directory ./
           git fetch
-        shell: bash # git bash
+          mkdir D:/bins
+        shell: bash
 
       - name: Install Golang Environment # Install Golang
         uses: actions/setup-go@v5
@@ -43,7 +43,7 @@ jobs:
           ./.github/shell/add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
           7z a D:/bins/liblcl.Windows64.zip $HOME/golcl/liblcl.dll
-        shell: bash # git bash
+        shell: bash
 
       - name: Build Dynamic library LCL (109.1.18)
         run: |
@@ -52,7 +52,7 @@ jobs:
           ./.github/shell/add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
           7z a D:/bins/liblcl-109.Windows64.zip $HOME/golcl/liblcl.dll
-        shell: bash # git bash
+        shell: bash
 
       - name: Build Dynamic library LCL (101.0.18)
         run: |
@@ -61,7 +61,7 @@ jobs:
           ./.github/shell/add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
           7z a D:/bins/liblcl-101.Windows64.zip $HOME/golcl/liblcl.dll
-        shell: bash # git bash
+        shell: bash
 
       - name: Build Dynamic library LCL (89.0.18)
         run: |
@@ -70,7 +70,7 @@ jobs:
           ./.github/shell/add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
           7z a D:/bins/liblcl-89.Windows64.zip $HOME/golcl/liblcl.dll
-        shell: bash # git bash
+        shell: bash
 
       - name: Build Dynamic library LCL (49.0.2623)
         run: |
@@ -79,12 +79,12 @@ jobs:
           ./.github/shell/add-package.bat
           lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
           7z a D:/bins/liblcl-49.Windows64.zip $HOME/golcl/liblcl.dll
-        shell: bash # git bash
+        shell: bash
 
       - name: Build Dynamic library LCL END
         run: |
           ll D:/bins
-        shell: bash # git bash
+        shell: bash
 
       - name: Release Dynamic library # 版本发布上传liblcl二进制
         uses: softprops/action-gh-release@v0.1.15
