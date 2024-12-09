@@ -3,7 +3,7 @@
   <ProjectSession>
     <PathDelim Value="\"/>
     <Version Value="12"/>
-    <BuildModes Count="6" Active="Linux64">
+    <BuildModes Count="6" Active="MacOS64(cocoa)ARM64">
       <Item1 Name="Win64">
         <MacroValues Count="1">
           <Macro1 Name="LCLWidgetType" Value="win32"/>
@@ -260,7 +260,7 @@
       </SessionEnabledMatrixOptions>
     </BuildModes>
     <ManyBuildModesSelection Value="Win32,Win64"/>
-    <Units Count="121">
+    <Units Count="122">
       <Unit0>
         <Filename Value="liblcl.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -403,22 +403,18 @@
       </Unit20>
       <Unit21>
         <Filename Value="uCEF_LCL_V8ObjectAccessor.pas"/>
-        <IsPartOfProject Value="True"/>
         <UsageCount Value="69"/>
       </Unit21>
       <Unit22>
         <Filename Value="uCEF_LCL_IPC.pas"/>
-        <IsPartOfProject Value="True"/>
         <UsageCount Value="69"/>
       </Unit22>
       <Unit23>
         <Filename Value="uCEF_LCL_Process_Message.pas"/>
-        <IsPartOfProject Value="True"/>
         <UsageCount Value="69"/>
       </Unit23>
       <Unit24>
         <Filename Value="uCEF_LCL_DictionaryValue.pas"/>
-        <IsPartOfProject Value="True"/>
         <UsageCount Value="69"/>
       </Unit24>
       <Unit25>
@@ -434,7 +430,6 @@
       </Unit26>
       <Unit27>
         <Filename Value="CEF_LCL_Export.inc"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos X="7" Y="10"/>
         <UsageCount Value="34"/>
@@ -721,9 +716,11 @@
       </Unit67>
       <Unit68>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFDownloadHandler.pas"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="173" Y="58"/>
-        <UsageCount Value="9"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="84"/>
+        <CursorPos X="69" Y="85"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit68>
       <Unit69>
         <Filename Value="3rd-party\CEF4Delphi\source\uCEFFrameHandler.pas"/>
@@ -1076,11 +1073,18 @@
         <CursorPos X="39" Y="176"/>
         <UsageCount Value="10"/>
       </Unit120>
+      <Unit121>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFDownloadItem.pas"/>
+        <UnitName Value="uCEFDownLoadItem"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="23"/>
+        <CursorPos X="22" Y="38"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit121>
     </Units>
-    <OtherDefines Count="1">
-      <Define0 Value="RMLCLTRUNK"/>
-    </OtherDefines>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="11" HistoryIndex="10">
       <Position1>
         <Filename Value="CEF_LCL_Export.inc"/>
         <Caret Line="136" Column="19" TopLine="17"/>
@@ -1116,6 +1120,14 @@
         <Filename Value="liblcl.lpr"/>
         <Caret Line="62" TopLine="22"/>
       </Position9>
+      <Position10>
+        <Filename Value="CEF_LCL_Export.inc"/>
+        <Caret Line="10" Column="7"/>
+      </Position10>
+      <Position11>
+        <Filename Value="3rd-party\CEF4Delphi\source\uCEFDownloadHandler.pas"/>
+        <Caret Line="85" Column="69" TopLine="71"/>
+      </Position11>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
