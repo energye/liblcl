@@ -52,7 +52,7 @@ uses
   uCEFBaseRefCounted, uCEFInterfaces, uCEFTypes;
 
 type
-  TCefDownLoadItemRef = class(TCefBaseRefCountedRef, ICefDownLoadItem)
+  TCefDownLoadItemRef = class(TCefBaseRefCountedRef, ICefDownloadItem)
   protected
     function IsValid: Boolean;
     function IsInProgress: Boolean;
@@ -72,7 +72,7 @@ type
     function GetContentDisposition: ustring;
     function GetMimeType: ustring;
   public
-    class function UnWrap(data: Pointer): ICefDownLoadItem;
+    class function UnWrap(data: Pointer): ICefDownloadItem;
   end;
 
 implementation
@@ -165,10 +165,10 @@ begin
   Result := PCefDownloadItem(FData)^.is_valid(PCefDownloadItem(FData)) <> 0;
 end;
 
-class function TCefDownLoadItemRef.UnWrap(data: Pointer): ICefDownLoadItem;
+class function TCefDownLoadItemRef.UnWrap(data: Pointer): ICefDownloadItem;
 begin
   if (data <> nil) then
-    Result := Create(data) as ICefDownLoadItem
+    Result := Create(data) as ICefDownloadItem
    else
     Result := nil;
 end;
