@@ -1,4 +1,4 @@
-name: Build Linux docker
+name: Build Linux In Docker
 
 on:
   workflow_dispatch:
@@ -27,6 +27,7 @@ jobs:
           mkdir $RUNNER_WORKSPACE/bins
           mv ./.github/shell $RUNNER_WORKSPACE/shell
           chmod +x $RUNNER_WORKSPACE/shell/add-package.sh
+          chmod +x $RUNNER_WORKSPACE/shell/build-lib-in-linux-docker.sh
 
       - name: Install Lazarus Environment # Install Lazarus
         uses: energye/setup-lazarus@v1.0.0
@@ -63,8 +64,8 @@ jobs:
             uname -m
             uname -r
             uname -s
-            dpkg -l | grep libgtk-3-0
-            dpkg -l | grep libglib2.0
+            pkg-config --modversion gtk+-2.0
+            pkg-config --modversion gtk+-3.0
             ldd --version
             cat /etc/os-release
             
@@ -81,6 +82,13 @@ jobs:
             
             echo "Run Build shell ============================================="
             cd /app/liblcl
+            
+            /app/shell/build-lib-in-linux-docker.sh Linux32 gtk2 101.0.18 liblcl-101.Linux32.zip
+
+
+      - name: Build Dynamic library LCL END
+        run: |
+          ls -l $RUNNER_WORKSPACE/bins     
 
       - name: Release # 将二进制文件上传到发布tags
         uses: softprops/action-gh-release@v2
