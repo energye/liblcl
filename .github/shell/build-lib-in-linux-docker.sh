@@ -20,7 +20,7 @@ ls -al
 /app/shell/add-package.sh "/app/lazarus"
 
 echo "Build Dynamic library: bm=$bm, ws=$ws ============================================="
-/app/lazarus/lazbuild -B --bm="$bm" --ws=$ws --lazarusdir="/app/lazarus" "liblcl.lpi"
+/app/lazarus/lazbuild -B --bm="$bm" --ws=$ws --lazarusdir="/app/lazarus" "src/liblcl.lpi"
 
 echo "View liblcl.so ============================================="
 objdump -p $HOME/golcl/liblcl.so
