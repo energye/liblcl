@@ -81,14 +81,10 @@ jobs:
             objdump -p /app/lazarus/lazbuild
             
             echo "Run Build shell ============================================="
-            cd /app/liblcl
-            
-            git config --global --add safe.directory /app/liblcl
-            git fetch
             
             /app/shell/build-lib-in-linux-docker.sh Linux32 gtk2 101.0.18 liblcl-101.Linux32.zip
 
-            /app/shell/build-lib-in-linux-docker.sh Linux32 gtk2 89.0.18 liblcl-89.Linux32.zip
+            /app/shell/build-lib-in-linux-docker.sh Linux32 gtk2 Flash-89.0.18 liblcl-89.Linux32.zip
 
 
       - name: Build Dynamic library LCL END

@@ -13,6 +13,16 @@ echo "Add Package ============================================="
 
 cd /app/liblcl
 
+git config --global --add safe.directory /app/liblcl
+git fetch
+
+# 分枝不存在不构建
+IsExist=`git branch -r --list "origin/$branch"`
+if [ "$IsExist" = "" ]; then
+  echo "Branch $branch does not exist."
+  exit 1
+fi
+
 git clean -xdf
 git checkout "origin/$branch"
 
