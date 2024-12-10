@@ -7,7 +7,7 @@ on:
 #      - 'v*.*.*'
 
 jobs:
-  linux-amd64:
+  linux-arm:
     runs-on: ${{ matrix.operating-system }}
     name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
 
@@ -16,7 +16,7 @@ jobs:
         operating-system: [ ubuntu-20.04 ]
         lazarus-versions: [ 3.6 ]
         include:
-          - arch: amd64
+          - arch: arm
             distro: ubuntu:18.04
 
     steps:
@@ -34,6 +34,7 @@ jobs:
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           source-install: true
+          os-arch: arm
 
       - name: Container Build Lazarus
         uses: uraimo/run-on-arch-action@v2
@@ -69,7 +70,7 @@ jobs:
             cat /etc/os-release
             
             echo "Build fpc ============================================="
-            cd /app/lazarus/fpc-3.2.2.x86_64-linux
+            cd /app/lazarus/fpc-3.2.2.arm-linux
             ls -al
             ./install.sh <<esxu
             esxu
@@ -81,14 +82,14 @@ jobs:
             
             echo "Run Build shell ============================================="
             
-            /app/shell/build-lib-in-linux-docker.sh Linux64 gtk2 main liblcl.Linux64.zip
-            /app/shell/build-lib-in-linux-docker.sh Linux64_GTK3 gtk3 main liblcl-GTK3.Linux64.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 main liblcl.LinuxARM.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM_GTK3 gtk3 main liblcl-GTK3.LinuxARM.zip
             
-            /app/shell/build-lib-in-linux-docker.sh Linux64 gtk3 109.1.18 liblcl-109-GTK3.Linux64.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk3 109.1.18 liblcl-109-GTK3.LinuxARM.zip
             
-            /app/shell/build-lib-in-linux-docker.sh Linux64 gtk2 101.0.18 liblcl-101.Linux64.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 101.0.18 liblcl-101.LinuxARM.zip
 
-            /app/shell/build-lib-in-linux-docker.sh Linux64 gtk2 Flash-89.0.18 liblcl-89.Linux64.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 Flash-89.0.18 liblcl-89.LinuxARM.zip
 
 
       - name: Build Dynamic library LCL END
