@@ -7,7 +7,7 @@ on:
 #      - 'v*.*.*'
 
 jobs:
-  linux-arm:
+  linux-arm64:
     runs-on: ${{ matrix.operating-system }}
     name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
 
@@ -96,7 +96,7 @@ jobs:
         run: |
           ls -l $RUNNER_WORKSPACE/bins     
 
-      - name: Release # 将二进制文件上传到发布tags
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
