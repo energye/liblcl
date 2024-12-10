@@ -19,7 +19,7 @@ git checkout "origin/$branch"
 ls -al
 /app/shell/add-package.sh "/app/lazarus"
 
-echo "Build Dynamic library: bm=$bm, ws=$ws ============================================="
+echo "Build Dynamic library: bm=$bm, ws=$ws branch=$branch zip=$zipFilename ============================================="
 /app/lazarus/lazbuild -B --bm="$bm" --ws=$ws --lazarusdir="/app/lazarus" "src/liblcl.lpi"
 
 echo "View liblcl.so ============================================="
