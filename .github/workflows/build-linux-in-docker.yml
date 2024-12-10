@@ -16,7 +16,7 @@ jobs:
         operating-system: [ ubuntu-20.04 ]
         lazarus-versions: [ 3.6 ]
         include:
-          - arch: aarch64
+          - arch: arm64v8
             distro: ubuntu:18.04
 
     steps:
