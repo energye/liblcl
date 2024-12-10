@@ -16,7 +16,7 @@ jobs:
         operating-system: [ ubuntu-20.04 ]
         lazarus-versions: [ 3.6 ]
         include:
-          - arch: arm32v7
+          - arch: aarch64
             distro: ubuntu:18.04
 
     steps:
@@ -34,7 +34,7 @@ jobs:
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           source-install: true
-          os-arch: arm
+          os-arch: aarch64
 
       - name: Container Build Lazarus
         uses: uraimo/run-on-arch-action@v2
@@ -70,7 +70,7 @@ jobs:
             cat /etc/os-release
             
             echo "Build fpc ============================================="
-            cd /app/lazarus/fpc-3.2.2.arm-linux
+            cd /app/lazarus/fpc-3.2.2.aarch64-linux
             ls -al
             ./install.sh <<esxu
             esxu
@@ -82,14 +82,14 @@ jobs:
             
             echo "Run Build shell ============================================="
             
-            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 main liblcl.LinuxARM.zip
-            /app/shell/build-lib-in-linux-docker.sh LinuxARM_GTK3 gtk3 main liblcl-GTK3.LinuxARM.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk2 main liblcl.LinuxARM64.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM64_GTK3 gtk3 main liblcl-GTK3.LinuxARM64.zip
             
-            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk3 109.1.18 liblcl-109-GTK3.LinuxARM.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk3 109.1.18 liblcl-109-GTK3.LinuxARM64.zip
             
-            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 101.0.18 liblcl-101.LinuxARM.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk2 101.0.18 liblcl-101.LinuxARM64.zip
 
-            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 Flash-89.0.18 liblcl-89.LinuxARM.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk2 Flash-89.0.18 liblcl-89.LinuxARM64.zip
 
 
       - name: Build Dynamic library LCL END
