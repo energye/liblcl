@@ -23,8 +23,12 @@ if [ "$IsExist" = "" ]; then
   exit 1
 fi
 
-git clean -xdf
-git checkout "origin/$branch"
+# 检出要编译的分枝
+if [ "$branch" != "main" ]; then
+  echo "Checkout branch $branch"
+  git clean -xdf
+  git checkout "origin/$branch"
+fi
 
 ls -al
 /app/shell/add-package.sh "/app/lazarus"
