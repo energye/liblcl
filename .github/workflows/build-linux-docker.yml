@@ -1,4 +1,4 @@
-name: Build Linux docker i386
+name: Build Linux docker
 
 on:
   workflow_dispatch:
@@ -17,10 +17,16 @@ jobs:
         lazarus-versions: [ 3.6 ]
         include:
           - arch: i386
-            distro: debian:11
+            distro: ubuntu:18.04
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Config Base Environment  # 配置基础环境
+        run: |
+          mkdir $RUNNER_WORKSPACE/bins
+          mv ./.github/shell $RUNNER_WORKSPACE/shell
+          chmod +x $RUNNER_WORKSPACE/shell/add-package.sh
 
       - name: Install Lazarus Environment # Install Lazarus
         uses: energye/setup-lazarus@v1.0.0
@@ -37,28 +43,19 @@ jobs:
           distro: none
           base_image: ${{ matrix.arch }}/${{ matrix.distro }} # 因为没有amd架构，所以手动指定基础镜像
 
-          # 不需要，但可加快构建速度
-          githubToken: ${{ github.token }}
+          githubToken: ${{ github.token }} # 不需要，但可加快构建速度
 
-          # 将目录装载为容器中的/app
-          dockerRunArgs: |
+          dockerRunArgs: | # 将目录装载为容器中的/app
             --volume "$RUNNER_WORKSPACE:/app"
 
-          # 在容器中运行命令的shell
-          shell: /bin/sh
+          shell: /bin/sh # 在容器中运行命令的shell
 
-          #在容器中安装一些依赖项。如果
-          #您也在使用githubToken。此处安装的任何依赖项都将
-          #是缓存的容器映像的一部分，因此后续
-          #构建不必重新安装它们。缓存图像层
-          #在项目的包存储库中公开，因此
-          #容器状态或日志中不存在机密。
-          install: |
+          install: | #在容器中安装一些依赖项
             apt-get update -q -y
             apt-get install -q -y git
             apt-get install -q -y make binutils build-essential gdb subversion zip unzip libx11-dev libgtk2.0-dev libgdk-pixbuf2.0-dev libcairo2-dev libpango1.0-dev libgtk-3-dev
-          # run 要在容器中运行的命令，复制git文件到挂载的目录中
-          run: |
+
+          run: | # run 要在容器中运行的命令，复制git文件到挂载的目录中
             pwd
             
             echo "Operating System Info ============================================="
@@ -83,9 +80,7 @@ jobs:
             objdump -p /app/lazarus/lazbuild
             
             echo "Run Build shell ============================================="
-            cd /app/lib
-            
-            # ./.github/shell/build-lib-in-linux-docker.sh none gtk2 i386
+            cd /app/liblcl
 
       - name: Release # 将二进制文件上传到发布tags
         uses: softprops/action-gh-release@v2
