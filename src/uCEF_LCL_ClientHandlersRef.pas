@@ -787,7 +787,6 @@ begin
     //event
     TCEFEventCallback.SendEvent(BeforePopupPtr, [browser, frame, @beforePopupInfo, @rpopupFeatures, @rwindowInfo, @client, @rbrowserSettings, Pointer(0), @noJavascriptAccess, @Result]);
     windowInfo := GoCefWindowInfoToCefWindowInfo(rwindowInfo);
-    settings := GoBrowserSettingsToCefBrowserSettings(rbrowserSettings);
   end
   else
     Result := inherited OnBeforePopup(browser, frame, targetUrl, targetFrameName, targetDisposition, userGesture, popupFeatures, windowInfo, client, settings, noJavascriptAccess);

@@ -286,7 +286,6 @@ begin
     //event
     SendEvent([Sender, browser, frame, @beforePopupInfo, @rpopupFeatures, @rwindowInfo, @client, @rbrowserSettings, Pointer(0), @noJavascriptAccess, @Result]);
     windowInfo := GoCefWindowInfoToCefWindowInfo(rwindowInfo);
-    settings := GoBrowserSettingsToCefBrowserSettings(rbrowserSettings);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
