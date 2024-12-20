@@ -505,7 +505,6 @@ begin
     //event
     SendEvent([Sender, browser, frame, @beforePopupInfo, @rpopupFeatures, @rwindowInfo, @client, @rbrowserSettings, @extra_info, @noJavascriptAccess, @Result]);
     windowInfo := GoCefWindowInfoToCefWindowInfo(rwindowInfo);
-    settings := GoBrowserSettingsToCefBrowserSettings(rbrowserSettings);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
@@ -690,57 +689,6 @@ begin
   SendEvent([Sender, browser, PChar(string(originUrl)), isProxy, PChar(string(host)), port, PChar(string(realm)), PChar(string(scheme)), callback, @Result]);
 end;
 
-//procedure TLCLEvent.ChromiumEvent_OnExtensionBeforeBackgroundBrowser(Sender: TObject; const extension: ICefExtension; const url: ustring; var client: ICefClient; var settings: TCefBrowserSettings; var aResult: boolean);
-//var
-//  browserSettings: RCefBrowserSettings;
-//begin
-//  browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-//  SendEvent([Sender, extension, PChar(string(url)), @client, @browserSettings, @aResult]);
-//  settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
-//end;
-//
-//procedure TLCLEvent.ChromiumEvent_OnExtensionBeforeBrowser(Sender: TObject; const extension: ICefExtension; const browser, active_browser: ICefBrowser; index: integer; const url: ustring;
-//  active: boolean; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var aResult: boolean);
-//var
-//  browserSettings: RCefBrowserSettings;
-//  rwindowInfo: RTCefWindowInfo;
-//begin
-//  rwindowInfo := CefWindowInfoToGoCefWindowInfo(windowInfo);
-//  browserSettings := CefBrowserSettingsToGoBrowserSettings(settings);
-//  SendEvent([Sender, extension, browser, active_browser, index, PChar(string(url)), active, @rwindowInfo, @client, @browserSettings, @aResult]);
-//  windowInfo := GoCefWindowInfoToCefWindowInfo(rwindowInfo);
-//  settings := GoBrowserSettingsToCefBrowserSettings(browserSettings);
-//end;
-//
-//procedure TLCLEvent.ChromiumEvent_OnExtensionCanAccessBrowser(Sender: TObject; const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; const target_browser: ICefBrowser; var aResult: boolean);
-//begin
-//  SendEvent([Sender, extension, browser, include_incognito, target_browser, @aResult]);
-//end;
-//
-//procedure TLCLEvent.ChromiumEvent_OnExtensionGetActiveBrowser(Sender: TObject; const extension: ICefExtension; const browser: ICefBrowser; include_incognito: boolean; var aRsltBrowser: ICefBrowser);
-//begin
-//  SendEvent([Sender, extension, browser, include_incognito, @aRsltBrowser]);
-//end;
-//
-//procedure TLCLEvent.ChromiumEvent_OnExtensionGetExtensionResource(Sender: TObject; const extension: ICefExtension; const browser: ICefBrowser; const file_: ustring; const callback: ICefGetExtensionResourceCallback; var aResult: boolean);
-//begin
-//  SendEvent([Sender, extension, browser, PChar(string(file_)), callback, @aResult]);
-//end;
-//
-//procedure TLCLEvent.ChromiumEvent_OnExtensionLoaded(Sender: TObject; const extension: ICefExtension);
-//begin
-//  SendEvent([Sender, extension]);
-//end;
-
-procedure TLCLEvent.ChromiumEvent_OnExtensionLoadFailed(Sender: TObject; Result: TCefErrorcode);
-begin
-  SendEvent([Sender, Result]);
-end;
-
-//procedure TLCLEvent.ChromiumEvent_OnExtensionUnloaded(Sender: TObject; const extension: ICefExtension);
-//begin
-//  SendEvent([Sender, extension]);
-//end;
 
 procedure TLCLEvent.ChromiumEvent_OnPrintStart(Sender: TObject; const browser: ICefBrowser);
 begin
