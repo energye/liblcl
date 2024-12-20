@@ -490,7 +490,6 @@ begin
     //event
     SendEvent([Sender, browser, frame, @beforePopupInfo, @rpopupFeatures, @rwindowInfo, @client, @rbrowserSettings, @extra_info, @noJavascriptAccess, @Result]);
     windowInfo := GoCefWindowInfoToCefWindowInfo(rwindowInfo);
-    settings := GoBrowserSettingsToCefBrowserSettings(rbrowserSettings);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnOpenUrlFromTab(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl: ustring;
@@ -652,11 +651,6 @@ end;
 procedure TLCLEvent.ChromiumEvent_OnGetAuthCredentials(Sender: TObject; const browser: ICefBrowser; const originUrl: ustring; isProxy: Boolean; const host: ustring; port: Integer; const realm, scheme: ustring; const callback: ICefAuthCallback; out Result: Boolean);
 begin
   SendEvent([Sender, browser, PChar(string(originUrl)), isProxy, PChar(string(host)), port, PChar(string(realm)), PChar(string(scheme)), callback, @Result]);
-end;
-
-procedure TLCLEvent.ChromiumEvent_OnExtensionLoadFailed(Sender: TObject; Result: TCefErrorcode);
-begin
-  SendEvent([Sender, Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnPrintStart(Sender: TObject; const browser: ICefBrowser);
