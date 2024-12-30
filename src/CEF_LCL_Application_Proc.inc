@@ -6,7 +6,7 @@
 
 procedure CEFApplication_QueueAsyncCall(EventId: PtrInt); extdecl;
 begin
-  Application.QueueAsyncCall(TCEFApplicationClass.ApplicationQueueAsyncCall, EventId);
+  Application.QueueAsyncCall(CEFAppCls.ApplicationQueueAsyncCall, EventId);
 end;
 
 procedure SetApplicationQueueAsyncCallFunc(APtr: Pointer); extdecl;

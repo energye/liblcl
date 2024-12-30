@@ -103,6 +103,8 @@ var
   OnRenderLoadEnd_DataPtr: Pointer;
   OnRenderLoadError_DataPtr: Pointer;
 
+  CEFAppCls: TCEFApplicationClass;
+
 {实现}
 implementation
 
@@ -241,5 +243,11 @@ begin
        TCEFEventCallback.SendEvent(OnScheduleMessagePumpWork_DataPtr, [aDelayMS]);
   end;
 end;
+
+
+initialization
+  CEFAppCls := TCEFApplicationClass.Create;
+
+finalization
 
 end.

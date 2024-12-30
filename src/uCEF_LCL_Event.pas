@@ -53,7 +53,7 @@ type//Chromium Windows Comp Message
   TChromiumWindowsCompMsg = function(var aMessage: TMessage; var aHandled: boolean): Pointer; extdecl;
 
 
-function ArgsToParamsPtr(AArgs: array of const): PointerArray;
+function ArgsToParamsPtr(AArgs: array of const): Pointer;
 
 type//Application.QueueAsyncCall UI主程序异步调用回调事件
   ApplicationQueueAsyncCallPtr = function(id: nativeuint): Pointer; extdecl;
@@ -69,7 +69,7 @@ var
 
 implementation
 
-function ArgsToParamsPtr(AArgs: array of const): PointerArray;
+function ArgsToParamsPtr(AArgs: array of const): Pointer;
 var
   LParams: array[0..CEFCALL_MAX_PARAM - 1] of Pointer;
   LArgLen: integer;
@@ -101,7 +101,7 @@ begin
         vtUnicodeString: LParams[I] := LV.VUnicodeString;
       end;
     end;
-    Result := LParams;
+    Result := @LParams[0];
     exit;
   end;
   Result := nil;
@@ -134,7 +134,7 @@ class function TCEFWindowBindClass.SendEvent(const AEventName: ustring; AArgs: a
 
   procedure SendWindowBindEventSrc(const PEventName: PChar; AArgs: array of const);
   var
-    LParams: PointerArray;
+    LParams: Pointer;
     LArgLen: integer;
   begin
     if Assigned(GCEFWindowBindPtr) then
@@ -143,7 +143,7 @@ class function TCEFWindowBindClass.SendEvent(const AEventName: ustring; AArgs: a
       LParams := ArgsToParamsPtr(AArgs);
       if not (LParams = nil) then
       begin
-        GCEFWindowBindPtr(PEventName, @LParams[0], LArgLen);
+        GCEFWindowBindPtr(PEventName, LParams, LArgLen);
       end;
     end;
   end;
