@@ -44,34 +44,31 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages Count="9">
+    <RequiredPackages Count="8">
       <Item1>
-        <PackageName Value="LazOpenGLContext"/>
+        <PackageName Value="CEF4Delphi_Lazarus"/>
       </Item1>
       <Item2>
-        <PackageName Value="CEF4Delphi_Lazarus"/>
+        <PackageName Value="atflatcontrols_package"/>
       </Item2>
       <Item3>
-        <PackageName Value="atflatcontrols_package"/>
+        <PackageName Value="richmemopackage"/>
       </Item3>
       <Item4>
-        <PackageName Value="richmemopackage"/>
+        <PackageName Value="AnchorDockingDsgn"/>
       </Item4>
       <Item5>
-        <PackageName Value="AnchorDockingDsgn"/>
+        <PackageName Value="LazControls"/>
       </Item5>
       <Item6>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="DateTimeCtrls"/>
       </Item6>
       <Item7>
-        <PackageName Value="DateTimeCtrls"/>
+        <PackageName Value="Printer4Lazarus"/>
       </Item7>
       <Item8>
-        <PackageName Value="Printer4Lazarus"/>
-      </Item8>
-      <Item9>
         <PackageName Value="LCL"/>
-      </Item9>
+      </Item8>
     </RequiredPackages>
     <Units Count="21">
       <Unit0>
@@ -185,16 +182,19 @@
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>
+      <SmartLinkUnit Value="True"/>
+      <RelocatableUnit Value="True"/>
       <TargetCPU Value="loongarch64"/>
       <TargetOS Value="linux"/>
       <Optimizations>
-        <OptimizationLevel Value="2"/>
+        <OptimizationLevel Value="3"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
       <Debugging>
         <GenerateDebugInfo Value="False"/>
       </Debugging>
+      <LinkSmart Value="True"/>
       <Options>
         <ExecutableType Value="Library"/>
       </Options>

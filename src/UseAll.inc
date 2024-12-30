@@ -51,7 +51,7 @@
   EditBtn,
   LResources,
   GraphType,
-  OpenGLContext,
+  //OpenGLContext,
 //CEFChromium 组件单元
 {$I CEF_LCL_Component.inc}
   uLinkLabel,

@@ -58,7 +58,7 @@ uses
 
 
 //组件接口导出
-{$I CEF_LCL_Export.inc}
+//{$I CEF_LCL_Export.inc}
 
 begin
   RequireDerivedFormResource := False;
