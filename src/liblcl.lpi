@@ -33,9 +33,10 @@
       <Macro1 Name="LCLWidgetType" Value="gtk2"/>
     </MacroValues>
     <BuildModes>
-      <SharedMatrixOptions Count="2">
+      <SharedMatrixOptions Count="3">
         <Item1 ID="184723594569" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
         <Item2 ID="471587070140" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk3"/>
+        <Item3 ID="172388609569" Type="IDEMacro" MacroName="LCLWidgetType" Value="win32"/>
       </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
@@ -44,7 +45,7 @@
     <RunParams>
       <FormatVersion Value="2"/>
     </RunParams>
-    <RequiredPackages Count="8">
+    <RequiredPackages Count="7">
       <Item1>
         <PackageName Value="CEF4Delphi_Lazarus"/>
       </Item1>
@@ -55,20 +56,17 @@
         <PackageName Value="richmemopackage"/>
       </Item3>
       <Item4>
-        <PackageName Value="AnchorDockingDsgn"/>
+        <PackageName Value="LazControls"/>
       </Item4>
       <Item5>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="DateTimeCtrls"/>
       </Item5>
       <Item6>
-        <PackageName Value="DateTimeCtrls"/>
+        <PackageName Value="Printer4Lazarus"/>
       </Item6>
       <Item7>
-        <PackageName Value="Printer4Lazarus"/>
-      </Item7>
-      <Item8>
         <PackageName Value="LCL"/>
-      </Item8>
+      </Item7>
     </RequiredPackages>
     <Units Count="21">
       <Unit0>
