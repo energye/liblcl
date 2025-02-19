@@ -492,6 +492,57 @@ begin
   handleExceptionEnd
 end;
 
+function CEFBrowser_IsFullscreen(const TObj: ICefBrowser) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := False;
+  if TObj.GetHost <> nil then
+    Result := TObj.GetHost.IsFullscreen();
+  handleExceptionEnd
+end;
+
+procedure CEFBrowser_ExitFullscreen(const TObj: ICefBrowser; will_cause_resize: LongBool); extdecl;
+begin
+  handleExceptionBegin
+  if TObj.GetHost <> nil then
+    TObj.GetHost.ExitFullscreen(will_cause_resize);
+  handleExceptionEnd
+end;
+
+function CEFBrowser_CanExecuteChromeCommand(const TObj: ICefBrowser; command_id: integer): LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := False;
+  if TObj.GetHost <> nil then
+    Result := TObj.GetHost.CanExecuteChromeCommand(command_id);
+  handleExceptionEnd
+end;
+
+procedure CEFBrowser_ExecuteChromeCommand(const TObj: ICefBrowser; command_id: integer; disposition: TCefWindowOpenDisposition); extdecl;
+begin
+  handleExceptionBegin
+  if TObj.GetHost <> nil then
+    TObj.GetHost.ExecuteChromeCommand(command_id, disposition);
+  handleExceptionEnd
+end;
+
+function CEFBrowser_IsRenderProcessUnresponsive(const TObj: ICefBrowser) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := False;
+  if TObj.GetHost <> nil then
+    Result := TObj.GetHost.IsRenderProcessUnresponsive();
+  handleExceptionEnd
+end;
+
+function CEFBrowser_GetRuntimeStyle(const TObj: ICefBrowser) : TCefRuntimeStyle; extdecl;
+begin
+  handleExceptionBegin
+  Result := CEF_RUNTIME_STYLE_DEFAULT;
+  if TObj.GetHost <> nil then
+    Result := TObj.GetHost.GetRuntimeStyle();
+  handleExceptionEnd
+end;
 
 exports
   CEFBrowser_ShowDevTools,
@@ -542,4 +593,10 @@ exports
   CEFBrowser_Find,
   CEFBrowser_StopFinding,
   CEFBrowser_GetRequestContext,
-  CEFBrowserRef_UnWrap;
+  CEFBrowserRef_UnWrap,
+  CEFBrowser_IsFullscreen,
+  CEFBrowser_ExitFullscreen,
+  CEFBrowser_CanExecuteChromeCommand,
+  CEFBrowser_ExecuteChromeCommand,
+  CEFBrowser_IsRenderProcessUnresponsive,
+  CEFBrowser_GetRuntimeStyle;
