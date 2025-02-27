@@ -1400,22 +1400,20 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SimulateKeyEvent(const AObj: TChromium; type_: TSimulatedCefKeyEventType; modifiers: integer; timestamp: single; text: PChar; unmodifiedtext: PChar;
-                             keyIdentifier: PChar; code: PChar; key: PChar; windowsVirtualKeyCode: integer; nativeVirtualKeyCode: integer;
-                             autoRepeat: LongBool; isKeypad: LongBool; isSystemKey: LongBool; location: TCefKeyLocation; commands: TCefEditingCommand ); extdecl;
+procedure CEFChromium_SimulateKeyEvent(const AObj: TChromium; var aKeyEvet: TSimulateKeyEvent; timestamp: PSingle; text: PChar; unmodifiedtext: PChar; keyIdentifier: PChar; code: PChar; key: PChar); extdecl;
 begin
   handleExceptionBegin
-  AObj.SimulateKeyEvent(type_, modifiers, timestamp, PCharToUStr(text), PCharToUStr(unmodifiedtext), PCharToUStr(keyIdentifier), PCharToUStr(code), PCharToUStr(key), windowsVirtualKeyCode,
-  nativeVirtualKeyCode, autoRepeat, isKeypad, isSystemKey, location, commands);
+  AObj.SimulateKeyEvent(aKeyEvet.type_, aKeyEvet.modifiers, Single(timestamp^), PCharToUStr(text), PCharToUStr(unmodifiedtext), PCharToUStr(keyIdentifier), PCharToUStr(code), PCharToUStr(key), aKeyEvet.windowsVirtualKeyCode,
+  aKeyEvet.nativeVirtualKeyCode, aKeyEvet.autoRepeat, aKeyEvet.isKeypad, aKeyEvet.isSystemKey, aKeyEvet.location, aKeyEvet.commands);
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SimulateMouseEvent(const AObj: TChromium; type_: TCefSimulatedMouseEventType; x, y: single; modifiers: integer; timestamp: single; button: TCefSimulatedMouseButton;
-                               buttons: integer; clickCount: integer; force: single; tangentialPressure: single; tiltX: single; tiltY: single; twist: integer;
-                               deltaX: single; deltaY: single; pointerType: TCefSimulatedPointerType); extdecl;
+procedure CEFChromium_SimulateMouseEvent(const AObj: TChromium; var aMouseEvent: TSimulateMouseEvent; x, y: PSingle; timestamp: PSingle;
+                               force: PSingle; tangentialPressure: PSingle; tiltX: PSingle; tiltY: PSingle; deltaX: PSingle; deltaY: PSingle); extdecl;
 begin
   handleExceptionBegin
-  AObj.SimulateMouseEvent(type_, x, y, modifiers, timestamp, button, buttons, clickCount, force, tangentialPressure, tiltX, tiltY, twist, deltaX, deltaY, pointerType);
+  AObj.SimulateMouseEvent(aMouseEvent.type_, Single(x^), Single(y^), aMouseEvent.modifiers, Single(timestamp^), aMouseEvent.button, aMouseEvent.buttons, aMouseEvent.clickCount, Single(force^), Single(tangentialPressure^),
+  Single(tiltX^), Single(tiltY^), aMouseEvent.twist, Single(deltaX^), Single(deltaY^), aMouseEvent.pointerType);
   handleExceptionEnd
 end;
 
@@ -1426,16 +1424,16 @@ procedure CEFChromium_SimulateTouchEvent(const AObj: TChromium; type_: TCefSimul
     tmpTouchPoints : TCefSimulatedTouchPointArray;
 begin
   handleExceptionBegin
-    try
-      SetLength(tmpTouchPoints, touchPointsSize);
-      for i := 0 to  touchPointsSize - 1 do
-      begin
-        tmpTouchPoints[i] := touchPoints^[i];
-      end;
-      AObj.SimulateTouchEvent(type_, tmpTouchPoints, modifiers, timestamp);
-    finally
-      SetLength(tmpTouchPoints, 0);
+  try
+    SetLength(tmpTouchPoints, touchPointsSize);
+    for i := 0 to  touchPointsSize - 1 do
+    begin
+      tmpTouchPoints[i] := touchPoints^[i];
     end;
+    AObj.SimulateTouchEvent(type_, tmpTouchPoints, modifiers, timestamp);
+  finally
+    SetLength(tmpTouchPoints, 0);
+  end;
   handleExceptionEnd
 end;
 

@@ -253,6 +253,28 @@ type
     alpha             : PSingle;
   end;
 
+  TSimulateKeyEvent = record
+    type_: TSimulatedCefKeyEventType;
+    modifiers: integer;
+    windowsVirtualKeyCode: integer;
+    nativeVirtualKeyCode: integer;
+    autoRepeat: LongBool;
+    isKeypad: LongBool;
+    isSystemKey: LongBool;
+    location: TCefKeyLocation;
+    commands: TCefEditingCommand
+  end;
+
+  TSimulateMouseEvent = record
+    type_: TCefSimulatedMouseEventType;
+    modifiers: integer;
+    button: TCefSimulatedMouseButton;
+    buttons: integer;
+    clickCount: integer;
+    twist: integer;
+    pointerType: TCefSimulatedPointerType
+  end;
+
 //string to hash
 function StrToHash(const SoureStr: string): cardinal;
 //PChar 转 UnicodeString
