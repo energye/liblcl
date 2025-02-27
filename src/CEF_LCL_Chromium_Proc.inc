@@ -1400,6 +1400,87 @@ begin
   handleExceptionEnd
 end;
 
+procedure CEFChromium_SimulateKeyEvent(const AObj: TChromium; type_: TSimulatedCefKeyEventType; modifiers: integer; timestamp: single; text: PChar; unmodifiedtext: PChar;
+                             keyIdentifier: PChar; code: PChar; key: PChar; windowsVirtualKeyCode: integer; nativeVirtualKeyCode: integer;
+                             autoRepeat: LongBool; isKeypad: LongBool; isSystemKey: LongBool; location: TCefKeyLocation; commands: TCefEditingCommand ); extdecl;
+begin
+  handleExceptionBegin
+  AObj.SimulateKeyEvent(type_, modifiers, timestamp, PCharToUStr(text), PCharToUStr(unmodifiedtext), PCharToUStr(keyIdentifier), PCharToUStr(code), PCharToUStr(key), windowsVirtualKeyCode,
+  nativeVirtualKeyCode, autoRepeat, isKeypad, isSystemKey, location, commands);
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_SimulateMouseEvent(const AObj: TChromium; type_: TCefSimulatedMouseEventType; x, y: single; modifiers: integer; timestamp: single; button: TCefSimulatedMouseButton;
+                               buttons: integer; clickCount: integer; force: single; tangentialPressure: single; tiltX: single; tiltY: single; twist: integer;
+                               deltaX: single; deltaY: single; pointerType: TCefSimulatedPointerType); extdecl;
+begin
+  handleExceptionBegin
+  AObj.SimulateMouseEvent(type_, x, y, modifiers, timestamp, button, buttons, clickCount, force, tangentialPressure, tiltX, tiltY, twist, deltaX, deltaY, pointerType);
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_SimulateTouchEvent(const AObj: TChromium; type_: TCefSimulatedTouchEventType; var touchPoints: PTCefSimulatedTouchPointArray; touchPointsSize: Integer;
+                               modifiers: integer; timestamp: single); extdecl;
+  var
+    i: integer;
+    tmpTouchPoints : TCefSimulatedTouchPointArray;
+begin
+  handleExceptionBegin
+    try
+      SetLength(tmpTouchPoints, touchPointsSize);
+      for i := 0 to  touchPointsSize - 1 do
+      begin
+        tmpTouchPoints[i] := touchPoints^[i];
+      end;
+      AObj.SimulateTouchEvent(type_, tmpTouchPoints, modifiers, timestamp);
+    finally
+      SetLength(tmpTouchPoints, 0);
+    end;
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_SimulateEditingCommand(const AObj: TChromium; command : TCefEditingCommand); extdecl;
+begin
+  handleExceptionBegin
+  AObj.SimulateEditingCommand(command);
+  handleExceptionEnd
+end;
+
+function  CEFChromium_ClearCertificateExceptions(const AObj: TChromium; aClearImmediately : LongBool) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.ClearCertificateExceptions(aClearImmediately);
+  handleExceptionEnd
+end;
+
+function  CEFChromium_ClearHttpAuthCredentials(const AObj: TChromium; aClearImmediately : LongBool) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.ClearHttpAuthCredentials(aClearImmediately);
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_GetNavigationEntries(const AObj: TChromium; currentOnly: LongBool); extdecl;
+begin
+  handleExceptionBegin
+  AObj.GetNavigationEntries(currentOnly);
+  handleExceptionEnd
+end;
+
+procedure CEFChromium_SavePreferences(const AObj: TChromium; const aFileName : PChar); extdecl;
+begin
+  handleExceptionBegin
+  AObj.SavePreferences(PCharToUStr(aFileName));
+  handleExceptionEnd
+end;
+
+function  CEFChromium_ExecuteTaskOnCefThread(const AObj: TChromium; aCefThreadId : TCefThreadId; aTaskID : cardinal; var aDelayMs : Int64) : LongBool; extdecl;
+begin
+  handleExceptionBegin
+  Result := AObj.ExecuteTaskOnCefThread(aCefThreadId, aTaskID, aDelayMs);
+  handleExceptionEnd
+end;
+
 //FontOptions
 //PDFPrintOptions
 
@@ -1581,4 +1662,13 @@ exports
   CEFChromium_SetWebsiteSetting,
   CEFChromium_GetContentSetting,
   CEFChromium_SetContentSetting,
-  CEFChromium_WindowHandle;
+  CEFChromium_WindowHandle,
+  CEFChromium_SimulateKeyEvent,
+  CEFChromium_SimulateMouseEvent,
+  CEFChromium_SimulateTouchEvent,
+  CEFChromium_SimulateEditingCommand,
+  CEFChromium_ClearCertificateExceptions,
+  CEFChromium_ClearHttpAuthCredentials,
+  CEFChromium_GetNavigationEntries,
+  CEFChromium_SavePreferences,
+  CEFChromium_ExecuteTaskOnCefThread;

@@ -75,6 +75,7 @@ type
   PTCefCompositionUnderlineDynArray = ^TCefCompositionUnderlineDynArray;
   PTCefBinaryValueArray = ^TCefBinaryValueArray;
   PTCefX509CertificateArray = ^TCefX509CertificateArray;
+  PTCefSimulatedTouchPointArray = ^TCefSimulatedTouchPointArray;
 
   PTCefWindowHandle = ^TCefWindowHandle;
   PHMENU = ^HMENU;
