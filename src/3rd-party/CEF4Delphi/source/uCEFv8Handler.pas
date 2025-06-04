@@ -37,20 +37,6 @@ type
       constructor Create; virtual;
   end;
 
-  TCefCustomUserData = class(TCefBaseRefCountedOwn, ICefCustomUserData)
-    protected
-      FUserDataType : Pointer;
-      FUserData     : Pointer;
-
-      function GetUserDataType : Pointer;
-      function GetUserData : Pointer;
-
-    public
-      constructor Create(aUserDataType, aUserData : Pointer);
-      destructor Destroy; override;
-      class function UnWrap(data: Pointer): ICefCustomUserData;
-  end;
-
 {$IFDEF DELPHI14_UP}
   TCefRTTIExtension = class(TCefv8HandlerOwn)
     protected
@@ -197,62 +183,7 @@ begin
 end;
 
 
-// TCefCustomUserData
-
-constructor TCefCustomUserData.Create(aUserDataType, aUserData : Pointer);
-begin
-  inherited CreateData(SizeOf(TCefBaseRefCounted));
-
-  FUserDataType := aUserDataType;
-  FUserData     := aUserData;
-
-  {$IFDEF INTFLOG}
-  CefDebugLog(ClassName + '.Create');
-  {$ENDIF}
-end;
-
-destructor TCefCustomUserData.Destroy;
-begin
-  {$IFDEF INTFLOG}
-  CefDebugLog(ClassName + '.Destroy');
-  {$ENDIF}
-  inherited Destroy;
-end;
-
-class function TCefCustomUserData.UnWrap(data: Pointer): ICefCustomUserData;
-var
-  TempUserData : TCefCustomUserData;
-begin
-  if (data <> nil) then
-    begin
-      // Get the original class instance from the data pointer.
-      TempUserData := TCefCustomUserData(CefGetObject(data));
-
-      // TempUserData already has an increased reference count.
-      // We need to decrease it before querying it with the "as" operator,
-      // which increases the count.
-      if not(TempUserData.HasOneRef) and TempUserData.HasAtLeastOneRef then
-        TempUserData._Release;
-
-      Result := TempUserData as ICefCustomUserData;
-    end
-   else
-    Result := nil;
-end;
-
-function TCefCustomUserData.GetUserDataType : Pointer;
-begin
-  Result := FUserDataType;
-end;
-
-function TCefCustomUserData.GetUserData : Pointer;
-begin
-  Result := FUserData;
-end;
-
-
 {$IFDEF DELPHI14_UP}
-
 // TCefRTTIExtension
 
 constructor TCefRTTIExtension.Create(const value: TValue; SyncMainThread: Boolean);
@@ -444,7 +375,7 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
 
   function ProcessObject: Boolean;
   var
-    ud: ICefCustomUserData;
+    ud: ICefv8Value;
     i: Pointer;
     td: PTypeData;
     rt: TRttiType;
@@ -453,12 +384,21 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
     begin
       ud := v.GetUserData;
       if (ud = nil) then Exit(False);
-      rt := ud.UserDataType;
+{$IFDEF TARGET_64BITS}
+      rt := StrToPtr(ud.GetValueByIndex(0).GetStringValue);
+{$ELSE}
+      rt := TRttiType(ud.GetValueByIndex(0).GetIntValue);
+{$ENDIF}
       td := GetTypeData(rt.Handle);
 
       if (rt.TypeKind = tkClass) and td.ClassType.InheritsFrom(GetTypeData(pi).ClassType) then
       begin
-        i := ud.UserData;
+{$IFDEF TARGET_64BITS}
+        i := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
+{$ELSE}
+        i := Pointer(ud.GetValueByIndex(1).GetIntValue);
+{$ENDIF}
+
         TValue.Make(@i, pi, ret);
       end else
         Exit(False);
@@ -469,7 +409,7 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
 
   function ProcessClass: Boolean;
   var
-    ud: ICefCustomUserData;
+    ud: ICefv8Value;
     i: Pointer;
     rt: TRttiType;
   begin
@@ -477,11 +417,19 @@ function TCefRTTIExtension.GetValue(pi: PTypeInfo; const v: ICefv8Value; var ret
     begin
       ud := v.GetUserData;
       if (ud = nil) then Exit(False);
-      rt := ud.UserDataType;
+{$IFDEF TARGET_64BITS}
+      rt := StrToPtr(ud.GetValueByIndex(0).GetStringValue);
+{$ELSE}
+      rt := TRttiType(ud.GetValueByIndex(0).GetIntValue);
+{$ENDIF}
 
       if (rt.TypeKind = tkClassRef) then
       begin
-        i := ud.UserData;
+{$IFDEF TARGET_64BITS}
+        i := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
+{$ELSE}
+        i := Pointer(ud.GetValueByIndex(1).GetIntValue);
+{$ENDIF}
         TValue.Make(@i, pi, ret);
       end else
         Exit(False);
@@ -549,19 +497,19 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
   var
     rf: TRttiField;
     vl: TValue;
-    ud: ICefCustomUserData;
-    v8: ICefv8Value;
+    ud, v8: ICefv8Value;
     rec: Pointer;
     rt: TRttiType;
   begin
+    ud := TCefv8ValueRef.NewArray(1);
     rt := FCtx.GetType(v.TypeInfo);
-    try
-      ud := TCefCustomUserData.Create(Pointer(rt), nil);
-      ret := TCefv8ValueRef.NewObject(nil, nil);
-      ret.SetUserData(ud);
-    finally
-      ud := nil;
-    end;
+{$IFDEF TARGET_64BITS}
+    ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
+{$ELSE}
+    ud.SetValueByIndex(0, TCefv8ValueRef.NewInt(Integer(rt)));
+{$ENDIF}
+    ret := TCefv8ValueRef.NewObject(nil, nil);
+    ret.SetUserData(ud);
 
 {$IFDEF DELPHI15_UP}
     rec := TValueData(v).FValueData.GetReferenceToRawData;
@@ -601,19 +549,22 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
     p: TRttiProperty;
     fl: TRttiField;
     f: ICefv8Value;
-    ud: ICefCustomUserData;
-    _r, _g, _s: ICefv8Value;
+    _r, _g, _s, ud: ICefv8Value;
     _a: TCefv8ValueArray;
     rt: TRttiType;
   begin
     rt := FCtx.GetType(v.TypeInfo);
-    try
-      ud := TCefCustomUserData.Create(Pointer(rt), Pointer(v.AsObject));
-      ret := TCefv8ValueRef.NewObject(nil, nil); // todo
-      ret.SetUserData(ud);
-    finally
-      ud := nil;
-    end;
+
+    ud := TCefv8ValueRef.NewArray(2);
+{$IFDEF TARGET_64BITS}
+    ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
+    ud.SetValueByIndex(1, TCefv8ValueRef.NewString(PtrToStr(v.AsObject)));
+{$ELSE}
+    ud.SetValueByIndex(0, TCefv8ValueRef.NewInt(Integer(rt)));
+    ud.SetValueByIndex(1, TCefv8ValueRef.NewInt(Integer(v.AsObject)));
+{$ENDIF}
+    ret := TCefv8ValueRef.NewObject(nil, nil); // todo
+    ret.SetUserData(ud);
 
     for m in rt.GetMethods do
       if m.Visibility > mvProtected then
@@ -661,20 +612,23 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
   function ProcessClass: Boolean;
   var
     m: TRttiMethod;
-    f: ICefv8Value;
-    ud: ICefCustomUserData;
+    f, ud: ICefv8Value;
     c: TClass;
     rt: TRttiType;
   begin
     c := v.AsClass;
     rt := FCtx.GetType(c);
-    try
-      ud := TCefCustomUserData.Create(Pointer(rt), Pointer(c));
-      ret := TCefv8ValueRef.NewObject(nil, nil); // todo
-      ret.SetUserData(ud);
-    finally
-      ud := nil;
-    end;
+
+    ud := TCefv8ValueRef.NewArray(2);
+{$IFDEF TARGET_64BITS}
+    ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
+    ud.SetValueByIndex(1, TCefv8ValueRef.NewString(PtrToStr(c)));
+{$ELSE}
+    ud.SetValueByIndex(0, TCefv8ValueRef.NewInt(Integer(rt)));
+    ud.SetValueByIndex(1, TCefv8ValueRef.NewInt(Integer(c)));
+{$ENDIF}
+    ret := TCefv8ValueRef.NewObject(nil, nil); // todo
+    ret.SetUserData(ud);
 
     if c <> nil then
     begin
@@ -720,7 +674,7 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
   var
     m: TRttiMethod;
     f: ICefv8Value;
-    ud: ICefCustomUserData;
+    ud: ICefv8Value;
     rt: TRttiType;
   begin
 
@@ -731,13 +685,18 @@ function TCefRTTIExtension.SetValue(const v: TValue; var ret: ICefv8Value): Bool
     end else
     begin
       rt := FCtx.GetType(v.TypeInfo);
-      try
-        ud := TCefCustomUserData.Create(Pointer(rt), Pointer(v.AsInterface));
-        ret := TCefv8ValueRef.NewObject(nil, nil);
-        ret.SetUserData(ud);
-      finally
-        ud := nil;
-      end;
+
+
+      ud := TCefv8ValueRef.NewArray(2);
+  {$IFDEF TARGET_64BITS}
+      ud.SetValueByIndex(0, TCefv8ValueRef.NewString(PtrToStr(rt)));
+      ud.SetValueByIndex(1, TCefv8ValueRef.NewString(PtrToStr(Pointer(v.AsInterface))));
+  {$ELSE}
+      ud.SetValueByIndex(0, TCefv8ValueRef.NewInt(Integer(rt)));
+      ud.SetValueByIndex(1, TCefv8ValueRef.NewInt(Integer(v.AsInterface)));
+  {$ENDIF}
+      ret := TCefv8ValueRef.NewObject(nil, nil);
+      ret.SetUserData(ud);
 
       for m in rt.GetMethods do
         if m.Visibility > mvProtected then
@@ -830,7 +789,7 @@ function TCefRTTIExtension.Execute(const name      : ustring;
                                    var   exception : ustring): Boolean;
 var
   p: PChar;
-  ud: ICefCustomUserData;
+  ud: ICefv8Value;
   rt: TRttiType;
   val: TObject;
   cls: TClass;
@@ -853,12 +812,19 @@ begin
     ud := object_.GetUserData;
     if ud <> nil then
     begin
-      rt := TRttiType(ud.UserDataType);
-
+{$IFDEF TARGET_64BITS}
+      rt := StrToPtr(ud.GetValueByIndex(0).GetStringValue);
+{$ELSE}
+      rt := TRttiType(ud.GetValueByIndex(0).GetIntValue);
+{$ENDIF}
       case rt.TypeKind of
         tkClass:
           begin
-            val := TObject(ud.UserData);
+{$IFDEF TARGET_64BITS}
+            val := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
+{$ELSE}
+            val := TObject(ud.GetValueByIndex(1).GetIntValue);
+{$ENDIF}
             cls := GetTypeData(rt.Handle).ClassType;
 
             if p^ = '$' then
@@ -938,7 +904,11 @@ begin
         tkClassRef:
           begin
             val := nil;
-            cls := TClass(ud.UserData);
+{$IFDEF TARGET_64BITS}
+            cls := StrToPtr(ud.GetValueByIndex(1).GetStringValue);
+{$ELSE}
+            cls := TClass(ud.GetValueByIndex(1).GetIntValue);
+{$ENDIF}
             m := FCtx.GetType(cls).GetMethod(name);
           end;
       else

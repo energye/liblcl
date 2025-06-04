@@ -264,14 +264,14 @@ begin
   handleExceptionEnd
 end;
 
-function CefV8Value_SetUserData(const TObj: ICefv8Value; const data: ICefCustomUserData): LongBool; extdecl;
+function CefV8Value_SetUserData(const TObj: ICefv8Value; const data: ICefv8Value): LongBool; extdecl;
 begin
   handleExceptionBegin
   Result := TObj.SetUserData(data);
   handleExceptionEnd
 end;
 
-procedure CefV8Value_GetUserData(const TObj: ICefv8Value; var Result: ICefCustomUserData); extdecl;
+procedure CefV8Value_GetUserData(const TObj: ICefv8Value; var Result: ICefv8Value); extdecl;
 begin
   handleExceptionBegin
   Result := TObj.GetUserData();

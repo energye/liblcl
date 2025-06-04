@@ -222,6 +222,7 @@ contains
   uCEFFileDialogInfo in '..\source\uCEFFileDialogInfo.pas',
   uCEFCommandHandler in '..\source\uCEFCommandHandler.pas',
   uCEFMediaAccessCallback in '..\source\uCEFMediaAccessCallback.pas',
+  uCEFMediaAccessHandler in '..\source\uCEFMediaAccessHandler.pas',
   uCEFPermissionPromptCallback in '..\source\uCEFPermissionPromptCallback.pas',
   uCEFPermissionHandler in '..\source\uCEFPermissionHandler.pas',
   uCEFSharedMemoryRegion in '..\source\uCEFSharedMemoryRegion.pas',
@@ -234,9 +235,7 @@ contains
   uCEFComponentIdList in '..\source\uCEFComponentIdList.pas',
   uCEFUnresponsiveProcessCallback in '..\source\uCEFUnresponsiveProcessCallback.pas',
   uCEFWindowInfoWrapper in '..\source\uCEFWindowInfoWrapper.pas',
-  uCEFTaskManager in '..\source\uCEFTaskManager.pas',
-  uCEFPreferenceObserver in '..\source\uCEFPreferenceObserver.pas',
-  uCEFSettingObserver in '..\source\uCEFSettingObserver.pas';
+  uCEFTaskManager in '..\source\uCEFTaskManager.pas';
 
 end.
 

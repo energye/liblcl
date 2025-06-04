@@ -1285,9 +1285,9 @@ begin
   Result := GlobalCEFApp.SystemMemoryLoad;
 end;
 
-function CEFAppConfig_ApiVersion(): PChar; extdecl;
+function CEFAppConfig_ApiHashUniversal(): PChar; extdecl;
 begin
-  Result := PChar(IntToStr(GlobalCEFApp.ApiVersion));
+  Result := PChar(string(GlobalCEFApp.ApiHashUniversal));
 end;
 
 function CEFAppConfig_ApiHashPlatform(): PChar; extdecl;
@@ -1538,7 +1538,7 @@ exports
   CEFAppConfig_TotalSystemMemory,
   CEFAppConfig_AvailableSystemMemory,
   CEFAppConfig_SystemMemoryLoad,
-  CEFAppConfig_ApiVersion,
+  CEFAppConfig_ApiHashUniversal,
   CEFAppConfig_ApiHashPlatform,
   CEFAppConfig_ApiHashCommit,
   CEFAppConfig_LastErrorMessage,

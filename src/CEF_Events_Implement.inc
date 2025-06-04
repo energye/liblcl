@@ -541,7 +541,7 @@ begin
   SendEvent([Sender, browser, fullscreen]);
 end;
 
-procedure TLCLEvent.ChromiumEvent_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl,
+procedure TLCLEvent.ChromiumEvent_OnBeforePopup(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: Boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings;
   var extra_info: ICefDictionaryValue; var noJavascriptAccess: Boolean;  var Result: Boolean);
@@ -550,16 +550,14 @@ var
   rpopupFeatures   : PMCefPopupFeatures;
   rwindowInfo      : PMCefWindowInfo;
   rbrowserSettings : PMCefBrowserSettings;
-  TempTargetDisposition, TempPopupId: Integer;
+  TempTargetDisposition: Integer;
 begin
     //popup info
     beforePopupInfo.TargetUrl := PChar(string(targetUrl));
     beforePopupInfo.TargetFrameName := PChar(string(targetFrameName));
     TempTargetDisposition := Integer(targetDisposition);
-    TempPopupId := Integer(popup_id);
     beforePopupInfo.TargetDisposition := PInteger(@TempTargetDisposition);
     beforePopupInfo.UserGesture := @userGesture;
-    beforePopupInfo.PopupId := PInteger(@TempPopupId);
     // popupFeatures
     rpopupFeatures := CefPopupFeaturesToGoCefPopupFeatures(popupFeatures);
     // windowInfo

@@ -59,8 +59,6 @@ const
   LIBCEF_LOCALE_ENUS = 'en-US.pak';
 
 type
-  TCEFProxySettings = class;
-
   /// <summary>
   ///  Parent class of TCefApplication used to simplify the CEF initialization and destruction.
   /// </summary>
@@ -96,7 +94,9 @@ type
       FCookieableSchemesExcludeDefaults  : boolean;
       FChromePolicyId                    : ustring;
       FChromeAppIconId                   : integer;
+      {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
       FDisableSignalHandlers             : boolean;
+      {$IFEND}
 
       // Fields used to set command line switches
       FSingleProcess                     : boolean;
@@ -163,11 +163,6 @@ type
       FDisableHangMonitor                : boolean;
       FHideCrashRestoreBubble            : boolean;
       FPostQuantumKyber                  : TCefState;
-      FProxySettings                     : TCEFProxySettings;
-      {$IFDEF LINUX}
-      FPasswordStorage                   : TCefPasswordStorage;
-      FGTKVersion                        : TCefGTKVersion;
-      {$ENDIF}
 
 
       // Fields used during the CEF initialization
@@ -269,12 +264,10 @@ type
       function  GetTotalSystemMemory : uint64;
       function  GetAvailableSystemMemory : uint64;
       function  GetSystemMemoryLoad : cardinal;
+      function  GetApiHashUniversal : ustring;
       function  GetApiHashPlatform : ustring;
       function  GetApiHashCommit : ustring;
-      function  GetApiVersion : integer;
       function  GetExitCode : TCefResultCode;
-      function  GetBrowserById(aID : integer) : ICefBrowser;
-      function  GetCookiesDir(const aRootDirectory : string) : string;
       {$IFDEF LINUX}
       function  GetXDisplay : PXDisplay;
       function  GetArgc : longint;
@@ -283,8 +276,6 @@ type
 
       function  LoadCEFlibrary : boolean; virtual;
       function  Load_cef_api_hash_h : boolean;
-      function  Load_cef_version_info_h : boolean;
-      function  Load_cef_id_mappers_h : boolean;
       function  Load_cef_app_capi_h : boolean;
       function  Load_cef_app_win_h : boolean;
       function  Load_cef_browser_capi_h : boolean;
@@ -384,13 +375,12 @@ type
       function  InitializeLibrary(const aApp : ICefApp) : boolean;
       procedure RenameAndDeleteDir(const aDirectory : string; aKeepCookies : boolean = False);
       procedure DeleteCacheContents(const aDirectory : string);
-      procedure DeleteCookiesDB(const aRootDirectory : string);
+      procedure DeleteCookiesDB(const aDirectory : string);
       procedure MoveCookiesDB(const aSrcDirectory, aDstDirectory : string);
       function  MultiExeProcessing : boolean;
       function  SingleExeProcessing : boolean;
       procedure BeforeInitSubProcess; virtual;
       function  CheckCEFResources : boolean; virtual;
-      function  CheckCEFAPIHash : boolean;
       {$IFDEF MSWINDOWS}
       function  CheckCEFDLL : boolean; virtual;
       function  CheckWindowsVersion: boolean; virtual;
@@ -491,76 +481,31 @@ type
       /// </summary>
       procedure   RemoveComponentID(aComponentID : integer);
       /// <summary>
-      /// <para>This function allows for generating of crash dumps with a throttling
+      /// DumpWithoutCrashing allows for generating crash dumps with a throttling
       /// mechanism, preventing frequent dumps from being generated in a short period
-      /// of time from the same location. If should only be called after CefInitialize
-      /// has been successfully called. The |function_name|, |file_name|, and
-      /// |line_number| parameters specify the origin location of the dump. The
+      /// of time from the same location. The |function_name|, |file_name|, and
+      /// |line_number| determine the location of the dump. The
       /// |mseconds_between_dumps| is an interval between consecutive dumps in
-      /// milliseconds from the same location.</para>
-      /// <para>For detailed behavior, usage instructions, and considerations, refer to the
-      /// documentation of DumpWithoutCrashing in base/debug/dump_without_crashing.h.</para>
+      /// milliseconds from the same location.
       /// </summary>
       /// <returns>
-      /// Returns true if the dump was successfully generated, false otherwise.
+      /// Returns true if the dump was successfully generated, false otherwise
       /// </returns>
       /// <remarks>
       /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h">CEF source file: /include/base/cef_dump_without_crashing.h (CefDumpWithoutCrashing)</see></para>
       /// </remarks>
       function    DumpWithoutCrashing(mseconds_between_dumps: int64; const function_name, file_name: ustring; line_number: integer): boolean;
       /// <summary>
-      /// Returns CEF version information for the libcef library.
+      /// DumpWithoutCrashingUnthrottled allows for immediate crash dumping without
+      /// any throttling constraints.
       /// </summary>
       /// <returns>
-      /// Returns true if successfull.
+      /// Returns true if the dump was successfully generated, false otherwise
       /// </returns>
       /// <remarks>
-      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_version_info.h">CEF source file: /include/cef_version_info.h (cef_version_info)</see></para>
+      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/base/cef_dump_without_crashing.h">CEF source file: /include/base/cef_dump_without_crashing.h (CefDumpWithoutCrashingUnthrottled)</see></para>
       /// </remarks>
-      function    GetCEFVersionInfo(var aCEFVersionInfo : TCefVersionInfo) : boolean;
-      /// <summary>
-      /// Returns Chromium version information for the libcef library.
-      /// </summary>
-      /// <returns>
-      /// Returns true if successfull.
-      /// </returns>
-      /// <remarks>
-      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_version_info.h">CEF source file: /include/cef_version_info.h (cef_version_info)</see></para>
-      /// </remarks>
-      function    GetChromiumVersionInfo(var aChromiumVersionInfo : TChromiumVersionInfo) : boolean;
-      /// <summary>
-      /// Returns the numeric ID value for an IDR |name| from cef_pack_resources.h or
-      /// -1 if |name| is unrecognized by the current CEF/Chromium build. This
-      /// function provides version-safe mapping of resource IDR names to
-      /// version-specific numeric ID values. Numeric ID values are likely to change
-      /// across CEF/Chromium versions but names generally remain the same.
-      /// </summary>
-      /// <remarks>
-      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_id_mappers.h">CEF source file: /include/cef_id_mappers.h (cef_id_for_pack_resource_name)</see></para>
-      /// </remarks>
-      function    GetIdForPackResourceName(const name : ustring): Integer;
-      /// <summary>
-      /// Returns the numeric ID value for an IDS |name| from cef_pack_strings.h or -1
-      /// if |name| is unrecognized by the current CEF/Chromium build. This function
-      /// provides version-safe mapping of string IDS names to version-specific
-      /// numeric ID values. Numeric ID values are likely to change across
-      /// CEF/Chromium versions but names generally remain the same.
-      /// </summary>
-      /// <remarks>
-      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_id_mappers.h">CEF source file: /include/cef_id_mappers.h (cef_id_for_pack_string_name)</see></para>
-      /// </remarks>
-      function    GetIdForPackStringName(const name : ustring): Integer;
-      /// <summary>
-      /// Returns the numeric ID value for an IDC |name| from cef_command_ids.h or -1
-      /// if |name| is unrecognized by the current CEF/Chromium build. This function
-      /// provides version-safe mapping of command IDC names to version-specific
-      /// numeric ID values. Numeric ID values are likely to change across
-      /// CEF/Chromium versions but names generally remain the same.
-      /// </summary>
-      /// <remarks>
-      /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/cef_id_mappers.h">CEF source file: /include/cef_id_mappers.h (cef_id_for_command_id_name)</see></para>
-      /// </remarks>
-      function    GetIdForCommandIdName(const name : ustring): Integer;
+      function    DumpWithoutCrashingUnthrottled : boolean;
 
       /// <summary>
       /// Set to true (1) to disable the sandbox for sub-processes. See
@@ -823,10 +768,12 @@ type
       /// Windows.
       /// </summary>
       property ChromeAppIconId                   : integer                                  read FChromeAppIconId                   write FChromeAppIconId;
+      {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
       /// <summary>
       /// Specify whether signal handlers must be disabled on POSIX systems.
       /// </summary>
       property DisableSignalHandlers             : boolean                                  read FDisableSignalHandlers             write FDisableSignalHandlers;
+      {$IFEND}
       /// <summary>
       /// Runs the renderer and plugins in the same process as the browser.
       /// </summary>
@@ -1322,37 +1269,6 @@ type
       /// </summary>
       property TLS13HybridizedKyberSupport       : TCefState                                read FPostQuantumKyber                  write FPostQuantumKyber;
       /// <summary>
-      /// Configure all the browsers to use a proxy server.
-      /// </summary>
-      /// <remarks>
-      /// <para>If you use the proxy settings in GlobalCEFApp you will not be able to use the proxy properties in TChromiumCore.</para>
-      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --no-proxy-server</see></para>
-      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-auto-detect</see></para>
-      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-bypass-list</see></para>
-      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-pac-url</see></para>
-      /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-server</see></para>
-      /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
-      /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
-      /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
-      /// </remarks>
-      property ProxySettings                     : TCEFProxySettings                        read FProxySettings;
-      {$IFDEF LINUX}
-      /// <summary>
-      /// Specifies which encryption storage backend to use in Linux.
-      /// </summary>
-      /// <remarks>
-      /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:docs/linux/password_storage.md">Chromium document: docs/linux/password_storage.md</see></para>
-      /// </remarks>
-      property PasswordStorage                   : TCefPasswordStorage                      read FPasswordStorage                   write FPasswordStorage;
-      /// <summary>
-      /// Preferred GTK version loaded by Chromium.
-      /// </summary>
-      /// <remarks>
-      /// <para><see href="https://github.com/chromium/chromium/blob/main/ui/gtk/gtk_compat.cc">See the LoadGtkImpl function in ui/gtk/gtk_compat.cc</see></para>
-      /// </remarks>
-      property GTKVersion                        : TCefGTKVersion                           read FGTKVersion                        write FGTKVersion;
-      {$ENDIF}
-      /// <summary>
       /// Ignores certificate-related errors.
       /// </summary>
       /// <remarks>
@@ -1518,6 +1434,10 @@ type
       /// </summary>
       property SystemMemoryLoad                  : cardinal                                 read GetSystemMemoryLoad;
       /// <summary>
+      /// Calls cef_api_hash to get the universal hash.
+      /// </summary>
+      property ApiHashUniversal                  : ustring                                  read GetApiHashUniversal;
+      /// <summary>
       /// Calls cef_api_hash to get the platform hash.
       /// </summary>
       property ApiHashPlatform                   : ustring                                  read GetApiHashPlatform;
@@ -1525,11 +1445,6 @@ type
       ///	Calls cef_api_hash to get the commit hash.
       /// </summary>
       property ApiHashCommit                     : ustring                                  read GetApiHashCommit;
-      /// <summary>
-      /// Returns the CEF API version that was configured by the first call to
-      /// cef_api_hash().
-      /// </summary>
-      property ApiVersion                        : integer                                  read GetApiVersion;
       /// <summary>
       /// This property can optionally be read on the main application thread after
       /// CefInitialize to retrieve the initialization exit code. When CefInitialize
@@ -1540,10 +1455,6 @@ type
       /// relaunch behavior).
       /// </summary>
       property ExitCode                          : TCefResultCode                           read GetExitCode;
-      /// <summary>
-      /// Returns the browser (if any) with the specified identifier.
-      /// </summary>
-      property BrowserById[id : integer]         : ICefBrowser                              read GetBrowserById;
       /// <summary>
       /// Last error message that is usually shown when CEF finds a problem at initialization.
       /// </summary>
@@ -1670,10 +1581,8 @@ type
       /// <summary>
       /// Called to retrieve a localized translation for the specified |string_id|.
       /// To provide the translation set |string| to the translation string and
-      /// return true (1). To use the default translation return false (0). Use the
-      /// cef_id_for_pack_string_name() function for version-safe mapping of string
-      /// IDS names from cef_pack_strings.h to version-specific numerical
-      /// |string_id| values.
+      /// return true (1). To use the default translation return false (0). Include
+      /// cef_pack_strings.h for a listing of valid string ID values.
       /// </summary>
       /// <remarks>
       /// <para>This event may be called on multiple threads.</para>
@@ -1685,9 +1594,8 @@ type
       /// To provide the resource data set |data| and |data_size| to the data
       /// pointer and size respectively and return true (1). To use the default
       /// resource data return false (0). The resource data will not be copied and
-      /// must remain resident in memory. Use the cef_id_for_pack_resource_name()
-      /// function for version-safe mapping of resource IDR names from
-      /// cef_pack_resources.h to version-specific numerical |resource_id| values.
+      /// must remain resident in memory. Include cef_pack_resources.h for a listing
+      /// of valid resource ID values.
       /// </summary>
       /// <remarks>
       /// <para>This event may be called on multiple threads.</para>
@@ -1699,10 +1607,8 @@ type
       /// factor |scale_factor|. To provide the resource data set |data| and
       /// |data_size| to the data pointer and size respectively and return true (1).
       /// To use the default resource data return false (0). The resource data will
-      /// not be copied and must remain resident in memory. Use the
-      /// cef_id_for_pack_resource_name() function for version-safe mapping of
-      /// resource IDR names from cef_pack_resources.h to version-specific numerical
-      /// |resource_id| values.
+      /// not be copied and must remain resident in memory. Include
+      /// cef_pack_resources.h for a listing of valid resource ID values.
       /// </summary>
       /// <remarks>
       /// <para>This event may be called on multiple threads.</para>
@@ -1862,40 +1768,6 @@ type
       constructor Create(const aDirectory : string);
   end;
 
-  /// <summary>
-  /// Class used by the TWVLoader.ProxySettigns property to configure
-  /// a custom proxy server using the following command line switches:
-  /// --no-proxy-server, --proxy-auto-detect, --proxy-bypass-list,
-  /// --proxy-pac-url and --proxy-server.
-  /// </summary>
-  /// <remarks>
-  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --no-proxy-server</see></para>
-  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-auto-detect</see></para>
-  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-bypass-list</see></para>
-  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-pac-url</see></para>
-  /// <para><see href="https://peter.sh/experiments/chromium-command-line-switches/">Uses the following command line switch: --proxy-server</see></para>
-  /// <para><see href="https://www.chromium.org/developers/design-documents/network-settings/">See the Network Settings article.</see></para>
-  /// <para><see href="https://github.com/chromium/chromium/blob/main/net/docs/proxy.md"/">See the Proxy Support article.</see></para>
-  /// <para><see href="https://developer.chrome.com/docs/extensions/reference/api/proxy">See the chrome.proxy API article.</see></para>
-  /// </remarks>
-  TCEFProxySettings = class
-    protected
-      FNoProxyServer : boolean;
-      FAutoDetect    : boolean;
-      FByPassList    : ustring;
-      FPacUrl        : ustring;
-      FServer        : ustring;
-
-    public
-      constructor Create;
-
-      property NoProxyServer : boolean   read FNoProxyServer  write FNoProxyServer;
-      property AutoDetect    : boolean   read FAutoDetect     write FAutoDetect;
-      property ByPassList    : ustring   read FByPassList     write FByPassList;
-      property PacUrl        : ustring   read FPacUrl         write FPacUrl;
-      property Server        : ustring   read FServer         write FServer;
-  end;
-
 var
   GlobalCEFApp : TCefApplicationCore = nil;
 
@@ -1948,7 +1820,7 @@ uses
   {$IFDEF MACOSX}uCEFMacOSFunctions,{$ENDIF}
   uCEFLibFunctions, uCEFMiscFunctions, uCEFCommandLine, uCEFConstants,
   uCEFSchemeHandlerFactory, uCEFCookieManager, uCEFApp, uCEFCompletionCallback,
-  uCEFWaitableEvent, uCEFBrowser;
+  uCEFWaitableEvent;
 
 procedure DestroyGlobalCEFApp;
 begin
@@ -1992,7 +1864,9 @@ begin
   FCookieableSchemesExcludeDefaults  := False;
   FChromePolicyId                    := '';
   FChromeAppIconId                   := 0;
+  {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
   FDisableSignalHandlers             := False;
+  {$IFEND}
 
   // Fields used to set command line switches
   FSingleProcess                     := False;
@@ -2059,11 +1933,6 @@ begin
   FDisableHangMonitor                := False;
   FHideCrashRestoreBubble            := True;
   FPostQuantumKyber                  := STATE_DEFAULT;
-  FProxySettings                     := nil;
-  {$IFDEF LINUX}
-  FPasswordStorage                   := psDefault;
-  FGTKVersion                        := gtkVersionDefault;
-  {$ENDIF}
 
   // Fields used during the CEF initialization
   FWindowsSandboxInfo                := nil;
@@ -2178,7 +2047,6 @@ begin
     if (FCustomCommandLines      <> nil) then FreeAndNil(FCustomCommandLines);
     if (FCustomCommandLineValues <> nil) then FreeAndNil(FCustomCommandLineValues);
     if (FComponentIDList         <> nil) then FreeAndNil(FComponentIDList);
-    if (FProxySettings           <> nil) then FreeAndNil(FProxySettings);
   finally
     inherited Destroy;
   end;
@@ -2406,7 +2274,6 @@ procedure TCefApplicationCore.AfterConstruction;
 begin
   inherited AfterConstruction;
 
-  FProxySettings           := TCEFProxySettings.Create;
   FCustomCommandLines      := TStringList.Create;
   FCustomCommandLineValues := TStringList.Create;
   FComponentIDList         := TCEFComponentIDList.Create;
@@ -2508,7 +2375,7 @@ end;
 
 procedure TCefApplicationCore.BeforeInitSubProcess;
 begin
-  // This is implemented by TCefApplication
+  // Is implemented by TCefApplication
 end;
 
 function TCefApplicationCore.GetChromeVersion : ustring;
@@ -2635,40 +2502,6 @@ begin
     end
    else
     Result := True;
-end;
-
-function TCefApplicationCore.CheckCEFAPIHash : boolean;
-var
-  TempHashPtr : PAnsiChar;
-  TempHash : ustring;
-begin
-  Result := False;
-  try
-    if assigned(cef_api_hash) then
-      begin
-        // It's necessary to call cef_api_hash with the expected CEF_API_VERSION
-        // value before initializing CEF.
-        TempHashPtr := cef_api_hash(CEF_API_VERSION, CEF_API_HASH_PLATFORM);
-
-        if (TempHashPtr <> nil) then
-          begin
-            TempHash := ustring(AnsiString(TempHashPtr));
-
-            {$IFDEF MSWINDOWS}
-            Result := (TempHash = CEF_API_HASH_PLATFORM_WINDOWS);
-            {$ENDIF}
-            {$IFDEF MACOSX}
-            Result := (TempHash = CEF_API_HASH_PLATFORM_MAC);
-            {$ENDIF}
-            {$IFDEF LINUX}
-            Result := (TempHash = CEF_API_HASH_PLATFORM_LINUX);
-            {$ENDIF}
-          end;
-      end;
-  except
-    on e : exception do
-      if CustomExceptionHandler('TCefApplicationCore.CheckCEFAPIHash', e) then raise;
-  end;
 end;
 
 {$IFDEF MSWINDOWS}
@@ -2951,81 +2784,10 @@ begin
     end;
 end;
 
-function TCefApplicationCore.GetCEFVersionInfo(var aCEFVersionInfo : TCefVersionInfo) : boolean;
-const
-  CEF_VERSION_MAJOR = 0;
-  CEF_VERSION_MINOR = 1;
-  CEF_VERSION_PATCH = 2;
-  CEF_COMMIT_NUMBER = 3;
+function TCefApplicationCore.DumpWithoutCrashingUnthrottled : boolean;
 begin
-  if FLibLoaded then
-    begin
-      aCEFVersionInfo.VersionMajor := cef_version_info(CEF_VERSION_MAJOR);
-      aCEFVersionInfo.VersionMinor := cef_version_info(CEF_VERSION_MINOR);
-      aCEFVersionInfo.VersionPatch := cef_version_info(CEF_VERSION_PATCH);
-      aCEFVersionInfo.CommitNumber := cef_version_info(CEF_COMMIT_NUMBER);
-      Result := True;
-    end
-   else
-    Result := False;
-end;
-
-function TCefApplicationCore.GetChromiumVersionInfo(var aChromiumVersionInfo : TChromiumVersionInfo) : boolean;
-const
-  CHROME_VERSION_MAJOR = 4;
-  CHROME_VERSION_MINOR = 5;
-  CHROME_VERSION_BUILD = 6;
-  CHROME_VERSION_PATCH = 7;
-begin
-  if FLibLoaded then
-    begin
-      aChromiumVersionInfo.VersionMajor := cef_version_info(CHROME_VERSION_MAJOR);
-      aChromiumVersionInfo.VersionMinor := cef_version_info(CHROME_VERSION_MINOR);
-      aChromiumVersionInfo.VersionBuild := cef_version_info(CHROME_VERSION_BUILD);
-      aChromiumVersionInfo.VersionPatch := cef_version_info(CHROME_VERSION_PATCH);
-      Result := True;
-    end
-   else
-    Result := False;
-end;
-
-function TCefApplicationCore.GetIdForPackResourceName(const name : ustring): Integer;
-var
-  TempName : AnsiString;
-begin
-  if FLibLoaded then
-    begin
-      TempName := AnsiString(name);
-      Result := cef_id_for_pack_resource_name(@TempName);
-    end
-   else
-    Result := -1;
-end;
-
-function TCefApplicationCore.GetIdForPackStringName(const name : ustring): Integer;
-var
-  TempName : AnsiString;
-begin
-  if FLibLoaded then
-    begin
-      TempName := AnsiString(name);
-      Result := cef_id_for_pack_string_name(@TempName);
-    end
-   else
-    Result := -1;
-end;
-
-function TCefApplicationCore.GetIdForCommandIdName(const name : ustring): Integer;
-var
-  TempName : AnsiString;
-begin
-  if FLibLoaded then
-    begin
-      TempName := AnsiString(name);
-      Result := cef_id_for_command_id_name(@TempName);
-    end
-   else
-    Result := -1;
+  Result := (FStatus = asInitialized) and
+            (cef_dump_without_crashing_unthrottled() <> 0);
 end;
 
 procedure TCefApplicationCore.ShutDown;
@@ -3144,13 +2906,14 @@ begin
   aSettings.cookieable_schemes_exclude_defaults     := Ord(FCookieableSchemesExcludeDefaults);
   aSettings.chrome_policy_id                        := CefString(FChromePolicyId);
   aSettings.chrome_app_icon_id                      := FChromeAppIconId;
+  {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
   aSettings.disable_signal_handlers                 := ord(FDisableSignalHandlers);
+  {$IFEND}
 end;
 
 function TCefApplicationCore.InitializeLibrary(const aApp : ICefApp) : boolean;
 var
   TempArgs : TCefMainArgs;
-  TempRootDir : string;
 begin
   Result := False;
 
@@ -3158,19 +2921,14 @@ begin
     try
       if (aApp <> nil) then
         begin
-          if (length(FRootCache) > 0) then
-            TempRootDir := FRootCache
-           else
-            TempRootDir := FCache;
-
           if FDeleteCache and FDeleteCookies then
-            RenameAndDeleteDir(TempRootDir)
+            RenameAndDeleteDir(FCache)
            else
             if FDeleteCookies then
-              DeleteCookiesDB(TempRootDir)
+              DeleteCookiesDB(IncludeTrailingPathDelimiter(FCache) + 'Network')
              else
               if FDeleteCache then
-                RenameAndDeleteDir(TempRootDir, True);
+                RenameAndDeleteDir(FCache, True);
 
           InitializeSettings(FAppSettings);
           InitializeCefMainArgs(TempArgs);
@@ -3207,25 +2965,15 @@ begin
   end;
 end;
 
-function TCefApplicationCore.GetCookiesDir(const aRootDirectory : string) : string;
-begin
-  Result := IncludeTrailingPathDelimiter(aRootDirectory) + 'Default';
-  Result := IncludeTrailingPathDelimiter(Result) + 'Network';
-  Result := IncludeTrailingPathDelimiter(Result);
-end;
-
-procedure TCefApplicationCore.DeleteCookiesDB(const aRootDirectory : string);
+procedure TCefApplicationCore.DeleteCookiesDB(const aDirectory : string);
 var
   TempFiles : TStringList;
-  TempCookiesDir : string;
 begin
   TempFiles := TStringList.Create;
 
   try
-    TempCookiesDir := GetCookiesDir(aRootDirectory);
-
-    TempFiles.Add(TempCookiesDir + 'Cookies');
-    TempFiles.Add(TempCookiesDir + 'Cookies-journal');
+    TempFiles.Add(IncludeTrailingPathDelimiter(aDirectory) + 'Cookies');
+    TempFiles.Add(IncludeTrailingPathDelimiter(aDirectory) + 'Cookies-journal');
 
     DeleteFileList(TempFiles);
   finally
@@ -3241,12 +2989,12 @@ begin
   TempFiles := TStringList.Create;
 
   try
-    TempFiles.Add('Local State');
+    TempFiles.Add('LocalPrefs.json');
 
     MoveFileList(TempFiles, aSrcDirectory, aDstDirectory);
 
-    TempSrc := GetCookiesDir(aSrcDirectory);
-    TempDst := GetCookiesDir(aDstDirectory);
+    TempSrc := IncludeTrailingPathDelimiter(aSrcDirectory) + 'Network';
+    TempDst := IncludeTrailingPathDelimiter(aDstDirectory) + 'Network';
 
     TempFiles.Clear;
     TempFiles.Add('Cookies');
@@ -3281,8 +3029,7 @@ begin
 
         if RenameFile(TempOldDir, TempNewDir) then
           begin
-            if aKeepCookies then
-              MoveCookiesDB(TempNewDir, TempOldDir);
+            if aKeepCookies then MoveCookiesDB(TempNewDir, TempOldDir);
 
             TempThread := TCEFDirectoryDeleterThread.Create(TempNewDir);
             {$IFDEF DELPHI14_UP}
@@ -3741,21 +3488,6 @@ begin
     STATE_DISABLED : ReplaceSwitch(aKeys, aValues, '--disable-features', 'PostQuantumKyber');
   end;
 
-  {$IFDEF LINUX}
-  case FPasswordStorage of
-    psGnomeLibsecret : ReplaceSwitch(aKeys, aValues, '--password-store', 'gnome-libsecret');
-    psKWallet        : ReplaceSwitch(aKeys, aValues, '--password-store', 'kwallet');
-    psKWallet5       : ReplaceSwitch(aKeys, aValues, '--password-store', 'kwallet5');
-    psKWallet6       : ReplaceSwitch(aKeys, aValues, '--password-store', 'kwallet6');
-    psBasic          : ReplaceSwitch(aKeys, aValues, '--password-store', 'basic');
-  end;
-
-  case FGTKVersion of
-    gtkVersion3      : ReplaceSwitch(aKeys, aValues, '--gtk-version', '3');       
-    gtkVersion4      : ReplaceSwitch(aKeys, aValues, '--gtk-version', '4');
-  end;
-  {$ENDIF}
-
   // The list of features you can enable is here :
   // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/chrome_features.cc
   // https://source.chromium.org/chromium/chromium/src/+/main:content/public/common/content_features.cc
@@ -3796,23 +3528,6 @@ begin
   // https://source.chromium.org/chromium/chromium/src/+/master:components/variations/variations_switches.cc
   if (length(FForceFieldTrialParams) > 0) then
     ReplaceSwitch(aKeys, aValues, '--force-fieldtrial-params', FForceFieldTrialParams);
-
-  if FProxySettings.NoProxyServer then
-    ReplaceSwitch(aKeys, aValues, '--no-proxy-server')
-   else
-    begin
-      if FProxySettings.AutoDetect then
-        ReplaceSwitch(aKeys, aValues, '--proxy-auto-detect');
-
-      if (length(FProxySettings.ByPassList) > 0) then
-        ReplaceSwitch(aKeys, aValues, '--proxy-bypass-list', FProxySettings.ByPassList);
-
-      if (length(FProxySettings.PacUrl) > 0) then
-        ReplaceSwitch(aKeys, aValues, '--proxy-pac-url', FProxySettings.PacUrl);
-
-      if (length(FProxySettings.Server) > 0) then
-        ReplaceSwitch(aKeys, aValues, '--proxy-server', FProxySettings.Server);
-    end;
 
   if (FCustomCommandLines       <> nil) and
      (FCustomCommandLineValues  <> nil) and
@@ -4020,6 +3735,19 @@ begin
   {$ENDIF}
 end;
 
+function TCefApplicationCore.GetApiHashUniversal : ustring;
+var
+  TempHash : PAnsiChar;
+begin
+  Result := '';
+  if not(FLibLoaded) then exit;
+
+  TempHash := cef_api_hash(CEF_API_HASH_UNIVERSAL);
+
+  if (TempHash <> nil) then
+    Result := ustring(AnsiString(TempHash));
+end;
+
 function TCefApplicationCore.GetApiHashPlatform : ustring;
 var
   TempHash : PAnsiChar;
@@ -4027,7 +3755,7 @@ begin
   Result := '';
   if not(FLibLoaded) then exit;
 
-  TempHash := cef_api_hash(CEF_API_VERSION, CEF_API_HASH_PLATFORM);
+  TempHash := cef_api_hash(CEF_API_HASH_PLATFORM);
 
   if (TempHash <> nil) then
     Result := ustring(AnsiString(TempHash));
@@ -4040,18 +3768,10 @@ begin
   Result := '';
   if not(FLibLoaded) then exit;
 
-  TempHash := cef_api_hash(CEF_API_VERSION, CEF_COMMIT_HASH);
+  TempHash := cef_api_hash(CEF_COMMIT_HASH);
 
   if (TempHash <> nil) then
     Result := ustring(AnsiString(TempHash));
-end;
-
-function TCefApplicationCore.GetApiVersion : integer;
-begin
-  if FLibLoaded then
-    Result := uCEFLibFunctions.cef_api_version()
-   else
-    Result := 0;
 end;
 
 function TCefApplicationCore.GetExitCode : TCefResultCode;
@@ -4060,14 +3780,6 @@ begin
     Result := cef_get_exit_code()
    else
     Result := CEF_RESULT_CODE_NORMAL_EXIT;
-end;
-
-function TCefApplicationCore.GetBrowserById(aID : integer) : ICefBrowser;
-begin
-  if (FStatus = asInitialized) then
-    Result := TCefBrowserRef.UnWrap(cef_browser_host_get_browser_by_identifier(aID))
-   else
-    Result := nil;
 end;
 
 {$IFDEF LINUX}
@@ -4103,7 +3815,6 @@ var
   TempError  : {$IFDEF MSWINDOWS}DWORD;{$ELSE}Integer;{$ENDIF}
 begin
   Result := False;
-
   if (FStatus <> asLoading) or FLibLoaded or (FLibHandle <> 0) then
     begin
       FStatus           := asErrorLoadingLibrary;
@@ -4158,24 +3869,17 @@ begin
      Load_cef_app_capi_h and
      Load_cef_app_win_h and
      Load_cef_browser_capi_h and
-     Load_cef_browser_view_capi_h and
      Load_cef_command_line_capi_h and
      Load_cef_cookie_capi_h and
      Load_cef_crash_util_h and
-     Load_cef_display_capi_h and
      Load_cef_drag_data_capi_h and
      Load_cef_dump_without_crashing_internal_h and
      Load_cef_file_util_capi_h and
-     Load_cef_id_mappers_h and
      Load_cef_i18n_util_capi_h and
      Load_cef_image_capi_h and
-     Load_cef_label_button_capi_h and
-     Load_cef_logging_internal_h and
-     Load_cef_menu_button_capi_h and
      Load_cef_menu_model_capi_h and
      Load_cef_media_router_capi_h and
      Load_cef_origin_whitelist_capi_h and
-     Load_cef_panel_capi_h and
      Load_cef_parser_capi_h and
      Load_cef_path_util_capi_h and
      Load_cef_preference_capi_h and
@@ -4187,33 +3891,37 @@ begin
      Load_cef_resource_bundle_capi_h and
      Load_cef_response_capi_h and
      Load_cef_scheme_capi_h and
-     Load_cef_scroll_view_capi_h and
      Load_cef_server_capi_h and
      Load_cef_shared_process_message_builder_capi_h and
      Load_cef_ssl_info_capi_h and
      Load_cef_stream_capi_h and
+     Load_cef_task_capi_h and
+     Load_cef_task_manager_capi_h and
+     Load_cef_thread_capi_h and
+     Load_cef_trace_capi_h and
+     Load_cef_urlrequest_capi_h and
+     Load_cef_v8_capi_h and
+     Load_cef_values_capi_h and
+     Load_cef_waitable_event_capi_h and
+     Load_cef_xml_reader_capi_h and
+     Load_cef_zip_reader_capi_h and
+     Load_cef_logging_internal_h and
      Load_cef_string_list_h and
      Load_cef_string_map_h and
      Load_cef_string_multimap_h and
      Load_cef_string_types_h and
-     Load_cef_task_capi_h and
-     Load_cef_task_manager_capi_h and
-     Load_cef_textfield_capi_h and
-     Load_cef_thread_capi_h and
      Load_cef_thread_internal_h and
-     Load_cef_time_h and
-     Load_cef_trace_capi_h and
      Load_cef_trace_event_internal_h and
-     Load_cef_types_linux_h and
-     Load_cef_urlrequest_capi_h and
-     Load_cef_v8_capi_h and
-     Load_cef_values_capi_h and
-     Load_cef_version_info_h and
-     Load_cef_waitable_event_capi_h and
+     Load_cef_browser_view_capi_h and
+     Load_cef_display_capi_h and
+     Load_cef_label_button_capi_h and
+     Load_cef_menu_button_capi_h and
+     Load_cef_panel_capi_h and
+     Load_cef_scroll_view_capi_h and
+     Load_cef_textfield_capi_h and
      Load_cef_window_capi_h and
-     Load_cef_xml_reader_capi_h and
-     Load_cef_zip_reader_capi_h and
-     CheckCEFAPIHash then
+     Load_cef_types_linux_h and
+     Load_cef_time_h then
     begin
       FStatus    := asLoaded;
       FLibLoaded := True;
@@ -4238,28 +3946,8 @@ end;
 function TCefApplicationCore.Load_cef_api_hash_h : boolean;
 begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_api_hash{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_api_hash');
-  {$IFDEF FPC}Pointer({$ENDIF}uCEFLibFunctions.cef_api_version{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_api_version');
 
-  Result := assigned(cef_api_hash) and
-            assigned(uCEFLibFunctions.cef_api_version);
-end;
-
-function TCefApplicationCore.Load_cef_version_info_h : boolean;
-begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_version_info{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_version_info');
-
-  Result := assigned(cef_version_info);
-end;
-
-function TCefApplicationCore.Load_cef_id_mappers_h : boolean;
-begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_id_for_pack_resource_name{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_id_for_pack_resource_name');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_id_for_pack_string_name{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_id_for_pack_string_name');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_id_for_command_id_name{$IFDEF FPC}){$ENDIF}    := GetProcAddress(FLibHandle, 'cef_id_for_command_id_name');
-
-  Result := assigned(cef_id_for_pack_resource_name) and
-            assigned(cef_id_for_pack_string_name) and
-            assigned(cef_id_for_command_id_name);
+  Result := assigned(cef_api_hash);
 end;
 
 function TCefApplicationCore.Load_cef_app_capi_h : boolean;
@@ -4294,13 +3982,11 @@ end;
 
 function TCefApplicationCore.Load_cef_browser_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_host_create_browser{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_browser_host_create_browser');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_host_create_browser_sync{$IFDEF FPC}){$ENDIF}       := GetProcAddress(FLibHandle, 'cef_browser_host_create_browser_sync');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_host_get_browser_by_identifier{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_browser_host_get_browser_by_identifier');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_host_create_browser{$IFDEF FPC}){$ENDIF}      := GetProcAddress(FLibHandle, 'cef_browser_host_create_browser');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_browser_host_create_browser_sync{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_browser_host_create_browser_sync');
 
   Result := assigned(cef_browser_host_create_browser) and
-            assigned(cef_browser_host_create_browser_sync) and
-            assigned(cef_browser_host_get_browser_by_identifier);
+            assigned(cef_browser_host_create_browser_sync);
 end;
 
 function TCefApplicationCore.Load_cef_command_line_capi_h : boolean;
@@ -4337,9 +4023,11 @@ end;
 
 function TCefApplicationCore.Load_cef_dump_without_crashing_internal_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_dump_without_crashing{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_dump_without_crashing');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_dump_without_crashing{$IFDEF FPC}){$ENDIF}             := GetProcAddress(FLibHandle, 'cef_dump_without_crashing');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_dump_without_crashing_unthrottled{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_dump_without_crashing_unthrottled');
 
-  Result := assigned(cef_dump_without_crashing);
+  Result := assigned(cef_dump_without_crashing) and
+            assigned(cef_dump_without_crashing_unthrottled);
 end;
 
 function TCefApplicationCore.Load_cef_file_util_capi_h : boolean;
@@ -4410,8 +4098,8 @@ begin
   {$IFDEF FPC}Pointer({$ENDIF}cef_format_url_for_security_display{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_format_url_for_security_display');
   {$IFDEF FPC}Pointer({$ENDIF}cef_get_mime_type{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_get_mime_type');
   {$IFDEF FPC}Pointer({$ENDIF}cef_get_extensions_for_mime_type{$IFDEF FPC}){$ENDIF}    := GetProcAddress(FLibHandle, 'cef_get_extensions_for_mime_type');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_base64_encode{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_base64_encode');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_base64_decode{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_base64_decode');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_base64encode{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_base64encode');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_base64decode{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_base64decode');
   {$IFDEF FPC}Pointer({$ENDIF}cef_uriencode{$IFDEF FPC}){$ENDIF}                       := GetProcAddress(FLibHandle, 'cef_uriencode');
   {$IFDEF FPC}Pointer({$ENDIF}cef_uridecode{$IFDEF FPC}){$ENDIF}                       := GetProcAddress(FLibHandle, 'cef_uridecode');
   {$IFDEF FPC}Pointer({$ENDIF}cef_parse_json{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_parse_json');
@@ -4425,8 +4113,8 @@ begin
             assigned(cef_format_url_for_security_display) and
             assigned(cef_get_mime_type) and
             assigned(cef_get_extensions_for_mime_type) and
-            assigned(cef_base64_encode) and
-            assigned(cef_base64_decode) and
+            assigned(cef_base64encode) and
+            assigned(cef_base64decode) and
             assigned(cef_uriencode) and
             assigned(cef_uridecode) and
             assigned(cef_parse_json) and
@@ -4444,13 +4132,9 @@ end;
 
 function TCefApplicationCore.Load_cef_preference_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_preference_manager_get_global{$IFDEF FPC}){$ENDIF}                        := GetProcAddress(FLibHandle, 'cef_preference_manager_get_global');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_preference_manager_get_chrome_variations_as_switches{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_preference_manager_get_chrome_variations_as_switches');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_preference_manager_get_chrome_variations_as_strings{$IFDEF FPC}){$ENDIF}  := GetProcAddress(FLibHandle, 'cef_preference_manager_get_chrome_variations_as_strings');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_preference_manager_get_global{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_preference_manager_get_global');
 
-  Result := assigned(cef_preference_manager_get_global) and
-            assigned(cef_preference_manager_get_chrome_variations_as_switches) and
-            assigned(cef_preference_manager_get_chrome_variations_as_strings);
+  Result := assigned(cef_preference_manager_get_global);
 end;
 
 function TCefApplicationCore.Load_cef_print_settings_capi_h : boolean;
@@ -4487,13 +4171,13 @@ end;
 
 function TCefApplicationCore.Load_cef_request_context_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_request_context_get_global_context{$IFDEF FPC}){$ENDIF}        := GetProcAddress(FLibHandle, 'cef_request_context_get_global_context');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_request_context_create_context{$IFDEF FPC}){$ENDIF}            := GetProcAddress(FLibHandle, 'cef_request_context_create_context');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_request_context_cef_create_context_shared{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_request_context_cef_create_context_shared');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_request_context_get_global_context{$IFDEF FPC}){$ENDIF} := GetProcAddress(FLibHandle, 'cef_request_context_get_global_context');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_request_context_create_context{$IFDEF FPC}){$ENDIF}     := GetProcAddress(FLibHandle, 'cef_request_context_create_context');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_create_context_shared{$IFDEF FPC}){$ENDIF}              := GetProcAddress(FLibHandle, 'cef_create_context_shared');
 
   Result := assigned(cef_request_context_get_global_context) and
             assigned(cef_request_context_create_context) and
-            assigned(cef_request_context_cef_create_context_shared);
+            assigned(cef_create_context_shared);
 end;
 
 function TCefApplicationCore.Load_cef_resource_bundle_capi_h : boolean;
@@ -4604,44 +4288,44 @@ end;
 
 function TCefApplicationCore.Load_cef_v8_capi_h : boolean;
 begin
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_context_get_current_context{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8_context_get_current_context');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_context_get_entered_context{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8_context_get_entered_context');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_context_in_context{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_v8_context_in_context');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_undefined{$IFDEF FPC}){$ENDIF}                := GetProcAddress(FLibHandle, 'cef_v8_value_create_undefined');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_null{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8_value_create_null');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_bool{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8_value_create_bool');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_int{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_v8_value_create_int');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_uint{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8_value_create_uint');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_double{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8_value_create_double');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_date{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8_value_create_date');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_string{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8_value_create_string');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_object{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8_value_create_object');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_array{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_v8_value_create_array');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_array_buffer{$IFDEF FPC}){$ENDIF}             := GetProcAddress(FLibHandle, 'cef_v8_value_create_array_buffer');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_array_buffer_with_copy{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_v8_value_create_array_buffer_with_copy');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_function{$IFDEF FPC}){$ENDIF}                 := GetProcAddress(FLibHandle, 'cef_v8_value_create_function');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_value_create_promise{$IFDEF FPC}){$ENDIF}                  := GetProcAddress(FLibHandle, 'cef_v8_value_create_promise');
-  {$IFDEF FPC}Pointer({$ENDIF}cef_v8_stack_trace_get_current{$IFDEF FPC}){$ENDIF}               := GetProcAddress(FLibHandle, 'cef_v8_stack_trace_get_current');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8context_get_current_context{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8context_get_current_context');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8context_get_entered_context{$IFDEF FPC}){$ENDIF}           := GetProcAddress(FLibHandle, 'cef_v8context_get_entered_context');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8context_in_context{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_v8context_in_context');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_undefined{$IFDEF FPC}){$ENDIF}                := GetProcAddress(FLibHandle, 'cef_v8value_create_undefined');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_null{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8value_create_null');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_bool{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8value_create_bool');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_int{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_v8value_create_int');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_uint{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8value_create_uint');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_double{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8value_create_double');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_date{$IFDEF FPC}){$ENDIF}                     := GetProcAddress(FLibHandle, 'cef_v8value_create_date');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_string{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8value_create_string');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_object{$IFDEF FPC}){$ENDIF}                   := GetProcAddress(FLibHandle, 'cef_v8value_create_object');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array{$IFDEF FPC}){$ENDIF}                    := GetProcAddress(FLibHandle, 'cef_v8value_create_array');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array_buffer{$IFDEF FPC}){$ENDIF}             := GetProcAddress(FLibHandle, 'cef_v8value_create_array_buffer');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_array_buffer_with_copy{$IFDEF FPC}){$ENDIF}   := GetProcAddress(FLibHandle, 'cef_v8value_create_array_buffer_with_copy');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_function{$IFDEF FPC}){$ENDIF}                 := GetProcAddress(FLibHandle, 'cef_v8value_create_function');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8value_create_promise{$IFDEF FPC}){$ENDIF}                  := GetProcAddress(FLibHandle, 'cef_v8value_create_promise');
+  {$IFDEF FPC}Pointer({$ENDIF}cef_v8stack_trace_get_current{$IFDEF FPC}){$ENDIF}               := GetProcAddress(FLibHandle, 'cef_v8stack_trace_get_current');
   {$IFDEF FPC}Pointer({$ENDIF}cef_register_extension{$IFDEF FPC}){$ENDIF}                      := GetProcAddress(FLibHandle, 'cef_register_extension');
 
-  Result := assigned(cef_v8_context_get_current_context) and
-            assigned(cef_v8_context_get_entered_context) and
-            assigned(cef_v8_context_in_context) and
-            assigned(cef_v8_value_create_undefined) and
-            assigned(cef_v8_value_create_null) and
-            assigned(cef_v8_value_create_bool) and
-            assigned(cef_v8_value_create_int) and
-            assigned(cef_v8_value_create_uint) and
-            assigned(cef_v8_value_create_double) and
-            assigned(cef_v8_value_create_date) and
-            assigned(cef_v8_value_create_string) and
-            assigned(cef_v8_value_create_object) and
-            assigned(cef_v8_value_create_array) and
-            assigned(cef_v8_value_create_array_buffer) and
-            assigned(cef_v8_value_create_array_buffer_with_copy) and
-            assigned(cef_v8_value_create_function) and
-            assigned(cef_v8_value_create_promise) and
-            assigned(cef_v8_stack_trace_get_current) and
+  Result := assigned(cef_v8context_get_current_context) and
+            assigned(cef_v8context_get_entered_context) and
+            assigned(cef_v8context_in_context) and
+            assigned(cef_v8value_create_undefined) and
+            assigned(cef_v8value_create_null) and
+            assigned(cef_v8value_create_bool) and
+            assigned(cef_v8value_create_int) and
+            assigned(cef_v8value_create_uint) and
+            assigned(cef_v8value_create_double) and
+            assigned(cef_v8value_create_date) and
+            assigned(cef_v8value_create_string) and
+            assigned(cef_v8value_create_object) and
+            assigned(cef_v8value_create_array) and
+            assigned(cef_v8value_create_array_buffer) and
+            assigned(cef_v8value_create_array_buffer_with_copy) and
+            assigned(cef_v8value_create_function) and
+            assigned(cef_v8value_create_promise) and
+            assigned(cef_v8stack_trace_get_current) and
             assigned(cef_register_extension);
 end;
 
@@ -4654,7 +4338,7 @@ begin
 
   Result := assigned(cef_value_create) and
             assigned(cef_binary_value_create) and
-            assigned(cef_dictionary_value_create) and
+            assigned(cef_v8stack_trace_get_current) and
             assigned(cef_list_value_create);
 end;
 
@@ -4972,20 +4656,6 @@ begin
     on e : exception do
       if CustomExceptionHandler('TCEFDirectoryDeleterThread.Execute', e) then raise;
   end;
-end;
-
-
-// TCEFProxySettings
-
-constructor TCEFProxySettings.Create;
-begin
-  inherited Create;
-
-  FNoProxyServer := False;
-  FAutoDetect    := False;
-  FByPassList    := '';
-  FPacUrl        := '';
-  FServer        := '';
 end;
 
 end.

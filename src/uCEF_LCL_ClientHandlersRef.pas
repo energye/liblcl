@@ -241,7 +241,7 @@ type
     constructor Create; override;
     destructor Destroy; override;
   protected
-    function OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: boolean): boolean; override;
+    function OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl, targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean; const popupFeatures: TCefPopupFeatures; var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings; var extra_info: ICefDictionaryValue; var noJavascriptAccess: boolean): boolean; override;
     procedure OnAfterCreated(const browser: ICefBrowser); override;
     function DoClose(const browser: ICefBrowser): boolean; override;
     procedure OnBeforeClose(const browser: ICefBrowser); override;
@@ -1121,7 +1121,7 @@ end;
 
 
 {== LifeSpanHandler ==}
-function TLifeSpanHandlerRef.OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; popup_id: Integer; const targetUrl,
+function TLifeSpanHandlerRef.OnBeforePopup(const browser: ICefBrowser; const frame: ICefFrame; const targetUrl,
   targetFrameName: ustring; targetDisposition: TCefWindowOpenDisposition; userGesture: boolean; const popupFeatures: TCefPopupFeatures;
   var windowInfo: TCefWindowInfo; var client: ICefClient; var settings: TCefBrowserSettings;
   var extra_info: ICefDictionaryValue; var noJavascriptAccess: boolean): boolean;
@@ -1152,7 +1152,7 @@ begin
     windowInfo := GoCefWindowInfoToCefWindowInfo(rwindowInfo);
   end
   else
-    Result := inherited OnBeforePopup(browser, frame, popup_id, targetUrl, targetFrameName, targetDisposition, userGesture, popupFeatures, windowInfo, client, settings, extra_info, noJavascriptAccess);
+    Result := inherited OnBeforePopup(browser, frame, targetUrl, targetFrameName, targetDisposition, userGesture, popupFeatures, windowInfo, client, settings, extra_info, noJavascriptAccess);
 end;
 
 procedure TLifeSpanHandlerRef.OnAfterCreated(const browser: ICefBrowser);

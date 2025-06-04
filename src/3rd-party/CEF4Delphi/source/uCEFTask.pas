@@ -202,15 +202,6 @@ type
       procedure Execute; override;
   end;
 
-  TCefAddPreferenceObserverTask = class(TCefChromiumTask)
-    protected
-      FName : ustring;
-      procedure Execute; override;
-
-    public
-      constructor Create(const aEvents : IChromiumEvents; const aName : ustring); reintroduce;
-  end;
-
 implementation
 
 uses
@@ -703,31 +694,6 @@ begin
     except
       on e : exception do
         if CustomExceptionHandler('TCefTryCloseBrowserTask.Execute', e) then raise;
-    end;
-  finally
-    FEvents := nil;
-  end;
-end;
-
-
-// TCefAddPreferenceObserverTask
-
-constructor TCefAddPreferenceObserverTask.Create(const aEvents : IChromiumEvents; const aName : ustring);
-begin
-  inherited Create(aEvents);
-
-  FName := aName;
-end;
-
-procedure TCefAddPreferenceObserverTask.Execute;
-begin
-  try
-    try
-      if CanExecute then
-        IChromiumEvents(FEvents).doAddPreferenceObserver(FName);
-    except
-      on e : exception do
-        if CustomExceptionHandler('TCefAddPreferenceObserverTask.Execute', e) then raise;
     end;
   finally
     FEvents := nil;

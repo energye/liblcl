@@ -123,6 +123,9 @@ procedure AddCrDelegate;
 var
   delegate: id;
 begin
+  // CEF要求在创建NSApp之前，必须先实例化 TCrCocoaApplication
+  // 否则CEF获取不到 isHandlingSendEvent
+  TCrCocoaApplication.sharedApplication;
   delegate := TChromeAppDelegateIntercept.alloc.initWithDelegate(NSApp.delegate);
   NSApp.setDelegate(delegate);
 end;

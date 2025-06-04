@@ -210,13 +210,6 @@ type
       /// </summary>
       function GetChromeColorSchemeVariant: TCefColorVariant;
 
-      /// <summary>
-      /// Add an observer for content and website setting changes. The observer will
-      /// remain registered until the returned Registration object is destroyed.
-      /// This function must be called on the browser process UI thread.
-      /// </summary>
-      function AddSettingObserver(const observer: ICefSettingObserver): ICefRegistration;
-
     public
       class function UnWrap(data: Pointer): ICefRequestContext; reintroduce;
       /// <summary>
@@ -269,7 +262,7 @@ implementation
 
 uses
   uCEFMiscFunctions, uCEFLibFunctions, uCEFCookieManager, uCEFRequestContextHandler,
-  uCEFStringList, uCEFMediaRouter, uCEFValue, uCEFRegistration;
+  uCEFStringList, uCEFMediaRouter, uCEFValue;
 
 function TCefRequestContextRef.ClearSchemeHandlerFactories: Boolean;
 begin
@@ -433,11 +426,6 @@ begin
   Result := PCefRequestContext(FData)^.get_chrome_color_scheme_variant(PCefRequestContext(FData));
 end;
 
-function TCefRequestContextRef.AddSettingObserver(const observer: ICefSettingObserver): ICefRegistration;
-begin
-  Result := TCefRegistrationRef.UnWrap(PCefRequestContext(FData)^.add_setting_observer(PCefRequestContext(FData), CefGetData(observer)));
-end;
-
 function TCefRequestContextRef.RegisterSchemeHandlerFactory(const schemeName : ustring;
                                                             const domainName : ustring;
                                                             const factory    : ICefSchemeHandlerFactory): Boolean;
@@ -455,7 +443,7 @@ end;
 class function TCefRequestContextRef.Shared(const other   : ICefRequestContext;
                                             const handler : ICefRequestContextHandler): ICefRequestContext;
 begin
-  Result := UnWrap(cef_request_context_cef_create_context_shared(CefGetData(other), CefGetData(handler)));
+  Result := UnWrap(cef_create_context_shared(CefGetData(other), CefGetData(handler)));
 end;
 
 class function TCefRequestContextRef.UnWrap(data: Pointer): ICefRequestContext;

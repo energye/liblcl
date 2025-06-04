@@ -69,7 +69,6 @@ type
     TargetFrameName: PChar;
     TargetDisposition: PInteger;
     UserGesture: PBoolean;
-    PopupId: PInteger;
   end;
 
   PTCefRangeArray = ^TCefRangeArray;

@@ -57,7 +57,6 @@ type
       procedure SetFocus(focus: Boolean);
       function  GetWindowHandle: TCefWindowHandle;
       function  GetOpenerWindowHandle: TCefWindowHandle;
-      function  GetOpenerIdentifier: integer;
       function  HasView: Boolean;
       function  GetClient: ICefClient;
       function  GetRequestContext: ICefRequestContext;
@@ -545,11 +544,6 @@ begin
   Result := PCefBrowserHost(FData)^.get_opener_window_handle(PCefBrowserHost(FData));
 end;
 
-function TCefBrowserHostRef.GetOpenerIdentifier: Integer;
-begin
-  Result := PCefBrowserHost(FData)^.get_opener_identifier(PCefBrowserHost(FData));
-end;
-
 function TCefBrowserHostRef.GetClient: ICefClient;
 begin
   Result := TCefClientRef.UnWrap(PCefBrowserHost(FData)^.get_client(PCefBrowserHost(FData)));
@@ -616,7 +610,6 @@ begin
 
         while (i < TempCount) do
           begin
-            TempItem^.size             := SizeOf(TCefCompositionUnderline);
             TempItem^.range            := underlines[i].range;
             TempItem^.color            := underlines[i].color;
             TempItem^.background_color := underlines[i].background_color;
