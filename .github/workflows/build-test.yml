@@ -1,24 +1,658 @@
-name: build-test
+name: build
 
 on:
   workflow_dispatch:
 #  push:
-#    branches: [ "main" ]
+#    branches: [ "notpresent" ]
 #    tags:
 #      - 'v*.*.*'
 
 jobs:
-
-  Build-End-RUN:
+  windows-64:
     runs-on: ${{ matrix.operating-system }}
+
     strategy:
       matrix:
-        operating-system: [ ubuntu-latest ]
+        operating-system: [ windows-2019 ]
+        lazarus-versions: [ 3.6 ]
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Golang Environment # Install Golang
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.20'
+      - name: Config Base Environment  # 配置基础环境
+        run: |
+          git config --global --add safe.directory ./
+          git fetch
+          mkdir D:/bins
+          mv ./.github/shell D:/shell
+        shell: bash
 
+      - name: Install Lazarus Environment # Install Lazarus
+        uses: energye/setup-lazarus@v1.0.0
+        with:
+          lazarus-version: ${{ matrix.lazarus-versions }}
+          with-cache: true
+
+      - name: Build Dynamic library LCL (main)
+        run: |
+          git clean -xdf
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
+          7z a D:/bins/liblcl.Windows64.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (109.1.18)
+        run: |
+          git clean -xdf
+          git checkout origin/109.1.18
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-109.Windows64.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (101.0.18)
+        run: |
+          git clean -xdf
+          git checkout origin/101.0.18
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-101.Windows64.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (89.0.18)
+        run: |
+          git clean -xdf
+          git checkout origin/Flash-89.0.18
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-89.Windows64.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (49.0.2623)
+        run: |
+          git clean -xdf
+          git checkout origin/WindowsXP-49.0.2623
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win64 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-49.Windows64.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL END
+        run: |
+          ls -l D:/bins
+        shell: bash
+
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: D:/bins/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  windows-32:
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        operating-system: [ windows-2019 ]
+        lazarus-versions: [ 3.6 ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Config Base Environment  # 配置基础环境
+        run: |
+          git config --global --add safe.directory ./
+          git fetch
+          mkdir D:/bins
+          mv ./.github/shell D:/shell
+        shell: bash
+
+      - name: Install Lazarus Environment # Install Lazarus
+        uses: energye/setup-lazarus@v1.0.0
+        with:
+          lazarus-version: ${{ matrix.lazarus-versions }}
+          with-cache: true
+          os-arch: i386
+
+      - name: Build Dynamic library LCL (main)
+        run: |
+          git clean -xdf
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
+          7z a D:/bins/liblcl.Windows32.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (109.1.18)
+        run: |
+          git clean -xdf
+          git checkout origin/109.1.18
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-109.Windows32.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (101.0.18)
+        run: |
+          git clean -xdf
+          git checkout origin/101.0.18
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-101.Windows32.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (89.0.18)
+        run: |
+          git clean -xdf
+          git checkout origin/Flash-89.0.18
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-89.Windows32.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL (49.0.2623)
+        run: |
+          git clean -xdf
+          git checkout origin/WindowsXP-49.0.2623
+          D:/shell/add-package.bat
+          lazbuild.exe -B --bm=Win32 "src/liblcl.lpi"
+          7z a D:/bins/liblcl-49.Windows32.zip $HOME/golcl/liblcl.dll
+        shell: bash
+
+      - name: Build Dynamic library LCL END
+        run: |
+          ls -l D:/bins
+        shell: bash
+
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: D:/bins/**
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  macos-amd64-arm64:
+    runs-on: ${{ matrix.operating-system }}
+
+    strategy:
+      matrix:
+        operating-system: [ macos-13 ]
+        lazarus-versions: [ 3.6 ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Config Base Environment  # 配置基础环境
+        run: |
+          git config --global --add safe.directory ./
+          git fetch
+          mkdir $HOME/bins
+          mv ./.github/shell $HOME/shell
+          chmod +x $HOME/shell/add-package.sh
+
+      - name: Install Lazarus Environment # Install Lazarus
+        uses: energye/setup-lazarus@v1.0.0
+        with:
+          lazarus-version: ${{ matrix.lazarus-versions }}
+          with-cache: true
+
+      - name: Lazarus Execution Permissions
+        run: |
+          sudo chown -R ${USER}:admin /Applications/Lazarus
+          ls -la /Applications/Lazarus
+
+      # main
+
+      - name: Build Dynamic library LCL (main AMD64)
+        run: |
+          sudo git clean -xdf
+          $HOME/shell/add-package.sh
+          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          zip -j $HOME/bins/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
+
+      - name: Build Dynamic library LCL (main ARM64)
+        run: |
+          sudo lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          zip -j $HOME/bins/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
+
+      # 109
+
+      - name: Build Dynamic library LCL (109.1.18 AMD64)
+        run: |
+          sudo git clean -xdf
+          git checkout origin/109.1.18
+          $HOME/shell/add-package.sh
+          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          zip -j $HOME/bins/liblcl-109.MacOSX64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
+
+      - name: Build Dynamic library LCL (109.1.18 ARM64)
+        run: |
+          sudo lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          zip -j $HOME/bins/liblcl-109.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
+
+      # 101
+
+      - name: Build Dynamic library LCL (101.0.18 AMD64)
+        run: |
+          sudo git clean -xdf
+          git checkout origin/101.0.18
+          $HOME/shell/add-package.sh
+          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          zip -j $HOME/bins/liblcl-101.MacOSX64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
+
+      - name: Build Dynamic library LCL (101.0.18 ARM64)
+        run: |
+          sudo lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          zip -j $HOME/bins/liblcl-101.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
+
+      # 89
+
+      - name: Build Dynamic library LCL (89.0.18 AMD64)
+        run: |
+          sudo git clean -xdf
+          git checkout origin/Flash-89.0.18
+          $HOME/shell/add-package.sh
+          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          zip -j $HOME/bins/liblcl-89.MacOSX64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
+
+      - name: Build Dynamic library LCL (89.0.18 ARM64)
+        run: |
+          sudo lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          zip -j $HOME/bins/liblcl-89.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
+
+      - name: Build Dynamic library LCL END
+        run: |
+          mv $HOME/bins $RUNNER_WORKSPACE/bins
+          ls -l $RUNNER_WORKSPACE/bins
+
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: "../bins/**"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  linux-i386:
+    runs-on: ${{ matrix.operating-system }}
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        lazarus-versions: [ 3.6 ]
+        include:
+          - arch: i386
+            distro: ubuntu:18.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Config Base Environment  # 配置基础环境
+        run: |
+          mkdir $RUNNER_WORKSPACE/bins
+          mv ./.github/shell $RUNNER_WORKSPACE/shell
+          chmod +x $RUNNER_WORKSPACE/shell/add-package.sh
+          chmod +x $RUNNER_WORKSPACE/shell/build-lib-in-linux-docker.sh
+
+      - name: Install Lazarus Environment # Install Lazarus
+        uses: energye/setup-lazarus@v1.0.0
+        with:
+          lazarus-version: ${{ matrix.lazarus-versions }}
+          source-install: true
+          os-arch: i386
+
+      - name: Container Build Lazarus
+        uses: uraimo/run-on-arch-action@v2
+        id: build
+        with:
+          arch: none
+          distro: none
+          base_image: ${{ matrix.arch }}/${{ matrix.distro }} # 因为没有amd架构，所以手动指定基础镜像
+
+          githubToken: ${{ github.token }} # 不需要，但可加快构建速度
+
+          dockerRunArgs: | # 将目录装载为容器中的/app
+            --volume "$RUNNER_WORKSPACE:/app"
+
+          shell: /bin/sh # 在容器中运行命令的shell
+
+          install: | #在容器中安装一些依赖项
+            apt-get update -q -y
+            apt-get install -q -y git
+            apt-get install -q -y make binutils build-essential gdb subversion zip unzip libx11-dev libgtk2.0-dev libgdk-pixbuf2.0-dev libcairo2-dev libpango1.0-dev libgtk-3-dev
+
+          run: | # run 要在容器中运行的命令，复制git文件到挂载的目录中
+            pwd
+
+            echo "Operating System Info ============================================="
+            ls -al /app
+            uname -m
+            uname -r
+            uname -s
+            pkg-config --modversion gtk+-2.0
+            pkg-config --modversion gtk+-3.0
+            ldd --version
+            cat /etc/os-release
+
+            echo "Build fpc ============================================="
+            cd /app/lazarus/fpc-3.2.2.i386-linux
+            ls -al
+            ./install.sh <<esxu
+            esxu
+
+            echo "Build lazarus ============================================="
+            cd ../
+            make clean all
+            objdump -p /app/lazarus/lazbuild
+
+            echo "Run Build shell ============================================="
+
+            /app/shell/build-lib-in-linux-docker.sh Linux32 gtk2 101.0.18 liblcl-101.Linux32.zip
+
+            /app/shell/build-lib-in-linux-docker.sh Linux32 gtk2 Flash-89.0.18 liblcl-89.Linux32.zip
+
+
+      - name: Build Dynamic library LCL END
+        run: |
+          ls -l $RUNNER_WORKSPACE/bins     
+
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ../bins/**
+
+  linux-amd64:
+    runs-on: ${{ matrix.operating-system }}
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        lazarus-versions: [ 3.6 ]
+        include:
+          - arch: amd64
+            distro: ubuntu:18.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Config Base Environment  # 配置基础环境
+        run: |
+          mkdir $RUNNER_WORKSPACE/bins
+          mv ./.github/shell $RUNNER_WORKSPACE/shell
+          chmod +x $RUNNER_WORKSPACE/shell/add-package.sh
+          chmod +x $RUNNER_WORKSPACE/shell/build-lib-in-linux-docker.sh
+
+      - name: Install Lazarus Environment # Install Lazarus
+        uses: energye/setup-lazarus@v1.0.0
+        with:
+          lazarus-version: ${{ matrix.lazarus-versions }}
+          source-install: true
+
+      - name: Container Build Lazarus
+        uses: uraimo/run-on-arch-action@v2
+        id: build
+        with:
+          arch: none
+          distro: none
+          base_image: ${{ matrix.arch }}/${{ matrix.distro }} # 因为没有amd架构，所以手动指定基础镜像
+
+          githubToken: ${{ github.token }} # 不需要，但可加快构建速度
+
+          dockerRunArgs: | # 将目录装载为容器中的/app
+            --volume "$RUNNER_WORKSPACE:/app"
+
+          shell: /bin/sh # 在容器中运行命令的shell
+
+          install: | #在容器中安装一些依赖项
+            apt-get update -q -y
+            apt-get install -q -y git
+            apt-get install -q -y make binutils build-essential gdb subversion zip unzip libx11-dev libgtk2.0-dev libgdk-pixbuf2.0-dev libcairo2-dev libpango1.0-dev libgtk-3-dev
+
+          run: | # run 要在容器中运行的命令，复制git文件到挂载的目录中
+            pwd
+
+            echo "Operating System Info ============================================="
+            ls -al /app
+            uname -m
+            uname -r
+            uname -s
+            pkg-config --modversion gtk+-2.0
+            pkg-config --modversion gtk+-3.0
+            ldd --version
+            cat /etc/os-release
+
+            echo "Build fpc ============================================="
+            cd /app/lazarus/fpc-3.2.2.x86_64-linux
+            ls -al
+            ./install.sh <<esxu
+            esxu
+
+            echo "Build lazarus ============================================="
+            cd ../
+            make clean all
+            objdump -p /app/lazarus/lazbuild
+
+            echo "Run Build shell ============================================="
+
+            /app/shell/build-lib-in-linux-docker.sh Linux64 gtk2 main liblcl.Linux64.zip
+            /app/shell/build-lib-in-linux-docker.sh Linux64_GTK3 gtk3 main liblcl-GTK3.Linux64.zip
+
+            /app/shell/build-lib-in-linux-docker.sh Linux64 gtk3 109.1.18 liblcl-109-GTK3.Linux64.zip
+
+            /app/shell/build-lib-in-linux-docker.sh Linux64 gtk2 101.0.18 liblcl-101.Linux64.zip
+
+            /app/shell/build-lib-in-linux-docker.sh Linux64 gtk2 Flash-89.0.18 liblcl-89.Linux64.zip
+
+
+      - name: Build Dynamic library LCL END
+        run: |
+          ls -l $RUNNER_WORKSPACE/bins     
+
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ../bins/**
+
+  linux-arm:
+    runs-on: ${{ matrix.operating-system }}
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        lazarus-versions: [ 3.6 ]
+        include:
+          - arch: arm32v7
+            distro: ubuntu:18.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Config Base Environment  # 配置基础环境
+        run: |
+          mkdir $RUNNER_WORKSPACE/bins
+          mv ./.github/shell $RUNNER_WORKSPACE/shell
+          chmod +x $RUNNER_WORKSPACE/shell/add-package.sh
+          chmod +x $RUNNER_WORKSPACE/shell/build-lib-in-linux-docker.sh
+
+      - name: Install Lazarus Environment # Install Lazarus
+        uses: energye/setup-lazarus@v1.0.0
+        with:
+          lazarus-version: ${{ matrix.lazarus-versions }}
+          source-install: true
+          os-arch: arm
+
+      - name: Container Build Lazarus
+        uses: uraimo/run-on-arch-action@v2
+        id: build
+        with:
+          arch: none
+          distro: none
+          base_image: ${{ matrix.arch }}/${{ matrix.distro }} # 因为没有amd架构，所以手动指定基础镜像
+
+          githubToken: ${{ github.token }} # 不需要，但可加快构建速度
+
+          dockerRunArgs: | # 将目录装载为容器中的/app
+            --volume "$RUNNER_WORKSPACE:/app"
+
+          shell: /bin/sh # 在容器中运行命令的shell
+
+          install: | #在容器中安装一些依赖项
+            apt-get update -q -y
+            apt-get install -q -y git
+            apt-get install -q -y make binutils build-essential gdb subversion zip unzip libx11-dev libgtk2.0-dev libgdk-pixbuf2.0-dev libcairo2-dev libpango1.0-dev libgtk-3-dev
+
+          run: | # run 要在容器中运行的命令，复制git文件到挂载的目录中
+            pwd
+
+            echo "Operating System Info ============================================="
+            ls -al /app
+            uname -m
+            uname -r
+            uname -s
+            pkg-config --modversion gtk+-2.0
+            pkg-config --modversion gtk+-3.0
+            ldd --version
+            cat /etc/os-release
+
+            echo "Build fpc ============================================="
+            cd /app/lazarus/fpc-3.2.2.arm-linux
+            ls -al
+            ./install.sh <<esxu
+            esxu
+
+            echo "Build lazarus ============================================="
+            cd ../
+            make clean all
+            objdump -p /app/lazarus/lazbuild
+
+            echo "Run Build shell ============================================="
+
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 main liblcl.LinuxARM.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM_GTK3 gtk3 main liblcl-GTK3.LinuxARM.zip
+
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk3 109.1.18 liblcl-109-GTK3.LinuxARM.zip
+
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 101.0.18 liblcl-101.LinuxARM.zip
+
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 Flash-89.0.18 liblcl-89.LinuxARM.zip
+
+
+      - name: Build Dynamic library LCL END
+        run: |
+          ls -l $RUNNER_WORKSPACE/bins     
+
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ../bins/**
+
+  linux-arm64:
+    runs-on: ${{ matrix.operating-system }}
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        lazarus-versions: [ 3.6 ]
+        include:
+          - arch: arm64v8
+            distro: ubuntu:18.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Config Base Environment  # 配置基础环境
+        run: |
+          mkdir $RUNNER_WORKSPACE/bins
+          mv ./.github/shell $RUNNER_WORKSPACE/shell
+          chmod +x $RUNNER_WORKSPACE/shell/add-package.sh
+          chmod +x $RUNNER_WORKSPACE/shell/build-lib-in-linux-docker.sh
+
+      - name: Install Lazarus Environment # Install Lazarus
+        uses: energye/setup-lazarus@v1.0.0
+        with:
+          lazarus-version: ${{ matrix.lazarus-versions }}
+          source-install: true
+          os-arch: aarch64
+
+      - name: Container Build Lazarus
+        uses: uraimo/run-on-arch-action@v2
+        id: build
+        with:
+          arch: none
+          distro: none
+          base_image: ${{ matrix.arch }}/${{ matrix.distro }} # 因为没有amd架构，所以手动指定基础镜像
+
+          githubToken: ${{ github.token }} # 不需要，但可加快构建速度
+
+          dockerRunArgs: | # 将目录装载为容器中的/app
+            --volume "$RUNNER_WORKSPACE:/app"
+
+          shell: /bin/sh # 在容器中运行命令的shell
+
+          install: | #在容器中安装一些依赖项
+            apt-get update -q -y
+            apt-get install -q -y git
+            apt-get install -q -y make binutils build-essential gdb subversion zip unzip libx11-dev libgtk2.0-dev libgdk-pixbuf2.0-dev libcairo2-dev libpango1.0-dev libgtk-3-dev
+
+          run: | # run 要在容器中运行的命令，复制git文件到挂载的目录中
+            pwd
+
+            echo "Operating System Info ============================================="
+            ls -al /app
+            uname -m
+            uname -r
+            uname -s
+            pkg-config --modversion gtk+-2.0
+            pkg-config --modversion gtk+-3.0
+            ldd --version
+            cat /etc/os-release
+
+            echo "Build fpc ============================================="
+            cd /app/lazarus/fpc-3.2.2.aarch64-linux
+            ls -al
+            ./install.sh <<esxu
+            esxu
+
+            echo "Build lazarus ============================================="
+            cd ../
+            make clean all
+            objdump -p /app/lazarus/lazbuild
+
+            echo "Run Build shell ============================================="
+
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk2 main liblcl.LinuxARM64.zip
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM64_GTK3 gtk3 main liblcl-GTK3.LinuxARM64.zip
+
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk3 109.1.18 liblcl-109-GTK3.LinuxARM64.zip
+
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk2 101.0.18 liblcl-101.LinuxARM64.zip
+
+            /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk2 Flash-89.0.18 liblcl-89.LinuxARM64.zip
+
+
+      - name: Build Dynamic library LCL END
+        run: |
+          ls -l $RUNNER_WORKSPACE/bins     
+
+      - name: Release Dynamic library # 版本发布上传liblcl二进制
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: ../bins/**

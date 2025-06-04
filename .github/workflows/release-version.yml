@@ -289,7 +289,7 @@ jobs:
 
     strategy:
       matrix:
-        operating-system: [ ubuntu-20.04 ]
+        operating-system: [ ubuntu-latest ]
         lazarus-versions: [ 3.6 ]
         include:
           - arch: i386
@@ -379,7 +379,7 @@ jobs:
 
     strategy:
       matrix:
-        operating-system: [ ubuntu-20.04 ]
+        operating-system: [ ubuntu-latest ]
         lazarus-versions: [ 3.6 ]
         include:
           - arch: amd64
@@ -473,7 +473,7 @@ jobs:
 
     strategy:
       matrix:
-        operating-system: [ ubuntu-20.04 ]
+        operating-system: [ ubuntu-latest ]
         lazarus-versions: [ 3.6 ]
         include:
           - arch: arm32v7
@@ -568,7 +568,7 @@ jobs:
 
     strategy:
       matrix:
-        operating-system: [ ubuntu-20.04 ]
+        operating-system: [ ubuntu-latest ]
         lazarus-versions: [ 3.6 ]
         include:
           - arch: arm64v8
