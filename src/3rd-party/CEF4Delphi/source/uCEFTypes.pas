@@ -34,6 +34,7 @@ type
   PCefBinaryValue = ^TCefBinaryValue;
   PCefSchemeRegistrar = ^TCefSchemeRegistrar;
   PCefPreferenceRegistrar = ^TCefPreferenceRegistrar;
+  PCefPreferenceObserver = ^TCefPreferenceObserver;
   PCefPreferenceManager = ^TCefPreferenceManager;
   PCefCommandLine = ^TCefCommandLine;
   PCefCommandHandler = ^TCefCommandHandler;
@@ -124,7 +125,6 @@ type
   PCefProcessMessage = ^TCefProcessMessage;
   PCefRequestHandler = ^TCefRequestHandler;
   PCefMediaAccessCallback = ^TCefMediaAccessCallback;
-  PCefMediaAccessHandler = ^TCefMediaAccessHandler;
   PCefPermissionHandler = ^TCefPermissionHandler;
   PCefSharedMemoryRegion = ^TCefSharedMemoryRegion;
   PCefSharedProcessMessageBuilder = ^TCefSharedProcessMessageBuilder;
@@ -141,6 +141,7 @@ type
   PCefSSLStatus = ^TCefSSLStatus;
   PCefSelectClientCertificateCallback = ^TCefSelectClientCertificateCallback;
   PCefCallback = ^TCefCallback;
+  PCefSettingObserver = ^TCefSettingObserver;
   PCefCookie = ^TCefCookie;
   PCefRequestContext = ^TCefRequestContext;
   PCefRequestContextHandler = ^TCefRequestContextHandler;
@@ -391,7 +392,8 @@ type
     /// <summary>
     /// BGRA with 8 bits per pixel (32bits total).
     /// </summary>
-    CEF_COLOR_TYPE_BGRA_8888
+    CEF_COLOR_TYPE_BGRA_8888,
+    CEF_COLOR_TYPE_NUM_VALUES
   );
 
   {$IFDEF LINUX}
@@ -422,7 +424,150 @@ type
     /// </summary>
     fd      : integer;
   end;
+
+  /// <summary>
+  /// Specifies which encryption storage backend to use in Linux.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://source.chromium.org/chromium/chromium/src/+/main:docs/linux/password_storage.md">Chromium document: docs/linux/password_storage.md</see></para>
+  /// </remarks>
+  TCefPasswordStorage = (
+    /// <summary>
+    /// Chromium chooses which store to use automatically, based on your desktop environment.
+    /// </summary>
+    psDefault,
+    /// <summary>
+    /// GNOME Libsecret.
+    /// </summary>
+    psGnomeLibsecret,
+    /// <summary>
+    /// KWallet 4.
+    /// </summary>
+    psKWallet,
+    /// <summary>
+    /// KWallet 5.
+    /// </summary>
+    psKWallet5,
+    /// <summary>
+    /// KWallet 6.
+    /// </summary>
+    psKWallet6,
+    /// <summary>
+    /// Plain text.
+    /// </summary>
+    psBasic);
+
+  /// <summary>
+  /// Preferred GTK version loaded by Chromium.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://github.com/chromium/chromium/blob/main/ui/gtk/gtk_compat.cc">See the LoadGtkImpl function in ui/gtk/gtk_compat.cc</see></para>
+  /// </remarks>
+  TCefGTKVersion = (
+    /// <summary>
+    /// Chromium tries to load the default GTK version.
+    /// </summary>
+    gtkVersionDefault,   
+    /// <summary>
+    /// Chromium tries to load GTK 3 first.
+    /// </summary>
+    gtkVersion3, 
+    /// <summary>
+    /// Chromium tries to load GTK 4 first.
+    /// </summary>
+    gtkVersion4
+  );
   {$ENDIF}
+
+  /// <summary>
+  /// Structure representing a size.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_size_t)</see></para>
+  /// </remarks>
+  TCefSize = record
+    width  : Integer;
+    height : Integer;
+  end;
+
+  /// <summary>
+  /// Structure representing a rectangle.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_rect_t)</see></para>
+  /// </remarks>
+  TCefRect = record
+    x      : Integer;
+    y      : Integer;
+    width  : Integer;
+    height : Integer;
+  end;
+  TCefRectArray    = array[0..(High(Integer) div SizeOf(TCefRect))-1] of TCefRect;
+  TCefRectDynArray = array of TCefRect;
+
+  /// <summary>
+  /// Structure containing shared texture common metadata.
+  /// For documentation on each field, please refer to
+  /// src/media/base/video_frame_metadata.h for actual details.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_osr.h">CEF source file: /include/internal/cef_types_osr.h (cef_accelerated_paint_info_common_t)</see></para>
+  /// </remarks>
+  TCefAcceleratedPaintInfoCommon = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size      : NativeUInt;
+    /// <summary>
+    /// Timestamp of the frame in microseconds since capture start.
+    /// </summary>
+    timestamp : uint64;
+    /// <summary>
+    /// The full dimensions of the video frame.
+    /// </summary>
+    coded_size : TCefSize;
+    /// <summary>
+    /// The visible area of the video frame.
+    /// </summary>
+    visible_rect : TCefRect;
+    /// <summary>
+    /// The region of the video frame that capturer would like to populate.
+    /// </summary>
+    content_rect : TCefRect;
+    /// <summary>
+    /// Full size of the source frame.
+    /// </summary>
+    source_size : TCefSize;
+    /// <summary>
+    /// Updated area of frame, can be considered as the `dirty` area.
+    /// </summary>
+    capture_update_rect : TCefRect;
+    /// <summary>
+    /// May reflects where the frame's contents originate from if region
+    /// capture is used internally.
+    /// </summary>
+    region_capture_rect : TCefRect;
+    /// <summary>
+    /// The increamental counter of the frame.
+    /// </summary>
+    capture_counter : uint64;
+    /// <summary>
+    /// Optional flag of capture_update_rect
+    /// </summary>
+    has_capture_update_rect : byte;
+    /// <summary>
+    /// Optional flag of region_capture_rect
+    /// </summary>
+    has_region_capture_rect : byte;
+    /// <summary>
+    /// Optional flag of source_size
+    /// </summary>
+    has_source_size : byte;
+    /// <summary>
+    /// Optional flag of capture_counter
+    /// </summary>
+    has_capture_counter : byte;
+  end;
 
   /// <summary>
   /// Structure containing shared texture information for the OnAcceleratedPaint
@@ -435,16 +580,16 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_accelerated_paint_info_t)</see></para>
   /// </remarks>
   TCefAcceleratedPaintInfo = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size                    : NativeUInt;
     {$IFDEF MSWINDOWS}
     /// <summary>
     /// Handle for the shared texture. The shared texture is instantiated
     /// without a keyed mutex.
     /// </summary>
     shared_texture_handle   : TCefSharedTextureHandle;
-    /// <summary>
-    /// The pixel format of the texture.
-    /// </summary>
-    format                  : TCefColorType;
     {$ENDIF}
 
     {$IFDEF MACOSX}
@@ -452,10 +597,6 @@ type
     /// Handle for the shared texture IOSurface.
     /// </summary>
     shared_texture_io_surface : TCefSharedTextureHandle;
-    /// <summary>
-    /// The pixel format of the texture.
-    /// </summary>
-    format                    : TCefColorType;
     {$ENDIF}
 
     {$IFDEF LINUX}
@@ -471,11 +612,16 @@ type
     /// Modifier could be used with EGL driver.
     /// </summary>
     modifier                : uint64;
+    {$ENDIF}
+
     /// <summary>
     /// The pixel format of the texture.
     /// </summary>
     format                  : TCefColorType;
-    {$ENDIF}
+    /// <summary>
+    /// The extra common info.
+    /// </summary>
+    extra                   : TCefAcceleratedPaintInfoCommon;
   end;
 
   /// <summary>
@@ -736,6 +882,15 @@ type
   TCefMediaRouterCreateResult      = type Integer;
 
   /// <summary>
+  /// Connection state for a MediaRoute object. Should be kept in sync with
+  /// Chromium's blink::mojom::PresentationConnectionState type.
+  /// </summary>
+  /// <remarks>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_route_connection_state_t)</see></para>
+  /// </remarks>
+  TCefMediaRouteConnectionState    = type Integer;
+
+  /// <summary>
   /// Cookie priority values.
   /// </summary>
   /// <remarks>
@@ -745,7 +900,8 @@ type
   TCefCookiePriority               = type Integer;
 
   /// <summary>
-  /// Represents commands available to TextField.
+  /// Represents commands available to TextField. Should be kept in sync with
+  /// Chromium's views::TextField::MenuCommands type.
   /// </summary>
   /// <remarks>
   /// <para>See the uCEFConstants unit for all possible values.</para>
@@ -805,7 +961,7 @@ type
   /// <para>See the uCEFConstants unit for all possible values.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_access_permission_types_t)</see></para>
   /// </remarks>
-  TCefMediaAccessPermissionTypes   = type Integer;
+  TCefMediaAccessPermissionTypes   = type Cardinal;
 
   /// <summary>
   /// Permission types used with OnShowPermissionPrompt. Some types are
@@ -1013,6 +1169,26 @@ type
     MinorVer : uint16;
     Release  : uint16;
     Build    : uint16;
+  end;
+
+  /// <summary>
+  /// Record used by cef_version_info to get the CEF version information
+  /// </summary>
+  TCefVersionInfo = record
+    VersionMajor : integer;
+    VersionMinor : integer;
+    VersionPatch : integer;
+    CommitNumber : integer;
+  end;
+
+  /// <summary>
+  /// Record used by cef_version_info to get the Chromium version information
+  /// </summary>
+  TChromiumVersionInfo = record
+    VersionMajor : integer;
+    VersionMinor : integer;
+    VersionBuild : integer;
+    VersionPatch : integer;
   end;
 
   /// <summary>
@@ -1239,21 +1415,6 @@ type
   end;
 
   /// <summary>
-  /// Structure representing a rectangle.
-  /// </summary>
-  /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_rect_t)</see></para>
-  /// </remarks>
-  TCefRect = record
-    x      : Integer;
-    y      : Integer;
-    width  : Integer;
-    height : Integer;
-  end;
-  TCefRectArray    = array[0..(High(Integer) div SizeOf(TCefRect))-1] of TCefRect;
-  TCefRectDynArray = array of TCefRect;
-
-  /// <summary>
   /// Structure representing a point.
   /// </summary>
   /// <remarks>
@@ -1262,17 +1423,6 @@ type
   TCefPoint = record
     x  : Integer;
     y  : Integer;
-  end;
-
-  /// <summary>
-  /// Structure representing a size.
-  /// </summary>
-  /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_geometry.h">CEF source file: /include/internal/cef_types_geometry.h (cef_size_t)</see></para>
-  /// </remarks>
-  TCefSize = record
-    width  : Integer;
-    height : Integer;
   end;
 
   /// <summary>
@@ -1312,6 +1462,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_linux_window_properties_t)</see></para>
   /// </remarks>
   TCefLinuxWindowProperties = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size           : NativeUInt;
     /// <summary>
     /// Main window's Wayland's app_id
     /// </summary>
@@ -1362,6 +1516,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_urlparts_t)</see></para>
   /// </remarks>
   TCefUrlParts = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size      : NativeUInt;
     /// <summary>
     /// The complete URL specification.
     /// </summary>
@@ -1504,7 +1662,7 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_scale_factor_t)</see></para>
   /// </remarks>
   TCefScaleFactor = (
-    SCALE_FACTOR_NONE = 0,
+    SCALE_FACTOR_NONE,
     SCALE_FACTOR_100P,
     SCALE_FACTOR_125P,
     SCALE_FACTOR_133P,
@@ -1513,7 +1671,8 @@ type
     SCALE_FACTOR_180P,
     SCALE_FACTOR_200P,
     SCALE_FACTOR_250P,
-    SCALE_FACTOR_300P
+    SCALE_FACTOR_300P,
+    SCALE_FACTOR_NUM_VALUES
   );
 
   /// <summary>
@@ -1523,7 +1682,7 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_value_type_t)</see></para>
   /// </remarks>
   TCefValueType = (
-    VTYPE_INVALID = 0,
+    VTYPE_INVALID,
     VTYPE_NULL,
     VTYPE_BOOL,
     VTYPE_INT,
@@ -1531,21 +1690,8 @@ type
     VTYPE_STRING,
     VTYPE_BINARY,
     VTYPE_DICTIONARY,
-    VTYPE_LIST
-  );
-
-  /// <summary>
-  /// Connection state for a MediaRoute object.
-  /// </summary>
-  /// <remarks>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_route_connection_state_t)</see></para>
-  /// </remarks>
-  TCefMediaRouteConnectionState = (
-    CEF_MRCS_UNKNOWN,
-    CEF_MRCS_CONNECTING,
-    CEF_MRCS_CONNECTED,
-    CEF_MRCS_CLOSED,
-    CEF_MRCS_TERMINATED
+    VTYPE_LIST,
+    VTYPE_NUM_VALUES
   );
 
   /// <summary>
@@ -1564,10 +1710,7 @@ type
     CEF_MSIT_EDUCATION,
     CEF_MSIT_WIRED_DISPLAY,
     CEF_MSIT_GENERIC,
-    /// <summary>
-    /// The total number of values.
-    /// </summary>
-    CEF_MSIT_TOTAL_COUNT
+    CEF_MSIT_NUM_VALUES
   );
 
   /// <summary>
@@ -1621,7 +1764,9 @@ type
     /// Always clear the referrer regardless of the request destination.
     ///  It has the same value as REFERRER_POLICY_LAST_VALUE
     /// </summary>
-    REFERRER_POLICY_NO_REFERRER
+    REFERRER_POLICY_NO_REFERRER,
+
+    REFERRER_POLICY_NUM_VALUES
   );
 
   /// <summary>
@@ -1633,7 +1778,8 @@ type
   TCefPostDataElementType = (
     PDE_TYPE_EMPTY  = 0,
     PDE_TYPE_BYTES,
-    PDE_TYPE_FILE
+    PDE_TYPE_FILE,
+    PDE_TYPE_NUM_VALUES
   );
 
   /// <summary>
@@ -1728,7 +1874,9 @@ type
     /// <summary>
     /// A sub-frame service worker navigation preload request.
     /// </summary>
-    RT_NAVIGATION_PRELOAD_SUB_FRAME
+    RT_NAVIGATION_PRELOAD_SUB_FRAME,
+
+    RT_NUM_VALUES
   );
 
   /// <summary>
@@ -1741,7 +1889,8 @@ type
     DOM_DOCUMENT_TYPE_UNKNOWN = 0,
     DOM_DOCUMENT_TYPE_HTML,
     DOM_DOCUMENT_TYPE_XHTML,
-    DOM_DOCUMENT_TYPE_PLUGIN
+    DOM_DOCUMENT_TYPE_PLUGIN,
+    DOM_DOCUMENT_TYPE_NUM_VALUES
   );
 
   /// <summary>
@@ -1751,7 +1900,7 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_dom_node_type_t)</see></para>
   /// </remarks>
   TCefDomNodeType = (
-    DOM_NODE_TYPE_UNSUPPORTED = 0,
+    DOM_NODE_TYPE_UNSUPPORTED,
     DOM_NODE_TYPE_ELEMENT,
     DOM_NODE_TYPE_ATTRIBUTE,
     DOM_NODE_TYPE_TEXT,
@@ -1760,7 +1909,8 @@ type
     DOM_NODE_TYPE_COMMENT,
     DOM_NODE_TYPE_DOCUMENT,
     DOM_NODE_TYPE_DOCUMENT_TYPE,
-    DOM_NODE_TYPE_DOCUMENT_FRAGMENT
+    DOM_NODE_TYPE_DOCUMENT_FRAGMENT,
+    DOM_NODE_TYPE_NUM_VALUES
   );
 
   /// <summary>
@@ -1771,11 +1921,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_dom_form_control_type_t)</see></para>
   /// </remarks>
   TCefDomFormControlType = (
-    DOM_FORM_CONTROL_TYPE_UNSUPPORTED = 0,
+    DOM_FORM_CONTROL_TYPE_UNSUPPORTED,
     DOM_FORM_CONTROL_TYPE_BUTTON_BUTTON,
     DOM_FORM_CONTROL_TYPE_BUTTON_SUBMIT,
     DOM_FORM_CONTROL_TYPE_BUTTON_RESET,
-    DOM_FORM_CONTROL_TYPE_BUTTON_SELECT_LIST,
     DOM_FORM_CONTROL_TYPE_BUTTON_POPOVER,
     DOM_FORM_CONTROL_TYPE_FIELDSET,
     DOM_FORM_CONTROL_TYPE_INPUT_BUTTON,
@@ -1803,8 +1952,8 @@ type
     DOM_FORM_CONTROL_TYPE_OUTPUT,
     DOM_FORM_CONTROL_TYPE_SELECT_ONE,
     DOM_FORM_CONTROL_TYPE_SELECT_MULTIPLE,
-    DOM_FORM_CONTROL_TYPE_SELECT_LIST,
-    DOM_FORM_CONTROL_TYPE_TEXT_AREA
+    DOM_FORM_CONTROL_TYPE_TEXT_AREA,
+    DOM_FORM_CONTROL_TYPE_NUM_VALUES
 );
 
   /// <summary>
@@ -1842,7 +1991,9 @@ type
     /// <summary>
     /// A plugin node is selected.
     /// </summary>
-    CM_MEDIATYPE_PLUGIN
+    CM_MEDIATYPE_PLUGIN,
+
+    CM_MEDIATYPE_NUM_VALUES
   );
 
   /// <summary>
@@ -1874,7 +2025,9 @@ type
     /// <summary>
     /// The source is a system-generated focus event.
     /// </summary>
-    FOCUS_SOURCE_SYSTEM
+    FOCUS_SOURCE_SYSTEM,
+
+    FOCUS_SOURCE_NUM_VALUES
   );
 
   /// <summary>
@@ -1884,9 +2037,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_jsdialog_type_t)</see></para>
   /// </remarks>
   TCefJsDialogType = (
-    JSDIALOGTYPE_ALERT = 0,
+    JSDIALOGTYPE_ALERT,
     JSDIALOGTYPE_CONFIRM,
-    JSDIALOGTYPE_PROMPT
+    JSDIALOGTYPE_PROMPT,
+    JSDIALOGTYPE_NUM_VALUES
   );
 
   /// <summary>
@@ -1981,7 +2135,9 @@ type
     /// <summary>
     /// Creates a new document picture-in-picture window showing a child WebView.
     /// </summary>
-    CEF_WOD_NEW_PICTURE_IN_PICTURE
+    CEF_WOD_NEW_PICTURE_IN_PICTURE,
+
+    CEF_WOD_NUM_VALUES
   );
 
   /// <summary>
@@ -2001,8 +2157,8 @@ type
     CEF_TEXT_INPUT_MODE_EMAIL,
     CEF_TEXT_INPUT_MODE_NUMERIC,
     CEF_TEXT_INPUT_MODE_DECIMAL,
-    CEF_TEXT_INPUT_MODE_SEARCH
-    {* CEF_TEXT_INPUT_MODE_MAX = CEF_TEXT_INPUT_MODE_SEARCH *}
+    CEF_TEXT_INPUT_MODE_SEARCH,
+    CEF_TEXT_INPUT_MODE_NUM_VALUES
   );
 
   /// <summary>
@@ -2253,64 +2409,64 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_channel_layout_t)</see></para>
   /// </remarks>
   TCefChannelLayout = (
-    CEF_CHANNEL_LAYOUT_NONE = 0,
-    CEF_CHANNEL_LAYOUT_UNSUPPORTED = 1,
+    CEF_CHANNEL_LAYOUT_NONE,
+    CEF_CHANNEL_LAYOUT_UNSUPPORTED,
     /// <summary>Front C</summary>
-    CEF_CHANNEL_LAYOUT_MONO = 2,
+    CEF_CHANNEL_LAYOUT_MONO,
     /// <summary>Front L, Front R</summary>
-    CEF_CHANNEL_LAYOUT_STEREO = 3,
+    CEF_CHANNEL_LAYOUT_STEREO,
     /// <summary>Front L, Front R, Back C</summary>
-    CEF_CHANNEL_LAYOUT_2_1 = 4,
+    CEF_CHANNEL_LAYOUT_2_1,
     /// <summary>Front L, Front R, Front C</summary>
-    CEF_CHANNEL_LAYOUT_SURROUND = 5,
+    CEF_CHANNEL_LAYOUT_SURROUND,
     /// <summary>Front L, Front R, Front C, Back C</summary>
-    CEF_CHANNEL_LAYOUT_4_0 = 6,
+    CEF_CHANNEL_LAYOUT_4_0,
     /// <summary>Front L, Front R, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_2_2 = 7,
+    CEF_CHANNEL_LAYOUT_2_2,
     /// <summary>Front L, Front R, Back L, Back R</summary>
-    CEF_CHANNEL_LAYOUT_QUAD = 8,
+    CEF_CHANNEL_LAYOUT_QUAD,
     /// <summary>Front L, Front R, Front C, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_5_0 = 9,
+    CEF_CHANNEL_LAYOUT_5_0,
     /// <summary>Front L, Front R, Front C, LFE, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_5_1 = 10,
+    CEF_CHANNEL_LAYOUT_5_1,
     /// <summary>Front L, Front R, Front C, Back L, Back R</summary>
-    CEF_CHANNEL_LAYOUT_5_0_BACK = 11,
+    CEF_CHANNEL_LAYOUT_5_0_BACK,
     /// <summary>Front L, Front R, Front C, LFE, Back L, Back R</summary>
-    CEF_CHANNEL_LAYOUT_5_1_BACK = 12,
+    CEF_CHANNEL_LAYOUT_5_1_BACK,
     /// <summary>Front L, Front R, Front C, Back L, Back R, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_7_0 = 13,
+    CEF_CHANNEL_LAYOUT_7_0,
     /// <summary>Front L, Front R, Front C, LFE, Back L, Back R, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_7_1 = 14,
+    CEF_CHANNEL_LAYOUT_7_1,
     /// <summary>Front L, Front R, Front C, LFE, Front LofC, Front RofC, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_7_1_WIDE = 15,
+    CEF_CHANNEL_LAYOUT_7_1_WIDE,
     /// <summary>Front L, Front R</summary>
-    CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX = 16,
+    CEF_CHANNEL_LAYOUT_STEREO_DOWNMIX,
     /// <summary>Front L, Front R, LFE</summary>
-    CEF_CHANNEL_LAYOUT_2POINT1 = 17,
+    CEF_CHANNEL_LAYOUT_2POINT1,
     /// <summary>Front L, Front R, Front C, LFE</summary>
-    CEF_CHANNEL_LAYOUT_3_1 = 18,
+    CEF_CHANNEL_LAYOUT_3_1,
     /// <summary>Front L, Front R, Front C, LFE, Back C</summary>
-    CEF_CHANNEL_LAYOUT_4_1 = 19,
+    CEF_CHANNEL_LAYOUT_4_1,
     /// <summary>Front L, Front R, Front C, Back C, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_6_0 = 20,
+    CEF_CHANNEL_LAYOUT_6_0,
     /// <summary>Front L, Front R, Front LofC, Front RofC, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_6_0_FRONT = 21,
+    CEF_CHANNEL_LAYOUT_6_0_FRONT,
     /// <summary>Front L, Front R, Front C, Back L, Back R, Back C</summary>
-    CEF_CHANNEL_LAYOUT_HEXAGONAL = 22,
+    CEF_CHANNEL_LAYOUT_HEXAGONAL,
     /// <summary>Front L, Front R, Front C, LFE, Back C, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_6_1 = 23,
+    CEF_CHANNEL_LAYOUT_6_1,
     /// <summary>Front L, Front R, Front C, LFE, Back L, Back R, Back C</summary>
-    CEF_CHANNEL_LAYOUT_6_1_BACK = 24,
+    CEF_CHANNEL_LAYOUT_6_1_BACK,
     /// <summary>Front L, Front R, LFE, Front LofC, Front RofC, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_6_1_FRONT = 25,
+    CEF_CHANNEL_LAYOUT_6_1_FRONT,
     /// <summary>Front L, Front R, Front C, Front LofC, Front RofC, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_7_0_FRONT = 26,
+    CEF_CHANNEL_LAYOUT_7_0_FRONT,
     /// <summary>Front L, Front R, Front C, LFE, Back L, Back R, Front LofC, Front RofC</summary>
-    CEF_CHANNEL_LAYOUT_7_1_WIDE_BACK = 27,
+    CEF_CHANNEL_LAYOUT_7_1_WIDE_BACK,
     /// <summary>Front L, Front R, Front C, Back L, Back R, Back C, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_OCTAGONAL = 28,
+    CEF_CHANNEL_LAYOUT_OCTAGONAL,
     /// <summary>Channels are not explicitly mapped to speakers.</summary>
-    CEF_CHANNEL_LAYOUT_DISCRETE = 29,
+    CEF_CHANNEL_LAYOUT_DISCRETE,
     /// <summary>
     /// Deprecated, but keeping the enum value for UMA consistency.
     /// Front L, Front R, Front C. Front C contains the keyboard mic audio. This
@@ -2318,27 +2474,27 @@ type
     /// is stripped away in the WebRTC audio input pipeline and never seen outside
     /// of that.
     /// </summary>
-    CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC = 30,
+    CEF_CHANNEL_LAYOUT_STEREO_AND_KEYBOARD_MIC,
     /// <summary>Front L, Front R, LFE, Side L, Side R</summary>
-    CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE = 31,
+    CEF_CHANNEL_LAYOUT_4_1_QUAD_SIDE,
     /// <summary>
     /// Actual channel layout is specified in the bitstream and the actual channel
     /// count is unknown at Chromium media pipeline level (useful for audio
     /// pass-through mode).
     /// </summary>
-    CEF_CHANNEL_LAYOUT_BITSTREAM = 32,
+    CEF_CHANNEL_LAYOUT_BITSTREAM,
     /// <summary>
     /// Front L, Front R, Front C, LFE, Side L, Side R,
     /// Front Height L, Front Height R, Rear Height L, Rear Height R
     /// Will be represented as six channels (5.1) due to eight channel limit
     /// kMaxConcurrentChannels
     /// </summary>
-    CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX = 33,
+    CEF_CHANNEL_LAYOUT_5_1_4_DOWNMIX,
     /// <summary>Front C, LFE</summary>
-    CEF_CHANNEL_LAYOUT_1_1 = 34,
+    CEF_CHANNEL_LAYOUT_1_1,
     /// <summary>Front L, Front R, LFE, Back C</summary>
-    CEF_CHANNEL_LAYOUT_3_1_BACK = 35
-    {* CEF_CHANNEL_LAYOUT_MAX = CEF_CHANNEL_LAYOUT_3_1_BACK *}
+    CEF_CHANNEL_LAYOUT_3_1_BACK,
+    CEF_CHANNEL_NUM_VALUES
   );
 
   /// <summary>
@@ -2351,7 +2507,8 @@ type
     CEF_COOKIE_SAME_SITE_UNSPECIFIED,
     CEF_COOKIE_SAME_SITE_NO_RESTRICTION,
     CEF_COOKIE_SAME_SITE_LAX_MODE,
-    CEF_COOKIE_SAME_SITE_STRICT_MODE
+    CEF_COOKIE_SAME_SITE_STRICT_MODE,
+    CEF_COOKIE_SAME_SITE_NUM_VALUES
   );
 
   /// <summary>
@@ -2372,7 +2529,7 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_cursor_type_t)</see></para>
   /// </remarks>
   TCefCursorType = (
-    CT_POINTER = 0,
+    CT_POINTER,
     CT_CROSS,
     CT_HAND,
     CT_IBEAM,
@@ -2421,7 +2578,8 @@ type
     CT_DND_NONE,
     CT_DND_MOVE,
     CT_DND_COPY,
-    CT_DND_LIN
+    CT_DND_LIN,
+    CT_NUM_VALUES
   );
 
   /// <summary>
@@ -2436,7 +2594,8 @@ type
     NAVIGATION_BACK_FORWARD,
     NAVIGATION_RELOAD,
     NAVIGATION_FORM_RESUBMITTED,
-    NAVIGATION_OTHER
+    NAVIGATION_OTHER,
+    NAVIGATION_NUM_VALUES
   );
 
   /// <summary>
@@ -2521,7 +2680,9 @@ type
     /// run before sub-process termination (sub-processes may be killed at any
     /// time without warning).
     /// </summary>
-    TID_RENDERER
+    TID_RENDERER,
+
+    TID_NUM_VALUES
   );
 
   /// <summary>
@@ -2546,7 +2707,9 @@ type
     /// <summary>
     /// Suitable for low-latency, glitch-resistant audio.
     /// </summary>
-    TP_REALTIME_AUDIO
+    TP_REALTIME_AUDIO,
+
+    TP_NUM_VALUES
   );
 
   /// <summary>
@@ -2567,7 +2730,9 @@ type
     /// <summary>
     /// Supports tasks, timers and asynchronous IO events.
     /// </summary>
-    ML_TYPE_IO
+    ML_TYPE_IO,
+
+    ML_NUM_VALUES
   );
 
   /// <summary>
@@ -2651,7 +2816,9 @@ type
     /// <summary>
     /// Request failed for some reason.
     /// </summary>
-    UR_FAILED
+    UR_FAILED,
+
+    UR_NUM_VALUES
   );
 
   /// <summary>
@@ -2684,7 +2851,9 @@ type
     /// <summary>
     /// On Windows, the OS terminated the process due to code integrity failure.
     /// </summary>
-    TS_INTEGRITY_FAILURE
+    TS_INTEGRITY_FAILURE,
+
+    TS_NUM_VALUES
   );
 
   /// <summary>
@@ -2733,7 +2902,9 @@ type
     /// Directory containing application resources. Can be configured via
     /// TCefSettings.resources_dir_path.
     /// </summary>
-    PK_DIR_RESOURCES
+    PK_DIR_RESOURCES,
+
+    PK_NUM_VALUES
   );
 
   /// <summary>
@@ -2802,7 +2973,8 @@ type
     CEF_TEXT_STYLE_ITALIC,
     CEF_TEXT_STYLE_STRIKE,
     CEF_TEXT_STYLE_DIAGONAL_STRIKE,
-    CEF_TEXT_STYLE_UNDERLINE
+    CEF_TEXT_STYLE_UNDERLINE,
+    CEF_TEXT_STYLE_NUM_VALUES
   );
 
   /// <summary>
@@ -2828,7 +3000,9 @@ type
     /// <summary>
     /// Child views will be stretched to fit.
     /// </summary>
-    CEF_AXIS_ALIGNMENT_STRETCH
+    CEF_AXIS_ALIGNMENT_STRETCH,
+
+    CEF_AXIS_ALIGNMENT_NUM_VALUES
   );
 
   /// <summary>
@@ -2909,7 +3083,9 @@ type
     /// <summary>
     /// Used in canon printer ppds
     /// </summary>
-    COLOR_MODEL_PROCESSCOLORMODEL_RGB
+    COLOR_MODEL_PROCESSCOLORMODEL_RGB,
+
+    COLOR_MODEL_NUM_VALUES
   );
 
   /// <summary>
@@ -2945,7 +3121,8 @@ type
     XML_ENCODING_UTF8,
     XML_ENCODING_UTF16LE,
     XML_ENCODING_UTF16BE,
-    XML_ENCODING_ASCII
+    XML_ENCODING_ASCII,
+    XML_ENCODING_NUM_VALUES
   );
 
   /// <summary>
@@ -2965,7 +3142,8 @@ type
     XML_NODE_CDATA,
     XML_NODE_ENTITY_REFERENCE,
     XML_NODE_WHITESPACE,
-    XML_NODE_COMMENT
+    XML_NODE_COMMENT,
+    XML_NODE_NUM_VALUES
   );
 
   /// <summary>
@@ -2975,10 +3153,11 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_dom_event_phase_t)</see></para>
   /// </remarks>
   TCefDomEventPhase = (
-    DOM_EVENT_PHASE_UNKNOWN = 0,
+    DOM_EVENT_PHASE_UNKNOWN,
     DOM_EVENT_PHASE_CAPTURING,
     DOM_EVENT_PHASE_AT_TARGET,
-    DOM_EVENT_PHASE_BUBBLING
+    DOM_EVENT_PHASE_BUBBLING,
+    DOM_EVENT_PHASE_NUM_VALUES
   );
 
   /// <summary>
@@ -2991,7 +3170,8 @@ type
     CEF_BUTTON_STATE_NORMAL,
     CEF_BUTTON_STATE_HOVERED,
     CEF_BUTTON_STATE_PRESSED,
-    CEF_BUTTON_STATE_DISABLED
+    CEF_BUTTON_STATE_DISABLED,
+    CEF_BUTTON_STATE_NUM_VALUES
   );
 
   /// <summary>
@@ -3025,7 +3205,8 @@ type
   TCefMenuAnchorPosition = (
     CEF_MENU_ANCHOR_TOPLEFT,
     CEF_MENU_ANCHOR_TOPRIGHT,
-    CEF_MENU_ANCHOR_BOTTOMCENTER
+    CEF_MENU_ANCHOR_BOTTOMCENTER,
+    CEF_MENU_ANCHOR_NUM_VALUES
   );
 
   /// <summary>
@@ -3041,7 +3222,7 @@ type
     CEF_MENU_COLOR_TEXT_ACCELERATOR_HOVERED,
     CEF_MENU_COLOR_BACKGROUND,
     CEF_MENU_COLOR_BACKGROUND_HOVERED,
-    CEF_MENU_COLOR_COUNT
+    CEF_MENU_COLOR_NUM_VALUES
   );
 
   /// <summary>
@@ -3054,7 +3235,8 @@ type
     CEF_CUS_SOLID,
     CEF_CUS_DOT,
     CEF_CUS_DASH,
-    CEF_CUS_NONE
+    CEF_CUS_NONE,
+    CEF_CUS_NUM_VALUES
   );
 
   /// <summary>
@@ -3081,7 +3263,9 @@ type
     /// OnShowPermissionPrompt returns false and there is no default permissions
     /// UI) then any related promises may remain unresolved.
     /// </summary>
-    CEF_PERMISSION_RESULT_IGNORE
+    CEF_PERMISSION_RESULT_IGNORE,
+
+    CEF_PERMISSION_RESULT_NUM_VALUES
   );
 
   /// <summary>
@@ -3100,7 +3284,9 @@ type
     /// Request context preferences registered each time a new CefRequestContext
     /// is created.
     /// </summary>
-    CEF_PREFERENCES_TYPE_REQUEST_CONTEXT
+    CEF_PREFERENCES_TYPE_REQUEST_CONTEXT,
+
+    CEF_PREFERENCES_TYPE_NUM_VALUES
   );
 
   /// <summary>
@@ -3140,7 +3326,8 @@ type
     CEF_COLOR_VARIANT_TONAL_SPOT,
     CEF_COLOR_VARIANT_NEUTRAL,
     CEF_COLOR_VARIANT_VIBRANT,
-    CEF_COLOR_VARIANT_EXPRESSIVE
+    CEF_COLOR_VARIANT_EXPRESSIVE,
+    CEF_COLOR_VARIANT_NUM_VALUES
   );
 
   /// <summary>
@@ -3162,7 +3349,9 @@ type
     /// <summary>
     /// Expired certificate. Loads the "expired_cert.pem" file.
     /// </summary>
-    CEF_TEST_CERT_EXPIRED
+    CEF_TEST_CERT_EXPIRED,
+
+    CEF_TEST_CERT_NUM_VALUES
    );
 
   /// <summary>
@@ -3191,20 +3380,23 @@ type
     CEF_CPAIT_SAVE_CARD,
     CEF_CPAIT_SEND_TAB_TO_SELF_DEPRECATED,
     CEF_CPAIT_SHARING_HUB,
-    CEF_CPAIT_SIDE_SEARCH,
+    CEF_CPAIT_SIDE_SEARCH_DEPRECATED,
     CEF_CPAIT_SMS_REMOTE_FETCHER,
     CEF_CPAIT_TRANSLATE,
     CEF_CPAIT_VIRTUAL_CARD_ENROLL,
-    CEF_CPAIT_VIRTUAL_CARD_MANUAL_FALLBACK,
+    CEF_CPAIT_VIRTUAL_CARD_INFORMATION,
     CEF_CPAIT_ZOOM,
     CEF_CPAIT_SAVE_IBAN,
     CEF_CPAIT_MANDATORY_REAUTH,
     CEF_CPAIT_PRICE_INSIGHTS,
-    CEF_CPAIT_PRICE_READ_ANYTHING,
+    CEF_CPAIT_READ_ANYTHING_DEPRECATED,
     CEF_CPAIT_PRODUCT_SPECIFICATIONS,
     CEF_CPAIT_LENS_OVERLAY,
-    CEF_CPAIT_DISCOUNTS
-    {* CEF_CPAIT_MAX_VALUE = CEF_CPAIT_DISCOUNTS *}
+    CEF_CPAIT_DISCOUNTS,
+    CEF_CPAIT_OPTIMIZATION_GUIDE,
+    CEF_CPAIT_COLLABORATION_MESSAGING, {* CEF_API_ADDED(13304) *}
+    CEF_CPAIT_CHANGE_PASSWORD,         {* CEF_API_ADDED(13400) *}
+    CEF_CPAIT_NUM_VALUES
   );
 
   /// <summary>
@@ -3215,7 +3407,7 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_task_type_t)</see></para>
   /// </remarks>
   TCefTaskType = (
-    CEF_TASK_TYPE_UNKNOWN = 0,
+    CEF_TASK_TYPE_UNKNOWN,
     /// <summary>
     /// The main browser process.
     /// </summary>
@@ -3263,7 +3455,9 @@ type
     /// <summary>
     /// A service worker running on the renderer process.
     /// </summary>
-    CEF_TASK_TYPE_SERVICE_WORKER
+    CEF_TASK_TYPE_SERVICE_WORKER,
+
+    CEF_TASK_TYPE_NUM_VALUES
   );
 
   /// <summary>
@@ -3273,6 +3467,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_task_info_t)</see></para>
   /// </remarks>
   TCefTaskInfo = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size                   : NativeUInt;
     /// <summary>
     /// The task ID.
     /// </summary>
@@ -3375,10 +3573,10 @@ type
   /// </remarks>
   TCefChromeToolbarButtonType = (
     CEF_CTBT_CAST,
-    CEF_CTBT_DOWNLOAD,
-    CEF_CTBT_SEND_TAB_TO_SELF,
-    CEF_CTBT_SIDE_PANEL
-    {* CEF_CTBT_MAX_VALUE = CEF_CTBT_SIDE_PANEL *}
+    CEF_CTBT_DOWNLOAD_DEPRECATED,
+    CEF_CTBT_SEND_TAB_TO_SELF_DEPRECATED,
+    CEF_CTBT_SIDE_PANEL,
+    CEF_CTBT_NUM_VALUES
   );
 
   /// <summary>
@@ -3388,6 +3586,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_touch_handle_state_t)</see></para>
   /// </remarks>
   TCefTouchHandleState = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size              : NativeUInt;
     /// <summary>
     /// Touch handle id. Increments for each new touch handle.
     /// </summary>
@@ -3426,6 +3628,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_time.h">CEF source file: /include/internal/cef_time.h (cef_composition_underline_t)</see></para>
   /// </remarks>
   TCefCompositionUnderline = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size             : NativeUInt;
     /// <summary>
     /// Underline character range.
     /// </summary>
@@ -3513,6 +3719,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_box_layout_settings_t)</see></para>
   /// </remarks>
   TCefBoxLayoutSettings = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size                             : NativeUInt;
     /// <summary>
     /// If true (1) the layout will be horizontal, otherwise the layout will be
     /// vertical.
@@ -3830,12 +4040,10 @@ type
     /// Windows.
     /// </summary>
     chrome_app_icon_id                      : Integer;
-    {$IF DEFINED(OS_POSIX) AND NOT(DEFINED(ANDROID))}
     /// <summary>
     /// Specify whether signal handlers must be disabled on POSIX systems.
     /// </summary>
     disable_signal_handlers                 : Integer;
-    {$IFEND}
   end;
 
   /// <summary>
@@ -3887,6 +4095,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_linux.h">CEF source file: /include/internal/cef_types_linux.h (cef_window_info_t)</see></para>
   /// </remarks>
   TCefWindowInfo = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size                          : NativeUInt;
     {$IFDEF MSWINDOWS}
     /// <summary>
     /// Standard parameters required by CreateWindowEx()
@@ -4064,6 +4276,10 @@ type
   /// </remarks>
   TCefKeyEvent = record
     /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size                    : NativeUInt;
+    /// <summary>
     /// The type of keyboard event. It's called 'type' in the original CEF source code.
     /// </summary>
     kind                    : TCefKeyEventType;
@@ -4112,6 +4328,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_popup_features_t)</see></para>
   /// </remarks>
   TCefPopupFeatures = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size              : NativeUInt;
     x                 : Integer;
     xSet              : Integer;
     y                 : Integer;
@@ -4268,6 +4488,10 @@ type
   /// </remarks>
   TCefScreenInfo = record
     /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size                : NativeUInt;
+    /// <summary>
     /// Device scale factor. Specifies the ratio between physical and logical
     /// pixels.
     /// </summary>
@@ -4376,6 +4600,10 @@ type
   /// </remarks>
   TCefCookie = record
     /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size        : NativeUInt;
+    /// <summary>
     /// The cookie name.
     /// </summary>
     name        : TCefString;
@@ -4454,6 +4682,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_pdf_print_settings_t)</see></para>
   /// </remarks>
   TCefPdfPrintSettings = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size                  : NativeUInt;
     /// <summary>
     /// Set to true (1) for landscape mode or false (0) for portrait mode.
     /// </summary>
@@ -4681,6 +4913,10 @@ type
   /// </remarks>
   TCefAudioParameters = record
     /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size              : NativeUInt;
+    /// <summary>
     /// Layout of the audio channels
     /// </summary>
     channel_layout    : TCefChannelLayout;
@@ -4702,6 +4938,10 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types.h">CEF source file: /include/internal/cef_types.h (cef_media_sink_device_info_t)</see></para>
   /// </remarks>
   TCefMediaSinkDeviceInfo = record
+    /// <summary>
+    /// Size of this structure.
+    /// </summary>
+    size       : NativeUInt;
     ip_address : TCefString;
     port       : integer;
     model_name : TCefString;
@@ -4722,7 +4962,7 @@ type
     /// enum should NOT be read directly to determine whether cookies are enabled;
     /// the client should instead rely on the CookieSettings API.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_COOKIES = 0,
+    CEF_CONTENT_SETTING_TYPE_COOKIES,
     CEF_CONTENT_SETTING_TYPE_IMAGES,
     CEF_CONTENT_SETTING_TYPE_JAVASCRIPT,
 
@@ -4805,9 +5045,9 @@ type
     /// permission to respond to accessibility events, which can be used to
     /// provide a custom accessibility experience. Requires explicit user consent
     /// because some users may not want sites to know they're using assistive
-    /// technology.
+    /// technology. Deprecated in M131.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_ACCESSIBILITY_EVENTS,
+    CEF_CONTENT_SETTING_TYPE_DEPRECATED_ACCESSIBILITY_EVENTS,
     /// <summary>
     /// Used to store whether to allow a website to install a payment handler.
     /// </summary>
@@ -5125,7 +5365,7 @@ type
     /// not blocked otherwise).</para>
     /// <para>BLOCK: third-party cookies blocked, but 3PCD mitigations enabled.</para>
     /// </summary>
-    CEF_CONTENT_SETTING_TOP_LEVEL_TPCD_ORIGIN_TRIAL,
+    CEF_CONTENT_SETTING_TYPE_TOP_LEVEL_TPCD_ORIGIN_TRIAL,
     /// <summary>
     /// Content setting used to indicate whether entering picture-in-picture
     /// automatically should be enabled.
@@ -5234,7 +5474,38 @@ type
     /// Website setting to indicate whether user has opted in to allow web apps to
     /// install other web apps.
     /// </summary>
-    CEF_CONTENT_SETTING_TYPE_WEB_APP_INSTALLATION
+    CEF_CONTENT_SETTING_TYPE_WEB_APP_INSTALLATION,
+    /// <summary>
+    /// Content settings for private network access in the context of the
+    /// Direct Sockets API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_DIRECT_SOCKETS_PRIVATE_NETWORK_ACCESS,
+    /// <summary>
+    /// Content settings for legacy cookie scope.
+    /// Checks whether cookies scope is handled according to origin-bound cookies
+    /// or legacy behavior.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_LEGACY_COOKIE_SCOPE,
+    /// <summary>
+    /// Website setting to indicate whether the user has allowlisted suspicious
+    /// notifications for the origin.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_ARE_SUSPICIOUS_NOTIFICATIONS_ALLOWLISTED_BY_USER,   {* CEF_API_ADDED(13400) *}
+    /// <summary>
+    /// Content settings for access to the Controlled Frame API.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_CONTROLLED_FRAME,                                   {* CEF_API_ADDED(13400) *}
+    /// <summary>
+    /// Website setting which is used for UnusedSitePermissionsService to
+    /// store revoked notification permissions of disruptive sites.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_REVOKED_DISRUPTIVE_NOTIFICATION_PERMISSIONS,        {* CEF_API_ADDED(13500) *}
+    /// <summary>
+    /// Content setting for whether the site is allowed to make local network
+    /// requests.
+    /// </summary>
+    CEF_CONTENT_SETTING_TYPE_LOCAL_NETWORK_ACCESS,                               {* CEF_API_ADDED(13600) *}
+    CEF_CONTENT_SETTING_TYPE_NUM_VALUES
   );
 
   /// <summary>
@@ -5245,7 +5516,7 @@ type
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/internal/cef_types_content_settings.h">CEF source file: /include/internal/cef_types_content_settings.h (cef_content_setting_values_t)</see></para>
   /// </remarks>
   TCefContentSettingValues = (
-    CEF_CONTENT_SETTING_VALUE_DEFAULT = 0,
+    CEF_CONTENT_SETTING_VALUE_DEFAULT,
     CEF_CONTENT_SETTING_VALUE_ALLOW,
     CEF_CONTENT_SETTING_VALUE_BLOCK,
     CEF_CONTENT_SETTING_VALUE_ASK,
@@ -5284,6 +5555,8 @@ type
   /// <summary>
   /// Structure used to write data to a stream. The functions of this structure
   /// may be called on any thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefStreamWriter.</para>
@@ -5300,10 +5573,12 @@ type
 
   /// <summary>
   /// Structure representing the issuer or subject field of an X.509 certificate.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefX509CertPrincipal.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509cert_principal_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509_cert_principal_t)</see></para>
   /// </remarks>
   TCefX509CertPrincipal = record
     base                        : TCefBaseRefCounted;
@@ -5318,10 +5593,12 @@ type
 
   /// <summary>
   /// Structure representing a X.509 certificate.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefX509Certificate.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509certificate_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_x509_certificate_capi.h">CEF source file: /include/capi/cef_x509_certificate_capi.h (cef_x509_certificate_t)</see></para>
   /// </remarks>
   TCefX509Certificate = record
     base                        : TCefBaseRefCounted;
@@ -5339,6 +5616,8 @@ type
 
   /// <summary>
   /// Structure representing SSL information.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefSslInfo</para>
@@ -5352,6 +5631,8 @@ type
 
   /// <summary>
   /// Structure representing the SSL information for a navigation entry.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefSSLStatus.</para>
@@ -5363,11 +5644,13 @@ type
     get_cert_status      : function(self: PCefSSLStatus): TCefCertStatus; stdcall;
     get_sslversion       : function(self: PCefSSLStatus): TCefSSLVersion; stdcall;
     get_content_status   : function(self: PCefSSLStatus): TCefSSLContentStatus; stdcall;
-    get_x509certificate  : function(self: PCefSSLStatus): PCefX509Certificate; stdcall;
+    get_x509_certificate : function(self: PCefSSLStatus): PCefX509Certificate; stdcall;
   end;
 
   /// <summary>
   /// Callback structure used to select a client certificate for authentication.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefSelectClientCertificateCallback.</para>
@@ -5380,6 +5663,8 @@ type
 
   /// <summary>
   /// Callback structure used for continuation of custom context menu display.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefRunContextMenuCallback.</para>
@@ -5393,6 +5678,8 @@ type
 
   /// <summary>
   /// Callback structure for asynchronous continuation of file dialog requests.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefFileDialogCallback.</para>
@@ -5406,6 +5693,8 @@ type
 
   /// <summary>
   /// Callback structure for asynchronous handling of an unresponsive process.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefUnresponsiveProcessCallback.</para>
@@ -5420,6 +5709,8 @@ type
   /// <summary>
   /// Implement this structure to handle dialog events. The functions of this
   /// structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDialogHandler.</para>
@@ -5433,6 +5724,8 @@ type
   /// <summary>
   /// Implement this structure to handle events related to browser display state.
   /// The functions of this structure will be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDisplayHandler.</para>
@@ -5456,6 +5749,8 @@ type
   /// <summary>
   /// Structure used to handle file downloads. The functions of this structure
   /// will called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDownloadHandler.</para>
@@ -5471,6 +5766,8 @@ type
   /// <summary>
   /// Implement this structure to handle events related to dragging. The functions
   /// of this structure will be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDragHandler.</para>
@@ -5485,6 +5782,8 @@ type
   /// <summary>
   /// Implement this structure to handle events related to find results. The
   /// functions of this structure will be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefFindHandler.</para>
@@ -5498,6 +5797,8 @@ type
   /// <summary>
   /// Implement this structure to handle events related to focus. The functions of
   /// this structure will be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefFocusHandler.</para>
@@ -5513,6 +5814,8 @@ type
   /// <summary>
   /// Implement this structure to handle events related to JavaScript dialogs. The
   /// functions of this structure will be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefJsDialogHandler.</para>
@@ -5529,6 +5832,8 @@ type
   /// <summary>
   /// Callback structure used for asynchronous continuation of JavaScript dialog
   /// requests.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefJsDialogCallback.</para>
@@ -5542,6 +5847,8 @@ type
   /// <summary>
   /// Implement this structure to handle events related to keyboard input. The
   /// functions of this structure will be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefKeyboardHandler.</para>
@@ -5557,6 +5864,8 @@ type
   /// Implement this structure to handle events related to browser life span. The
   /// functions of this structure will be called on the UI thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefLifeSpanHandler.</para>
@@ -5564,7 +5873,8 @@ type
   /// </remarks>
   TCefLifeSpanHandler = record
     base                      : TCefBaseRefCounted;
-    on_before_popup           : function(self: PCefLifeSpanHandler; browser: PCefBrowser; frame: PCefFrame; const target_url, target_frame_name: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer; const popupFeatures: PCefPopupFeatures; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings; var extra_info: PCefDictionaryValue; no_javascript_access: PInteger): Integer; stdcall;
+    on_before_popup           : function(self: PCefLifeSpanHandler; browser: PCefBrowser; frame: PCefFrame; popup_id: Integer; const target_url, target_frame_name: PCefString; target_disposition: TCefWindowOpenDisposition; user_gesture: Integer; const popupFeatures: PCefPopupFeatures; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings; var extra_info: PCefDictionaryValue; no_javascript_access: PInteger): Integer; stdcall;
+    on_before_popup_aborted   : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser; popup_id: Integer); stdcall;
     on_before_dev_tools_popup : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser; windowInfo: PCefWindowInfo; var client: PCefClient; settings: PCefBrowserSettings; var extra_info: PCefDictionaryValue; use_default_window: PInteger); stdcall;
     on_after_created          : procedure(self: PCefLifeSpanHandler; browser: PCefBrowser); stdcall;
     do_close                  : function(self: PCefLifeSpanHandler; browser: PCefBrowser): Integer; stdcall;
@@ -5573,6 +5883,8 @@ type
 
   /// <summary>
   /// Generic callback structure used for managing the lifespan of a registration.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefRegistration.</para>
@@ -5585,6 +5897,8 @@ type
   /// <summary>
   /// Callback structure for ICefBrowserHost.AddDevToolsMessageObserver. The
   /// functions of this structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDevToolsMessageObserver.</para>
@@ -5603,6 +5917,8 @@ type
   /// Supports discovery of and communication with media devices on the local
   /// network via the Cast and DIAL protocols. The functions of this structure may
   /// be called on any browser process thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMediaRouter.</para>
@@ -5621,6 +5937,8 @@ type
   /// Implemented by the client to observe MediaRouter events and registered via
   /// ICefMediaRouter.AddObserver. The functions of this structure will be
   /// called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMediaObserver.</para>
@@ -5640,6 +5958,8 @@ type
   /// ICefMediaObserver.OnRoutes. Contains the status and metadata of a
   /// routing operation. The functions of this structure may be called on any
   /// browser process thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMediaRoute.</para>
@@ -5657,6 +5977,8 @@ type
   /// <summary>
   /// Callback structure for ICefMediaRouter.CreateRoute. The functions of
   /// this structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMediaRouteCreateCallback.</para>
@@ -5671,6 +5993,8 @@ type
   /// Represents a sink to which media can be routed. Instances of this object are
   /// retrieved via ICefMediaObserver.OnSinks. The functions of this structure
   /// may be called on any browser process thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMediaSink.</para>
@@ -5690,6 +6014,8 @@ type
   /// <summary>
   /// Callback structure for ICefMediaSink.GetDeviceInfo. The functions of
   /// this structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMediaSinkDeviceInfoCallback.</para>
@@ -5705,6 +6031,8 @@ type
   /// are retrieved via ICefMediaRouter.GetSource. The functions of this
   /// structure may be called on any browser process thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMediaSource.</para>
@@ -5719,6 +6047,8 @@ type
 
   /// <summary>
   /// Implement this structure to handle audio events.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefAudioHandler.</para>
@@ -5737,6 +6067,8 @@ type
   /// Implement this structure to handle events related to browser load status.
   /// The functions of this structure will be called on the browser process UI
   /// thread or render process main thread (TID_RENDERER).
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefLoadHandler.</para>
@@ -5753,6 +6085,8 @@ type
   /// <summary>
   /// Implement this structure to handle events when window rendering is disabled.
   /// The functions of this structure will be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefRenderHandler.</para>
@@ -5781,6 +6115,8 @@ type
 
   /// <summary>
   /// Structure that manages custom preference registrations.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by TCefPreferenceRegistrarRef.</para>
@@ -5792,14 +6128,32 @@ type
   end;
 
   /// <summary>
+  /// Implemented by the client to observe preference changes and registered via
+  /// cef_preference_manager_t::AddPreferenceObserver. The functions of this
+  /// structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
+  /// </summary>
+  /// <remarks>
+  /// <para>Implemented by ICefPreferenceObserver.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_preference_observer_t)</see></para>
+  /// </remarks>
+  {* CEF_API_ADDED(13401) *}
+  TCefPreferenceObserver = record
+    base                    : TCefBaseRefCounted;
+    on_preference_changed   : procedure(self: PCefPreferenceObserver; const name: PCefString); stdcall;
+  end;
+
+  /// <summary>
   /// Manage access to preferences. Many built-in preferences are registered by
   /// Chromium. Custom preferences can be registered in
   /// ICefBrowserProcessHandler.OnRegisterCustomPreferences.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPreferenceManager.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_capi.h">CEF source file: /include/capi/cef_preference_capi.h (cef_preference_manager_t)</see></para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_preference_manager_capi.h">CEF source file: /include/capi/cef_preference_manager_capi.h (cef_preference_manager_t)</see></para>
   /// </remarks>
   TCefPreferenceManager = record
     base                            : TCefBaseRefCounted;
@@ -5808,6 +6162,7 @@ type
     get_all_preferences             : function(self: PCefPreferenceManager; include_defaults: Integer): PCefDictionaryValue; stdcall;
     can_set_preference              : function(self: PCefPreferenceManager; const name: PCefString): Integer; stdcall;
     set_preference                  : function(self: PCefPreferenceManager; const name: PCefString; value: PCefValue; error: PCefString): Integer; stdcall;
+    add_preference_observer         : function(self: PCefPreferenceManager; const name: PCefString; observer: PCefPreferenceObserver): PCefRegistration; stdcall; {* CEF_API_ADDED(13401) *}
   end;
 
   /// <summary>
@@ -5816,10 +6171,12 @@ type
   /// creating a V8 handle include the render process main thread (TID_RENDERER)
   /// and WebWorker threads. A task runner for posting tasks on the associated
   /// thread can be retrieved via the ICefv8context.GetTaskRunner() function.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefV8StackTrace.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8stack_trace_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_stack_trace_t)</see></para>
   /// </remarks>
   TCefV8StackTrace = record
     base            : TCefBaseRefCounted;
@@ -5834,10 +6191,12 @@ type
   /// creating a V8 handle include the render process main thread (TID_RENDERER)
   /// and WebWorker threads. A task runner for posting tasks on the associated
   /// thread can be retrieved via the ICefv8context.GetTaskRunner() function.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefV8StackFrame.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8stack_frame_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_stack_frame_t)</see></para>
   /// </remarks>
   TCefV8StackFrame = record
     base                          : TCefBaseRefCounted;
@@ -5854,6 +6213,8 @@ type
   /// <summary>
   /// Structure used to read data from a stream. The functions of this structure
   /// may be called on any thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefStreamReader and ICefCustomStreamReader.</para>
@@ -5871,6 +6232,8 @@ type
   /// <summary>
   /// Structure the client can implement to provide a custom stream reader. The
   /// functions of this structure may be called on any thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefReadHandler.</para>
@@ -5888,6 +6251,8 @@ type
   /// <summary>
   /// Structure the client can implement to provide a custom stream writer. The
   /// functions of this structure may be called on any thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefWriteHandler.</para>
@@ -5906,6 +6271,8 @@ type
   /// Structure that supports the reading of XML data via the libxml streaming
   /// API. The functions of this structure should only be called on the thread
   /// that creates the object.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefXmlReader.</para>
@@ -5948,6 +6315,8 @@ type
   /// Structure that supports the reading of zip archives via the zlib unzip API.
   /// The functions of this structure should only be called on the thread that
   /// creates the object.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefZipReader.</para>
@@ -5973,6 +6342,8 @@ type
   /// Structure that should be implemented by the ICefUrlRequest client. The
   /// functions of this structure will be called on the same thread that created
   /// the request unless otherwise documented.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefUrlrequestClient.</para>
@@ -5993,6 +6364,8 @@ type
   /// can be created on any valid CEF thread in either the browser or render
   /// process. Once created the functions of the URL request object must be
   /// accessed on the same thread that created it.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefUrlRequest.</para>
@@ -6019,6 +6392,8 @@ type
   /// This structure should only be used for tasks that require a dedicated
   /// thread. In most cases you can post tasks to an existing CEF thread instead
   /// of creating a new one; see cef_task.h for details.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefThread.</para>
@@ -6042,6 +6417,8 @@ type
   /// is safe to create and/or signal a WaitableEvent from any thread. Blocking on
   /// a WaitableEvent by calling the *wait() functions is not allowed on the
   /// browser process UI or IO threads.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefWaitableEvent.</para>
@@ -6064,6 +6441,8 @@ type
   /// types of tasks in different processes. The TCefThreadId definitions in
   /// cef_types.h list the common CEF threads. Task runners are also available for
   /// other CEF threads as appropriate (for example, V8 WebWorker threads).
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefTaskRunner.</para>
@@ -6082,6 +6461,8 @@ type
   /// Implement this structure to receive notification when tracing has completed.
   /// The functions of this structure will be called on the browser process UI
   /// thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefEndTracingCallback.</para>
@@ -6098,6 +6479,8 @@ type
   /// returned from ICefApp.GetResourceBundleHandler. See TCefSettings for
   /// additional options related to resource bundle loading. The functions of this
   /// structure may be called on any thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefResourceBundle.</para>
@@ -6114,6 +6497,8 @@ type
   /// Implement this structure to handle menu model events. The functions of this
   /// structure will be called on the browser process UI thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMenuModelDelegate.</para>
@@ -6132,6 +6517,8 @@ type
 
   /// <summary>
   /// Structure representing a message. Can be used on any process and thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefProcessMessage.</para>
@@ -6151,6 +6538,8 @@ type
   /// Structure used to implement render process callbacks. The functions of this
   /// structure will be called on the render process main thread (TID_RENDERER)
   /// unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefRenderProcessHandler.</para>
@@ -6172,6 +6561,8 @@ type
   /// <summary>
   /// Implement this structure to handle events related to browser requests. The
   /// functions of this structure will be called on the thread indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefRequestHandler.</para>
@@ -6195,35 +6586,23 @@ type
   /// <summary>
   /// Callback structure used for asynchronous continuation of media access
   /// permission requests.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMediaAccessCallback.</para>
-  /// This record is declared twice with almost identical parameters. "allowed_permissions" is defined as int and uint32.
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_access_handler_capi.h">CEF source file: /include/capi/cef_media_access_handler_capi.h (cef_media_access_callback_t)</see></para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_permission_handler_capi.h">CEF source file: /include/capi/cef_permission_handler_capi.h (cef_media_access_callback_t)</see></para>
   /// </remarks>
   TCefMediaAccessCallback = record
     base   : TCefBaseRefCounted;
-    cont   : procedure(self: PCefMediaAccessCallback; allowed_permissions: integer); stdcall;
+    cont   : procedure(self: PCefMediaAccessCallback; allowed_permissions: Cardinal); stdcall;
     cancel : procedure(self: PCefMediaAccessCallback); stdcall;
   end;
 
   /// <summary>
-  /// Implement this structure to handle events related to media access permission
-  /// requests. The functions of this structure will be called on the browser
-  /// process UI thread.
-  /// </summary>
-  /// <remarks>
-  /// <para>Implemented by ICefMediaAccessHandler.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_media_access_handler_capi.h">CEF source file: /include/capi/cef_media_access_handler_capi.h (cef_media_access_handler_t)</see></para>
-  /// </remarks>
-  TCefMediaAccessHandler = record
-    base                               : TCefBaseRefCounted;
-    on_request_media_access_permission : function(self: PCefMediaAccessHandler; browser: PCefBrowser; frame: PCefFrame; const requesting_url: PCefString; requested_permissions: integer; callback: PCefMediaAccessCallback): integer; stdcall;
-  end;
-
-  /// <summary>
   /// Callback structure used for asynchronous continuation of permission prompts.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPermissionPromptCallback.</para>
@@ -6238,6 +6617,8 @@ type
   /// Implement this structure to handle events related to permission requests.
   /// The functions of this structure will be called on the browser process UI
   /// thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPermissionHandler.</para>
@@ -6252,6 +6633,8 @@ type
 
   /// <summary>
   /// Structure that wraps platform-dependent share memory region mapping.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefSharedMemoryRegion.</para>
@@ -6268,6 +6651,8 @@ type
   /// Structure that builds a ICefProcessMessage containing a shared memory
   /// region. This structure is not thread-safe but may be used exclusively on a
   /// different thread from the one which constructed it.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefSharedProcessMessageBuilder.</para>
@@ -6283,6 +6668,8 @@ type
 
   /// <summary>
   /// Callback for asynchronous continuation of ICefResourceHandler.skip().
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefResourceSkipCallback.</para>
@@ -6295,6 +6682,8 @@ type
 
   /// <summary>
   /// Callback for asynchronous continuation of ICefResourceHandler.read().
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefResourceReadCallback.</para>
@@ -6309,6 +6698,8 @@ type
   /// Structure used to implement a custom request handler structure. The
   /// functions of this structure will be called on the IO thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefResourceHandler.</para>
@@ -6329,6 +6720,8 @@ type
   /// Implement this structure to handle events related to browser requests. The
   /// functions of this structure will be called on the IO thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefResourceRequestHandler.</para>
@@ -6350,6 +6743,8 @@ type
   /// Implement this structure to filter cookies that may be sent or received from
   /// resource requests. The functions of this structure will be called on the IO
   /// thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefCookieAccessFilter.</para>
@@ -6364,6 +6759,8 @@ type
   /// <summary>
   /// Structure used to represent a web response. The functions of this structure
   /// may be called on any thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefResponse.</para>
@@ -6393,6 +6790,8 @@ type
   /// <summary>
   /// Implement this structure to filter resource response content. The functions
   /// of this structure will be called on the browser process IO thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefResponseFilter.</para>
@@ -6407,6 +6806,8 @@ type
   /// <summary>
   /// Callback structure used for asynchronous continuation of authentication
   /// requests.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefAuthCallback.</para>
@@ -6420,6 +6821,8 @@ type
 
   /// <summary>
   /// Generic callback structure used for asynchronous continuation.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefCallback.</para>
@@ -6429,6 +6832,23 @@ type
     base   : TCefBaseRefCounted;
     cont   : procedure(self: PCefCallback); stdcall;
     cancel : procedure(self: PCefCallback); stdcall;
+  end;
+
+  /// <summary>
+  /// Implemented by the client to observe content and website setting changes and
+  /// registered via cef_request_context_t::AddSettingObserver. The functions of
+  /// this structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
+  /// </summary>
+  /// <remarks>
+  /// <para>Implemented by ICefSettingObserver.</para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_request_context_capi.h">CEF source file: /include/capi/cef_request_context_capi.h (cef_setting_observer_t)</see></para>
+  /// </remarks>
+  {* CEF_API_ADDED(13401) *}
+  TCefSettingObserver = record
+    base                : TCefBaseRefCounted;
+    on_setting_changed  : procedure(self: PCefSettingObserver; const requesting_url, top_level_url: PCefString; content_type: TCefContentSettingTypes); stdcall;
   end;
 
   /// <summary>
@@ -6446,6 +6866,8 @@ type
   /// in single-process mode will share the same request context. This will be the
   /// first request context passed into a ICefBrowserHost static factory
   /// function and all other request context objects will be ignored.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefRequestContext.</para>
@@ -6474,12 +6896,15 @@ type
     get_chrome_color_scheme_mode    : function(self: PCefRequestContext): TCefColorVariant; stdcall;
     get_chrome_color_scheme_color   : function(self: PCefRequestContext): TCefColor; stdcall;
     get_chrome_color_scheme_variant : function(self: PCefRequestContext): TCefColorVariant; stdcall;
+    add_setting_observer            : function(self: PCefRequestContext; observer: PCefSettingObserver): PCefRegistration; stdcall;   {* CEF_API_ADDED(13401) *}
   end;
 
   /// <summary>
   /// Implement this structure to provide handler implementations. The handler
   /// instance will not be released until all objects related to the context have
   /// been destroyed.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefRequestContextHandler.</para>
@@ -6493,6 +6918,8 @@ type
 
   /// <summary>
   /// Generic callback structure used for asynchronous completion.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefCompletionCallback.</para>
@@ -6506,6 +6933,8 @@ type
   /// <summary>
   /// Structure used for managing cookies. The functions of this structure may be
   /// called on any thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefCookieManager.</para>
@@ -6524,6 +6953,8 @@ type
   /// Structure that creates ICefResourceHandler instances for handling scheme
   /// requests. The functions of this structure will always be called on the IO
   /// thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefSchemeHandlerFactory.</para>
@@ -6536,6 +6967,8 @@ type
 
   /// <summary>
   /// Callback structure for ICefRequestContext.ResolveHost.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefResolveCallback.</para>
@@ -6549,6 +6982,8 @@ type
   /// <summary>
   /// Structure to implement for visiting cookie values. The functions of this
   /// structure will always be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefCookieVisitor.</para>
@@ -6562,6 +6997,8 @@ type
   /// <summary>
   /// Structure to implement to be notified of asynchronous completion via
   /// ICefCookieManager.SetCookie().
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefSetCookieCallback.</para>
@@ -6575,6 +7012,8 @@ type
   /// <summary>
   /// Structure to implement to be notified of asynchronous completion via
   /// ICefCookieManager.DeleteCookies().
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDeleteCookiesCallback.</para>
@@ -6588,6 +7027,8 @@ type
   /// <summary>
   /// Callback structure for ICefBrowserHost.RunFileDialog. The functions of
   /// this structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefRunFileDialogCallback.</para>
@@ -6601,6 +7042,8 @@ type
   /// <summary>
   /// Callback structure for ICefBrowserHost.DownloadImage. The functions of
   /// this structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDownloadImageCallback.</para>
@@ -6618,6 +7061,8 @@ type
   /// then the image at scale factor 2.0 should be 200x200 pixels -- both images
   /// will display with a DIP size of 100x100 units. The functions of this
   /// structure can be called on any browser process thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefImage.</para>
@@ -6643,6 +7088,8 @@ type
   /// <summary>
   /// Callback structure for ICefBrowserHost.PrintToPDF. The functions of this
   /// structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPdfPrintCallback.</para>
@@ -6656,6 +7103,8 @@ type
   /// <summary>
   /// Callback structure for ICefBrowserHost.GetNavigationEntries. The
   /// functions of this structure will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefNavigationEntryVisitor.</para>
@@ -6668,6 +7117,8 @@ type
 
   /// <summary>
   /// Structure used to represent an entry in navigation history.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefNavigationEntry.</para>
@@ -6689,6 +7140,8 @@ type
 
   /// <summary>
   /// Structure representing print settings.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPrintSettings.</para>
@@ -6722,6 +7175,8 @@ type
 
   /// <summary>
   /// Callback structure for asynchronous continuation of print dialog requests.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPrintDialogCallback.</para>
@@ -6735,6 +7190,8 @@ type
 
   /// <summary>
   /// Callback structure for asynchronous continuation of print job requests.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPrintJobCallback.</para>
@@ -6749,6 +7206,8 @@ type
   /// Implement this structure to handle printing on Linux. Each browser will have
   /// only one print job in progress at a time. The functions of this structure
   /// will be called on the browser process UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPrintHandler.</para>
@@ -6767,6 +7226,8 @@ type
   /// <summary>
   /// Structure used to represent drag data. The functions of this structure may
   /// be called on any thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDragData.</para>
@@ -6813,6 +7274,8 @@ type
   /// arguments. Switch names should be lowercase ASCII and will be converted to
   /// such if necessary. Switch values will retain the original case and UTF8
   /// encoding. This structure can be used before cef_initialize() is called.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefCommandLine.</para>
@@ -6845,6 +7308,8 @@ type
   /// <summary>
   /// Implement this structure to handle events related to commands. The functions
   /// of this structure will be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefCommandHandler.</para>
@@ -6861,6 +7326,8 @@ type
 
   /// <summary>
   /// Structure that manages custom scheme registrations.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by TCefSchemeRegistrarRef.</para>
@@ -6874,6 +7341,8 @@ type
   /// <summary>
   /// Structure representing a binary value. Can be used on any process and
   /// thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefBinaryValue.</para>
@@ -6895,6 +7364,8 @@ type
   /// Structure that wraps other data value types. Complex types (binary,
   /// dictionary and list) will be referenced but not owned by this object. Can be
   /// used on any process and thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefValue.</para>
@@ -6929,6 +7400,8 @@ type
   /// <summary>
   /// Structure representing a dictionary value. Can be used on any process and
   /// thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDictionaryValue.</para>
@@ -6969,6 +7442,8 @@ type
 
   /// <summary>
   /// Structure representing a list value. Can be used on any process and thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefListValue.</para>
@@ -7008,6 +7483,8 @@ type
 
   /// <summary>
   /// Implement this structure to receive string values asynchronously.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefStringVisitor.</para>
@@ -7021,6 +7498,8 @@ type
   /// <summary>
   /// Structure used to represent a single element in the request post data. The
   /// functions of this structure may be called on any thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPostDataElement.</para>
@@ -7041,6 +7520,8 @@ type
   /// <summary>
   /// Structure used to represent post data for a web request. The functions of
   /// this structure may be called on any thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPostData.</para>
@@ -7060,6 +7541,8 @@ type
   /// <summary>
   /// Structure used to represent a web request. The functions of this structure
   /// may be called on any thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefRequest.</para>
@@ -7098,6 +7581,8 @@ type
   /// fails to post then the task object may be destroyed on the source thread
   /// instead of the target thread. For this reason be cautious when performing
   /// work in the task object destructor.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefTask.</para>
@@ -7111,6 +7596,8 @@ type
   /// <summary>
   /// Structure that facilitates managing the browser-related tasks. The functions
   /// of this structure may only be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefTaskManager.</para>
@@ -7128,6 +7615,8 @@ type
   /// <summary>
   /// Structure to implement for visiting the DOM. The functions of this structure
   /// will be called on the render process main thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDomVisitor.</para>
@@ -7143,6 +7632,8 @@ type
   /// command ids that have default implementations. All user-defined command ids
   /// should be between MENU_ID_USER_FIRST and MENU_ID_USER_LAST. The functions of
   /// this structure can only be accessed on the browser process the UI thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMenuModel.</para>
@@ -7211,6 +7702,8 @@ type
   /// <summary>
   /// Provides information about the context menu state. The functions of this
   /// structure can only be accessed on browser process the UI thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefContextMenuParams.</para>
@@ -7242,6 +7735,8 @@ type
 
   /// <summary>
   /// Structure used to represent a download item.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDownloadItem.</para>
@@ -7272,6 +7767,8 @@ type
 
   /// <summary>
   /// Callback structure used to asynchronously continue a download.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefBeforeDownloadCallback.</para>
@@ -7284,6 +7781,8 @@ type
 
   /// <summary>
   /// Callback structure used to asynchronously cancel a download.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDownloadItemCallback.</para>
@@ -7299,6 +7798,8 @@ type
   /// <summary>
   /// Structure used to represent a DOM node. The functions of this structure
   /// should only be called on the render process main thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDomNode.</para>
@@ -7337,6 +7838,8 @@ type
   /// <summary>
   /// Structure used to represent a DOM document. The functions of this structure
   /// should only be called on the render process main thread thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDomDocument.</para>
@@ -7366,10 +7869,12 @@ type
   /// Structure that should be implemented to handle V8 function calls. The
   /// functions of this structure will be called on the thread associated with the
   /// V8 function.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefv8Handler.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8handler_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_handler_t)</see></para>
   /// </remarks>
   TCefv8Handler = record
     base    : TCefBaseRefCounted;
@@ -7379,10 +7884,12 @@ type
   /// <summary>
   /// Structure representing a V8 exception. The functions of this structure may
   /// be called on any render process thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefV8Exception.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8exception_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_exception_t)</see></para>
   /// </remarks>
   TCefV8Exception = record
     base                      : TCefBaseRefCounted;
@@ -7398,10 +7905,12 @@ type
 
   /// <summary>
   /// Callback structure that is passed to ICefv8value.CreateArrayBuffer.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefv8ArrayBufferReleaseCallback.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8array_buffer_release_callback_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_array_buffer_release_callback_t)</see></para>
   /// </remarks>
   TCefv8ArrayBufferReleaseCallback = record
     base                      : TCefBaseRefCounted;
@@ -7414,10 +7923,12 @@ type
   /// handle include the render process main thread (TID_RENDERER) and WebWorker
   /// threads. A task runner for posting tasks on the associated thread can be
   /// retrieved via the ICefv8context.GetTaskRunner() function.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefv8Value.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8value_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_value_t)</see></para>
   /// </remarks>
   TCefv8Value = record
     base                                : TCefBaseRefCounted;
@@ -7481,10 +7992,12 @@ type
   /// handle include the render process main thread (TID_RENDERER) and WebWorker
   /// threads. A task runner for posting tasks on the associated thread can be
   /// retrieved via the ICefv8context.GetTaskRunner() function.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefv8Context.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8context_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_context_t)</see></para>
   /// </remarks>
   TCefV8Context = record
     base            : TCefBaseRefCounted;
@@ -7506,10 +8019,12 @@ type
   /// of type CefString) are called when object is indexed by string. Indexed
   /// property handlers (with first argument of type int) are called when object
   /// is indexed by integer.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefV8Interceptor.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8interceptor_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_interceptor_t)</see></para>
   /// </remarks>
   TCefV8Interceptor = record
     base        : TCefBaseRefCounted;
@@ -7524,10 +8039,12 @@ type
   /// identifiers are registered by calling ICefv8value.SetValue(). The
   /// functions of this structure will be called on the thread associated with the
   /// V8 accessor.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefV8Accessor.</para>
-  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8accessor_t)</see></para>
+  /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_v8_capi.h">CEF source file: /include/capi/cef_v8_capi.h (cef_v8_accessor_t)</see></para>
   /// </remarks>
   TCefV8Accessor = record
     base : TCefBaseRefCounted;
@@ -7540,38 +8057,41 @@ type
   /// browser process the functions of this structure may be called on any thread
   /// unless otherwise indicated in the comments. When used in the render process
   /// the functions of this structure may only be called on the main thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefFrame.</para>
   /// <para><see href="https://bitbucket.org/chromiumembedded/cef/src/master/include/capi/cef_frame_capi.h">CEF source file: /include/capi/cef_frame_capi.h (cef_frame_t)</see></para>
   /// </remarks>
   TCefFrame = record
-    base                 : TCefBaseRefCounted;
-    is_valid             : function(self: PCefFrame): Integer; stdcall;
-    undo                 : procedure(self: PCefFrame); stdcall;
-    redo                 : procedure(self: PCefFrame); stdcall;
-    cut                  : procedure(self: PCefFrame); stdcall;
-    copy                 : procedure(self: PCefFrame); stdcall;
-    paste                : procedure(self: PCefFrame); stdcall;
-    del                  : procedure(self: PCefFrame); stdcall;
-    select_all           : procedure(self: PCefFrame); stdcall;
-    view_source          : procedure(self: PCefFrame); stdcall;
-    get_source           : procedure(self: PCefFrame; visitor: PCefStringVisitor); stdcall;
-    get_text             : procedure(self: PCefFrame; visitor: PCefStringVisitor); stdcall;
-    load_request         : procedure(self: PCefFrame; request: PCefRequest); stdcall;
-    load_url             : procedure(self: PCefFrame; const url: PCefString); stdcall;
-    execute_java_script  : procedure(self: PCefFrame; const code, script_url: PCefString; start_line: Integer); stdcall;
-    is_main              : function(self: PCefFrame): Integer; stdcall;
-    is_focused           : function(self: PCefFrame): Integer; stdcall;
-    get_name             : function(self: PCefFrame): PCefStringUserFree; stdcall;
-    get_identifier       : function(self: PCefFrame): PCefStringUserFree; stdcall;
-    get_parent           : function(self: PCefFrame): PCefFrame; stdcall;
-    get_url              : function(self: PCefFrame): PCefStringUserFree; stdcall;
-    get_browser          : function(self: PCefFrame): PCefBrowser; stdcall;
-    get_v8context        : function(self: PCefFrame): PCefv8Context; stdcall;
-    visit_dom            : procedure(self: PCefFrame; visitor: PCefDomVisitor); stdcall;
-    create_urlrequest    : function(self: PCefFrame; request: PCefRequest; client: PCefUrlrequestClient): PCefUrlRequest; stdcall;
-    send_process_message : procedure(self: PCefFrame; target_process: TCefProcessId; message_: PCefProcessMessage); stdcall;
+    base                   : TCefBaseRefCounted;
+    is_valid               : function(self: PCefFrame): Integer; stdcall;
+    undo                   : procedure(self: PCefFrame); stdcall;
+    redo                   : procedure(self: PCefFrame); stdcall;
+    cut                    : procedure(self: PCefFrame); stdcall;
+    copy                   : procedure(self: PCefFrame); stdcall;
+    paste                  : procedure(self: PCefFrame); stdcall;
+    paste_and_match_style  : procedure(self: PCefFrame); stdcall;
+    del                    : procedure(self: PCefFrame); stdcall;
+    select_all             : procedure(self: PCefFrame); stdcall;
+    view_source            : procedure(self: PCefFrame); stdcall;
+    get_source             : procedure(self: PCefFrame; visitor: PCefStringVisitor); stdcall;
+    get_text               : procedure(self: PCefFrame; visitor: PCefStringVisitor); stdcall;
+    load_request           : procedure(self: PCefFrame; request: PCefRequest); stdcall;
+    load_url               : procedure(self: PCefFrame; const url: PCefString); stdcall;
+    execute_java_script    : procedure(self: PCefFrame; const code, script_url: PCefString; start_line: Integer); stdcall;
+    is_main                : function(self: PCefFrame): Integer; stdcall;
+    is_focused             : function(self: PCefFrame): Integer; stdcall;
+    get_name               : function(self: PCefFrame): PCefStringUserFree; stdcall;
+    get_identifier         : function(self: PCefFrame): PCefStringUserFree; stdcall;
+    get_parent             : function(self: PCefFrame): PCefFrame; stdcall;
+    get_url                : function(self: PCefFrame): PCefStringUserFree; stdcall;
+    get_browser            : function(self: PCefFrame): PCefBrowser; stdcall;
+    get_v8_context         : function(self: PCefFrame): PCefv8Context; stdcall;
+    visit_dom              : procedure(self: PCefFrame; visitor: PCefDomVisitor); stdcall;
+    create_urlrequest      : function(self: PCefFrame; request: PCefRequest; client: PCefUrlrequestClient): PCefUrlRequest; stdcall;
+    send_process_message   : procedure(self: PCefFrame; target_process: TCefProcessId; message_: PCefProcessMessage); stdcall;
   end;
 
   /// <summary>
@@ -7650,6 +8170,8 @@ type
   ///
   /// The functions of this interface will be called on the UI thread unless
   /// otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefFrameHandler.</para>
@@ -7658,6 +8180,7 @@ type
   TCefFrameHandler = record
     base                  : TCefBaseRefCounted;
     on_frame_created      : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
+    on_frame_destroyed    : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
     on_frame_attached     : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame; reattached: integer); stdcall;
     on_frame_detached     : procedure(self: PCefFrameHandler; browser: PCefBrowser; frame: PCefFrame); stdcall;
     on_main_frame_changed : procedure(self: PCefFrameHandler; browser: PCefBrowser; old_frame, new_frame: PCefFrame); stdcall;
@@ -7667,6 +8190,8 @@ type
   /// Implement this structure to receive accessibility notification when
   /// accessibility events have been registered. The functions of this structure
   /// will be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefAccessibilityHandler.</para>
@@ -7681,6 +8206,8 @@ type
   /// <summary>
   /// Implement this structure to handle context menu events. The functions of
   /// this structure will be called on the UI thread.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefContextMenuHandler.</para>
@@ -7699,6 +8226,8 @@ type
 
   /// <summary>
   /// Callback structure used for continuation of custom quick menu display.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefRunQuickMenuCallback.</para>
@@ -7712,6 +8241,8 @@ type
 
   /// <summary>
   /// Implement this structure to provide handler implementations.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefClient.</para>
@@ -7745,6 +8276,8 @@ type
   /// functions of this structure can only be called in the browser process. They
   /// may be called on any thread in that process unless otherwise indicated in
   /// the comments.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefBrowserHost.</para>
@@ -7759,6 +8292,7 @@ type
     set_focus                         : procedure(self: PCefBrowserHost; focus: Integer); stdcall;
     get_window_handle                 : function(self: PCefBrowserHost): TCefWindowHandle; stdcall;
     get_opener_window_handle          : function(self: PCefBrowserHost): TCefWindowHandle; stdcall;
+    get_opener_identifier             : function(self: PCefBrowserHost): Integer; stdcall;
     has_view                          : function(self: PCefBrowserHost): Integer; stdcall;
     get_client                        : function(self: PCefBrowserHost): PCefClient; stdcall;
     get_request_context               : function(self: PCefBrowserHost): PCefRequestContext; stdcall;
@@ -7826,6 +8360,8 @@ type
   /// functions of this structure may be called on any thread unless otherwise
   /// indicated in the comments. When used in the render process the functions of
   /// this structure may only be called on the main thread.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefBrowser.</para>
@@ -7860,6 +8396,8 @@ type
   /// Structure used to implement a custom resource bundle structure. See
   /// TCefSettings for additional options related to resource bundle loading. The
   /// functions of this structure may be called on multiple threads.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefResourceBundleHandler.</para>
@@ -7876,6 +8414,8 @@ type
   /// Structure used to implement browser process callbacks. The functions of this
   /// structure will be called on the browser process main thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefBrowserProcessHandler.</para>
@@ -7895,6 +8435,8 @@ type
   /// <summary>
   /// Implement this structure to provide handler implementations. Methods will be
   /// called by the process and/or thread indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefApp.</para>
@@ -7915,6 +8457,8 @@ type
   /// simultaneous connections (e.g. for communicating between applications on
   /// localhost). The functions of this structure are safe to call from any thread
   /// in the brower process unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefServer.</para>
@@ -7928,9 +8472,9 @@ type
     get_address             : function(self: PCefServer): PCefStringUserFree; stdcall;
     has_connection          : function(self: PCefServer): Integer; stdcall;
     is_valid_connection     : function(self: PCefServer; connection_id: Integer): Integer; stdcall;
-    send_http200response    : procedure(self: PCefServer; connection_id: Integer; const content_type: PCefString; const data: Pointer; data_size: NativeUInt); stdcall;
-    send_http404response    : procedure(self: PCefServer; connection_id: Integer); stdcall;
-    send_http500response    : procedure(self: PCefServer; connection_id: Integer; const error_message: PCefString); stdcall;
+    send_http200_response   : procedure(self: PCefServer; connection_id: Integer; const content_type: PCefString; const data: Pointer; data_size: NativeUInt); stdcall;
+    send_http404_response   : procedure(self: PCefServer; connection_id: Integer); stdcall;
+    send_http500_response   : procedure(self: PCefServer; connection_id: Integer; const error_message: PCefString); stdcall;
     send_http_response      : procedure(self: PCefServer; connection_id, response_code: Integer; const content_type: PCefString; content_length: int64; extra_headers: TCefStringMultimap); stdcall;
     send_raw_data           : procedure(self: PCefServer; connection_id: Integer; const data: Pointer; data_size: NativeUInt); stdcall;
     close_connection        : procedure(self: PCefServer; connection_id: Integer); stdcall;
@@ -7944,6 +8488,8 @@ type
   /// It is therefore recommended to use a different ICefServerHandler instance
   /// for each ICefServer.CreateServer call to avoid thread safety issues in
   /// the ICefServerHandler implementation.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefServerHandler.</para>
@@ -8008,6 +8554,8 @@ type
   /// values are in density independent pixel (DIP) coordinates unless otherwise
   /// indicated. Methods must be called on the browser process UI thread unless
   /// otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefDisplay.</para>
@@ -8028,6 +8576,8 @@ type
   /// A Layout handles the sizing of the children of a Panel according to
   /// implementation-specific heuristics. Methods must be called on the browser
   /// process UI thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefLayout.</para>
@@ -8047,6 +8597,8 @@ type
   /// host's bounds provide insufficient space, child views will be clamped.
   /// Excess space will not be distributed. Methods must be called on the browser
   /// process UI thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefBoxLayout.</para>
@@ -8062,6 +8614,8 @@ type
   /// A simple Layout that causes the associated Panel's one child to be sized to
   /// match the bounds of its parent. Methods must be called on the browser
   /// process UI thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefFillLayout.</para>
@@ -8077,6 +8631,8 @@ type
   /// called in preference to functions of the same name exposed by the contents
   /// View unless otherwise indicated. Methods must be called on the browser
   /// process UI thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefOverlayController.</para>
@@ -8110,6 +8666,8 @@ type
   /// structure for all Views. All size and position values are in density
   /// independent pixels (DIP) unless otherwise indicated. Methods must be called
   /// on the browser process UI thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefView.</para>
@@ -8158,6 +8716,7 @@ type
     set_focusable               : procedure(self: PCefView; focusable: Integer); stdcall;
     is_focusable                : function(self: PCefView): Integer; stdcall;
     is_accessibility_focusable  : function(self: PCefView): Integer; stdcall;
+    has_focus                   : function(self: PCefView): Integer; stdcall;
     request_focus               : procedure(self: PCefView); stdcall;
     set_background_color        : procedure(self: PCefView; color: TCefColor); stdcall;
     get_background_color        : function(self: PCefView): TCefColor; stdcall;
@@ -8175,6 +8734,8 @@ type
   /// are in density independent pixels (DIP) unless otherwise indicated. The
   /// functions of this structure will be called on the browser process UI thread
   /// unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefViewDelegate.</para>
@@ -8199,6 +8760,8 @@ type
   /// A Textfield supports editing of text. This control is custom rendered with
   /// no platform-specific code. Methods must be called on the browser process UI
   /// thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefTextfield.</para>
@@ -8243,6 +8806,8 @@ type
   /// Implement this structure to handle Textfield events. The functions of this
   /// structure will be called on the browser process UI thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefTextfieldDelegate.</para>
@@ -8258,6 +8823,8 @@ type
   /// A ScrollView will show horizontal and/or vertical scrollbars when necessary
   /// based on the size of the attached content view. Methods must be called on
   /// the browser process UI thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefScrollView.</para>
@@ -8278,6 +8845,8 @@ type
   /// A Panel is a container in the views hierarchy that can contain other Views
   /// as children. Methods must be called on the browser process UI thread unless
   /// otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPanel.</para>
@@ -8303,6 +8872,8 @@ type
   /// Implement this structure to handle Panel events. The functions of this
   /// structure will be called on the browser process UI thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefPanelDelegate.</para>
@@ -8315,6 +8886,8 @@ type
   /// <summary>
   /// A View hosting a ICefBrowser instance. Methods must be called on the
   /// browser process UI thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefBrowserView.</para>
@@ -8332,6 +8905,8 @@ type
   /// Implement this structure to handle BrowserView events. The functions of this
   /// structure will be called on the browser process UI thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefBrowserViewDelegate.</para>
@@ -8347,12 +8922,15 @@ type
     use_frameless_window_for_picture_in_picture : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall;
     on_gesture_command                          : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView; gesture_command: TCefGestureCommand): Integer; stdcall;
     get_browser_runtime_style                   : function(self: PCefBrowserViewDelegate): TCefRuntimeStyle; stdcall;
+    allow_move_for_picture_in_picture           : function(self: PCefBrowserViewDelegate; browser_view: PCefBrowserView): integer; stdcall; {* CEF_API_ADDED(13601) *}
   end;
 
   /// <summary>
   /// A View representing a button. Depending on the specific type, the button
   /// could be implemented by a native control or custom rendered. Methods must be
   /// called on the browser process UI thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefButton.</para>
@@ -8372,6 +8950,8 @@ type
   /// Implement this structure to handle Button events. The functions of this
   /// structure will be called on the browser process UI thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefButtonDelegate.</para>
@@ -8386,6 +8966,8 @@ type
   /// <summary>
   /// LabelButton is a button with optional text and/or icon. Methods must be
   /// called on the browser process UI thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefLabelButton.</para>
@@ -8412,6 +8994,8 @@ type
   /// values are in density independent pixels (DIP) unless otherwise indicated.
   /// Methods must be called on the browser process UI thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMenuButton.</para>
@@ -8425,6 +9009,8 @@ type
 
   /// <summary>
   /// MenuButton pressed lock is released when this object is destroyed.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMenuButtonPressedLock.</para>
@@ -8438,6 +9024,8 @@ type
   /// Implement this structure to handle MenuButton events. The functions of this
   /// structure will be called on the browser process UI thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefMenuButtonDelegate.</para>
@@ -8454,6 +9042,8 @@ type
   /// moving and resizing. All size and position values are in density independent
   /// pixels (DIP) unless otherwise indicated. Methods must be called on the
   /// browser process UI thread unless otherwise indicated.
+  ///
+  /// NOTE: This struct is allocated DLL-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefWindow.</para>
@@ -8480,6 +9070,7 @@ type
     is_maximized                     : function(self: PCefWindow): Integer; stdcall;
     is_minimized                     : function(self: PCefWindow): Integer; stdcall;
     is_fullscreen                    : function(self: PCefWindow): Integer; stdcall;
+    get_focused_view                 : function(self: PCefWindow): PCefView; stdcall;
     set_title                        : procedure(self: PCefWindow; const title: PCefString); stdcall;
     get_title                        : function(self: PCefWindow): PCefStringUserFree; stdcall;
     set_window_icon                  : procedure(self: PCefWindow; image: PCefImage); stdcall;
@@ -8508,6 +9099,8 @@ type
   /// Implement this structure to handle window events. The functions of this
   /// structure will be called on the browser process UI thread unless otherwise
   /// indicated.
+  ///
+  /// NOTE: This struct is allocated client-side.
   /// </summary>
   /// <remarks>
   /// <para>Implemented by ICefWindowDelegate.</para>

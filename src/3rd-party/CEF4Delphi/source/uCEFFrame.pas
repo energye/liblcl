@@ -23,6 +23,7 @@ type
       procedure Cut;
       procedure Copy;
       procedure Paste;
+      procedure PasteAndMatchStyle;
       procedure Del;
       procedure SelectAll;
       procedure ViewSource;
@@ -130,7 +131,7 @@ end;
 
 function TCefFrameRef.GetV8Context: ICefv8Context;
 begin
-  Result := TCefv8ContextRef.UnWrap(PCefFrame(FData)^.get_v8context(PCefFrame(FData)));
+  Result := TCefv8ContextRef.UnWrap(PCefFrame(FData)^.get_v8_context(PCefFrame(FData)));
 end;
 
 function TCefFrameRef.IsFocused: Boolean;
@@ -159,6 +160,11 @@ end;
 procedure TCefFrameRef.Paste;
 begin
   PCefFrame(FData)^.paste(PCefFrame(FData));
+end;
+
+procedure TCefFrameRef.PasteAndMatchStyle;
+begin
+  PCefFrame(FData)^.paste_and_match_style(PCefFrame(FData));
 end;
 
 procedure TCefFrameRef.Redo;
