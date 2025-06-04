@@ -1,4 +1,4 @@
-name: Build Linux In Docker
+name: Build Test Linux In Docker
 
 on:
   workflow_dispatch:
