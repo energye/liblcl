@@ -44,7 +44,7 @@ jobs:
       - name: Build Dynamic library LCL (main AMD64)
         run: |
           sudo git clean -xdf
-          $HOME/shell/add-package.sh
+          $HOME/shell/add-package.sh "/Applications/lazarus"
           sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
           zip -j $HOME/bins/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
           sudo rm -rf $HOME/golcl/liblcl.dylib
