@@ -49,13 +49,21 @@ jobs:
           zip -j $HOME/bins/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
           sudo rm -rf $HOME/golcl/liblcl.dylib
 
+      - name: Build Dynamic library LCL (main ARM64)
+        run: |
+          sudo git clean -xdf
+          $HOME/shell/add-package.sh "/Applications/lazarus"
+          sudo lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa --lazarusdir="/Applications/lazarus" "src/liblcl.lpi"
+          zip -j $HOME/bins/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
+          sudo rm -rf $HOME/golcl/liblcl.dylib
+
   macos-arm64:
     runs-on: ${{ matrix.operating-system }}
 
     strategy:
       matrix:
         operating-system: [ macos-13 ]
-        lazarus-versions: [ 3.8 ]
+        lazarus-versions: [ 3.6 ]
 
     steps:
       - uses: actions/checkout@v4
@@ -73,7 +81,6 @@ jobs:
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           with-cache: true
-          os-arch: aarch64
 
       - name: Lazarus Execution Permissions
         run: |
