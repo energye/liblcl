@@ -45,12 +45,12 @@ jobs:
         run: |
           sudo git clean -xdf
           $HOME/shell/add-package.sh "/Applications/lazarus"
-          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa "src/liblcl.lpi"
+          sudo lazbuild -B --bm="MacOS64(cocoa)" --ws=cocoa --lazarusdir="/Applications/lazarus" "src/liblcl.lpi"
           zip -j $HOME/bins/liblcl.MacOSX64.zip $HOME/golcl/liblcl.dylib
           sudo rm -rf $HOME/golcl/liblcl.dylib
 
       - name: Build Dynamic library LCL (main ARM64)
         run: |
-          sudo lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa "src/liblcl.lpi"
+          sudo lazbuild -B --bm="MacOS64(cocoa)ARM64" --ws=cocoa --lazarusdir="/Applications/lazarus" "src/liblcl.lpi"
           zip -j $HOME/bins/liblcl.MacOSARM64.zip $HOME/golcl/liblcl.dylib
           sudo rm -rf $HOME/golcl/liblcl.dylib
