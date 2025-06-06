@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ windows-2019 ]
-        lazarus-versions: [ 3.6 ]
+        lazarus-versions: [ 3.8 ]
 
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
         shell: bash
 
       - name: Install Lazarus Environment # Install Lazarus
-        uses: energye/setup-lazarus@v1.0.0
+        uses: energye/setup-lazarus@v1.0.1
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           with-cache: true
@@ -96,7 +96,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ windows-2019 ]
-        lazarus-versions: [ 3.6 ]
+        lazarus-versions: [ 3.8 ]
 
     steps:
       - uses: actions/checkout@v4
@@ -110,7 +110,7 @@ jobs:
         shell: bash
 
       - name: Install Lazarus Environment # Install Lazarus
-        uses: energye/setup-lazarus@v1.0.0
+        uses: energye/setup-lazarus@v1.0.1
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           with-cache: true
@@ -193,7 +193,7 @@ jobs:
           chmod +x $HOME/shell/add-package.sh
 
       - name: Install Lazarus Environment # Install Lazarus
-        uses: energye/setup-lazarus@v1.0.0
+        uses: energye/setup-lazarus@v1.0.1
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           with-cache: true
@@ -290,7 +290,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        lazarus-versions: [ 3.6 ]
+        lazarus-versions: [ 3.8 ]
         include:
           - arch: i386
             distro: ubuntu:18.04
@@ -306,7 +306,7 @@ jobs:
           chmod +x $RUNNER_WORKSPACE/shell/build-lib-in-linux-docker.sh
 
       - name: Install Lazarus Environment # Install Lazarus
-        uses: energye/setup-lazarus@v1.0.0
+        uses: energye/setup-lazarus@v1.0.1
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           source-install: true
@@ -334,7 +334,7 @@ jobs:
 
           run: | # run 要在容器中运行的命令，复制git文件到挂载的目录中
             pwd
-            
+
             echo "Operating System Info ============================================="
             ls -al /app
             uname -m
@@ -344,20 +344,20 @@ jobs:
             pkg-config --modversion gtk+-3.0
             ldd --version
             cat /etc/os-release
-            
+
             echo "Build fpc ============================================="
             cd /app/lazarus/fpc-3.2.2.i386-linux
             ls -al
             ./install.sh <<esxu
             esxu
-            
+
             echo "Build lazarus ============================================="
             cd ../
             make clean all
             objdump -p /app/lazarus/lazbuild
-            
+
             echo "Run Build shell ============================================="
-            
+
             /app/shell/build-lib-in-linux-docker.sh Linux32 gtk2 101.0.18 liblcl-101.Linux32.zip
 
             /app/shell/build-lib-in-linux-docker.sh Linux32 gtk2 Flash-89.0.18 liblcl-89.Linux32.zip
@@ -380,7 +380,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        lazarus-versions: [ 3.6 ]
+        lazarus-versions: [ 3.8 ]
         include:
           - arch: amd64
             distro: ubuntu:18.04
@@ -396,7 +396,7 @@ jobs:
           chmod +x $RUNNER_WORKSPACE/shell/build-lib-in-linux-docker.sh
 
       - name: Install Lazarus Environment # Install Lazarus
-        uses: energye/setup-lazarus@v1.0.0
+        uses: energye/setup-lazarus@v1.0.1
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           source-install: true
@@ -423,7 +423,7 @@ jobs:
 
           run: | # run 要在容器中运行的命令，复制git文件到挂载的目录中
             pwd
-            
+
             echo "Operating System Info ============================================="
             ls -al /app
             uname -m
@@ -433,25 +433,25 @@ jobs:
             pkg-config --modversion gtk+-3.0
             ldd --version
             cat /etc/os-release
-            
+
             echo "Build fpc ============================================="
             cd /app/lazarus/fpc-3.2.2.x86_64-linux
             ls -al
             ./install.sh <<esxu
             esxu
-            
+
             echo "Build lazarus ============================================="
             cd ../
             make clean all
             objdump -p /app/lazarus/lazbuild
-            
+
             echo "Run Build shell ============================================="
-            
+
             /app/shell/build-lib-in-linux-docker.sh Linux64 gtk2 main liblcl.Linux64.zip
             /app/shell/build-lib-in-linux-docker.sh Linux64_GTK3 gtk3 main liblcl-GTK3.Linux64.zip
-            
+
             /app/shell/build-lib-in-linux-docker.sh Linux64 gtk3 109.1.18 liblcl-109-GTK3.Linux64.zip
-            
+
             /app/shell/build-lib-in-linux-docker.sh Linux64 gtk2 101.0.18 liblcl-101.Linux64.zip
 
             /app/shell/build-lib-in-linux-docker.sh Linux64 gtk2 Flash-89.0.18 liblcl-89.Linux64.zip
@@ -474,7 +474,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        lazarus-versions: [ 3.6 ]
+        lazarus-versions: [ 3.8 ]
         include:
           - arch: arm32v7
             distro: ubuntu:18.04
@@ -490,7 +490,7 @@ jobs:
           chmod +x $RUNNER_WORKSPACE/shell/build-lib-in-linux-docker.sh
 
       - name: Install Lazarus Environment # Install Lazarus
-        uses: energye/setup-lazarus@v1.0.0
+        uses: energye/setup-lazarus@v1.0.1
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           source-install: true
@@ -518,7 +518,7 @@ jobs:
 
           run: | # run 要在容器中运行的命令，复制git文件到挂载的目录中
             pwd
-            
+
             echo "Operating System Info ============================================="
             ls -al /app
             uname -m
@@ -528,25 +528,25 @@ jobs:
             pkg-config --modversion gtk+-3.0
             ldd --version
             cat /etc/os-release
-            
+
             echo "Build fpc ============================================="
             cd /app/lazarus/fpc-3.2.2.arm-linux
             ls -al
             ./install.sh <<esxu
             esxu
-            
+
             echo "Build lazarus ============================================="
             cd ../
             make clean all
             objdump -p /app/lazarus/lazbuild
-            
+
             echo "Run Build shell ============================================="
-            
+
             /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 main liblcl.LinuxARM.zip
             /app/shell/build-lib-in-linux-docker.sh LinuxARM_GTK3 gtk3 main liblcl-GTK3.LinuxARM.zip
-            
+
             /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk3 109.1.18 liblcl-109-GTK3.LinuxARM.zip
-            
+
             /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 101.0.18 liblcl-101.LinuxARM.zip
 
             /app/shell/build-lib-in-linux-docker.sh LinuxARM gtk2 Flash-89.0.18 liblcl-89.LinuxARM.zip
@@ -569,7 +569,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ ubuntu-latest ]
-        lazarus-versions: [ 3.6 ]
+        lazarus-versions: [ 3.8 ]
         include:
           - arch: arm64v8
             distro: ubuntu:18.04
@@ -585,7 +585,7 @@ jobs:
           chmod +x $RUNNER_WORKSPACE/shell/build-lib-in-linux-docker.sh
 
       - name: Install Lazarus Environment # Install Lazarus
-        uses: energye/setup-lazarus@v1.0.0
+        uses: energye/setup-lazarus@v1.0.1
         with:
           lazarus-version: ${{ matrix.lazarus-versions }}
           source-install: true
@@ -613,7 +613,7 @@ jobs:
 
           run: | # run 要在容器中运行的命令，复制git文件到挂载的目录中
             pwd
-            
+
             echo "Operating System Info ============================================="
             ls -al /app
             uname -m
@@ -623,25 +623,25 @@ jobs:
             pkg-config --modversion gtk+-3.0
             ldd --version
             cat /etc/os-release
-            
+
             echo "Build fpc ============================================="
             cd /app/lazarus/fpc-3.2.2.aarch64-linux
             ls -al
             ./install.sh <<esxu
             esxu
-            
+
             echo "Build lazarus ============================================="
             cd ../
             make clean all
             objdump -p /app/lazarus/lazbuild
-            
+
             echo "Run Build shell ============================================="
-            
+
             /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk2 main liblcl.LinuxARM64.zip
             /app/shell/build-lib-in-linux-docker.sh LinuxARM64_GTK3 gtk3 main liblcl-GTK3.LinuxARM64.zip
-            
+
             /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk3 109.1.18 liblcl-109-GTK3.LinuxARM64.zip
-            
+
             /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk2 101.0.18 liblcl-101.LinuxARM64.zip
 
             /app/shell/build-lib-in-linux-docker.sh LinuxARM64 gtk2 Flash-89.0.18 liblcl-89.LinuxARM64.zip
