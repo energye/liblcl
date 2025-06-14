@@ -291,8 +291,11 @@ begin
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnPreKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: boolean; out Result: boolean);
+var
+  TempEvent: PMCefKeyEvent;
 begin
-  SendEvent([Sender, browser, event, osEvent, @isKeyboardShortcut, @Result]);
+  TempEvent := CefKeyEventToGo(event^);
+  SendEvent([Sender, browser, @TempEvent, osEvent, @isKeyboardShortcut, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnProtocolExecution(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; const request: ICefRequest; var allowOsExecution: boolean);
@@ -492,8 +495,11 @@ begin
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnKeyEvent(Sender: TObject; const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out Result: boolean);
+var
+  TempEvent: PMCefKeyEvent;
 begin
-  SendEvent([Sender, browser, event, osEvent, @Result]);
+  TempEvent := CefKeyEventToGo(event^);
+  SendEvent([Sender, browser, @TempEvent, osEvent, @Result]);
 end;
 
 procedure TLCLEvent.ChromiumEvent_OnLoadStart(Sender: TObject; const browser: ICefBrowser; const frame: ICefFrame; transitionType: TCefTransitionType);

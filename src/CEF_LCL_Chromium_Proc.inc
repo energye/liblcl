@@ -464,10 +464,13 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFChromium_SendKeyEvent(const TObj: TChromium; const event: PCefKeyEvent); extdecl;
+procedure CEFChromium_SendKeyEvent(const TObj: TChromium; const event: PPMCefKeyEvent); extdecl;
+var
+  TempEvent: TCefKeyEvent;
 begin
   handleExceptionBegin
-  TObj.SendKeyEvent(event);
+  TempEvent := CefKeyEventToPas(event^);
+  TObj.SendKeyEvent(@TempEvent);
   handleExceptionEnd
 end;
 

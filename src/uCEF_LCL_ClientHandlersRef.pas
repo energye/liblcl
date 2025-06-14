@@ -1080,22 +1080,28 @@ end;
 
 {== KeyboardHandler ==}
 function TKeyboardHandlerRef.OnPreKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle; out isKeyboardShortcut: boolean): boolean;
+var
+  TempEvent: PMCefKeyEvent;
 begin
   Result := False;
   if (PreKeyEventPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(PreKeyEventPtr, [browser, event, osEvent, @isKeyboardShortcut, @Result]);
+    TempEvent := CefKeyEventToGo(event^);
+    TCEFEventCallback.SendEvent(PreKeyEventPtr, [browser, @TempEvent, osEvent, @isKeyboardShortcut, @Result]);
   end
   else
     Result := inherited OnPreKeyEvent(browser, event, osEvent, isKeyboardShortcut);
 end;
 
 function TKeyboardHandlerRef.OnKeyEvent(const browser: ICefBrowser; const event: PCefKeyEvent; osEvent: TCefEventHandle): boolean;
+var
+  TempEvent: PMCefKeyEvent;
 begin
   Result := False;
   if (KeyEventPtr <> nil) then
   begin
-    TCEFEventCallback.SendEvent(KeyEventPtr, [browser, event, osEvent, @Result]);
+    TempEvent := CefKeyEventToGo(event^);
+    TCEFEventCallback.SendEvent(KeyEventPtr, [browser, @TempEvent, osEvent, @Result]);
   end
   else
     Result := inherited OnKeyEvent(browser, event, osEvent);

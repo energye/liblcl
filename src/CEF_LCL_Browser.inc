@@ -180,11 +180,16 @@ begin
   handleExceptionEnd
 end;
 
-procedure CEFBrowser_SendKeyEvent(const TObj: ICefBrowser; const event: PCefKeyEvent); extdecl;
+procedure CEFBrowser_SendKeyEvent(const TObj: ICefBrowser; const event: PPMCefKeyEvent); extdecl;
+var
+  TempEvent: TCefKeyEvent;
 begin
   handleExceptionBegin
   if TObj.GetHost <> nil then
-    TObj.GetHost.SendKeyEvent(event);
+  begin
+    TempEvent := CefKeyEventToPas(event^);
+    TObj.GetHost.SendKeyEvent(@TempEvent);
+  end;
   handleExceptionEnd
 end;
 

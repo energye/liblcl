@@ -276,6 +276,18 @@ type
     pointerType: TCefSimulatedPointerType
   end;
 
+  PPMCefKeyEvent = ^PMCefKeyEvent;
+  PMCefKeyEvent = record
+    kind                    : TCefKeyEventType;
+    modifiers               : TCefEventFlags;
+    windows_key_code        : Integer;
+    native_key_code         : Integer;
+    is_system_key           : Integer;
+    character               : WideChar;
+    unmodified_character    : WideChar;
+    focus_on_editable_field : Integer;
+  end;
+
 //string to hash
 function StrToHash(const SoureStr: string): cardinal;
 //PChar 转 UnicodeString
@@ -324,6 +336,9 @@ function PdfPrintSettingsToPas(const AData: PMCefPdfPrintSettings): TCefPdfPrint
 
 function TouchHandleStateToGo(const AData: TCefTouchHandleState): PMCefTouchHandleState;
 function TouchHandleStateToPas(const AData: PMCefTouchHandleState): TCefTouchHandleState;
+
+function CefKeyEventToGo(const AData: TCefKeyEvent): PMCefKeyEvent;
+function CefKeyEventToPas(const AData: PMCefKeyEvent): TCefKeyEvent;
 
 
 
@@ -827,6 +842,7 @@ end;
 
 function PdfPrintSettingsToPas(const AData: PMCefPdfPrintSettings): TCefPdfPrintSettings;
 begin
+  Result.size                       := SizeOf(TCefPdfPrintSettings);
   Result.landscape                  := Integer(AData.landscape^);
   Result.print_background           := Integer(AData.print_background^);
   Result.scale                      := double(AData.scale^);
@@ -870,5 +886,29 @@ begin
   Result.alpha             := integer(AData.alpha^);
 end;
 
+function CefKeyEventToGo(const AData: TCefKeyEvent): PMCefKeyEvent;
+begin
+  Result.kind                    := AData.kind;
+  Result.modifiers               := AData.modifiers;
+  Result.windows_key_code        := AData.windows_key_code;
+  Result.native_key_code         := AData.native_key_code;
+  Result.is_system_key           := AData.is_system_key;
+  Result.character               := AData.character;
+  Result.unmodified_character    := AData.unmodified_character;
+  Result.focus_on_editable_field := AData.focus_on_editable_field;
+end;
+
+function CefKeyEventToPas(const AData: PMCefKeyEvent): TCefKeyEvent;
+begin
+  Result.size                    := SizeOf(TCefKeyEvent);
+  Result.kind                    := AData.kind;
+  Result.modifiers               := AData.modifiers;
+  Result.windows_key_code        := AData.windows_key_code;
+  Result.native_key_code         := AData.native_key_code;
+  Result.is_system_key           := AData.is_system_key;
+  Result.character               := AData.character;
+  Result.unmodified_character    := AData.unmodified_character;
+  Result.focus_on_editable_field := AData.focus_on_editable_field;
+end;
 
 end.
